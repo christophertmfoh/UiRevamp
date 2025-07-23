@@ -715,7 +715,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                               : 'hover:bg-muted/50'
                           } ${
                             category.locked 
-                              ? 'cursor-default' 
+                              ? 'cursor-default bg-yellow-500/10 border border-yellow-500/30' 
                               : 'cursor-pointer'
                           } ${
                             isDragging 
@@ -729,18 +729,13 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                           onClick={() => setActiveCategory(category.id)}
                         >
                           <div className="flex items-center space-x-3">
-                            <GripVertical 
-                              className={`h-4 w-4 ${
-                                category.locked 
-                                  ? 'text-muted-foreground/30' 
-                                  : 'text-muted-foreground hover:text-accent'
-                              }`} 
-                            />
+                            {!category.locked && (
+                              <GripVertical 
+                                className="h-4 w-4 text-muted-foreground hover:text-accent"
+                              />
+                            )}
                             <Icon className="h-4 w-4" />
                             <span className="text-sm font-medium">{category.label}</span>
-                            {category.locked && (
-                              <div className="text-xs text-muted-foreground/60">(fixed)</div>
-                            )}
                           </div>
                           <Badge variant="outline" className="text-xs">
                             {category.count}
