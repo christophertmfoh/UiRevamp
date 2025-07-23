@@ -147,3 +147,8 @@ export interface SidebarItem {
   isVisible: boolean;
   children?: SidebarItem[];
 }
+
+export interface ModalInfo {
+  type: string | null;
+  project: Project | null;
+}

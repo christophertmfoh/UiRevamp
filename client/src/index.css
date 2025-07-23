@@ -1,37 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: hsl(222, 84%, 5%);
-  --foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217, 32%, 17%);
-  --muted-foreground: hsl(215, 20%, 65%);
-  --popover: hsl(222, 84%, 5%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --card: hsl(222, 84%, 5%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217, 32%, 17%);
-  --input: hsl(217, 32%, 17%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(222, 84%, 5%);
-  --secondary: hsl(217, 32%, 17%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --accent: hsl(217, 32%, 17%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --ring: hsl(207, 90%, 54%);
-  --radius: 0.75rem;
+  /* Cozy Creative Native Mode - Warm, Paper-like Palette */
+  --background: hsl(32, 20%, 8%);               /* Deep warm brown-black */
+  --foreground: hsl(45, 15%, 92%);              /* Warm off-white */
+  --muted: hsl(35, 15%, 15%);                   /* Rich brown */
+  --muted-foreground: hsl(40, 12%, 70%);       /* Warm gray */
+  --popover: hsl(35, 18%, 12%);                /* Dark warm brown */
+  --popover-foreground: hsl(45, 15%, 92%);
+  --card: hsl(35, 18%, 12%);                   /* Dark warm brown */
+  --card-foreground: hsl(45, 15%, 92%);
+  --border: hsl(35, 15%, 20%);                 /* Subtle warm border */
+  --input: hsl(35, 15%, 15%);                  /* Input background */
+  --primary: hsl(32, 45%, 55%);                /* Warm amber/bronze */
+  --primary-foreground: hsl(32, 20%, 8%);
+  --secondary: hsl(35, 15%, 18%);              /* Secondary brown */
+  --secondary-foreground: hsl(45, 15%, 92%);
+  --accent: hsl(42, 35%, 65%);                 /* Golden accent */
+  --accent-foreground: hsl(32, 20%, 8%);
+  --destructive: hsl(0, 50%, 45%);             /* Muted red */
+  --destructive-foreground: hsl(45, 15%, 92%);
+  --ring: hsl(42, 35%, 65%);                   /* Golden ring */
+  --radius: 0.5rem;
   
-  /* Custom properties for modern design */
-  --slate-850: hsl(215, 28%, 17%);
-  --slate-900: hsl(222, 47%, 11%);
-  --slate-950: hsl(229, 84%, 5%);
-  --indigo-550: hsl(239, 84%, 67%);
-  --gradient-primary: linear-gradient(135deg, hsl(207, 90%, 54%), hsl(262, 83%, 58%));
-  --glass-bg: hsla(217, 32%, 17%, 0.8);
-  --glass-border: hsla(215, 20%, 65%, 0.1);
+  /* Creative palette extensions */
+  --paper: hsl(45, 25%, 95%);                  /* Warm paper white */
+  --ink: hsl(32, 15%, 15%);                    /* Rich ink dark */
+  --parchment: hsl(42, 30%, 88%);             /* Aged parchment */
+  --candlelight: hsl(42, 80%, 75%);           /* Warm golden glow */
+  --ember: hsl(15, 60%, 55%);                 /* Warm orange ember */
+  --sage: hsl(75, 20%, 45%);                  /* Muted sage green */
+  --leather: hsl(25, 35%, 35%);               /* Rich leather brown */
+  --brass: hsl(48, 45%, 60%);                 /* Brass metallic */
+  
+  /* Gradients for depth */
+  --gradient-candlelight: linear-gradient(135deg, hsl(42, 80%, 75%), hsl(32, 70%, 65%));
+  --gradient-ember: linear-gradient(135deg, hsl(15, 60%, 55%), hsl(25, 55%, 45%));
+  --gradient-paper: linear-gradient(180deg, hsl(45, 25%, 95%), hsl(42, 22%, 92%));
+  --gradient-leather: linear-gradient(135deg, hsl(25, 35%, 35%), hsl(20, 30%, 25%));
+  
+  /* Texture and atmosphere */
+  --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='40' cy='40' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  --shadow-warm: 0 4px 20px hsla(25, 30%, 10%, 0.3);
+  --shadow-glow: 0 0 20px hsla(42, 80%, 75%, 0.1);
+}
+
+.dark {
+  /* Same as root for now - we'll add light mode later */
+  --background: hsl(32, 20%, 8%);
+  --foreground: hsl(45, 15%, 92%);
+  --muted: hsl(35, 15%, 15%);
+  --muted-foreground: hsl(40, 12%, 70%);
+  --popover: hsl(35, 18%, 12%);
+  --popover-foreground: hsl(45, 15%, 92%);
+  --card: hsl(35, 18%, 12%);
+  --card-foreground: hsl(45, 15%, 92%);
+  --border: hsl(35, 15%, 20%);
+  --input: hsl(35, 15%, 15%);
+  --primary: hsl(32, 45%, 55%);
+  --primary-foreground: hsl(32, 20%, 8%);
+  --secondary: hsl(35, 15%, 18%);
+  --secondary-foreground: hsl(45, 15%, 92%);
+  --accent: hsl(42, 35%, 65%);
+  --accent-foreground: hsl(32, 20%, 8%);
+  --destructive: hsl(0, 50%, 45%);
+  --destructive-foreground: hsl(45, 15%, 92%);
+  --ring: hsl(42, 35%, 65%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image: var(--texture-paper);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Typography hierarchy for literary feel */
+  .font-serif {
+    font-family: 'Source Serif Pro', serif;
+  }
+  
+  .font-literary {
+    font-family: 'Crimson Text', serif;
+  }
+  
+  .font-title {
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* Cozy Creative Components */
+  .creative-card {
+    @apply bg-card border border-border rounded-lg;
+    background: linear-gradient(135deg, hsl(35, 18%, 12%), hsl(35, 15%, 10%));
+    box-shadow: var(--shadow-warm);
+  }
+  
+  .paper-surface {
+    background: var(--gradient-paper);
+    color: var(--ink);
+    box-shadow: 0 2px 10px hsla(25, 30%, 10%, 0.2);
+  }
+  
+  .candlelight-glow {
+    background: var(--gradient-candlelight);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .ember-accent {
+    background: var(--gradient-ember);
+    color: hsl(45, 15%, 92%);
+  }
+  
+  .leather-texture {
+    background: var(--gradient-leather);
+    color: hsl(45, 15%, 92%);
+  }
+  
+  .studio-nav {
+    @apply flex items-center space-x-1 text-sm;
+    color: hsl(42, 35%, 65%);
+  }
+  
+  .studio-nav .separator {
+    color: hsl(40, 12%, 50%);
+    margin: 0 0.5rem;
+  }
+  
+  .workbench-surface {
+    @apply creative-card p-6;
+    background: linear-gradient(to bottom, hsl(35, 18%, 13%), hsl(35, 15%, 11%));
+  }
+  
+  .tool-on-demand {
+    @apply opacity-0 transition-all duration-300 ease-out;
+    transform: translateY(4px);
+  }
+  
+  .tool-on-demand:hover,
+  .tool-on-demand.visible {
+    @apply opacity-100;
+    transform: translateY(0);
+  }
+  
+  .guide-hint {
+    @apply absolute -top-8 left-1/2 transform -translate-x-1/2 bg-accent text-accent-foreground px-2 py-1 rounded text-xs opacity-0 transition-opacity duration-200;
+    pointer-events: none;
+  }
+  
+  .guide-mode .guide-hint {
+    @apply opacity-100;
+  }
+  
+  .pipeline-step {
+    @apply relative;
+  }
+  
+  .pipeline-step.active {
+    background: var(--gradient-candlelight);
+    color: var(--ink);
+  }
+  
+  .pipeline-step.completed {
+    background: var(--gradient-ember);
+    color: hsl(45, 15%, 92%);
+  }
+  
+  .interactive-warm {
+    @apply transition-all duration-200 ease-out;
+  }
+  
+  .interactive-warm:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-warm), var(--shadow-glow);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+  
+  .animate-warm-breath {
+    animation: warmBreath 4s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes glowPulse {
+  from { box-shadow: 0 0 20px hsla(42, 80%, 75%, 0.1); }
+  to { box-shadow: 0 0 30px hsla(42, 80%, 75%, 0.3); }
+}
+
+@keyframes warmBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
 .dark {
