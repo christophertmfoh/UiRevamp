@@ -18,9 +18,7 @@ interface CharacterManagerProps {
 export function CharacterManager({ projectId }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [editingCharacter, setEditingCharacter] = useState<Character | null>(null);
-  const [isCreatingNew, setIsCreatingNew] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -42,7 +40,7 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   );
 
   const handleEdit = (character: Character) => {
-    setEditingCharacter(character);
+    setSelectedCharacter(character);
   };
 
   const handleDelete = (character: Character) => {
@@ -52,41 +50,25 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   };
 
   const handleCreateNew = () => {
-    setIsCreatingNew(true);
+    setIsCreating(true);
+    setSelectedCharacter(null);
   };
 
-  const handleBackFromCreate = () => {
-    setIsCreatingNew(false);
+  const handleBackToList = () => {
+    setSelectedCharacter(null);
+    setIsCreating(false);
   };
 
-  // Show character creation form as secondary page
-  if (isCreatingNew) {
-    return (
-      <CharacterForm
-        projectId={projectId}
-        onCancel={handleBackFromCreate}
-      />
-    );
-  }
-
-  // Show character editing form as secondary page
-  if (editingCharacter) {
-    return (
-      <CharacterForm
-        projectId={projectId}
-        character={editingCharacter}
-        onCancel={() => setEditingCharacter(null)}
-      />
-    );
-  }
-
-  // Show character detail view as secondary page
-  if (selectedCharacter) {
+  // Show character detail view (which handles both viewing and editing)
+  if (selectedCharacter || isCreating) {
     return (
       <CharacterDetailView
+        projectId={projectId}
         character={selectedCharacter}
-        onBack={() => setSelectedCharacter(null)}
+        isCreating={isCreating}
+        onBack={handleBackToList}
         onEdit={handleEdit}
+        onDelete={handleDelete}
       />
     );
   }
