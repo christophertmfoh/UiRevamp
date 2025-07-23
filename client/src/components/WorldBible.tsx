@@ -38,23 +38,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
 
-  // World Bible categories with drag-and-drop capability
-  const [categories, setCategories] = useState([
-    { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: worldData.characters.length, locked: false },
-    { id: 'locations', label: 'Locations', icon: MapPin, count: worldData.locations.length, locked: false },
-    { id: 'factions', label: 'Factions', icon: Shield, count: worldData.factions.length, locked: false },
-    { id: 'organizations', label: 'Organizations', icon: Crown, count: worldData.organizations.length, locked: false },
-    { id: 'items', label: 'Items & Artifacts', icon: Package, count: 0, locked: false },
-    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: worldData.magic.length, locked: false },
-    { id: 'timeline', label: 'Timeline', icon: Clock, count: worldData.timeline.length, locked: false },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 0, locked: false },
-    { id: 'languages', label: 'Languages', icon: Languages, count: 0, locked: false },
-    { id: 'culture', label: 'Culture', icon: Heart, count: 0, locked: false },
-    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 0, locked: false },
-    { id: 'themes', label: 'Themes', icon: Sword, count: 0, locked: false }
-  ]);
-
   // Drag and drop handlers
   const handleDragStart = (e: React.DragEvent, categoryId: string) => {
     const category = categories.find(cat => cat.id === categoryId);
@@ -258,6 +241,23 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
       }
     ]
   };
+
+  // World Bible categories with drag-and-drop capability (moved after worldData definition)
+  const [categories, setCategories] = useState([
+    { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
+    { id: 'characters', label: 'Characters', icon: Users, count: worldData.characters.length, locked: false },
+    { id: 'locations', label: 'Locations', icon: MapPin, count: worldData.locations.length, locked: false },
+    { id: 'factions', label: 'Factions', icon: Shield, count: worldData.factions.length, locked: false },
+    { id: 'organizations', label: 'Organizations', icon: Crown, count: worldData.organizations.length, locked: false },
+    { id: 'items', label: 'Items & Artifacts', icon: Package, count: 0, locked: false },
+    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: worldData.magic.length, locked: false },
+    { id: 'timeline', label: 'Timeline', icon: Clock, count: worldData.timeline.length, locked: false },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 0, locked: false },
+    { id: 'languages', label: 'Languages', icon: Languages, count: 0, locked: false },
+    { id: 'culture', label: 'Culture', icon: Heart, count: 0, locked: false },
+    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 0, locked: false },
+    { id: 'themes', label: 'Themes', icon: Sword, count: 0, locked: false }
+  ]);
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
