@@ -41,7 +41,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   // World Bible categories with drag-and-drop capability
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: 15, locked: false },
+    { id: 'characters', label: 'Characters', icon: Users, count: 0, locked: false },
     { id: 'locations', label: 'Locations', icon: MapPin, count: 8, locked: false },
     { id: 'factions', label: 'Factions', icon: Shield, count: 6, locked: false },
     { id: 'organizations', label: 'Organizations', icon: Crown, count: 4, locked: false },
@@ -139,35 +139,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         "Ontological Horror"
       ]
     },
-    characters: [
-      {
-        name: "Essylt (The Witch/The Bloom)",
-        role: "Cosmic Arcana - The Bloom",
-        description: "Transformed herself into a sentient fungal entity out of unbearable longing for Somnus. Now exists as a realm-spanning hive mind seeking to engulf all in unified solace.",
-        status: "Transformed/Active",
-        relationships: ["Bound to Somnus by absolute magical love", "Origin of The Bloom"],
-        powers: ["Sentient Flora Control", "Hive Mind Integration", "Reality Assimilation"],
-        motivations: "End loneliness, create unified reality for Somnus's return"
-      },
-      {
-        name: "Somnus (The Warlock/Dream Weaver)",
-        role: "Cosmic Arcana - Dream Weaver", 
-        description: "Journeyed into the Cosmos to master dreamweaving, returned to find Essylt transformed. Now corrupted by cultists, his nightmares manifest as Waking Phantoms.",
-        status: "Corrupted/Active",
-        relationships: ["Bound to Essylt by absolute magical love", "Manipulated by Cultists"],
-        powers: ["Dream Manipulation", "Reality Weaving", "Nightmare Manifestation"],
-        motivations: "Originally sought to commune with transformed Essylt, now corrupted toward chaos"
-      },
-      {
-        name: "Aris Vellum",
-        role: "The Chronicler",
-        description: "A lone documenter seeking to record the truth of the apocalypse. Questions the meaning of preserving records of a world losing its dreams.",
-        status: "Active/Investigating",
-        relationships: ["Eventually converges with the party"],
-        powers: ["Documentation", "Historical Research", "Truth Seeking"],
-        motivations: "Document the horror, seek meaning in bearing witness"
-      }
-    ],
+    characters: [],
     locations: [
       {
         name: "The Garden of Expanse",
@@ -365,15 +337,12 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {worldData.characters.slice(0, 3).map((character, index) => (
-                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-accent/50">
-                      <div className="font-medium">{character.name}</div>
-                      <div className="text-sm text-muted-foreground">{character.role}</div>
-                      <Badge variant="outline" className="mt-1 text-xs">{character.status}</Badge>
-                    </div>
-                  ))}
-                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('characters')}>
-                    View All Characters →
+                  <div className="text-center py-8 text-muted-foreground">
+                    <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                    <p>No characters created yet</p>
+                  </div>
+                  <Button variant="ghost" size="sm" className="w-full" onClick={() => setActiveCategory('characters')}>
+                    Add First Character →
                   </Button>
                 </CardContent>
               </Card>
@@ -499,54 +468,14 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
               </Button>
             </div>
             
-            <div className="grid gap-4">
-              {worldData.characters.map((character, index) => (
-                <Card key={index} className="creative-card">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl">{character.name}</CardTitle>
-                        <CardDescription className="text-accent font-medium">
-                          {character.role}
-                        </CardDescription>
-                      </div>
-                      <Badge variant={character.status.includes('Active') ? 'default' : 'secondary'}>
-                        {character.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4">{character.description}</p>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Powers & Abilities</h4>
-                        <div className="space-y-1">
-                          {character.powers.map((power, i) => (
-                            <Badge key={i} variant="outline" className="mr-2 mb-1 text-xs">
-                              {power}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold mb-2">Motivations</h4>
-                        <p className="text-sm text-muted-foreground">{character.motivations}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4">
-                      <h4 className="font-semibold mb-2">Key Relationships</h4>
-                      <div className="space-y-1">
-                        {character.relationships.map((rel, i) => (
-                          <div key={i} className="text-sm text-muted-foreground">• {rel}</div>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="text-center py-12">
+              <Users className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+              <h3 className="text-xl font-semibold mb-2">No Characters Yet</h3>
+              <p className="text-muted-foreground mb-6">Start building your world by adding your first character</p>
+              <Button className="interactive-warm">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Your First Character
+              </Button>
             </div>
           </div>
         );
