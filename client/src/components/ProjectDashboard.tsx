@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import { 
   ArrowLeft, 
   Users, 
@@ -16,7 +16,15 @@ import {
   Settings,
   Plus,
   Search,
-  ChevronRight
+  ChevronRight,
+  Globe,
+  ScrollText,
+  Film,
+  Video,
+  Music,
+  BarChart3,
+  Clock,
+  Edit3
 } from 'lucide-react';
 import type { Project, ModalInfo } from '../lib/types';
 
@@ -37,321 +45,277 @@ export function ProjectDashboard({
   guideMode, 
   setGuideMode 
 }: ProjectDashboardProps) {
-  const [activeView, setActiveView] = useState('overview');
+  const [activeSection, setActiveSection] = useState('studio-overview');
 
+  // Micro menu navigation
+  const microMenuItems = [
+    { id: 'studio-overview', label: 'Studio Overview', icon: BarChart3 },
+    { id: 'world-bible', label: 'World Bible', icon: Globe },
+    { id: 'outline', label: 'Outline', icon: ScrollText },
+    { id: 'manuscript', label: 'Manuscript', icon: Feather },
+    { id: 'storyboard', label: 'Storyboard', icon: Film },
+    { id: 'pre-vis', label: 'Pre-Vis', icon: Video },
+    { id: 'score', label: 'Score', icon: Music }
+  ];
+
+  // Creative pipeline sections
   const pipelineSteps = [
     { 
-      id: 'worldbible', 
+      id: 'world-bible', 
       label: 'World Bible', 
-      icon: BookOpen, 
-      description: 'Build your universe',
+      icon: Globe, 
+      description: 'Build your universe - characters, locations, lore',
       status: project.characters.length > 0 || project.locations.length > 0 ? 'active' : 'pending',
-      count: project.characters.length + project.locations.length + project.factions.length + project.items.length
+      count: project.characters.length + project.locations.length + project.factions.length + project.items.length,
+      progress: Math.min(100, (project.characters.length + project.locations.length + project.factions.length + project.items.length) * 10)
     },
     { 
       id: 'outline', 
       label: 'Outline', 
-      icon: FileText, 
-      description: 'Structure your story',
+      icon: ScrollText, 
+      description: 'Structure your story with detailed plotting',
       status: project.outline.length > 0 ? 'active' : 'pending',
-      count: project.outline.length
+      count: project.outline.length,
+      progress: Math.min(100, project.outline.length * 20)
     },
     { 
       id: 'manuscript', 
       label: 'Manuscript', 
       icon: Feather, 
-      description: 'Write your tale',
+      description: 'Write your story in novel, script, or graphic formats',
       status: project.manuscript.novel || project.manuscript.screenplay ? 'active' : 'pending',
-      count: (project.manuscript.novel || project.manuscript.screenplay || '').split(' ').length
+      count: Math.floor((project.manuscript.novel || project.manuscript.screenplay || '').split(' ').length / 100) || 0,
+      progress: Math.min(100, ((project.manuscript.novel || project.manuscript.screenplay || '').split(' ').length / 500))
     },
     { 
       id: 'storyboard', 
       label: 'Storyboard', 
-      icon: Users, 
-      description: 'Visualize scenes',
+      icon: Film, 
+      description: 'Visualize scenes and camera movements',
       status: 'pending',
-      count: 0
+      count: 0,
+      progress: 0
+    },
+    { 
+      id: 'pre-vis', 
+      label: 'Pre-Visualization', 
+      icon: Video, 
+      description: 'Assemble and animate your storyboards',
+      status: 'pending',
+      count: 0,
+      progress: 0
+    },
+    { 
+      id: 'score', 
+      label: 'Score & Audio', 
+      icon: Music, 
+      description: 'Add music, sound effects, and voice over',
+      status: 'pending',
+      count: 0,
+      progress: 0
     }
   ];
 
-  const worldBibleSections = [
-    { 
-      id: 'characters', 
-      label: 'Characters', 
-      icon: Users, 
-      count: project.characters.length,
-      description: 'People who inhabit your world'
-    },
-    { 
-      id: 'locations', 
-      label: 'Locations', 
-      icon: MapPin, 
-      count: project.locations.length,
-      description: 'Places where your story unfolds'
-    },
-    { 
-      id: 'factions', 
-      label: 'Factions', 
-      icon: Shield, 
-      count: project.factions.length,
-      description: 'Groups, organizations, and alliances'
-    },
-    { 
-      id: 'items', 
-      label: 'Items', 
-      icon: Package, 
-      count: project.items.length,
-      description: 'Objects of power and significance'
-    }
+  // Recent activity data
+  const recentActivity = [
+    { action: 'Created character', item: 'Elena Marchetti', time: '2 hours ago', type: 'character' },
+    { action: 'Updated manuscript', item: 'Chapter 3', time: '4 hours ago', type: 'manuscript' },
+    { action: 'Added location', item: 'The Crimson Library', time: '1 day ago', type: 'location' },
+    { action: 'Edited outline', item: 'Act II Structure', time: '2 days ago', type: 'outline' }
   ];
-
-  const getStepStatusClass = (status: string) => {
-    switch(status) {
-      case 'active': return 'pipeline-step active';
-      case 'completed': return 'pipeline-step completed';
-      default: return 'pipeline-step';
-    }
-  };
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="creative-card mb-8 p-6">
+      {/* Cinematic Header */}
+      <header className="creative-card mb-8 p-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="sm" onClick={onBack} className="interactive-warm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Projects
             </Button>
-            <div>
-              <div className="studio-nav text-sm mb-2">
-                <span>Studio</span>
-                <span className="separator">→</span>
-                <span className="text-accent">{project.name}</span>
-              </div>
-              <h1 className="font-title text-3xl text-foreground">{project.name}</h1>
-              <div className="flex items-center space-x-4 mt-2">
-                <Badge variant="outline" className={`${project.type === 'novel' ? 'ember-accent' : project.type === 'screenplay' ? 'candlelight-glow' : 'leather-texture'}`}>
-                  {project.type}
+          </div>
+          
+          {/* Cinematic Project Title - Centered */}
+          <div className="text-center flex-1">
+            <h1 className="font-title text-4xl text-foreground mb-2 tracking-wide">
+              {project.name}
+            </h1>
+            <div className="flex items-center justify-center space-x-3">
+              <Badge variant="outline" className="text-accent border-accent text-sm px-3 py-1">
+                {project.type}
+              </Badge>
+              {project.genre.map((genre: string) => (
+                <Badge key={genre} variant="secondary" className="text-sm px-3 py-1">
+                  {genre}
                 </Badge>
-                {project.genre.slice(0, 2).map(genre => (
-                  <Badge key={genre} variant="secondary">{genre}</Badge>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button
-              variant={guideMode ? "default" : "outline"}
-              size="sm"
-              onClick={() => setGuideMode(!guideMode)}
-              className={guideMode ? "candlelight-glow" : ""}
+
+          <div className="flex items-center space-x-3">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => onOpenModal({ type: 'edit', project })}
+              className="interactive-warm"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
-              Guide {guideMode ? 'On' : 'Off'}
-            </Button>
-            <Button variant="outline" size="sm" className="interactive-warm">
               <Settings className="h-4 w-4 mr-2" />
               Settings
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setGuideMode(!guideMode)}
+              className={guideMode ? 'candlelight-glow' : 'interactive-warm'}
+            >
+              <Sparkles className="h-4 w-4 mr-2" />
+              {guideMode ? 'Exit Guide' : 'Guide'}
             </Button>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto px-6">
-        <Tabs value={activeView} onValueChange={setActiveView} className="space-y-8">
-          <TabsList className="creative-card p-1">
-            <TabsTrigger value="overview" className="px-6">Studio Overview</TabsTrigger>
-            <TabsTrigger value="worldbible" className="px-6">World Bible</TabsTrigger>
-            <TabsTrigger value="outline" className="px-6">Outline</TabsTrigger>
-            <TabsTrigger value="manuscript" className="px-6">Manuscript</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-8">
-            {/* Pipeline Progress */}
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="font-title flex items-center">
-                  <Sparkles className="h-5 w-5 mr-2 text-accent" />
-                  Creative Pipeline
-                </CardTitle>
-                <CardDescription className="font-literary">
-                  Your journey from concept to completion
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {pipelineSteps.map((step, index) => (
-                    <div key={step.id} className="flex items-center">
-                      <Card className={`${getStepStatusClass(step.status)} interactive-warm cursor-pointer flex-1`}>
-                        <CardContent className="p-4 text-center">
-                          <step.icon className={`h-6 w-6 mx-auto mb-2 ${step.status === 'active' ? 'text-ink' : 'text-accent'}`} />
-                          <div className="font-medium text-sm">{step.label}</div>
-                          <div className="text-xs opacity-75 mb-2">{step.description}</div>
-                          <Badge variant="outline" className="text-xs">
-                            {step.count} {step.id === 'manuscript' ? 'words' : 'items'}
-                          </Badge>
-                          {guideMode && (
-                            <div className="guide-hint">Click to start working here</div>
-                          )}
-                        </CardContent>
-                      </Card>
-                      {index < pipelineSteps.length - 1 && (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground mx-2" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* World Bible Quick Access */}
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="font-title flex items-center justify-between">
-                  <div className="flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2 text-accent" />
-                    World Bible
-                  </div>
-                  <Button 
-                    variant="outline" 
+        {/* Micro Menu Navigation */}
+        <div className="mb-8">
+          <div className="creative-card p-4">
+            <nav className="flex justify-center space-x-1">
+              {microMenuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Button
+                    key={item.id}
+                    variant={activeSection === item.id ? "default" : "ghost"}
                     size="sm"
-                    onClick={() => setActiveView('worldbible')}
-                    className="interactive-warm"
+                    onClick={() => setActiveSection(item.id)}
+                    className={`flex items-center space-x-2 px-4 py-2 ${
+                      activeSection === item.id ? 'candlelight-glow' : 'interactive-warm'
+                    }`}
                   >
-                    View All
+                    <Icon className="h-4 w-4" />
+                    <span className="text-sm font-medium">{item.label}</span>
                   </Button>
-                </CardTitle>
-                <CardDescription className="font-literary">
-                  The foundation of your creative universe
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {worldBibleSections.map(section => (
-                    <Card key={section.id} className="workbench-surface interactive-warm cursor-pointer">
-                      <CardContent className="p-4 text-center">
-                        <section.icon className="h-8 w-8 mx-auto mb-2 text-accent" />
-                        <div className="font-medium text-sm mb-1">{section.label}</div>
-                        <Badge variant="outline" className="text-xs">
-                          {section.count}
-                        </Badge>
-                        <div className="text-xs text-muted-foreground mt-2">
-                          {section.description}
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* Content Based on Active Section */}
+        {activeSection === 'studio-overview' && (
+          <div className="space-y-8">
+            {/* Creative Pipeline Section */}
+            <div>
+              <h2 className="font-title text-2xl mb-6 text-center">Creative Pipeline</h2>
+              <div className="space-y-4">
+                {pipelineSteps.map((step) => {
+                  const Icon = step.icon;
+                  return (
+                    <Card 
+                      key={step.id} 
+                      className="creative-card hover:shadow-lg transition-all cursor-pointer border-l-4"
+                      style={{borderLeftColor: step.status === 'active' ? 'hsl(var(--accent))' : 'hsl(var(--border))'}}
+                      onClick={() => setActiveSection(step.id)}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4">
+                            <div className={`p-3 rounded-lg ${step.status === 'active' ? 'bg-accent/10 text-accent' : 'bg-muted'}`}>
+                              <Icon className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <h3 className="font-title text-xl mb-1">{step.label}</h3>
+                              <p className="text-muted-foreground">{step.description}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <div className="text-right">
+                              <div className="text-2xl font-bold text-accent">{step.count}</div>
+                              <div className="text-sm text-muted-foreground">
+                                {step.id === 'manuscript' ? 'Pages' : step.id === 'outline' ? 'Beats' : 'Items'}
+                              </div>
+                            </div>
+                            <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-accent transition-all duration-300"
+                                style={{width: `${step.progress}%`}}
+                              />
+                            </div>
+                            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                          </div>
                         </div>
-                        {guideMode && (
-                          <div className="guide-hint">Click to manage {section.label.toLowerCase()}</div>
-                        )}
                       </CardContent>
                     </Card>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  );
+                })}
+              </div>
+            </div>
 
             {/* Recent Activity */}
             <Card className="creative-card">
               <CardHeader>
-                <CardTitle className="font-title">Recent Activity</CardTitle>
-                <CardDescription className="font-literary">
-                  What you've been working on lately
+                <CardTitle className="font-title flex items-center">
+                  <Clock className="h-5 w-5 mr-2 text-accent" />
+                  Recent Activity
+                </CardTitle>
+                <CardDescription>
+                  Track your progress and recent changes
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p className="font-literary">Start creating to see your recent activity here</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="worldbible" className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {worldBibleSections.map(section => (
-                <Card key={section.id} className="creative-card interactive-warm">
-                  <CardHeader>
-                    <CardTitle className="flex items-center font-title">
-                      <section.icon className="h-5 w-5 mr-2 text-accent" />
-                      {section.label}
-                      <Badge variant="outline" className="ml-auto">
-                        {section.count}
-                      </Badge>
-                    </CardTitle>
-                    <CardDescription className="font-literary">
-                      {section.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button variant="outline" className="w-full">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add {section.label.slice(0, -1)}
-                    </Button>
-                    {guideMode && (
-                      <div className="guide-hint">Start building your {section.label.toLowerCase()}</div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="outline" className="space-y-8">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="font-title">Story Structure</CardTitle>
-                <CardDescription className="font-literary">
-                  Organize your narrative flow
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="font-title text-lg mb-2">No Outline Yet</h3>
-                  <p className="text-muted-foreground mb-6 font-literary">
-                    Start structuring your story with our guided outline tools
-                  </p>
-                  <Button className="candlelight-glow">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Outline
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="manuscript" className="space-y-8">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="font-title">Manuscript Editor</CardTitle>
-                <CardDescription className="font-literary">
-                  Where your story comes to life
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {project.manuscript.novel || project.manuscript.screenplay ? (
-                  <div className="workbench-surface min-h-96 p-6">
-                    <div className="font-literary text-foreground leading-relaxed">
-                      {project.manuscript.novel || project.manuscript.screenplay}
+                <div className="space-y-4">
+                  {recentActivity.map((activity, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 workbench-surface rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className={`h-2 w-2 rounded-full ${
+                          activity.type === 'character' ? 'bg-blue-500' :
+                          activity.type === 'manuscript' ? 'bg-green-500' :
+                          activity.type === 'location' ? 'bg-purple-500' :
+                          'bg-orange-500'
+                        }`} />
+                        <div>
+                          <span className="font-medium">{activity.action}</span>
+                          <span className="text-accent mx-2">•</span>
+                          <span className="text-muted-foreground">{activity.item}</span>
+                        </div>
+                      </div>
+                      <span className="text-sm text-muted-foreground">{activity.time}</span>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Feather className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="font-title text-lg mb-2">Ready to Write?</h3>
-                    <p className="text-muted-foreground mb-6 font-literary">
-                      Your manuscript editor is ready for your first words
-                    </p>
-                    <Button className="candlelight-glow">
-                      <Feather className="h-4 w-4 mr-2" />
-                      Start Writing
-                    </Button>
-                  </div>
-                )}
+                  ))}
+                </div>
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          </div>
+        )}
+
+        {/* Other section placeholders */}
+        {activeSection !== 'studio-overview' && (
+          <div className="text-center py-16">
+            <div className="creative-card p-12 max-w-lg mx-auto">
+              <div className="mb-4">
+                {microMenuItems.find(item => item.id === activeSection)?.icon && 
+                  React.createElement(microMenuItems.find(item => item.id === activeSection)!.icon, {
+                    className: "h-16 w-16 mx-auto text-accent mb-4"
+                  })
+                }
+              </div>
+              <h3 className="font-title text-2xl mb-2">
+                {microMenuItems.find(item => item.id === activeSection)?.label}
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                This section is coming soon with comprehensive tools for {activeSection.replace('-', ' ')}.
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => setActiveSection('studio-overview')}
+                className="interactive-warm"
+              >
+                Return to Studio Overview
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

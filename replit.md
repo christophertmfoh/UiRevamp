@@ -13,6 +13,14 @@ Story Weaver is a comprehensive AI-integrated creative suite designed to take cr
 - **Database Integration**: Successfully migrated from localStorage to PostgreSQL with comprehensive schema for all creative elements
 - **Landing Page Structure**: Clean separation between landing and app functionality, includes story idea generator and feature showcase
 
+### Project Dashboard Redesign & Intelligent Import
+- **Cinematic Header Layout**: Project name prominently centered with type and genre badges underneath
+- **Micro Menu Navigation**: Horizontal navigation bar with Studio Overview, World Bible, Outline, Manuscript, Storyboard, Pre-Vis, and Score sections
+- **Creative Pipeline Cards**: Long rectangular cards showing progress, counts, and direct navigation to each section
+- **Recent Activity Tracking**: Bottom section showing recent changes with rollback capabilities (foundation)
+- **Intelligent Document Import**: New import button with AI-powered content extraction foundation for manuscripts and world bibles
+- **Progress Visualization**: Enhanced progress bars and statistics for each creative pipeline step
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

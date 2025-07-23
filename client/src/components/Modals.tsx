@@ -637,7 +637,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
       // Create the project via API
       const newProject = await apiRequest('/api/projects', {
         method: 'POST',
-        body: JSON.stringify(projectData),
+        body: projectData,
       });
 
       // TODO: Future AI-powered content extraction will happen here
