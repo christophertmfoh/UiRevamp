@@ -7,7 +7,7 @@ import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectsView } from './components/ProjectsView';
 import { ProjectDashboard } from './components/ProjectDashboard';
-import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal } from './components/Modals';
+import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 
 export default function App() {
   const [view, setView] = useState('landing'); // landing, projects, dashboard
@@ -197,6 +197,12 @@ export default function App() {
               onClose={() => setModal({ type: null, project: null })} 
               onUpdateProject={handleUpdateProject} 
               onCreateProject={handleCreateProjectFromManuscript} 
+            />
+          )}
+          {modal.type === 'import' && (
+            <IntelligentImportModal
+              onProjectCreated={handleProjectCreated}
+              onClose={() => setModal({ type: null, project: null })}
             />
           )}
         </div>

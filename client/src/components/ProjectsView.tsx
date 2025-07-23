@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 
-import { ArrowLeft, Plus, Search, BookOpen, Clock, MoreVertical, Feather, Sparkles, Users, MapPin, Edit, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Search, BookOpen, Clock, MoreVertical, Feather, Sparkles, Users, MapPin, Edit, Trash2, Upload, FileText } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -150,10 +150,16 @@ export function ProjectsView({
               </p>
             </div>
           </div>
-          <Button onClick={() => onOpenModal({ type: 'new', project: null })} className="candlelight-glow">
-            <Plus className="h-4 w-4 mr-2" />
-            New Project
-          </Button>
+          <div className="flex space-x-3">
+            <Button onClick={() => onOpenModal({ type: 'import', project: null })} variant="outline">
+              <Upload className="h-4 w-4 mr-2" />
+              Import Document
+            </Button>
+            <Button onClick={() => onOpenModal({ type: 'new', project: null })} className="candlelight-glow">
+              <Plus className="h-4 w-4 mr-2" />
+              New Project
+            </Button>
+          </div>
         </div>
       </header>
 
