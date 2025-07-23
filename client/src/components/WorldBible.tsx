@@ -35,23 +35,90 @@ interface WorldBibleProps {
 export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [activeCategory, setActiveCategory] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
+  const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<string | null>(null);
 
   // World Bible categories with drag-and-drop capability
-  const [categories] = useState([
-    { id: 'overview', label: 'World Overview', icon: Globe, count: 1 },
-    { id: 'characters', label: 'Characters', icon: Users, count: 15 },
-    { id: 'locations', label: 'Locations', icon: MapPin, count: 8 },
-    { id: 'factions', label: 'Factions', icon: Shield, count: 6 },
-    { id: 'organizations', label: 'Organizations', icon: Crown, count: 4 },
-    { id: 'items', label: 'Items & Artifacts', icon: Package, count: 12 },
-    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: 7 },
-    { id: 'timeline', label: 'Timeline', icon: Clock, count: 20 },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 9 },
-    { id: 'languages', label: 'Languages', icon: Languages, count: 3 },
-    { id: 'culture', label: 'Culture', icon: Heart, count: 5 },
-    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 2 },
-    { id: 'themes', label: 'Themes', icon: Sword, count: 8 }
+  const [categories, setCategories] = useState([
+    { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
+    { id: 'characters', label: 'Characters', icon: Users, count: 15, locked: false },
+    { id: 'locations', label: 'Locations', icon: MapPin, count: 8, locked: false },
+    { id: 'factions', label: 'Factions', icon: Shield, count: 6, locked: false },
+    { id: 'organizations', label: 'Organizations', icon: Crown, count: 4, locked: false },
+    { id: 'items', label: 'Items & Artifacts', icon: Package, count: 12, locked: false },
+    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: 7, locked: false },
+    { id: 'timeline', label: 'Timeline', icon: Clock, count: 20, locked: false },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 9, locked: false },
+    { id: 'languages', label: 'Languages', icon: Languages, count: 3, locked: false },
+    { id: 'culture', label: 'Culture', icon: Heart, count: 5, locked: false },
+    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 2, locked: false },
+    { id: 'themes', label: 'Themes', icon: Sword, count: 8, locked: false }
   ]);
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, categoryId: string) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    if (category?.locked) {
+      e.preventDefault();
+      return;
+    }
+    setDraggedItem(categoryId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, categoryId: string) => {
+    e.preventDefault();
+    const category = categories.find(cat => cat.id === categoryId);
+    if (category?.locked) return;
+    
+    setDragOverItem(categoryId);
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDragLeave = () => {
+    setDragOverItem(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, targetCategoryId: string) => {
+    e.preventDefault();
+    
+    if (!draggedItem || draggedItem === targetCategoryId) {
+      setDraggedItem(null);
+      setDragOverItem(null);
+      return;
+    }
+
+    const targetCategory = categories.find(cat => cat.id === targetCategoryId);
+    if (targetCategory?.locked) {
+      setDraggedItem(null);
+      setDragOverItem(null);
+      return;
+    }
+
+    const newCategories = [...categories];
+    const draggedIndex = newCategories.findIndex(cat => cat.id === draggedItem);
+    const targetIndex = newCategories.findIndex(cat => cat.id === targetCategoryId);
+
+    // Don't allow moving before or after the locked overview
+    if (targetIndex === 0 || (draggedIndex === 0)) {
+      setDraggedItem(null);
+      setDragOverItem(null);
+      return;
+    }
+
+    // Remove dragged item and insert at target position
+    const [draggedCategory] = newCategories.splice(draggedIndex, 1);
+    newCategories.splice(targetIndex, 0, draggedCategory);
+
+    setCategories(newCategories);
+    setDraggedItem(null);
+    setDragOverItem(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItem(null);
+    setDragOverItem(null);
+  };
 
   // BloomWeaver World Data
   const worldData = {
@@ -623,27 +690,57 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
             <Card className="creative-card">
               <CardHeader>
                 <CardTitle className="text-lg">Categories</CardTitle>
-                <CardDescription>Drag to reorder</CardDescription>
+                <CardDescription>Drag to reorder (except World Overview)</CardDescription>
               </CardHeader>
               <CardContent className="p-0">
                 <ScrollArea className="h-[calc(100vh-300px)]">
                   <div className="space-y-1 p-4">
                     {categories.map((category) => {
                       const Icon = category.icon;
+                      const isDragging = draggedItem === category.id;
+                      const isDragOver = dragOverItem === category.id;
+                      
                       return (
                         <div
                           key={category.id}
-                          className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+                          draggable={!category.locked}
+                          onDragStart={(e) => handleDragStart(e, category.id)}
+                          onDragOver={(e) => handleDragOver(e, category.id)}
+                          onDragLeave={handleDragLeave}
+                          onDrop={(e) => handleDrop(e, category.id)}
+                          onDragEnd={handleDragEnd}
+                          className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
                             activeCategory === category.id
                               ? 'bg-accent/10 text-accent border border-accent/20'
                               : 'hover:bg-muted/50'
+                          } ${
+                            category.locked 
+                              ? 'cursor-default' 
+                              : 'cursor-pointer'
+                          } ${
+                            isDragging 
+                              ? 'opacity-50 scale-95 transform rotate-2' 
+                              : ''
+                          } ${
+                            isDragOver && !category.locked 
+                              ? 'border-2 border-accent border-dashed bg-accent/5' 
+                              : ''
                           }`}
                           onClick={() => setActiveCategory(category.id)}
                         >
                           <div className="flex items-center space-x-3">
-                            <GripVertical className="h-4 w-4 text-muted-foreground" />
+                            <GripVertical 
+                              className={`h-4 w-4 ${
+                                category.locked 
+                                  ? 'text-muted-foreground/30' 
+                                  : 'text-muted-foreground hover:text-accent'
+                              }`} 
+                            />
                             <Icon className="h-4 w-4" />
                             <span className="text-sm font-medium">{category.label}</span>
+                            {category.locked && (
+                              <div className="text-xs text-muted-foreground/60">(fixed)</div>
+                            )}
                           </div>
                           <Badge variant="outline" className="text-xs">
                             {category.count}
