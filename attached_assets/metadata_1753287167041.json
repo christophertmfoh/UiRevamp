@@ -1,0 +1,6 @@
+{
+  "name": "Mythos Weaver",
+  "description": "A creative writing studio application that helps users weave worlds with words. It allows managing multiple projects, brainstorming ideas with AI, outlining stories, writing manuscripts, and developing detailed character libraries.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

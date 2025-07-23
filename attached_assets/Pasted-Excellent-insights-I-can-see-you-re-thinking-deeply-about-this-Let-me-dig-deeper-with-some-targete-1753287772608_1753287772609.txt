@@ -1,0 +1,69 @@
+Excellent insights! I can see you're thinking deeply about this. Let me dig deeper with some targeted questions while we wait for your research:
+
+## Navigation & Flow Questions
+
+1. **Pipeline Guidance**: You mentioned a "menu that guides you through the process" - are you envisioning this as:
+
+1. A persistent top navigation bar that shows your current step?
+2. A wizard-like flow that literally walks users through World Bible → Outline → Manuscript?
+3. Or more like breadcrumbs that show where you are in the creative process?
+
+
+
+2. **World Bible Dropdown**: When you say "every single option" - do you mean all the categories (Characters, Locations, Factions, etc.) should be immediately accessible from a single dropdown, or would you prefer grouped/nested organization?
+
+
+## User Experience Philosophy
+
+3. **Learning Integration**: For users "who have no idea" - are you thinking:
+
+1. Built-in tutorials/onboarding flows?
+2. Contextual tips and explanations throughout the interface?
+3. Templates or examples they can start from?
+4. AI-guided suggestions for what to do next?
+
+
+
+4. **Tool Relevance**: When you say "everything must be relevant to what the user is currently doing" - should the interface:
+
+1. Hide irrelevant tools completely?
+2. Gray them out but keep them visible?
+3. Show them in a secondary/collapsed state?
+
+
+
+
+
+## Visual & Interaction Design
+
+5. **"Native mode"**: This is intriguing - are you thinking:
+
+1. A warm, paper-like color scheme?
+2. Something that mimics natural writing environments?
+3. Colors scientifically chosen for creativity (like certain blues/greens)?
+
+
+
+6. **Minimalist but Full of Tools**: This seems like the core challenge - how do you envision balancing these? Like:
+
+1. Clean interface with tools that appear on hover/click?
+2. Collapsible panels that expand when needed?
+3. Context-sensitive toolbars?
+
+
+
+
+
+## Competitive Landscape
+
+7. **Document-Centric**: You mentioned Reedsy and Sudowrite - what specifically do you like about their approaches? What would you do differently?
+8. **What tools are your research AIs analyzing?** (Scrivener, World Anvil, Campfire Write, etc.) - this might help me understand the competitive landscape you're thinking about.
+
+
+## Workflow Questions
+
+9. **Multi-Project Workflow**: Do users typically work on one project at a time, or do they need to jump between projects frequently?
+10. **Collaboration**: Is this primarily a solo tool, or do you envision team collaboration features?
+
+
+I'm really excited about this "pipeline guidance" concept - it sounds like you want to transform the overwhelming complexity into a guided creative journey. That's a powerful UX principle!
