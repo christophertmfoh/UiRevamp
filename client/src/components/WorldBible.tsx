@@ -710,11 +710,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                           onDragEnd={handleDragEnd}
                           className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
                             activeCategory === category.id
-                              ? 'bg-accent/10 text-accent border border-accent/20'
+                              ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30'
                               : 'hover:bg-muted/50'
                           } ${
                             category.locked 
-                              ? 'cursor-default bg-yellow-500/10 border border-yellow-500/30' 
+                              ? 'cursor-default' 
                               : 'cursor-pointer'
                           } ${
                             isDragging 
