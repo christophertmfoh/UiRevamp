@@ -101,18 +101,31 @@ export function LandingPage({
       <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-center flex-1">
-              <h1 className="font-display text-3xl text-foreground mb-1">Story Weaver</h1>
-              <p className="text-muted-foreground font-literary italic">weave your worlds</p>
+            {/* Left side - empty for balance */}
+            <div className="w-40"></div>
+            
+            {/* Center - Brand */}
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 candlelight-glow rounded-xl flex items-center justify-center">
+                <BookOpen className="h-6 w-6" />
+              </div>
+              <div className="text-center">
+                <h1 className="font-display text-3xl text-foreground leading-none">Story Weaver</h1>
+                <p className="text-muted-foreground font-literary italic text-sm">weave your worlds</p>
+              </div>
             </div>
-            <Button 
-              variant="outline" 
-              onClick={() => onNavigate('projects')}
-              className="creative-card hover:candlelight-glow transition-all duration-300 ml-auto"
-            >
-              Your Projects
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            
+            {/* Right side - Projects button */}
+            <div className="w-40 flex justify-end">
+              <Button 
+                variant="outline" 
+                onClick={() => onNavigate('projects')}
+                className="creative-card hover:candlelight-glow transition-all duration-300"
+              >
+                Your Projects
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -244,11 +257,8 @@ export function LandingPage({
                           {feature.description}
                         </p>
                       </div>
-                      <div className="flex flex-col items-center space-y-2 flex-shrink-0">
+                      <div className="flex-shrink-0">
                         <ArrowRight className="h-6 w-6 text-muted-foreground group-hover:text-accent group-hover:translate-x-2 transition-all duration-300" />
-                        <span className="text-xs text-muted-foreground group-hover:text-accent transition-colors duration-300">
-                          Explore
-                        </span>
                       </div>
                     </div>
                   </Card>
