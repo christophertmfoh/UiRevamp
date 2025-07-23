@@ -15,43 +15,10 @@ export default function App() {
   const [modal, setModal] = useState<{type: string | null; project: Project | null}>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
 
-  const handleCreateProject = async (projectDetails: { 
-    name: string; 
-    type: 'novel' | 'screenplay' | 'comic'; 
-    genres: string[]; 
-    outlineTemplate: 'blank' | 'classic-15-beat' | 'three-act' 
-  }) => {
-    try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: Date.now().toString(),
-          name: projectDetails.name,
-          type: projectDetails.type,
-          description: '',
-          genre: projectDetails.genres,
-          manuscriptNovel: '',
-          manuscriptScreenplay: ''
-        }),
-      });
-
-      if (response.ok) {
-        const newProject = await response.json();
-        // Fetch the full project data with related entities
-        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`);
-        if (fullProjectResponse.ok) {
-          const fullProject = await fullProjectResponse.json();
-          setActiveProject(fullProject);
-          setView('dashboard');
-          setModal({ type: null, project: null });
-        }
-      }
-    } catch (error) {
-      console.error('Error creating project:', error);
-    }
+  const handleProjectCreated = (project: Project) => {
+    setActiveProject(project);
+    setView('dashboard');
+    setModal({ type: null, project: null });
   };
 
   const handleCreateProjectFromManuscript = async (data: any, fileName: string) => {
@@ -200,7 +167,7 @@ export default function App() {
           {modal.type === 'new' && (
             <ProjectModal 
               onClose={() => setModal({ type: null, project: null })} 
-              onCreate={handleCreateProject} 
+              onProjectCreated={handleProjectCreated} 
               onSwitchToManuscriptImport={() => setModal({type: 'importManuscript', project: null})}
             />
           )}
@@ -208,7 +175,6 @@ export default function App() {
             <ProjectModal 
               projectToEdit={modal.project} 
               onClose={() => setModal({ type: null, project: null })} 
-              onUpdate={handleUpdateProject} 
             />
           )}
           {modal.type === 'rename' && modal.project && (
@@ -216,7 +182,6 @@ export default function App() {
               projectToEdit={modal.project} 
               isRenameOnly={true} 
               onClose={() => setModal({ type: null, project: null })} 
-              onUpdate={handleUpdateProject} 
             />
           )}
           {modal.type === 'delete' && modal.project && (

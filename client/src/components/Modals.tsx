@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,6 +15,8 @@ import {
   DialogTitle 
 } from '@/components/ui/dialog';
 import { X, Upload, BookOpen, FileText, AlertTriangle, Feather, Sparkles } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { apiRequest } from '@/lib/queryClient';
 import type { Project } from '../lib/types';
 
 // Project Creation/Edit Modal
@@ -21,8 +24,7 @@ interface ProjectModalProps {
   projectToEdit?: Project | null;
   isRenameOnly?: boolean;
   onClose: () => void;
-  onCreate?: (projectDetails: { name: string; type: 'novel' | 'screenplay' | 'comic'; genres: string[]; outlineTemplate: 'blank' | 'classic-15-beat' | 'three-act' }) => void;
-  onUpdate?: (project: Project) => void;
+  onProjectCreated?: (project: Project) => void;
   onSwitchToManuscriptImport?: () => void;
 }
 
@@ -30,8 +32,7 @@ export function ProjectModal({
   projectToEdit, 
   isRenameOnly = false, 
   onClose, 
-  onCreate, 
-  onUpdate, 
+  onProjectCreated, 
   onSwitchToManuscriptImport 
 }: ProjectModalProps) {
   const [name, setName] = useState(projectToEdit?.name || '');
@@ -40,6 +41,9 @@ export function ProjectModal({
   const [genres, setGenres] = useState<string[]>(projectToEdit?.genre || []);
   const [outlineTemplate, setOutlineTemplate] = useState<'blank' | 'classic-15-beat' | 'three-act'>('blank');
   const [newGenre, setNewGenre] = useState('');
+  
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const commonGenres = ['Fantasy', 'Science Fiction', 'Mystery', 'Romance', 'Thriller', 'Adventure', 'Horror', 'Historical Fiction', 'Contemporary Fiction', 'Young Adult'];
 
@@ -54,27 +58,72 @@ export function ProjectModal({
     setGenres(genres.filter(g => g !== genreToRemove));
   };
 
+  const createProjectMutation = useMutation({
+    mutationFn: async (projectData: any) => {
+      if (projectToEdit) {
+        // Update existing project
+        return await apiRequest(`/api/projects/${projectToEdit.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(projectData),
+        });
+      } else {
+        // Create new project
+        return await apiRequest('/api/projects', {
+          method: 'POST',
+          body: JSON.stringify({
+            id: Date.now().toString(),
+            ...projectData,
+          }),
+        });
+      }
+    },
+    onSuccess: async (result) => {
+      // Invalidate and refetch projects list
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+      
+      if (!projectToEdit) {
+        // For new projects, fetch the full project data and navigate to it
+        try {
+          const fullProject = await apiRequest(`/api/projects/${result.id}`);
+          if (onProjectCreated) {
+            onProjectCreated(fullProject);
+          }
+        } catch (error) {
+          console.error('Error fetching created project:', error);
+        }
+      }
+      
+      toast({
+        title: projectToEdit ? "Project Updated" : "Project Created",
+        description: `${name} has been ${projectToEdit ? 'updated' : 'created'} successfully.`,
+      });
+      
+      onClose();
+    },
+    onError: (error) => {
+      console.error('Error saving project:', error);
+      toast({
+        title: "Error",
+        description: `Failed to ${projectToEdit ? 'update' : 'create'} project. Please try again.`,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    if (projectToEdit && onUpdate) {
-      onUpdate({
-        ...projectToEdit,
-        name: name.trim(),
-        description: description.trim(),
-        type,
-        genre: genres,
-        lastModified: new Date()
-      });
-    } else if (onCreate) {
-      onCreate({
-        name: name.trim(),
-        type,
-        genres,
-        outlineTemplate
-      });
-    }
+    const projectData = {
+      name: name.trim(),
+      description: description.trim(),
+      type,
+      genre: genres,
+      manuscriptNovel: projectToEdit?.manuscript?.novel || '',
+      manuscriptScreenplay: projectToEdit?.manuscript?.screenplay || '',
+    };
+
+    createProjectMutation.mutate(projectData);
   };
 
   return (
@@ -237,8 +286,8 @@ export function ProjectModal({
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={!name.trim()} className="candlelight-glow">
-                {projectToEdit ? 'Update Project' : 'Create Project'}
+              <Button type="submit" disabled={!name.trim() || createProjectMutation.isPending} className="candlelight-glow">
+                {createProjectMutation.isPending ? 'Saving...' : (projectToEdit ? 'Update Project' : 'Create Project')}
               </Button>
             </div>
           </div>
