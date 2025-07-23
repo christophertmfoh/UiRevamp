@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -9,140 +9,144 @@ import { ProjectsView } from './components/ProjectsView';
 import { ProjectDashboard } from './components/ProjectDashboard';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal } from './components/Modals';
 
-const PROJECTS_STORAGE_KEY = 'world-crafter-projects';
-
-// Sample initial projects for demo
-const initialProjects: Project[] = [
-  {
-    id: '1',
-    name: 'The Shadow Chronicles',
-    type: 'novel',
-    description: 'A dark fantasy epic about ancient magic and forgotten realms',
-    genre: ['Fantasy', 'Adventure'],
-    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
-    lastModified: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
-    manuscript: {
-      novel: 'Chapter 1: The Awakening\n\nThe ancient tome lay open on the weathered desk, its pages glowing with an ethereal light that cast dancing shadows across the stone walls of the forgotten tower...',
-      screenplay: ''
-    },
-    outline: [],
-    characters: [],
-    locations: [],
-    factions: [],
-    items: [],
-    proseDocuments: [],
-    settings: {
-      aiCraftConfig: {
-        'story-structure': true,
-        'character-development': true,
-        'world-building': true
-      }
-    }
-  }
-];
-
 export default function App() {
   const [view, setView] = useState('landing'); // landing, projects, dashboard
-  const [projects, setProjects] = useState<Project[]>(() => {
-    try {
-      const savedProjects = localStorage.getItem(PROJECTS_STORAGE_KEY);
-      return savedProjects ? JSON.parse(savedProjects) : initialProjects;
-    } catch (error) {
-      console.error('Could not load projects from localStorage', error);
-      return initialProjects;
-    }
-  });
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<{type: string | null; project: Project | null}>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
 
-  // Save projects to localStorage whenever they change
-  useEffect(() => {
+  const handleCreateProject = async (projectDetails: { 
+    name: string; 
+    type: 'novel' | 'screenplay' | 'comic'; 
+    genres: string[]; 
+    outlineTemplate: 'blank' | 'classic-15-beat' | 'three-act' 
+  }) => {
     try {
-      localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: Date.now().toString(),
+          name: projectDetails.name,
+          type: projectDetails.type,
+          description: '',
+          genre: projectDetails.genres,
+          manuscriptNovel: '',
+          manuscriptScreenplay: ''
+        }),
+      });
+
+      if (response.ok) {
+        const newProject = await response.json();
+        // Fetch the full project data with related entities
+        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`);
+        if (fullProjectResponse.ok) {
+          const fullProject = await fullProjectResponse.json();
+          setActiveProject(fullProject);
+          setView('dashboard');
+          setModal({ type: null, project: null });
+        }
+      }
     } catch (error) {
-      console.error('Could not save projects to localStorage', error);
+      console.error('Error creating project:', error);
     }
-  }, [projects]);
+  };
 
-  const handleCreateProject = (projectDetails: { name: string; type: 'novel' | 'screenplay' | 'comic'; genres: string[]; outlineTemplate: 'blank' | 'classic-15-beat' | 'three-act' }) => {
-    const newProject: Project = {
-      id: Date.now().toString(),
-      name: projectDetails.name,
-      type: projectDetails.type,
-      description: '',
-      genre: projectDetails.genres,
-      createdAt: new Date(),
-      lastModified: new Date(),
-      manuscript: { novel: '', screenplay: '' },
-      outline: [],
-      characters: [],
-      locations: [],
-      factions: [],
-      items: [],
-      proseDocuments: [],
-      settings: {
-        aiCraftConfig: {
-          'story-structure': true,
-          'character-development': true,
-          'world-building': true
+  const handleCreateProjectFromManuscript = async (data: any, fileName: string) => {
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: Date.now().toString(),
+          name: fileName.replace(/\.[^/.]+$/, ''),
+          type: 'novel',
+          description: 'Imported from manuscript',
+          genre: [],
+          manuscriptNovel: data.manuscriptText || '',
+          manuscriptScreenplay: ''
+        }),
+      });
+
+      if (response.ok) {
+        const newProject = await response.json();
+        // Fetch the full project data with related entities
+        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`);
+        if (fullProjectResponse.ok) {
+          const fullProject = await fullProjectResponse.json();
+          setActiveProject(fullProject);
+          setView('dashboard');
+          setModal({ type: null, project: null });
         }
       }
-    };
-    
-    setProjects(prev => [...prev, newProject]);
-    setActiveProject(newProject);
-    setView('dashboard');
-    setModal({ type: null, project: null });
+    } catch (error) {
+      console.error('Error creating project from manuscript:', error);
+    }
   };
 
-  const handleCreateProjectFromManuscript = (data: any, fileName: string) => {
-    const newProject: Project = {
-      id: Date.now().toString(),
-      name: fileName.replace(/\.[^/.]+$/, ''),
-      type: 'novel',
-      description: 'Imported from manuscript',
-      genre: [],
-      createdAt: new Date(),
-      lastModified: new Date(),
-      manuscript: { novel: data.manuscriptText || '', screenplay: '' },
-      outline: data.outline || [],
-      characters: [],
-      locations: [],
-      factions: [],
-      items: [],
-      proseDocuments: [],
-      settings: {
-        aiCraftConfig: {
-          'story-structure': true,
-          'character-development': true,
-          'world-building': true
+  const handleUpdateProject = async (updatedProject: Project) => {
+    try {
+      const response = await fetch(`/api/projects/${updatedProject.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: updatedProject.name,
+          type: updatedProject.type,
+          description: updatedProject.description,
+          genre: updatedProject.genre,
+          manuscriptNovel: updatedProject.manuscript.novel,
+          manuscriptScreenplay: updatedProject.manuscript.screenplay
+        }),
+      });
+
+      if (response.ok) {
+        const updated = await response.json();
+        if (activeProject && activeProject.id === updatedProject.id) {
+          setActiveProject(updatedProject);
+        }
+        setModal({ type: null, project: null });
+      }
+    } catch (error) {
+      console.error('Error updating project:', error);
+    }
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setModal({ type: null, project: null });
+        if (activeProject?.id === projectId) {
+          setActiveProject(null);
+          setView('projects');
         }
       }
-    };
-    
-    setProjects(prev => [...prev, newProject]);
-    setActiveProject(newProject);
-    setView('dashboard');
-    setModal({ type: null, project: null });
-  };
-
-  const handleUpdateProject = (updatedProject: Project) => {
-    setProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
-    if (activeProject && activeProject.id === updatedProject.id) {
-      setActiveProject(updatedProject);
+    } catch (error) {
+      console.error('Error deleting project:', error);
     }
-    setModal({ type: null, project: null });
   };
 
-  const handleDeleteProject = (projectId: string) => {
-    setProjects(prev => prev.filter(p => p.id !== projectId));
-    setModal({ type: null, project: null });
-  };
-
-  const handleSelectProject = (project: Project) => {
-    setActiveProject(project);
-    setView('dashboard');
+  const handleSelectProject = async (project: Project) => {
+    try {
+      // Fetch the full project data
+      const response = await fetch(`/api/projects/${project.id}`);
+      if (response.ok) {
+        const fullProject = await response.json();
+        setActiveProject(fullProject);
+        setView('dashboard');
+      }
+    } catch (error) {
+      console.error('Error selecting project:', error);
+    }
   };
 
   const renderView = () => {
@@ -150,8 +154,6 @@ export default function App() {
       case 'projects':
         return (
           <ProjectsView 
-            projects={projects} 
-            setProjects={setProjects} 
             onSelectProject={handleSelectProject} 
             onOpenModal={(modalInfo) => setModal(modalInfo)} 
             onBack={() => setView('landing')} 

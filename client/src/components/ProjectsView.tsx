@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +15,6 @@ import { formatDistanceToNow } from 'date-fns';
 import type { Project, ModalInfo } from '../lib/types';
 
 interface ProjectsViewProps {
-  projects: Project[];
-  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
   onSelectProject: (project: Project) => void;
   onOpenModal: (modalInfo: ModalInfo) => void;
   onBack: () => void;
@@ -23,8 +22,6 @@ interface ProjectsViewProps {
 }
 
 export function ProjectsView({ 
-  projects, 
-  setProjects, 
   onSelectProject, 
   onOpenModal, 
   onBack, 
@@ -32,10 +29,21 @@ export function ProjectsView({
 }: ProjectsViewProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
 
-  const filteredProjects = projects.filter(project =>
+  const { data: projects = [], isLoading, error } = useQuery({
+    queryKey: ['/api/projects'],
+    queryFn: async () => {
+      const response = await fetch('/api/projects');
+      if (!response.ok) {
+        throw new Error('Failed to fetch projects');
+      }
+      return response.json();
+    }
+  });
+
+  const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.genre.some(g => g.toLowerCase().includes(searchTerm.toLowerCase()))
+    project.genre.some((g: string) => g.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const getProjectIcon = (type: string) => {
@@ -55,6 +63,30 @@ export function ProjectsView({
       default: return 'ember-accent';
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="creative-card p-8">
+          <div className="animate-pulse">
+            <div className="h-4 bg-muted rounded w-48 mb-4"></div>
+            <div className="h-4 bg-muted rounded w-32"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="creative-card p-8 text-center">
+          <h3 className="font-title text-xl mb-2 text-destructive">Error Loading Projects</h3>
+          <p className="text-muted-foreground">Unable to load your projects. Please try again.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -124,129 +156,91 @@ export function ProjectsView({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project) => {
-              const ProjectIcon = getProjectIcon(project.type);
+            {filteredProjects.map((project: Project) => {
+              const IconComponent = getProjectIcon(project.type);
               return (
                 <Card 
                   key={project.id} 
-                  className="creative-card interactive-warm cursor-pointer group"
+                  className="creative-card hover:shadow-lg transition-all duration-300 cursor-pointer group"
                   onClick={() => onSelectProject(project)}
                 >
-                  <CardHeader className="relative">
+                  <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center space-x-3">
-                        <div className={`${getProjectTypeColor(project.type)} rounded-lg p-2`}>
-                          <ProjectIcon className="h-5 w-5" />
+                        <div className={`p-2 rounded-lg ${getProjectTypeColor(project.type)}`}>
+                          <IconComponent className="h-5 w-5" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <CardTitle className="font-title text-lg group-hover:text-accent transition-colors">
                             {project.name}
                           </CardTitle>
-                          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                            <Badge variant="outline" className="text-xs">
+                          <div className="flex items-center space-x-2 mt-1">
+                            <Badge variant="secondary" className="text-xs capitalize">
                               {project.type}
                             </Badge>
-                            <Clock className="h-3 w-3" />
-                            <span>{formatDistanceToNow(project.lastModified, { addSuffix: true })}</span>
+                            <div className="flex items-center text-xs text-muted-foreground">
+                              <Clock className="h-3 w-3 mr-1" />
+                              {formatDistanceToNow(new Date(project.lastModified), { addSuffix: true })}
+                            </div>
                           </div>
                         </div>
                       </div>
+                      
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            className="opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={(e) => e.stopPropagation()}
-                          >
+                        <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="creative-card">
                           <DropdownMenuItem onClick={(e) => {
                             e.stopPropagation();
-                            onOpenModal({ type: 'edit', project });
-                          }}>
-                            Edit Details
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={(e) => {
-                            e.stopPropagation();
                             onOpenModal({ type: 'rename', project });
                           }}>
                             Rename
                           </DropdownMenuItem>
+                          <DropdownMenuItem onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenModal({ type: 'edit', project });
+                          }}>
+                            Edit Details
+                          </DropdownMenuItem>
                           <DropdownMenuItem 
-                            className="text-destructive"
                             onClick={(e) => {
                               e.stopPropagation();
                               onOpenModal({ type: 'delete', project });
                             }}
+                            className="text-destructive focus:text-destructive"
                           >
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-                    {guideMode && (
-                      <div className="guide-hint">Click to open this project</div>
-                    )}
                   </CardHeader>
-                  
                   <CardContent>
-                    {project.description && (
-                      <CardDescription className="mb-4 font-literary">
-                        {project.description}
-                      </CardDescription>
-                    )}
+                    <CardDescription className="font-literary text-sm line-clamp-3 mb-4">
+                      {project.description || 'No description available'}
+                    </CardDescription>
                     
-                    {project.genre.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {project.genre.slice(0, 3).map(genre => (
-                          <Badge key={genre} variant="secondary" className="text-xs">
+                    {project.genre && project.genre.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {project.genre.slice(0, 3).map((genre, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
                             {genre}
                           </Badge>
                         ))}
                         {project.genre.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{project.genre.length - 3} more
+                          <Badge variant="outline" className="text-xs">
+                            +{project.genre.length - 3}
                           </Badge>
                         )}
                       </div>
                     )}
-                    
-                    <div className="text-xs text-muted-foreground">
-                      Created {formatDistanceToNow(project.createdAt, { addSuffix: true })}
-                    </div>
                   </CardContent>
                 </Card>
               );
             })}
-          </div>
-        )}
-
-        {/* Quick Actions */}
-        {projects.length > 0 && (
-          <div className="mt-12 text-center">
-            <div className="creative-card p-6 max-w-md mx-auto">
-              <h3 className="font-title text-lg mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <Button 
-                  onClick={() => onOpenModal({ type: 'new', project: null })} 
-                  className="w-full candlelight-glow"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create New Project
-                </Button>
-                <Button 
-                  onClick={() => onOpenModal({ type: 'importManuscript', project: null })} 
-                  variant="outline" 
-                  className="w-full"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Import Manuscript
-                </Button>
-              </div>
-            </div>
           </div>
         )}
       </div>
