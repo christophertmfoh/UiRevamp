@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { X, Upload, User, Settings, Target, Languages, Palette } from 'lucide-react';
+import { ArrowLeft, Save, Upload, User, Settings, Target, Languages, Palette } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
 
@@ -153,17 +153,31 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
   const isLoading = createMutation.isPending || updateMutation.isPending;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" onClick={onCancel} className="gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Characters
+        </Button>
+        <div className="flex gap-2">
+          <Button 
+            type="submit" 
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="interactive-warm gap-2"
+          >
+            <Save className="h-4 w-4" />
+            {isLoading ? 'Saving...' : 'Save Character'}
+          </Button>
+        </div>
+      </div>
+
+      <Card className="creative-card">
         <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-title text-2xl">
-              {character ? 'Edit Character' : 'Create New Character'}
-            </h2>
-            <Button variant="ghost" size="sm" onClick={onCancel}>
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <h1 className="font-title text-3xl mb-6">
+            {character ? 'Edit Character' : 'Create New Character'}
+          </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <Tabs defaultValue="basic" className="w-full">
@@ -571,14 +585,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
               </TabsContent>
             </Tabs>
 
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button type="button" variant="outline" onClick={onCancel}>
-                Cancel
-              </Button>
-              <Button type="submit" className="interactive-warm" disabled={isLoading}>
-                {isLoading ? 'Saving...' : character ? 'Update Character' : 'Create Character'}
-              </Button>
-            </div>
+
           </form>
         </div>
       </Card>
