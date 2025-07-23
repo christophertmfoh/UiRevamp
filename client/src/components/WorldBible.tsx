@@ -688,9 +688,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
           {/* Sidebar - Categories */}
           <div className="lg:col-span-1">
             <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="text-lg">Categories</CardTitle>
-                <CardDescription>Drag to reorder (except World Overview)</CardDescription>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">World Bible</CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-1">
