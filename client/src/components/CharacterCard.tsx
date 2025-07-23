@@ -13,11 +13,11 @@ interface CharacterCardProps {
 
 export function CharacterCard({ character, onSelect, onEdit, onDelete }: CharacterCardProps) {
   return (
-    <Card className="creative-card interactive-warm-subtle cursor-pointer group">
-      <CardContent className="p-4">
-        <div className="flex items-start gap-4">
+    <Card className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => onSelect(character)}>
+      <CardContent className="p-6">
+        <div className="flex items-start gap-6">
           {/* Character Avatar */}
-          <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
+          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
             {character.imageUrl ? (
               <img 
                 src={character.imageUrl} 
@@ -25,7 +25,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <User className="h-8 w-8 text-amber-600 dark:text-amber-400" />
+              <User className="h-10 w-10 text-amber-600 dark:text-amber-400" />
             )}
           </div>
 
@@ -58,26 +58,89 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                   )}
                 </div>
 
-                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                  {character.description || character.personality || 'No description available'}
-                </p>
-
-                {/* Character Traits */}
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {character.personalityTraits?.slice(0, 3).map((trait, index) => (
-                    <span 
-                      key={index}
-                      className="inline-block text-xs px-2 py-1 bg-muted rounded-full"
-                    >
-                      {trait}
-                    </span>
-                  ))}
-                  {character.personalityTraits && character.personalityTraits.length > 3 && (
-                    <span className="inline-block text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
-                      +{character.personalityTraits.length - 3} more
-                    </span>
+                {/* Extended Character Information */}
+                <div className="mt-3 space-y-3">
+                  {character.description && (
+                    <div>
+                      <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Description</h5>
+                      <p className="text-sm line-clamp-2">{character.description}</p>
+                    </div>
+                  )}
+                  
+                  {character.personality && (
+                    <div>
+                      <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Personality</h5>
+                      <p className="text-sm line-clamp-2">{character.personality}</p>
+                    </div>
+                  )}
+                  
+                  {character.backstory && (
+                    <div>
+                      <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Backstory</h5>
+                      <p className="text-sm line-clamp-2">{character.backstory}</p>
+                    </div>
                   )}
                 </div>
+
+                {/* Physical Traits */}
+                {(character.hair || character.skin || character.attire) && (
+                  <div className="mt-4">
+                    <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Physical</h5>
+                    <div className="flex flex-wrap gap-1">
+                      {character.hair && (
+                        <Badge variant="secondary" className="text-xs">Hair: {character.hair}</Badge>
+                      )}
+                      {character.skin && (
+                        <Badge variant="secondary" className="text-xs">Skin: {character.skin}</Badge>
+                      )}
+                      {character.attire && (
+                        <Badge variant="secondary" className="text-xs">Attire: {character.attire}</Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Character Traits */}
+                {character.personalityTraits && character.personalityTraits.length > 0 && (
+                  <div className="mt-4">
+                    <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Traits</h5>
+                    <div className="flex flex-wrap gap-1">
+                      {character.personalityTraits.slice(0, 4).map((trait, index) => (
+                        <span 
+                          key={index}
+                          className="inline-block text-xs px-2 py-1 bg-muted rounded-full"
+                        >
+                          {trait}
+                        </span>
+                      ))}
+                      {character.personalityTraits.length > 4 && (
+                        <span className="inline-block text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                          +{character.personalityTraits.length - 4} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Skills & Abilities */}
+                {((character.abilities && character.abilities.length > 0) || (character.skills && character.skills.length > 0)) && (
+                  <div className="mt-4">
+                    <h5 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Abilities & Skills</h5>
+                    <div className="flex flex-wrap gap-1">
+                      {character.abilities?.slice(0, 3).map((ability, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">{ability}</Badge>
+                      ))}
+                      {character.skills?.slice(0, 3).map((skill, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">{skill}</Badge>
+                      ))}
+                      {((character.abilities?.length || 0) + (character.skills?.length || 0)) > 6 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{((character.abilities?.length || 0) + (character.skills?.length || 0)) - 6} more
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons */}
@@ -104,21 +167,14 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onSelect(character)}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
+
               </div>
             </div>
           </div>
         </div>
 
         {/* Character Stats Footer */}
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/50 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/50 text-xs text-muted-foreground">
           <div className="flex items-center gap-4">
             {character.abilities && character.abilities.length > 0 && (
               <span>{character.abilities.length} abilities</span>
@@ -129,13 +185,13 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
             {character.languages && character.languages.length > 0 && (
               <span>{character.languages.length} languages</span>
             )}
+            {character.relationships && character.relationships.length > 0 && (
+              <span>{character.relationships.length} relationships</span>
+            )}
           </div>
           <div className="flex items-center gap-1">
-            {character.tags?.slice(0, 2).map((tag, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
+            <span className="text-muted-foreground">Click to view details</span>
+            <ChevronRight className="h-4 w-4" />
           </div>
         </div>
       </CardContent>

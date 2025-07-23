@@ -20,6 +20,7 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<Character | null>(null);
+  const [isCreatingNew, setIsCreatingNew] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -50,6 +51,36 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
     }
   };
 
+  const handleCreateNew = () => {
+    setIsCreatingNew(true);
+  };
+
+  const handleBackFromCreate = () => {
+    setIsCreatingNew(false);
+  };
+
+  // Show character creation form as secondary page
+  if (isCreatingNew) {
+    return (
+      <CharacterForm
+        projectId={projectId}
+        onCancel={handleBackFromCreate}
+      />
+    );
+  }
+
+  // Show character editing form as secondary page
+  if (editingCharacter) {
+    return (
+      <CharacterForm
+        projectId={projectId}
+        character={editingCharacter}
+        onCancel={() => setEditingCharacter(null)}
+      />
+    );
+  }
+
+  // Show character detail view as secondary page
   if (selectedCharacter) {
     return (
       <CharacterDetailView
@@ -61,93 +92,76 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   }
 
   return (
-    <>
-      {showCreateForm && (
-        <CharacterForm
-          projectId={projectId}
-          onCancel={() => setShowCreateForm(false)}
-        />
-      )}
-      
-      {editingCharacter && (
-        <CharacterForm
-          projectId={projectId}
-          character={editingCharacter}
-          onCancel={() => setEditingCharacter(null)}
-        />
-      )}
-      
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-title text-2xl">Characters</h2>
-            <p className="text-muted-foreground">
-              {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
-            </p>
-          </div>
-          <Button 
-            onClick={() => setShowCreateForm(true)} 
-            className="interactive-warm"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Character
-          </Button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-title text-2xl">Characters</h2>
+          <p className="text-muted-foreground">
+            {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
+          </p>
         </div>
-
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search characters by name, role, or race..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 creative-input"
-          />
-        </div>
-
-        {/* Character List */}
-        {isLoading ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <div className="animate-spin h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
-            <p>Loading characters...</p>
-          </div>
-        ) : filteredCharacters.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <Users className="h-24 w-24 mx-auto mb-6 opacity-30" />
-            <h3 className="text-xl font-semibold mb-3">
-              {characters.length === 0 ? 'No Characters Created' : 'No Characters Found'}
-            </h3>
-            <p className="mb-6">
-              {characters.length === 0 
-                ? 'Start building your cast of characters to bring your world to life.'
-                : 'Try adjusting your search terms to find the character you\'re looking for.'
-              }
-            </p>
-            {characters.length === 0 && (
-              <Button 
-                onClick={() => setShowCreateForm(true)} 
-                className="interactive-warm"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Create First Character
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="grid gap-4">
-            {filteredCharacters.map((character: Character) => (
-              <CharacterCard
-                key={character.id}
-                character={character}
-                onSelect={setSelectedCharacter}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
-        )}
+        <Button 
+          onClick={handleCreateNew} 
+          className="interactive-warm"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add Character
+        </Button>
       </div>
-    </>
+
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search characters by name, role, or race..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-10 creative-input"
+        />
+      </div>
+
+      {/* Character List */}
+      {isLoading ? (
+        <div className="text-center py-12 text-muted-foreground">
+          <div className="animate-spin h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
+          <p>Loading characters...</p>
+        </div>
+      ) : filteredCharacters.length === 0 ? (
+        <div className="text-center py-12 text-muted-foreground">
+          <Users className="h-24 w-24 mx-auto mb-6 opacity-30" />
+          <h3 className="text-xl font-semibold mb-3">
+            {characters.length === 0 ? 'No Characters Created' : 'No Characters Found'}
+          </h3>
+          <p className="mb-6">
+            {characters.length === 0 
+              ? 'Start building your cast of characters to bring your world to life.'
+              : 'Try adjusting your search terms to find the character you\'re looking for.'
+            }
+          </p>
+          {characters.length === 0 && (
+            <Button 
+              onClick={handleCreateNew} 
+              className="interactive-warm"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Create First Character
+            </Button>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {filteredCharacters.map((character: Character) => (
+            <CharacterCard
+              key={character.id}
+              character={character}
+              onSelect={setSelectedCharacter}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
