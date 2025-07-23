@@ -882,9 +882,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                             <Icon className="h-4 w-4" />
                             <span className="text-sm font-medium">{category.label}</span>
                           </div>
-                          <Badge variant="outline" className="text-xs">
-                            {category.count}
-                          </Badge>
+                          {!category.locked && (
+                            <Badge variant="outline" className="text-xs">
+                              {category.count}
+                            </Badge>
+                          )}
                         </div>
                       );
                     })}
