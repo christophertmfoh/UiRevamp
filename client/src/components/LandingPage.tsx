@@ -155,8 +155,8 @@ export function LandingPage({
           
           {/* Visual Guide Arrows */}
           <div className="flex justify-center">
-            <div className="flex flex-col items-center space-y-2 animate-bounce">
-              <div className="w-1 h-12 bg-gradient-to-b from-accent to-transparent rounded-full"></div>
+            <div className="flex flex-col items-center space-y-1 animate-bounce">
+              <div className="w-1 h-6 bg-gradient-to-b from-accent to-transparent rounded-full"></div>
               <div className="w-3 h-3 bg-accent rounded-full"></div>
             </div>
           </div>
@@ -164,7 +164,7 @@ export function LandingPage({
       </section>
 
       {/* Story Idea Generator - Prominent */}
-      <section className="container mx-auto px-6 py-20">
+      <section className="container mx-auto px-6 py-16">
         <div className="max-w-3xl mx-auto">
           <div className="relative">
             {/* Glow effect */}
@@ -215,7 +215,7 @@ export function LandingPage({
       </section>
 
       {/* Features - Long Rectangular Layout */}
-      <section className="container mx-auto px-6 py-20">
+      <section className="container mx-auto px-6 py-24">
         <div className="max-w-5xl mx-auto">
           <div className="text-center space-y-4 mb-16">
             <div className="w-12 h-12 ember-accent rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -242,12 +242,8 @@ export function LandingPage({
                     <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="p-8 flex items-center space-x-6 relative">
-                      <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0 relative`}>
+                      <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
                         <IconComponent className="h-8 w-8" />
-                        {/* Step number indicator */}
-                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent text-accent-foreground rounded-full text-xs font-bold flex items-center justify-center">
-                          {index + 1}
-                        </div>
                       </div>
                       <div className="flex-1 space-y-2">
                         <h4 className="font-title text-2xl text-foreground group-hover:text-accent transition-colors duration-300">
@@ -256,9 +252,6 @@ export function LandingPage({
                         <p className="font-literary text-muted-foreground leading-relaxed text-lg">
                           {feature.description}
                         </p>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <ArrowRight className="h-6 w-6 text-muted-foreground group-hover:text-accent group-hover:translate-x-2 transition-all duration-300" />
                       </div>
                     </div>
                   </Card>
@@ -270,7 +263,7 @@ export function LandingPage({
       </section>
 
       {/* Call to Action */}
-      <section className="container mx-auto px-6 py-20">
+      <section className="container mx-auto px-6 py-24">
         <div className="max-w-4xl mx-auto">
           {/* Visual Guide Leading to CTA */}
           <div className="flex justify-center mb-12">
