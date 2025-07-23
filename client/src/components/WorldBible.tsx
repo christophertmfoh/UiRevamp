@@ -26,6 +26,7 @@ import {
   Sword
 } from 'lucide-react';
 import type { Project } from '../lib/types';
+import { CharacterManager } from './CharacterManager';
 
 interface WorldBibleProps {
   project: Project;
@@ -458,27 +459,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         );
 
       case 'characters':
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-title text-2xl">Characters</h2>
-              <Button size="sm" className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Character
-              </Button>
-            </div>
-            
-            <div className="text-center py-12">
-              <Users className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-              <h3 className="text-xl font-semibold mb-2">No Characters Yet</h3>
-              <p className="text-muted-foreground mb-6">Start building your world by adding your first character</p>
-              <Button className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Create Your First Character
-              </Button>
-            </div>
-          </div>
-        );
+        return <CharacterManager projectId={project.id} />;
 
       case 'locations':
         return (

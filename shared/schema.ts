@@ -20,18 +20,68 @@ export const projects = pgTable("projects", {
 export const characters = pgTable("characters", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  
+  // Basic Information
   name: text("name").notNull(),
+  title: text("title").default(''),
+  race: text("race").default(''),
+  class: text("class").default(''),
+  age: text("age").default(''),
   role: text("role").default(''),
+  
+  // Physical Appearance
+  physicalDescription: text("physical_description").default(''),
+  facialFeatures: text("facial_features").default(''),
+  hair: text("hair").default(''),
+  skin: text("skin").default(''),
+  attire: text("attire").default(''),
+  distinguishingMarks: text("distinguishing_marks").default(''),
+  
+  // Core Character Details
   description: text("description").default(''),
   personality: text("personality").default(''),
   backstory: text("backstory").default(''),
+  
+  // Psychological Profile
+  personalityTraits: text("personality_traits").array().default([]),
   motivations: text("motivations").default(''),
   fears: text("fears").default(''),
   secrets: text("secrets").default(''),
+  copingMechanisms: text("coping_mechanisms").default(''),
+  vulnerabilities: text("vulnerabilities").default(''),
+  
+  // Background & History
+  background: text("background").default(''),
+  academicHistory: text("academic_history").default(''),
+  personalStruggle: text("personal_struggle").default(''),
+  
+  // Abilities & Skills
+  abilities: text("abilities").array().default([]),
+  skills: text("skills").array().default([]),
+  specialAbilities: text("special_abilities").default(''),
+  
+  // Story Elements
+  goals: text("goals").default(''),
+  conflictSources: text("conflict_sources").default(''),
+  relationships: text("relationships").default(''),
+  connectionToEvents: text("connection_to_events").default(''),
+  
+  // Language & Communication
+  languages: text("languages").array().default([]),
+  accent: text("accent").default(''),
+  speechPatterns: text("speech_patterns").default(''),
+  
+  // Meta Information
   archetypes: text("archetypes").array().default([]),
   tags: text("tags").array().default([]),
+  proseVibe: text("prose_vibe").default(''),
+  narrativeRole: text("narrative_role").default(''),
+  
+  // Technical
   isModelTrained: boolean("is_model_trained").default(false),
   displayImageId: integer("display_image_id"),
+  imageUrl: text("image_url").default(''),
+  
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

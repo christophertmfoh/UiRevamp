@@ -29,21 +29,71 @@ export interface OutlineNode {
 
 export interface Character {
   id: string;
+  projectId: string;
+  
+  // Basic Information
   name: string;
+  title?: string;
+  race?: string;
+  class?: string;
+  age?: string;
   role: string;
+  
+  // Physical Appearance
+  physicalDescription?: string;
+  facialFeatures?: string;
+  hair?: string;
+  skin?: string;
+  attire?: string;
+  distinguishingMarks?: string;
+  
+  // Core Character Details
   description: string;
   personality: string;
   backstory: string;
+  
+  // Psychological Profile
+  personalityTraits: string[];
   motivations: string;
   fears: string;
   secrets: string;
+  copingMechanisms?: string;
+  vulnerabilities?: string;
+  
+  // Background & History
+  background?: string;
+  academicHistory?: string;
+  personalStruggle?: string;
+  
+  // Abilities & Skills
+  abilities: string[];
+  skills: string[];
+  specialAbilities?: string;
+  
+  // Story Elements
+  goals?: string;
+  conflictSources?: string;
   relationships: CharacterRelationship[];
+  connectionToEvents?: string;
+  
+  // Language & Communication
+  languages: string[];
+  accent?: string;
+  speechPatterns?: string;
+  
+  // Meta Information
   archetypes: string[];
-  imageGallery: ImageAsset[];
-  displayImageId?: number;
-  modelImageUrls: string[];
-  isModelTrained: boolean;
   tags: string[];
+  proseVibe?: string;
+  narrativeRole?: string;
+  
+  // Technical
+  isModelTrained: boolean;
+  displayImageId?: number;
+  imageUrl?: string;
+  imageGallery: ImageAsset[];
+  modelImageUrls: string[];
+  createdAt: Date;
 }
 
 export interface Location {
