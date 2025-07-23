@@ -289,8 +289,53 @@ export function ProjectDashboard({
           </div>
         )}
 
+        {/* World Bible Section */}
+        {activeSection === 'world-bible' && (
+          <div className="text-center py-16">
+            <div className="creative-card p-12 max-w-2xl mx-auto">
+              <Globe className="h-16 w-16 mx-auto text-accent mb-4" />
+              <h3 className="font-title text-3xl mb-4">World Bible</h3>
+              <h4 className="text-xl text-accent mb-4">The BloomWeaver's Lament</h4>
+              <p className="text-muted-foreground mb-6 text-lg">
+                Your comprehensive world bible with 12 categories is being built using your actual BloomWeaver content. 
+                This will include drag-and-drop sidebar navigation for all categories: characters, locations, factions, 
+                organizations, items, magic & lore, timeline, bestiary, languages, culture, prophecies, and themes.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-4 workbench-surface rounded-lg">
+                  <Users className="h-8 w-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-sm font-medium">Characters</div>
+                  <div className="text-xs text-muted-foreground">Cosmic Arcana</div>
+                </div>
+                <div className="text-center p-4 workbench-surface rounded-lg">
+                  <MapPin className="h-8 w-8 mx-auto mb-2 text-green-400" />
+                  <div className="text-sm font-medium">Locations</div>
+                  <div className="text-xs text-muted-foreground">Garden of Expanse</div>
+                </div>
+                <div className="text-center p-4 workbench-surface rounded-lg">
+                  <Shield className="h-8 w-8 mx-auto mb-2 text-red-400" />
+                  <div className="text-sm font-medium">Factions</div>
+                  <div className="text-xs text-muted-foreground">Cultist Group</div>
+                </div>
+                <div className="text-center p-4 workbench-surface rounded-lg">
+                  <Sparkles className="h-8 w-8 mx-auto mb-2 text-purple-400" />
+                  <div className="text-sm font-medium">Magic Systems</div>
+                  <div className="text-xs text-muted-foreground">Flow of Magic</div>
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                onClick={() => setActiveSection('studio-overview')}
+                className="interactive-warm"
+              >
+                Return to Studio Overview
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Other section placeholders */}
-        {activeSection !== 'studio-overview' && (
+        {activeSection !== 'studio-overview' && activeSection !== 'world-bible' && (
           <div className="text-center py-16">
             <div className="creative-card p-12 max-w-lg mx-auto">
               <div className="mb-4">
