@@ -134,70 +134,76 @@ export function CharacterDetailView({
         </CardContent>
       </Card>
 
-      {/* Character Details in Tabs */}
-      <Tabs defaultValue="basics" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="basics">Basics</TabsTrigger>
-          <TabsTrigger value="physical">Physical</TabsTrigger>
-          <TabsTrigger value="psychology">Psychology</TabsTrigger>
-          <TabsTrigger value="abilities">Abilities</TabsTrigger>
-          <TabsTrigger value="story">Story</TabsTrigger>
-          <TabsTrigger value="meta">Meta</TabsTrigger>
-        </TabsList>
+      {/* Character Details - Vertical Layout */}
+      <div className="space-y-6">
+        {/* Basic Information Section */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Basic Information</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {character.backstory && (
+                <div>
+                  <h4 className="font-semibold mb-2">Backstory</h4>
+                  <p className="text-muted-foreground">{character.backstory}</p>
+                </div>
+              )}
+              {character.background && (
+                <div>
+                  <h4 className="font-semibold mb-2">Background</h4>
+                  <p className="text-muted-foreground">{character.background}</p>
+                </div>
+              )}
+              {character.academicHistory && (
+                <div>
+                  <h4 className="font-semibold mb-2">Academic History</h4>
+                  <p className="text-muted-foreground">{character.academicHistory}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        <TabsContent value="basics" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {character.backstory && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Backstory</h4>
-                    <p className="text-muted-foreground">{character.backstory}</p>
-                  </div>
-                )}
-                {character.background && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Background</h4>
-                    <p className="text-muted-foreground">{character.background}</p>
-                  </div>
-                )}
-                {character.academicHistory && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Academic History</h4>
-                    <p className="text-muted-foreground">{character.academicHistory}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Languages & Communication</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {character.languages && character.languages.length > 0 ? (
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Languages & Communication</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {character.languages && character.languages.length > 0 ? (
+                <div>
+                  <h4 className="font-semibold mb-2">Languages</h4>
                   <div className="flex flex-wrap gap-2">
                     {character.languages.map((language, index) => (
                       <Badge key={index} variant="secondary">{language}</Badge>
                     ))}
                   </div>
-                ) : (
-                  <p className="text-muted-foreground">No languages specified</p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No languages specified</p>
+              )}
+              {character.accent && (
+                <div>
+                  <h4 className="font-semibold mb-2">Accent</h4>
+                  <p className="text-muted-foreground">{character.accent}</p>
+                </div>
+              )}
+              {character.speechPatterns && (
+                <div>
+                  <h4 className="font-semibold mb-2">Speech Patterns</h4>
+                  <p className="text-muted-foreground">{character.speechPatterns}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
-        <TabsContent value="physical" className="space-y-6">
-          <Card className="creative-card">
-            <CardHeader>
-              <CardTitle>Physical Appearance</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        {/* Physical Appearance Section */}
+        <Card className="creative-card">
+          <CardHeader>
+            <CardTitle>Physical Appearance</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
               {character.physicalDescription && (
                 <div>
                   <h4 className="font-semibold mb-2">Overall Description</h4>
@@ -234,174 +240,185 @@ export function CharacterDetailView({
                   <p className="text-muted-foreground">{character.distinguishingMarks}</p>
                 </div>
               )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Psychology Section */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Personality</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {character.personality && (
+                <div>
+                  <h4 className="font-semibold mb-2">Overview</h4>
+                  <p className="text-muted-foreground">{character.personality}</p>
+                </div>
+              )}
+              {character.personalityTraits && character.personalityTraits.length > 0 && (
+                <div>
+                  <h4 className="font-semibold mb-2">Traits</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {character.personalityTraits.map((trait, index) => (
+                      <Badge key={index} variant="outline">{trait}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {character.copingMechanisms && (
+                <div>
+                  <h4 className="font-semibold mb-2">Coping Mechanisms</h4>
+                  <p className="text-muted-foreground">{character.copingMechanisms}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
-        </TabsContent>
 
-        <TabsContent value="psychology" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Personality</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {character.personality && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Overview</h4>
-                    <p className="text-muted-foreground">{character.personality}</p>
-                  </div>
-                )}
-                {character.personalityTraits && character.personalityTraits.length > 0 && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Traits</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {character.personalityTraits.map((trait, index) => (
-                        <Badge key={index} variant="outline">{trait}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Psychology</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {character.motivations && (
+                <div>
+                  <h4 className="font-semibold mb-2">Motivations</h4>
+                  <p className="text-muted-foreground">{character.motivations}</p>
+                </div>
+              )}
+              {character.fears && (
+                <div>
+                  <h4 className="font-semibold mb-2">Fears</h4>
+                  <p className="text-muted-foreground">{character.fears}</p>
+                </div>
+              )}
+              {character.secrets && (
+                <div>
+                  <h4 className="font-semibold mb-2">Secrets</h4>
+                  <p className="text-muted-foreground">{character.secrets}</p>
+                </div>
+              )}
+              {character.vulnerabilities && (
+                <div>
+                  <h4 className="font-semibold mb-2">Vulnerabilities</h4>
+                  <p className="text-muted-foreground">{character.vulnerabilities}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Psychology</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {character.motivations && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Motivations</h4>
-                    <p className="text-muted-foreground">{character.motivations}</p>
-                  </div>
-                )}
-                {character.fears && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Fears</h4>
-                    <p className="text-muted-foreground">{character.fears}</p>
-                  </div>
-                )}
-                {character.secrets && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Secrets</h4>
-                    <p className="text-muted-foreground">{character.secrets}</p>
-                  </div>
-                )}
-                {character.vulnerabilities && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Vulnerabilities</h4>
-                    <p className="text-muted-foreground">{character.vulnerabilities}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="abilities" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Abilities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {character.abilities && character.abilities.length > 0 ? (
+        {/* Abilities & Skills Section */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Abilities</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {character.abilities && character.abilities.length > 0 ? (
+                <div>
+                  <h4 className="font-semibold mb-2">General Abilities</h4>
                   <div className="flex flex-wrap gap-2">
                     {character.abilities.map((ability, index) => (
                       <Badge key={index} variant="secondary">{ability}</Badge>
                     ))}
                   </div>
-                ) : (
-                  <p className="text-muted-foreground">No abilities specified</p>
-                )}
-              </CardContent>
-            </Card>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No abilities specified</p>
+              )}
+              {character.specialAbilities && (
+                <div>
+                  <h4 className="font-semibold mb-2">Special Abilities</h4>
+                  <p className="text-muted-foreground">{character.specialAbilities}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Skills</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {character.skills && character.skills.length > 0 ? (
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Skills</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {character.skills && character.skills.length > 0 ? (
+                <div>
+                  <h4 className="font-semibold mb-2">Acquired Skills</h4>
                   <div className="flex flex-wrap gap-2">
                     {character.skills.map((skill, index) => (
                       <Badge key={index} variant="outline">{skill}</Badge>
                     ))}
                   </div>
-                ) : (
-                  <p className="text-muted-foreground">No skills specified</p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-          
-          {character.specialAbilities && (
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Special Abilities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{character.specialAbilities}</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No skills specified</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
-        <TabsContent value="story" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Story Elements</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {character.goals && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Goals</h4>
-                    <p className="text-muted-foreground">{character.goals}</p>
-                  </div>
-                )}
-                {character.conflictSources && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Conflict Sources</h4>
-                    <p className="text-muted-foreground">{character.conflictSources}</p>
-                  </div>
-                )}
-                {character.personalStruggle && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Personal Struggle</h4>
-                    <p className="text-muted-foreground">{character.personalStruggle}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle>Relationships</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {character.relationships && character.relationships.length > 0 ? (
-                  <div className="space-y-2">
-                    {character.relationships.map((relationship, index) => (
-                      <div key={index} className="p-3 bg-muted rounded-lg">
-                        <p className="text-sm">{typeof relationship === 'string' ? relationship : `${relationship.characterName} - ${relationship.relationshipType}`}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground">No relationships specified</p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="meta" className="space-y-6">
+        {/* Story Elements Section */}
+        <div className="grid gap-6 md:grid-cols-2">
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Meta Information</CardTitle>
+              <CardTitle>Story Elements</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {character.goals && (
+                <div>
+                  <h4 className="font-semibold mb-2">Goals</h4>
+                  <p className="text-muted-foreground">{character.goals}</p>
+                </div>
+              )}
+              {character.conflictSources && (
+                <div>
+                  <h4 className="font-semibold mb-2">Conflict Sources</h4>
+                  <p className="text-muted-foreground">{character.conflictSources}</p>
+                </div>
+              )}
+              {character.personalStruggle && (
+                <div>
+                  <h4 className="font-semibold mb-2">Personal Struggle</h4>
+                  <p className="text-muted-foreground">{character.personalStruggle}</p>
+                </div>
+              )}
+              {character.connectionToEvents && (
+                <div>
+                  <h4 className="font-semibold mb-2">Connection to Events</h4>
+                  <p className="text-muted-foreground">{character.connectionToEvents}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Relationships</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {character.relationships && character.relationships.length > 0 ? (
+                <div className="space-y-2">
+                  {character.relationships.map((relationship, index) => (
+                    <div key={index} className="p-3 bg-muted rounded-lg">
+                      <p className="text-sm">{typeof relationship === 'string' ? relationship : `${relationship.characterId} - ${relationship.relationshipType}: ${relationship.description}`}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No relationships specified</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Meta Information Section */}
+        <Card className="creative-card">
+          <CardHeader>
+            <CardTitle>Meta Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
               {character.tags && character.tags.length > 0 && (
                 <div>
                   <h4 className="font-semibold mb-2">Tags</h4>
@@ -412,11 +429,32 @@ export function CharacterDetailView({
                   </div>
                 </div>
               )}
-
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              {character.archetypes && character.archetypes.length > 0 && (
+                <div>
+                  <h4 className="font-semibold mb-2">Archetypes</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {character.archetypes.map((archetype, index) => (
+                      <Badge key={index} variant="secondary">{archetype}</Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {character.proseVibe && (
+                <div>
+                  <h4 className="font-semibold mb-2">Prose Vibe</h4>
+                  <p className="text-muted-foreground">{character.proseVibe}</p>
+                </div>
+              )}
+              {character.narrativeRole && (
+                <div>
+                  <h4 className="font-semibold mb-2">Narrative Role</h4>
+                  <p className="text-muted-foreground">{character.narrativeRole}</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
