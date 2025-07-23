@@ -291,11 +291,26 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
     switch (activeCategory) {
       case 'overview':
         return (
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
               <h2 className="font-title text-3xl mb-2">{worldData.overview.title}</h2>
               <h3 className="text-xl text-muted-foreground mb-4">{worldData.overview.subtitle}</h3>
               <p className="text-lg leading-relaxed">{worldData.overview.description}</p>
+            </div>
+
+            {/* World Statistics Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {categories.filter(cat => cat.id !== 'overview').map(category => {
+                const Icon = category.icon;
+                return (
+                  <div key={category.id} className="creative-card p-4 text-center cursor-pointer hover:bg-muted/20 transition-colors"
+                       onClick={() => setActiveCategory(category.id)}>
+                    <Icon className="h-6 w-6 mx-auto mb-2 text-accent" />
+                    <div className="text-2xl font-bold text-accent">{category.count}</div>
+                    <div className="text-sm text-muted-foreground">{category.label}</div>
+                  </div>
+                );
+              })}
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
@@ -335,6 +350,141 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Featured Content Sections */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Characters Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Users className="h-5 w-5 mr-2" />
+                      Key Characters
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'characters')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.characters.slice(0, 3).map((character, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-accent/50">
+                      <div className="font-medium">{character.name}</div>
+                      <div className="text-sm text-muted-foreground">{character.role}</div>
+                      <Badge variant="outline" className="mt-1 text-xs">{character.status}</Badge>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('characters')}>
+                    View All Characters →
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Locations Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <MapPin className="h-5 w-5 mr-2" />
+                      Important Locations
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'locations')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.locations.slice(0, 3).map((location, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-green-500/50">
+                      <div className="font-medium">{location.name}</div>
+                      <div className="text-sm text-muted-foreground">{location.type}</div>
+                      <div className="text-xs text-muted-foreground mt-1">{location.significance}</div>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('locations')}>
+                    View All Locations →
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Factions Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Shield className="h-5 w-5 mr-2" />
+                      Major Factions
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'factions')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.factions.slice(0, 2).map((faction, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-red-500/50">
+                      <div className="font-medium">{faction.name}</div>
+                      <div className="text-sm text-muted-foreground">{faction.type}</div>
+                      <div className="flex gap-1 mt-1">
+                        <Badge variant="destructive" className="text-xs">{faction.threat}</Badge>
+                        <Badge variant="outline" className="text-xs">{faction.status}</Badge>
+                      </div>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('factions')}>
+                    View All Factions →
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Timeline Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Clock className="h-5 w-5 mr-2" />
+                      Recent Timeline
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'timeline')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.timeline.slice(-2).map((era, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-blue-500/50">
+                      <div className="font-medium">{era.era}</div>
+                      <div className="text-sm text-muted-foreground">{era.period}</div>
+                      <Badge variant="secondary" className="mt-1 text-xs">
+                        {era.events.length} events
+                      </Badge>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('timeline')}>
+                    View Full Timeline →
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Quick Actions */}
+            <Card className="creative-card">
+              <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('characters')}>
+                    <Users className="h-4 w-4 mr-2" />
+                    Add Character
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('locations')}>
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Add Location
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('magic')}>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Add Magic System
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('timeline')}>
+                    <Clock className="h-4 w-4 mr-2" />
+                    Add Event
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
@@ -688,9 +838,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
           {/* Sidebar - Categories */}
           <div className="lg:col-span-1">
             <Card className="creative-card">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg">World Bible</CardTitle>
-              </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-1">
                     {categories.map((category) => {
