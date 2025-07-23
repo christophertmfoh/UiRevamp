@@ -692,9 +692,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 <CardTitle className="text-lg">Categories</CardTitle>
                 <CardDescription>Drag to reorder (except World Overview)</CardDescription>
               </CardHeader>
-              <CardContent className="p-0">
-                <ScrollArea className="h-[calc(100vh-300px)]">
-                  <div className="space-y-1 p-4">
+              <CardContent className="p-4">
+                <div className="space-y-1">
                     {categories.map((category) => {
                       const Icon = category.icon;
                       const isDragging = draggedItem === category.id;
@@ -743,8 +742,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                         </div>
                       );
                     })}
-                  </div>
-                </ScrollArea>
+                </div>
               </CardContent>
             </Card>
           </div>
