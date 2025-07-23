@@ -1,52 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Cozy Creative Native Mode - Warm, Paper-like Palette */
-  --background: hsl(32, 20%, 8%);               /* Deep warm brown-black */
-  --foreground: hsl(45, 15%, 92%);              /* Warm off-white */
-  --muted: hsl(35, 15%, 15%);                   /* Rich brown */
-  --muted-foreground: hsl(40, 12%, 70%);       /* Warm gray */
-  --popover: hsl(35, 18%, 12%);                /* Dark warm brown */
-  --popover-foreground: hsl(45, 15%, 92%);
-  --card: hsl(35, 18%, 12%);                   /* Dark warm brown */
-  --card-foreground: hsl(45, 15%, 92%);
-  --border: hsl(35, 15%, 20%);                 /* Subtle warm border */
-  --input: hsl(35, 15%, 15%);                  /* Input background */
-  --primary: hsl(32, 45%, 55%);                /* Warm amber/bronze */
-  --primary-foreground: hsl(32, 20%, 8%);
-  --secondary: hsl(35, 15%, 18%);              /* Secondary brown */
-  --secondary-foreground: hsl(45, 15%, 92%);
-  --accent: hsl(42, 35%, 65%);                 /* Golden accent */
-  --accent-foreground: hsl(32, 20%, 8%);
-  --destructive: hsl(0, 50%, 45%);             /* Muted red */
-  --destructive-foreground: hsl(45, 15%, 92%);
-  --ring: hsl(42, 35%, 65%);                   /* Golden ring */
-  --radius: 0.5rem;
+  /* Inspired by cozy writing interface - warmer, richer tones */
+  --background: hsl(25, 12%, 6%);              /* Deep chocolate brown */
+  --foreground: hsl(35, 8%, 88%);              /* Warm cream text */
+  --muted: hsl(28, 10%, 12%);                  /* Rich dark brown */
+  --muted-foreground: hsl(32, 6%, 65%);       /* Muted warm gray */
+  --popover: hsl(28, 12%, 10%);               /* Deep warm brown */
+  --popover-foreground: hsl(35, 8%, 88%);
+  --card: hsl(28, 12%, 10%);                  /* Deep warm brown */
+  --card-foreground: hsl(35, 8%, 88%);
+  --border: hsl(30, 8%, 18%);                 /* Subtle warm border */
+  --input: hsl(28, 10%, 12%);                 /* Input background */
+  --primary: hsl(35, 35%, 45%);               /* Warm caramel */
+  --primary-foreground: hsl(25, 12%, 6%);
+  --secondary: hsl(28, 10%, 16%);             /* Secondary brown */
+  --secondary-foreground: hsl(35, 8%, 88%);
+  --accent: hsl(38, 40%, 55%);                /* Golden honey */
+  --accent-foreground: hsl(25, 12%, 6%);
+  --destructive: hsl(0, 45%, 40%);            /* Muted red */
+  --destructive-foreground: hsl(35, 8%, 88%);
+  --ring: hsl(38, 40%, 55%);                  /* Golden ring */
+  --radius: 0.75rem;
   
   /* Creative palette extensions */
-  --paper: hsl(45, 25%, 95%);                  /* Warm paper white */
-  --ink: hsl(32, 15%, 15%);                    /* Rich ink dark */
-  --parchment: hsl(42, 30%, 88%);             /* Aged parchment */
-  --candlelight: hsl(42, 80%, 75%);           /* Warm golden glow */
-  --ember: hsl(15, 60%, 55%);                 /* Warm orange ember */
-  --sage: hsl(75, 20%, 45%);                  /* Muted sage green */
-  --leather: hsl(25, 35%, 35%);               /* Rich leather brown */
-  --brass: hsl(48, 45%, 60%);                 /* Brass metallic */
+  --paper: hsl(42, 20%, 94%);                 /* Warm paper white */
+  --ink: hsl(25, 15%, 12%);                   /* Rich ink dark */
+  --parchment: hsl(40, 25%, 86%);            /* Aged parchment */
+  --candlelight: hsl(40, 65%, 68%);          /* Warm golden glow */
+  --ember: hsl(18, 55%, 48%);                /* Warm orange ember */
+  --sage: hsl(72, 18%, 42%);                 /* Muted sage green */
+  --leather: hsl(22, 30%, 32%);              /* Rich leather brown */
+  --brass: hsl(45, 40%, 55%);                /* Brass metallic */
+  --coffee: hsl(25, 20%, 20%);               /* Rich coffee brown */
+  --caramel: hsl(35, 35%, 45%);              /* Caramel accent */
   
   /* Gradients for depth */
-  --gradient-candlelight: linear-gradient(135deg, hsl(42, 80%, 75%), hsl(32, 70%, 65%));
-  --gradient-ember: linear-gradient(135deg, hsl(15, 60%, 55%), hsl(25, 55%, 45%));
-  --gradient-paper: linear-gradient(180deg, hsl(45, 25%, 95%), hsl(42, 22%, 92%));
-  --gradient-leather: linear-gradient(135deg, hsl(25, 35%, 35%), hsl(20, 30%, 25%));
+  --gradient-candlelight: linear-gradient(135deg, hsl(40, 65%, 68%), hsl(35, 55%, 58%));
+  --gradient-ember: linear-gradient(135deg, hsl(18, 55%, 48%), hsl(22, 50%, 38%));
+  --gradient-paper: linear-gradient(180deg, hsl(42, 20%, 94%), hsl(40, 18%, 90%));
+  --gradient-leather: linear-gradient(135deg, hsl(22, 30%, 32%), hsl(18, 25%, 22%));
+  --gradient-warm: linear-gradient(135deg, hsl(25, 12%, 8%), hsl(28, 15%, 6%));
   
   /* Texture and atmosphere */
-  --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='40' cy='40' r='1'/%3E%3C/g%3E%3C/svg%3E");
-  --shadow-warm: 0 4px 20px hsla(25, 30%, 10%, 0.3);
-  --shadow-glow: 0 0 20px hsla(42, 80%, 75%, 0.1);
+  --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.015'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='25' cy='18' r='0.5'/%3E%3Ccircle cx='45' cy='35' r='1'/%3E%3Ccircle cx='15' cy='45' r='0.5'/%3E%3C/g%3E%3C/svg%3E");
+  --shadow-warm: 0 8px 32px hsla(22, 30%, 8%, 0.4);
+  --shadow-glow: 0 0 24px hsla(40, 65%, 68%, 0.08);
+  --shadow-soft: 0 4px 16px hsla(25, 20%, 10%, 0.25);
 }
 
 .dark {
@@ -78,48 +82,72 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    background-image: var(--texture-paper);
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    background: var(--gradient-warm);
+    background-attachment: fixed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
   }
   
-  /* Typography hierarchy for literary feel */
+  /* Typography hierarchy for modern literary feel */
   .font-serif {
-    font-family: 'Source Serif Pro', serif;
+    font-family: 'Source Serif 4', 'Georgia', serif;
   }
   
   .font-literary {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Source Serif 4', 'Georgia', serif;
+    font-optical-sizing: auto;
   }
   
   .font-title {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Playfair Display', 'Georgia', serif;
     font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .font-display {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  
+  .font-sans {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 
 @layer components {
-  /* Cozy Creative Components */
+  /* Modern Cozy Creative Components */
   .creative-card {
-    @apply bg-card border border-border rounded-lg;
-    background: linear-gradient(135deg, hsl(35, 18%, 12%), hsl(35, 15%, 10%));
+    @apply bg-card border border-border rounded-xl;
+    background: linear-gradient(135deg, hsl(28, 12%, 11%), hsl(25, 10%, 9%));
     box-shadow: var(--shadow-warm);
+    backdrop-filter: blur(8px);
   }
   
   .paper-surface {
     background: var(--gradient-paper);
     color: var(--ink);
-    box-shadow: 0 2px 10px hsla(25, 30%, 10%, 0.2);
+    box-shadow: var(--shadow-soft);
+    border-radius: 0.75rem;
   }
   
   .candlelight-glow {
     background: var(--gradient-candlelight);
     box-shadow: var(--shadow-glow);
+    color: hsl(25, 12%, 6%);
   }
   
   .ember-accent {
     background: var(--gradient-ember);
-    color: hsl(45, 15%, 92%);
+    color: hsl(35, 8%, 88%);
+  }
+  
+  .caramel-warm {
+    background: linear-gradient(135deg, var(--caramel), hsl(32, 30%, 40%));
+    color: hsl(35, 8%, 88%);
   }
   
   .leather-texture {

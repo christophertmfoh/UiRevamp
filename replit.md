@@ -1,8 +1,17 @@
-# World Crafter Creative Suite
+# Story Weaver Creative Suite
 
 ## Overview
 
-World Crafter is a comprehensive AI-integrated creative suite designed to take creators from initial idea to final video output. The application provides a complete pipeline for creative content development: idea brainstorming → world building → outlining → manuscript writing → storyboarding → pre-visualization → scoring → final video output. This full-stack application serves writers, screenwriters, and content creators who want an all-in-one solution for their creative projects.
+Story Weaver is a comprehensive AI-integrated creative suite designed to take creators from initial idea to final video output. The application provides a complete pipeline for creative content development: idea brainstorming → world building → outlining → manuscript writing → storyboarding → pre-visualization → scoring → final video output. This full-stack application serves writers, screenwriters, and content creators who want an all-in-one solution for their creative projects.
+
+## Recent Changes (Latest: July 23, 2025)
+
+### Major UI/UX Redesign Complete
+- **Typography Overhaul**: Implemented modern, comfortable font hierarchy using Playfair Display for headings and Source Serif 4 for body text
+- **Color Scheme Update**: Adopted warmer, cozy color palette inspired by writing interfaces - deep chocolate browns, caramel accents, and golden highlights
+- **Landing Page Redesign**: Complete rebuild with "Story Weaver" branding, "weave your worlds" tagline, and "From Spark to Story" concept
+- **Database Integration**: Successfully migrated from localStorage to PostgreSQL with comprehensive schema for all creative elements
+- **Landing Page Structure**: Clean separation between landing and app functionality, includes story idea generator and feature showcase
 
 ## User Preferences
 
@@ -56,9 +65,9 @@ Preferred communication style: Simple, everyday language.
 ## Data Flow
 
 ### Project Data Management
-1. **Local Storage**: Projects stored in browser localStorage for development/demo
-2. **Database Sync**: Future PostgreSQL integration for persistent storage
-3. **Auto-Save**: Debounced save system to prevent data loss
+1. **PostgreSQL Database**: Projects stored in Neon serverless PostgreSQL database for persistent storage
+2. **API Integration**: RESTful API with React Query for efficient data fetching and caching
+3. **Auto-Save**: Debounced save system with database persistence
 4. **Import/Export**: Support for manuscript imports (DOCX, PDF, TXT)
 
 ### AI Request Pipeline

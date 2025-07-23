@@ -1,195 +1,270 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Feather, Lightbulb, Users, Wand2, FileText, Upload, Sparkles } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { 
+  Zap, 
+  BookOpen, 
+  Users, 
+  MapPin, 
+  Scroll, 
+  Edit3, 
+  Clapperboard, 
+  Eye, 
+  Music,
+  ArrowRight,
+  Sparkles,
+  Globe,
+  Target,
+  Palette
+} from 'lucide-react';
 
 interface LandingPageProps {
   onNavigate: (view: string) => void;
   onNewProject: () => void;
   onUploadManuscript: () => void;
   guideMode: boolean;
-  setGuideMode: (enabled: boolean) => void;
+  setGuideMode: (mode: boolean) => void;
 }
 
-export function LandingPage({ onNavigate, onNewProject, onUploadManuscript, guideMode, setGuideMode }: LandingPageProps) {
+const features = [
+  {
+    icon: Sparkles,
+    title: "Brainstorm",
+    description: "Generate endless story ideas with AI-powered creative assistance and narrative inspiration.",
+    color: "candlelight-glow"
+  },
+  {
+    icon: Globe,
+    title: "World Bible",
+    description: "Build comprehensive universes with characters, locations, factions, items, and deep lore systems.",
+    color: "ember-accent"
+  },
+  {
+    icon: Target,
+    title: "Outline",
+    description: "Structure your narrative with classic story beats, three-act structure, or custom frameworks.",
+    color: "caramel-warm"
+  },
+  {
+    icon: Edit3,
+    title: "Manuscript",
+    description: "Write novels and screenplays with AI assistance, formatting tools, and seamless revision tracking.",
+    color: "leather-texture"
+  },
+  {
+    icon: Clapperboard,
+    title: "Storyboard",
+    description: "Visualize scenes and sequences with collaborative storyboarding and scene planning tools.",
+    color: "candlelight-glow"
+  },
+  {
+    icon: Eye,
+    title: "Pre-Visualization",
+    description: "Create 3D scene previews, camera movements, and visual narrative planning.",
+    color: "ember-accent"
+  },
+  {
+    icon: Music,
+    title: "Score & Audio",
+    description: "Integrate music, sound effects, and audio elements to complete your multimedia story.",
+    color: "caramel-warm"
+  }
+];
+
+export function LandingPage({ 
+  onNavigate, 
+  onNewProject, 
+  onUploadManuscript, 
+  guideMode, 
+  setGuideMode 
+}: LandingPageProps) {
+  const [storyIdea, setStoryIdea] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerateStoryIdea = async () => {
+    if (!storyIdea.trim()) return;
+    
+    setIsGenerating(true);
+    // TODO: Implement AI story generation
+    setTimeout(() => {
+      setIsGenerating(false);
+      // Navigate to project creation with generated idea
+      onNewProject();
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="creative-card mb-8 p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="candlelight-glow rounded-lg p-3">
-              <Feather className="h-8 w-8 text-ink" />
+      <header className="relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/50"></div>
+        <div className="relative container mx-auto px-6 py-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 candlelight-glow rounded-xl flex items-center justify-center">
+                <BookOpen className="h-6 w-6" />
+              </div>
+              <div>
+                <h1 className="font-display text-2xl text-foreground">Story Weaver</h1>
+                <p className="text-sm text-muted-foreground font-literary">weave your worlds</p>
+              </div>
             </div>
-            <div>
-              <h1 className="font-title text-3xl text-foreground">World Crafter</h1>
-              <p className="text-muted-foreground">Creative Suite for Storytellers</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button
-              variant={guideMode ? "default" : "outline"}
-              size="sm"
-              onClick={() => setGuideMode(!guideMode)}
-              className={guideMode ? "candlelight-glow" : ""}
+            <Button 
+              variant="outline" 
+              onClick={() => onNavigate('projects')}
+              className="creative-card hover:candlelight-glow transition-all duration-300"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
-              AI Guide {guideMode ? 'On' : 'Off'}
-            </Button>
-            <Button onClick={() => onNavigate('projects')} variant="outline" className="interactive-warm">
-              <BookOpen className="h-4 w-4 mr-2" />
               Your Projects
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-6">
-        {/* Hero Section */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h2 className="font-title text-5xl mb-6 text-foreground">
-            From Spark to Story
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8 font-literary">
-            A complete creative pipeline that guides you through world-building, outlining, 
-            writing, and bringing your stories to life across any medium.
-          </p>
-          
-          {/* Pipeline Visualization */}
-          <div className="flex justify-center items-center space-x-4 mb-8">
-            {[
-              { icon: Lightbulb, label: 'World Bible', desc: 'Build your universe' },
-              { icon: FileText, label: 'Outline', desc: 'Structure your story' },
-              { icon: Feather, label: 'Manuscript', desc: 'Write your tale' },
-              { icon: Users, label: 'Storyboard', desc: 'Visualize scenes' }
-            ].map((step, index) => (
-              <div key={step.label} className="flex items-center">
-                <div className="pipeline-step creative-card p-4 text-center interactive-warm">
-                  <step.icon className="h-6 w-6 mx-auto mb-2 text-accent" />
-                  <div className="font-medium text-sm text-foreground">{step.label}</div>
-                  <div className="text-xs text-muted-foreground">{step.desc}</div>
-                  {guideMode && (
-                    <div className="guide-hint">{step.desc}</div>
-                  )}
-                </div>
-                {index < 3 && (
-                  <div className="w-8 h-px bg-border mx-2"></div>
-                )}
-              </div>
-            ))}
+      {/* Hero Section */}
+      <section className="container mx-auto px-6 py-16">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div className="space-y-4">
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <Zap className="h-8 w-8 text-accent" />
+              <span className="font-display text-xl text-accent">From Spark to Story</span>
+            </div>
+            
+            <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foreground leading-tight">
+              The Complete
+              <span className="block text-accent">Creative Pipeline</span>
+            </h2>
+            
+            <p className="font-literary text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Transform fleeting ideas into rich, immersive worlds. From initial brainstorming to final production, 
+              Story Weaver guides you through every step of the creative journey with AI-powered tools and 
+              professional storytelling frameworks.
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-          <Card className="creative-card interactive-warm animate-slide-up">
-            <CardHeader>
-              <CardTitle className="flex items-center font-title">
-                <Wand2 className="h-5 w-5 mr-2 text-accent" />
-                Start Fresh
-              </CardTitle>
-              <CardDescription>
-                Begin a new creative project with AI-powered assistance
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={onNewProject} className="w-full candlelight-glow">
-                <Feather className="h-4 w-4 mr-2" />
-                Create New Project
-              </Button>
-              {guideMode && (
-                <div className="guide-hint">Perfect for new stories and ideas</div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card className="creative-card interactive-warm animate-slide-up">
-            <CardHeader>
-              <CardTitle className="flex items-center font-title">
-                <Upload className="h-5 w-5 mr-2 text-accent" />
-                Import Existing
-              </CardTitle>
-              <CardDescription>
-                Bring your existing manuscript into the creative suite
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={onUploadManuscript} variant="outline" className="w-full">
-                <FileText className="h-4 w-4 mr-2" />
-                Upload Manuscript
-              </Button>
-              {guideMode && (
-                <div className="guide-hint">Supports DOCX, PDF, and TXT files</div>
-              )}
-            </CardContent>
+      {/* Story Idea Generator */}
+      <section className="container mx-auto px-6 py-16">
+        <div className="max-w-2xl mx-auto">
+          <Card className="creative-card p-8">
+            <div className="text-center space-y-6">
+              <div className="space-y-2">
+                <h3 className="font-title text-2xl text-foreground">Generate Your Story Idea</h3>
+                <p className="text-muted-foreground font-literary">
+                  Start your creative journey with an AI-generated story concept
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <Input
+                  placeholder="Describe your story idea, genre, or theme..."
+                  value={storyIdea}
+                  onChange={(e) => setStoryIdea(e.target.value)}
+                  className="creative-card text-lg py-3"
+                />
+                <Button 
+                  onClick={handleGenerateStoryIdea}
+                  disabled={!storyIdea.trim() || isGenerating}
+                  className="w-full candlelight-glow text-lg py-3"
+                >
+                  {isGenerating ? (
+                    <>
+                      <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                      Weaving Your Story...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="mr-2 h-5 w-5" />
+                      Generate Story Idea
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
           </Card>
         </div>
+      </section>
 
-        {/* Features Showcase */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {[
-            {
-              title: 'World Bible',
-              description: 'Characters, locations, factions, items, and more in one organized system',
-              icon: BookOpen,
-              features: ['Character Development', 'Location Mapping', 'Faction Politics', 'Magic Systems']
-            },
-            {
-              title: 'Smart Outlining',
-              description: 'Structure your story with proven frameworks or create your own',
-              icon: FileText,
-              features: ['15-Beat Structure', 'Three-Act Format', 'Custom Templates', 'Scene Planning']
-            },
-            {
-              title: 'AI Integration',
-              description: 'Intelligent assistance that understands your creative vision',
-              icon: Sparkles,
-              features: ['Context-Aware Help', 'Character Insights', 'Plot Suggestions', 'Consistency Checks']
-            }
-          ].map((feature, index) => (
-            <Card key={feature.title} className="creative-card interactive-warm animate-slide-up">
-              <CardHeader>
-                <CardTitle className="flex items-center font-title">
-                  <feature.icon className="h-5 w-5 mr-2 text-accent" />
-                  {feature.title}
-                </CardTitle>
-                <CardDescription className="font-literary">
-                  {feature.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {feature.features.map(feat => (
-                    <Badge key={feat} variant="secondary" className="mr-2 mb-2">
-                      {feat}
-                    </Badge>
-                  ))}
-                </div>
-                {guideMode && (
-                  <div className="guide-hint">Click to explore this feature</div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+      {/* Features Grid */}
+      <section className="container mx-auto px-6 py-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center space-y-4 mb-16">
+            <h3 className="font-display text-4xl text-foreground">Your Creative Toolkit</h3>
+            <p className="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
+              Every tool you need to bring your stories to life, from concept to completion
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <Card key={index} className="creative-card group hover:scale-105 transition-all duration-300">
+                  <CardHeader className="space-y-4">
+                    <div className={`w-12 h-12 ${feature.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="font-title text-xl text-foreground">
+                      {feature.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="font-literary text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
+      </section>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16 mb-8">
-          <p className="text-muted-foreground mb-6 font-literary">
-            Ready to craft your world?
-          </p>
-          <div className="flex justify-center space-x-4">
-            <Button onClick={onNewProject} size="lg" className="candlelight-glow font-title">
+      {/* Call to Action */}
+      <section className="container mx-auto px-6 py-20">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div className="space-y-4">
+            <h3 className="font-display text-4xl text-foreground">Begin Your Journey</h3>
+            <p className="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
+              Join storytellers worldwide in crafting the next generation of immersive narratives
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              onClick={onNewProject}
+              size="lg"
+              className="candlelight-glow text-lg px-8 py-4 min-w-[200px]"
+            >
+              <BookOpen className="mr-2 h-5 w-5" />
               Begin Your Journey
             </Button>
-            <Button onClick={() => onNavigate('projects')} variant="outline" size="lg" className="interactive-warm">
+            <Button 
+              onClick={() => onNavigate('projects')}
+              variant="outline"
+              size="lg"
+              className="creative-card hover:candlelight-glow transition-all duration-300 text-lg px-8 py-4 min-w-[200px]"
+            >
+              <ArrowRight className="mr-2 h-5 w-5" />
               View Your Projects
             </Button>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/50 py-12">
+        <div className="container mx-auto px-6">
+          <div className="text-center">
+            <p className="text-muted-foreground font-literary">
+              Crafted for storytellers, by storytellers
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
