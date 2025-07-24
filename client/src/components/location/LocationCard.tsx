@@ -1,7 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, MapPin, ChevronRight } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Edit, Trash2, MapPin, ChevronRight, MoreVertical, Edit2, Camera } from 'lucide-react';
 import type { Location } from '@/lib/types';
 
 interface LocationCardProps {
@@ -9,15 +10,16 @@ interface LocationCardProps {
   onSelect: (location: Location) => void;
   onEdit: (location: Location) => void;
   onDelete: (location: Location) => void;
+  onManageImages?: (location: Location) => void;
 }
 
-export function LocationCard({ location, onSelect, onEdit, onDelete }: LocationCardProps) {
+export function LocationCard({ location, onSelect, onEdit, onDelete, onManageImages }: LocationCardProps) {
   return (
     <Card className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => onSelect(location)}>
       <CardContent className="p-6">
         <div className="flex items-start gap-6">
           {/* Location Avatar */}
-          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-emerald-100 to-teal-200 dark:from-emerald-900/30 dark:to-teal-900/30 flex items-center justify-center flex-shrink-0">
+          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
             {location.imageUrl ? (
               <img 
                 src={location.imageUrl} 
@@ -25,7 +27,7 @@ export function LocationCard({ location, onSelect, onEdit, onDelete }: LocationC
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <MapPin className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
+              <MapPin className="h-10 w-10 text-amber-600 dark:text-amber-400" />
             )}
           </div>
 
@@ -75,32 +77,51 @@ export function LocationCard({ location, onSelect, onEdit, onDelete }: LocationC
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEdit(location);
-                  }}
-                  className="h-8 w-8 p-0"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(location);
-                  }}
-                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
+              {/* Action Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(location);
+                    }}
+                  >
+                    <Edit2 className="h-4 w-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  {onManageImages && (
+                    <DropdownMenuItem 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onManageImages(location);
+                      }}
+                    >
+                      <Camera className="h-4 w-4 mr-2" />
+                      Manage Images
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(location);
+                    }}
+                    className="text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

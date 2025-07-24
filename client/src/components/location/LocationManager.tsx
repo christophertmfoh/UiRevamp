@@ -245,7 +245,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
                 <div className="flex items-start gap-4">
                   {/* Location Image - Clickable */}
                   <div 
-                    className="w-16 h-16 rounded-lg bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
+                    className="w-16 h-16 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
                     onClick={(e) => {
                       e.stopPropagation();
                       setPortraitLocation(location);
@@ -259,7 +259,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
                         className="w-full h-full object-cover rounded-lg"
                       />
                     ) : (
-                      <MapPin className="h-8 w-8 text-green-600 dark:text-green-400" />
+                      <MapPin className="h-8 w-8 text-amber-600 dark:text-amber-400" />
                     )}
                     
                     {/* Hover overlay */}
