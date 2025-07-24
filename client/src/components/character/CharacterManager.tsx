@@ -71,8 +71,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   });
 
   const createCharacterMutation = useMutation({
-    mutationFn: (character: Partial<Character>) => 
-      apiRequest('POST', `/api/projects/${projectId}/characters`, character),
+    mutationFn: async (character: Partial<Character>) => {
+      console.log('Mutation: Creating character with data:', character);
+      const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, character);
+      console.log('Mutation: Received response:', response);
+      const result = await response.json();
+      console.log('Mutation: Parsed JSON:', result);
+      return result;
+    },
     onSuccess: (newCharacter: Character) => {
       console.log('Character created successfully, setting as selected:', newCharacter);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });

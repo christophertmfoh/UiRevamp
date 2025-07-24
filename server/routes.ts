@@ -211,6 +211,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const character = await storage.createCharacter(characterData);
       console.log('Character created in database:', JSON.stringify(character, null, 2));
       
+      // Check if character is properly returned from database
+      if (!character) {
+        console.error('No character returned from database');
+        return res.status(500).json({ error: 'Failed to create character - no data returned' });
+      }
+      
+      console.log('Raw character from database:', character);
+      console.log('Character keys:', Object.keys(character));
+      
       // Ensure we return a clean character object without any undefined values that might cause serialization issues
       const cleanCharacter = {
         ...character,
