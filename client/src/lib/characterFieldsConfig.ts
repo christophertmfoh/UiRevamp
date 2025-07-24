@@ -157,3 +157,14 @@ export function getFieldConfig(key: string): FieldConfig | undefined {
   }
   return undefined;
 }
+
+// Icon mapping for components
+export const ICON_MAP = {
+  User: 'User',
+  Eye: 'Eye', 
+  Brain: 'Brain',
+  Zap: 'Zap',
+  BookOpen: 'BookOpen',
+  Users: 'Users',
+  PenTool: 'PenTool',
+};

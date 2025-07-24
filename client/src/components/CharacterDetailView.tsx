@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Character } from '../lib/types';
 import { CharacterFormExpanded } from './CharacterFormExpanded';
-import { CharacterDetailAccordion } from './CharacterDetailAccordion';
+import { CharacterUnifiedView } from './CharacterUnifiedView';
 
 interface CharacterDetailViewProps {
   projectId: string;
@@ -44,13 +44,12 @@ export function CharacterDetailView({
     );
   }
 
-  // Use the new accordion-based detail view
+  // Use the new unified view that combines editor and viewer
   return (
-    <CharacterDetailAccordion
+    <CharacterUnifiedView
       projectId={projectId}
       character={character}
       onBack={onBack}
-      onEdit={() => setIsEditing(true)}
       onDelete={onDelete}
     />
   );
