@@ -145,6 +145,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         name: generatedCharacter.name || `Generated ${options.characterType || 'Character'}`
       };
       
+      console.log('Creating character with data:', characterToCreate);
+      
       // Create the character - this will automatically open it in the editor on success
       createCharacterMutation.mutate(characterToCreate);
       

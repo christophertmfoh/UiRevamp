@@ -43,22 +43,22 @@ export async function generateContextualCharacter(
 Your response must be valid JSON in this exact format:
 {
   "name": "Character Name",
-  "title": "Character Title or Epithet",
+  "title": "Character Title or Epithet", 
   "role": "protagonist/antagonist/supporting/etc",
   "class": "Character Class or Profession",
-  "age": "Character Age",
+  "age": "25",
   "race": "Character Race/Species",
   "oneLine": "One-sentence character description",
-  "description": "Detailed physical description",
-  "personality": "Personality traits and quirks",
-  "backstory": "Character's background and history",
-  "motivations": "What drives this character",
-  "goals": "What they want to achieve",
-  "fears": "What they're afraid of",
-  "flaws": "Character weaknesses and flaws",
-  "secrets": "Hidden aspects of the character",
-  "skills": "Abilities and talents",
-  "equipment": "Notable possessions or gear"
+  "description": "Detailed physical description including height, build, distinctive features, clothing style, and any notable characteristics",
+  "personality": "Detailed personality traits, quirks, mannerisms, speech patterns, and behavioral tendencies", 
+  "backstory": "Rich background history explaining how they became who they are today",
+  "motivations": "Deep driving forces and core desires that compel their actions",
+  "goals": "Specific short-term and long-term objectives they want to achieve",
+  "fears": "What terrifies them most, both rational and irrational fears",
+  "flaws": "Character weaknesses, blind spots, and negative traits that create conflict",
+  "secrets": "Hidden aspects, past events, or knowledge they don't want others to discover",
+  "skills": "Specific abilities, talents, training, and areas of expertise",
+  "equipment": "Notable possessions, tools, weapons, or gear they carry or own"
 }
 
 ${projectContext}`;
@@ -80,7 +80,36 @@ ${projectContext}`;
     const generatedData = JSON.parse(jsonMatch[0]);
     console.log('Server: Parsed character data successfully');
     
-    return generatedData;
+    // Ensure the data matches our schema expectations
+    const processedData = {
+      name: generatedData.name || 'Generated Character',
+      title: generatedData.title || '',
+      role: generatedData.role || 'supporting',
+      class: generatedData.class || '',
+      age: generatedData.age ? String(generatedData.age) : '',
+      race: generatedData.race || '',
+      oneLine: generatedData.oneLine || '',
+      description: generatedData.description || '',
+      personality: generatedData.personality || '',
+      background: generatedData.backstory || '', // Map backstory to background field
+      motivations: generatedData.motivations || '',
+      goals: generatedData.goals || '',
+      fears: generatedData.fears || '',
+      flaws: generatedData.flaws || '',
+      weaknesses: generatedData.flaws || '', // Also map to weaknesses field
+      secrets: generatedData.secrets || '',
+      skills: generatedData.skills || '',
+      equipment: generatedData.equipment || '',
+      // Physical appearance fields from description
+      physicalDescription: generatedData.description || '',
+      // Ensure required fields are present
+      imageUrl: null,
+      relationships: [],
+      notes: ''
+    };
+    
+    console.log('Server: Processed character data:', processedData);
+    return processedData;
   } catch (error) {
     console.error('Server: Error generating character:', error);
     throw new Error('Failed to generate character. Please try again.');
