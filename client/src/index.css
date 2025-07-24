@@ -4,8 +4,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* GLOBAL SCROLLBAR OVERRIDE - ABSOLUTE PRIORITY */
-/* Target the main document scrollbar first */
+/* AGGRESSIVE MAIN BROWSER SCROLLBAR OVERRIDE */
+html {
+  scrollbar-width: thin !important;
+  scrollbar-color: #a0967d transparent !important;
+  overflow-y: scroll !important;
+}
+
+html::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: transparent !important;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+  border: none !important;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+body {
+  scrollbar-width: thin !important;
+  scrollbar-color: #a0967d transparent !important;
+}
+
+body::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: transparent !important;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+  border: none !important;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
+body::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Document level - most aggressive targeting */
 ::-webkit-scrollbar {
   width: 8px !important;
   height: 8px !important;
@@ -13,7 +72,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent !important;
+  background: transparent !important;  
 }
 
 ::-webkit-scrollbar-thumb {
@@ -30,13 +89,7 @@
   background: transparent !important;
 }
 
-/* Firefox scrollbar */
-html {
-  scrollbar-width: thin !important;
-  scrollbar-color: #a0967d transparent !important;
-}
-
-/* Universal selector for all internal elements */
+/* Universal selector for all other scrollable elements */
 * {
   scrollbar-width: thin !important;
   scrollbar-color: #a0967d transparent !important;
