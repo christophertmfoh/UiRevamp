@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Save, Shield, Target, Users, Zap, History, Settings } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { FACTION_SECTIONS } from '@/lib/factionConfig';
 import type { Faction } from '../../lib/types';
@@ -162,17 +162,7 @@ export function FactionFormExpanded({ projectId, onCancel, faction }: FactionFor
     }
   };
 
-  const getSectionIcon = (title: string) => {
-    switch (title) {
-      case 'Identity': return Shield;
-      case 'Goals & Methods': return Target;
-      case 'Organization': return Users;
-      case 'Power & Resources': return Zap;
-      case 'Relations & History': return History;
-      case 'Status & Meta': return Settings;
-      default: return Shield;
-    }
-  };
+  // Removed icon functionality to fix tab display issues
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -210,20 +200,16 @@ export function FactionFormExpanded({ projectId, onCancel, faction }: FactionFor
       {/* Form Content */}
       <Card className="p-6">
         <Tabs defaultValue="Identity" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
-            {FACTION_SECTIONS.map((section) => {
-              const IconComponent = getSectionIcon(section.title);
-              return (
-                <TabsTrigger 
-                  key={section.title} 
-                  value={section.title}
-                  className="flex items-center gap-2"
-                >
-                  <IconComponent className="h-4 w-4" />
-                  <span className="hidden sm:inline">{section.title}</span>
-                </TabsTrigger>
-              );
-            })}
+          <TabsList className="grid w-full grid-cols-6 bg-muted p-1 rounded-lg">
+            {FACTION_SECTIONS.map((section) => (
+              <TabsTrigger 
+                key={section.title} 
+                value={section.title}
+                className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+              >
+                {section.title}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           {FACTION_SECTIONS.map((section) => (
