@@ -4,7 +4,17 @@
 
 Story Weaver is a comprehensive AI-integrated creative suite designed to take creators from initial idea to final video output. The application provides a complete pipeline for creative content development: idea brainstorming → world building → outlining → manuscript writing → storyboarding → pre-visualization → scoring → final video output. This full-stack application serves writers, screenwriters, and content creators who want an all-in-one solution for their creative projects.
 
-## Recent Changes (Latest: July 23, 2025)
+## Recent Changes (Latest: July 24, 2025)
+
+### Character Portrait Management System Complete
+- **AI-Powered Portrait Generation**: Integrated Google Gemini 2.0 and OpenAI DALL-E 3 for character image generation
+- **Smart Prompt Generation**: Automatically creates detailed prompts from character data (race, physical description, attire, etc.)
+- **Dual Engine Support**: Gemini 2.0 as primary engine with OpenAI as backup option
+- **Manual Upload Support**: Direct image upload with file handling and preview
+- **Style Reference System**: Customizable style prompts for consistent artistic direction
+- **Train Model Foundation**: UI framework ready for future character consistency ML training
+- **Clickable Image Interface**: Both character detail view and list view images open portrait modal on click
+- **Real-time Updates**: Generated/uploaded images immediately update character profiles with cache invalidation
 
 ### World Bible Implementation Complete
 - **Comprehensive Database Schema**: Added 8 new tables for all world bible categories (organizations, magic systems, timeline events, creatures, languages, cultures, prophecies, themes)

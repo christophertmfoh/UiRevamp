@@ -27,7 +27,7 @@ export function CharacterPortraitModal({
   onImageUploaded
 }: CharacterPortraitModalProps) {
   const [activeTab, setActiveTab] = useState('generate');
-  const [aiEngine, setAiEngine] = useState('openai');
+  const [aiEngine, setAiEngine] = useState('gemini');
   const [stylePrompt, setStylePrompt] = useState('digital art, fantasy character portrait, detailed face, professional lighting');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -149,13 +149,13 @@ export function CharacterPortraitModal({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="openai">OpenAI DALL-E 3</SelectItem>
-                          <SelectItem value="gemini">Gemini (Coming Soon)</SelectItem>
+                          <SelectItem value="gemini">Google Gemini 2.0 ✨</SelectItem>
+                          <SelectItem value="openai">OpenAI DALL-E 3 (Limited)</SelectItem>
                           <SelectItem value="midjourney">Midjourney (Coming Soon)</SelectItem>
                         </SelectContent>
                       </Select>
                       <p className="text-xs text-muted-foreground mt-1">
-                        More AI engines will be available soon
+                        Gemini 2.0 is recommended for best results and availability
                       </p>
                     </div>
 
