@@ -83,62 +83,50 @@ export function CharacterCreationLaunch({
               return (
                 <Card 
                   key={option.id}
-                  className={`group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-transparent hover:border-accent/60 bg-gradient-to-br from-amber-50/10 via-orange-50/10 to-yellow-50/5 backdrop-blur-sm relative overflow-hidden ${
-                    isSelected ? 'scale-105 shadow-2xl border-accent/80' : ''
+                  className={`group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-transparent hover:border-accent bg-gradient-to-br from-accent via-accent/90 to-accent/80 backdrop-blur-sm relative overflow-hidden ${
+                    isSelected ? 'scale-105 shadow-2xl border-accent' : ''
                   }`}
                   onClick={() => handleOptionSelect(option.id, option.action)}
                 >
                   <CardContent className="p-6 relative h-full flex flex-col">
                     {/* Warm glow effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400/5 via-amber-300/5 to-yellow-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-accent/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                     
                     {/* Icon */}
-                    <div className="relative mb-4">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500/20 to-orange-400/15 rounded-2xl flex items-center justify-center transition-transform duration-300 shadow-lg border border-amber-400/20">
-                        <Icon className="h-8 w-8 text-amber-600" />
+                    <div className="relative mb-6">
+                      <div className="w-20 h-20 mx-auto bg-gradient-to-br from-accent-foreground/20 to-accent-foreground/10 rounded-2xl flex items-center justify-center transition-transform duration-300 shadow-lg border border-accent-foreground/30">
+                        <Icon className="h-10 w-10 text-accent-foreground" />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="relative text-center space-y-4 flex-1 flex flex-col">
+                    <div className="relative text-center space-y-4 flex-1">
                       <div>
-                        <h3 className="font-bold text-xl mb-2 text-foreground">
+                        <h3 className="font-bold text-xl mb-3 text-accent-foreground">
                           {option.title}
                         </h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
+                        <p className="text-accent-foreground/80 text-sm leading-relaxed mb-4">
                           {option.description}
                         </p>
                       </div>
 
                       {/* Features */}
-                      <div className="space-y-2 flex-1">
+                      <div className="space-y-2">
                         {option.features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <div className="w-1.5 h-1.5 bg-amber-500/70 rounded-full" />
+                          <div key={index} className="flex items-center gap-2 text-xs text-accent-foreground/70">
+                            <div className="w-1.5 h-1.5 bg-accent-foreground/60 rounded-full" />
                             <span>{feature}</span>
                           </div>
                         ))}
                       </div>
 
-                      {/* Action button - always at bottom */}
-                      <div className="mt-6">
-                        <Button 
-                          className="w-full bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 border-0"
-                          disabled={isSelected}
-                        >
-                          {isSelected ? (
-                            <>
-                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                              Loading...
-                            </>
-                          ) : (
-                            <>
-                              <Icon className="h-4 w-4 mr-2" />
-                              Choose This
-                            </>
-                          )}
-                        </Button>
-                      </div>
+                      {/* Loading indicator */}
+                      {isSelected && (
+                        <div className="mt-4 flex items-center justify-center gap-2 text-accent-foreground/70">
+                          <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
+                          <span className="text-sm">Loading...</span>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
