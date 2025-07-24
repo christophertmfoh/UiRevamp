@@ -73,7 +73,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
         ...location,
         projectId,
       });
-      return response as Location;
+      return response as unknown as Location;
     },
     onSuccess: (newLocation: Location) => {
       console.log('Mutation: Location created successfully:', newLocation);

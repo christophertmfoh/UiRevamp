@@ -178,9 +178,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateLocation(id: string, location: Partial<InsertLocation>): Promise<Location | undefined> {
+    // Filter out undefined/null values and empty arrays to prevent "No values to set" error
+    const cleanedLocation = Object.fromEntries(
+      Object.entries(location).filter(([key, value]) => {
+        if (value === undefined || value === null) return false;
+        if (Array.isArray(value) && value.length === 0) return false;
+        if (typeof value === 'string' && value.trim() === '') return false;
+        return true;
+      })
+    );
+
+    // If no valid values to update, return current location
+    if (Object.keys(cleanedLocation).length === 0) {
+      const [currentLocation] = await db.select().from(locations).where(eq(locations.id, id));
+      return currentLocation || undefined;
+    }
+
     const [updatedLocation] = await db
       .update(locations)
-      .set(location)
+      .set(cleanedLocation)
       .where(eq(locations.id, id))
       .returning();
     return updatedLocation || undefined;
