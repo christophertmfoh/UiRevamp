@@ -293,14 +293,13 @@ export function OrganizationUnifiedView({
                 onClick={() => setActiveTab(section.title.toLowerCase())}
                 className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
                   isActive 
-                    ? 'bg-gradient-to-r from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/30 text-amber-900 dark:text-amber-100 border border-amber-200 dark:border-amber-800' 
-                    : 'hover:bg-accent/50 text-muted-foreground hover:text-foreground'
+                    ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30' 
+                    : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {Icon && <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" />}
                 <div>
                   <div className="font-medium text-sm">{section.title}</div>
-                  <div className="text-xs opacity-75">{section.description}</div>
                 </div>
               </button>
             );
