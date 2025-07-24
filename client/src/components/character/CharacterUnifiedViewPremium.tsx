@@ -316,7 +316,43 @@ export function CharacterUnifiedViewPremium({
 
       {/* Premium Character Details */}
       <div className="max-w-7xl mx-auto p-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+        <div className="flex gap-8">
+          {/* Sidebar Navigation */}
+          <div className="w-64 flex-shrink-0">
+            <div className="sticky top-24 space-y-2">
+              {[
+                { id: 'identity', label: 'Identity', icon: User },
+                { id: 'appearance', label: 'Appearance', icon: Eye },
+                { id: 'personality', label: 'Personality', icon: Brain },
+                { id: 'abilities', label: 'Abilities', icon: Zap },
+                { id: 'background', label: 'Background', icon: BookOpen },
+                { id: 'relationships', label: 'Relationships', icon: Users },
+                { id: 'arcs', label: 'Character Arcs', icon: BookOpen },
+                { id: 'meta', label: 'Meta', icon: PenTool }
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                      isActive 
+                        ? 'bg-accent text-accent-foreground shadow-sm' 
+                        : 'hover:bg-accent/10 text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="font-medium">{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="grid w-full grid-cols-7 bg-muted/20 p-1 rounded-xl">
             <TabsTrigger value="identity" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <User className="h-4 w-4" />
