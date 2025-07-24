@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Location } from '../lib/types';
+import type { Location } from '@/lib/types';
 import { LocationFormExpanded } from './LocationFormExpanded';
 import { LocationUnifiedView } from './LocationUnifiedView';
 
@@ -8,8 +8,8 @@ interface LocationDetailViewProps {
   location: Location | null;
   isCreating?: boolean;
   onBack: () => void;
+  onEdit: (location: Location) => void;
   onDelete: (location: Location) => void;
-  onImageRequest?: (location: Location) => void;
 }
 
 export function LocationDetailView({ 
@@ -17,8 +17,8 @@ export function LocationDetailView({
   location, 
   isCreating = false, 
   onBack, 
-  onDelete,
-  onImageRequest
+  onEdit, 
+  onDelete 
 }: LocationDetailViewProps) {
   const [isEditing, setIsEditing] = useState(isCreating);
   
@@ -44,7 +44,7 @@ export function LocationDetailView({
     );
   }
 
-  // Use the new unified view that combines editor and viewer
+  // Use the unified view that combines editor and viewer
   return (
     <LocationUnifiedView
       projectId={projectId}

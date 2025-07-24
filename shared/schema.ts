@@ -248,14 +248,129 @@ export const characters = pgTable("characters", {
 export const locations = pgTable("locations", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  
+  // Identity & Basics
   name: text("name").notNull(),
+  nicknames: text("nicknames").default(''),
+  aliases: text("aliases").default(''),
+  locationType: text("location_type").default(''),
+  classification: text("classification").default(''),
+  size: text("size").default(''),
+  status: text("status").default(''),
+  
+  // Core Fields (backward compatibility)
   description: text("description").default(''),
   history: text("history").default(''),
   significance: text("significance").default(''),
   atmosphere: text("atmosphere").default(''),
+  
+  // Geographic & Physical
+  physicalDescription: text("physical_description").default(''),
+  geography: text("geography").default(''),
+  terrain: text("terrain").default(''),
+  climate: text("climate").default(''),
+  weather: text("weather").default(''),
+  seasons: text("seasons").default(''),
+  naturalFeatures: text("natural_features").default(''),
+  landmarks: text("landmarks").default(''),
+  boundaries: text("boundaries").default(''),
+  coordinates: text("coordinates").default(''),
+  elevation: text("elevation").default(''),
+  area: text("area").default(''),
+  
+  // Atmosphere & Environment
+  mood: text("mood").default(''),
+  ambiance: text("ambiance").default(''),
+  sounds: text("sounds").default(''),
+  smells: text("smells").default(''),
+  lighting: text("lighting").default(''),
+  colors: text("colors").default(''),
+  temperature: text("temperature").default(''),
+  airQuality: text("air_quality").default(''),
+  visibility: text("visibility").default(''),
+  
+  // Architecture & Structures
+  architecture: text("architecture").default(''),
+  buildings: text("buildings").default(''),
+  structures: text("structures").default(''),
+  materials: text("materials").default(''),
+  construction: text("construction").default(''),
+  layout: text("layout").default(''),
+  districts: text("districts").default(''),
+  neighborhoods: text("neighborhoods").default(''),
+  infrastructure: text("infrastructure").default(''),
+  fortifications: text("fortifications").default(''),
+  defenses: text("defenses").default(''),
+  
+  // Society & Culture
+  population: text("population").default(''),
+  demographics: text("demographics").default(''),
+  inhabitants: text("inhabitants").default(''),
+  culture: text("culture").default(''),
+  customs: text("customs").default(''),
+  traditions: text("traditions").default(''),
+  languages: text("languages").array().default([]),
+  religion: text("religion").default(''),
+  beliefs: text("beliefs").default(''),
+  festivals: text("festivals").default(''),
+  celebrations: text("celebrations").default(''),
+  socialStructure: text("social_structure").default(''),
+  governance: text("governance").default(''),
+  leadership: text("leadership").default(''),
+  laws: text("laws").default(''),
+  justice: text("justice").default(''),
+  
+  // Politics & Power
+  politicalStatus: text("political_status").default(''),
+  allegiances: text("allegiances").default(''),
+  conflicts: text("conflicts").default(''),
+  tensions: text("tensions").default(''),
+  alliances: text("alliances").default(''),
+  enemies: text("enemies").default(''),
+  threats: text("threats").default(''),
+  
+  // Economy & Resources
+  economy: text("economy").default(''),
+  trade: text("trade").default(''),
+  commerce: text("commerce").default(''),
+  industry: text("industry").default(''),
+  resources: text("resources").default(''),
+  exports: text("exports").default(''),
+  imports: text("imports").default(''),
+  currency: text("currency").default(''),
+  wealth: text("wealth").default(''),
+  
+  // History & Lore (expanded)
+  origin: text("origin").default(''),
+  founding: text("founding").default(''),
+  pastEvents: text("past_events").default(''),
+  historicalFigures: text("historical_figures").default(''),
+  legends: text("legends").default(''),
+  myths: text("myths").default(''),
+  folklore: text("folklore").default(''),
+  
+  // Story & Narrative
+  narrativeRole: text("narrative_role").default(''),
+  storyImportance: text("story_importance").default(''),
+  plotRelevance: text("plot_relevance").default(''),
+  scenes: text("scenes").default(''),
+  events: text("events").default(''),
+  encounters: text("encounters").default(''),
+  mysteries: text("mysteries").default(''),
+  secrets: text("secrets").default(''),
+  
+  // Development & Notes
   tags: text("tags").array().default([]),
+  notes: text("notes").default(''),
+  development: text("development").default(''),
+  inspiration: text("inspiration").default(''),
+  references: text("references").default(''),
+  
+  // Technical (Images & Display)
+  imageUrl: text("image_url").default(''),
   imageGallery: json("image_gallery").default([]),
   displayImageId: integer("display_image_id"),
+  
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

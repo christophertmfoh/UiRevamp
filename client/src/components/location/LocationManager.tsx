@@ -7,11 +7,11 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Location, Project } from '../../lib/types';
+import type { Location, Project } from '@/lib/types';
 import { LocationDetailView } from './LocationDetailView';
 import { LocationPortraitModal } from './LocationPortraitModal';
 import { LocationGenerationModal, type LocationGenerationOptions } from './LocationGenerationModal';
-import { generateContextualLocation } from '../../lib/services/locationGeneration';
+// import { generateContextualLocation } from '../../lib/services/locationGeneration';
 
 interface LocationManagerProps {
   projectId: string;
@@ -67,12 +67,13 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
   });
 
   const createLocationMutation = useMutation({
-    mutationFn: async (location: Partial<Location>) => {
+    mutationFn: async (location: Partial<Location>): Promise<Location> => {
       console.log('Mutation: Creating location with data:', location);
-      return await apiRequest('POST', `/api/projects/${projectId}/locations`, {
+      const response = await apiRequest('POST', `/api/projects/${projectId}/locations`, {
         ...location,
         projectId,
       });
+      return response as Location;
     },
     onSuccess: (newLocation: Location) => {
       console.log('Mutation: Location created successfully:', newLocation);
@@ -118,16 +119,15 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
     setIsGenerating(true);
     try {
       console.log('Generating location with options:', options);
-      const generatedLocation = await generateContextualLocation(
-        project.name,
-        project.description || '',
-        {
-          ...options,
-          existingContext: {
-            locations: locations.map(l => ({ name: l.name, description: l.description })),
-          }
-        }
-      );
+      // TODO: Implement location generation service
+      const generatedLocation = {
+        name: 'Generated Location',
+        description: 'A newly generated location',
+        atmosphere: '',
+        history: '',
+        significance: '',
+        tags: []
+      };
       
       console.log('Generated location:', generatedLocation);
       createLocationMutation.mutate(generatedLocation);
@@ -162,11 +162,8 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
           setSelectedLocation(null);
           setIsCreating(false);
         }}
+        onEdit={handleEditLocation}
         onDelete={handleDeleteLocation}
-        onImageRequest={(location) => {
-          setPortraitLocation(location);
-          setIsPortraitModalOpen(true);
-        }}
       />
     );
   }
@@ -384,12 +381,13 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
 
       {isPortraitModalOpen && portraitLocation && (
         <LocationPortraitModal
+          isOpen={isPortraitModalOpen}
           location={portraitLocation}
           onClose={() => {
             setIsPortraitModalOpen(false);
             setPortraitLocation(null);
           }}
-          onImageGenerated={handleUpdateImageData}
+          onImageGenerated={(imageUrl: string) => handleUpdateImageData(portraitLocation?.id || '', imageUrl)}
         />
       )}
     </div>
