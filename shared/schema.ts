@@ -426,17 +426,107 @@ export const items = pgTable("items", {
 export const organizations = pgTable("organizations", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  
+  // Identity
   name: text("name").notNull(),
   type: text("type").default(''),
   description: text("description").default(''),
+  mission: text("mission").default(''),
+  
+  // Purpose & Operations
   goals: text("goals").default(''),
-  methods: text("methods").default(''),
+  objectives: text("objectives").default(''),
+  services: text("services").default(''),
+  target_audience: text("target_audience").default(''),
+  activities: text("activities").default(''),
+  
+  // Organizational Structure
   leadership: text("leadership").default(''),
   structure: text("structure").default(''),
+  departments: text("departments").default(''),
+  membership: text("membership").default(''),
+  hierarchy: text("hierarchy").default(''),
+  roles_responsibilities: text("roles_responsibilities").default(''),
+  
+  // Resources & Operations
   resources: text("resources").default(''),
+  locations: text("locations").default(''),
+  facilities: text("facilities").default(''),
+  budget: text("budget").default(''),
+  funding_sources: text("funding_sources").default(''),
+  assets: text("assets").default(''),
+  equipment: text("equipment").default(''),
+  
+  // External Relations
   relationships: text("relationships").default(''),
+  partnerships: text("partnerships").default(''),
+  alliances: text("alliances").default(''),
+  competitors: text("competitors").default(''),
+  stakeholders: text("stakeholders").default(''),
+  reputation: text("reputation").default(''),
+  public_perception: text("public_perception").default(''),
+  
+  // Governance & Policy
+  governance_model: text("governance_model").default(''),
+  decision_making: text("decision_making").default(''),
+  policies: text("policies").default(''),
+  procedures: text("procedures").default(''),
+  regulations: text("regulations").default(''),
+  compliance: text("compliance").default(''),
+  
+  // Performance & Metrics
+  achievements: text("achievements").default(''),
+  milestones: text("milestones").default(''),
+  metrics: text("metrics").default(''),
+  performance_indicators: text("performance_indicators").default(''),
+  success_factors: text("success_factors").default(''),
+  challenges: text("challenges").default(''),
+  
+  // History & Development
+  history: text("history").default(''),
+  founding: text("founding").default(''),
+  evolution: text("evolution").default(''),
+  key_events: text("key_events").default(''),
+  transformations: text("transformations").default(''),
+  legacy: text("legacy").default(''),
+  
+  // Culture & Values
+  organizational_culture: text("organizational_culture").default(''),
+  values: text("values").array().default([]),
+  principles: text("principles").default(''),
+  ethics: text("ethics").default(''),
+  code_of_conduct: text("code_of_conduct").default(''),
+  workplace_environment: text("workplace_environment").default(''),
+  
+  // Communication & Technology
+  communication_channels: text("communication_channels").default(''),
+  technology_stack: text("technology_stack").default(''),
+  information_systems: text("information_systems").default(''),
+  digital_presence: text("digital_presence").default(''),
+  
+  // Strategic Planning
+  strategic_plan: text("strategic_plan").default(''),
+  vision: text("vision").default(''),
+  future_goals: text("future_goals").default(''),
+  expansion_plans: text("expansion_plans").default(''),
+  innovation_initiatives: text("innovation_initiatives").default(''),
+  
+  // Risk & Security
+  risk_management: text("risk_management").default(''),
+  security_measures: text("security_measures").default(''),
+  crisis_response: text("crisis_response").default(''),
+  business_continuity: text("business_continuity").default(''),
+  
+  // Meta & Display
   status: text("status").default(''),
   tags: text("tags").array().default([]),
+  notes: text("notes").default(''),
+  
+  // Technical (Images & Display)
+  imageUrl: text("image_url").default(''),
+  imageGallery: json("image_gallery").default([]),
+  displayImageId: text("display_image_id"),
+  
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

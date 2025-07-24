@@ -25,34 +25,62 @@ export function OrganizationFormExpanded({ projectId, onCancel, organization }: 
     type: organization?.type || '',
     description: organization?.description || '',
     mission: organization?.mission || '',
+    vision: organization?.vision || '',
     
     // Purpose
     goals: organization?.goals || '',
     objectives: organization?.objectives || '',
     services: organization?.services || '',
     target_audience: organization?.target_audience || '',
+    activities: organization?.activities || '',
+    strategic_plan: organization?.strategic_plan || '',
     
     // Structure
     leadership: organization?.leadership || '',
     structure: organization?.structure || '',
     departments: organization?.departments || '',
     membership: organization?.membership || '',
+    hierarchy: organization?.hierarchy || '',
+    roles_responsibilities: organization?.roles_responsibilities || '',
     
     // Operations
     resources: organization?.resources || '',
     locations: organization?.locations || '',
     budget: organization?.budget || '',
-    activities: organization?.activities || '',
+    funding_sources: organization?.funding_sources || '',
+    equipment: organization?.equipment || '',
+    governance_model: organization?.governance_model || '',
     
     // Relations
     relationships: organization?.relationships || '',
     partnerships: organization?.partnerships || '',
-    history: organization?.history || '',
+    stakeholders: organization?.stakeholders || '',
+    competitors: organization?.competitors || '',
     reputation: organization?.reputation || '',
+    public_perception: organization?.public_perception || '',
+    
+    // History
+    history: organization?.history || '',
+    founding: organization?.founding || '',
+    key_events: organization?.key_events || '',
+    evolution: organization?.evolution || '',
+    achievements: organization?.achievements || '',
+    legacy: organization?.legacy || '',
+    
+    // Culture
+    organizational_culture: organization?.organizational_culture || '',
+    values: organization?.values || [],
+    principles: organization?.principles || '',
+    ethics: organization?.ethics || '',
+    code_of_conduct: organization?.code_of_conduct || '',
+    workplace_environment: organization?.workplace_environment || '',
     
     // Meta
     status: organization?.status || '',
-    tags: organization?.tags || []
+    challenges: organization?.challenges || '',
+    future_goals: organization?.future_goals || '',
+    tags: organization?.tags || [],
+    notes: organization?.notes || ''
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -219,7 +247,7 @@ export function OrganizationFormExpanded({ projectId, onCancel, organization }: 
       <Card className="creative-card">
         <div className="p-6">
           <Tabs defaultValue={ORGANIZATION_SECTIONS[0].title.toLowerCase()} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-8">
+            <TabsList className="grid w-full grid-cols-8 mb-8">
               {ORGANIZATION_SECTIONS.map((section) => (
                 <TabsTrigger 
                   key={section.title} 
