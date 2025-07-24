@@ -14,45 +14,49 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
 
     // Always allow enhancement - users can improve existing content or generate new content
 
-    // Create context from existing character data
+    // Create comprehensive context from ALL available character data
     const characterContext = `
 Character Name: ${character.name || 'Unknown'}
-Role: ${character.role || 'Character'}
+Role: ${character.role || 'Character'}  
 Race/Species: ${character.race || 'Unknown'}
 Class/Profession: ${character.class || 'Unknown'}
 Age: ${character.age || 'Unknown'}
 Background: ${character.background || 'Unknown'}
 Description: ${character.description || 'Unknown'}
 Personality: ${character.personality || character.personalityTraits?.join(', ') || 'Unknown'}
+Physical Description: ${character.physicalDescription || 'Unknown'}
+Appearance: ${character.appearance || 'Unknown'}
+Story Function: ${character.storyFunction || 'Unknown'}
+Notes: ${character.notes || 'Unknown'}
+Other Details: ${JSON.stringify(character).substring(0, 500)}
     `.trim();
 
-    // Create a more robust prompt that works better with Gemini
-    const prompt = `You are a professional character development expert helping writers create rich, detailed characters. Generate content for the "${fieldLabel}" field.
+    console.log(`Full character context being sent to AI:`, characterContext);
 
-CHARACTER CONTEXT:
+    // Create highly contextual prompt that forces AI to read existing data
+    const prompt = `You are a professional character development expert. I need you to analyze this character's existing information and generate appropriate content for the "${fieldLabel}" field.
+
+CRITICAL: READ ALL CHARACTER DATA CAREFULLY:
 ${characterContext}
 
-INSTRUCTIONS:
-- Generate creative, unique content for "${fieldLabel}" that fits this character's established traits
-- Make it specific and interesting, not generic
-- Consider the character's role, background, and personality
-- Keep responses concise but meaningful
-- For names/nicknames: be creative and fitting to the character
-- For abilities/skills: match the character's class and background
-- For personality traits: be specific and show depth
-
-Generate content for "${fieldLabel}": 
-
+TASK: Generate content for "${fieldLabel}" field
 CURRENT VALUE: ${currentValue || 'empty'}
-${currentValue ? 'Improve or replace the current value with something better:' : 'Generate new content:'}
 
-IMPORTANT: 
-- Return ONLY the content for this field
-- No quotes, no explanations, no labels
-- Make it specific to this character
-- Keep it concise but meaningful
+CRITICAL INSTRUCTIONS:
+1. CAREFULLY analyze ALL the character information above
+2. If the character name suggests an animal (like "beans" = cat), use that species
+3. If any description mentions the character is an animal, use that species
+4. If background/description mentions fantasy races (elf, dwarf, etc.), use those
+5. Pay attention to ALL context clues about what this character actually is
+6. DO NOT default to "Human" unless there's clear evidence they are human
+7. Generate content that matches the established character traits
 
-Generate the ${fieldLabel.toLowerCase()} now:`;
+For Race/Species specifically:
+- Look for animal names, animal descriptions, fantasy race mentions
+- Consider the character's name, description, background for species clues
+- Only use "Human" if explicitly stated or clearly implied
+
+RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quotes, or labels:`;
 
     console.log(`Generating content for field: ${fieldKey}`);
     
@@ -69,22 +73,49 @@ Generate the ${fieldLabel.toLowerCase()} now:`;
     console.log(`Generated content for ${fieldKey}: ${generatedContent}`);
 
     if (!generatedContent) {
-      console.log(`Empty response from AI for field ${fieldKey}, providing contextual fallback`);
-      // Provide better contextual fallbacks based on field and character info
-      const contextualFallbacks: { [key: string]: string } = {
-        name: character.race ? `${character.race} Character` : 'Character Name',
-        title: character.class ? `The ${character.class}` : 'Noble',
-        age: character.role === 'mentor' ? '45' : '25',
-        race: 'Human',
-        class: character.role === 'protagonist' ? 'Hero' : 'Adventurer',
-        nicknames: character.name ? character.name.split(' ')[0] : 'Friend',
-        aliases: 'Shadow Walker',
-        goals: 'To protect those they care about',
-        motivations: 'A deep sense of justice and duty',
-        background: 'Grew up in a small village before discovering their destiny',
-        arc: 'A journey from uncertainty to confidence and mastery'
-      };
-      const fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      console.log(`Empty response from AI for field ${fieldKey}, analyzing character for intelligent fallback`);
+      
+      // Intelligent contextual fallbacks that actually read character data
+      let fallbackContent = `Generated ${fieldLabel}`;
+      
+      if (fieldKey === 'race') {
+        // Smart race detection from character data
+        const name = (character.name || '').toLowerCase();
+        const desc = (character.description || '').toLowerCase();
+        const background = (character.background || '').toLowerCase();
+        const allText = `${name} ${desc} ${background}`.toLowerCase();
+        
+        if (name.includes('beans') || allText.includes('cat') || allText.includes('feline')) {
+          fallbackContent = 'Cat';
+        } else if (allText.includes('dog') || allText.includes('canine')) {
+          fallbackContent = 'Dog';
+        } else if (allText.includes('elf') || allText.includes('elven')) {
+          fallbackContent = 'Elf';
+        } else if (allText.includes('dwarf') || allText.includes('dwarven')) {
+          fallbackContent = 'Dwarf';
+        } else if (allText.includes('dragon')) {
+          fallbackContent = 'Dragon';
+        } else {
+          fallbackContent = 'Human'; // Only default to human if no other clues
+        }
+      } else {
+        // Other field fallbacks
+        const contextualFallbacks: { [key: string]: string } = {
+          name: character.race ? `${character.race} Character` : 'Character Name',
+          title: character.class ? `The ${character.class}` : 'Noble',
+          age: character.role === 'mentor' ? '45' : '25',
+          class: character.role === 'protagonist' ? 'Hero' : 'Adventurer',
+          nicknames: character.name ? character.name.split(' ')[0] : 'Friend',
+          aliases: 'Shadow Walker',
+          goals: 'To protect those they care about',
+          motivations: 'A deep sense of justice and duty',
+          background: 'Grew up in a small village before discovering their destiny',
+          arc: 'A journey from uncertainty to confidence and mastery'
+        };
+        fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      }
+      
+      console.log(`Using intelligent fallback for ${fieldKey}: ${fallbackContent}`);
       return { [fieldKey]: fallbackContent };
     }
 
