@@ -210,8 +210,8 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Basic Names */}
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* Exact mirror of Identity tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Name", character.name)}
                 {renderField("Nicknames", character.nicknames)}
                 {renderField("Title", character.title)}
@@ -219,23 +219,19 @@ export function CharacterDetailView({
                 {renderField("Role in Story", character.role)}
               </div>
               
-              {/* Demographics */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Race/Species", character.race)}
                 {renderField("Ethnicity/Culture", character.ethnicity)}
                 {renderField("Age", character.age)}
                 {renderField("Birth Date", character.birthdate)}
-                {renderField("Zodiac Sign", character.zodiacSign)}
               </div>
               
-              {/* Professional */}
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid grid-cols-3 gap-4">
                 {renderField("Class", character.class)}
                 {renderField("Profession", character.profession)}
                 {renderField("Current Occupation", character.occupation)}
               </div>
               
-              {/* Descriptions */}
               <div className="space-y-4">
                 {renderField("One-Line Description", character.oneLine)}
                 {renderField("Character Description", character.description)}
@@ -255,65 +251,23 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Overall Description */}
-              <div>
-                {renderField("Physical Description", character.physicalDescription)}
-              </div>
-              
-              {/* Basic Measurements */}
-              <div className="grid gap-4 md:grid-cols-3">
+              {/* Exact mirror of Physical tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Height", character.height)}
-                {renderField("Weight", character.weight)}
-                {renderField("Build", character.build)}
-                {renderField("Body Type", character.bodyType)}
-              </div>
-              
-              {/* Facial Features */}
-              <div className="space-y-4">
-                {renderField("Facial Features", character.facialFeatures)}
-                <div className="grid gap-4 md:grid-cols-2">
-                  {renderField("Eyes", character.eyes)}
-                  {renderField("Eye Color", character.eyeColor)}
-                </div>
-              </div>
-              
-              {/* Hair */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Hair", character.hair)}
+                {renderField("Weight/Build", character.weight)}
+                {renderField("Eye Color", character.eyeColor)}
                 {renderField("Hair Color", character.hairColor)}
                 {renderField("Hair Style", character.hairStyle)}
-                {renderField("Facial Hair", character.facialHair)}
-              </div>
-              
-              {/* Skin */}
-              <div className="grid gap-4 md:grid-cols-3">
-                {renderField("Skin", character.skin)}
                 {renderField("Skin Tone", character.skinTone)}
-                {renderField("Complexion", character.complexion)}
               </div>
               
-              {/* Distinguishing Features */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Scars", character.scars)}
-                {renderField("Tattoos", character.tattoos)}
-                {renderField("Piercings", character.piercings)}
-                {renderField("Birthmarks", character.birthmarks)}
+              <div>
+                {renderField("Overall Physical Description", character.physicalDescription)}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Distinguishing Marks", character.distinguishingMarks)}
-              </div>
-              
-              {/* Style & Presentation */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Attire", character.attire)}
                 {renderField("Clothing Style", character.clothingStyle)}
-                {renderField("Accessories", character.accessories)}
-              </div>
-              
-              {/* Movement & Behavior */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Posture", character.posture)}
-                {renderField("Gait", character.gait)}
-                {renderField("Gestures", character.gestures)}
-                {renderField("Mannerisms", character.mannerisms)}
               </div>
             </CardContent>
           </Card>
@@ -329,48 +283,25 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Overall Personality */}
+              {/* Exact mirror of Personality tab from editor */}
               <div>
                 {renderField("Overall Personality", character.personality)}
               </div>
               
-              {/* Core Traits */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderArrayField("Personality Traits", character.personalityTraits)}
                 {renderField("Temperament", character.temperament)}
               </div>
               
-              {/* Beliefs & Values */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Beliefs & Values", character.beliefs)}
                 {renderField("Worldview", character.worldview)}
               </div>
               
-              {/* Moral Framework */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Values", character.values)}
-                {renderField("Principles", character.principles)}
-                {renderField("Morals", character.morals)}
-                {renderField("Ethics", character.ethics)}
-                {renderField("Virtues", character.virtues)}
-                {renderField("Vices", character.vices)}
-              </div>
-              
-              {/* Behavioral Patterns */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Habits", character.habits)}
-                {renderField("Quirks", character.quirks)}
-                {renderField("Idiosyncrasies", character.idiosyncrasies)}
-                {renderField("Pet Peeves", character.petPeeves)}
-              </div>
-              
-              {/* Preferences */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-3 gap-4">
                 {renderField("Likes", character.likes)}
                 {renderField("Dislikes", character.dislikes)}
-                {renderField("Hobbies", character.hobbies)}
-                {renderField("Interests", character.interests)}
-                {renderField("Passions", character.passions)}
+                {renderField("Quirks & Habits", character.quirks)}
               </div>
             </CardContent>
           </Card>
@@ -386,53 +317,20 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Core Drives */}
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* Exact mirror of Psychology tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Motivations", character.motivations)}
-                {renderField("Desires", character.desires)}
-                {renderField("Needs", character.needs)}
-                {renderField("Drives", character.drives)}
-                {renderField("Ambitions", character.ambitions)}
-              </div>
-              
-              {/* Fears & Anxieties */}
-              <div className="grid gap-4 md:grid-cols-2">
                 {renderField("Fears", character.fears)}
-                {renderField("Phobias", character.phobias)}
-                {renderField("Anxieties", character.anxieties)}
-                {renderField("Insecurities", character.insecurities)}
               </div>
               
-              {/* Inner Life */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Secrets", character.secrets)}
-                {renderField("Shame", character.shame)}
-                {renderField("Guilt", character.guilt)}
-                {renderField("Regrets", character.regrets)}
+                {renderField("Trauma & Wounds", character.trauma)}
               </div>
               
-              {/* Trauma & Healing */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Trauma", character.trauma)}
-                {renderField("Wounds", character.wounds)}
-                {renderField("Coping Mechanisms", character.copingMechanisms)}
-                {renderField("Defenses", character.defenses)}
-              </div>
-              
-              {/* Vulnerabilities */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Vulnerabilities", character.vulnerabilities)}
-                {renderField("Weaknesses", character.weaknesses)}
-                {renderField("Blind Spots", character.blindSpots)}
-              </div>
-              
-              {/* Mental Framework */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Mental Health", character.mentalHealth)}
-                {renderField("Emotional State", character.emotionalState)}
-                {renderField("Maturity Level", character.maturityLevel)}
-                {renderField("Intelligence Type", character.intelligenceType)}
-                {renderField("Learning Style", character.learningStyle)}
+                {renderField("Coping Mechanisms", character.copingMechanisms)}
               </div>
             </CardContent>
           </Card>
@@ -448,47 +346,19 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Core Background */}
-              <div className="space-y-4">
-                {renderField("Background", character.background)}
+              {/* Exact mirror of Background tab from editor */}
+              <div>
                 {renderField("Backstory", character.backstory)}
               </div>
               
-              {/* Origins */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Origin", character.origin)}
-                {renderField("Upbringing", character.upbringing)}
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Childhood", character.childhood)}
-                {renderField("Family History", character.familyHistory)}
+                {renderField("Family", character.family)}
               </div>
               
-              {/* Social Status */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Social Class", character.socialClass)}
-                {renderField("Economic Status", character.economicStatus)}
-              </div>
-              
-              {/* Education */}
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Education", character.education)}
-                {renderField("Academic History", character.academicHistory)}
-              </div>
-              
-              {/* Life Events */}
-              <div className="space-y-4">
                 {renderField("Formative Events", character.formativeEvents)}
-                {renderField("Life Changing Moments", character.lifeChangingMoments)}
-              </div>
-              
-              {/* Experiences */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Personal Struggle", character.personalStruggle)}
-                {renderField("Challenges", character.challenges)}
-                {renderField("Achievements", character.achievements)}
-                {renderField("Failures", character.failures)}
-                {renderField("Losses", character.losses)}
-                {renderField("Victories", character.victories)}
-                {renderField("Reputation", character.reputation)}
               </div>
             </CardContent>
           </Card>
@@ -504,35 +374,31 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Core Abilities */}
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* Exact mirror of Abilities tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderArrayField("Abilities", character.abilities)}
                 {renderArrayField("Skills", character.skills)}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
                 {renderArrayField("Talents", character.talents)}
-                {renderArrayField("Expertise", character.expertise)}
-              </div>
-              
-              {/* Special Powers */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Special Abilities", character.specialAbilities)}
-                {renderField("Powers", character.powers)}
-                {renderField("Superpowers", character.superpowers)}
-              </div>
-              
-              {/* Magic System */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Magical Abilities", character.magicalAbilities)}
-                {renderField("Magic Type", character.magicType)}
-                {renderField("Magic Source", character.magicSource)}
-                {renderField("Magic Limitations", character.magicLimitations)}
-              </div>
-              
-              {/* General Competencies */}
-              <div className="grid gap-4 md:grid-cols-2">
                 {renderField("Strengths", character.strengths)}
-                {renderField("Competencies", character.competencies)}
-                {renderField("Training", character.training)}
-                {renderField("Experience", character.experience)}
+              </div>
+              
+              <div>
+                {renderField("Special Abilities", character.specialAbilities)}
+              </div>
+              
+              <div className="border-t pt-6">
+                <h3 className="text-lg font-semibold mb-4">Magic & Supernatural</h3>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  {renderField("Magical Abilities", character.magicalAbilities)}
+                  {renderField("Magic Type", character.magicType)}
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {renderField("Magic Source", character.magicSource)}
+                  {renderField("Magic Limitations", character.magicLimitations)}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -550,43 +416,20 @@ export function CharacterDetailView({
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Goals & Objectives */}
-              <div className="grid gap-4 md:grid-cols-2">
+              {/* Exact mirror of Story tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderField("Goals", character.goals)}
-                {renderField("Objectives", character.objectives)}
-                {renderField("Wants", character.wants)}
-              </div>
-              
-              {/* Conflicts & Obstacles */}
-              <div className="grid gap-4 md:grid-cols-2">
                 {renderField("Obstacles", character.obstacles)}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                {renderField("Character Arc", character.arc)}
                 {renderField("Conflicts", character.conflicts)}
-                {renderField("Conflict Sources", character.conflictSources)}
-                {renderField("Stakes", character.stakes)}
-                {renderField("Consequences", character.consequences)}
               </div>
               
-              {/* Character Development */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Arc", character.arc)}
-                {renderField("Journey", character.journey)}
-                {renderField("Transformation", character.transformation)}
-                {renderField("Growth", character.growth)}
-              </div>
-              
-              {/* Relationships */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Allies", character.allies)}
-                {renderField("Enemies", character.enemies)}
-                {renderField("Mentors", character.mentors)}
-                {renderField("Rivals", character.rivals)}
-              </div>
-              
-              {/* Plot Integration */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Connection to Events", character.connectionToEvents)}
-                {renderField("Plot Relevance", character.plotRelevance)}
-                {renderField("Story Function", character.storyFunction)}
+              <div className="grid grid-cols-2 gap-4">
+                {renderField("Allies & Friends", character.allies)}
+                {renderField("Enemies & Rivals", character.enemies)}
               </div>
             </CardContent>
           </Card>
@@ -679,48 +522,15 @@ export function CharacterDetailView({
                 Meta Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Character Analysis */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderArrayField("Archetypes", character.archetypes, "secondary")}
-                {renderArrayField("Tropes", character.tropes, "outline")}
-                {renderField("Inspiration", character.inspiration)}
-                {renderField("Based On", character.basedOn)}
-              </div>
-              
-              {/* Classification */}
-              <div className="grid gap-4 md:grid-cols-2">
+            <CardContent className="space-y-4">
+              {/* Exact mirror of Meta tab from editor */}
+              <div className="grid grid-cols-2 gap-4">
                 {renderArrayField("Tags", character.tags)}
-                {renderField("Genre", character.genre)}
-                {renderField("Prose Vibe", character.proseVibe)}
-                {renderField("Narrative Role", character.narrativeRole)}
-                {renderField("Character Type", character.characterType)}
+                {renderField("Inspiration", character.inspiration)}
               </div>
               
-              {/* Story Mechanics */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {renderField("Importance", character.importance)}
-                {renderField("Screen Time", character.screenTime)}
-                {renderField("First Appearance", character.firstAppearance)}
-                {renderField("Last Appearance", character.lastAppearance)}
-              </div>
-              
-              {/* Writer's Notes */}
-              <div className="space-y-4">
+              <div>
                 {renderField("Notes", character.notes)}
-                {renderField("Development", character.development)}
-                {renderField("Evolution", character.evolution)}
-                {renderField("Alternatives", character.alternatives)}
-                {renderField("Unused", character.unused)}
-                {renderField("Research", character.research)}
-                {renderField("References", character.references)}
-              </div>
-              
-              {/* Thematic Elements */}
-              <div className="grid gap-4 md:grid-cols-3">
-                {renderField("Mood", character.mood)}
-                {renderField("Theme", character.theme)}
-                {renderField("Symbolism", character.symbolism)}
               </div>
             </CardContent>
           </Card>
