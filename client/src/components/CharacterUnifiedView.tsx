@@ -272,20 +272,38 @@ export function CharacterUnifiedView({
                     {formData.role}
                   </Badge>
                 )}
-                {formData.class && (
-                  <Badge variant="outline" className="text-sm">
-                    {formData.class}
-                  </Badge>
-                )}
-                {formData.profession && (
-                  <Badge variant="outline" className="text-sm">
-                    {formData.profession}
-                  </Badge>
-                )}
                 {formData.age && (
                   <Badge variant="outline" className="text-sm">
                     Age {formData.age}
                   </Badge>
+                )}
+              </div>
+
+              {/* Key Character Overview - What Writers Need Most */}
+              <div className="space-y-3 mb-4">
+                {formData.goals && (
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Primary Goal: </span>
+                    <span className="text-sm">{formData.goals}</span>
+                  </div>
+                )}
+                {formData.motivations && (
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Core Motivation: </span>
+                    <span className="text-sm">{formData.motivations}</span>
+                  </div>
+                )}
+                {formData.virtues && (
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Greatest Strength: </span>
+                    <span className="text-sm">{formData.virtues}</span>
+                  </div>
+                )}
+                {formData.vices && (
+                  <div>
+                    <span className="text-sm font-medium text-muted-foreground">Fatal Flaw: </span>
+                    <span className="text-sm">{formData.vices}</span>
+                  </div>
                 )}
               </div>
 
