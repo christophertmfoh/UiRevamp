@@ -232,54 +232,90 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-4">
           {filteredLocations.map((location: Location) => (
-            <Card key={location.id} className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => handleLocationClick(location)}>
-              <CardContent className="p-6">
+            <Card 
+              key={location.id} 
+              className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-green-500/30 hover:border-green-500/50"
+              onClick={() => handleLocationClick(location)}
+            >
+              <CardContent className="p-4">
                 <div className="flex items-start gap-4">
-                  {/* Location Icon */}
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  {/* Location Image - Clickable */}
+                  <div 
+                    className="w-16 h-16 rounded-lg bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPortraitLocation(location);
+                      setIsPortraitModalOpen(true);
+                    }}
+                  >
+                    {location.imageUrl ? (
+                      <img 
+                        src={location.imageUrl} 
+                        alt={location.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <MapPin className="h-8 w-8 text-green-600 dark:text-green-400" />
+                    )}
+                    
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Camera className="h-4 w-4 text-white" />
+                    </div>
                   </div>
 
-                  {/* Location Info */}
+                  {/* Location Details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg truncate group-hover:text-accent transition-colors">
+                        <h3 className="font-semibold text-lg truncate">
                           {location.name}
                         </h3>
                         
-                        <div className="flex items-center gap-2 mt-1">
+                        {/* Basic Info Row */}
+                        <div className="flex items-center gap-2 mt-1 mb-3">
                           <Badge variant="secondary" className="text-xs">
                             Location
                           </Badge>
                           {location.tags && location.tags.length > 0 && (
-                            <Badge variant="outline" className="text-xs">
-                              {location.tags[0]}
-                            </Badge>
+                            <>
+                              {location.tags.slice(0, 2).map((tag, index) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                              {location.tags.length > 2 && (
+                                <span className="text-xs text-muted-foreground">+{location.tags.length - 2} more</span>
+                              )}
+                            </>
                           )}
                         </div>
 
-                        <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
-                          {location.description}
-                        </p>
+                        {/* Location Details Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                          {location.description && (
+                            <div>
+                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Description</p>
+                              <p className="line-clamp-2 text-sm">{location.description}</p>
+                            </div>
+                          )}
+                          
+                          {location.atmosphere && (
+                            <div>
+                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Atmosphere</p>
+                              <p className="line-clamp-2 text-sm">{location.atmosphere}</p>
+                            </div>
+                          )}
 
-                        {/* Tags */}
-                        {location.tags && location.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-3">
-                            {location.tags.slice(0, 3).map((tag, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {tag}
-                              </Badge>
-                            ))}
-                            {location.tags.length > 3 && (
-                              <Badge variant="outline" className="text-xs">
-                                +{location.tags.length - 3} more
-                              </Badge>
-                            )}
-                          </div>
-                        )}
+                          {location.significance && (
+                            <div>
+                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Significance</p>
+                              <p className="line-clamp-2 text-sm">{location.significance}</p>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       {/* Action Buttons */}
