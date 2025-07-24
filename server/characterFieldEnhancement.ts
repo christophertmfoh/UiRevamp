@@ -343,25 +343,155 @@ Format as a comma-separated list.`,
 - Ways they react to situations
 - Unconscious behaviors
 - Should make them feel like a real person/character.`,
-        eyeColor: `Generate eye color that fits this character's race and personality. Consider species-typical colors.`,
-        hairColor: `Generate hair/fur color appropriate for this character's species. For cats, describe fur color and patterns.`,
-        physicalDescription: `Generate a detailed physical description highlighting distinctive features, posture, and overall appearance for this character's species.`,
-        personalityTraits: `Generate 3-5 personality traits that fit this character's role, background, and species. For cats, include feline-typical behaviors.`,
-        goals: `Generate meaningful goals this character wants to achieve, considering their background, role, and personality.`,
-        motivations: `Generate what drives this character forward - their deep desires, needs, or compulsions.`,
-        fears: `Generate realistic fears for this character based on their background, species, and experiences.`,
-        background: `Generate a detailed backstory explaining how this character became who they are today.`,
-        skills: `Generate skills and abilities this character has learned, based on their class, background, and species.`,
-        abilities: `Generate special abilities, powers, or talents this character possesses, considering their species and background.`,
-        talents: `Generate natural talents or gifts this character was born with, separate from learned skills.`,
-        flaws: `Generate character flaws or weaknesses that create internal conflict and story opportunities.`,
-        occupation: `Generate a job or profession this character has, considering their species, skills, and social context.`,
-        family: `Generate information about this character's family members, relationships, and family background.`,
-        relationships: `Generate key relationships this character has with other people, including friends, enemies, and allies.`,
-        secrets: `Generate hidden information, mysteries, or secrets this character keeps from others.`,
-        education: `Generate this character's educational background, training, or learning experiences.`,
-        appearance: `Generate overall appearance and style description for this character.`,
-        distinguishingFeatures: `Generate unique physical features that make this character instantly recognizable.`
+
+        // PERSONALITY SECTION - Detailed prompts for psychological depth
+        personalityTraits: `Generate 3-5 distinctive personality traits for this character:
+- For cats: curiosity, independence, playfulness, hunting instincts, territorial behavior
+- Consider their background, role, and species
+- Make traits specific and vivid, not generic
+- Should create a unique personality profile
+- Format as comma-separated list.`,
+        
+        temperament: `Generate this character's overall emotional disposition:
+- How they typically react to situations
+- Their default mood and energy level
+- For cats: "curious and alert", "lazy and content", "nervous and skittish"
+- Should reflect their life experiences and species.`,
+        
+        quirks: `Generate 2-3 unique behavioral quirks:
+- Unusual habits or mannerisms
+- For cats: head tilts when confused, kneading when happy, specific sleeping spots
+- Should make the character memorable and distinctive
+- Keep it species-appropriate and personality-based.`,
+        
+        speechPattern: `Generate how this character communicates:
+- For cats: types of meows, purrs, chirps, body language
+- For humans: accent, vocabulary level, speaking pace
+- Unique speech habits or catchphrases
+- Should reflect background and personality.`,
+        
+        likes: `Generate things this character enjoys:
+- For cats: favorite foods, activities, sleeping spots, types of attention
+- Should match their personality and species
+- Be specific and detailed, not generic
+- 3-4 concrete examples.`,
+        
+        dislikes: `Generate things this character avoids or hates:
+- For cats: water, loud noises, certain textures, unwanted handling
+- Should create potential conflict or character moments
+- Be specific and meaningful to their experiences.`,
+        
+        hobbies: `Generate activities this character enjoys in their free time:
+- For cats: hunting, exploring, sunbathing, playing with specific toys
+- Should match their personality and available time
+- Consider their species' natural behaviors.`,
+        
+        habits: `Generate daily routines or repeated behaviors:
+- For cats: grooming schedule, patrol routes, meal expectations
+- Both positive and negative habits
+- Should feel realistic for their lifestyle and species.`,
+        
+        values: `Generate core principles this character believes in:
+- What they consider important in life
+- For cats: territory, family group, security, routine
+- Should guide their decision-making and conflicts.`,
+        
+        beliefs: `Generate philosophical or spiritual beliefs:
+- Their worldview and understanding of reality
+- For cats: simple beliefs about safety, territory, pack dynamics
+- Should influence their actions and relationships.`,
+
+        // BACKGROUND SECTION - Detailed life history prompts
+        background: `Generate a detailed backstory explaining this character's past:
+- Key events that shaped them
+- For cats: where they came from, how they met their humans, past homes
+- Should explain their current personality and circumstances
+- 2-3 sentences with specific details.`,
+        
+        childhood: `Generate this character's early life experiences:
+- For cats: kittenhood experiences, early socialization, first home
+- Formative events that shaped their adult personality
+- Should connect to current traits and behaviors.`,
+        
+        education: `Generate learning experiences:
+- For cats: what they learned from mother/siblings, training from humans
+- Skills acquired through experience
+- Should explain their current abilities and knowledge.`,
+        
+        family: `Generate family background and relationships:
+- For cats: littermates, parents, human family members
+- Current family dynamics and important relationships
+- Should create emotional connections and potential story elements.`,
+        
+        pastEvents: `Generate significant events from their history:
+- For cats: moving homes, accidents, memorable experiences
+- Events that explain scars, fears, or particular behaviors
+- Should add depth and story potential.`,
+
+        // SKILLS & ABILITIES SECTION - Capabilities and talents
+        skills: `Generate learned abilities this character has developed:
+- For cats: hunting techniques, climbing skills, social skills with humans
+- Training they've received or self-taught abilities
+- Should match their background and lifestyle
+- List 3-4 specific skills.`,
+        
+        abilities: `Generate special capabilities or powers:
+- For cats: exceptional night vision, stealth abilities, sensing abilities
+- Natural gifts enhanced beyond normal for their species
+- Should feel authentic to their character concept.`,
+        
+        talents: `Generate natural gifts this character was born with:
+- For cats: exceptional balance, keen hearing, emotional sensitivity
+- Innate abilities separate from learned skills
+- Should complement their personality and role.`,
+        
+        strengths: `Generate what this character excels at:
+- Physical, mental, and social strengths
+- For cats: agility, independence, observational skills
+- Should create opportunities for them to shine in stories.`,
+        
+        weaknesses: `Generate areas where this character struggles:
+- Physical limitations, blind spots, or vulnerabilities
+- For cats: dependency on humans, territorial conflicts, health issues
+- Should create realistic challenges and growth opportunities.`,
+
+        // STORY ELEMENTS SECTION - Narrative-focused content
+        goals: `Generate meaningful objectives this character wants to achieve:
+- For cats: securing territory, maintaining family bonds, finding comfort
+- Both short-term and long-term aspirations
+- Should drive character actions and story progression.`,
+        
+        motivations: `Generate deep psychological drives:
+- What compels this character to act
+- For cats: survival instincts, pack loyalty, curiosity, comfort-seeking
+- Should explain their decision-making patterns.`,
+        
+        fears: `Generate realistic anxieties and phobias:
+- For cats: loud noises, water, unfamiliar places, separation from family
+- Based on past experiences and species instincts
+- Should create vulnerability and story conflict.`,
+        
+        secrets: `Generate hidden information about this character:
+- Things they keep private or can't communicate
+- For cats: secret hiding spots, past traumas, special knowledge
+- Should add mystery and depth to their character.`,
+        
+        flaws: `Generate character defects that create internal conflict:
+- For cats: stubbornness, territorial aggression, dependency issues
+- Personality traits that cause problems
+- Should create realistic character development opportunities.`,
+        
+        // APPEARANCE & PHYSICAL DETAILS
+        physicalDescription: `Generate comprehensive physical description:
+- Overall appearance and distinctive features  
+- For cats: body type, fur patterns, facial features, movement style
+- How others perceive them at first glance
+- Paint a vivid picture in 2-3 sentences.`,
+        
+        distinguishingFeatures: `Generate unique physical characteristics:
+- For cats: unusual markings, eye colors, ear shapes, tail characteristics
+- Features that make them instantly recognizable
+- Should be memorable and species-appropriate.`,
       };
 
       const specificPrompt = fieldSpecificPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} content for this character.`;
@@ -730,6 +860,156 @@ Generate ${fieldLabel.toLowerCase()}:`;
           mannerisms: (() => {
             if (character.race === 'Cat') return 'Head tilts when curious, slow blinks when content, kneading with paws when happy';
             return 'Thoughtful pausing before speaking, gentle nods when listening';
+          })(),
+
+          // PERSONALITY SECTION INTELLIGENT FALLBACKS
+          personalityTraits: (() => {
+            if (character.race === 'Cat') {
+              const catTraitSets = [
+                'Curious, Independent, Playful, Affectionate',
+                'Alert, Territorial, Loyal, Mischievous', 
+                'Calm, Observant, Social, Protective',
+                'Energetic, Clever, Friendly, Adventurous'
+              ];
+              return catTraitSets[Math.floor(randomSeed * catTraitSets.length)];
+            }
+            const humanTraitSets = [
+              'Determined, Compassionate, Analytical, Loyal',
+              'Creative, Outgoing, Practical, Honest',
+              'Thoughtful, Brave, Empathetic, Resourceful'
+            ];
+            return humanTraitSets[Math.floor(randomSeed * humanTraitSets.length)];
+          })(),
+          
+          temperament: (() => {
+            if (character.race === 'Cat') {
+              const catTemps = ['Curious and alert', 'Calm and content', 'Playful and energetic', 'Independent and observant'];
+              return catTemps[Math.floor(randomSeed * catTemps.length)];
+            }
+            const humanTemps = ['Even-tempered and thoughtful', 'Optimistic and energetic', 'Calm and analytical'];
+            return humanTemps[Math.floor(randomSeed * humanTemps.length)];
+          })(),
+          
+          quirks: (() => {
+            if (character.race === 'Cat') {
+              const catQuirks = [
+                'Chirps when excited, sleeps in sunbeams, brings "gifts"',
+                'Head tilts when confused, kneads soft surfaces, chatters at birds',
+                'Slow blinks to show affection, hides in boxes, patrol routine'
+              ];
+              return catQuirks[Math.floor(randomSeed * catQuirks.length)];
+            }
+            return 'Drums fingers when thinking, hums while working, organizes everything';
+          })(),
+          
+          likes: (() => {
+            if (character.race === 'Cat') {
+              const catLikes = [
+                'Sunny windowsills, gentle chin scratches, fresh catnip, warm laps',
+                'High perches, tuna treats, cardboard boxes, morning routines',
+                'Quiet corners, feather toys, gentle brushing, evening playtime'
+              ];
+              return catLikes[Math.floor(randomSeed * catLikes.length)];
+            }
+            return 'Good books, morning coffee, peaceful walks, meaningful conversations';
+          })(),
+          
+          dislikes: (() => {
+            if (character.race === 'Cat') {
+              const catDislikes = [
+                'Loud noises, water, unfamiliar scents, rough handling',
+                'Closed doors, empty food bowls, vacuum cleaners, car rides',
+                'Sudden movements, citrus smells, being ignored, schedule changes'
+              ];
+              return catDislikes[Math.floor(randomSeed * catDislikes.length)];
+            }
+            return 'Dishonesty, rushed decisions, loud environments, wasted time';
+          })(),
+
+          // BACKGROUND SECTION INTELLIGENT FALLBACKS  
+          background: (() => {
+            if (character.race === 'Cat') {
+              const catBackgrounds = [
+                'Found as a kitten and raised in a loving home, learned to trust humans through patient care and consistent routines.',
+                'Born in a shelter and adopted young, developed strong bonds with adoptive family and learned house rules quickly.',
+                'Rescued from the streets and slowly learned to feel safe indoors, now enjoys the security of home life.'
+              ];
+              return catBackgrounds[Math.floor(randomSeed * catBackgrounds.length)];
+            }
+            return 'Grew up in a supportive family environment, received good education, and developed strong moral values through life experiences.';
+          })(),
+          
+          goals: (() => {
+            if (character.race === 'Cat') {
+              const catGoals = [
+                'Maintain territory security, keep family safe, find perfect napping spots',
+                'Master the art of getting treats, protect the household, enjoy daily comforts',
+                'Explore every corner of the house, maintain hunting skills, strengthen family bonds'
+              ];
+              return catGoals[Math.floor(randomSeed * catGoals.length)];
+            }
+            return 'Build meaningful relationships, contribute to community, achieve personal growth';
+          })(),
+          
+          motivations: (() => {
+            if (character.race === 'Cat') {
+              const catMotivations = [
+                'Security and comfort, family loyalty, natural curiosity',
+                'Survival instincts, pack bonding, territorial protection',
+                'Food security, social connection, environmental mastery'
+              ];
+              return catMotivations[Math.floor(randomSeed * catMotivations.length)];
+            }
+            return 'Desire to help others, personal fulfillment, creating lasting impact';
+          })(),
+          
+          fears: (() => {
+            if (character.race === 'Cat') {
+              const catFears = [
+                'Loud sudden noises, being separated from family, unfamiliar environments',
+                'Water, large predators, empty food bowls, abandonment',
+                'Vet visits, car rides, aggressive animals, loss of territory'
+              ];
+              return catFears[Math.floor(randomSeed * catFears.length)];
+            }
+            return 'Failure to protect loved ones, losing important relationships, making wrong decisions';
+          })(),
+
+          // SKILLS & ABILITIES FALLBACKS
+          skills: (() => {
+            if (character.race === 'Cat') {
+              const catSkills = [
+                'Expert hunter, silent stalking, acrobatic climbing, reading human emotions',
+                'Stealth movement, keen observation, social manipulation, territory mapping',
+                'Precise jumping, scent tracking, vocal communication, comfort detection'
+              ];
+              return catSkills[Math.floor(randomSeed * catSkills.length)];
+            }
+            return 'Problem solving, communication, adaptability, teamwork';
+          })(),
+          
+          abilities: (() => {
+            if (character.race === 'Cat') {
+              const catAbilities = [
+                'Enhanced night vision, superior balance, acute hearing, emotional sensing',
+                'Lightning reflexes, flexible spine, whisker navigation, temperature detection',
+                'Silent movement, scent memory, territorial awareness, intuitive timing'
+              ];
+              return catAbilities[Math.floor(randomSeed * catAbilities.length)];
+            }
+            return 'Quick learning, pattern recognition, strategic thinking, leadership potential';
+          })(),
+          
+          flaws: (() => {
+            if (character.race === 'Cat') {
+              const catFlaws = [
+                'Stubbornness, territorial jealousy, dependency on routine',
+                'Prideful independence, fear of change, resource guarding',
+                'Attention-seeking behavior, selective hearing, curiosity risks'
+              ];
+              return catFlaws[Math.floor(randomSeed * catFlaws.length)];
+            }
+            return 'Overthinking decisions, self-doubt in new situations, perfectionist tendencies';
           })(),
           eyeColor: character.race === 'Cat' ? 'Golden amber' : 'Brown',
           hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown',
