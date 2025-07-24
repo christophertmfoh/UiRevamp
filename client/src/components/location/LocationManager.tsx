@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
+import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Location, Project } from '@/lib/types';
 import { LocationDetailView } from './LocationDetailView';
@@ -19,8 +19,11 @@ interface LocationManagerProps {
   onClearSelection?: () => void;
 }
 
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
+
 export function LocationManager({ projectId, selectedLocationId, onClearSelection }: LocationManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [portraitLocation, setPortraitLocation] = useState<Location | null>(null);
@@ -89,10 +92,26 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
     },
   });
 
-  const filteredLocations = locations.filter((location: Location) =>
-    location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    location.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (location.tags && location.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())))
+  // Sort and filter locations
+  const sortLocations = (locs: Location[]): Location[] => {
+    switch (sortBy) {
+      case 'alphabetical':
+        return [...locs].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      case 'recently-added':
+        return [...locs].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      case 'recently-edited':
+        return [...locs].sort((a, b) => new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime());
+      default:
+        return locs;
+    }
+  };
+
+  const filteredAndSortedLocations = sortLocations(
+    locations.filter((location: Location) =>
+      location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      location.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (location.tags && location.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())))
+    )
   );
 
   const handleLocationClick = (location: Location) => {
@@ -207,19 +226,42 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search locations by name, description, or tags..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 creative-input"
-        />
+      {/* Search and Sort Bar */}
+      <div className="flex gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search locations by name, description, or tags..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 creative-input"
+          />
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="min-w-[140px]">
+              <ArrowUpDown className="h-4 w-4 mr-2" />
+              {sortBy === 'alphabetical' && 'A-Z'}
+              {sortBy === 'recently-added' && 'Recently Added'}
+              {sortBy === 'recently-edited' && 'Recently Edited'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
+              Alphabetical (A-Z)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
+              Recently Added
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
+              Recently Edited
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Locations Grid */}
-      {filteredLocations.length === 0 ? (
+      {filteredAndSortedLocations.length === 0 ? (
         <div className="text-center py-12">
           <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
           <h3 className="text-lg font-semibold mb-2">No locations found</h3>
@@ -235,7 +277,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
         </div>
       ) : (
         <div className="grid gap-4">
-          {filteredLocations.map((location: Location) => (
+          {filteredAndSortedLocations.map((location: Location) => (
             <Card 
               key={location.id} 
               className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"

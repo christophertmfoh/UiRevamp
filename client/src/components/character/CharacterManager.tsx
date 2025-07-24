@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
@@ -19,8 +19,11 @@ interface CharacterManagerProps {
   onClearSelection?: () => void;
 }
 
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
+
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
@@ -91,11 +94,27 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     }
   });
 
-  const filteredCharacters = characters.filter((character: Character) =>
-    (character.name && character.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (character.role && character.role.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (character.race && character.race.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (character.occupation && character.occupation.toLowerCase().includes(searchQuery.toLowerCase()))
+  // Sort and filter characters
+  const sortCharacters = (chars: Character[]): Character[] => {
+    switch (sortBy) {
+      case 'alphabetical':
+        return [...chars].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      case 'recently-added':
+        return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      case 'recently-edited':
+        return [...chars].sort((a, b) => new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime());
+      default:
+        return chars;
+    }
+  };
+
+  const filteredAndSortedCharacters = sortCharacters(
+    characters.filter((character: Character) =>
+      (character.name && character.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (character.role && character.role.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (character.race && character.race.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (character.occupation && character.occupation.toLowerCase().includes(searchQuery.toLowerCase()))
+    )
   );
 
   const handleEdit = (character: Character) => {
@@ -254,15 +273,38 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search characters by name, role, or race..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 creative-input"
-        />
+      {/* Search and Sort Bar */}
+      <div className="flex gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search characters by name, role, or race..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 creative-input"
+          />
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="min-w-[140px]">
+              <ArrowUpDown className="h-4 w-4 mr-2" />
+              {sortBy === 'alphabetical' && 'A-Z'}
+              {sortBy === 'recently-added' && 'Recently Added'}
+              {sortBy === 'recently-edited' && 'Recently Edited'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
+              Alphabetical (A-Z)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
+              Recently Added
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
+              Recently Edited
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Character List */}
@@ -271,7 +313,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           <div className="animate-spin h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
           <p>Loading characters...</p>
         </div>
-      ) : filteredCharacters.length === 0 ? (
+      ) : filteredAndSortedCharacters.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Users className="h-24 w-24 mx-auto mb-6 opacity-30" />
           <h3 className="text-xl font-semibold mb-3">
@@ -295,7 +337,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         </div>
       ) : (
         <div className="grid gap-4">
-          {filteredCharacters.map((character: Character) => (
+          {filteredAndSortedCharacters.map((character: Character) => (
             <Card 
               key={character.id} 
               className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"
