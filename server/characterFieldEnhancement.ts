@@ -492,6 +492,416 @@ Format as a comma-separated list.`,
 - For cats: unusual markings, eye colors, ear shapes, tail characteristics
 - Features that make them instantly recognizable
 - Should be memorable and species-appropriate.`,
+
+        // PSYCHOLOGY SECTION - Deep psychological analysis
+        desires: `Generate deep wants and cravings:
+- For cats: comfort, security, hunting opportunities, social bonds
+- What they truly want at their core
+- Should reflect their species' natural desires and personal experiences.`,
+
+        needs: `Generate fundamental requirements:
+- For cats: safety, food, territory, companionship, stimulation
+- What they must have to feel whole and fulfilled
+- Should be based on both species needs and character development.`,
+
+        drives: `Generate internal forces that compel action:
+- For cats: survival instincts, territorial behavior, pack loyalty, curiosity
+- What pushes them forward even when afraid
+- Should explain their most consistent behaviors.`,
+
+        ambitions: `Generate long-term aspirations:
+- For cats: perfect territory, strongest family bonds, ultimate comfort
+- What they dream of achieving
+- Should match their personality and capabilities.`,
+
+        phobias: `Generate specific irrational fears:
+- For cats: vacuum cleaners, thunderstorms, water, strangers
+- Intense fears that don't make logical sense
+- Should create vulnerability and story opportunities.`,
+
+        anxieties: `Generate ongoing worries:
+- For cats: family safety, territory security, food availability
+- What keeps them alert and watchful
+- Should reflect past experiences and instincts.`,
+
+        insecurities: `Generate areas of self-doubt:
+- For cats: ability to protect territory, worthiness of love, hunting skills
+- Where they lack confidence despite abilities
+- Should create character depth and growth opportunities.`,
+
+        shame: `Generate things they're ashamed of:
+- For cats: failed hunts, accidents, moments of cowardice
+- Actions or traits they wish they could hide
+- Should create internal conflict and character development.`,
+
+        guilt: `Generate things they feel guilty about:
+- For cats: breaking household rules, causing worry, territorial disputes
+- Actions they regret and can't undo
+- Should create emotional weight and motivation.`,
+
+        regrets: `Generate missed opportunities or wrong choices:
+- For cats: relationships lost, chances not taken, conflicts created
+- Things they wish they had done differently
+- Should add depth and explain current behaviors.`,
+
+        trauma: `Generate past emotional wounds:
+- For cats: abandonment, abuse, loss of family, territorial violations
+- Deep hurts that still affect them
+- Should explain fears, behaviors, and defensive mechanisms.`,
+
+        wounds: `Generate specific emotional injuries:
+- For cats: betrayal by trusted humans, loss of littermates, territorial defeat
+- Precise emotional damage from past events
+- Should create ongoing character challenges.`,
+
+        copingMechanisms: `Generate how they handle stress:
+- For cats: hiding, grooming, seeking comfort, territorial marking
+- Healthy and unhealthy ways they deal with difficulty
+- Should reflect species behaviors and learned responses.`,
+
+        defenses: `Generate emotional protection strategies:
+- For cats: withdrawal, aggression, submission, charm
+- How they protect themselves from emotional pain
+- Should explain their social interaction patterns.`,
+
+        vulnerabilities: `Generate emotional weak points:
+- For cats: family threats, territory loss, abandonment fears
+- What can hurt them most deeply
+- Should create story tension and character stakes.`,
+
+        blindSpots: `Generate things they can't see about themselves:
+- For cats: how dependent they are, their own territorial aggression
+- Personal truths they're unaware of
+- Should create opportunities for character growth.`,
+
+        mentalHealth: `Generate psychological well-being status:
+- For cats: generally stable, anxious, traumatized, resilient
+- Their overall mental state and stability
+- Should reflect their experiences and current situation.`,
+
+        emotionalState: `Generate current emotional condition:
+- For cats: content, anxious, playful, protective, grieving
+- How they're feeling right now
+- Should match their recent experiences and environment.`,
+
+        maturityLevel: `Generate emotional development level:
+- For cats: kitten-like, adolescent, mature, wise elder
+- How emotionally developed they are
+- Should affect their decision-making and relationships.`,
+
+        intelligenceType: `Generate how they are smart:
+- For cats: emotional intelligence, spatial awareness, social cunning
+- Their particular type of intelligence
+- Should match their species and individual traits.`,
+
+        learningStyle: `Generate how they process information:
+- For cats: observation, trial and error, social learning, instinct
+- How they best learn new things
+- Should reflect their species and personality.`,
+
+        // BACKGROUND SECTION - Extended life history
+        backstory: `Generate comprehensive life story:
+- For cats: origin, key experiences, how they came to current situation
+- Complete narrative of their past
+- Should explain their current personality and circumstances
+- 3-4 sentences with specific, meaningful details.`,
+
+        origin: `Generate where they come from:
+- For cats: born in shelter, found as stray, bred by humans, feral beginnings
+- Their earliest origins and how they entered the world
+- Should explain their initial life circumstances.`,
+
+        upbringing: `Generate how they were raised:
+- For cats: socialized with humans, raised by mother cat, hand-reared
+- The care and training they received early in life
+- Should explain their social skills and attachments.`,
+
+        familyHistory: `Generate family background:
+- For cats: lineage of familiars, street cat ancestry, purebred heritage
+- Their family's history and characteristics
+- Should explain inherited traits and family patterns.`,
+
+        socialClass: `Generate their social position:
+- For cats: pampered house cat, working barn cat, street survivor
+- Their status within their social environment
+- Should affect their attitudes and expectations.`,
+
+        economicStatus: `Generate their material situation:
+- For cats: well-provided, comfortable, struggling, abandoned
+- Their access to resources and security
+- Should influence their behavior and priorities.`,
+
+        academicHistory: `Generate formal learning experiences:
+- For cats: training from elder cats, human instruction, self-taught skills
+- Their educational background and achievements
+- Should explain their knowledge and capabilities.`,
+
+        formativeEvents: `Generate key shaping experiences:
+- For cats: first hunt, territory establishment, family bonding, threats faced
+- Events that made them who they are today
+- Should connect to their current traits and behaviors.`,
+
+        lifeChangingMoments: `Generate pivotal experiences:
+- For cats: adoption, loss of family, territorial victory, survival crisis
+- Moments that completely altered their life path
+- Should explain major personality or circumstance changes.`,
+
+        personalStruggle: `Generate major challenges faced:
+- For cats: surviving abandonment, protecting territory, overcoming trauma
+- Significant difficulties they've had to overcome
+- Should demonstrate their resilience and growth.`,
+
+        challenges: `Generate obstacles overcome:
+- For cats: predators, rival cats, environmental dangers, human conflicts
+- Difficulties they've successfully navigated
+- Should show their problem-solving and adaptability.`,
+
+        achievements: `Generate notable accomplishments:
+- For cats: territory secured, family protected, skills mastered, bonds formed
+- Things they've successfully achieved
+- Should demonstrate their capabilities and growth.`,
+
+        failures: `Generate significant setbacks:
+- For cats: failed hunts, lost territory, broken relationships, survival mistakes
+- Important things they failed at or lost
+- Should add realism and explain current motivations.`,
+
+        losses: `Generate important things lost:
+- For cats: family members, territory, human companions, security
+- Meaningful losses they've experienced
+- Should explain grief, protective behaviors, or attachment patterns.`,
+
+        victories: `Generate major triumphs:
+- For cats: territorial victories, successful rescues, skill mastery, bond formation
+- Their greatest successes and wins
+- Should show their capabilities and what they value.`,
+
+        reputation: `Generate how others see them:
+- For cats: known as protector, trickster, wise elder, troublemaker
+- Their standing in their community
+- Should reflect their actions and personality impact.`,
+
+        // ABILITIES SECTION - Extended capabilities
+        specialAbilities: `Generate unique powers or exceptional skills:
+- For cats: enhanced senses, supernatural luck, empathic abilities, magical talent
+- Abilities that set them apart from others of their species
+- Should feel natural to their character concept.`,
+
+        powers: `Generate supernatural capabilities:
+- For cats: telepathy with humans, precognition, phase-shifting, elemental control
+- Extraordinary abilities beyond normal species traits
+- Should match the story's magical or sci-fi elements.`,
+
+        magicalAbilities: `Generate specific magical powers:
+- For cats: familiar magic, protective wards, healing purrs, dimensional sight
+- Concrete magical skills they can use
+- Should have clear applications and limitations.`,
+
+        magicType: `Generate their magic classification:
+- For cats: Familiar Magic, Protective Magic, Elemental Magic, Spirit Magic
+- The category or school of their magical abilities
+- Should define their magical style and approach.`,
+
+        magicSource: `Generate where their magic comes from:
+- For cats: ancestral bloodline, bond with wizard, mystical artifact, natural gift
+- The origin and foundation of their magical power
+- Should explain why they have these abilities.`,
+
+        magicLimitations: `Generate magical restrictions:
+- For cats: tied to emotions, requires energy, limited by range, needs catalyst
+- What limits or constrains their magical abilities
+- Should create balance and story tension.`,
+
+        superpowers: `Generate superhuman abilities:
+- For cats: super speed, enhanced strength, invisibility, time manipulation
+- Powers that exceed normal physical limitations
+- Should fit the story's power level and genre.`,
+
+        competencies: `Generate areas of excellence:
+- For cats: hunting, stealth, social manipulation, territory defense
+- Fields where they consistently perform well
+- Should reflect their training and natural abilities.`,
+
+        training: `Generate formal instruction received:
+- For cats: elder cat mentorship, human training, survival education, magical instruction
+- Structured learning they've undergone
+- Should explain their organized skill development.`,
+
+        experience: `Generate practical knowledge gained:
+- For cats: street survival, household management, territory conflicts, crisis response
+- Real-world experience that taught them skills
+- Should explain their practical wisdom and capabilities.`,
+
+        // STORY SECTION - Extended narrative elements
+        objectives: `Generate specific targets:
+- For cats: secure perfect territory, protect all family, master hunting skills
+- Concrete, measurable goals they're working toward
+- Should be more specific than general goals.`,
+
+        wants: `Generate immediate desires:
+- For cats: warm sunbeam, favorite treat, family attention, territory expansion
+- What they want right now or in the near future
+- Should be more immediate than long-term goals.`,
+
+        obstacles: `Generate barriers to success:
+- For cats: rival cats, dangerous predators, human conflicts, environmental hazards
+- What stands between them and their goals
+- Should create story conflict and tension.`,
+
+        conflicts: `Generate internal and external struggles:
+- For cats: independence vs. dependency, safety vs. curiosity, territory vs. family
+- Competing desires or external opposition
+- Should drive character development and plot.`,
+
+        conflictSources: `Generate origins of their struggles:
+- For cats: past trauma, species instincts, territorial disputes, family bonds
+- Where their conflicts come from
+- Should explain the roots of their challenges.`,
+
+        stakes: `Generate what they stand to lose or gain:
+- For cats: family safety, territory security, personal freedom, survival itself
+- The consequences of success or failure
+- Should create urgency and importance.`,
+
+        consequences: `Generate results of failure:
+- For cats: loss of territory, family harm, starvation, abandonment
+- What happens if they don't succeed
+- Should create tension and motivation.`,
+
+        journey: `Generate their path through the story:
+- For cats: from fearful to confident, isolated to bonded, dependent to independent
+- How they move through the narrative
+- Should show character development progression.`,
+
+        transformation: `Generate how they change:
+- For cats: overcome fears, develop new skills, form deeper bonds, accept responsibility
+- The fundamental ways they're different by story's end
+- Should represent meaningful character growth.`,
+
+        growth: `Generate their development process:
+- For cats: learning to trust, developing confidence, mastering abilities, embracing role
+- How they mature and evolve
+- Should show realistic character progression.`,
+
+        connectionToEvents: `Generate how they relate to plot:
+- For cats: catalyst for adventure, key to resolution, emotional heart, protective force
+- Their specific connection to story events
+- Should justify their inclusion in the narrative.`,
+
+        plotRelevance: `Generate their story importance:
+- For cats: saves the day, provides crucial information, emotional anchor, comic relief
+- Why they matter to the main plot
+- Should establish their narrative necessity.`,
+
+        nativeLanguage: `Generate their primary communication:
+- For cats: feline body language, specific meow patterns, purr frequencies
+- Their first and most natural form of communication
+- Should reflect their species and origin.`,
+
+        accent: `Generate their speech characteristics:
+- For cats: particular vocal tones, regional meow patterns, volume tendencies
+- How their communication sounds distinctive
+- Should reflect their background and personality.`,
+
+        dialect: `Generate specific communication patterns:
+- For cats: household vs. street cat communication, formal vs. casual interaction
+- Their particular way of expressing themselves
+- Should show their social background.`,
+
+        voiceDescription: `Generate how they sound:
+- For cats: melodic purr, raspy meow, chirping trill, silent communication
+- The quality and character of their vocalizations
+- Should match their personality and physical traits.`,
+
+        speechPatterns: `Generate their communication style:
+- For cats: frequent chirping, demand meowing, gentle purring, body language emphasis
+- How they typically communicate
+- Should reflect their relationship style and needs.`,
+
+        vocabulary: `Generate their communication range:
+- For cats: extensive meow vocabulary, body language fluency, scent marking
+- The breadth and sophistication of their communication
+- Should reflect their intelligence and social experience.`,
+
+        catchphrases: `Generate repeated expressions:
+- For cats: specific meow sounds, particular chirps, signature purrs
+- Characteristic sounds or behaviors they often repeat
+- Should be memorable and personality-appropriate.`,
+
+        slang: `Generate informal communication:
+- For cats: playful sounds, casual body language, relaxed postures
+- How they communicate in comfortable, informal situations
+- Should show their personality when relaxed.`,
+
+        communicationStyle: `Generate interaction approach:
+- For cats: direct and demanding, gentle and subtle, playful and engaging
+- How they approach communication with others
+- Should reflect their personality and social skills.`,
+
+        parents: `Generate information about their parents:
+- For cats: mother's temperament, father's traits, parental care received
+- Details about their biological or adoptive parents
+- Should explain inherited traits and early influences.`,
+
+        siblings: `Generate brothers and sisters:
+- For cats: littermates, adopted siblings, competitive or supportive relationships
+- Their relationships with other young in their family
+- Should explain social skills and family dynamics.`,
+
+        spouse: `Generate life partner:
+- For cats: bonded mate, companion cat, territorial partner
+- Their committed relationship partner if any
+- Should reflect their social and emotional maturity.`,
+
+        children: `Generate offspring:
+- For cats: kittens raised, young mentored, protective instincts
+- Their parental relationships and responsibilities
+- Should show their nurturing and protective sides.`,
+
+        friends: `Generate close personal relationships:
+- For cats: trusted companions, play partners, mutual protectors
+- Their chosen close relationships
+- Should reflect their social skills and loyalty.`,
+
+        socialCircle: `Generate broader social network:
+- For cats: neighborhood cats, household animals, regular contacts
+- Their wider community of relationships
+- Should show their social integration and influence.`,
+
+        community: `Generate the group they belong to:
+- For cats: household family, neighborhood cats, cat colony
+- Their broader social and territorial community
+- Should explain their social context and responsibilities.`,
+
+        culture: `Generate cultural background:
+- For cats: house cat culture, feral culture, mixed background
+- The cultural environment that shaped them
+- Should explain their values and social behaviors.`,
+
+        traditions: `Generate customs they follow:
+- For cats: territorial rituals, family bonding practices, seasonal behaviors
+- Regular practices that connect them to their community
+- Should show their social integration and values.`,
+
+        customs: `Generate social practices they observe:
+- For cats: greeting rituals, sharing behaviors, hierarchy respect
+- Social rules and practices they follow
+- Should demonstrate their social awareness and respect.`,
+
+        religion: `Generate spiritual beliefs:
+- For cats: natural spirituality, protective spirits, ancestor reverence
+- Their understanding of the spiritual world
+- Should reflect their species' natural mysticism.`,
+
+        spirituality: `Generate spiritual practices:
+- For cats: meditation in sunbeams, territorial blessing, ancestor honoring
+- How they connect with the spiritual realm
+- Should feel natural to their character and species.`,
+
+        politicalViews: `Generate stance on authority and power:
+- For cats: independent but loyal, respectful of territory, protective of community
+- Their attitude toward leadership and social structures
+- Should reflect their personality and experiences.`,
       };
 
       const specificPrompt = fieldSpecificPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} content for this character.`;
@@ -1011,22 +1421,261 @@ Generate ${fieldLabel.toLowerCase()}:`;
             }
             return 'Overthinking decisions, self-doubt in new situations, perfectionist tendencies';
           })(),
+
+          // PSYCHOLOGY SECTION FALLBACKS
+          desires: (() => {
+            if (character.race === 'Cat') {
+              const catDesires = [
+                'Perfect sunny windowsill, endless treats, family safety, territory mastery',
+                'Comfortable routine, hunting success, human attention, peaceful sleep',
+                'Adventure opportunities, social bonds, environmental control, abundant resources'
+              ];
+              return catDesires[Math.floor(randomSeed * catDesires.length)];
+            }
+            return 'Personal fulfillment, meaningful relationships, security, achievement';
+          })(),
+
+          needs: (() => {
+            if (character.race === 'Cat') {
+              const catNeeds = [
+                'Safety, food security, territory, family bonds, mental stimulation',
+                'Routine, comfort, respect, hunting opportunities, social connection',
+                'Freedom, protection, resources, acknowledgment, play time'
+              ];
+              return catNeeds[Math.floor(randomSeed * catNeeds.length)];
+            }
+            return 'Love, purpose, security, growth, autonomy';
+          })(),
+
+          drives: (() => {
+            if (character.race === 'Cat') {
+              const catDrives = [
+                'Survival instinct, territorial protection, family loyalty, curiosity',
+                'Security seeking, comfort pursuit, dominance assertion, social bonding',
+                'Resource acquisition, danger avoidance, relationship maintenance, exploration'
+              ];
+              return catDrives[Math.floor(randomSeed * catDrives.length)];
+            }
+            return 'Achievement, connection, growth, contribution, survival';
+          })(),
+
+          ambitions: (() => {
+            if (character.race === 'Cat') {
+              const catAmbitions = [
+                'Ultimate territory security, perfect family harmony, legendary hunting status',
+                'Complete environmental mastery, strongest social bonds, maximum comfort',
+                'Legendary protector status, perfect life balance, universal respect'
+              ];
+              return catAmbitions[Math.floor(randomSeed * catAmbitions.length)];
+            }
+            return 'Master their craft, build lasting legacy, create positive impact';
+          })(),
+
+          phobias: (() => {
+            if (character.race === 'Cat') {
+              const catPhobias = [
+                'Vacuum cleaners, thunderstorms, water, strangers at the door',
+                'Car engines, large dogs, sudden loud noises, unfamiliar scents',
+                'Veterinary equipment, closed doors, empty food bowls, abandonment'
+              ];
+              return catPhobias[Math.floor(randomSeed * catPhobias.length)];
+            }
+            return 'Public failure, loss of control, abandonment, heights';
+          })(),
+
+          anxieties: (() => {
+            if (character.race === 'Cat') {
+              const catAnxieties = [
+                'Family safety, territory invasion, food scarcity, separation',
+                'Environmental changes, rival threats, routine disruption, health concerns',
+                'Social rejection, resource competition, predator presence, isolation'
+              ];
+              return catAnxieties[Math.floor(randomSeed * catAnxieties.length)];
+            }
+            return 'Performance pressure, social judgment, uncertainty, change';
+          })(),
+
+          insecurities: (() => {
+            if (character.race === 'Cat') {
+              const catInsecurities = [
+                'Hunting ability, worthiness of love, territorial strength, social status',
+                'Intelligence level, physical attractiveness, family value, survival skills',
+                'Leadership capability, emotional sensitivity, independence level, usefulness'
+              ];
+              return catInsecurities[Math.floor(randomSeed * catInsecurities.length)];
+            }
+            return 'Competence doubts, social acceptance, worthiness, capability';
+          })(),
+
+          // BACKGROUND SECTION FALLBACKS
+          backstory: (() => {
+            if (character.race === 'Cat') {
+              const catBackstories = [
+                'Born in a loving home, learned trust and security through consistent care and gentle handling from devoted humans.',
+                'Rescued from difficult circumstances and slowly learned that safety exists, now cherishes the security of home life.',
+                'Adopted as a kitten from a shelter, developed strong family bonds and learned house rules through patient training.',
+                'Found as a stray and welcomed into a warm household, discovered the joys of regular meals and comfortable sleeping spots.'
+              ];
+              return catBackstories[Math.floor(randomSeed * catBackstories.length)];
+            }
+            return 'Grew up in a supportive environment, faced challenges that built character, and developed strong values through life experiences.';
+          })(),
+
+          origin: (() => {
+            if (character.race === 'Cat') {
+              const catOrigins = [
+                'Born in a cozy home to a beloved family cat',
+                'Found as a tiny kitten and bottle-fed by caring humans',
+                'Adopted from an animal shelter at a young age',
+                'Born in a barn and learned independence early'
+              ];
+              return catOrigins[Math.floor(randomSeed * catOrigins.length)];
+            }
+            return 'Born in a small town and raised by loving parents';
+          })(),
+
+          upbringing: (() => {
+            if (character.race === 'Cat') {
+              const catUpbringings = [
+                'Carefully socialized with humans and taught house rules through positive reinforcement',
+                'Raised by an attentive mother cat who taught proper social behaviors',
+                'Hand-reared by dedicated humans who provided constant care and attention',
+                'Learned survival skills from elder cats while developing trust in humans'
+              ];
+              return catUpbringings[Math.floor(randomSeed * catUpbringings.length)];
+            }
+            return 'Raised with strong moral values and encouraged to pursue their interests';
+          })(),
+
+          // ABILITIES SECTION FALLBACKS
+          specialAbilities: (() => {
+            if (character.race === 'Cat') {
+              const catSpecialAbilities = [
+                'Supernatural luck that helps them always land on their feet, enhanced empathic connection with humans',
+                'Exceptional night vision and hearing that borders on precognitive, ability to sense emotions',
+                'Uncanny ability to find hidden passages and shortcuts, talent for predicting weather changes',
+                'Extraordinary climbing skills and perfect balance, intuitive understanding of human needs'
+              ];
+              return catSpecialAbilities[Math.floor(randomSeed * catSpecialAbilities.length)];
+            }
+            return 'Exceptional intuition, natural leadership abilities, remarkable problem-solving skills';
+          })(),
+
+          powers: (() => {
+            if (character.race === 'Cat') {
+              const catPowers = [
+                'Limited telepathy with bonded humans, ability to sense supernatural presences',
+                'Precognitive dreams that warn of danger, natural protection magic around territory',
+                'Dimensional sight that reveals hidden magical elements, healing purr vibrations',
+                'Time dilation during critical moments, empathic projection of calm to others'
+              ];
+              return catPowers[Math.floor(randomSeed * catPowers.length)];
+            }
+            return 'Enhanced reflexes, exceptional memory, natural charisma, strategic thinking';
+          })(),
+
+          magicalAbilities: (() => {
+            if (character.race === 'Cat') {
+              const catMagicalAbilities = [
+                'Familiar bond magic that strengthens nearby allies, protective ward creation around territory',
+                'Healing purr that accelerates recovery, ability to sense magical auras and intentions',
+                'Shadow walking through connected dark spaces, empathic communication with other animals',
+                'Weather sensitivity magic, ability to detect lies through scent and body language'
+              ];
+              return catMagicalAbilities[Math.floor(randomSeed * catMagicalAbilities.length)];
+            }
+            return 'Energy manipulation, elemental affinity, protective barriers, enhanced senses';
+          })(),
+
+          // STORY SECTION FALLBACKS
+          objectives: (() => {
+            if (character.race === 'Cat') {
+              const catObjectives = [
+                'Secure every corner of their territory, master the art of perfect napping spots',
+                'Achieve complete family harmony, develop legendary hunting reputation',
+                'Create the ultimate comfortable routine, establish undisputed household authority'
+              ];
+              return catObjectives[Math.floor(randomSeed * catObjectives.length)];
+            }
+            return 'Complete current mission, master new skills, build stronger relationships';
+          })(),
+
+          wants: (() => {
+            if (character.race === 'Cat') {
+              const catWants = [
+                'Immediate: warm sunny spot, favorite treats, gentle chin scratches',
+                'Immediate: exciting hunt, family attention, cozy hiding place',
+                'Immediate: peaceful environment, delicious meal, comfortable perch'
+              ];
+              return catWants[Math.floor(randomSeed * catWants.length)];
+            }
+            return 'Recognition for efforts, time with loved ones, new challenges';
+          })(),
+
+          obstacles: (() => {
+            if (character.race === 'Cat') {
+              const catObstacles = [
+                'Rival cats threatening territory, environmental dangers, human misunderstandings',
+                'Resource competition, predator threats, household disruptions, health challenges',
+                'Social conflicts, territorial disputes, routine changes, family tensions'
+              ];
+              return catObstacles[Math.floor(randomSeed * catObstacles.length)];
+            }
+            return 'External opposition, resource limitations, time constraints, social barriers';
+          })(),
+
+          conflicts: (() => {
+            if (character.race === 'Cat') {
+              const catConflicts = [
+                'Independence vs. family dependency, safety vs. curiosity, territory vs. sharing',
+                'Hunting instincts vs. house rules, comfort vs. adventure, dominance vs. cooperation',
+                'Privacy needs vs. social bonds, routine vs. spontaneity, protection vs. trust'
+              ];
+              return catConflicts[Math.floor(randomSeed * catConflicts.length)];
+            }
+            return 'Duty vs. desire, safety vs. growth, independence vs. connection';
+          })(),
+
+          journey: (() => {
+            if (character.race === 'Cat') {
+              const catJourneys = [
+                'From fearful newcomer to confident family guardian, learning trust and responsibility',
+                'From independent loner to devoted family member, discovering the value of bonds',
+                'From anxious kitten to wise protector, developing courage and leadership skills'
+              ];
+              return catJourneys[Math.floor(randomSeed * catJourneys.length)];
+            }
+            return 'From uncertainty to confidence, from isolation to connection, from fear to courage';
+          })(),
+
+          transformation: (() => {
+            if (character.race === 'Cat') {
+              const catTransformations = [
+                'Learns to balance independence with family loyalty, becomes protective leader',
+                'Overcomes past trauma to trust again, develops deep emotional bonds',
+                'Grows from playful youth to responsible guardian, masters territorial leadership'
+              ];
+              return catTransformations[Math.floor(randomSeed * catTransformations.length)];
+            }
+            return 'Develops emotional maturity, gains wisdom through experience, finds inner strength';
+          })(),
+          // REMAINING STANDARD FALLBACKS
           eyeColor: character.race === 'Cat' ? 'Golden amber' : 'Brown',
-          hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown',
-          goals: 'To protect those they care about',
-          motivations: 'A deep sense of justice and duty',
-          background: character.race === 'Cat' ? 'A house cat who discovered their magical abilities' : 'Grew up in a small village before discovering their destiny',
-          arc: 'A journey from uncertainty to confidence and mastery',
-          personalityTraits: character.race === 'Cat' ? 'Curious, independent, playful, loyal' : 'Brave, loyal, determined',
-          fears: character.race === 'Cat' ? 'Loud noises, being separated from their human' : 'Losing loved ones',
-          skills: character.race === 'Cat' ? 'Stealth, climbing, keen senses, hunting' : 'Combat, leadership',
-          abilities: character.race === 'Cat' ? 'Night vision, enhanced hearing, supernatural luck' : 'Enhanced strength, combat prowess',
-          talents: character.race === 'Cat' ? 'Always lands on feet, finds hidden paths' : 'Natural leadership, tactical thinking',
-          flaws: character.race === 'Cat' ? 'Easily distracted, stubborn, overly curious' : 'Impulsive, self-doubting',
-          family: character.race === 'Cat' ? 'Comes from a long line of magical familiars' : 'Raised by loving parents in a small town',
-          relationships: character.race === 'Cat' ? 'Bonded to a wizard, friends with other familiars' : 'Close relationships with childhood friends',
-          secrets: character.race === 'Cat' ? 'Can understand all human languages' : 'Harbors a dark secret from their past',
-          education: character.race === 'Cat' ? 'Trained in magical arts by elder familiars' : 'Self-taught through experience and mentorship',
+          hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown', 
+          parents: character.race === 'Cat' ? 'Loving mother cat who taught survival skills, unknown father with noble bearing' : 'Caring parents who provided stable upbringing',
+          siblings: character.race === 'Cat' ? 'Two littermates who remained close, occasional territorial disputes but deep affection' : 'Supportive siblings who shaped their competitive nature',
+          spouse: character.race === 'Cat' ? 'Bonded companion cat who shares territory and responsibilities' : 'Devoted partner who complements their strengths',
+          children: character.race === 'Cat' ? 'Protective of several adopted kittens in the neighborhood' : 'Raising children with strong moral values',
+          friends: character.race === 'Cat' ? 'Loyal group of neighborhood cats who share information and support' : 'Close circle of trusted friends from various backgrounds',
+          socialCircle: character.race === 'Cat' ? 'Extended network of cats, dogs, and humans throughout the territory' : 'Professional and personal connections across the community',
+          community: character.race === 'Cat' ? 'Household family plus neighborhood animals in mutual protection pact' : 'Active member of local community with strong civic involvement',
+          culture: character.race === 'Cat' ? 'House cat culture with strong emphasis on family loyalty and territorial respect' : 'Traditional values balanced with progressive ideals',
+          traditions: character.race === 'Cat' ? 'Daily territorial patrols, family grooming sessions, seasonal territory marking' : 'Family gatherings, seasonal celebrations, community service',
+          customs: character.race === 'Cat' ? 'Respectful greeting rituals, proper territory acknowledgment, sharing of resources' : 'Polite social interactions, respect for elders, hospitality traditions',
+          religion: character.race === 'Cat' ? 'Natural spirituality focused on territorial spirits and ancestor guidance' : 'Balanced spiritual beliefs combining tradition and personal experience',
+          spirituality: character.race === 'Cat' ? 'Daily meditation in sunny spots, connection with natural cycles' : 'Regular reflection and connection with higher purpose',
+          politicalViews: character.race === 'Cat' ? 'Strong believer in territorial rights balanced with community cooperation' : 'Moderate views favoring practical solutions and social responsibility',
+          education: character.race === 'Cat' ? 'Trained by elder cats in survival, social skills, and territorial management' : 'Well-educated with focus on practical skills and moral development',
           appearance: character.race === 'Cat' ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
           distinguishingFeatures: character.race === 'Cat' ? 'Unusually bright eyes and a distinctive tail marking' : 'A distinctive scar and penetrating gaze'
         };
