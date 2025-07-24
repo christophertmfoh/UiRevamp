@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, Building2, Target, Users, Cog, Handshake, History, Heart, Settings, Camera, Trash2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
@@ -280,45 +280,58 @@ export function OrganizationUnifiedView({
         </div>
       </div>
 
-      {/* Main Content */}
-      <Card className="creative-card">
-        <div className="p-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="border-b mb-6">
-              <TabsList className="grid w-full grid-cols-8 mb-0 bg-transparent border-0 p-0">
-                {ORGANIZATION_SECTIONS.map((section) => {
-                  const Icon = ICON_COMPONENTS[section.title as keyof typeof ICON_COMPONENTS];
-                  return (
-                    <TabsTrigger 
-                      key={section.title} 
-                      value={section.title.toLowerCase()}
-                      className="flex items-center space-x-2 px-4 py-3 text-sm border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent bg-transparent hover:bg-accent/10 transition-colors rounded-none"
-                    >
-                      {Icon && <Icon className="h-4 w-4" />}
-                      <span className="hidden sm:inline">{section.title}</span>
-                    </TabsTrigger>
-                  );
-                })}
-              </TabsList>
-            </div>
+      {/* Main Content - Sidebar Layout like Factions */}
+      <div className="flex gap-6">
+        {/* Left Sidebar Navigation */}
+        <div className="w-64 space-y-2">
+          {ORGANIZATION_SECTIONS.map((section) => {
+            const Icon = ICON_COMPONENTS[section.title as keyof typeof ICON_COMPONENTS];
+            const isActive = activeTab === section.title.toLowerCase();
+            return (
+              <button
+                key={section.title}
+                onClick={() => setActiveTab(section.title.toLowerCase())}
+                className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
+                  isActive 
+                    ? 'bg-accent text-accent-foreground' 
+                    : 'hover:bg-accent/50 text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {Icon && <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" />}
+                <div>
+                  <div className="font-medium text-sm">{section.title}</div>
+                  <div className="text-xs opacity-75">{section.description}</div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
 
-            {ORGANIZATION_SECTIONS.map((section) => (
-              <TabsContent key={section.title} value={section.title.toLowerCase()} className="mt-6">
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
-                    <div className="grid gap-6 md:grid-cols-2">
-                      {section.fields.map((field) => 
-                        renderField(field, formData[field.name as keyof Organization])
-                      )}
+        {/* Right Content Area */}
+        <div className="flex-1">
+          <Card className="creative-card">
+            <div className="p-6">
+              {ORGANIZATION_SECTIONS.map((section) => {
+                if (activeTab !== section.title.toLowerCase()) return null;
+                
+                return (
+                  <div key={section.title} className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{section.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-6">{section.description}</p>
+                      <div className="grid gap-6 md:grid-cols-2">
+                        {section.fields.map((field) => 
+                          renderField(field, formData[field.name as keyof Organization])
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+                );
+              })}
+            </div>
+          </Card>
         </div>
-      </Card>
+      </div>
 
       {/* Portrait Modal */}
       <OrganizationPortraitModal
