@@ -286,9 +286,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createOrganization(organization: InsertOrganization): Promise<Organization> {
-    console.log('Storage: Inserting organization into database:', JSON.stringify(organization, null, 2));
-    const [newOrganization] = await db.insert(organizations).values(organization).returning();
-    console.log('Storage: Organization returned from database:', JSON.stringify(newOrganization, null, 2));
+    // Clean data before inserting, exclude updatedAt (server handles this)
+    const cleanedData = Object.fromEntries(
+      Object.entries(organization).filter(([key, value]) => {
+        if (key === 'updatedAt') return false; // Server handles this automatically
+        if (value === '' || value === undefined || value === null) return false;
+        if (Array.isArray(value) && value.length === 0) return false;
+        return true;
+      })
+    );
+    
+    const [newOrganization] = await db.insert(organizations).values({
+      ...cleanedData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }).returning();
     
     if (!newOrganization) {
       throw new Error('Failed to create organization - no data returned from database');
@@ -298,27 +310,29 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined> {
-    console.log('Storage: Updating organization with data:', JSON.stringify(organization, null, 2));
-    
-    // Filter out empty strings and undefined values before database operation
+    // Filter out empty strings, undefined values, and exclude updatedAt (server handles this)
     const cleanedData = Object.fromEntries(
-      Object.entries(organization).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      Object.entries(organization).filter(([key, value]) => {
+        if (key === 'updatedAt') return false; // Server handles this automatically
+        if (value === '' || value === undefined || value === null) return false;
+        if (Array.isArray(value) && value.length === 0) return false;
+        return true;
+      })
     );
     
     if (Object.keys(cleanedData).length === 0) {
-      console.log('Storage: No valid data to update after cleaning');
       return this.getOrganization(id);
     }
     
-    console.log('Storage: Cleaned data for update:', JSON.stringify(cleanedData, null, 2));
-    
     const [updatedOrganization] = await db
       .update(organizations)
-      .set(cleanedData)
+      .set({
+        ...cleanedData,
+        updatedAt: new Date() // Server-side timestamp
+      })
       .where(eq(organizations.id, id))
       .returning();
     
-    console.log('Storage: Updated organization returned from database:', JSON.stringify(updatedOrganization, null, 2));
     return updatedOrganization || undefined;
   }
 

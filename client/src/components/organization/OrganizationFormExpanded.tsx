@@ -95,8 +95,19 @@ export function OrganizationFormExpanded({ projectId, onCancel, organization }: 
 
   const saveMutation = useMutation({
     mutationFn: async (data: any) => {
+      // Clean data by filtering out empty values and ensuring proper structure
+      const cleanedData = Object.fromEntries(
+        Object.entries(data).filter(([key, value]) => {
+          // Keep non-empty strings and non-empty arrays
+          if (typeof value === 'string' && value.trim() === '') return false;
+          if (Array.isArray(value) && value.length === 0) return false;
+          if (value === null || value === undefined) return false;
+          return true;
+        })
+      );
+
       const endpoint = organization 
-        ? `/api/organizations/${organization.id}`
+        ? `/api/projects/${projectId}/organizations/${organization.id}`
         : `/api/projects/${projectId}/organizations`;
       
       const response = await fetch(endpoint, {
@@ -105,7 +116,7 @@ export function OrganizationFormExpanded({ projectId, onCancel, organization }: 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...data,
+          ...cleanedData,
           projectId,
           id: organization?.id || Date.now().toString() + Math.random().toString(36).substr(2, 5)
         }),
