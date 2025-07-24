@@ -89,46 +89,73 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  const prompt = `Based on the character information provided, intelligently fill out the missing fields to create a complete, cohesive character profile. Focus on details that would enhance the character's depth and storytelling potential.
+  // Sequential enhancement to avoid rate limits (250k tokens/minute)
+  const enhancedData = { ...currentData };
+  let processedFields = 0;
+  const totalFields = emptyFields.length;
+  
+  console.log(`Starting sequential enhancement of ${totalFields} fields to avoid rate limits...`);
 
-Current character: ${JSON.stringify(currentData, null, 2)}
+  // Process fields in small batches to respect API limits
+  const batchSize = 4;
+  for (let i = 0; i < emptyFields.length; i += batchSize) {
+    const batchFields = emptyFields.slice(i, i + batchSize);
+    
+    const prompt = `PROJECT: ${project.name} (${project.type}, ${project.genre?.join(', ') || 'General'})
 
-Please return a complete character object with all fields filled out logically and consistently.`;
+EXISTING CHARACTER DATA:
+${analysisReport}
 
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash", // Using flash model to avoid quota issues
-      config: {
-        systemInstruction: systemPrompt,
-        responseMimeType: "application/json",
-      },
-      contents: prompt,
-    });
+TASK: Fill only these fields: ${batchFields.join(', ')}
 
-    const rawJson = response.text;
-    console.log('Raw character enhancement response:', rawJson);
+Current data: ${JSON.stringify(enhancedData, null, 2)}
 
-    if (rawJson) {
-      const enhancedData = JSON.parse(rawJson);
+Return JSON with ONLY the specified fields filled contextually.`;
+
+    try {
+      console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(emptyFields.length/batchSize)}: ${batchFields.join(', ')}`);
       
-      // Ensure we preserve important system fields
-      const finalData = {
-        ...enhancedData,
-        id: currentData.id,
-        projectId: currentData.projectId,
-        imageUrl: currentData.imageUrl || '',
-        displayImageId: currentData.displayImageId || '',
-        imageGallery: currentData.imageGallery || [],
-        createdAt: currentData.createdAt,
-        updatedAt: currentData.updatedAt
-      };
-      
-      return finalData;
-    } else {
-      throw new Error("Empty response from AI");
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        config: {
+          systemInstruction: `Fill specific character fields based on existing data. Keep responses brief but vivid. For arrays, provide 2-3 items.`,
+          responseMimeType: "application/json",
+        },
+        contents: prompt,
+      });
+
+      const result = response.text;
+      if (result) {
+        const batchData = JSON.parse(result);
+        Object.assign(enhancedData, batchData);
+        processedFields += batchFields.length;
+        console.log(`✓ Completed ${processedFields}/${totalFields} fields`);
+      }
+
+      // Add delay between batches to respect rate limits
+      if (i + batchSize < emptyFields.length) {
+        console.log('Waiting 3 seconds to respect rate limits...');
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+
+    } catch (error: any) {
+      console.error(`Error in batch ${Math.floor(i/batchSize) + 1}:`, error.message);
+      // Continue with next batch
     }
-  } catch (error) {
-    console.error('Character enhancement error:', error);
-    throw new Error(`Failed to enhance character: ${error}`);
   }
+
+  // Preserve system fields
+  const finalData = {
+    ...enhancedData,
+    id: currentData.id,
+    projectId: currentData.projectId,
+    imageUrl: currentData.imageUrl || '',
+    displayImageId: currentData.displayImageId || '',
+    imageGallery: currentData.imageGallery || [],
+    createdAt: currentData.createdAt,
+    updatedAt: currentData.updatedAt
+  };
+
+  console.log(`✅ Sequential enhancement completed: ${processedFields}/${totalFields} fields enhanced`);
+  return finalData;
 }
