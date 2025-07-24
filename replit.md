@@ -6,6 +6,15 @@ Story Weaver is a comprehensive AI-integrated creative suite designed to take cr
 
 ## Recent Changes (Latest: July 24, 2025)
 
+### AI-Powered Character Generation System Complete
+- **Contextual Character Creation**: AI generates complete character sheets based on story context using Google Gemini 2.0
+- **Smart Context Analysis**: System analyzes project genre, tone, locations, and existing characters for authentic generation
+- **Complete Character Sheets**: Automatically fills name, role, personality, backstory, motivations, fears, secrets, relationships, goals, flaws, skills, and equipment
+- **World-Aware Generation**: Characters are tailored to fit naturally into existing story world and complement other characters
+- **One-Click Generation**: "Generate Character" button next to "Add Character" for instant character creation
+- **Gemini Integration**: Uses Google Gemini 2.0 Flash for high-quality, contextual character generation
+- **Error Handling**: Graceful fallbacks and clear error messages for missing API keys
+
 ### Character Portrait Management System Complete & Optimized
 - **AI-Powered Portrait Generation**: Integrated Google Gemini 2.0 and OpenAI DALL-E 3 for character image generation
 - **Smart Prompt Generation**: Automatically creates detailed prompts from character data (race, physical description, attire, etc.)

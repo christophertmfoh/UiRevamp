@@ -10,7 +10,7 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
-import { generateContextualCharacter } from '../../lib/services';
+import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
 interface CharacterManagerProps {
   projectId: string;

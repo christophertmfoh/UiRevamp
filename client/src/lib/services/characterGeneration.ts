@@ -1,25 +1,21 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { Project, Character } from '../types';
 
 // Check if we're in browser environment
 const isClient = typeof window !== 'undefined';
 
-// Lazy initialization of OpenAI client to avoid API key errors on module load
-let openai: OpenAI | null = null;
+// Lazy initialization of Gemini client to avoid API key errors on module load
+let gemini: GoogleGenerativeAI | null = null;
 
-function getOpenAIClient(): OpenAI {
-  if (!openai) {
-    const apiKey = isClient ? import.meta.env.VITE_OPENAI_API_KEY : process.env.OPENAI_API_KEY;
+function getGeminiClient(): GoogleGenerativeAI {
+  if (!gemini) {
+    const apiKey = isClient ? import.meta.env.VITE_GEMINI_API_KEY : process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error('OpenAI API key is not configured. Please add VITE_OPENAI_API_KEY to your environment variables.');
+      throw new Error('Gemini API key is not configured. Please add VITE_GEMINI_API_KEY to your environment variables.');
     }
-    // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-    openai = new OpenAI({ 
-      apiKey,
-      dangerouslyAllowBrowser: true
-    });
+    gemini = new GoogleGenerativeAI(apiKey);
   }
-  return openai;
+  return gemini;
 }
 
 interface CharacterGenerationContext {
@@ -35,13 +31,10 @@ export async function generateContextualCharacter(
     // Build context from project data
     const projectContext = buildProjectContext(context);
     
-    const client = getOpenAIClient();
-    const response = await client.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
+    const client = getGeminiClient();
+    const model = client.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    
+    const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
 
 Your response must be valid JSON in this exact format:
 {
@@ -62,18 +55,21 @@ Your response must be valid JSON in this exact format:
   "skills": "abilities and talents",
   "equipment": "items they carry or own",
   "notes": "additional character details"
-}`
-        },
-        {
-          role: "user",
-          content: projectContext
-        }
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 2000,
-    });
+}
 
-    const generatedData = JSON.parse(response.choices[0].message.content || '{}');
+${projectContext}`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    
+    // Extract JSON from the response (in case there's extra text)
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('No valid JSON found in response');
+    }
+    
+    const generatedData = JSON.parse(jsonMatch[0]);
     
     return {
       ...generatedData,
