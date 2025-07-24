@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config';
@@ -258,16 +258,18 @@ export function CharacterUnifiedView({
         <div className="flex gap-2">
           {!isEditing ? (
             <>
-              <Button onClick={() => setIsEditing(true)} className="interactive-warm gap-2">
-                <Edit className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                onClick={() => setIsEditing(true)}
+              >
+                <Edit className="h-4 w-4 mr-2" />
                 Edit Character
               </Button>
               <Button 
                 variant="destructive" 
                 onClick={() => onDelete(character)}
-                className="gap-2"
               >
-                <X className="h-4 w-4" />
+                <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </Button>
             </>
@@ -276,9 +278,9 @@ export function CharacterUnifiedView({
               <Button 
                 onClick={handleSave} 
                 disabled={saveMutation.isPending}
-                className="interactive-warm gap-2"
+                variant="outline"
               >
-                <Save className="h-4 w-4" />
+                <Save className="h-4 w-4 mr-2" />
                 {saveMutation.isPending ? 'Saving...' : 'Save Character'}
               </Button>
               <Button onClick={handleCancel} variant="outline" className="gap-2">
@@ -404,7 +406,7 @@ export function CharacterUnifiedView({
                     <div>
                       <h3 className="text-lg font-semibold mb-1">{section.title}</h3>
                       <p className="text-sm text-muted-foreground mb-6">{section.description}</p>
-                      <div className="space-y-6">
+                      <div className="grid gap-6 md:grid-cols-2">
                         {renderTabContent(section.id)}
                       </div>
                     </div>
