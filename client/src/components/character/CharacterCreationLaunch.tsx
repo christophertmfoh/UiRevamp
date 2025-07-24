@@ -83,38 +83,38 @@ export function CharacterCreationLaunch({
               return (
                 <Card 
                   key={option.id}
-                  className={`group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-transparent hover:border-accent bg-gradient-to-br from-accent via-accent/90 to-accent/80 backdrop-blur-sm relative overflow-hidden ${
-                    isSelected ? 'scale-105 shadow-2xl border-accent' : ''
+                  className={`group cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-border/50 hover:border-accent/50 bg-card/50 backdrop-blur-sm relative overflow-hidden ${
+                    isSelected ? 'scale-[1.02] shadow-xl border-accent/70 bg-accent/5' : ''
                   }`}
                   onClick={() => handleOptionSelect(option.id, option.action)}
                 >
-                  <CardContent className="p-6 relative h-full flex flex-col">
-                    {/* Warm glow effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-accent/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  <CardContent className="p-8 relative h-full flex flex-col text-center">
+                    {/* Subtle glow effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                     
                     {/* Icon */}
                     <div className="relative mb-6">
-                      <div className="w-20 h-20 mx-auto bg-gradient-to-br from-accent-foreground/20 to-accent-foreground/10 rounded-2xl flex items-center justify-center transition-transform duration-300 shadow-lg border border-accent-foreground/30">
-                        <Icon className="h-10 w-10 text-accent-foreground" />
+                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-accent/20 to-accent/10 rounded-xl flex items-center justify-center transition-all duration-300 shadow-lg group-hover:shadow-accent/20 group-hover:scale-110">
+                        <Icon className="h-8 w-8 text-accent" />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="relative text-center space-y-4 flex-1">
+                    <div className="relative space-y-4 flex-1">
                       <div>
-                        <h3 className="font-bold text-xl mb-3 text-accent-foreground">
+                        <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-accent transition-colors">
                           {option.title}
                         </h3>
-                        <p className="text-accent-foreground/80 text-sm leading-relaxed mb-4">
+                        <p className="text-muted-foreground text-sm leading-relaxed">
                           {option.description}
                         </p>
                       </div>
 
                       {/* Features */}
-                      <div className="space-y-2">
+                      <div className="space-y-2 pt-2">
                         {option.features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs text-accent-foreground/70">
-                            <div className="w-1.5 h-1.5 bg-accent-foreground/60 rounded-full" />
+                          <div key={index} className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                            <div className="w-1 h-1 bg-accent/60 rounded-full" />
                             <span>{feature}</span>
                           </div>
                         ))}
@@ -122,9 +122,9 @@ export function CharacterCreationLaunch({
 
                       {/* Loading indicator */}
                       {isSelected && (
-                        <div className="mt-4 flex items-center justify-center gap-2 text-accent-foreground/70">
-                          <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
-                          <span className="text-sm">Loading...</span>
+                        <div className="mt-4 flex items-center justify-center gap-2 text-accent">
+                          <div className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+                          <span className="text-sm font-medium">Creating...</span>
                         </div>
                       )}
                     </div>
