@@ -238,31 +238,36 @@ export function LocationUnifiedView({
           Back to Locations
         </Button>
         <div className="flex gap-2">
-          {isEditing ? (
+          {!isEditing ? (
             <>
+              <Button onClick={() => setIsEditing(true)} className="interactive-warm gap-2">
+                <Edit className="h-4 w-4" />
+                Edit Location
+              </Button>
               <Button 
-                variant="outline" 
-                onClick={handleCancel}
-                disabled={saveMutation.isPending}
+                variant="destructive" 
+                onClick={() => onDelete(location)}
                 className="gap-2"
               >
                 <X className="h-4 w-4" />
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleSave}
-                disabled={saveMutation.isPending}
-                className="gap-2"
-              >
-                <Save className="h-4 w-4" />
-                {saveMutation.isPending ? 'Saving...' : 'Save'}
+                Delete
               </Button>
             </>
           ) : (
-            <Button variant="outline" onClick={() => setIsEditing(true)} className="gap-2">
-              <Edit className="h-4 w-4" />
-              Edit Location
-            </Button>
+            <>
+              <Button 
+                onClick={handleSave} 
+                disabled={saveMutation.isPending}
+                className="interactive-warm gap-2"
+              >
+                <Save className="h-4 w-4" />
+                {saveMutation.isPending ? 'Saving...' : 'Save Location'}
+              </Button>
+              <Button onClick={handleCancel} variant="outline" className="gap-2">
+                <X className="h-4 w-4" />
+                Cancel
+              </Button>
+            </>
           )}
         </div>
       </div>
