@@ -12,6 +12,7 @@ import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTo
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
+import { LoadingModal } from '@/components/ui/loading-modal';
 
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
@@ -1030,6 +1031,12 @@ export function CharacterUnifiedViewPremium({
         onImageUploaded={handleImageGenerated}
       />
 
+      {/* AI Enhancement Loading Modal */}
+      <LoadingModal
+        isOpen={isEnhancing}
+        title="AI Assist is working..."
+        message="Scanning your character data across all categories and generating contextual details for each field."
+      />
 
     </div>
   );
