@@ -272,24 +272,19 @@ export function CharacterUnifiedView({
                     {formData.role}
                   </Badge>
                 )}
-                {formData.race && (
-                  <Badge variant="secondary" className="text-sm">
-                    {formData.race}
-                  </Badge>
-                )}
                 {formData.class && (
                   <Badge variant="outline" className="text-sm">
                     {formData.class}
                   </Badge>
                 )}
+                {formData.profession && (
+                  <Badge variant="outline" className="text-sm">
+                    {formData.profession}
+                  </Badge>
+                )}
                 {formData.age && (
                   <Badge variant="outline" className="text-sm">
                     Age {formData.age}
-                  </Badge>
-                )}
-                {formData.occupation && (
-                  <Badge variant="outline" className="text-sm">
-                    {formData.occupation}
                   </Badge>
                 )}
               </div>
