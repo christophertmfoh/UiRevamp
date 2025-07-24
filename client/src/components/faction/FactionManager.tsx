@@ -44,7 +44,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
   // Auto-select faction if selectedFactionId is provided
   useEffect(() => {
     if (selectedFactionId && factions.length > 0) {
-      const faction = factions.find(f => c.id === selectedFactionId);
+      const faction = factions.find(f => f.id === selectedFactionId);
       if (faction) {
         setSelectedFaction(faction);
         setIsCreating(false);
@@ -93,9 +93,9 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
 
   const filteredFactions = factions.filter((faction: Faction) =>
     (faction.name && faction.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (faction.role && faction.role.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (faction.race && faction.race.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (faction.occupation && faction.occupation.toLowerCase().includes(searchQuery.toLowerCase()))
+    (faction.description && faction.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (faction.type && faction.type.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (faction.tags && faction.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())))
   );
 
   const handleEdit = (faction: Faction) => {
@@ -192,9 +192,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
     if (portraitFaction) {
       updateFactionMutation.mutate({ 
         ...portraitFaction, 
-        imageUrl,
-        // Make sure to preserve any existing portraits array
-        portraits: portraitFaction.portraits || []
+        imageUrl
       });
     }
   };
@@ -203,9 +201,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
     if (portraitFaction) {
       updateFactionMutation.mutate({ 
         ...portraitFaction, 
-        imageUrl,
-        // Make sure to preserve any existing portraits array
-        portraits: portraitFaction.portraits || []
+        imageUrl
       });
     }
   };
@@ -258,7 +254,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search factions by name, role, or race..."
+          placeholder="Search factions by name, type, or description..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-10 creative-input"
@@ -315,7 +311,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
                         className="w-full h-full object-cover rounded-lg"
                       />
                     ) : (
-                      <Edit className="h-8 w-8 text-amber-600 dark:text-amber-400" />
+                      <Users className="h-8 w-8 text-amber-600 dark:text-amber-400" />
                     )}
                     
                     {/* Hover overlay */}
@@ -329,8 +325,8 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-lg mb-1 truncate">{faction.name || 'Unnamed Faction'}</h3>
-                        {faction.title && (
-                          <p className="text-sm text-muted-foreground mb-2 italic">"{faction.title}"</p>
+                        {faction.type && (
+                          <p className="text-sm text-muted-foreground mb-2 italic">{faction.type}</p>
                         )}
                       </div>
                       
@@ -365,33 +361,25 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
                       </DropdownMenu>
                     </div>
 
-                    {/* Badges - same as header */}
+                    {/* Badges */}
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {faction.role && (
-                        <Badge variant="default" className="text-xs px-2 py-1">
-                          {faction.role}
+                      <Badge variant="default" className="text-xs px-2 py-1">
+                        Faction
+                      </Badge>
+                      {faction.type && (
+                        <Badge variant="outline" className="text-xs">
+                          {faction.type}
                         </Badge>
                       )}
-                      {faction.class && (
+                      {faction.status && (
                         <Badge variant="outline" className="text-xs">
-                          {faction.class}
-                        </Badge>
-                      )}
-                      {faction.age && (
-                        <Badge variant="outline" className="text-xs">
-                          Age {faction.age}
+                          {faction.status}
                         </Badge>
                       )}
                     </div>
 
-                    {/* One-line or description */}
-                    {faction.oneLine && (
-                      <p className="text-sm italic text-muted-foreground mb-2">
-                        "{faction.oneLine}"
-                      </p>
-                    )}
-                    
-                    {faction.description && !faction.oneLine && (
+                    {/* Description */}
+                    {faction.description && (
                       <p className="text-sm text-muted-foreground line-clamp-2">
                         {faction.description}
                       </p>

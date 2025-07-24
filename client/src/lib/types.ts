@@ -275,15 +275,30 @@ export interface Location {
 
 export interface Faction {
   id: string;
+  projectId: string;
   name: string;
   description: string;
+  type: string;
   goals: string;
   methods: string;
   history: string;
   leadership: string;
+  structure: string;
   resources: string;
   relationships: string;
+  status: string;
+  size: string;
+  influence: string;
+  territory: string;
+  allies: string;
+  enemies: string;
+  activities: string;
+  secrets: string;
   tags: string[];
+  displayImageId?: string;
+  imageUrl?: string;
+  portraits: string[];
+  createdAt?: Date;
 }
 
 export interface Item {
