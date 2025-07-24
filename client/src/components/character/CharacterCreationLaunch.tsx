@@ -38,9 +38,9 @@ export function CharacterCreationLaunch({
       title: 'Use Professional Template',
       description: 'Start with proven character archetypes and storytelling patterns',
       icon: FileText,
-      gradient: 'from-purple-500/20 to-purple-400/10',
-      borderColor: 'border-purple-400/30',
-      hoverColor: 'hover:border-purple-400/50',
+      gradient: 'from-accent/25 to-accent/15',
+      borderColor: 'border-accent/40',
+      hoverColor: 'hover:border-accent/60',
       action: onOpenTemplates,
       features: ['6 story-tested archetypes', 'Pre-filled character fields', 'Industry best practices']
     },
@@ -49,9 +49,9 @@ export function CharacterCreationLaunch({
       title: 'AI-Powered Creation',
       description: 'Let AI generate a complete character based on your story needs',
       icon: Sparkles,
-      gradient: 'from-amber-500/20 to-orange-400/10',
-      borderColor: 'border-amber-400/30',
-      hoverColor: 'hover:border-amber-400/50',
+      gradient: 'from-accent/30 to-accent/20',
+      borderColor: 'border-accent/50',
+      hoverColor: 'hover:border-accent/70',
       action: onOpenAIGeneration,
       features: ['Context-aware generation', 'Instant backstory creation', 'Portrait generation included']
     }
@@ -103,8 +103,8 @@ export function CharacterCreationLaunch({
                     
                     {/* Icon */}
                     <div className="relative mb-4">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-accent/20 to-accent/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="h-8 w-8 text-accent" />
+                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-accent/30 to-accent/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <Icon className="h-8 w-8 text-accent-foreground" />
                       </div>
                     </div>
 
