@@ -990,13 +990,11 @@ export function CharacterUnifiedViewPremium({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'goals', label: 'Goals & Motivations', type: 'textarea', placeholder: 'Character goals and driving motivations...' },
-                { key: 'motivations', label: 'Motivations', type: 'textarea', placeholder: 'What drives this character...' },
-                { key: 'background', label: 'Background', type: 'textarea', placeholder: 'Character history and backstory...' },
-                { key: 'arc', label: 'Character Arc', type: 'textarea', placeholder: 'Character development and transformation...' },
                 { key: 'storyFunction', label: 'Story Function', type: 'text', placeholder: 'Role in the narrative' },
                 { key: 'archetypes', label: 'Archetypes', type: 'array', placeholder: 'Hero, Mentor, Trickster, etc.' },
                 { key: 'themes', label: 'Themes', type: 'array', placeholder: 'Associated themes and symbolism' },
+                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What does this character symbolize?' },
+                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, other characters, or concepts that inspired this character' },
                 { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas...' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">

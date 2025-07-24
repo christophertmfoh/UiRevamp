@@ -95,6 +95,7 @@ const CREATION_STEPS: Step[] = [
       { key: 'temperament', label: 'Temperament', type: 'select', options: ['Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Mixed'] },
       { key: 'worldview', label: 'Worldview', type: 'textarea', placeholder: 'How they see the world and their place in it' },
       { key: 'values', label: 'Core Values', type: 'textarea', placeholder: 'What they believe is most important' },
+      { key: 'goals', label: 'Goals', type: 'textarea', placeholder: 'What they want to achieve' },
       { key: 'motivations', label: 'Motivations', type: 'textarea', placeholder: 'What drives them forward', required: true },
       { key: 'fears', label: 'Fears', type: 'textarea', placeholder: 'What they are afraid of' },
       { key: 'desires', label: 'Desires', type: 'textarea', placeholder: 'What they want most' },
@@ -155,8 +156,6 @@ const CREATION_STEPS: Step[] = [
     description: 'Story function, themes, and creative elements',
     icon: PenTool,
     fields: [
-      { key: 'goals', label: 'Character Goals', type: 'textarea', placeholder: 'What they want to achieve in the story', required: true },
-      { key: 'arc', label: 'Character Arc', type: 'textarea', placeholder: 'How they change throughout the story' },
       { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'Their role in advancing the plot' },
       { key: 'theme', label: 'Associated Themes', type: 'textarea', placeholder: 'Themes they represent or explore' },
       { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What they symbolize in the story' },
