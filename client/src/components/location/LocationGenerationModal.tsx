@@ -8,52 +8,54 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sparkles, Loader2 } from 'lucide-react';
 
 interface LocationGenerationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  project: any;
+  existingLocations: any[];
   onGenerate: (generationOptions: LocationGenerationOptions) => Promise<void>;
+  onClose: () => void;
   isGenerating: boolean;
 }
 
 export interface LocationGenerationOptions {
-  locationType: string;
-  role: string;
-  customPrompt: string;
-  personality: string;
-  archetype: string;
+  locationType?: string;
+  atmosphere?: string;
+  scale?: string;
+  setting?: string;
+  customPrompt?: string;
 }
 
 export function LocationGenerationModal({ 
-  isOpen, 
-  onClose, 
+  project,
+  existingLocations,
   onGenerate, 
+  onClose,
   isGenerating 
 }: LocationGenerationModalProps) {
   const [locationType, setLocationType] = useState('');
-  const [role, setRole] = useState('');
+  const [atmosphere, setAtmosphere] = useState('');
+  const [scale, setScale] = useState('');
+  const [setting, setSetting] = useState('');
   const [customPrompt, setCustomPrompt] = useState('');
-  const [personality, setPersonality] = useState('');
-  const [archetype, setArchetype] = useState('');
 
   const handleGenerate = async () => {
     await onGenerate({
       locationType,
-      role,
-      customPrompt,
-      personality,
-      archetype
+      atmosphere,
+      scale,
+      setting,
+      customPrompt
     });
   };
 
   const handleReset = () => {
     setLocationType('');
-    setRole('');
+    setAtmosphere('');
+    setScale('');
+    setSetting('');
     setCustomPrompt('');
-    setPersonality('');
-    setArchetype('');
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -70,100 +72,95 @@ export function LocationGenerationModal({
                 <SelectValue placeholder="What kind of location?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="protagonist">Protagonist</SelectItem>
-                <SelectItem value="antagonist">Antagonist</SelectItem>
-                <SelectItem value="supporting">Supporting Location</SelectItem>
-                <SelectItem value="mentor">Mentor</SelectItem>
-                <SelectItem value="love-interest">Love Interest</SelectItem>
-                <SelectItem value="comic-relief">Comic Relief</SelectItem>
-                <SelectItem value="mysterious">Mysterious Figure</SelectItem>
-                <SelectItem value="villain">Villain</SelectItem>
-                <SelectItem value="ally">Ally</SelectItem>
-                <SelectItem value="rival">Rival</SelectItem>
+                <SelectItem value="city">City</SelectItem>
+                <SelectItem value="village">Village</SelectItem>
+                <SelectItem value="castle">Castle</SelectItem>
+                <SelectItem value="forest">Forest</SelectItem>
+                <SelectItem value="mountain">Mountain</SelectItem>
+                <SelectItem value="dungeon">Dungeon</SelectItem>
+                <SelectItem value="temple">Temple</SelectItem>
+                <SelectItem value="tavern">Tavern</SelectItem>
+                <SelectItem value="market">Market</SelectItem>
+                <SelectItem value="ruin">Ancient Ruin</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="role">Role in Story</Label>
+            <Label htmlFor="atmosphere">Atmosphere</Label>
             <Input
-              id="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              placeholder="e.g., detective, wizard, shopkeeper, noble..."
+              id="atmosphere"
+              value={atmosphere}
+              onChange={(e) => setAtmosphere(e.target.value)}
+              placeholder="e.g., mysterious, bustling, peaceful, dangerous..."
             />
           </div>
 
           <div>
-            <Label htmlFor="archetype">Location Archetype</Label>
-            <Select value={archetype} onValueChange={setArchetype}>
+            <Label htmlFor="scale">Scale</Label>
+            <Select value={scale} onValueChange={setScale}>
               <SelectTrigger>
-                <SelectValue placeholder="Choose an archetype" />
+                <SelectValue placeholder="How large is it?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="hero">The Hero</SelectItem>
-                <SelectItem value="innocent">The Innocent</SelectItem>
-                <SelectItem value="explorer">The Explorer</SelectItem>
-                <SelectItem value="sage">The Sage</SelectItem>
-                <SelectItem value="outlaw">The Outlaw</SelectItem>
-                <SelectItem value="magician">The Magician</SelectItem>
-                <SelectItem value="everyman">The Everyman</SelectItem>
-                <SelectItem value="lover">The Lover</SelectItem>
-                <SelectItem value="jester">The Jester</SelectItem>
-                <SelectItem value="caregiver">The Caregiver</SelectItem>
-                <SelectItem value="creator">The Creator</SelectItem>
-                <SelectItem value="ruler">The Ruler</SelectItem>
+                <SelectItem value="tiny">Tiny</SelectItem>
+                <SelectItem value="small">Small</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="large">Large</SelectItem>
+                <SelectItem value="massive">Massive</SelectItem>
+                <SelectItem value="regional">Regional</SelectItem>
+                <SelectItem value="continental">Continental</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="personality">Personality Traits</Label>
+            <Label htmlFor="setting">Setting Style</Label>
             <Input
-              id="personality"
-              value={personality}
-              onChange={(e) => setPersonality(e.target.value)}
-              placeholder="e.g., brave, cautious, witty, brooding..."
+              id="setting"
+              value={setting}
+              onChange={(e) => setSetting(e.target.value)}
+              placeholder="e.g., medieval, futuristic, steampunk, modern..."
             />
           </div>
 
           <div>
-            <Label htmlFor="custom-prompt">Additional Details</Label>
+            <Label htmlFor="custom-prompt">Custom Description</Label>
             <Textarea
               id="custom-prompt"
               value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
-              placeholder="Any specific traits, background, or details you want this location to have..."
+              placeholder="Any specific details you want included..."
               rows={3}
             />
           </div>
+        </div>
 
-          <div className="flex justify-between pt-4">
-            <Button variant="outline" onClick={handleReset}>
-              Reset
+        <div className="flex justify-between pt-4">
+          <Button variant="outline" onClick={handleReset}>
+            Reset
+          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={onClose}>
+              Cancel
             </Button>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleGenerate} 
-                disabled={isGenerating || !locationType}
-                className="interactive-warm"
-              >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Location
-                  </>
-                )}
-              </Button>
-            </div>
+            <Button 
+              onClick={handleGenerate} 
+              disabled={isGenerating}
+              className="interactive-warm"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Generate Location
+                </>
+              )}
+            </Button>
           </div>
         </div>
       </DialogContent>

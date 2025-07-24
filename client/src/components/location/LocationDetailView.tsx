@@ -8,8 +8,8 @@ interface LocationDetailViewProps {
   location: Location | null;
   isCreating?: boolean;
   onBack: () => void;
-  onEdit: (location: Location) => void;
   onDelete: (location: Location) => void;
+  onImageRequest?: (location: Location) => void;
 }
 
 export function LocationDetailView({ 
@@ -17,8 +17,8 @@ export function LocationDetailView({
   location, 
   isCreating = false, 
   onBack, 
-  onEdit, 
-  onDelete 
+  onDelete,
+  onImageRequest
 }: LocationDetailViewProps) {
   const [isEditing, setIsEditing] = useState(isCreating);
   
