@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, Shield, Target, Users, Coins, History, Settings } from 'lucide-react';
+import { ArrowLeft, Save, Shield, Target, Users, DollarSign, Clock, Settings } from 'lucide-react';
 import type { Faction } from '../../lib/types';
 
 interface FactionFormProps {
@@ -134,11 +134,11 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
             Organization
           </TabsTrigger>
           <TabsTrigger value="power" className="flex items-center gap-1">
-            <Coins className="h-3 w-3" />
+            <DollarSign className="h-3 w-3" />
             Power & Resources
           </TabsTrigger>
           <TabsTrigger value="relations" className="flex items-center gap-1">
-            <History className="h-3 w-3" />
+            <Clock className="h-3 w-3" />
             Relations & History
           </TabsTrigger>
           <TabsTrigger value="meta" className="flex items-center gap-1">
