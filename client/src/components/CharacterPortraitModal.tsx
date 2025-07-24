@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Sparkles, Image, Brain, X } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import type { Character } from '../lib/types';
 
 interface CharacterPortraitModalProps {
@@ -26,6 +27,7 @@ export function CharacterPortraitModal({
   onImageGenerated,
   onImageUploaded
 }: CharacterPortraitModalProps) {
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('generate');
   const [aiEngine, setAiEngine] = useState('gemini');
   const [stylePrompt, setStylePrompt] = useState('');
@@ -158,8 +160,14 @@ export function CharacterPortraitModal({
     
     // Update character with new image and save portraits array
     onImageGenerated?.(imageUrl);
-    // Also trigger a save of the portraits array
-    savePortraitsToCharacter(updated);
+    
+    // If this is the main image, also update the character's imageUrl
+    if (newPortrait.isMain) {
+      updateCharacterImageUrl(imageUrl, updated);
+    } else {
+      // Just save the portraits array
+      savePortraitsToCharacter(updated);
+    }
   };
 
   const handleImageUploaded = (imageUrl: string) => {
@@ -175,8 +183,14 @@ export function CharacterPortraitModal({
     
     // Update character with new image and save portraits array
     onImageUploaded?.(imageUrl);
-    // Also trigger a save of the portraits array
-    savePortraitsToCharacter(updated);
+    
+    // If this is the main image, also update the character's imageUrl
+    if (newPortrait.isMain) {
+      updateCharacterImageUrl(imageUrl, updated);
+    } else {
+      // Just save the portraits array
+      savePortraitsToCharacter(updated);
+    }
   };
 
   const handleSetMainImage = (imageId: string) => {
@@ -192,10 +206,13 @@ export function CharacterPortraitModal({
       onImageGenerated?.(mainImage.url);
       // Also notify the parent that an image was uploaded to trigger display updates
       onImageUploaded?.(mainImage.url);
+      
+      // Also update the character's imageUrl field directly
+      updateCharacterImageUrl(mainImage.url, updated);
+    } else {
+      // Save the updated portraits array if no main image found
+      savePortraitsToCharacter(updated);
     }
-    
-    // Save the updated portraits array
-    savePortraitsToCharacter(updated);
   };
 
   const handleDeletePortrait = (imageId: string) => {
@@ -211,14 +228,18 @@ export function CharacterPortraitModal({
         isMain: index === 0 // Make first image the new main
       }));
       onImageGenerated?.(finalUpdated[0].url);
+      // Update the character's imageUrl with the new main image
+      updateCharacterImageUrl(finalUpdated[0].url, finalUpdated);
     } else if (deletedImage?.isMain && updated.length === 0) {
       // No images left, clear the character image
       onImageGenerated?.('');
+      updateCharacterImageUrl('', finalUpdated);
+    } else {
+      // Save the updated portraits array
+      savePortraitsToCharacter(finalUpdated);
     }
     
     setPortraitGallery(finalUpdated);
-    // Save the updated portraits array
-    savePortraitsToCharacter(finalUpdated);
   };
 
   // Helper function to save portraits to character
@@ -239,6 +260,32 @@ export function CharacterPortraitModal({
       }
     } catch (error) {
       console.error('Error saving portraits:', error);
+    }
+  };
+
+  // Helper function to update character's main imageUrl
+  const updateCharacterImageUrl = async (imageUrl: string, updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+    try {
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: imageUrl,
+          portraits: updatedPortraits
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to update character imageUrl');
+      } else {
+        console.log('Successfully updated character imageUrl:', imageUrl);
+        // Invalidate cache to refresh the character list
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+      }
+    } catch (error) {
+      console.error('Error updating character imageUrl:', error);
     }
   };
 
