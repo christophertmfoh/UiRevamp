@@ -18,10 +18,19 @@ function getGeminiClient(): GoogleGenerativeAI {
   return gemini;
 }
 
+interface CharacterGenerationOptions {
+  characterType: string;
+  role: string;
+  customPrompt: string;
+  personality: string;
+  archetype: string;
+}
+
 interface CharacterGenerationContext {
   project: Project;
   locations: any[];
   existingCharacters: Character[];
+  generationOptions?: CharacterGenerationOptions;
 }
 
 export async function generateContextualCharacter(
@@ -84,7 +93,7 @@ ${projectContext}`;
 }
 
 function buildProjectContext(context: CharacterGenerationContext): string {
-  const { project, locations, existingCharacters } = context;
+  const { project, locations, existingCharacters, generationOptions } = context;
   
   let contextPrompt = `Create a character for the story project: "${project.title || project.name}"`;
   
@@ -115,6 +124,25 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     });
   }
   
+  // Add user-specified generation options
+  if (generationOptions) {
+    if (generationOptions.characterType) {
+      contextPrompt += `\n\nCharacter Type: ${generationOptions.characterType}`;
+    }
+    if (generationOptions.role) {
+      contextPrompt += `\nRole: ${generationOptions.role}`;
+    }
+    if (generationOptions.archetype) {
+      contextPrompt += `\nArchetype: ${generationOptions.archetype}`;
+    }
+    if (generationOptions.personality) {
+      contextPrompt += `\nPersonality Traits: ${generationOptions.personality}`;
+    }
+    if (generationOptions.customPrompt) {
+      contextPrompt += `\nAdditional Requirements: ${generationOptions.customPrompt}`;
+    }
+  }
+
   contextPrompt += `\n\nGenerate a character that:
 1. Fits naturally into this world and story
 2. Has clear motivations that could drive plot
@@ -123,6 +151,7 @@ function buildProjectContext(context: CharacterGenerationContext): string {
 5. Has both strengths and flaws that create compelling conflict
 6. Feels authentic to the genre and tone
 7. Has a backstory that explains their current situation and goals
+8. Matches the specified character type, role, and personality traits above
 
 Make the character detailed enough to feel real, with specific traits, quirks, and a clear voice. Ensure they have both external goals and internal conflicts.`;
 

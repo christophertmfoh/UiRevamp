@@ -10,6 +10,7 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
 interface CharacterManagerProps {
@@ -25,6 +26,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -106,7 +108,11 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
   };
 
-  const handleGenerateCharacter = async () => {
+  const handleOpenGenerationModal = () => {
+    setIsGenerationModalOpen(true);
+  };
+
+  const handleGenerateCharacter = async (options: CharacterGenerationOptions) => {
     if (!project) return;
     
     setIsGenerating(true);
@@ -114,7 +120,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       const generatedCharacter = await generateContextualCharacter({
         project,
         locations,
-        existingCharacters: characters
+        existingCharacters: characters,
+        generationOptions: options
       });
       
       // Create the character with generated data
@@ -122,6 +129,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         ...generatedCharacter,
         projectId
       });
+      
+      // Close the generation modal
+      setIsGenerationModalOpen(false);
     } catch (error) {
       console.error('Error generating character:', error);
       // Show error to user - you could add a toast here
@@ -198,13 +208,13 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             Add Character
           </Button>
           <Button 
-            onClick={handleGenerateCharacter} 
-            disabled={isGenerating || !project}
+            onClick={handleOpenGenerationModal} 
+            disabled={!project}
             variant="outline"
             className="border-accent/20 hover:bg-accent/10"
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            {isGenerating ? 'Generating...' : 'Generate Character'}
+            Generate Character
           </Button>
         </div>
       </div>
@@ -372,6 +382,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           onImageUploaded={handleImageUploaded}
         />
       )}
+
+      {/* Character Generation Modal */}
+      <CharacterGenerationModal
+        isOpen={isGenerationModalOpen}
+        onClose={() => setIsGenerationModalOpen(false)}
+        onGenerate={handleGenerateCharacter}
+        isGenerating={isGenerating}
+      />
     </div>
   );
 }
