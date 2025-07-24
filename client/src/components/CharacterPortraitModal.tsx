@@ -28,25 +28,63 @@ export function CharacterPortraitModal({
 }: CharacterPortraitModalProps) {
   const [activeTab, setActiveTab] = useState('generate');
   const [aiEngine, setAiEngine] = useState('gemini');
-  const [stylePrompt, setStylePrompt] = useState('digital art, fantasy character portrait, detailed face, professional lighting');
+  const [stylePrompt, setStylePrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>([]);
+  const [selectedMainImage, setSelectedMainImage] = useState<string>('');
 
-  // Generate AI prompt from character data
+  // Generate comprehensive AI prompt from all physical character data
   const generateCharacterPrompt = () => {
     const parts = [];
     
+    // Basic info
     if (character.name) parts.push(`Character named ${character.name}`);
     if (character.age) parts.push(`${character.age} years old`);
-    if (character.race) parts.push(`${character.race}`);
-    if (character.physicalDescription) parts.push(character.physicalDescription);
-    if (character.hair) parts.push(`hair: ${character.hair}`);
-    if (character.eyes) parts.push(`eyes: ${character.eyes}`);
-    if (character.build) parts.push(`build: ${character.build}`);
-    if (character.attire) parts.push(`wearing: ${character.attire}`);
-    if (character.distinguishingMarks) parts.push(`distinguishing features: ${character.distinguishingMarks}`);
+    if (character.race) parts.push(character.race);
+    if (character.ethnicity) parts.push(character.ethnicity);
     
-    return parts.join(', ');
+    // Physical build and body
+    if (character.build) parts.push(`${character.build} build`);
+    if (character.bodyType) parts.push(`${character.bodyType} body type`);
+    if (character.height) parts.push(`${character.height} tall`);
+    if (character.posture) parts.push(`${character.posture} posture`);
+    
+    // Facial features
+    if (character.facialFeatures) parts.push(character.facialFeatures);
+    if (character.eyes || character.eyeColor) {
+      const eyeDesc = [character.eyeColor, character.eyes].filter(Boolean).join(' ');
+      parts.push(`${eyeDesc} eyes`);
+    }
+    if (character.complexion) parts.push(`${character.complexion} complexion`);
+    if (character.skin || character.skinTone) {
+      const skinDesc = [character.skinTone, character.skin].filter(Boolean).join(' ');
+      parts.push(`${skinDesc} skin`);
+    }
+    
+    // Hair
+    if (character.hair || character.hairColor || character.hairStyle) {
+      const hairDesc = [character.hairColor, character.hairStyle, character.hair].filter(Boolean).join(' ');
+      parts.push(`${hairDesc} hair`);
+    }
+    if (character.facialHair) parts.push(character.facialHair);
+    
+    // Clothing and accessories
+    if (character.attire) parts.push(`wearing ${character.attire}`);
+    if (character.clothingStyle) parts.push(`${character.clothingStyle} clothing style`);
+    if (character.accessories) parts.push(`accessories: ${character.accessories}`);
+    
+    // Distinguishing features
+    if (character.scars) parts.push(`scars: ${character.scars}`);
+    if (character.tattoos) parts.push(`tattoos: ${character.tattoos}`);
+    if (character.piercings) parts.push(`piercings: ${character.piercings}`);
+    if (character.birthmarks) parts.push(`birthmarks: ${character.birthmarks}`);
+    if (character.distinguishingMarks) parts.push(`distinguishing marks: ${character.distinguishingMarks}`);
+    
+    // General physical description
+    if (character.physicalDescription) parts.push(character.physicalDescription);
+    
+    return parts.filter(Boolean).join(', ');
   };
 
   const handleGenerateImage = async () => {
@@ -76,8 +114,8 @@ export function CharacterPortraitModal({
       }
 
       const result = await response.json();
-      onImageGenerated?.(result.url);
-      onClose();
+      handleImageGenerated(result.url);
+      // Don't close modal, let user generate more images
     } catch (error: any) {
       console.error('Failed to generate image:', error);
       // Better error message for user
@@ -96,10 +134,57 @@ export function CharacterPortraitModal({
       const reader = new FileReader();
       reader.onload = (e) => {
         const imageUrl = e.target?.result as string;
-        onImageUploaded?.(imageUrl);
-        onClose();
+        handleImageUploaded(imageUrl);
+        // Don't close modal, let user upload more images
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageGenerated = (imageUrl: string) => {
+    // Add to portrait gallery
+    const newPortrait = {
+      id: Date.now().toString(),
+      url: imageUrl,
+      isMain: portraitGallery.length === 0 // First image becomes main
+    };
+    
+    const updated = [...portraitGallery, newPortrait];
+    setPortraitGallery(updated);
+    
+    // Update character with new image if it's the main one
+    if (newPortrait.isMain) {
+      onImageGenerated?.(imageUrl);
+    }
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    // Add to portrait gallery  
+    const newPortrait = {
+      id: Date.now().toString(),
+      url: imageUrl,
+      isMain: portraitGallery.length === 0 // First image becomes main
+    };
+    
+    const updated = [...portraitGallery, newPortrait];
+    setPortraitGallery(updated);
+    
+    // Update character with new image if it's the main one
+    if (newPortrait.isMain) {
+      onImageUploaded?.(imageUrl);
+    }
+  };
+
+  const handleSetMainImage = (imageId: string) => {
+    const updated = portraitGallery.map(img => ({
+      ...img,
+      isMain: img.id === imageId
+    }));
+    setPortraitGallery(updated);
+    
+    const mainImage = updated.find(img => img.isMain);
+    if (mainImage) {
+      onImageGenerated?.(mainImage.url);
     }
   };
 
@@ -165,12 +250,12 @@ export function CharacterPortraitModal({
                       <Textarea
                         value={stylePrompt}
                         onChange={(e) => setStylePrompt(e.target.value)}
-                        placeholder="e.g., oil painting, dark fantasy, digital art, realistic portrait"
+                        placeholder="oil painting • digital art • anime style • realistic portrait • watercolor • pencil sketch • dark fantasy • cyberpunk • medieval art • concept art"
                         className="creative-input"
                         rows={2}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Describe the artistic style and mood you want
+                        Leave blank for default style, or specify artistic direction
                       </p>
                     </div>
 
@@ -178,11 +263,14 @@ export function CharacterPortraitModal({
                     <div>
                       <Label>Character Description (Auto-generated)</Label>
                       <Textarea
-                        value={generateCharacterPrompt()}
+                        value={generateCharacterPrompt() || 'Add character details in the Character Editor to auto-generate description...'}
                         readOnly
                         className="creative-input text-sm text-muted-foreground"
                         rows={3}
                       />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        This description compiles all physical information from your character profile
+                      </p>
                     </div>
 
                     {/* Generate Button */}
@@ -221,28 +309,57 @@ export function CharacterPortraitModal({
                 </Card>
               </div>
 
-              {/* Right Column - Preview */}
+              {/* Right Column - Portrait Gallery */}
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Portrait Gallery</CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Up to 20 portraits • Click star to set as main image
+                    </p>
                   </CardHeader>
                   <CardContent>
-                    <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                      {character.imageUrl ? (
-                        <img 
-                          src={character.imageUrl} 
-                          alt={character.name}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
-                      ) : (
+                    {portraitGallery.length === 0 ? (
+                      <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
                         <div className="text-center text-muted-foreground">
                           <Image className="h-16 w-16 mx-auto mb-2" />
                           <p>No portraits yet.</p>
                           <p className="text-sm">Generate or upload one.</p>
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+                        {portraitGallery.map((portrait) => (
+                          <div 
+                            key={portrait.id} 
+                            className={`relative aspect-square rounded-lg overflow-hidden border-2 ${
+                              portrait.isMain ? 'border-yellow-500' : 'border-gray-200 dark:border-gray-700'
+                            }`}
+                          >
+                            <img 
+                              src={portrait.url} 
+                              alt="Character portrait"
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <Button
+                                size="sm"
+                                variant={portrait.isMain ? "default" : "outline"}
+                                onClick={() => handleSetMainImage(portrait.id)}
+                                className="text-xs"
+                              >
+                                {portrait.isMain ? '★ Main' : '☆ Set Main'}
+                              </Button>
+                            </div>
+                            {portrait.isMain && (
+                              <div className="absolute top-1 right-1 bg-yellow-500 text-white rounded-full p-1">
+                                <span className="text-xs">★</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
