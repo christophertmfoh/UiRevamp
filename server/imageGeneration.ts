@@ -46,7 +46,7 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
 
 async function generateWithGemini(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    const fullPrompt = `Generate a detailed character portrait: ${params.characterPrompt}. ${params.stylePrompt}`;
+    const fullPrompt = `Generate a detailed character portrait: ${params.characterPrompt}. ${params.stylePrompt}. Please create an image showing this character.`;
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
     // Use Gemini's image generation model with correct API structure
@@ -55,7 +55,11 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       model: "gemini-2.0-flash-preview-image-generation"
     });
     
-    const response = await model.generateContent(fullPrompt);
+    const response = await model.generateContent([
+      {
+        text: fullPrompt
+      }
+    ]);
 
     console.log('Gemini response structure:', JSON.stringify(response, null, 2));
 
@@ -94,14 +98,29 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
 export async function generateCharacterImage(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
     console.log('Attempting image generation with primary engine:', params.aiEngine);
-    switch (params.aiEngine) {
-      case 'openai':
+    
+    // Try the requested engine first
+    try {
+      switch (params.aiEngine) {
+        case 'openai':
+          return await generateWithOpenAI(params);
+        case 'gemini':
+          return await generateWithGemini(params);
+        default:
+          // Default to OpenAI if engine not specified or unknown
+          return await generateWithOpenAI(params);
+      }
+    } catch (primaryError: any) {
+      console.log('Primary engine failed, attempting fallback to OpenAI:', primaryError.message);
+      
+      // If Gemini fails, fallback to OpenAI
+      if (params.aiEngine === 'gemini') {
+        console.log('Falling back to OpenAI for image generation');
         return await generateWithOpenAI(params);
-      case 'gemini':
-        return await generateWithGemini(params);
-      default:
-        // Default to OpenAI if engine not specified or unknown
-        return await generateWithOpenAI(params);
+      }
+      
+      // If OpenAI was the primary and it failed, re-throw the error
+      throw primaryError;
     }
   } catch (error: any) {
     console.error('Failed to generate image:', error);
