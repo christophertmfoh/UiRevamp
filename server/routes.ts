@@ -207,7 +207,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { projectId } = req.params;
       console.log('Creating character with request body:', JSON.stringify(req.body, null, 2));
       const characterData = insertCharacterSchema.parse({ ...req.body, projectId });
+      console.log('Parsed character data for insertion:', JSON.stringify(characterData, null, 2));
       const character = await storage.createCharacter(characterData);
+      console.log('Character created in database:', JSON.stringify(character, null, 2));
       res.status(201).json(character);
     } catch (error) {
       if (error instanceof z.ZodError) {
