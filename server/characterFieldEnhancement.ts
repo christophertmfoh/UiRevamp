@@ -62,7 +62,23 @@ Generate only the content for this specific field. Do not include labels, explan
     });
 
     const generatedContent = response.text?.trim() || '';
-    console.log(`Generated content for ${fieldKey}: ${generatedContent.substring(0, 100)}...`);
+    console.log(`Generated content for ${fieldKey}: ${generatedContent}`);
+
+    if (!generatedContent) {
+      console.log(`Empty response from AI for field ${fieldKey}, trying fallback`);
+      // Provide fallback content based on field type
+      const fallbacks: { [key: string]: string } = {
+        name: 'Character Name',
+        title: 'Noble Title',
+        age: '25',
+        role: 'Protagonist',
+        race: 'Human',
+        class: 'Warrior',
+        occupation: 'Adventurer'
+      };
+      const fallbackContent = fallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      return { [fieldKey]: fallbackContent };
+    }
 
     // Process array fields
     if (['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 'archetypes', 'tropes', 'tags'].includes(fieldKey)) {
