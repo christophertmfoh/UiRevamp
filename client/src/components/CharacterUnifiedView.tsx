@@ -109,7 +109,7 @@ export function CharacterUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated
-    const { createdAt, ...dataToSave } = processedData;
+    const { createdAt, id, projectId, ...dataToSave } = processedData;
     
     return dataToSave;
   };
@@ -120,10 +120,10 @@ export function CharacterUnifiedView({
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
     
-    // Process and save the data properly - only send imageUrl for this operation
-    const minimalUpdate = { imageUrl };
-    console.log('Saving minimal update:', minimalUpdate);
-    saveMutation.mutate(minimalUpdate as any);
+    // Process and save the data properly - exclude createdAt and other system fields
+    const processedData = processDataForSave(updatedData);
+    console.log('Saving processed data:', processedData);
+    saveMutation.mutate(processedData as Character);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
@@ -132,10 +132,10 @@ export function CharacterUnifiedView({
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
     
-    // Process and save the data properly - only send imageUrl for this operation
-    const minimalUpdate = { imageUrl };
-    console.log('Saving minimal update:', minimalUpdate);
-    saveMutation.mutate(minimalUpdate as any);
+    // Process and save the data properly - exclude createdAt and other system fields
+    const processedData = processDataForSave(updatedData);
+    console.log('Saving processed data:', processedData);
+    saveMutation.mutate(processedData as Character);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
