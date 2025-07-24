@@ -39,6 +39,8 @@ export function CharacterUnifiedViewPremium({
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
 
   // Calculate character completeness
@@ -115,13 +117,31 @@ export function CharacterUnifiedViewPremium({
   const handleAIEnhance = async (selectedCategories: string[]) => {
     setIsAIAssistModalOpen(false);
     setIsEnhancing(true);
+    setSelectedCategories(selectedCategories);
+    
+    // Create abort controller for this request
+    const controller = new AbortController();
+    setAbortController(controller);
+    
     try {
       console.log('Starting AI enhancement for character:', character.id, 'Categories:', selectedCategories);
       
-      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, {
-        ...formData,
-        selectedCategories
+      const response = await fetch(`/api/characters/${character.id}/enhance`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          selectedCategories
+        }),
+        signal: controller.signal
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const enhancedData = await response.json();
       console.log('AI enhancement response received:', enhancedData);
       
@@ -132,12 +152,25 @@ export function CharacterUnifiedViewPremium({
       setFormData({ ...character, ...processedEnhancedData } as Character);
       
       console.log('Form data updated with enhanced character');
-    } catch (error) {
-      console.error('Failed to enhance character:', error);
-      alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        console.log('AI enhancement was aborted by user');
+      } else {
+        console.error('Failed to enhance character:', error);
+        alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
+      }
     } finally {
       setIsEnhancing(false);
+      setAbortController(null);
     }
+  };
+
+  const handleAbortAI = () => {
+    if (abortController) {
+      abortController.abort();
+      setAbortController(null);
+    }
+    setIsEnhancing(false);
   };
 
   const handleInputChange = (field: keyof Character, value: any) => {
@@ -1063,6 +1096,7 @@ export function CharacterUnifiedViewPremium({
         isOpen={isEnhancing}
         title="AI Assist is working..."
         message="Scanning your character data across all categories and generating contextual details for each field."
+        onAbort={handleAbortAI}
       />
 
     </div>

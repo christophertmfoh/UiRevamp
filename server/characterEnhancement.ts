@@ -92,36 +92,43 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
   // Define sequential category processing order
   const ENHANCEMENT_CATEGORIES = [
     {
+      id: 'identity',
       name: 'identity',
       fields: ['title', 'aliases', 'race', 'species', 'ethnicity', 'nationality', 'class', 'profession', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status', 'birthdate', 'zodiacSign'],
       instruction: `Generate realistic identity details for ALL specified fields.`
     },
     {
+      id: 'physical',
       name: 'physical',
       fields: ['height', 'weight', 'build', 'bodyType', 'facialFeatures', 'eyes', 'eyeColor', 'hair', 'hairColor', 'hairStyle', 'facialHair', 'skin', 'skinTone', 'complexion', 'scars', 'tattoos', 'piercings', 'birthmarks', 'distinguishingMarks', 'attire', 'clothingStyle', 'accessories', 'posture', 'gait', 'gestures', 'mannerisms'],
       instruction: `Generate detailed physical appearance traits for ALL specified fields.`
     },
     {
+      id: 'personality',
       name: 'personality',
       fields: ['personality', 'personalityTraits', 'temperament', 'disposition', 'worldview', 'beliefs', 'values', 'principles', 'morals', 'ethics', 'virtues', 'vices', 'habits', 'quirks', 'idiosyncrasies', 'petPeeves', 'likes', 'dislikes', 'hobbies', 'interests', 'passions'],
       instruction: `Generate comprehensive personality traits for ALL specified fields.`
     },
     {
+      id: 'psychology',
       name: 'psychology',
       fields: ['motivations', 'desires', 'needs', 'drives', 'ambitions', 'fears', 'phobias', 'anxieties', 'insecurities', 'secrets', 'shame', 'guilt', 'regrets', 'trauma', 'wounds', 'copingMechanisms', 'defenses', 'vulnerabilities', 'weaknesses', 'blindSpots', 'mentalHealth', 'emotionalState', 'maturityLevel', 'intelligenceType', 'learningStyle'],
       instruction: `Generate deep psychological elements for ALL specified fields.`
     },
     {
+      id: 'background',
       name: 'background',
       fields: ['background', 'backstory', 'origin', 'upbringing', 'childhood', 'familyHistory', 'socialClass', 'economicStatus', 'education', 'formativeEvents', 'pastTrauma', 'achievements', 'failures', 'reputation', 'currentSituation'],
       instruction: `Generate rich background details for ALL specified fields.`
     },
     {
+      id: 'relationships',
       name: 'relationships',
       fields: ['relationships', 'family', 'friends', 'enemies', 'allies', 'rivals', 'mentors', 'proteges', 'romanticHistory', 'currentRelationships', 'socialConnections', 'politicalAffiliations', 'organizationalMemberships'],
       instruction: `Generate meaningful relationship details for ALL specified fields.`
     },
     {
+      id: 'abilities',
       name: 'abilities',
       fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'magicalAbilities', 'magicType', 'magicSource', 'specialAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
       instruction: `Generate comprehensive abilities for ALL specified fields. For magic-related fields, if character has no magical abilities, set to "None" or appropriate non-magical values.`
@@ -133,10 +140,20 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
     }
   ];
 
+  // Filter categories based on selectedCategories from frontend
+  const selectedCategories = currentData.selectedCategories || [];
+  console.log('Processing selected categories:', selectedCategories);
+  
+  const categoriesToProcess = selectedCategories.length > 0 
+    ? ENHANCEMENT_CATEGORIES.filter(cat => selectedCategories.includes(cat.id))
+    : ENHANCEMENT_CATEGORIES;
+  
+  console.log('Will process categories:', categoriesToProcess.map(c => c.name));
+
   let workingData = { ...currentData };
   
-  // Process each category sequentially
-  for (const category of ENHANCEMENT_CATEGORIES) {
+  // Process each selected category sequentially
+  for (const category of categoriesToProcess) {
     console.log(`\n=== Processing ${category.name.toUpperCase()} Category ===`);
     
     // Find empty fields in this category
