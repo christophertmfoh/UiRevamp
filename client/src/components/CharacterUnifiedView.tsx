@@ -279,33 +279,52 @@ export function CharacterUnifiedView({
                 )}
               </div>
 
-              {/* Key Character Overview - What Writers Need Most */}
-              <div className="space-y-3 mb-4">
-                {formData.goals && (
-                  <div>
-                    <span className="text-sm font-medium text-muted-foreground">Primary Goal: </span>
-                    <span className="text-sm">{formData.goals}</span>
-                  </div>
-                )}
-                {formData.motivations && (
-                  <div>
-                    <span className="text-sm font-medium text-muted-foreground">Core Motivation: </span>
-                    <span className="text-sm">{formData.motivations}</span>
-                  </div>
-                )}
-                {formData.virtues && (
-                  <div>
-                    <span className="text-sm font-medium text-muted-foreground">Greatest Strength: </span>
-                    <span className="text-sm">{formData.virtues}</span>
-                  </div>
-                )}
-                {formData.vices && (
-                  <div>
-                    <span className="text-sm font-medium text-muted-foreground">Fatal Flaw: </span>
-                    <span className="text-sm">{formData.vices}</span>
-                  </div>
-                )}
-              </div>
+              {/* Key Character Overview - Only show if fields have content */}
+              {(formData.goals || formData.motivations || formData.virtues || formData.vices || formData.class || formData.profession) && (
+                <div className="space-y-2 mb-4 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <h3 className="text-sm font-semibold text-amber-800 dark:text-amber-200 mb-2">Character Essence</h3>
+                  
+                  {/* Show class/profession if no story-driving fields are filled */}
+                  {!formData.goals && !formData.motivations && formData.class && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Type: </span>
+                      <span className="text-sm">{formData.class}</span>
+                    </div>
+                  )}
+                  {!formData.goals && !formData.motivations && formData.profession && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Profession: </span>
+                      <span className="text-sm">{formData.profession}</span>
+                    </div>
+                  )}
+                  
+                  {/* Preferred story-driving fields */}
+                  {formData.goals && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Primary Goal: </span>
+                      <span className="text-sm">{formData.goals}</span>
+                    </div>
+                  )}
+                  {formData.motivations && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Core Motivation: </span>
+                      <span className="text-sm">{formData.motivations}</span>
+                    </div>
+                  )}
+                  {formData.virtues && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Greatest Strength: </span>
+                      <span className="text-sm">{formData.virtues}</span>
+                    </div>
+                  )}
+                  {formData.vices && (
+                    <div>
+                      <span className="text-sm font-medium text-muted-foreground">Fatal Flaw: </span>
+                      <span className="text-sm">{formData.vices}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {formData.oneLine && (
                 <p className="text-lg italic text-muted-foreground mb-3">
