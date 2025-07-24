@@ -19,6 +19,10 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 ✓ **MARKET-KILLER QUALITY FOUNDATION** - Strategic improvements targeting identified competitive gaps to dominate character development market segment
 ✓ **COMPLETE INTEGRATION ACHIEVED** - All competitive features fully integrated into CharacterUnifiedView with sidebar navigation
 ✓ **ADVANCED CHARACTER SYSTEM** - Relationships, Arc Tracking, and AI Insights now accessible through unified character interface
+✓ **FUTURE AI ROADMAP DEFINED** - Character features will dynamically update from outline/manuscript content:
+  - Relationships: Auto-update based on story events and character interactions
+  - Arcs: Dynamic progression tracking with AI overview integration
+  - Insights: AI-guided development progress with real-time character sheet analysis
 
 ## Project Architecture
 
@@ -110,7 +114,10 @@ Based on analysis of industry leaders (Campfire Write, World Anvil, One Stop for
 - ❌ Items: Need AI generation + owner tracking
 - ❌ 9 other world bible categories need competitive parity
 
-**Phase 3 - Advanced Features**
+**Phase 3 - Advanced Story Integration**
+- Dynamic relationship updates from outline/manuscript content
+- AI-powered arc progression tracking with story events
+- Character insights with development guidance and real-time analysis
 - Story timeline with character involvement tracking
 - Advanced import/export with industry standard formats
 - Real-time collaboration and community features

@@ -71,7 +71,7 @@ export function CharacterUnifiedView({
       updatedAt: undefined, // Let server handle timestamp
       createdAt: undefined  // Let server handle timestamp
     };
-    saveMutation.mutate(cleanData as Character);
+    saveMutation.mutate(cleanData as any);
   };
 
   const handleCancel = () => {
@@ -564,8 +564,9 @@ export function CharacterUnifiedView({
                     </p>
                     <div className="text-center py-8 text-muted-foreground">
                       <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Relationship mapping system coming soon</p>
-                      <p className="text-xs mt-2">This will connect with other characters in your project</p>
+                      <p className="font-medium">Dynamic Relationship Mapping</p>
+                      <p className="text-sm mt-2">This feature will intelligently update based on your outline and manuscript</p>
+                      <p className="text-xs mt-1 opacity-75">New events between characters will automatically update relationship status</p>
                     </div>
                   </div>
                 </div>
@@ -574,7 +575,7 @@ export function CharacterUnifiedView({
               {activeTab === 'arcs' && (
                 <div className="space-y-8">
                   <CharacterArcTracker
-                    characterName={character.name}
+                    characterName={character.name || 'Character'}
                     onUpdateArcs={(arcs) => {
                       setFormData(prev => ({ ...prev, arc: JSON.stringify(arcs) }));
                     }}
