@@ -25,7 +25,7 @@ export function FieldAIAssist({
   const [isEnhancing, setIsEnhancing] = useState(false);
 
   const handleFieldEnhance = async () => {
-    if (disabled || isEnhancing) return;
+    if (disabled || isEnhancing || !character) return;
     
     setIsEnhancing(true);
     try {
@@ -51,10 +51,8 @@ export function FieldAIAssist({
     }
   };
 
-  // Don't show genie if field already has content (non-destructive)
-  if (currentValue && currentValue !== '' && (!Array.isArray(currentValue) || currentValue.length > 0)) {
-    return null;
-  }
+  // Always show the genie icon for assistance
+  // Users can enhance existing content or generate new content
 
   return (
     <TooltipProvider>
