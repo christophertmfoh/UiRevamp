@@ -40,7 +40,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
   // Auto-select location if selectedLocationId is provided
   useEffect(() => {
     if (selectedLocationId && locations.length > 0) {
-      const location = locations.find(l => c.id === selectedLocationId);
+      const location = locations.find(l => l.id === selectedLocationId);
       if (location) {
         setSelectedLocation(location);
         setIsCreating(false);

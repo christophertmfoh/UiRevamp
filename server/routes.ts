@@ -362,9 +362,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/locations", async (req, res) => {
+  app.post("/api/projects/:projectId/locations", async (req, res) => {
     try {
-      const locationData = insertLocationSchema.parse(req.body);
+      const { projectId } = req.params;
+      const locationData = insertLocationSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
       const location = await storage.createLocation(locationData);
       res.status(201).json(location);
     } catch (error) {
