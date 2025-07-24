@@ -40,55 +40,77 @@ export function LocationPortraitModal({
   });
   const [selectedMainImage, setSelectedMainImage] = useState<string>('');
 
-  // Generate comprehensive AI prompt from all physical location data
+  // Generate location image prompt based on location characteristics
   const generateLocationPrompt = () => {
     const parts = [];
     
-    // Basic info
-    if (location.name) parts.push(`Location named ${location.name}`);
-    if (location.age) parts.push(`${location.age} years old`);
-    if (location.race) parts.push(location.race);
-    if (location.ethnicity) parts.push(location.ethnicity);
-    
-    // Physical build and body
-    if (location.build) parts.push(`${location.build} build`);
-    if (location.bodyType) parts.push(`${location.bodyType} body type`);
-    if (location.height) parts.push(`${location.height} tall`);
-    if (location.posture) parts.push(`${location.posture} posture`);
-    
-    // Facial features
-    if (location.facialFeatures) parts.push(location.facialFeatures);
-    if (location.eyes || location.eyeColor) {
-      const eyeDesc = [location.eyeColor, location.eyes].filter(Boolean).join(' ');
-      parts.push(`${eyeDesc} eyes`);
-    }
-    if (location.complexion) parts.push(`${location.complexion} complexion`);
-    if (location.skin || location.skinTone) {
-      const skinDesc = [location.skinTone, location.skin].filter(Boolean).join(' ');
-      parts.push(`${skinDesc} skin`);
+    // Start with base location description
+    if (location.name) {
+      parts.push(`${location.name}`);
+    } else {
+      parts.push("Fantasy location");
     }
     
-    // Hair
-    if (location.hair || location.hairColor || location.hairStyle) {
-      const hairDesc = [location.hairColor, location.hairStyle, location.hair].filter(Boolean).join(' ');
-      parts.push(`${hairDesc} hair`);
+    // Add location type and setting
+    if (location.location_type) {
+      parts.push(`${location.location_type.toLowerCase()}`);
     }
-    if (location.facialHair) parts.push(location.facialHair);
     
-    // Clothing and accessories
-    if (location.attire) parts.push(`wearing ${location.attire}`);
-    if (location.clothingStyle) parts.push(`${location.clothingStyle} clothing style`);
-    if (location.accessories) parts.push(`accessories: ${location.accessories}`);
+    // Add physical characteristics
+    if (location.description) {
+      parts.push(location.description);
+    }
     
-    // Distinguishing features
-    if (location.scars) parts.push(`scars: ${location.scars}`);
-    if (location.tattoos) parts.push(`tattoos: ${location.tattoos}`);
-    if (location.piercings) parts.push(`piercings: ${location.piercings}`);
-    if (location.birthmarks) parts.push(`birthmarks: ${location.birthmarks}`);
-    if (location.distinguishingMarks) parts.push(`distinguishing marks: ${location.distinguishingMarks}`);
+    // Add terrain and geography
+    if (location.terrain) {
+      parts.push(`${location.terrain} terrain`);
+    }
     
-    // General physical description
-    if (location.physicalDescription) parts.push(location.physicalDescription);
+    if (location.geography) {
+      parts.push(location.geography);
+    }
+    
+    // Add climate and atmosphere
+    if (location.climate) {
+      parts.push(`${location.climate} climate`);
+    }
+    
+    if (location.atmosphere) {
+      parts.push(location.atmosphere);
+    }
+    
+    // Add architectural details
+    if (location.architecture_style) {
+      parts.push(`${location.architecture_style} architecture`);
+    }
+    
+    if (location.notable_structures) {
+      parts.push(`featuring ${location.notable_structures}`);
+    }
+    
+    // Add natural features
+    if (location.natural_features) {
+      parts.push(`with ${location.natural_features}`);
+    }
+    
+    // Add size/scale context
+    if (location.size) {
+      parts.push(`${location.size} in scale`);
+    }
+    
+    // Add time period context
+    if (location.historical_period) {
+      parts.push(`from the ${location.historical_period} period`);
+    }
+    
+    // Add visual atmosphere
+    if (location.lighting) {
+      parts.push(`${location.lighting} lighting`);
+    }
+    
+    if (location.mood) {
+      parts.push(`${location.mood} mood`);
+    }
     
     return parts.filter(Boolean).join(', ');
   };
@@ -102,15 +124,15 @@ export function LocationPortraitModal({
       console.log('Style prompt:', stylePrompt);
       console.log('Using AI engine:', aiEngine);
 
-      const response = await fetch('/api/generate-location-image', {
+      const response = await fetch('/api/locations/generate-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          locationId: location.id,
-          locationName: location.name,
-          description: locationPrompt
+          locationPrompt,
+          stylePrompt,
+          aiEngine
         }),
       });
 
@@ -310,10 +332,10 @@ export function LocationPortraitModal({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto creative-card" aria-describedby="portrait-description">
         <DialogHeader>
           <DialogTitle className="font-title text-2xl">
-            Manage Portraits for {location.name || 'Location'}
+            Manage Images for {location.name || 'Location'}
           </DialogTitle>
           <div id="portrait-description" className="sr-only">
-            Generate AI portraits or upload images for your location. You can create multiple portraits and set one as the main location image.
+            Generate AI location images or upload images for your location. You can create multiple images and set one as the main location image.
           </div>
         </DialogHeader>
 
@@ -365,12 +387,12 @@ export function LocationPortraitModal({
                       <Textarea
                         value={stylePrompt}
                         onChange={(e) => setStylePrompt(e.target.value)}
-                        placeholder="oil painting • digital art • anime style • realistic portrait • watercolor • pencil sketch • dark fantasy • cyberpunk • medieval art • concept art"
+                        placeholder="landscape photography • digital art • matte painting • concept art • fantasy landscape • realistic scenery • atmospheric art • environmental design • cinematic vista"
                         className="creative-input"
                         rows={2}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Leave blank for default style, or specify artistic direction
+                        Leave blank for default style, or specify visual style for the location
                       </p>
                     </div>
 
@@ -384,7 +406,7 @@ export function LocationPortraitModal({
                         rows={3}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        This description compiles all physical information from your location profile
+                        This description creates location images based on your location's characteristics
                       </p>
                     </div>
 
@@ -395,7 +417,7 @@ export function LocationPortraitModal({
                       className="w-full interactive-warm"
                     >
                       <Sparkles className="h-4 w-4 mr-2" />
-                      {isGenerating ? 'Generating...' : 'Generate with AI'}
+                      {isGenerating ? 'Generating Location...' : 'Generate Location Image'}
                     </Button>
 
                     <div className="text-center text-sm text-muted-foreground">
@@ -428,9 +450,9 @@ export function LocationPortraitModal({
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Portrait Gallery</CardTitle>
+                    <CardTitle className="text-lg">Location Gallery</CardTitle>
                     <p className="text-sm text-muted-foreground">
-                      Up to 20 portraits • Click star to set as main image
+                      Up to 20 images • Click star to set as main image
                     </p>
                   </CardHeader>
                   <CardContent>
@@ -438,7 +460,7 @@ export function LocationPortraitModal({
                       <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
                         <div className="text-center text-muted-foreground">
                           <Image className="h-16 w-16 mx-auto mb-2" />
-                          <p>No portraits yet.</p>
+                          <p>No location images yet.</p>
                           <p className="text-sm">Generate or upload one.</p>
                         </div>
                       </div>
@@ -453,7 +475,7 @@ export function LocationPortraitModal({
                           >
                             <img 
                               src={portrait.url} 
-                              alt="Location portrait"
+                              alt="Location image"
                               className="w-full h-full object-cover cursor-pointer"
                               onClick={() => setSelectedMainImage(portrait.url)}
                             />

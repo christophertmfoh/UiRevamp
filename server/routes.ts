@@ -375,6 +375,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Location image generation endpoint
+  app.post("/api/locations/generate-image", async (req, res) => {
+    try {
+      const { locationPrompt, stylePrompt = "landscape photography, scenic view, environmental art", aiEngine = "gemini" } = req.body;
+      
+      if (!locationPrompt) {
+        return res.status(400).json({ error: "Location prompt is required" });
+      }
+
+      const result = await generateCharacterImage({
+        characterPrompt: locationPrompt,
+        stylePrompt,
+        aiEngine
+      });
+      
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating location image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
   // Location routes
   app.get("/api/projects/:projectId/locations", async (req, res) => {
     try {
