@@ -49,25 +49,28 @@ export function CharacterDetailView({
 
   // Helper function to render a field if it has content
   const renderField = (label: string, value: string | undefined, className = "") => {
-    if (!value?.trim()) return null;
+    if (!value || value.trim().length === 0) return null;
     return (
       <div className={className}>
         <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
-        <p className="text-muted-foreground leading-relaxed">{value}</p>
+        <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{value.trim()}</p>
       </div>
     );
   };
 
   // Helper function to render array fields as badges
   const renderArrayField = (label: string, values: string[] | undefined, variant: "default" | "secondary" | "outline" = "outline") => {
-    if (!values?.length) return null;
+    if (!values?.length || !values.some(v => v?.trim())) return null;
+    const filteredValues = values.filter(v => v?.trim());
+    if (filteredValues.length === 0) return null;
+    
     return (
       <div>
         <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
         <div className="flex flex-wrap gap-2">
-          {values.map((value, index) => (
+          {filteredValues.map((value, index) => (
             <Badge key={index} variant={variant} className="text-sm">
-              {value}
+              {value.trim()}
             </Badge>
           ))}
         </div>
@@ -78,8 +81,8 @@ export function CharacterDetailView({
   // Helper function to check if a section has any content
   const hasContent = (fields: (string | string[] | undefined)[]) => {
     return fields.some(field => {
-      if (Array.isArray(field)) return field.length > 0;
-      return field?.trim();
+      if (Array.isArray(field)) return field.length > 0 && field.some(item => item?.trim());
+      return field && field.trim().length > 0;
     });
   };
 
