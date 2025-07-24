@@ -247,8 +247,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       console.log('Updating character with data:', JSON.stringify(req.body, null, 2));
       const characterData = insertCharacterSchema.partial().parse(req.body);
-      console.log('Parsed character data:', JSON.stringify(characterData, null, 2));
-      const character = await storage.updateCharacter(id, characterData);
+      
+      // Add updatedAt timestamp to track when the character was last modified
+      const characterDataWithTimestamp = {
+        ...characterData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      console.log('Parsed character data with timestamp:', JSON.stringify(characterDataWithTimestamp, null, 2));
+      const character = await storage.updateCharacter(id, characterDataWithTimestamp);
       
       if (!character) {
         return res.status(404).json({ error: "Character not found" });
@@ -446,7 +453,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const locationData = insertLocationSchema.partial().parse(cleanedData);
-      const location = await storage.updateLocation(id, locationData);
+      
+      // Add updatedAt timestamp to track when the location was last modified
+      const locationDataWithTimestamp = {
+        ...locationData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      const location = await storage.updateLocation(id, locationDataWithTimestamp);
       
       if (!location) {
         return res.status(404).json({ error: "Location not found" });
@@ -605,7 +619,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const factionData = insertFactionSchema.partial().parse(cleanedData);
-      const faction = await storage.updateFaction(id, factionData);
+      
+      // Add updatedAt timestamp to track when the faction was last modified
+      const factionDataWithTimestamp = {
+        ...factionData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      const faction = await storage.updateFaction(id, factionDataWithTimestamp);
       
       if (!faction) {
         return res.status(404).json({ error: "Faction not found" });
@@ -718,7 +739,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const itemData = insertItemSchema.partial().parse(cleanedData);
-      const item = await storage.updateItem(id, itemData);
+      
+      // Add updatedAt timestamp to track when the item was last modified
+      const itemDataWithTimestamp = {
+        ...itemData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      const item = await storage.updateItem(id, itemDataWithTimestamp);
       
       if (!item) {
         return res.status(404).json({ error: "Item not found" });
@@ -796,7 +824,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const organizationData = insertOrganizationSchema.partial().parse(cleanedData);
-      const organization = await storage.updateOrganization(id, organizationData);
+      
+      // Add updatedAt timestamp to track when the organization was last modified
+      const organizationDataWithTimestamp = {
+        ...organizationData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      const organization = await storage.updateOrganization(id, organizationDataWithTimestamp);
       
       if (!organization) {
         return res.status(404).json({ error: "Organization not found" });
@@ -874,7 +909,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const magicSystemData = insertMagicSystemSchema.partial().parse(cleanedData);
-      const magicSystem = await storage.updateMagicSystem(id, magicSystemData);
+      
+      // Add updatedAt timestamp to track when the magic system was last modified
+      const magicSystemDataWithTimestamp = {
+        ...magicSystemData,
+        updatedAt: new Date().toISOString()
+      };
+      
+      const magicSystem = await storage.updateMagicSystem(id, magicSystemDataWithTimestamp);
       
       if (!magicSystem) {
         return res.status(404).json({ error: "Magic system not found" });
