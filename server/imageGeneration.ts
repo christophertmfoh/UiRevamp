@@ -1,11 +1,19 @@
 import OpenAI from "openai";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Initialize Gemini AI with the API key
-const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "AIzaSyCIOJd-og642NA-5uQgaewy8IILv1npTh8" });
+// Initialize Gemini client (same as character generation)
+function getGeminiClient(): GoogleGenerativeAI {
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  
+  if (!apiKey) {
+    throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
+  }
+  
+  return new GoogleGenerativeAI(apiKey);
+}
 
 interface CharacterImageRequest {
   characterPrompt: string;
@@ -42,6 +50,7 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
     // Use Gemini's image generation model with correct API structure
+    const gemini = getGeminiClient();
     const model = gemini.getGenerativeModel({ 
       model: "gemini-2.0-flash-preview-image-generation",
       generationConfig: {
