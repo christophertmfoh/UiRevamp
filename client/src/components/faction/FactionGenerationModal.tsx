@@ -70,16 +70,16 @@ export function FactionGenerationModal({
                 <SelectValue placeholder="What kind of faction?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="protagonist">Protagonist</SelectItem>
-                <SelectItem value="antagonist">Antagonist</SelectItem>
-                <SelectItem value="supporting">Supporting Faction</SelectItem>
-                <SelectItem value="mentor">Mentor</SelectItem>
-                <SelectItem value="love-interest">Love Interest</SelectItem>
-                <SelectItem value="comic-relief">Comic Relief</SelectItem>
-                <SelectItem value="mysterious">Mysterious Figure</SelectItem>
-                <SelectItem value="villain">Villain</SelectItem>
-                <SelectItem value="ally">Ally</SelectItem>
-                <SelectItem value="rival">Rival</SelectItem>
+                <SelectItem value="Cultist Group">Cultist Group</SelectItem>
+                <SelectItem value="Stone Lords">Stone Lords</SelectItem>
+                <SelectItem value="Regional Peoples">Regional Peoples</SelectItem>
+                <SelectItem value="Underground Movement">Underground Movement</SelectItem>
+                <SelectItem value="Ancient Order">Ancient Order</SelectItem>
+                <SelectItem value="Trading Guild">Trading Guild</SelectItem>
+                <SelectItem value="Military Force">Military Force</SelectItem>
+                <SelectItem value="Religious Order">Religious Order</SelectItem>
+                <SelectItem value="Political Party">Political Party</SelectItem>
+                <SelectItem value="Criminal Organization">Criminal Organization</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -90,7 +90,7 @@ export function FactionGenerationModal({
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              placeholder="e.g., detective, wizard, shopkeeper, noble..."
+              placeholder="e.g., antagonistic force, ally group, neutral power, protective order..."
             />
           </div>
 
@@ -101,15 +101,15 @@ export function FactionGenerationModal({
                 <SelectValue placeholder="Choose an archetype" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="hero">The Hero</SelectItem>
-                <SelectItem value="innocent">The Innocent</SelectItem>
-                <SelectItem value="explorer">The Explorer</SelectItem>
-                <SelectItem value="sage">The Sage</SelectItem>
-                <SelectItem value="outlaw">The Outlaw</SelectItem>
-                <SelectItem value="magician">The Magician</SelectItem>
-                <SelectItem value="everyman">The Everyman</SelectItem>
-                <SelectItem value="lover">The Lover</SelectItem>
-                <SelectItem value="jester">The Jester</SelectItem>
+                <SelectItem value="corrupting-force">The Corrupting Force</SelectItem>
+                <SelectItem value="ancient-guardians">The Ancient Guardians</SelectItem>
+                <SelectItem value="survivors">The Survivors</SelectItem>
+                <SelectItem value="zealots">The Zealots</SelectItem>
+                <SelectItem value="rebels">The Rebels</SelectItem>
+                <SelectItem value="merchants">The Merchants</SelectItem>
+                <SelectItem value="protectors">The Protectors</SelectItem>
+                <SelectItem value="scholars">The Scholars</SelectItem>
+                <SelectItem value="outcasts">The Outcasts</SelectItem>
                 <SelectItem value="caregiver">The Caregiver</SelectItem>
                 <SelectItem value="creator">The Creator</SelectItem>
                 <SelectItem value="ruler">The Ruler</SelectItem>
@@ -118,12 +118,12 @@ export function FactionGenerationModal({
           </div>
 
           <div>
-            <Label htmlFor="personality">Personality Traits</Label>
+            <Label htmlFor="personality">Faction Traits</Label>
             <Input
               id="personality"
               value={personality}
               onChange={(e) => setPersonality(e.target.value)}
-              placeholder="e.g., brave, cautious, witty, brooding..."
+              placeholder="e.g., ruthless, secretive, honorable, desperate, fanatical..."
             />
           </div>
 
@@ -133,7 +133,7 @@ export function FactionGenerationModal({
               id="custom-prompt"
               value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
-              placeholder="Any specific traits, background, or details you want this faction to have..."
+              placeholder="Any specific goals, methods, history, or organizational details you want this faction to have..."
               rows={3}
             />
           </div>
