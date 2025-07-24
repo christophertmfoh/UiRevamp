@@ -59,14 +59,24 @@ export function CharacterUnifiedView({
   });
 
   const handleSave = () => {
-    // Process form data to ensure arrays are properly formatted
-    const processedData = { ...formData };
+    const processedData = processDataForSave(formData);
+    console.log('Processed data before save:', processedData);
+    saveMutation.mutate(processedData as Character);
+  };
+
+  const handleCancel = () => {
+    setFormData(character); // Reset form data
+    setIsEditing(false);
+  };
+
+  const processDataForSave = (data: Character) => {
+    const processedData = { ...data };
     
     // Convert comma-separated strings back to arrays for array fields
     CHARACTER_SECTIONS.forEach(section => {
       section.fields.forEach(field => {
         if (field.type === 'array') {
-          const value = (formData as any)[field.key];
+          const value = (data as any)[field.key];
           if (typeof value === 'string') {
             (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
           } else if (!Array.isArray(value)) {
@@ -87,27 +97,27 @@ export function CharacterUnifiedView({
     // Remove system fields that shouldn't be updated
     const { createdAt, ...dataToSave } = processedData;
     
-    console.log('Processed data before save:', dataToSave);
-    saveMutation.mutate(dataToSave as Character);
-  };
-
-  const handleCancel = () => {
-    setFormData(character); // Reset form data
-    setIsEditing(false);
+    return dataToSave;
   };
 
   const handleImageGenerated = (imageUrl: string) => {
     // Update character with new image
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
-    saveMutation.mutate(updatedData);
+    
+    // Process and save the data properly
+    const processedData = processDataForSave(updatedData);
+    saveMutation.mutate(processedData as Character);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
     // Update character with uploaded image
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
-    saveMutation.mutate(updatedData);
+    
+    // Process and save the data properly
+    const processedData = processDataForSave(updatedData);
+    saveMutation.mutate(processedData as Character);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
@@ -264,10 +274,10 @@ export function CharacterUnifiedView({
               className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
               onClick={() => setIsPortraitModalOpen(true)}
             >
-              {character.imageUrl ? (
+              {formData.imageUrl ? (
                 <img 
-                  src={character.imageUrl} 
-                  alt={character.name}
+                  src={formData.imageUrl} 
+                  alt={formData.name}
                   className="w-full h-full object-cover rounded-xl"
                 />
               ) : (

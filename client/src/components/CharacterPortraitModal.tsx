@@ -152,10 +152,8 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Update character with new image if it's the main one
-    if (newPortrait.isMain) {
-      onImageGenerated?.(imageUrl);
-    }
+    // Always update character with new image (either as main or just to save it)
+    onImageGenerated?.(imageUrl);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
@@ -169,10 +167,8 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Update character with new image if it's the main one
-    if (newPortrait.isMain) {
-      onImageUploaded?.(imageUrl);
-    }
+    // Always update character with new image
+    onImageUploaded?.(imageUrl);
   };
 
   const handleSetMainImage = (imageId: string) => {
