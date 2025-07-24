@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Save, X, MapPin, Compass, TreePine, Building, Crown, Scroll, Camera, Settings } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Edit, Save, X, MapPin, Compass, TreePine, Building, Crown, Scroll, Camera, Settings, Trash2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Location } from '@/lib/types';
 import { LOCATION_SECTIONS } from '@/lib/locationConfig';
@@ -150,96 +151,120 @@ export function LocationUnifiedView({
     }));
   };
 
-  // Helper function to render a field - always show inputs, toggle disabled state
-  const renderField = (field: any, value: string | undefined) => {
-    if (field.type === 'textarea') {
-      return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Textarea
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            rows={4}
-            className="min-h-[100px]"
-            disabled={!isEditing}
-          />
-        </div>
-      );
+  // Helper function to render field based on type - matching organization/character modules
+  const renderField = (field: any, value: any) => {
+    if (isEditing) {
+      switch (field.type) {
+        case 'text':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        case 'textarea':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Textarea
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input min-h-[100px] resize-y"
+              />
+            </div>
+          );
+        
+        case 'select':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Select 
+                value={value || ''} 
+                onValueChange={(newValue) => handleInputChange(field.key, newValue)}
+              >
+                <SelectTrigger className="creative-input">
+                  <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {field.options?.map((option: string) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          );
+        
+        case 'array':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={Array.isArray(value) ? value.join(', ') : ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={`Enter ${field.label.toLowerCase()}, separated by commas...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        default:
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input"
+              />
+            </div>
+          );
+      }
     } else {
+      // View mode - show all fields, but only display content if present
       return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Input
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            disabled={!isEditing}
-          />
+        <div key={field.key} className="space-y-2">
+          <Label className="text-muted-foreground">{field.label}</Label>
+          {(!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) ? (
+            <div className="h-5"></div> // Empty space to maintain layout
+          ) : Array.isArray(value) ? (
+            <div className="flex flex-wrap gap-1">
+              {value.map((item: string, index: number) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {item}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm">{value}</p>
+          )}
         </div>
       );
     }
   };
 
-  // Helper function to render array fields - always show input, toggle disabled state
-  const renderArrayField = (field: any, values: string[] | undefined) => {
-    const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
-    return (
-      <div>
-        <Label htmlFor={field.key}>{field.label}</Label>
-        <Input
-          id={field.key}
-          value={stringValue}
-          onChange={(e) => {
-            const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-            handleInputChange(field.key, arrayValue);
-          }}
-          placeholder={isEditing ? field.placeholder : ''}
-          disabled={!isEditing}
-        />
-        {/* Show badges below input when in view mode and has values */}
-        {!isEditing && values && values.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {(Array.isArray(values) ? values : String(values).split(',').map((v: string) => v.trim()))
-              .filter((v: string) => v?.trim())
-              .map((value: string, index: number) => (
-                <Badge key={index} variant="outline" className="text-sm">
-                  {value.trim()}
-                </Badge>
-              ))}
-          </div>
-        )}
-      </div>
-    );
-  };
 
-  // Render tab content with grid layout like the original editor
+
+  // Render tab content with grid layout matching organization/character modules
   const renderTabContent = (sectionId: string) => {
     const section = LOCATION_SECTIONS.find(s => s.id === sectionId);
     if (!section) return null;
 
-    return (
-      <div className="space-y-6">
-        {section.fields.map((field, index) => {
-          const value = (formData as any)[field.key];
-          
-          if (field.type === 'array') {
-            return (
-              <div key={field.key}>
-                {renderArrayField(field, value)}
-              </div>
-            );
-          } else {
-            return (
-              <div key={field.key}>
-                {renderField(field, value)}
-              </div>
-            );
-          }
-        })}
-      </div>
+    return section.fields.map((field) => 
+      renderField(field, formData[field.key as keyof Location])
     );
   };
 
@@ -254,16 +279,18 @@ export function LocationUnifiedView({
         <div className="flex gap-2">
           {!isEditing ? (
             <>
-              <Button onClick={() => setIsEditing(true)} className="interactive-warm gap-2">
-                <Edit className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                onClick={() => setIsEditing(true)}
+              >
+                <Edit className="h-4 w-4 mr-2" />
                 Edit Location
               </Button>
               <Button 
                 variant="destructive" 
                 onClick={() => onDelete(location)}
-                className="gap-2"
               >
-                <X className="h-4 w-4" />
+                <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </Button>
             </>
@@ -272,13 +299,13 @@ export function LocationUnifiedView({
               <Button 
                 onClick={handleSave} 
                 disabled={saveMutation.isPending}
-                className="interactive-warm gap-2"
+                variant="outline"
               >
-                <Save className="h-4 w-4" />
+                <Save className="h-4 w-4 mr-2" />
                 {saveMutation.isPending ? 'Saving...' : 'Save Location'}
               </Button>
-              <Button onClick={handleCancel} variant="outline" className="gap-2">
-                <X className="h-4 w-4" />
+              <Button onClick={handleCancel} variant="outline">
+                <X className="h-4 w-4 mr-2" />
                 Cancel
               </Button>
             </>
@@ -385,9 +412,9 @@ export function LocationUnifiedView({
                     <button
                       key={section.id}
                       onClick={() => setActiveTab(section.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
+                      className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
                         isActive 
-                          ? 'bg-background text-foreground shadow-sm border' 
+                          ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30' 
                           : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
                       }`}
                     >
@@ -407,11 +434,14 @@ export function LocationUnifiedView({
                 if (activeTab !== section.id) return null;
                 
                 return (
-                  <div key={section.id} className="space-y-6">
-                    <div className="border-b pb-4">
-                      <h2 className="text-2xl font-semibold">{section.label}</h2>
+                  <div key={section.id} className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{section.label}</h3>
+                      <p className="text-sm text-muted-foreground mb-6">{section.description}</p>
+                      <div className="grid gap-6 md:grid-cols-2">
+                        {renderTabContent(section.id)}
+                      </div>
                     </div>
-                    {renderTabContent(section.id)}
                   </div>
                 );
               })}
