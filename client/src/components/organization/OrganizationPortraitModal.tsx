@@ -10,23 +10,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Sparkles, Image, Brain, X } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { Character } from '../lib/types';
+import type { Organization } from '../lib/types';
 
-interface CharacterPortraitModalProps {
-  character: Character;
+interface OrganizationPortraitModalProps {
+  organization: Organization;
   isOpen: boolean;
   onClose: () => void;
   onImageGenerated?: (imageUrl: string) => void;
   onImageUploaded?: (imageUrl: string) => void;
 }
 
-export function CharacterPortraitModal({
-  character,
+export function OrganizationPortraitModal({
+  organization,
   isOpen,
   onClose,
   onImageGenerated,
   onImageUploaded
-}: CharacterPortraitModalProps) {
+}: OrganizationPortraitModalProps) {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('generate');
   const [aiEngine, setAiEngine] = useState('gemini');
@@ -34,61 +34,61 @@ export function CharacterPortraitModal({
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
-    // Initialize from character.portraits if available
-    const existingPortraits = character.portraits || [];
+    // Initialize from organization.portraits if available
+    const existingPortraits = organization.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
   });
   const [selectedMainImage, setSelectedMainImage] = useState<string>('');
 
-  // Generate comprehensive AI prompt from all physical character data
-  const generateCharacterPrompt = () => {
+  // Generate comprehensive AI prompt from all physical organization data
+  const generateOrganizationPrompt = () => {
     const parts = [];
     
     // Basic info
-    if (character.name) parts.push(`Character named ${character.name}`);
-    if (character.age) parts.push(`${character.age} years old`);
-    if (character.race) parts.push(character.race);
-    if (character.ethnicity) parts.push(character.ethnicity);
+    if (organization.name) parts.push(`Organization named ${organization.name}`);
+    if (organization.age) parts.push(`${organization.age} years old`);
+    if (organization.race) parts.push(organization.race);
+    if (organization.ethnicity) parts.push(organization.ethnicity);
     
     // Physical build and body
-    if (character.build) parts.push(`${character.build} build`);
-    if (character.bodyType) parts.push(`${character.bodyType} body type`);
-    if (character.height) parts.push(`${character.height} tall`);
-    if (character.posture) parts.push(`${character.posture} posture`);
+    if (organization.build) parts.push(`${organization.build} build`);
+    if (organization.bodyType) parts.push(`${organization.bodyType} body type`);
+    if (organization.height) parts.push(`${organization.height} tall`);
+    if (organization.posture) parts.push(`${organization.posture} posture`);
     
     // Facial features
-    if (character.facialFeatures) parts.push(character.facialFeatures);
-    if (character.eyes || character.eyeColor) {
-      const eyeDesc = [character.eyeColor, character.eyes].filter(Boolean).join(' ');
+    if (organization.facialFeatures) parts.push(organization.facialFeatures);
+    if (organization.eyes || organization.eyeColor) {
+      const eyeDesc = [organization.eyeColor, organization.eyes].filter(Boolean).join(' ');
       parts.push(`${eyeDesc} eyes`);
     }
-    if (character.complexion) parts.push(`${character.complexion} complexion`);
-    if (character.skin || character.skinTone) {
-      const skinDesc = [character.skinTone, character.skin].filter(Boolean).join(' ');
+    if (organization.complexion) parts.push(`${organization.complexion} complexion`);
+    if (organization.skin || organization.skinTone) {
+      const skinDesc = [organization.skinTone, organization.skin].filter(Boolean).join(' ');
       parts.push(`${skinDesc} skin`);
     }
     
     // Hair
-    if (character.hair || character.hairColor || character.hairStyle) {
-      const hairDesc = [character.hairColor, character.hairStyle, character.hair].filter(Boolean).join(' ');
+    if (organization.hair || organization.hairColor || organization.hairStyle) {
+      const hairDesc = [organization.hairColor, organization.hairStyle, organization.hair].filter(Boolean).join(' ');
       parts.push(`${hairDesc} hair`);
     }
-    if (character.facialHair) parts.push(character.facialHair);
+    if (organization.facialHair) parts.push(organization.facialHair);
     
     // Clothing and accessories
-    if (character.attire) parts.push(`wearing ${character.attire}`);
-    if (character.clothingStyle) parts.push(`${character.clothingStyle} clothing style`);
-    if (character.accessories) parts.push(`accessories: ${character.accessories}`);
+    if (organization.attire) parts.push(`wearing ${organization.attire}`);
+    if (organization.clothingStyle) parts.push(`${organization.clothingStyle} clothing style`);
+    if (organization.accessories) parts.push(`accessories: ${organization.accessories}`);
     
     // Distinguishing features
-    if (character.scars) parts.push(`scars: ${character.scars}`);
-    if (character.tattoos) parts.push(`tattoos: ${character.tattoos}`);
-    if (character.piercings) parts.push(`piercings: ${character.piercings}`);
-    if (character.birthmarks) parts.push(`birthmarks: ${character.birthmarks}`);
-    if (character.distinguishingMarks) parts.push(`distinguishing marks: ${character.distinguishingMarks}`);
+    if (organization.scars) parts.push(`scars: ${organization.scars}`);
+    if (organization.tattoos) parts.push(`tattoos: ${organization.tattoos}`);
+    if (organization.piercings) parts.push(`piercings: ${organization.piercings}`);
+    if (organization.birthmarks) parts.push(`birthmarks: ${organization.birthmarks}`);
+    if (organization.distinguishingMarks) parts.push(`distinguishing marks: ${organization.distinguishingMarks}`);
     
     // General physical description
-    if (character.physicalDescription) parts.push(character.physicalDescription);
+    if (organization.physicalDescription) parts.push(organization.physicalDescription);
     
     return parts.filter(Boolean).join(', ');
   };
@@ -96,19 +96,19 @@ export function CharacterPortraitModal({
   const handleGenerateImage = async () => {
     setIsGenerating(true);
     try {
-      const characterPrompt = generateCharacterPrompt();
+      const organizationPrompt = generateOrganizationPrompt();
       
-      console.log('Generating image with character prompt:', characterPrompt);
+      console.log('Generating image with organization prompt:', organizationPrompt);
       console.log('Style prompt:', stylePrompt);
       console.log('Using AI engine:', aiEngine);
 
-      const response = await fetch('/api/characters/generate-image', {
+      const response = await fetch('/api/organizations/generate-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          characterPrompt,
+          organizationPrompt,
           stylePrompt,
           aiEngine
         }),
@@ -158,15 +158,15 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Update character with new image and save portraits array
+    // Update organization with new image and save portraits array
     onImageGenerated?.(imageUrl);
     
-    // If this is the main image, also update the character's imageUrl
+    // If this is the main image, also update the organization's imageUrl
     if (newPortrait.isMain) {
-      updateCharacterImageUrl(imageUrl, updated);
+      updateOrganizationImageUrl(imageUrl, updated);
     } else {
       // Just save the portraits array
-      savePortraitsToCharacter(updated);
+      savePortraitsToOrganization(updated);
     }
   };
 
@@ -181,15 +181,15 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Update character with new image and save portraits array
+    // Update organization with new image and save portraits array
     onImageUploaded?.(imageUrl);
     
-    // If this is the main image, also update the character's imageUrl
+    // If this is the main image, also update the organization's imageUrl
     if (newPortrait.isMain) {
-      updateCharacterImageUrl(imageUrl, updated);
+      updateOrganizationImageUrl(imageUrl, updated);
     } else {
       // Just save the portraits array
-      savePortraitsToCharacter(updated);
+      savePortraitsToOrganization(updated);
     }
   };
 
@@ -202,16 +202,16 @@ export function CharacterPortraitModal({
     
     const mainImage = updated.find(img => img.isMain);
     if (mainImage) {
-      // Update the character's main image in the parent components
+      // Update the organization's main image in the parent components
       onImageGenerated?.(mainImage.url);
       // Also notify the parent that an image was uploaded to trigger display updates
       onImageUploaded?.(mainImage.url);
       
-      // Also update the character's imageUrl field directly
-      updateCharacterImageUrl(mainImage.url, updated);
+      // Also update the organization's imageUrl field directly
+      updateOrganizationImageUrl(mainImage.url, updated);
     } else {
       // Save the updated portraits array if no main image found
-      savePortraitsToCharacter(updated);
+      savePortraitsToOrganization(updated);
     }
   };
 
@@ -228,24 +228,24 @@ export function CharacterPortraitModal({
         isMain: index === 0 // Make first image the new main
       }));
       onImageGenerated?.(finalUpdated[0].url);
-      // Update the character's imageUrl with the new main image
-      updateCharacterImageUrl(finalUpdated[0].url, finalUpdated);
+      // Update the organization's imageUrl with the new main image
+      updateOrganizationImageUrl(finalUpdated[0].url, finalUpdated);
     } else if (deletedImage?.isMain && updated.length === 0) {
-      // No images left, clear the character image
+      // No images left, clear the organization image
       onImageGenerated?.('');
-      updateCharacterImageUrl('', finalUpdated);
+      updateOrganizationImageUrl('', finalUpdated);
     } else {
       // Save the updated portraits array
-      savePortraitsToCharacter(finalUpdated);
+      savePortraitsToOrganization(finalUpdated);
     }
     
     setPortraitGallery(finalUpdated);
   };
 
-  // Helper function to save portraits to character
-  const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+  // Helper function to save portraits to organization
+  const savePortraitsToOrganization = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
     try {
-      const response = await fetch(`/api/characters/${character.id}`, {
+      const response = await fetch(`/api/organizations/${organization.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -256,17 +256,17 @@ export function CharacterPortraitModal({
       });
       
       if (!response.ok) {
-        console.error('Failed to save portraits to character');
+        console.error('Failed to save portraits to organization');
       }
     } catch (error) {
       console.error('Error saving portraits:', error);
     }
   };
 
-  // Helper function to update character's main imageUrl
-  const updateCharacterImageUrl = async (imageUrl: string, updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+  // Helper function to update organization's main imageUrl
+  const updateOrganizationImageUrl = async (imageUrl: string, updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
     try {
-      const response = await fetch(`/api/characters/${character.id}`, {
+      const response = await fetch(`/api/organizations/${organization.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -278,23 +278,23 @@ export function CharacterPortraitModal({
       });
       
       if (!response.ok) {
-        console.error('Failed to update character imageUrl');
+        console.error('Failed to update organization imageUrl');
       } else {
-        // Invalidate cache to refresh the character list
-        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+        // Invalidate cache to refresh the organization list
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', organization.projectId, 'organizations'] });
       }
     } catch (error) {
-      console.error('Error updating character imageUrl:', error);
+      console.error('Error updating organization imageUrl:', error);
     }
   };
 
   const handleModalClose = () => {
-    // Save the current gallery state to the character
-    savePortraitsToCharacter(portraitGallery);
+    // Save the current gallery state to the organization
+    savePortraitsToOrganization(portraitGallery);
     
-    // If there's a main image in the gallery, make sure it's saved to the character
+    // If there's a main image in the gallery, make sure it's saved to the organization
     const mainImage = portraitGallery.find(img => img.isMain);
-    if (mainImage && mainImage.url !== character.imageUrl) {
+    if (mainImage && mainImage.url !== organization.imageUrl) {
       onImageGenerated?.(mainImage.url);
     }
     onClose();
@@ -310,10 +310,10 @@ export function CharacterPortraitModal({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto creative-card" aria-describedby="portrait-description">
         <DialogHeader>
           <DialogTitle className="font-title text-2xl">
-            Manage Portraits for {character.name || 'Character'}
+            Manage Portraits for {organization.name || 'Organization'}
           </DialogTitle>
           <div id="portrait-description" className="sr-only">
-            Generate AI portraits or upload images for your character. You can create multiple portraits and set one as the main character image.
+            Generate AI portraits or upload images for your organization. You can create multiple portraits and set one as the main organization image.
           </div>
         </DialogHeader>
 
@@ -374,17 +374,17 @@ export function CharacterPortraitModal({
                       </p>
                     </div>
 
-                    {/* Character Prompt Preview */}
+                    {/* Organization Prompt Preview */}
                     <div>
-                      <Label>Character Description (Auto-generated)</Label>
+                      <Label>Organization Description (Auto-generated)</Label>
                       <Textarea
-                        value={generateCharacterPrompt() || 'Add character details in the Character Editor to auto-generate description...'}
+                        value={generateOrganizationPrompt() || 'Add organization details in the Organization Editor to auto-generate description...'}
                         readOnly
                         className="creative-input text-sm text-muted-foreground"
                         rows={3}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        This description compiles all physical information from your character profile
+                        This description compiles all physical information from your organization profile
                       </p>
                     </div>
 
@@ -453,7 +453,7 @@ export function CharacterPortraitModal({
                           >
                             <img 
                               src={portrait.url} 
-                              alt="Character portrait"
+                              alt="Organization portrait"
                               className="w-full h-full object-cover cursor-pointer"
                               onClick={() => setSelectedMainImage(portrait.url)}
                             />
@@ -521,7 +521,7 @@ export function CharacterPortraitModal({
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-muted-foreground">
-                  Select 6-10 images from the gallery to create a consistent visual model for this character.
+                  Select 6-10 images from the gallery to create a consistent visual model for this organization.
                 </p>
                 
                 <div className="grid grid-cols-3 gap-4">
@@ -545,7 +545,7 @@ export function CharacterPortraitModal({
                     disabled={selectedImages.length < 6}
                     className="interactive-warm"
                   >
-                    Train Character Model
+                    Train Organization Model
                   </Button>
                 </div>
               </CardContent>
@@ -567,13 +567,13 @@ export function CharacterPortraitModal({
             <DialogHeader>
               <DialogTitle>Portrait Preview</DialogTitle>
               <div id="portrait-preview-description" className="sr-only">
-                View enlarged character portrait and set as main image if desired.
+                View enlarged organization portrait and set as main image if desired.
               </div>
             </DialogHeader>
             <div className="flex items-center justify-center max-h-[80vh]">
               <img 
                 src={selectedMainImage} 
-                alt="Character portrait enlarged"
+                alt="Organization portrait enlarged"
                 className="max-w-full max-h-full object-contain rounded-lg"
               />
             </div>

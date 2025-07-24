@@ -736,37 +736,37 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
-        return <LocationManager project={project} />;
+        return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'factions':
-        return <FactionManager project={project} />;
+        return <FactionManager projectId={project.id} selectedFactionId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'magic':
-        return <MagicSystemManager project={project} />;
+        return <MagicSystemManager projectId={project.id} selectedMagicSystemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'timeline':
-        return <TimelineEventManager project={project} />;
+        return <TimelineEventManager projectId={project.id} selectedTimelineEventId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'items':
-        return <ItemManager project={project} />;
+        return <ItemManager projectId={project.id} selectedItemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'organizations':
-        return <OrganizationManager project={project} />;
+        return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'bestiary':
-        return <CreatureManager project={project} />;
+        return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'languages':
-        return <LanguageManager project={project} />;
+        return <LanguageManager projectId={project.id} selectedLanguageId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'culture':
-        return <CultureManager project={project} />;
+        return <CultureManager projectId={project.id} selectedCultureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'prophecies':
-        return <ProphecyManager project={project} />;
+        return <ProphecyManager projectId={project.id} selectedProphecyId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'themes':
-        return <ThemeManager project={project} />;
+        return <ThemeManager projectId={project.id} selectedThemeId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       default:
         return (

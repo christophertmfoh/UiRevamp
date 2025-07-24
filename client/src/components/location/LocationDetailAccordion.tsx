@@ -4,15 +4,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowLeft, Edit, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool } from 'lucide-react';
-import type { Character } from '../../lib/types';
+import type { Location } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config';
 
-interface CharacterDetailAccordionProps {
+interface LocationDetailAccordionProps {
   projectId: string;
-  character: Character;
+  location: Location;
   onBack: () => void;
-  onEdit: (character: Character) => void;
-  onDelete: (character: Character) => void;
+  onEdit: (location: Location) => void;
+  onDelete: (location: Location) => void;
 }
 
 // Icon mapping for dynamic icon rendering
@@ -26,12 +26,12 @@ const ICON_MAP = {
   PenTool,
 };
 
-export function CharacterDetailAccordion({ 
-  character, 
+export function LocationDetailAccordion({ 
+  location, 
   onBack, 
   onEdit, 
   onDelete 
-}: CharacterDetailAccordionProps) {
+}: LocationDetailAccordionProps) {
   
   // Helper function to render a field if it has content
   const renderField = (label: string, value: string | undefined, className = "") => {
@@ -78,7 +78,7 @@ export function CharacterDetailAccordion({
     if (!section) return false;
     
     return section.fields.some(field => {
-      const value = (character as any)[field.key];
+      const value = (location as any)[field.key];
       if (field.type === 'array') {
         return Array.isArray(value) && value.length > 0 && value.some(v => v?.trim());
       }
@@ -92,7 +92,7 @@ export function CharacterDetailAccordion({
     if (!section) return null;
 
     const content = section.fields.map((field, index) => {
-      const value = (character as any)[field.key];
+      const value = (location as any)[field.key];
       
       if (field.type === 'array') {
         return renderArrayField(field.label, value);
@@ -118,16 +118,16 @@ export function CharacterDetailAccordion({
       <div className="flex items-center justify-between">
         <Button variant="ghost" onClick={onBack} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Characters
+          Back to Locations
         </Button>
         <div className="flex gap-2">
-          <Button onClick={() => onEdit(character)} className="interactive-warm gap-2">
+          <Button onClick={() => onEdit(location)} className="interactive-warm gap-2">
             <Edit className="h-4 w-4" />
-            Edit Character
+            Edit Location
           </Button>
           <Button 
             variant="destructive" 
-            onClick={() => onDelete(character)}
+            onClick={() => onDelete(location)}
             className="gap-2"
           >
             <X className="h-4 w-4" />
@@ -136,16 +136,16 @@ export function CharacterDetailAccordion({
         </div>
       </div>
 
-      {/* Character Header Card */}
+      {/* Location Header Card */}
       <Card className="creative-card">
         <CardContent className="p-6">
           <div className="flex items-start gap-6">
-            {/* Character Image */}
+            {/* Location Image */}
             <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
-              {character.imageUrl ? (
+              {location.imageUrl ? (
                 <img 
-                  src={character.imageUrl} 
-                  alt={character.name}
+                  src={location.imageUrl} 
+                  alt={location.name}
                   className="w-full h-full object-cover rounded-xl"
                 />
               ) : (
@@ -153,53 +153,53 @@ export function CharacterDetailAccordion({
               )}
             </div>
 
-            {/* Character Basic Info */}
+            {/* Location Basic Info */}
             <div className="flex-1">
               <h1 className="font-title text-3xl mb-2">
-                {character.name || 'Unnamed Character'}
+                {location.name || 'Unnamed Location'}
               </h1>
               
-              {character.title && (
-                <p className="text-lg text-muted-foreground mb-3 italic">"{character.title}"</p>
+              {location.title && (
+                <p className="text-lg text-muted-foreground mb-3 italic">"{location.title}"</p>
               )}
               
               <div className="flex flex-wrap gap-2 mb-4">
-                {character.role && (
+                {location.role && (
                   <Badge variant="default" className="text-sm px-3 py-1">
-                    {character.role}
+                    {location.role}
                   </Badge>
                 )}
-                {character.race && (
+                {location.race && (
                   <Badge variant="secondary" className="text-sm">
-                    {character.race}
+                    {location.race}
                   </Badge>
                 )}
-                {character.class && (
+                {location.class && (
                   <Badge variant="outline" className="text-sm">
-                    {character.class}
+                    {location.class}
                   </Badge>
                 )}
-                {character.age && (
+                {location.age && (
                   <Badge variant="outline" className="text-sm">
-                    Age {character.age}
+                    Age {location.age}
                   </Badge>
                 )}
-                {character.occupation && (
+                {location.occupation && (
                   <Badge variant="outline" className="text-sm">
-                    {character.occupation}
+                    {location.occupation}
                   </Badge>
                 )}
               </div>
 
-              {character.oneLine && (
+              {location.oneLine && (
                 <p className="text-lg italic text-muted-foreground mb-3">
-                  "{character.oneLine}"
+                  "{location.oneLine}"
                 </p>
               )}
               
-              {character.description && (
+              {location.description && (
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  {character.description}
+                  {location.description}
                 </p>
               )}
             </div>

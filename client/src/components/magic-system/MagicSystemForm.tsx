@@ -9,85 +9,85 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Save, Upload, User, Settings, Target, Languages, Palette } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../lib/types';
+import type { MagicSystem } from '../lib/types';
 
-interface CharacterFormProps {
+interface MagicSystemFormProps {
   projectId: string;
   onCancel: () => void;
-  character?: Character;
+  magicsystem?: MagicSystem;
 }
 
-export function CharacterForm({ projectId, onCancel, character }: CharacterFormProps) {
+export function MagicSystemForm({ projectId, onCancel, magicsystem }: MagicSystemFormProps) {
   const [formData, setFormData] = useState({
-    name: character?.name || '',
-    title: character?.title || '',
-    race: character?.race || '',
-    class: character?.class || '',
-    age: character?.age || '',
-    role: character?.role || '',
+    name: magicsystem?.name || '',
+    title: magicsystem?.title || '',
+    race: magicsystem?.race || '',
+    class: magicsystem?.class || '',
+    age: magicsystem?.age || '',
+    role: magicsystem?.role || '',
     
     // Physical Appearance
-    physicalDescription: character?.physicalDescription || '',
-    facialFeatures: character?.facialFeatures || '',
-    hair: character?.hair || '',
-    skin: character?.skin || '',
-    attire: character?.attire || '',
-    distinguishingMarks: character?.distinguishingMarks || '',
+    physicalDescription: magicsystem?.physicalDescription || '',
+    facialFeatures: magicsystem?.facialFeatures || '',
+    hair: magicsystem?.hair || '',
+    skin: magicsystem?.skin || '',
+    attire: magicsystem?.attire || '',
+    distinguishingMarks: magicsystem?.distinguishingMarks || '',
     
-    // Core Character Details
-    description: character?.description || '',
-    personality: character?.personality || '',
-    backstory: character?.backstory || '',
+    // Core MagicSystem Details
+    description: magicsystem?.description || '',
+    personality: magicsystem?.personality || '',
+    backstory: magicsystem?.backstory || '',
     
     // Psychological Profile
-    personalityTraits: character?.personalityTraits?.join(', ') || '',
-    motivations: character?.motivations || '',
-    fears: character?.fears || '',
-    secrets: character?.secrets || '',
-    copingMechanisms: character?.copingMechanisms || '',
-    vulnerabilities: character?.vulnerabilities || '',
+    personalityTraits: magicsystem?.personalityTraits?.join(', ') || '',
+    motivations: magicsystem?.motivations || '',
+    fears: magicsystem?.fears || '',
+    secrets: magicsystem?.secrets || '',
+    copingMechanisms: magicsystem?.copingMechanisms || '',
+    vulnerabilities: magicsystem?.vulnerabilities || '',
     
     // Background & History
-    background: character?.background || '',
-    academicHistory: character?.academicHistory || '',
-    personalStruggle: character?.personalStruggle || '',
+    background: magicsystem?.background || '',
+    academicHistory: magicsystem?.academicHistory || '',
+    personalStruggle: magicsystem?.personalStruggle || '',
     
     // Abilities & Skills
-    abilities: character?.abilities?.join(', ') || '',
-    skills: character?.skills?.join(', ') || '',
-    specialAbilities: character?.specialAbilities || '',
+    abilities: magicsystem?.abilities?.join(', ') || '',
+    skills: magicsystem?.skills?.join(', ') || '',
+    specialAbilities: magicsystem?.specialAbilities || '',
     
     // Story Elements
-    goals: character?.goals || '',
-    conflictSources: character?.conflictSources || '',
-    connectionToEvents: character?.connectionToEvents || '',
+    goals: magicsystem?.goals || '',
+    conflictSources: magicsystem?.conflictSources || '',
+    connectionToEvents: magicsystem?.connectionToEvents || '',
     
     // Language & Communication
-    languages: character?.languages?.join(', ') || '',
-    accent: character?.accent || '',
-    speechPatterns: character?.speechPatterns || '',
+    languages: magicsystem?.languages?.join(', ') || '',
+    accent: magicsystem?.accent || '',
+    speechPatterns: magicsystem?.speechPatterns || '',
     
     // Meta Information
-    archetypes: character?.archetypes?.join(', ') || '',
-    tags: character?.tags?.join(', ') || '',
-    proseVibe: character?.proseVibe || '',
-    narrativeRole: character?.narrativeRole || '',
+    archetypes: magicsystem?.archetypes?.join(', ') || '',
+    tags: magicsystem?.tags?.join(', ') || '',
+    proseVibe: magicsystem?.proseVibe || '',
+    narrativeRole: magicsystem?.narrativeRole || '',
   });
 
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('POST', `/api/projects/${projectId}/characters`, data),
+    mutationFn: (data: any) => apiRequest('POST', `/api/projects/${projectId}/magicsystems`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'magicsystems'] });
       onCancel();
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('PUT', `/api/characters/${character?.id}`, data),
+    mutationFn: (data: any) => apiRequest('PUT', `/api/magicsystems/${magicsystem?.id}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'magicsystems'] });
       onCancel();
     },
   });
@@ -96,7 +96,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
     e.preventDefault();
     
     const processedData = {
-      id: character?.id || Date.now().toString(),
+      id: magicsystem?.id || Date.now().toString(),
       projectId,
       name: formData.name,
       title: formData.title,
@@ -139,7 +139,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
       imageUrl: '',
     };
 
-    if (character) {
+    if (magicsystem) {
       updateMutation.mutate(processedData);
     } else {
       createMutation.mutate(processedData);
@@ -158,7 +158,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
       <div className="flex items-center justify-between">
         <Button variant="ghost" onClick={onCancel} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Characters
+          Back to MagicSystems
         </Button>
         <div className="flex gap-2">
           <Button 
@@ -168,7 +168,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
             className="interactive-warm gap-2"
           >
             <Save className="h-4 w-4" />
-            {isLoading ? 'Saving...' : 'Save Character'}
+            {isLoading ? 'Saving...' : 'Save MagicSystem'}
           </Button>
         </div>
       </div>
@@ -176,7 +176,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
       <Card className="creative-card">
         <div className="p-6">
           <h1 className="font-title text-3xl mb-6">
-            {character ? 'Edit Character' : 'Create New Character'}
+            {magicsystem ? 'Edit MagicSystem' : 'Create New MagicSystem'}
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -216,7 +216,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
                       id="name"
                       value={formData.name}
                       onChange={(e) => updateField('name', e.target.value)}
-                      placeholder="Character's full name"
+                      placeholder="MagicSystem's full name"
                     />
                   </div>
                   <div>
@@ -278,7 +278,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
                 {/* Image Upload Area */}
                 <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
                   <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
-                  <h3 className="text-lg font-semibold mb-2">Character Image</h3>
+                  <h3 className="text-lg font-semibold mb-2">MagicSystem Image</h3>
                   <p className="text-muted-foreground mb-4">
                     Upload an image or generate one with AI (coming soon)
                   </p>
@@ -558,7 +558,7 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
                     id="tags"
                     value={formData.tags}
                     onChange={(e) => updateField('tags', e.target.value)}
-                    placeholder="major character, love interest, comic relief"
+                    placeholder="major magicsystem, love interest, comic relief"
                   />
                 </div>
 

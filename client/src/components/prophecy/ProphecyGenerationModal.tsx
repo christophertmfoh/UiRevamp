@@ -7,28 +7,28 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Sparkles, Loader2 } from 'lucide-react';
 
-interface CharacterGenerationModalProps {
+interface ProphecyGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerate: (generationOptions: CharacterGenerationOptions) => Promise<void>;
+  onGenerate: (generationOptions: ProphecyGenerationOptions) => Promise<void>;
   isGenerating: boolean;
 }
 
-export interface CharacterGenerationOptions {
-  characterType: string;
+export interface ProphecyGenerationOptions {
+  prophecyType: string;
   role: string;
   customPrompt: string;
   personality: string;
   archetype: string;
 }
 
-export function CharacterGenerationModal({ 
+export function ProphecyGenerationModal({ 
   isOpen, 
   onClose, 
   onGenerate, 
   isGenerating 
-}: CharacterGenerationModalProps) {
-  const [characterType, setCharacterType] = useState('');
+}: ProphecyGenerationModalProps) {
+  const [prophecyType, setProphecyType] = useState('');
   const [role, setRole] = useState('');
   const [customPrompt, setCustomPrompt] = useState('');
   const [personality, setPersonality] = useState('');
@@ -36,7 +36,7 @@ export function CharacterGenerationModal({
 
   const handleGenerate = async () => {
     await onGenerate({
-      characterType,
+      prophecyType,
       role,
       customPrompt,
       personality,
@@ -45,7 +45,7 @@ export function CharacterGenerationModal({
   };
 
   const handleReset = () => {
-    setCharacterType('');
+    setProphecyType('');
     setRole('');
     setCustomPrompt('');
     setPersonality('');
@@ -58,21 +58,21 @@ export function CharacterGenerationModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-accent" />
-            Generate Character
+            Generate Prophecy
           </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
           <div>
-            <Label htmlFor="character-type">Character Type</Label>
-            <Select value={characterType} onValueChange={setCharacterType}>
+            <Label htmlFor="prophecy-type">Prophecy Type</Label>
+            <Select value={prophecyType} onValueChange={setProphecyType}>
               <SelectTrigger>
-                <SelectValue placeholder="What kind of character?" />
+                <SelectValue placeholder="What kind of prophecy?" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="protagonist">Protagonist</SelectItem>
                 <SelectItem value="antagonist">Antagonist</SelectItem>
-                <SelectItem value="supporting">Supporting Character</SelectItem>
+                <SelectItem value="supporting">Supporting Prophecy</SelectItem>
                 <SelectItem value="mentor">Mentor</SelectItem>
                 <SelectItem value="love-interest">Love Interest</SelectItem>
                 <SelectItem value="comic-relief">Comic Relief</SelectItem>
@@ -95,7 +95,7 @@ export function CharacterGenerationModal({
           </div>
 
           <div>
-            <Label htmlFor="archetype">Character Archetype</Label>
+            <Label htmlFor="archetype">Prophecy Archetype</Label>
             <Select value={archetype} onValueChange={setArchetype}>
               <SelectTrigger>
                 <SelectValue placeholder="Choose an archetype" />
@@ -133,7 +133,7 @@ export function CharacterGenerationModal({
               id="custom-prompt"
               value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
-              placeholder="Any specific traits, background, or details you want this character to have..."
+              placeholder="Any specific traits, background, or details you want this prophecy to have..."
               rows={3}
             />
           </div>
@@ -148,7 +148,7 @@ export function CharacterGenerationModal({
               </Button>
               <Button 
                 onClick={handleGenerate} 
-                disabled={isGenerating || !characterType}
+                disabled={isGenerating || !prophecyType}
                 className="interactive-warm"
               >
                 {isGenerating ? (
@@ -159,7 +159,7 @@ export function CharacterGenerationModal({
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Character
+                    Generate Prophecy
                   </>
                 )}
               </Button>

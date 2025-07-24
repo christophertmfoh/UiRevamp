@@ -8,260 +8,260 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Save, User, Eye, Brain, Zap, BookOpen, Users, Settings, PenTool } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../lib/types';
+import type { Language } from '../lib/types';
 
-interface CharacterFormExpandedProps {
+interface LanguageFormExpandedProps {
   projectId: string;
   onCancel: () => void;
-  character?: Character;
+  language?: Language;
 }
 
-export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
+export function LanguageFormExpanded({ projectId, onCancel, language }: LanguageFormExpandedProps) {
   const [formData, setFormData] = useState({
     // Basic Information
-    name: character?.name || '',
-    nicknames: character?.nicknames || '',
-    title: character?.title || '',
-    aliases: character?.aliases || '',
-    race: character?.race || '',
-    ethnicity: character?.ethnicity || '',
-    class: character?.class || '',
-    profession: character?.profession || '',
-    occupation: character?.occupation || '',
-    age: character?.age || '',
-    birthdate: character?.birthdate || '',
-    zodiacSign: character?.zodiacSign || '',
-    role: character?.role || '',
+    name: language?.name || '',
+    nicknames: language?.nicknames || '',
+    title: language?.title || '',
+    aliases: language?.aliases || '',
+    race: language?.race || '',
+    ethnicity: language?.ethnicity || '',
+    class: language?.class || '',
+    profession: language?.profession || '',
+    occupation: language?.occupation || '',
+    age: language?.age || '',
+    birthdate: language?.birthdate || '',
+    zodiacSign: language?.zodiacSign || '',
+    role: language?.role || '',
     
     // Physical Appearance
-    physicalDescription: character?.physicalDescription || '',
-    height: character?.height || '',
-    weight: character?.weight || '',
-    build: character?.build || '',
-    bodyType: character?.bodyType || '',
-    facialFeatures: character?.facialFeatures || '',
-    eyes: character?.eyes || '',
-    eyeColor: character?.eyeColor || '',
-    hair: character?.hair || '',
-    hairColor: character?.hairColor || '',
-    hairStyle: character?.hairStyle || '',
-    facialHair: character?.facialHair || '',
-    skin: character?.skin || '',
-    skinTone: character?.skinTone || '',
-    complexion: character?.complexion || '',
-    scars: character?.scars || '',
-    tattoos: character?.tattoos || '',
-    piercings: character?.piercings || '',
-    birthmarks: character?.birthmarks || '',
-    distinguishingMarks: character?.distinguishingMarks || '',
-    attire: character?.attire || '',
-    clothingStyle: character?.clothingStyle || '',
-    accessories: character?.accessories || '',
-    posture: character?.posture || '',
-    gait: character?.gait || '',
-    gestures: character?.gestures || '',
-    mannerisms: character?.mannerisms || '',
+    physicalDescription: language?.physicalDescription || '',
+    height: language?.height || '',
+    weight: language?.weight || '',
+    build: language?.build || '',
+    bodyType: language?.bodyType || '',
+    facialFeatures: language?.facialFeatures || '',
+    eyes: language?.eyes || '',
+    eyeColor: language?.eyeColor || '',
+    hair: language?.hair || '',
+    hairColor: language?.hairColor || '',
+    hairStyle: language?.hairStyle || '',
+    facialHair: language?.facialHair || '',
+    skin: language?.skin || '',
+    skinTone: language?.skinTone || '',
+    complexion: language?.complexion || '',
+    scars: language?.scars || '',
+    tattoos: language?.tattoos || '',
+    piercings: language?.piercings || '',
+    birthmarks: language?.birthmarks || '',
+    distinguishingMarks: language?.distinguishingMarks || '',
+    attire: language?.attire || '',
+    clothingStyle: language?.clothingStyle || '',
+    accessories: language?.accessories || '',
+    posture: language?.posture || '',
+    gait: language?.gait || '',
+    gestures: language?.gestures || '',
+    mannerisms: language?.mannerisms || '',
     
-    // Core Character Details
-    description: character?.description || '',
-    characterSummary: character?.characterSummary || '',
-    oneLine: character?.oneLine || '',
+    // Core Language Details
+    description: language?.description || '',
+    languageSummary: language?.languageSummary || '',
+    oneLine: language?.oneLine || '',
     
     // Personality
-    personality: character?.personality || '',
-    personalityTraits: character?.personalityTraits?.join(', ') || '',
-    temperament: character?.temperament || '',
-    disposition: character?.disposition || '',
-    worldview: character?.worldview || '',
-    beliefs: character?.beliefs || '',
-    values: character?.values || '',
-    principles: character?.principles || '',
-    morals: character?.morals || '',
-    ethics: character?.ethics || '',
-    virtues: character?.virtues || '',
-    vices: character?.vices || '',
-    habits: character?.habits || '',
-    quirks: character?.quirks || '',
-    idiosyncrasies: character?.idiosyncrasies || '',
-    petPeeves: character?.petPeeves || '',
-    likes: character?.likes || '',
-    dislikes: character?.dislikes || '',
-    hobbies: character?.hobbies || '',
-    interests: character?.interests || '',
-    passions: character?.passions || '',
+    personality: language?.personality || '',
+    personalityTraits: language?.personalityTraits?.join(', ') || '',
+    temperament: language?.temperament || '',
+    disposition: language?.disposition || '',
+    worldview: language?.worldview || '',
+    beliefs: language?.beliefs || '',
+    values: language?.values || '',
+    principles: language?.principles || '',
+    morals: language?.morals || '',
+    ethics: language?.ethics || '',
+    virtues: language?.virtues || '',
+    vices: language?.vices || '',
+    habits: language?.habits || '',
+    quirks: language?.quirks || '',
+    idiosyncrasies: language?.idiosyncrasies || '',
+    petPeeves: language?.petPeeves || '',
+    likes: language?.likes || '',
+    dislikes: language?.dislikes || '',
+    hobbies: language?.hobbies || '',
+    interests: language?.interests || '',
+    passions: language?.passions || '',
     
     // Psychological Profile
-    motivations: character?.motivations || '',
-    desires: character?.desires || '',
-    needs: character?.needs || '',
-    drives: character?.drives || '',
-    ambitions: character?.ambitions || '',
-    fears: character?.fears || '',
-    phobias: character?.phobias || '',
-    anxieties: character?.anxieties || '',
-    insecurities: character?.insecurities || '',
-    secrets: character?.secrets || '',
-    shame: character?.shame || '',
-    guilt: character?.guilt || '',
-    regrets: character?.regrets || '',
-    trauma: character?.trauma || '',
-    wounds: character?.wounds || '',
-    copingMechanisms: character?.copingMechanisms || '',
-    defenses: character?.defenses || '',
-    vulnerabilities: character?.vulnerabilities || '',
-    weaknesses: character?.weaknesses || '',
-    blindSpots: character?.blindSpots || '',
-    mentalHealth: character?.mentalHealth || '',
-    emotionalState: character?.emotionalState || '',
-    maturityLevel: character?.maturityLevel || '',
-    intelligenceType: character?.intelligenceType || '',
-    learningStyle: character?.learningStyle || '',
+    motivations: language?.motivations || '',
+    desires: language?.desires || '',
+    needs: language?.needs || '',
+    drives: language?.drives || '',
+    ambitions: language?.ambitions || '',
+    fears: language?.fears || '',
+    phobias: language?.phobias || '',
+    anxieties: language?.anxieties || '',
+    insecurities: language?.insecurities || '',
+    secrets: language?.secrets || '',
+    shame: language?.shame || '',
+    guilt: language?.guilt || '',
+    regrets: language?.regrets || '',
+    trauma: language?.trauma || '',
+    wounds: language?.wounds || '',
+    copingMechanisms: language?.copingMechanisms || '',
+    defenses: language?.defenses || '',
+    vulnerabilities: language?.vulnerabilities || '',
+    weaknesses: language?.weaknesses || '',
+    blindSpots: language?.blindSpots || '',
+    mentalHealth: language?.mentalHealth || '',
+    emotionalState: language?.emotionalState || '',
+    maturityLevel: language?.maturityLevel || '',
+    intelligenceType: language?.intelligenceType || '',
+    learningStyle: language?.learningStyle || '',
     
     // Background & History
-    background: character?.background || '',
-    backstory: character?.backstory || '',
-    origin: character?.origin || '',
-    upbringing: character?.upbringing || '',
-    childhood: character?.childhood || '',
-    familyHistory: character?.familyHistory || '',
-    socialClass: character?.socialClass || '',
-    economicStatus: character?.economicStatus || '',
-    education: character?.education || '',
-    academicHistory: character?.academicHistory || '',
-    formativeEvents: character?.formativeEvents || '',
-    lifeChangingMoments: character?.lifeChangingMoments || '',
-    personalStruggle: character?.personalStruggle || '',
-    challenges: character?.challenges || '',
-    achievements: character?.achievements || '',
-    failures: character?.failures || '',
-    losses: character?.losses || '',
-    victories: character?.victories || '',
-    reputation: character?.reputation || '',
+    background: language?.background || '',
+    backstory: language?.backstory || '',
+    origin: language?.origin || '',
+    upbringing: language?.upbringing || '',
+    childhood: language?.childhood || '',
+    familyHistory: language?.familyHistory || '',
+    socialClass: language?.socialClass || '',
+    economicStatus: language?.economicStatus || '',
+    education: language?.education || '',
+    academicHistory: language?.academicHistory || '',
+    formativeEvents: language?.formativeEvents || '',
+    lifeChangingMoments: language?.lifeChangingMoments || '',
+    personalStruggle: language?.personalStruggle || '',
+    challenges: language?.challenges || '',
+    achievements: language?.achievements || '',
+    failures: language?.failures || '',
+    losses: language?.losses || '',
+    victories: language?.victories || '',
+    reputation: language?.reputation || '',
     
     // Abilities & Skills
-    abilities: character?.abilities?.join(', ') || '',
-    skills: character?.skills?.join(', ') || '',
-    talents: character?.talents?.join(', ') || '',
-    expertise: character?.expertise?.join(', ') || '',
-    specialAbilities: character?.specialAbilities || '',
-    powers: character?.powers || '',
-    magicalAbilities: character?.magicalAbilities || '',
-    magicType: character?.magicType || '',
-    magicSource: character?.magicSource || '',
-    magicLimitations: character?.magicLimitations || '',
-    superpowers: character?.superpowers || '',
-    strengths: character?.strengths || '',
-    competencies: character?.competencies || '',
-    training: character?.training || '',
-    experience: character?.experience || '',
+    abilities: language?.abilities?.join(', ') || '',
+    skills: language?.skills?.join(', ') || '',
+    talents: language?.talents?.join(', ') || '',
+    expertise: language?.expertise?.join(', ') || '',
+    specialAbilities: language?.specialAbilities || '',
+    powers: language?.powers || '',
+    magicalAbilities: language?.magicalAbilities || '',
+    magicType: language?.magicType || '',
+    magicSource: language?.magicSource || '',
+    magicLimitations: language?.magicLimitations || '',
+    superpowers: language?.superpowers || '',
+    strengths: language?.strengths || '',
+    competencies: language?.competencies || '',
+    training: language?.training || '',
+    experience: language?.experience || '',
     
     // Story Elements
-    goals: character?.goals || '',
-    objectives: character?.objectives || '',
-    wants: character?.wants || '',
-    obstacles: character?.obstacles || '',
-    conflicts: character?.conflicts || '',
-    conflictSources: character?.conflictSources || '',
-    stakes: character?.stakes || '',
-    consequences: character?.consequences || '',
-    arc: character?.arc || '',
-    journey: character?.journey || '',
-    transformation: character?.transformation || '',
-    growth: character?.growth || '',
-    allies: character?.allies || '',
-    enemies: character?.enemies || '',
-    mentors: character?.mentors || '',
-    rivals: character?.rivals || '',
-    connectionToEvents: character?.connectionToEvents || '',
-    plotRelevance: character?.plotRelevance || '',
-    storyFunction: character?.storyFunction || '',
+    goals: language?.goals || '',
+    objectives: language?.objectives || '',
+    wants: language?.wants || '',
+    obstacles: language?.obstacles || '',
+    conflicts: language?.conflicts || '',
+    conflictSources: language?.conflictSources || '',
+    stakes: language?.stakes || '',
+    consequences: language?.consequences || '',
+    arc: language?.arc || '',
+    journey: language?.journey || '',
+    transformation: language?.transformation || '',
+    growth: language?.growth || '',
+    allies: language?.allies || '',
+    enemies: language?.enemies || '',
+    mentors: language?.mentors || '',
+    rivals: language?.rivals || '',
+    connectionToEvents: language?.connectionToEvents || '',
+    plotRelevance: language?.plotRelevance || '',
+    storyFunction: language?.storyFunction || '',
     
     // Language & Communication
-    languages: character?.languages?.join(', ') || '',
-    nativeLanguage: character?.nativeLanguage || '',
-    accent: character?.accent || '',
-    dialect: character?.dialect || '',
-    voiceDescription: character?.voiceDescription || '',
-    speechPatterns: character?.speechPatterns || '',
-    vocabulary: character?.vocabulary || '',
-    catchphrases: character?.catchphrases || '',
-    slang: character?.slang || '',
-    communicationStyle: character?.communicationStyle || '',
+    languages: language?.languages?.join(', ') || '',
+    nativeLanguage: language?.nativeLanguage || '',
+    accent: language?.accent || '',
+    dialect: language?.dialect || '',
+    voiceDescription: language?.voiceDescription || '',
+    speechPatterns: language?.speechPatterns || '',
+    vocabulary: language?.vocabulary || '',
+    catchphrases: language?.catchphrases || '',
+    slang: language?.slang || '',
+    communicationStyle: language?.communicationStyle || '',
     
     // Social & Cultural
-    family: character?.family || '',
-    parents: character?.parents || '',
-    siblings: character?.siblings || '',
-    spouse: character?.spouse || '',
-    children: character?.children || '',
-    friends: character?.friends || '',
-    socialCircle: character?.socialCircle || '',
-    community: character?.community || '',
-    culture: character?.culture || '',
-    traditions: character?.traditions || '',
-    customs: character?.customs || '',
-    religion: character?.religion || '',
-    spirituality: character?.spirituality || '',
-    politicalViews: character?.politicalViews || '',
+    family: language?.family || '',
+    parents: language?.parents || '',
+    siblings: language?.siblings || '',
+    spouse: language?.spouse || '',
+    children: language?.children || '',
+    friends: language?.friends || '',
+    socialCircle: language?.socialCircle || '',
+    community: language?.community || '',
+    culture: language?.culture || '',
+    traditions: language?.traditions || '',
+    customs: language?.customs || '',
+    religion: language?.religion || '',
+    spirituality: language?.spirituality || '',
+    politicalViews: language?.politicalViews || '',
     
     // Meta Information
-    archetypes: character?.archetypes?.join(', ') || '',
-    tropes: character?.tropes?.join(', ') || '',
-    inspiration: character?.inspiration || '',
-    basedOn: character?.basedOn || '',
-    tags: character?.tags?.join(', ') || '',
-    genre: character?.genre || '',
-    proseVibe: character?.proseVibe || '',
-    narrativeRole: character?.narrativeRole || '',
-    characterType: character?.characterType || '',
-    importance: character?.importance || '',
-    screenTime: character?.screenTime || '',
-    firstAppearance: character?.firstAppearance || '',
-    lastAppearance: character?.lastAppearance || '',
+    archetypes: language?.archetypes?.join(', ') || '',
+    tropes: language?.tropes?.join(', ') || '',
+    inspiration: language?.inspiration || '',
+    basedOn: language?.basedOn || '',
+    tags: language?.tags?.join(', ') || '',
+    genre: language?.genre || '',
+    proseVibe: language?.proseVibe || '',
+    narrativeRole: language?.narrativeRole || '',
+    languageType: language?.languageType || '',
+    importance: language?.importance || '',
+    screenTime: language?.screenTime || '',
+    firstAppearance: language?.firstAppearance || '',
+    lastAppearance: language?.lastAppearance || '',
     
     // Writer's Notes
-    notes: character?.notes || '',
-    development: character?.development || '',
-    evolution: character?.evolution || '',
-    alternatives: character?.alternatives || '',
-    unused: character?.unused || '',
-    research: character?.research || '',
-    references: character?.references || '',
-    mood: character?.mood || '',
-    theme: character?.theme || '',
-    symbolism: character?.symbolism || '',
+    notes: language?.notes || '',
+    development: language?.development || '',
+    evolution: language?.evolution || '',
+    alternatives: language?.alternatives || '',
+    unused: language?.unused || '',
+    research: language?.research || '',
+    references: language?.references || '',
+    mood: language?.mood || '',
+    theme: language?.theme || '',
+    symbolism: language?.symbolism || '',
   });
 
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`/api/projects/${projectId}/characters`, {
+      const response = await fetch(`/api/projects/${projectId}/languages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Failed to create character');
+      if (!response.ok) throw new Error('Failed to create language');
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'languages'] });
       onCancel();
     }
   });
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`/api/characters/${character?.id}`, {
+      const response = await fetch(`/api/languages/${language?.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      if (!response.ok) throw new Error('Failed to update character');
+      if (!response.ok) throw new Error('Failed to update language');
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'languages'] });
       onCancel();
     }
   });
@@ -285,15 +285,15 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       imageUrl: '',
     };
 
-    if (character) {
+    if (language) {
       updateMutation.mutate(processedData);
     } else {
-      // Generate ID for new character
-      const newCharacterData = {
+      // Generate ID for new language
+      const newLanguageData = {
         ...processedData,
         id: Date.now().toString(),
       };
-      createMutation.mutate(newCharacterData);
+      createMutation.mutate(newLanguageData);
     }
   };
 
@@ -309,7 +309,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       <div className="flex items-center justify-between">
         <Button variant="ghost" onClick={onCancel} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Characters
+          Back to Languages
         </Button>
         <div className="flex gap-2">
           <Button 
@@ -319,7 +319,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
             className="interactive-warm gap-2"
           >
             <Save className="h-4 w-4" />
-            {isLoading ? 'Saving...' : 'Save Character'}
+            {isLoading ? 'Saving...' : 'Save Language'}
           </Button>
         </div>
       </div>
@@ -327,7 +327,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       <Card className="creative-card">
         <div className="p-6">
           <h1 className="font-title text-3xl mb-6">
-            {character ? 'Edit Character' : 'Create New Character'}
+            {language ? 'Edit Language' : 'Create New Language'}
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -376,7 +376,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       id="name"
                       value={formData.name}
                       onChange={(e) => updateField('name', e.target.value)}
-                      placeholder="Character's full name"
+                      placeholder="Language's full name"
                     />
                   </div>
                   <div>
@@ -495,26 +495,26 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       id="oneLine"
                       value={formData.oneLine}
                       onChange={(e) => updateField('oneLine', e.target.value)}
-                      placeholder="A single sentence that captures the essence of this character"
+                      placeholder="A single sentence that captures the essence of this language"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="description">Character Description</Label>
+                    <Label htmlFor="description">Language Description</Label>
                     <Textarea
                       id="description"
                       value={formData.description}
                       onChange={(e) => updateField('description', e.target.value)}
-                      placeholder="Overall description of the character"
+                      placeholder="Overall description of the language"
                       rows={4}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="characterSummary">Character Summary</Label>
+                    <Label htmlFor="languageSummary">Language Summary</Label>
                     <Textarea
-                      id="characterSummary"
-                      value={formData.characterSummary}
-                      onChange={(e) => updateField('characterSummary', e.target.value)}
-                      placeholder="A comprehensive summary of who this character is"
+                      id="languageSummary"
+                      value={formData.languageSummary}
+                      onChange={(e) => updateField('languageSummary', e.target.value)}
+                      placeholder="A comprehensive summary of who this language is"
                       rows={3}
                     />
                   </div>
@@ -529,7 +529,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                     id="personality"
                     value={formData.personality}
                     onChange={(e) => updateField('personality', e.target.value)}
-                    placeholder="Describe the character's overall personality, temperament, and worldview"
+                    placeholder="Describe the language's overall personality, temperament, and worldview"
                     rows={4}
                   />
                 </div>
@@ -874,7 +874,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="arc">Character Arc</Label>
+                    <Label htmlFor="arc">Language Arc</Label>
                     <Textarea
                       id="arc"
                       value={formData.arc}
@@ -1021,7 +1021,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       id="tags"
                       value={formData.tags}
                       onChange={(e) => updateField('tags', e.target.value)}
-                      placeholder="major character, love interest, comic relief"
+                      placeholder="major language, love interest, comic relief"
                     />
                   </div>
                   <div>
@@ -1041,7 +1041,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                     id="notes"
                     value={formData.notes}
                     onChange={(e) => updateField('notes', e.target.value)}
-                    placeholder="Personal notes about this character's development, inspiration, changes, etc."
+                    placeholder="Personal notes about this language's development, inspiration, changes, etc."
                     rows={6}
                   />
                 </div>

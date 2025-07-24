@@ -1,5 +1,9 @@
-// Location Module Exports
+export { LocationManager } from './LocationManager';
 export { LocationCard } from './LocationCard';
 export { LocationForm } from './LocationForm';
+export { LocationFormExpanded } from './LocationFormExpanded';
+export { LocationDetailView } from './LocationDetailView';
+export { LocationDetailAccordion } from './LocationDetailAccordion';
+export { LocationUnifiedView } from './LocationUnifiedView';
 export { LocationGenerationModal } from './LocationGenerationModal';
-export { LocationManager } from './LocationManager';
+export { LocationPortraitModal } from './LocationPortraitModal';

@@ -1,40 +1,175 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, Sparkles, MapPin } from 'lucide-react';
-import type { Project } from '../../lib/types';
-
-interface Location {
-  id: string;
-  projectId: string;
-  name: string;
-  description: string;
-  history: string;
-  significance: string;
-  atmosphere: string;
-  imageGallery: any[];
-  displayImageId: number | null;
-  tags: string[];
-}
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
+import { apiRequest } from '@/lib/queryClient';
+import type { Location, Project } from '../../lib/types';
+import { LocationDetailView } from './LocationDetailView';
+import { LocationPortraitModal } from './LocationPortraitModal';
+import { LocationGenerationModal, type LocationGenerationOptions } from './LocationGenerationModal';
+import { generateContextualLocation } from '../../lib/services/locationGeneration';
 
 interface LocationManagerProps {
-  project: Project;
+  projectId: string;
+  selectedLocationId?: string | null;
+  onClearSelection?: () => void;
 }
 
-export function LocationManager({ project }: LocationManagerProps) {
+export function LocationManager({ projectId, selectedLocationId, onClearSelection }: LocationManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [portraitLocation, setPortraitLocation] = useState<Location | null>(null);
+  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { data: locations = [], isLoading } = useQuery({
-    queryKey: ['/api/projects', project.id, 'locations'],
-    enabled: !!project?.id,
+  const { data: locations = [], isLoading } = useQuery<Location[]>({
+    queryKey: ['/api/projects', projectId, 'locations'],
+  });
+
+  const { data: project } = useQuery<Project>({
+    queryKey: ['/api/projects', projectId],
+  });
+
+  // Auto-select location if selectedLocationId is provided
+  useEffect(() => {
+    if (selectedLocationId && locations.length > 0) {
+      const location = locations.find(c => c.id === selectedLocationId);
+      if (location) {
+        setSelectedLocation(location);
+        setIsCreating(false);
+        // Clear the selection from the parent component
+        onClearSelection?.();
+      }
+    }
+  }, [selectedLocationId, locations, onClearSelection]);
+
+  const deleteMutation = useMutation({
+    mutationFn: (locationId: string) => 
+      apiRequest('DELETE', `/api/locations/${locationId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
+    },
+  });
+
+  const updateLocationMutation = useMutation({
+    mutationFn: (location: Location) => 
+      apiRequest('PUT', `/api/locations/${location.id}`, location),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
+    },
+  });
+
+  const createLocationMutation = useMutation({
+    mutationFn: async (location: Partial<Location>) => {
+      console.log('Mutation: Creating location with data:', location);
+      return await apiRequest('POST', `/api/projects/${projectId}/locations`, {
+        ...location,
+        projectId,
+      });
+    },
+    onSuccess: (newLocation) => {
+      console.log('Mutation: Location created successfully:', newLocation);
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
+      setSelectedLocation(newLocation);
+      setIsCreating(false);
+    },
+    onError: (error) => {
+      console.error('Mutation: Failed to create location:', error);
+    },
   });
 
   const filteredLocations = locations.filter((location: Location) =>
     location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     location.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    location.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    (location.tags && location.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())))
   );
+
+  const handleLocationClick = (location: Location) => {
+    setSelectedLocation(location);
+    setIsCreating(false);
+  };
+
+  const handleCreateNew = () => {
+    setIsCreating(true);
+    setSelectedLocation(null);
+  };
+
+  const handleEditLocation = (location: Location) => {
+    setSelectedLocation(location);
+    setIsCreating(false);
+  };
+
+  const handleDeleteLocation = (location: Location) => {
+    if (window.confirm(`Are you sure you want to delete "${location.name}"?`)) {
+      deleteMutation.mutate(location.id);
+    }
+  };
+
+  const handleGenerateLocation = async (options: LocationGenerationOptions) => {
+    if (!project) return;
+    
+    setIsGenerating(true);
+    try {
+      console.log('Generating location with options:', options);
+      const generatedLocation = await generateContextualLocation(
+        project.name,
+        project.description || '',
+        {
+          ...options,
+          existingContext: {
+            locations: locations.map(c => ({ name: c.name, type: c.type })),
+          }
+        }
+      );
+      
+      console.log('Generated location:', generatedLocation);
+      createLocationMutation.mutate(generatedLocation);
+    } catch (error) {
+      console.error('Failed to generate location:', error);
+    } finally {
+      setIsGenerating(false);
+      setIsGenerationModalOpen(false);
+    }
+  };
+
+  const handleUpdateImageData = async (locationId: string, imageUrl: string | null, displayImageId: number | null) => {
+    const location = locations.find(c => c.id === locationId);
+    if (!location) return;
+
+    const updatedLocation = {
+      ...location,
+      displayImageId,
+    };
+
+    updateLocationMutation.mutate(updatedLocation);
+  };
+
+  // If we're creating or editing a location, show the form
+  if (isCreating || selectedLocation) {
+    return (
+      <LocationDetailView
+        projectId={projectId}
+        location={selectedLocation}
+        isCreating={isCreating}
+        onBack={() => {
+          setSelectedLocation(null);
+          setIsCreating(false);
+        }}
+        onDelete={handleDeleteLocation}
+        onImageRequest={(location) => {
+          setPortraitLocation(location);
+          setIsPortraitModalOpen(true);
+        }}
+      />
+    );
+  }
 
   if (isLoading) {
     return <div className="flex items-center justify-center h-64">Loading locations...</div>;
@@ -42,6 +177,7 @@ export function LocationManager({ project }: LocationManagerProps) {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-title text-2xl">Locations</h2>
@@ -50,27 +186,37 @@ export function LocationManager({ project }: LocationManagerProps) {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button className="interactive-warm">
+          <Button 
+            onClick={handleCreateNew} 
+            className="interactive-warm"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add Location
           </Button>
-          <Button variant="outline" className="border-accent/20 hover:bg-accent/10">
+          <Button 
+            onClick={() => setIsGenerationModalOpen(true)} 
+            disabled={!project || isGenerating}
+            variant="outline"
+            className="border-accent/20 hover:bg-accent/10"
+          >
             <Sparkles className="h-4 w-4 mr-2" />
-            Generate Location
+            {isGenerating ? 'Generating...' : 'Generate Location'}
           </Button>
         </div>
       </div>
 
+      {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search locations..."
+          placeholder="Search locations by name, description, or tags..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-10 creative-input"
         />
       </div>
 
+      {/* Locations Grid */}
       {filteredLocations.length === 0 ? (
         <div className="text-center py-12">
           <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
@@ -78,25 +224,139 @@ export function LocationManager({ project }: LocationManagerProps) {
           <p className="text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search terms' : 'Create your first location to get started'}
           </p>
+          {!searchQuery && (
+            <Button onClick={handleCreateNew} className="interactive-warm">
+              <Plus className="h-4 w-4 mr-2" />
+              Create Location
+            </Button>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLocations.map((location: Location) => (
-            <div key={location.id} className="p-4 border rounded-lg creative-card">
-              <h3 className="font-semibold">{location.name}</h3>
-              <p className="text-sm text-muted-foreground mt-2">{location.description}</p>
-              {location.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-3">
-                  {location.tags.slice(0, 3).map((tag, index) => (
-                    <span key={index} className="text-xs bg-accent/20 text-accent px-2 py-1 rounded">
-                      {tag}
-                    </span>
-                  ))}
+            <Card key={location.id} className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => handleLocationClick(location)}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  {/* Location Icon */}
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+
+                  {/* Location Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg truncate group-hover:text-accent transition-colors">
+                          {location.name}
+                        </h3>
+                        
+                        <div className="flex items-center gap-2 mt-1">
+                          {location.type && (
+                            <Badge variant="secondary" className="text-xs">
+                              {location.type}
+                            </Badge>
+                          )}
+                          {location.scale && (
+                            <Badge variant="outline" className="text-xs">
+                              {location.scale}
+                            </Badge>
+                          )}
+                        </div>
+
+                        <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
+                          {location.description}
+                        </p>
+
+                        {/* Tags */}
+                        {location.tags && location.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-3">
+                            {location.tags.slice(0, 3).map((tag, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                            {location.tags.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{location.tags.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditLocation(location);
+                            }}
+                          >
+                            <Edit2 className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPortraitLocation(location);
+                              setIsPortraitModalOpen(true);
+                            }}
+                          >
+                            <Camera className="h-4 w-4 mr-2" />
+                            Generate Image
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteLocation(location);
+                            }}
+                            className="text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
+      )}
+
+      {/* Modals */}
+      {isGenerationModalOpen && project && (
+        <LocationGenerationModal
+          project={project}
+          existingLocations={locations}
+          onGenerate={handleGenerateLocation}
+          onClose={() => setIsGenerationModalOpen(false)}
+          isGenerating={isGenerating}
+        />
+      )}
+
+      {isPortraitModalOpen && portraitLocation && (
+        <LocationPortraitModal
+          location={portraitLocation}
+          onClose={() => {
+            setIsPortraitModalOpen(false);
+            setPortraitLocation(null);
+          }}
+          onImageGenerated={handleUpdateImageData}
+        />
       )}
     </div>
   );

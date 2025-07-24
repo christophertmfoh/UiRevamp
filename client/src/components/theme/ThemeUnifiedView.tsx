@@ -9,15 +9,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
+import type { Theme } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config';
-import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { ThemePortraitModal } from './ThemePortraitModal';
 
-interface CharacterUnifiedViewProps {
+interface ThemeUnifiedViewProps {
   projectId: string;
-  character: Character;
+  theme: Theme;
   onBack: () => void;
-  onDelete: (character: Character) => void;
+  onDelete: (theme: Theme) => void;
 }
 
 // Icon mapping for dynamic icon rendering
@@ -31,43 +31,43 @@ const ICON_COMPONENTS = {
   PenTool,
 };
 
-export function CharacterUnifiedView({ 
+export function ThemeUnifiedView({ 
   projectId,
-  character, 
+  theme, 
   onBack, 
   onDelete 
-}: CharacterUnifiedViewProps) {
+}: ThemeUnifiedViewProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(character);
+  const [formData, setFormData] = useState(theme);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   // Save mutation
   const saveMutation = useMutation({
-    mutationFn: async (data: Character) => {
-      return await apiRequest('PUT', `/api/characters/${character.id}`, data);
+    mutationFn: async (data: Theme) => {
+      return await apiRequest('PUT', `/api/themes/${theme.id}`, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'themes'] });
       setIsEditing(false);
     },
     onError: (error) => {
-      console.error('Failed to save character:', error);
+      console.error('Failed to save theme:', error);
     }
   });
 
   const handleSave = () => {
     const processedData = processDataForSave(formData);
-    saveMutation.mutate(processedData as Character);
+    saveMutation.mutate(processedData as Theme);
   };
 
   const handleCancel = () => {
-    setFormData(character); // Reset form data
+    setFormData(theme); // Reset form data
     setIsEditing(false);
   };
 
-  const processDataForSave = (data: Character) => {
+  const processDataForSave = (data: Theme) => {
     const processedData = { ...data };
     
     // Ensure all array fields are properly formatted
@@ -110,39 +110,39 @@ export function CharacterUnifiedView({
     const { createdAt, id, projectId, ...dataToSave } = processedData;
     
     // Ensure portraits array is preserved
-    if (character.portraits) {
-      dataToSave.portraits = character.portraits;
+    if (theme.portraits) {
+      dataToSave.portraits = theme.portraits;
     }
     
     return dataToSave;
   };
 
   const handleImageGenerated = (imageUrl: string) => {
-    // Update character with new image, preserving portraits
+    // Update theme with new image, preserving portraits
     const updatedData = { 
       ...formData, 
       imageUrl,
-      portraits: character.portraits || [] // Preserve existing portraits
+      portraits: theme.portraits || [] // Preserve existing portraits
     };
     setFormData(updatedData);
     
     // Process and save the data properly - exclude createdAt and other system fields
     const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Character);
+    saveMutation.mutate(processedData as Theme);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
-    // Update character with uploaded image, preserving portraits
+    // Update theme with uploaded image, preserving portraits
     const updatedData = { 
       ...formData, 
       imageUrl,
-      portraits: character.portraits || [] // Preserve existing portraits
+      portraits: theme.portraits || [] // Preserve existing portraits
     };
     setFormData(updatedData);
     
     // Process and save the data properly - exclude createdAt and other system fields
     const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Character);
+    saveMutation.mutate(processedData as Theme);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
@@ -253,18 +253,18 @@ export function CharacterUnifiedView({
       <div className="flex items-center justify-between">
         <Button variant="ghost" onClick={onBack} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Characters
+          Back to Themes
         </Button>
         <div className="flex gap-2">
           {!isEditing ? (
             <>
               <Button onClick={() => setIsEditing(true)} className="interactive-warm gap-2">
                 <Edit className="h-4 w-4" />
-                Edit Character
+                Edit Theme
               </Button>
               <Button 
                 variant="destructive" 
-                onClick={() => onDelete(character)}
+                onClick={() => onDelete(theme)}
                 className="gap-2"
               >
                 <X className="h-4 w-4" />
@@ -279,7 +279,7 @@ export function CharacterUnifiedView({
                 className="interactive-warm gap-2"
               >
                 <Save className="h-4 w-4" />
-                {saveMutation.isPending ? 'Saving...' : 'Save Character'}
+                {saveMutation.isPending ? 'Saving...' : 'Save Theme'}
               </Button>
               <Button onClick={handleCancel} variant="outline" className="gap-2">
                 <X className="h-4 w-4" />
@@ -290,11 +290,11 @@ export function CharacterUnifiedView({
         </div>
       </div>
 
-      {/* Character Header Card */}
+      {/* Theme Header Card */}
       <Card className="creative-card">
         <CardContent className="p-6">
           <div className="flex items-start gap-6">
-            {/* Character Image - Clickable */}
+            {/* Theme Image - Clickable */}
             <div 
               className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
               onClick={() => setIsPortraitModalOpen(true)}
@@ -315,10 +315,10 @@ export function CharacterUnifiedView({
               </div>
             </div>
 
-            {/* Character Basic Info */}
+            {/* Theme Basic Info */}
             <div className="flex-1">
               <h1 className="font-title text-3xl mb-2">
-                {formData.name || 'Unnamed Character'}
+                {formData.name || 'Unnamed Theme'}
               </h1>
               
               {formData.title && (
@@ -413,9 +413,9 @@ export function CharacterUnifiedView({
         </CardContent>
       </Card>
 
-      {/* Character Portrait Modal */}
-      <CharacterPortraitModal
-        character={formData}
+      {/* Theme Portrait Modal */}
+      <ThemePortraitModal
+        theme={formData}
         isOpen={isPortraitModalOpen}
         onClose={() => setIsPortraitModalOpen(false)}
         onImageGenerated={handleImageGenerated}
