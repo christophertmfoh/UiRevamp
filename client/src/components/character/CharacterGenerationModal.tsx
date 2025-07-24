@@ -189,21 +189,21 @@ export function CharacterGenerationModal({
             <TabsContent value="archetype" className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-3">Select a character archetype (optional)</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   {ARCHETYPES.map((arch) => (
                     <Card 
                       key={arch.value}
-                      className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+                      className={`cursor-pointer transition-all duration-200 hover:shadow-md min-h-[80px] ${
                         archetype === arch.value 
                           ? 'ring-2 ring-accent bg-accent/5' 
                           : 'hover:border-accent/30'
                       }`}
                       onClick={() => setArchetype(archetype === arch.value ? '' : arch.value)}
                     >
-                      <CardContent className="p-4">
+                      <CardContent className="p-4 h-full flex flex-col justify-center">
                         <div className="space-y-2">
-                          <h4 className="font-semibold text-sm">{arch.label}</h4>
-                          <p className="text-xs text-muted-foreground">{arch.description}</p>
+                          <h4 className="font-semibold text-sm leading-tight">{arch.label}</h4>
+                          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{arch.description}</p>
                         </div>
                       </CardContent>
                     </Card>
