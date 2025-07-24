@@ -34,6 +34,7 @@ export function CharacterDetailView({
         onCancel={onBack}
         onComplete={(savedCharacter) => {
           // After completion, switch to viewing the created character
+          setIsEditing(false);
           onEdit(savedCharacter);
         }}
       />

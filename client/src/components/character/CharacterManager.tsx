@@ -125,6 +125,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const handleEdit = (character: Character) => {
     setSelectedCharacter(character);
     setIsCreating(false);
+    setIsGuidedCreation(false);
   };
 
   const handleDelete = (character: Character) => {
