@@ -13,6 +13,9 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config/characterFieldsConfig';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { CharacterRelationships } from './CharacterRelationships';
+import { CharacterArcTracker } from './CharacterArcTracker';
+import { CharacterInsights } from './CharacterInsights';
 import { LoadingModal } from '../ui/loading-modal';
 
 interface CharacterUnifiedViewProps {
@@ -486,6 +489,49 @@ export function CharacterUnifiedView({
               </button>
             );
           })}
+          
+          {/* New Competitive Features */}
+          <button
+            onClick={() => setActiveTab('relationships')}
+            className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
+              activeTab === 'relationships'
+                ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30' 
+                : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Users className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-medium text-sm">Relationships</div>
+            </div>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('arcs')}
+            className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
+              activeTab === 'arcs'
+                ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30' 
+                : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <BookOpen className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-medium text-sm">Character Arcs</div>
+            </div>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('insights')}
+            className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
+              activeTab === 'insights'
+                ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30' 
+                : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Brain className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-medium text-sm">AI Insights</div>
+            </div>
+          </button>
         </div>
 
         {/* Right Content Area */}
@@ -507,6 +553,35 @@ export function CharacterUnifiedView({
                   </div>
                 );
               })}
+              
+              {/* New Competitive Features Content */}
+              {activeTab === 'relationships' && (
+                <div className="space-y-8">
+                  <CharacterRelationships
+                    characterName={character.name}
+                    onUpdateRelationships={(relationships) => {
+                      setFormData(prev => ({ ...prev, relationships: JSON.stringify(relationships) }));
+                    }}
+                  />
+                </div>
+              )}
+              
+              {activeTab === 'arcs' && (
+                <div className="space-y-8">
+                  <CharacterArcTracker
+                    characterName={character.name}
+                    onUpdateArcs={(arcs) => {
+                      setFormData(prev => ({ ...prev, arc: JSON.stringify(arcs) }));
+                    }}
+                  />
+                </div>
+              )}
+              
+              {activeTab === 'insights' && (
+                <div className="space-y-8">
+                  <CharacterInsights character={character} />
+                </div>
+              )}
             </div>
           </Card>
         </div>

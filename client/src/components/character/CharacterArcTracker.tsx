@@ -473,7 +473,7 @@ export function CharacterArcTracker({ characterName, onUpdateArcs }: CharacterAr
                 <Label htmlFor="milestone-emotions">Emotions (comma-separated)</Label>
                 <Input
                   id="milestone-emotions"
-                  value={Array.isArray(newMilestone.emotions) ? newMilestone.emotions.join(', ') : (newMilestone.emotions as string) || ''}
+                  value={Array.isArray(newMilestone.emotions) ? newMilestone.emotions.join(', ') : (newMilestone.emotions as string | undefined) || ''}
                   onChange={(e) => setNewMilestone(prev => ({ ...prev, emotions: e.target.value.split(',').map(s => s.trim()).filter(Boolean) }))}
                   placeholder="e.g., hope, fear, determination"
                 />

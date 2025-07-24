@@ -38,7 +38,7 @@ export function CharacterInsights({ character }: CharacterInsightsProps) {
 
   // Get character archetype analysis
   const getArchetypeInfo = () => {
-    const archetype = character.archetype || character.role;
+    const archetype = (character.archetypes && character.archetypes.length > 0 ? character.archetypes[0] : null) || character.role;
     const archetypeMap: Record<string, { color: string; description: string; icon: React.ComponentType<any> }> = {
       'hero': { color: 'bg-blue-500', description: 'Natural leader with strong moral compass', icon: Shield },
       'mentor': { color: 'bg-purple-500', description: 'Wise guide who shares knowledge', icon: BookOpen },
@@ -172,7 +172,7 @@ export function CharacterInsights({ character }: CharacterInsightsProps) {
             </div>
             <div className="flex-1">
               <h4 className="font-semibold capitalize">
-                {character.archetype || character.role || 'Undefined'}
+                {(character.archetypes && character.archetypes.length > 0 ? character.archetypes[0] : null) || character.role || 'Undefined'}
               </h4>
               <p className="text-sm text-muted-foreground">
                 {archetypeInfo.description}
