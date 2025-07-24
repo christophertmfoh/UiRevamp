@@ -377,7 +377,7 @@
   to { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
 }
 
-/* Custom Scrollbar Styles */
+/* Custom Scrollbar Styles - Updated */
 .scrollbar-thin {
   scrollbar-width: thin;
   scrollbar-color: #a0967d transparent;
