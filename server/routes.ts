@@ -622,6 +622,240 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Item routes
+  app.get("/api/projects/:projectId/items", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const items = await storage.getItems(projectId);
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/items", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const itemData = insertItemSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+      const item = await storage.createItem(itemData);
+      res.status(201).json(item);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating item:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/items/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating item with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const itemData = insertItemSchema.partial().parse(cleanedData);
+      const item = await storage.updateItem(id, itemData);
+      
+      if (!item) {
+        return res.status(404).json({ error: "Item not found" });
+      }
+      
+      res.json(item);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating item:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/items/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteItem(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Item not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting item:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Organization routes
+  app.get("/api/projects/:projectId/organizations", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const organizations = await storage.getOrganizations(projectId);
+      res.json(organizations);
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/organizations", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const organizationData = insertOrganizationSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+      const organization = await storage.createOrganization(organizationData);
+      res.status(201).json(organization);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating organization:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/organizations/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating organization with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const organizationData = insertOrganizationSchema.partial().parse(cleanedData);
+      const organization = await storage.updateOrganization(id, organizationData);
+      
+      if (!organization) {
+        return res.status(404).json({ error: "Organization not found" });
+      }
+      
+      res.json(organization);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating organization:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/organizations/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteOrganization(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Organization not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting organization:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Magic System routes
+  app.get("/api/projects/:projectId/magic-systems", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const magicSystems = await storage.getMagicSystems(projectId);
+      res.json(magicSystems);
+    } catch (error) {
+      console.error("Error fetching magic systems:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/magic-systems", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const magicSystemData = insertMagicSystemSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+      const magicSystem = await storage.createMagicSystem(magicSystemData);
+      res.status(201).json(magicSystem);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating magic system:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/magic-systems/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating magic system with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const magicSystemData = insertMagicSystemSchema.partial().parse(cleanedData);
+      const magicSystem = await storage.updateMagicSystem(id, magicSystemData);
+      
+      if (!magicSystem) {
+        return res.status(404).json({ error: "Magic system not found" });
+      }
+      
+      res.json(magicSystem);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating magic system:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/magic-systems/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteMagicSystem(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Magic system not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting magic system:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
