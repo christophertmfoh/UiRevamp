@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Log which API key is being used for debugging
-const apiKey = process.env.GOOGLE_API_KEY4 || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+const apiKey = process.env.GOOGLE_API_KEY_NEW || process.env.GOOGLE_API_KEY4 || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
 console.log(`Character enhancement using API key: ${apiKey ? apiKey.substring(0, 10) + '...' : 'NONE'}`);
 
 const ai = new GoogleGenAI({ apiKey });
