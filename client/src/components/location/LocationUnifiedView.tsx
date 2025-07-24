@@ -119,7 +119,7 @@ export function LocationUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated, but preserve imageGallery
-    const { id, projectId, createdAt, ...dataToSave } = processedData;
+    const { createdAt, id, projectId, ...dataToSave } = processedData;
     
     // Ensure imageGallery array is preserved
     if (location.imageGallery) {
