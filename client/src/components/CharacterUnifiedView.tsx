@@ -111,7 +111,7 @@ export function CharacterUnifiedView({
             id={field.key}
             value={value || ''}
             onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={field.placeholder}
+            placeholder={isEditing ? field.placeholder : ''}
             rows={field.rows || 3}
             className="creative-input"
             disabled={!isEditing}
@@ -126,7 +126,7 @@ export function CharacterUnifiedView({
             id={field.key}
             value={value || ''}
             onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={field.placeholder}
+            placeholder={isEditing ? field.placeholder : ''}
             className="creative-input"
             disabled={!isEditing}
           />
@@ -148,7 +148,7 @@ export function CharacterUnifiedView({
             const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
             handleInputChange(field.key, arrayValue);
           }}
-          placeholder={field.placeholder}
+          placeholder={isEditing ? field.placeholder : ''}
           className="creative-input"
           disabled={!isEditing}
         />
