@@ -38,19 +38,28 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
 
 async function generateWithGemini(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    const fullPrompt = `${params.characterPrompt}, ${params.stylePrompt}`;
+    const fullPrompt = `Generate a detailed character portrait: ${params.characterPrompt}. ${params.stylePrompt}`;
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
-    // Use Gemini's image generation model
-    const response = await gemini.models.generateContent({
+    // Use Gemini's image generation model with correct API structure
+    const response = await gemini.generateContent({
       model: "gemini-2.0-flash-preview-image-generation",
-      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-      config: {
-        responseModalities: ["TEXT", "IMAGE"],
+      contents: [{ 
+        role: "user", 
+        parts: [{ text: fullPrompt }] 
+      }],
+      generationConfig: {
+        responseModalities: ["IMAGE"],
       },
     });
 
-    const candidates = response.candidates;
+    console.log('Gemini response structure:', JSON.stringify(response, null, 2));
+
+    if (!response.response) {
+      throw new Error("No response returned from Gemini");
+    }
+
+    const candidates = response.response.candidates;
     if (!candidates || candidates.length === 0) {
       throw new Error("No candidates returned from Gemini");
     }
@@ -64,7 +73,8 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     for (const part of content.parts) {
       if (part.inlineData && part.inlineData.data) {
         // Convert base64 to blob URL for temporary use
-        const imageData = `data:image/png;base64,${part.inlineData.data}`;
+        const imageData = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+        console.log('Successfully extracted image from Gemini response');
         return { url: imageData };
       }
     }
@@ -85,7 +95,7 @@ export async function generateCharacterImage(params: CharacterImageRequest): Pro
       case 'gemini':
         try {
           return await generateWithGemini(params);
-        } catch (geminiError) {
+        } catch (geminiError: any) {
           console.log('Gemini failed, falling back to OpenAI:', geminiError.message);
           // Fallback to OpenAI if Gemini fails
           const openaiParams = { ...params, aiEngine: 'openai' as const };
