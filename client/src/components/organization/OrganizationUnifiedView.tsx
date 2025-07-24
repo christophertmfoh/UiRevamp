@@ -293,7 +293,7 @@ export function OrganizationUnifiedView({
                 onClick={() => setActiveTab(section.title.toLowerCase())}
                 className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
                   isActive 
-                    ? 'bg-accent text-accent-foreground' 
+                    ? 'bg-gradient-to-r from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/30 text-amber-900 dark:text-amber-100 border border-amber-200 dark:border-amber-800' 
                     : 'hover:bg-accent/50 text-muted-foreground hover:text-foreground'
                 }`}
               >
