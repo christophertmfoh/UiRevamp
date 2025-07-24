@@ -7,10 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
 import { CHARACTER_SECTIONS } from '../lib/characterFieldsConfig';
+import { CharacterPortraitModal } from './CharacterPortraitModal';
 
 interface CharacterUnifiedViewProps {
   projectId: string;
@@ -39,6 +40,7 @@ export function CharacterUnifiedView({
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(character);
   const [activeTab, setActiveTab] = useState('identity');
+  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   // Save mutation
@@ -92,6 +94,20 @@ export function CharacterUnifiedView({
   const handleCancel = () => {
     setFormData(character); // Reset form data
     setIsEditing(false);
+  };
+
+  const handleImageGenerated = (imageUrl: string) => {
+    // Update character with new image
+    const updatedData = { ...formData, imageUrl };
+    setFormData(updatedData);
+    saveMutation.mutate(updatedData);
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    // Update character with uploaded image
+    const updatedData = { ...formData, imageUrl };
+    setFormData(updatedData);
+    saveMutation.mutate(updatedData);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
@@ -243,8 +259,11 @@ export function CharacterUnifiedView({
       <Card className="creative-card">
         <CardContent className="p-6">
           <div className="flex items-start gap-6">
-            {/* Character Image */}
-            <div className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
+            {/* Character Image - Clickable */}
+            <div 
+              className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
+              onClick={() => setIsPortraitModalOpen(true)}
+            >
               {character.imageUrl ? (
                 <img 
                   src={character.imageUrl} 
@@ -254,6 +273,11 @@ export function CharacterUnifiedView({
               ) : (
                 <User className="h-16 w-16 text-amber-600 dark:text-amber-400" />
               )}
+              
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <Camera className="h-8 w-8 text-white" />
+              </div>
             </div>
 
             {/* Character Basic Info */}
@@ -353,6 +377,15 @@ export function CharacterUnifiedView({
           </div>
         </CardContent>
       </Card>
+
+      {/* Character Portrait Modal */}
+      <CharacterPortraitModal
+        character={formData}
+        isOpen={isPortraitModalOpen}
+        onClose={() => setIsPortraitModalOpen(false)}
+        onImageGenerated={handleImageGenerated}
+        onImageUploaded={handleImageUploaded}
+      />
     </div>
   );
 }

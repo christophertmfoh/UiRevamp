@@ -11,6 +11,7 @@ import {
   insertProseDocumentSchema 
 } from "@shared/schema";
 import { storage } from "./storage";
+import { generateCharacterImage } from "./imageGeneration";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Project routes
@@ -249,6 +250,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting character:", error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Character image generation endpoint
+  app.post("/api/characters/generate-image", async (req, res) => {
+    try {
+      const { characterPrompt, stylePrompt = "digital art, fantasy", aiEngine = "openai" } = req.body;
+      
+      if (!characterPrompt) {
+        return res.status(400).json({ error: "Character prompt is required" });
+      }
+
+      const result = await generateCharacterImage({
+        characterPrompt,
+        stylePrompt,
+        aiEngine
+      });
+      
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating character image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
     }
   });
 

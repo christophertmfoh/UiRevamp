@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2 } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
+import { CharacterPortraitModal } from './CharacterPortraitModal';
 
 interface CharacterManagerProps {
   projectId: string;
@@ -18,6 +19,8 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
+  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -27,6 +30,14 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   const deleteMutation = useMutation({
     mutationFn: (characterId: string) => 
       apiRequest('DELETE', `/api/characters/${characterId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+    },
+  });
+
+  const updateCharacterMutation = useMutation({
+    mutationFn: (character: Character) => 
+      apiRequest('PUT', `/api/characters/${character.id}`, character),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
     },
@@ -63,6 +74,24 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   const handleBackToList = () => {
     setSelectedCharacter(null);
     setIsCreating(false);
+  };
+
+  const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent card click
+    setPortraitCharacter(character);
+    setIsPortraitModalOpen(true);
+  };
+
+  const handleImageGenerated = (imageUrl: string) => {
+    if (portraitCharacter) {
+      updateCharacterMutation.mutate({ ...portraitCharacter, imageUrl });
+    }
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    if (portraitCharacter) {
+      updateCharacterMutation.mutate({ ...portraitCharacter, imageUrl });
+    }
   };
 
   // Show character detail view (which handles both viewing and editing)
@@ -147,8 +176,11 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
             >
               <CardContent className="p-4">
                 <div className="flex items-start gap-4">
-                  {/* Character Image */}
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
+                  {/* Character Image - Clickable */}
+                  <div 
+                    className="w-16 h-16 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
+                    onClick={(e) => handlePortraitClick(character, e)}
+                  >
                     {character.imageUrl ? (
                       <img 
                         src={character.imageUrl} 
@@ -158,6 +190,11 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
                     ) : (
                       <Edit className="h-8 w-8 text-amber-600 dark:text-amber-400" />
                     )}
+                    
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Camera className="h-4 w-4 text-white" />
+                    </div>
                   </div>
 
                   {/* Character Info */}
@@ -238,6 +275,20 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
             </Card>
           ))}
         </div>
+      )}
+
+      {/* Character Portrait Modal */}
+      {portraitCharacter && (
+        <CharacterPortraitModal
+          character={portraitCharacter}
+          isOpen={isPortraitModalOpen}
+          onClose={() => {
+            setIsPortraitModalOpen(false);
+            setPortraitCharacter(null);
+          }}
+          onImageGenerated={handleImageGenerated}
+          onImageUploaded={handleImageUploaded}
+        />
       )}
     </div>
   );
