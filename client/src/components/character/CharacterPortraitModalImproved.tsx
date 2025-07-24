@@ -137,8 +137,8 @@ export function CharacterPortraitModal({
       <DialogContent className="max-w-5xl max-h-[90vh]">
         <DialogHeader className="pb-6 border-b border-border/30">
           <DialogTitle className="flex items-center gap-3 text-xl">
-            <div className="p-2.5 bg-gradient-to-br from-purple-500/15 to-pink-500/15 rounded-xl">
-              <Image className="h-5 w-5 text-purple-600" />
+            <div className="p-2.5 bg-gradient-to-br from-accent/15 to-accent/25 rounded-xl">
+              <Image className="h-5 w-5 text-accent" />
             </div>
             <div>
               <div className="font-semibold">Portrait Studio</div>
@@ -149,16 +149,16 @@ export function CharacterPortraitModal({
 
         <div className="flex flex-col h-[calc(90vh-140px)] overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-            <TabsList className="grid w-full grid-cols-3 mb-6 bg-muted/30">
-              <TabsTrigger value="generate" className="flex items-center gap-2 text-sm data-[state=active]:bg-background">
+            <TabsList className="grid w-full grid-cols-3 mb-6 bg-muted/20 p-1 rounded-xl">
+              <TabsTrigger value="generate" className="flex items-center gap-2 text-sm py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
                 <Sparkles className="h-4 w-4" />
                 AI Generate
               </TabsTrigger>
-              <TabsTrigger value="gallery" className="flex items-center gap-2 text-sm data-[state=active]:bg-background">
+              <TabsTrigger value="gallery" className="flex items-center gap-2 text-sm py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
                 <Image className="h-4 w-4" />
                 Gallery ({portraitGallery.length})
               </TabsTrigger>
-              <TabsTrigger value="upload" className="flex items-center gap-2 text-sm data-[state=active]:bg-background">
+              <TabsTrigger value="upload" className="flex items-center gap-2 text-sm py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
                 <Upload className="h-4 w-4" />
                 Upload
               </TabsTrigger>
@@ -173,7 +173,7 @@ export function CharacterPortraitModal({
                       <CardContent className="p-6 space-y-4">
                         <div>
                           <h3 className="font-semibold mb-3 flex items-center gap-2">
-                            <Sparkles className="h-4 w-4 text-purple-500" />
+                            <Sparkles className="h-4 w-4 text-accent" />
                             AI Image Generation
                           </h3>
                           <p className="text-sm text-muted-foreground mb-4">
@@ -208,7 +208,7 @@ export function CharacterPortraitModal({
                           <Button 
                             onClick={handleGenerateImage}
                             disabled={isGenerating}
-                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg"
+                            className="w-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent text-accent-foreground font-medium py-2.5 shadow-lg hover:shadow-xl transition-all duration-200"
                             size="lg"
                           >
                             {isGenerating ? (
@@ -233,7 +233,7 @@ export function CharacterPortraitModal({
                     <Card className="border border-border/50">
                       <CardContent className="p-6">
                         <h3 className="font-semibold mb-4 flex items-center gap-2">
-                          <Eye className="h-4 w-4 text-blue-500" />
+                          <Eye className="h-4 w-4 text-accent" />
                           Current Portrait
                         </h3>
                         <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30">
@@ -260,7 +260,7 @@ export function CharacterPortraitModal({
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">Portrait Gallery</h3>
-                    <Badge variant="secondary" className="bg-purple-500/10 text-purple-600">
+                    <Badge variant="secondary" className="bg-accent/10 text-accent">
                       {portraitGallery.filter(img => img.isMain).length > 0 ? '1 main portrait' : 'No main portrait'}
                     </Badge>
                   </div>
@@ -275,7 +275,7 @@ export function CharacterPortraitModal({
                       <Button 
                         onClick={() => setActiveTab('generate')}
                         variant="outline"
-                        className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-300/50"
+                        className="bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:bg-accent/20 hover:border-accent/50"
                       >
                         <Sparkles className="h-4 w-4 mr-2" />
                         Generate First Portrait
@@ -295,7 +295,7 @@ export function CharacterPortraitModal({
                             {/* Main badge */}
                             {portrait.isMain && (
                               <div className="absolute top-2 left-2">
-                                <Badge className="bg-yellow-500/90 text-yellow-900 shadow-lg">
+                                <Badge className="bg-accent/90 text-accent-foreground shadow-lg">
                                   <Star className="h-3 w-3 mr-1" />
                                   Main
                                 </Badge>
@@ -309,7 +309,7 @@ export function CharacterPortraitModal({
                                 variant="secondary"
                                 onClick={() => handleSetMainImage(portrait.id)}
                                 disabled={portrait.isMain}
-                                className="bg-yellow-500/90 hover:bg-yellow-500 text-yellow-900"
+                                className="bg-accent/90 hover:bg-accent text-accent-foreground"
                               >
                                 <Star className="h-3 w-3" />
                               </Button>
