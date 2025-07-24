@@ -105,7 +105,7 @@ export function CharacterGenerationModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
-        <DialogHeader className="pb-4 border-b border-border/50">
+        <DialogHeader className="pb-4 border-b border-border/50 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3">
             <div className="p-2 bg-gradient-to-br from-accent/20 to-accent/10 rounded-lg">
               <Sparkles className="h-6 w-6 text-accent" />
@@ -117,7 +117,7 @@ export function CharacterGenerationModal({
           </DialogTitle>
         </DialogHeader>
         
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-muted/20 scrollbar-thumb-accent/60 hover:scrollbar-thumb-accent/80 pr-2">
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-6">
               <TabsTrigger value="type" className="gap-2">

@@ -528,10 +528,10 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
-        <DialogHeader className="pb-4 border-b border-border/50">
+        <DialogHeader className="pb-4 border-b border-border/50 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-purple-500/20 to-blue-500/10 rounded-lg">
-              <FileText className="h-6 w-6 text-purple-600" />
+            <div className="p-2 bg-gradient-to-br from-accent/20 to-accent/10 rounded-lg">
+              <FileText className="h-6 w-6 text-accent" />
             </div>
             <div>
               <h2 className="text-2xl font-bold">Character Templates</h2>
@@ -540,11 +540,11 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex gap-6 flex-1 min-h-0">
+        <div className="flex gap-6 flex-1 min-h-0 overflow-hidden">
           {/* Category Sidebar */}
           <div className="w-48 flex-shrink-0">
             <h3 className="font-semibold mb-3">Categories</h3>
-            <div className="space-y-1">
+            <div className="space-y-1 overflow-y-auto scrollbar-thin scrollbar-track-muted/20 scrollbar-thumb-accent/60 hover:scrollbar-thumb-accent/80 max-h-[500px] pr-2">
               {categories.map((category) => (
                 <Button
                   key={category.id}
@@ -562,8 +562,8 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
           </div>
 
           {/* Templates Grid */}
-          <div className="flex-1 min-w-0">
-            <ScrollArea className="h-[600px] pr-4">
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <div className="h-[600px] overflow-y-auto scrollbar-thin scrollbar-track-muted/20 scrollbar-thumb-accent/60 hover:scrollbar-thumb-accent/80 pr-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {sortedTemplates.map((template) => {
                   const Icon = template.icon;
@@ -618,7 +618,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                   );
                 })}
               </div>
-            </ScrollArea>
+            </div>
           </div>
         </div>
 

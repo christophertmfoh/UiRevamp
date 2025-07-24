@@ -4,6 +4,14 @@
 Story Weaver is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 24, 2025 - **COMPREHENSIVE SCROLLING & UX IMPROVEMENTS**
+✓ **PORTRAIT STUDIO SCROLLING FIXED** - Added proper scroll capability with custom color-matched scrollbars in portrait generation modal
+✓ **TEMPLATE SELECTION SCROLLING** - Character templates modal now has scrollable category sidebar and template grid with custom scrollbars
+✓ **CHARACTER GENERATION MODAL SCROLLING** - AI character generation modal supports scrolling through multi-step creation process
+✓ **CUSTOM SCROLLBAR STYLING** - Implemented accent-colored scrollbars that match application color scheme across all scrollable windows
+✓ **IMPROVED MODAL UX** - All major modal windows now have proper overflow handling and maintain visual consistency
+✓ **COHESIVE SCROLL EXPERIENCE** - Unified scrollbar appearance using CSS custom properties with accent color integration
+
 ### July 24, 2025 - **MAJOR CHARACTER TEMPLATE EXPANSION & AI INTEGRATION**
 ✓ **EXPANDED TEMPLATE LIBRARY** - Increased from 6 to 20+ comprehensive character templates across all genres
 ✓ **AI-ENHANCED TEMPLATE SYSTEM** - Templates now trigger full AI character generation using template parameters as prompts

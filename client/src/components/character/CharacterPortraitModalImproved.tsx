@@ -134,8 +134,8 @@ export function CharacterPortraitModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh]">
-        <DialogHeader className="pb-6 border-b border-border/30">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden">
+        <DialogHeader className="pb-6 border-b border-border/30 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3 text-xl">
             <div className="p-2.5 bg-gradient-to-br from-accent/15 to-accent/25 rounded-xl">
               <Image className="h-5 w-5 text-accent" />
@@ -148,8 +148,8 @@ export function CharacterPortraitModal({
         </DialogHeader>
 
         <div className="flex flex-col h-[calc(90vh-140px)] overflow-hidden">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-            <TabsList className="grid w-full grid-cols-3 mb-6 bg-muted/20 p-1 rounded-xl">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
+            <TabsList className="grid w-full grid-cols-3 mb-6 bg-muted/20 p-1 rounded-xl flex-shrink-0">
               <TabsTrigger value="generate" className="flex items-center gap-2 text-sm py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
                 <Sparkles className="h-4 w-4" />
                 AI Generate
@@ -164,7 +164,7 @@ export function CharacterPortraitModal({
               </TabsTrigger>
             </TabsList>
 
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-muted/20 scrollbar-thumb-accent/60 hover:scrollbar-thumb-accent/80 pr-2">
               <TabsContent value="generate" className="mt-0 space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Generation Panel */}
