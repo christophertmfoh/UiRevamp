@@ -44,6 +44,7 @@ export function CharacterUnifiedView({
   // Save mutation
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
+      console.log('Saving character data:', data);
       return await apiRequest('PUT', `/api/characters/${character.id}`, data);
     },
     onSuccess: () => {
@@ -66,11 +67,22 @@ export function CharacterUnifiedView({
           const value = (formData as any)[field.key];
           if (typeof value === 'string') {
             (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+          } else if (!Array.isArray(value)) {
+            // Ensure it's always an array
+            (processedData as any)[field.key] = [];
           }
         }
       });
     });
     
+    // Remove any undefined values that might cause validation issues
+    Object.keys(processedData).forEach(key => {
+      if ((processedData as any)[key] === undefined) {
+        (processedData as any)[key] = '';
+      }
+    });
+    
+    console.log('Processed data before save:', processedData);
     saveMutation.mutate(processedData);
   };
 
