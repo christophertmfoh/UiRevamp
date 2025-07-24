@@ -123,8 +123,8 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
     },
     {
       name: 'abilities',
-      fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'magicalAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
-      instruction: `Generate comprehensive abilities for ALL specified fields.`
+      fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'magicalAbilities', 'magicType', 'magicSource', 'specialAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
+      instruction: `Generate comprehensive abilities for ALL specified fields. For magic-related fields, if character has no magical abilities, set to "None" or appropriate non-magical values.`
     },
     {
       name: 'story',
