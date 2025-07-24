@@ -309,21 +309,23 @@ export function CharacterUnifiedView({
       <Card className="creative-card">
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-8 h-12 p-1">
-              {CHARACTER_SECTIONS.map(section => {
-                const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
-                return (
-                  <TabsTrigger 
-                    key={section.id} 
-                    value={section.id}
-                    className="flex flex-col items-center gap-1 text-xs p-2 h-10"
-                  >
-                    <IconComponent className="h-4 w-4" />
-                    <span className="text-xs leading-none">{section.title}</span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
+            <div className="overflow-x-auto">
+              <TabsList className="inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-max">
+                {CHARACTER_SECTIONS.map(section => {
+                  const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
+                  return (
+                    <TabsTrigger 
+                      key={section.id} 
+                      value={section.id}
+                      className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                    >
+                      <IconComponent className="h-4 w-4 mr-2" />
+                      {section.title}
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </div>
             
             {CHARACTER_SECTIONS.map(section => (
               <TabsContent key={section.id} value={section.id} className="mt-6">
