@@ -30,6 +30,16 @@ import {
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
 import { LocationManager } from '../location';
+import { FactionManager } from '../faction';
+import { ItemManager } from '../item';
+import { OrganizationManager } from '../organization';
+import { MagicSystemManager } from '../magic-system';
+import { TimelineEventManager } from '../timeline-event';
+import { CreatureManager } from '../creature';
+import { LanguageManager } from '../language';
+import { CultureManager } from '../culture';
+import { ProphecyManager } from '../prophecy';
+import { ThemeManager } from '../theme';
 
 interface WorldBibleProps {
   project: Project;
@@ -729,176 +739,34 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'factions':
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-title text-2xl">Factions</h2>
-              <Button size="sm" className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Faction
-              </Button>
-            </div>
-            
-            <div className="grid gap-4">
-              {worldData.factions.map((faction, index) => (
-                <Card key={index} className="creative-card">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl">{faction.name}</CardTitle>
-                        <CardDescription className="text-accent font-medium">
-                          {faction.type}
-                        </CardDescription>
-                      </div>
-                      <Badge variant={faction.status.includes('Active') ? 'destructive' : 'default'}>
-                        {faction.status}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4">{faction.description}</p>
-                    
-                    <div className="grid md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Goals</h4>
-                        <div className="space-y-1">
-                          {faction.goals.map((goal, i) => (
-                            <div key={i} className="text-sm text-muted-foreground">• {goal}</div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold mb-2">Methods</h4>
-                        <div className="space-y-1">
-                          {faction.methods.map((method, i) => (
-                            <div key={i} className="text-sm text-muted-foreground">• {method}</div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-red-950/20 border border-red-800/30 rounded-lg">
-                      <h4 className="font-semibold mb-1 text-red-400">Threat Level</h4>
-                      <p className="text-sm text-red-300">{faction.threat}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        );
+        return <FactionManager project={project} />;
 
       case 'magic':
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-title text-2xl">Magic & Lore</h2>
-              <Button size="sm" className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Magic System
-              </Button>
-            </div>
-            
-            <div className="grid gap-4">
-              {worldData.magic.map((magic, index) => (
-                <Card key={index} className="creative-card">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl">{magic.name}</CardTitle>
-                        <CardDescription className="text-accent font-medium">
-                          {magic.type}
-                        </CardDescription>
-                      </div>
-                      <Sparkles className="h-5 w-5 text-purple-400" />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4">{magic.description}</p>
-                    
-                    <div className="grid md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Source</h4>
-                        <p className="text-sm text-muted-foreground">{magic.source}</p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold mb-2">Effects</h4>
-                        <div className="space-y-1">
-                          {magic.effects.map((effect, i) => (
-                            <div key={i} className="text-sm text-muted-foreground">• {effect}</div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {magic.practitioners && (
-                      <div className="mb-4">
-                        <h4 className="font-semibold mb-2">Practitioners</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {magic.practitioners.map((practitioner, i) => (
-                            <Badge key={i} variant="outline">{practitioner}</Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {magic.corruption && (
-                      <div className="p-3 bg-red-950/20 border border-red-800/30 rounded-lg">
-                        <h4 className="font-semibold mb-1 text-red-400">Corruption</h4>
-                        <p className="text-sm text-red-300">{magic.corruption}</p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        );
+        return <MagicSystemManager project={project} />;
 
       case 'timeline':
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-title text-2xl">Timeline</h2>
-              <Button size="sm" className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Event
-              </Button>
-            </div>
-            
-            <div className="space-y-6">
-              {worldData.timeline.map((era, index) => (
-                <Card key={index} className="creative-card">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <Clock className="h-6 w-6 text-accent" />
-                      <div>
-                        <CardTitle className="text-xl">{era.era}</CardTitle>
-                        <CardDescription className="text-accent font-medium">
-                          {era.period}
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {era.events.map((event, i) => (
-                        <div key={i} className="flex items-start space-x-3 p-3 workbench-surface rounded-lg">
-                          <div className="w-2 h-2 rounded-full bg-accent mt-2 flex-shrink-0" />
-                          <div>
-                            <p className="text-sm font-medium mb-1">{event}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        );
+        return <TimelineEventManager project={project} />;
+
+      case 'items':
+        return <ItemManager project={project} />;
+
+      case 'organizations':
+        return <OrganizationManager project={project} />;
+
+      case 'bestiary':
+        return <CreatureManager project={project} />;
+
+      case 'languages':
+        return <LanguageManager project={project} />;
+
+      case 'culture':
+        return <CultureManager project={project} />;
+
+      case 'prophecies':
+        return <ProphecyManager project={project} />;
+
+      case 'themes':
+        return <ThemeManager project={project} />;
 
       default:
         return (
