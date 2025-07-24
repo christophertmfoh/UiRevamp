@@ -27,7 +27,7 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
     role: organization?.role || '',
     
     // Physical Appearance
-    type: organization?.type || '',
+    physicalDescription: organization?.physicalDescription || '',
     facialFeatures: organization?.facialFeatures || '',
     hair: organization?.hair || '',
     skin: organization?.skin || '',
@@ -37,7 +37,7 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
     // Core Organization Details
     description: organization?.description || '',
     personality: organization?.personality || '',
-    structure: organization?.structure || '',
+    backstory: organization?.backstory || '',
     
     // Psychological Profile
     personalityTraits: organization?.personalityTraits?.join(', ') || '',
@@ -104,7 +104,7 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
       class: formData.class,
       age: formData.age,
       role: formData.role,
-      type: formData.type,
+      physicalDescription: formData.physicalDescription,
       facialFeatures: formData.facialFeatures,
       hair: formData.hair,
       skin: formData.skin,
@@ -112,7 +112,7 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
       distinguishingMarks: formData.distinguishingMarks,
       description: formData.description,
       personality: formData.personality,
-      structure: formData.structure,
+      backstory: formData.backstory,
       personalityTraits: formData.personalityTraits.split(',').map(s => s.trim()).filter(Boolean),
       motivations: formData.motivations,
       fears: formData.fears,
@@ -292,11 +292,11 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
               <TabsContent value="physical" className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="type">Physical Description</Label>
+                    <Label htmlFor="physicalDescription">Physical Description</Label>
                     <Textarea
-                      id="type"
-                      value={formData.type}
-                      onChange={(e) => updateField('type', e.target.value)}
+                      id="physicalDescription"
+                      value={formData.physicalDescription}
+                      onChange={(e) => updateField('physicalDescription', e.target.value)}
                       rows={3}
                     />
                   </div>
@@ -407,11 +407,11 @@ export function OrganizationForm({ projectId, onCancel, organization }: Organiza
                 </div>
 
                 <div>
-                  <Label htmlFor="structure">Backstory</Label>
+                  <Label htmlFor="backstory">Backstory</Label>
                   <Textarea
-                    id="structure"
-                    value={formData.structure}
-                    onChange={(e) => updateField('structure', e.target.value)}
+                    id="backstory"
+                    value={formData.backstory}
+                    onChange={(e) => updateField('backstory', e.target.value)}
                     rows={4}
                   />
                 </div>

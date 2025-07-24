@@ -27,7 +27,7 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
     role: item?.role || '',
     
     // Physical Appearance
-    powers: item?.powers || '',
+    physicalDescription: item?.physicalDescription || '',
     facialFeatures: item?.facialFeatures || '',
     hair: item?.hair || '',
     skin: item?.skin || '',
@@ -37,7 +37,7 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
     // Core Item Details
     description: item?.description || '',
     personality: item?.personality || '',
-    history: item?.history || '',
+    backstory: item?.backstory || '',
     
     // Psychological Profile
     personalityTraits: item?.personalityTraits?.join(', ') || '',
@@ -104,7 +104,7 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
       class: formData.class,
       age: formData.age,
       role: formData.role,
-      powers: formData.powers,
+      physicalDescription: formData.physicalDescription,
       facialFeatures: formData.facialFeatures,
       hair: formData.hair,
       skin: formData.skin,
@@ -112,7 +112,7 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
       distinguishingMarks: formData.distinguishingMarks,
       description: formData.description,
       personality: formData.personality,
-      history: formData.history,
+      backstory: formData.backstory,
       personalityTraits: formData.personalityTraits.split(',').map(s => s.trim()).filter(Boolean),
       motivations: formData.motivations,
       fears: formData.fears,
@@ -292,11 +292,11 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
               <TabsContent value="physical" className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="powers">Physical Description</Label>
+                    <Label htmlFor="physicalDescription">Physical Description</Label>
                     <Textarea
-                      id="powers"
-                      value={formData.powers}
-                      onChange={(e) => updateField('powers', e.target.value)}
+                      id="physicalDescription"
+                      value={formData.physicalDescription}
+                      onChange={(e) => updateField('physicalDescription', e.target.value)}
                       rows={3}
                     />
                   </div>
@@ -407,11 +407,11 @@ export function ItemForm({ projectId, onCancel, item }: ItemFormProps) {
                 </div>
 
                 <div>
-                  <Label htmlFor="history">Backstory</Label>
+                  <Label htmlFor="backstory">Backstory</Label>
                   <Textarea
-                    id="history"
-                    value={formData.history}
-                    onChange={(e) => updateField('history', e.target.value)}
+                    id="backstory"
+                    value={formData.backstory}
+                    onChange={(e) => updateField('backstory', e.target.value)}
                     rows={4}
                   />
                 </div>
