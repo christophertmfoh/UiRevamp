@@ -36,8 +36,6 @@ export const CHARACTER_SECTIONS: SectionConfig[] = [
       { key: 'class', label: 'Class', type: 'text', placeholder: 'Warrior, mage, rogue, etc.' },
       { key: 'profession', label: 'Profession', type: 'text', placeholder: 'What they do for work' },
       { key: 'occupation', label: 'Current Occupation', type: 'text', placeholder: 'Current job or role' },
-      { key: 'oneLine', label: 'One-Line Description', type: 'text', placeholder: 'Character in a nutshell' },
-      { key: 'description', label: 'Character Description', type: 'textarea', placeholder: 'Overall character description', rows: 4 },
     ]
   },
   {

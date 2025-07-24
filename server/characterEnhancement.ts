@@ -89,7 +89,7 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  // Focus only on identity fields for now - comprehensive list
+  // Focus only on identity fields for now - comprehensive list (removed description, characterSummary, oneLine - redundant with physical description)
   const identityFields = ['title', 'aliases', 'race', 'species', 'ethnicity', 'nationality', 'class', 'profession', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status', 'birthdate', 'zodiacSign'];
   const emptyIdentityFields = emptyFields.filter(field => identityFields.includes(field));
   
