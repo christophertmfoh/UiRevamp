@@ -54,7 +54,7 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     const model = gemini.getGenerativeModel({ 
       model: "gemini-2.0-flash-preview-image-generation",
       generationConfig: {
-        responseModalities: ["IMAGE"],
+        responseModalities: ["TEXT", "IMAGE"],
       }
     });
     
