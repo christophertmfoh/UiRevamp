@@ -150,17 +150,79 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setIsGenerationModalOpen(true);
   };
 
-  const handleSelectTemplate = (template: any) => {
-    // Create new character with template data
-    const newCharacter = {
-      ...template.fields,
-      name: template.fields.name || 'New Character',
-      projectId: projectId
-    };
+  const handleSelectTemplate = async (template: any) => {
+    // Use AI to generate a comprehensive character based on the template
+    setIsGenerating(true);
     
-    setNewCharacterData(newCharacter);
-    setIsCreating(true);
-    setIsTemplateModalOpen(false);
+    try {
+      // Create a comprehensive prompt using all template information
+      const templatePrompt = `Create a detailed character based on the ${template.name} archetype. 
+      
+Template Details:
+- Category: ${template.category}
+- Description: ${template.description}
+- Tags: ${template.tags.join(', ')}
+
+Base Template Fields:
+${Object.entries(template.fields).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`).join('\n')}
+
+Generate a complete, detailed character that expands on these template foundations while maintaining the core archetype essence.`;
+
+      const generationOptions = {
+        characterType: template.category,
+        role: template.fields.role || 'Character',
+        customPrompt: templatePrompt,
+        personality: Array.isArray(template.fields.personalityTraits) ? template.fields.personalityTraits.join(', ') : template.fields.personalityTraits || '',
+        archetype: template.fields.archetype || template.name.toLowerCase().replace(/\s+/g, '-')
+      };
+
+      console.log('Generating character from template with options:', generationOptions);
+      
+      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(generationOptions)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || errorData.error || 'Failed to generate character');
+      }
+      
+      const generatedCharacter = await response.json();
+      console.log('Generated character from template:', generatedCharacter);
+
+      // Merge template fields with generated character for comprehensive result
+      const characterFromTemplate = {
+        ...generatedCharacter,
+        ...template.fields, // Keep template structure as foundation
+        name: generatedCharacter.name || `New ${template.name}`,
+        projectId: projectId
+      };
+      
+      const createdCharacter = await createCharacterMutation.mutateAsync(characterFromTemplate);
+      console.log('Template-based character creation completed:', createdCharacter);
+      
+      setSelectedCharacter(createdCharacter);
+      setIsCreating(false);
+      setIsTemplateModalOpen(false);
+    } catch (error) {
+      console.error('Failed to generate character from template:', error);
+      // Fallback to basic template creation
+      const characterFromTemplate = {
+        name: `New ${template.name}`,
+        ...template.fields,
+        projectId: projectId
+      };
+      
+      setNewCharacterData(characterFromTemplate);
+      setIsCreating(true);
+      setIsTemplateModalOpen(false);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleGenerateCharacter = async (options: CharacterGenerationOptions) => {
@@ -713,6 +775,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         isOpen={isTemplateModalOpen}
         onClose={() => setIsTemplateModalOpen(false)}
         onSelectTemplate={handleSelectTemplate}
+        isGenerating={isGenerating}
       />
     </div>
   );

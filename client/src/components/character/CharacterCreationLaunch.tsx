@@ -32,19 +32,19 @@ export function CharacterCreationLaunch({
     },
     {
       id: 'template',
-      title: 'Use Professional Template',
-      description: 'Start with proven character archetypes and storytelling patterns',
+      title: 'AI-Enhanced Templates',
+      description: 'Choose from 20+ professional archetypes with AI expansion',
       icon: FileText,
       action: onOpenTemplates,
-      features: ['6 story-tested archetypes', 'Pre-filled character fields', 'Industry best practices']
+      features: ['20+ comprehensive archetypes', 'AI expands template foundations', 'Full character generation included']
     },
     {
       id: 'ai',
-      title: 'AI-Powered Creation',
-      description: 'Let AI generate a complete character based on your story needs',
+      title: 'Custom AI Generation',
+      description: 'Create completely unique characters with custom prompts',
       icon: Sparkles,
       action: onOpenAIGeneration,
-      features: ['Context-aware generation', 'Instant backstory creation', 'Portrait generation included']
+      features: ['Custom prompts and parameters', 'Story-context awareness', 'Portrait generation included']
     }
   ];
 

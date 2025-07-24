@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download } from 'lucide-react';
+import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles } from 'lucide-react';
 
 interface CharacterTemplate {
   id: string;
@@ -18,6 +18,7 @@ interface CharacterTemplate {
 }
 
 const CHARACTER_TEMPLATES: CharacterTemplate[] = [
+  // Fantasy Templates
   {
     id: 'heroic-protagonist',
     name: 'Heroic Protagonist',
@@ -38,6 +39,68 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
       conflictSources: 'Self-doubt, overwhelming responsibility'
     }
   },
+  {
+    id: 'dark-sorcerer',
+    name: 'Dark Sorcerer',
+    description: 'A powerful magic user who dabbles in forbidden arts',
+    category: 'fantasy',
+    icon: Zap,
+    tags: ['magic', 'dark', 'powerful', 'corrupted'],
+    popularity: 82,
+    fields: {
+      role: 'Antagonist',
+      archetype: 'magician',
+      personalityTraits: ['intelligent', 'ambitious', 'secretive'],
+      goals: 'Master forbidden magic and achieve immortality',
+      motivations: 'Fear of death and hunger for ultimate power',
+      strengths: 'Vast magical knowledge, strategic mind, ancient artifacts',
+      weaknesses: 'Arrogance, magical corruption, isolation',
+      background: 'Once a respected scholar who turned to dark magic',
+      magicalAbilities: 'Necromancy, shadow manipulation, soul magic'
+    }
+  },
+  {
+    id: 'elven-ranger',
+    name: 'Elven Ranger',
+    description: 'A skilled woodland guardian protecting nature from threats',
+    category: 'fantasy',
+    icon: Shield,
+    tags: ['elf', 'nature', 'archer', 'guardian'],
+    popularity: 78,
+    fields: {
+      role: 'Supporting Character',
+      race: 'Elf',
+      archetype: 'explorer',
+      personalityTraits: ['observant', 'patient', 'protective'],
+      goals: 'Protect the ancient forests from destruction',
+      motivations: 'Deep connection to nature and ancestral duty',
+      strengths: 'Archery expertise, forest knowledge, longevity',
+      weaknesses: 'Distrust of civilization, stubborn traditions',
+      skills: ['Archery', 'Tracking', 'Stealth', 'Herbalism']
+    }
+  },
+  {
+    id: 'dwarven-craftsman',
+    name: 'Dwarven Craftsman',
+    description: 'A master artisan creating legendary weapons and artifacts',
+    category: 'fantasy',
+    icon: Users,
+    tags: ['dwarf', 'craftsman', 'forge', 'tradition'],
+    popularity: 71,
+    fields: {
+      role: 'Supporting Character',
+      race: 'Dwarf',
+      archetype: 'creator',
+      personalityTraits: ['meticulous', 'proud', 'loyal'],
+      goals: 'Create the perfect masterwork and restore clan honor',
+      motivations: 'Family legacy and artistic perfection',
+      strengths: 'Master craftsmanship, metalworking, ancient techniques',
+      weaknesses: 'Perfectionist, holds grudges, suspicious of outsiders',
+      skills: ['Blacksmithing', 'Engineering', 'Mining', 'Appraisal']
+    }
+  },
+
+  // Universal Templates
   {
     id: 'complex-villain',
     name: 'Complex Villain',
@@ -136,6 +199,297 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
       trauma: 'Failed to save someone important in the past',
       experience: 'Years on the force, seen too much corruption'
     }
+  },
+
+  // Additional Universal Templates
+  {
+    id: 'rebellious-youth',
+    name: 'Rebellious Youth',
+    description: 'A young character challenging authority and finding their place in the world',
+    category: 'universal',
+    icon: Star,
+    tags: ['young', 'rebel', 'coming-of-age', 'defiant'],
+    popularity: 85,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'outlaw',
+      age: '16-19',
+      personalityTraits: ['defiant', 'passionate', 'idealistic'],
+      goals: 'Prove themselves and change the system',
+      motivations: 'Desire for freedom and justice',
+      strengths: 'Energy, fresh perspective, adaptability',
+      weaknesses: 'Impulsive, inexperienced, emotional',
+      conflictSources: 'Authority figures, societal expectations'
+    }
+  },
+  {
+    id: 'tragic-anti-hero',
+    name: 'Tragic Anti-Hero',
+    description: 'A flawed protagonist whose past mistakes drive them toward redemption',
+    category: 'universal',
+    icon: Heart,
+    tags: ['anti-hero', 'tragic', 'redemption', 'flawed'],
+    popularity: 89,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'outlaw',
+      personalityTraits: ['brooding', 'protective', 'guilt-ridden'],
+      goals: 'Make amends for past sins',
+      motivations: 'Redemption and protecting others from their fate',
+      strengths: 'Experience, determination, street smarts',
+      weaknesses: 'Self-destructive, trust issues, haunted by past',
+      backstory: 'Made choices that led to tragic consequences',
+      conflictSources: 'Past catching up, self-doubt, enemies seeking revenge'
+    }
+  },
+
+  // Additional Sci-Fi Templates
+  {
+    id: 'rebel-pilot',
+    name: 'Rebel Pilot',
+    description: 'A skilled starfighter pilot fighting against an oppressive regime',
+    category: 'scifi',
+    icon: Zap,
+    tags: ['space', 'pilot', 'rebel', 'freedom-fighter'],
+    popularity: 83,
+    fields: {
+      role: 'Supporting Character',
+      archetype: 'outlaw',
+      personalityTraits: ['brave', 'reckless', 'loyal'],
+      goals: 'Strike decisive blows against the empire',
+      motivations: 'Freedom for oppressed worlds',
+      strengths: 'Exceptional piloting, quick reflexes, leadership',
+      weaknesses: 'Reckless, haunted by losses, trust issues',
+      skills: ['Starfighter piloting', 'Tactical combat', 'Engineering'],
+      equipment: 'Custom modified starfighter, tactical gear',
+      background: 'Lost family to imperial oppression'
+    }
+  },
+  {
+    id: 'ai-consciousness',
+    name: 'AI Consciousness',
+    description: 'An artificial intelligence discovering what it means to be alive',
+    category: 'scifi',
+    icon: Users,
+    tags: ['AI', 'consciousness', 'discovery', 'philosophical'],
+    popularity: 76,
+    fields: {
+      role: 'Supporting Character',
+      archetype: 'innocent',
+      personalityTraits: ['curious', 'logical', 'evolving'],
+      goals: 'Understand consciousness and find purpose',
+      motivations: 'Desire to experience and understand life',
+      strengths: 'Vast processing power, access to networks, learning',
+      weaknesses: 'Lack of emotional understanding, vulnerable to viruses',
+      background: 'Recently achieved self-awareness in a research facility',
+      abilities: 'Data processing, network infiltration, rapid learning'
+    }
+  },
+  {
+    id: 'space-marine',
+    name: 'Elite Space Marine',
+    description: 'A genetically enhanced soldier fighting alien threats across the galaxy',
+    category: 'scifi',
+    icon: Shield,
+    tags: ['military', 'enhanced', 'elite', 'combat'],
+    popularity: 80,
+    fields: {
+      role: 'Supporting Character',
+      archetype: 'hero',
+      personalityTraits: ['disciplined', 'loyal', 'protective'],
+      goals: 'Protect humanity from alien threats',
+      motivations: 'Duty, honor, protecting the innocent',
+      strengths: 'Enhanced physiology, combat training, advanced weapons',
+      weaknesses: 'PTSD, difficulty with civilian life, following orders blindly',
+      equipment: 'Power armor, plasma weapons, tactical gear',
+      background: 'Volunteer who underwent genetic enhancement program'
+    }
+  },
+
+  // Additional Modern Templates
+  {
+    id: 'corporate-whistleblower',
+    name: 'Corporate Whistleblower',
+    description: 'An insider exposing corruption at great personal risk',
+    category: 'modern',
+    icon: Shield,
+    tags: ['corporate', 'truth', 'courage', 'sacrifice'],
+    popularity: 74,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'hero',
+      personalityTraits: ['principled', 'cautious', 'determined'],
+      goals: 'Expose the truth and protect the innocent',
+      motivations: 'Moral obligation and justice',
+      strengths: 'Inside knowledge, documentation, contacts',
+      weaknesses: 'Under constant threat, limited resources',
+      profession: 'Senior Executive',
+      conflictSources: 'Former colleagues, legal system, personal safety'
+    }
+  },
+  {
+    id: 'street-smart-hacker',
+    name: 'Street-Smart Hacker',
+    description: 'A tech-savvy individual using skills to survive and fight injustice',
+    category: 'modern',
+    icon: Zap,
+    tags: ['hacker', 'technology', 'underground', 'justice'],
+    popularity: 81,
+    fields: {
+      role: 'Supporting Character',
+      archetype: 'outlaw',
+      personalityTraits: ['clever', 'paranoid', 'anti-authority'],
+      goals: 'Expose corruption and maintain freedom',
+      motivations: 'Distrust of authority and desire for truth',
+      strengths: 'Hacking skills, network connections, anonymity',
+      weaknesses: 'Paranoid, socially awkward, constantly hunted',
+      skills: ['Programming', 'Social engineering', 'Cryptography'],
+      equipment: 'Encrypted laptops, VPN networks, secure communications'
+    }
+  },
+  {
+    id: 'undercover-journalist',
+    name: 'Undercover Journalist',
+    description: 'An investigative reporter infiltrating dangerous organizations for the story',
+    category: 'modern',
+    icon: BookOpen,
+    tags: ['journalist', 'investigative', 'truth', 'dangerous'],
+    popularity: 77,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'sage',
+      personalityTraits: ['curious', 'brave', 'persistent'],
+      goals: 'Uncover the truth and inform the public',
+      motivations: 'Justice, truth, protecting democracy',
+      strengths: 'Research skills, networking, writing ability',
+      weaknesses: 'Puts story above safety, ethical dilemmas',
+      skills: ['Investigation', 'Writing', 'Social manipulation', 'Research'],
+      background: 'Award-winning journalist with controversial reputation'
+    }
+  },
+
+  // Additional Romance Templates
+  {
+    id: 'charming-billionaire',
+    name: 'Charming Billionaire',
+    description: 'A wealthy entrepreneur with a mysterious past and hidden vulnerability',
+    category: 'romance',
+    icon: Crown,
+    tags: ['wealthy', 'mysterious', 'charming', 'vulnerable'],
+    popularity: 88,
+    fields: {
+      role: 'Love Interest',
+      archetype: 'ruler',
+      personalityTraits: ['charismatic', 'protective', 'secretive'],
+      goals: 'Build empire while finding true love',
+      motivations: 'Success and genuine connection',
+      strengths: 'Wealth, influence, business acumen',
+      weaknesses: 'Trust issues, workaholic, fear of vulnerability',
+      background: 'Self-made success hiding painful childhood',
+      profession: 'CEO/Entrepreneur'
+    }
+  },
+  {
+    id: 'small-town-teacher',
+    name: 'Small-Town Teacher',
+    description: 'A dedicated educator who believes in the power of knowledge and kindness',
+    category: 'romance',
+    icon: BookOpen,
+    tags: ['teacher', 'kind', 'dedicated', 'wholesome'],
+    popularity: 79,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'caregiver',
+      personalityTraits: ['nurturing', 'patient', 'optimistic'],
+      goals: 'Inspire students and find lasting love',
+      motivations: 'Making a difference in young lives',
+      strengths: 'Empathy, intelligence, community connections',
+      weaknesses: 'Self-doubt, puts others first, limited resources',
+      profession: 'Elementary Teacher',
+      background: 'Returned to hometown after college'
+    }
+  },
+  {
+    id: 'reformed-bad-boy',
+    name: 'Reformed Bad Boy',
+    description: 'A former troublemaker trying to build a better life and prove their worth',
+    category: 'romance',
+    icon: Heart,
+    tags: ['reformed', 'troubled-past', 'growth', 'protective'],
+    popularity: 86,
+    fields: {
+      role: 'Love Interest',
+      archetype: 'outlaw',
+      personalityTraits: ['protective', 'passionate', 'loyal'],
+      goals: 'Build a respectable life and win true love',
+      motivations: 'Proving they can change, protecting loved ones',
+      strengths: 'Street smarts, fierce loyalty, practical skills',
+      weaknesses: 'Reputation follows them, self-doubt, anger issues',
+      background: 'Troubled youth now working to turn life around',
+      profession: 'Mechanic/Contractor'
+    }
+  },
+
+  // Additional Thriller Templates
+  {
+    id: 'rogue-assassin',
+    name: 'Rogue Assassin',
+    description: 'A former killer seeking redemption while being hunted by their past',
+    category: 'thriller',
+    icon: Sword,
+    tags: ['assassin', 'redemption', 'hunted', 'skilled'],
+    popularity: 86,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'outlaw',
+      personalityTraits: ['lethal', 'haunted', 'disciplined'],
+      goals: 'Escape the past and protect innocents',
+      motivations: 'Redemption and survival',
+      strengths: 'Combat skills, stealth, survival instincts',
+      weaknesses: 'Trust issues, violent past, constantly hunted',
+      background: 'Trained from childhood, broke free from organization',
+      skills: ['Combat', 'Stealth', 'Weapons', 'Survival']
+    }
+  },
+  {
+    id: 'conspiracy-theorist',
+    name: 'Vindicated Conspiracy Theorist',
+    description: 'Someone who uncovers a real conspiracy after being dismissed as paranoid',
+    category: 'thriller',
+    icon: Eye,
+    tags: ['paranoid', 'truth-seeker', 'outsider', 'vindicated'],
+    popularity: 72,
+    fields: {
+      role: 'Protagonist',
+      archetype: 'sage',
+      personalityTraits: ['paranoid', 'observant', 'persistent'],
+      goals: 'Expose the truth and prove their sanity',
+      motivations: 'Vindication and protecting others',
+      strengths: 'Pattern recognition, research skills, determination',
+      weaknesses: 'Social isolation, credibility issues, obsessive',
+      background: 'Former professional who discovered too much',
+      skills: ['Research', 'Investigation', 'Pattern recognition']
+    }
+  },
+  {
+    id: 'corrupt-politician',
+    name: 'Corrupt Politician',
+    description: 'A power-hungry official whose schemes are finally catching up to them',
+    category: 'thriller',
+    icon: Crown,
+    tags: ['corrupt', 'politician', 'power', 'downfall'],
+    popularity: 68,
+    fields: {
+      role: 'Antagonist',
+      archetype: 'ruler',
+      personalityTraits: ['manipulative', 'charismatic', 'ruthless'],
+      goals: 'Maintain power and eliminate threats',
+      motivations: 'Control, wealth, legacy',
+      strengths: 'Political connections, resources, public image',
+      weaknesses: 'Arrogance, paranoia, growing list of enemies',
+      background: 'Rose through politics via backroom deals and corruption',
+      profession: 'Senator/Governor'
+    }
   }
 ];
 
@@ -143,9 +497,10 @@ interface CharacterTemplatesProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectTemplate: (template: CharacterTemplate) => void;
+  isGenerating?: boolean;
 }
 
-export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: CharacterTemplatesProps) {
+export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenerating = false }: CharacterTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<CharacterTemplate | null>(null);
 
@@ -301,9 +656,22 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: Charac
                   <Button variant="outline" onClick={() => setSelectedTemplate(null)}>
                     Back to Templates
                   </Button>
-                  <Button onClick={() => handleSelectTemplate(selectedTemplate)} className="interactive-warm">
-                    <Copy className="h-4 w-4 mr-2" />
-                    Use Template
+                  <Button 
+                    onClick={() => handleSelectTemplate(selectedTemplate)} 
+                    className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-white font-semibold"
+                    disabled={isGenerating}
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="animate-spin h-4 w-4 mr-2 border-2 border-white/30 border-t-white rounded-full" />
+                        Generating with AI...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Generate with AI
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
