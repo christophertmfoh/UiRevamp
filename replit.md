@@ -48,7 +48,8 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 - ✅ DATABASE_URL: PostgreSQL connection configured
 
 ## Known Issues
-- Image generation is currently disabled due to lack of available free services
+- Gemini image generation implementation updated to use official API structure
+- TypeScript warnings for experimental responseModalities feature (non-breaking)
 - Character generation works perfectly with Gemini
 - Some dialog components show accessibility warnings (non-critical)
 

@@ -46,31 +46,50 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
 
 async function generateWithGemini(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    const fullPrompt = `Create an image of: ${params.characterPrompt}. Style: ${params.stylePrompt}`;
+    const fullPrompt = `Create a detailed character portrait: ${params.characterPrompt}. Style: ${params.stylePrompt}`;
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
-    // Use Gemini's regular text model to generate a description for image creation
+    // Use Gemini's image generation model with correct configuration
     const gemini = getGeminiClient();
     const model = gemini.getGenerativeModel({ 
-      model: "gemini-1.5-flash"
+      model: "gemini-2.0-flash-preview-image-generation"
     });
     
-    // Generate a detailed image description
-    const imagePrompt = `Create a detailed visual description for an image of this character: ${params.characterPrompt}. Style should be: ${params.stylePrompt}. Provide a clear, detailed description that could be used to create an artistic portrait.`;
-    
-    const response = await model.generateContent(imagePrompt);
+    const response = await model.generateContent([
+      { text: fullPrompt }
+    ], {
+      generationConfig: {
+        responseModalities: ["TEXT", "IMAGE"] as any // Type assertion for experimental feature
+      }
+    });
+    console.log('Gemini response received');
+
+    // Process the response to extract image data
     const result = response.response;
-    const description = result.text();
-    
-    console.log('Generated image description:', description);
-    
-    // Since we can't generate actual images without OpenAI, return a placeholder
-    // In a real implementation, you would integrate with an image generation service that accepts your API keys
-    throw new Error("Image generation requires a paid image generation service. Please use a different method or provide an OpenAI API key.");
-    
+    if (!result || !result.candidates || result.candidates.length === 0) {
+      throw new Error("No candidates returned from Gemini");
+    }
+
+    const content = result.candidates[0].content;
+    if (!content || !content.parts) {
+      throw new Error("No content parts returned from Gemini");
+    }
+
+    // Find the image part
+    for (const part of content.parts) {
+      if (part.inlineData && part.inlineData.data) {
+        // Convert base64 to data URL for display
+        const mimeType = part.inlineData.mimeType || 'image/png';
+        const imageData = `data:${mimeType};base64,${part.inlineData.data}`;
+        console.log('Successfully extracted image from Gemini response');
+        return { url: imageData };
+      }
+    }
+
+    throw new Error("No image data found in Gemini response");
   } catch (error: any) {
     console.error('Failed to generate Gemini image:', error);
-    throw new Error(`Image generation is not available without a paid service: ${error?.message || 'Unknown error'}`);
+    throw new Error(`Gemini image generation failed: ${error?.message || 'Unknown error'}`);
   }
 }
 
