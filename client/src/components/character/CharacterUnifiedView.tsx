@@ -13,6 +13,7 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { LoadingModal } from '../ui/loading-modal';
 
 interface CharacterUnifiedViewProps {
   projectId: string;
@@ -72,10 +73,29 @@ export function CharacterUnifiedView({
   const handleAIEnhance = async () => {
     setIsEnhancing(true);
     try {
+      // Scan through all categories and collect user input
+      const userInput: Record<string, any> = {};
+      const filledFields: string[] = [];
+      
+      // Scan through all sections and their fields
+      CHARACTER_SECTIONS.forEach(section => {
+        section.fields.forEach(field => {
+          const value = (formData as any)[field.key];
+          if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
+            userInput[field.key] = value;
+            filledFields.push(`${section.label} - ${field.label}: ${Array.isArray(value) ? value.join(', ') : value}`);
+          }
+        });
+      });
+      
+      console.log('User input detected:', filledFields);
+      
       const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
       setFormData(response as Character);
     } catch (error) {
       console.error('Failed to enhance character:', error);
+      // Show user-friendly error message
+      alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
     } finally {
       setIsEnhancing(false);
     }
@@ -470,6 +490,13 @@ export function CharacterUnifiedView({
         onClose={() => setIsPortraitModalOpen(false)}
         onImageGenerated={handleImageGenerated}
         onImageUploaded={handleImageUploaded}
+      />
+
+      {/* AI Enhancement Loading Modal */}
+      <LoadingModal
+        isOpen={isEnhancing}
+        title="AI Genie is working..."
+        message="Scanning your character data across all categories and generating contextual details for each field."
       />
     </div>
   );
