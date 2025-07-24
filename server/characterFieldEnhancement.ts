@@ -34,17 +34,33 @@ Personality: ${character.personality || character.personalityTraits?.join(', ') 
     let prompt = '';
     
     if (fieldKey === 'name') {
-      prompt = `Generate a fitting name for this character: ${characterContext}
+      prompt = `Generate a fitting full name for this character based on: ${characterContext}
       
-      Create a name that matches their role, race/species, and background. Just return the name, nothing else.`;
+      Create a realistic name that matches their race/species, background, and setting. Return only the full name, no quotes or explanations.`;
+    } else if (fieldKey === 'nicknames') {
+      prompt = `Generate appropriate nicknames for this character: ${characterContext}
+      
+      Consider their personality, relationships, and background. Examples: "Red", "The Fox", "Doc", "Ace". Return only the nickname, no quotes.`;
     } else if (fieldKey === 'title') {
       prompt = `Generate an appropriate title for this character: ${characterContext}
       
-      Examples: "Sir", "Dr.", "Captain", "Lord", "The Wise", "Shadow Walker". Just return the title, nothing else.`;
+      Examples: "Sir", "Dr.", "Captain", "Lord", "The Wise", "Shadow Walker". Return only the title, no quotes.`;
+    } else if (fieldKey === 'aliases') {
+      prompt = `Generate a secret identity or false name for this character: ${characterContext}
+      
+      Consider if they need to hide their identity. Examples: "John Smith", "The Phantom", "Agent Zero". Return only the alias, no quotes.`;
     } else if (fieldKey === 'age') {
       prompt = `Generate an appropriate age for this character: ${characterContext}
       
-      Consider their role and background. Just return the age (like "25" or "appears to be in their 30s"), nothing else.`;
+      Consider their role and background. Return only the age like "25" or "appears to be in their 30s", no quotes.`;
+    } else if (fieldKey === 'race') {
+      prompt = `Generate an appropriate race/species for this character: ${characterContext}
+      
+      Consider the story setting. Examples: "Human", "Half-Elf", "Dwarf", "Android". Return only the race, no quotes.`;
+    } else if (fieldKey === 'class') {
+      prompt = `Generate an appropriate class/profession for this character: ${characterContext}
+      
+      Consider their background and story role. Examples: "Warrior", "Detective", "Scholar", "Thief". Return only the class, no quotes.`;
     } else {
       prompt = `You are a professional character development expert helping writers create detailed, compelling characters.
 
@@ -82,18 +98,8 @@ Generate only the content for this specific field. Do not include labels, explan
 
     if (!generatedContent) {
       console.log(`Empty response from AI for field ${fieldKey}, trying fallback`);
-      // Provide fallback content based on field type
-      const fallbacks: { [key: string]: string } = {
-        name: 'Character Name',
-        title: 'Noble Title',
-        age: '25',
-        role: 'Protagonist',
-        race: 'Human',
-        class: 'Warrior',
-        occupation: 'Adventurer'
-      };
-      const fallbackContent = fallbacks[fieldKey] || `Generated ${fieldLabel}`;
-      return { [fieldKey]: fallbackContent };
+      // Return error instead of fallback - let frontend handle it
+      throw new Error(`AI returned empty response for field ${fieldKey}`);
     }
 
     // Process array fields

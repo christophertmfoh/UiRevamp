@@ -540,7 +540,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -607,7 +619,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -691,7 +715,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -758,7 +794,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -849,7 +897,19 @@ export function CharacterUnifiedViewPremium({
                 ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
