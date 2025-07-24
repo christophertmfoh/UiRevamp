@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
+import { LocationManager } from '../location';
 
 interface WorldBibleProps {
   project: Project;
@@ -725,64 +726,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-title text-2xl">Locations</h2>
-              <Button size="sm" className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Location
-              </Button>
-            </div>
-            
-            {locations.length === 0 ? (
-              <div className="text-center py-12">
-                <MapPin className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="font-title text-xl mb-2">No Locations Yet</h3>
-                <p className="text-muted-foreground mb-6">Start building your world by creating your first location</p>
-                <Button className="interactive-warm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create First Location
-                </Button>
-              </div>
-            ) : (
-              <div className="grid gap-4">
-                {locations.map((location) => (
-                  <Card key={location.id} className="creative-card">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <CardTitle className="text-xl">{location.name}</CardTitle>
-                          <CardDescription className="text-accent font-medium">
-                            {location.significance || 'Location'}
-                          </CardDescription>
-                        </div>
-                        <MapPin className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="mb-4">{location.description}</p>
-                      
-                      {location.history && (
-                        <div className="mb-4">
-                          <h4 className="font-semibold mb-2">History</h4>
-                          <p className="text-sm text-muted-foreground">{location.history}</p>
-                        </div>
-                      )}
-                      
-                      {location.atmosphere && (
-                        <div>
-                          <h4 className="font-semibold mb-2">Atmosphere</h4>
-                          <p className="text-sm text-muted-foreground">{location.atmosphere}</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-        );
+        return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'factions':
         return (
