@@ -38,10 +38,14 @@ export function LocationUnifiedView({
   onBack, 
   onDelete 
 }: LocationUnifiedViewProps) {
-  // Start in editing mode if this is a newly generated location (has generated content but minimal user input)
-  const isNewlyGenerated = location.name.includes('Generated Location') || 
-                          (location.physicalDescription && !location.notes && !location.inspiration);
-  const [isEditing, setIsEditing] = useState(isNewlyGenerated);
+  // Start in editing mode if this is a newly generated location
+  const isNewlyGenerated = location.name && (
+    location.name.includes('Generated Location') || 
+    location.name.includes('mountain of') || 
+    location.name.includes('village of') || 
+    location.name.includes('city of')
+  );
+  const [isEditing, setIsEditing] = useState(Boolean(isNewlyGenerated));
   const [formData, setFormData] = useState(location);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
