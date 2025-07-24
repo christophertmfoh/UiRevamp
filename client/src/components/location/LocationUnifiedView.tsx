@@ -62,7 +62,8 @@ export function LocationUnifiedView({
     mutationFn: async (data: Location) => {
       return await apiRequest('PUT', `/api/locations/${location.id}`, data);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      console.log('Location saved successfully:', response);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
       setIsEditing(false);
     },
@@ -118,7 +119,7 @@ export function LocationUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated, but preserve imageGallery
-    const { id, projectId, ...dataToSave } = processedData;
+    const { id, projectId, createdAt, ...dataToSave } = processedData;
     
     // Ensure imageGallery array is preserved
     if (location.imageGallery) {
