@@ -8,71 +8,98 @@ import { LandingPage } from './components/LandingPage';
 import { ProjectsView, ProjectDashboard } from './components/project';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 
-// Force scrollbar styling with JavaScript
+// Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
+  // Remove any existing styles first
+  const existingStyles = document.querySelectorAll('style[data-scrollbar]');
+  existingStyles.forEach(el => el.remove());
+  
+  // Create comprehensive style override
   const style = document.createElement('style');
+  style.setAttribute('data-scrollbar', 'true');
+  
+  // Multi-approach CSS that covers all browsers and scenarios
   style.textContent = `
-    /* Main document scrollbar - highest priority */
+    /* Chromium-based browsers - Document level */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
     ::-webkit-scrollbar {
       width: 8px !important;
       height: 8px !important;
       background: transparent !important;
     }
     
+    html::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-track,
     ::-webkit-scrollbar-track {
       background: transparent !important;
     }
     
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar-thumb,
     ::-webkit-scrollbar-thumb {
       background: #a0967d !important;
       border-radius: 6px !important;
       border: none !important;
     }
     
+    html::-webkit-scrollbar-thumb:hover,
+    body::-webkit-scrollbar-thumb:hover,
     ::-webkit-scrollbar-thumb:hover {
       background: #8b8269 !important;
     }
     
+    html::-webkit-scrollbar-corner,
+    body::-webkit-scrollbar-corner,
     ::-webkit-scrollbar-corner {
       background: transparent !important;
     }
     
-    /* Firefox main scrollbar */
-    html {
+    /* Firefox */
+    html, body {
       scrollbar-width: thin !important;
       scrollbar-color: #a0967d transparent !important;
     }
     
     /* All other elements */
-    * {
+    *:not(html):not(body) {
       scrollbar-width: thin !important;
       scrollbar-color: #a0967d transparent !important;
     }
     
-    *::-webkit-scrollbar {
+    *:not(html):not(body)::-webkit-scrollbar {
       width: 8px !important;
       height: 8px !important;
       background: transparent !important;
     }
     
-    *::-webkit-scrollbar-track {
+    *:not(html):not(body)::-webkit-scrollbar-track {
       background: transparent !important;
     }
     
-    *::-webkit-scrollbar-thumb {
+    *:not(html):not(body)::-webkit-scrollbar-thumb {
       background: #a0967d !important;
       border-radius: 6px !important;
-      border: none !important;
     }
     
-    *::-webkit-scrollbar-thumb:hover {
+    *:not(html):not(body)::-webkit-scrollbar-thumb:hover {
       background: #8b8269 !important;
     }
-    
-    *::-webkit-scrollbar-corner {
-      background: transparent !important;
-    }
   `;
+  
+  // Insert at beginning of head for maximum priority
+  document.head.insertBefore(style, document.head.firstChild);
+  
+  // Also try direct DOM manipulation for the main scrollbar
+  if (document.documentElement) {
+    document.documentElement.style.setProperty('scrollbar-width', 'thin', 'important');
+    document.documentElement.style.setProperty('scrollbar-color', '#a0967d transparent', 'important');
+  }
+  
+  if (document.body) {
+    document.body.style.setProperty('scrollbar-width', 'thin', 'important');
+    document.body.style.setProperty('scrollbar-color', '#a0967d transparent', 'important');
+  }
   
   // Remove any existing scrollbar styles
   const existingScrollbarStyles = document.querySelectorAll('style[data-scrollbar]');
