@@ -977,7 +977,8 @@ export function CharacterUnifiedViewPremium({
               </Card>
             </div>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </div>
       </div>
 
       {/* Portrait Modal */}
