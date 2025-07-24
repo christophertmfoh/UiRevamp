@@ -62,7 +62,13 @@ export function CharacterUnifiedView({
 
   const handleSave = () => {
     const processedData = processDataForSave(formData);
-    saveMutation.mutate(processedData as Character);
+    // Remove problematic fields that should be handled by server
+    const cleanData = {
+      ...processedData,
+      updatedAt: undefined, // Let server handle timestamp
+      createdAt: undefined  // Let server handle timestamp
+    };
+    saveMutation.mutate(cleanData as Character);
   };
 
   const handleCancel = () => {
