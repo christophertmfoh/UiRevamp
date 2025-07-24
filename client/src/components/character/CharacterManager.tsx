@@ -286,46 +286,13 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </div>
           )}
           
-          {/* Premium Action Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300">
-            {/* Top Action Buttons */}
-            <div className="absolute top-4 right-4 flex gap-2">
-              <Button size="sm" className="h-9 w-9 p-0 bg-white/95 hover:bg-white text-black shadow-2xl backdrop-blur-sm border-0 transition-all duration-200" 
-                      onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
-                <Edit className="h-4 w-4" />
-              </Button>
-              <Button size="sm" className="h-9 w-9 p-0 bg-accent hover:bg-accent/90 text-accent-foreground shadow-2xl backdrop-blur-sm border-0 transition-all duration-200"
-                      onClick={(e) => handlePortraitClick(character, e)}>
-                <Camera className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            {/* Central Portrait Action Button */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Button 
-                size="lg" 
-                className="h-14 w-14 p-0 bg-accent/90 hover:bg-accent text-accent-foreground shadow-2xl backdrop-blur-sm border-2 border-white/20 rounded-full transition-all duration-300 hover:scale-110"
-                onClick={(e) => handlePortraitClick(character, e)}
-              >
-                <Camera className="h-6 w-6" />
-              </Button>
-            </div>
-            
-            {/* Bottom Action Area */}
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-              <div className="flex-1">
-                <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
-                  {character.description || 'Click to add character details and bring them to life...'}
-                </div>
+          {/* Clean Hover Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+            {/* Subtle overlay for better readability */}
+            <div className="absolute bottom-4 left-4 right-4">
+              <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
+                {character.description || 'Click to view character details...'}
               </div>
-              <Button 
-                size="sm" 
-                className="ml-3 bg-accent/90 hover:bg-accent text-accent-foreground shadow-xl backdrop-blur-sm border-0 font-medium transition-all duration-200"
-                onClick={(e) => handlePortraitClick(character, e)}
-              >
-                <Camera className="h-4 w-4 mr-2" />
-                Portrait
-              </Button>
             </div>
           </div>
 
@@ -442,11 +409,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         
         <div className="flex items-center gap-5 relative">
-          {/* Premium Avatar - Clickable Portrait */}
-          <div 
-            className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-accent/50 hover:shadow-xl"
-            onClick={(e) => { e.stopPropagation(); handlePortraitClick(character, e); }}
-          >
+          {/* Premium Avatar */}
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
             {character.imageUrl ? (
               <img 
                 src={character.imageUrl} 
@@ -458,11 +422,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 <Users className="h-6 w-6 text-accent/70" />
               </div>
             )}
-            
-            {/* Portrait Hover Overlay */}
-            <div className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-              <Camera className="h-4 w-4 text-white" />
-            </div>
           </div>
 
           {/* Premium Character Info */}

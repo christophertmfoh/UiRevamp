@@ -184,9 +184,9 @@ export function CharacterUnifiedViewPremium({
       <div className="p-8 border-b border-border/20">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-start gap-8">
-            {/* Character Portrait */}
-            <div className="relative group">
-              <div className="w-48 h-64 rounded-3xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 border border-accent/20 shadow-xl overflow-hidden">
+            {/* Character Portrait - Clickable */}
+            <div className="relative group cursor-pointer" onClick={() => setIsPortraitModalOpen(true)}>
+              <div className="w-48 h-64 rounded-3xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 border border-accent/20 shadow-xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:border-accent/40">
                 {formData.imageUrl ? (
                   <img 
                     src={formData.imageUrl} 
@@ -199,22 +199,15 @@ export function CharacterUnifiedViewPremium({
                       <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 rounded-full flex items-center justify-center">
                         <User className="h-8 w-8 text-accent/60" />
                       </div>
-                      <p className="text-sm text-muted-foreground font-medium">No portrait</p>
+                      <p className="text-sm text-muted-foreground font-medium">Click to add portrait</p>
                     </div>
                   </div>
                 )}
                 
-                {/* Portrait Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Button 
-                      onClick={() => setIsPortraitModalOpen(true)}
-                      size="sm"
-                      className="w-full bg-accent/90 hover:bg-accent text-accent-foreground backdrop-blur-sm"
-                    >
-                      <Camera className="h-4 w-4 mr-2" />
-                      {formData.imageUrl ? 'Change Portrait' : 'Add Portrait'}
-                    </Button>
+                {/* Clean Hover Overlay */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-accent/90 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm">
+                    <Camera className="h-6 w-6 text-accent-foreground" />
                   </div>
                 </div>
               </div>
