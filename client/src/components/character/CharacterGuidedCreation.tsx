@@ -203,12 +203,14 @@ export function CharacterGuidedCreation({
     mutationFn: async (data: Partial<Character>) => {
       const processedData = processDataForSave(data);
       if (character?.id) {
-        return await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+        const response = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+        return await response.json();
       } else {
-        return await apiRequest('POST', `/api/projects/${projectId}/characters`, processedData);
+        const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, processedData);
+        return await response.json();
       }
     },
-    onSuccess: (savedCharacter) => {
+    onSuccess: (savedCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       if (onComplete) {
         onComplete(savedCharacter);
@@ -259,7 +261,7 @@ export function CharacterGuidedCreation({
 
   const handleNext = () => {
     if (canProceed()) {
-      setCompletedSteps(prev => new Set([...prev, currentStepIndex]));
+      setCompletedSteps(prev => new Set(Array.from(prev).concat(currentStepIndex)));
       if (currentStepIndex < CREATION_STEPS.length - 1) {
         setCurrentStepIndex(currentStepIndex + 1);
       }
@@ -274,7 +276,7 @@ export function CharacterGuidedCreation({
 
   const handleFinish = () => {
     if (canProceed()) {
-      setCompletedSteps(prev => new Set([...prev, currentStepIndex]));
+      setCompletedSteps(prev => new Set(Array.from(prev).concat(currentStepIndex)));
       saveMutation.mutate(formData);
     }
   };

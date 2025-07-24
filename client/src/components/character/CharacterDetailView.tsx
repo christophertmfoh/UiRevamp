@@ -33,8 +33,8 @@ export function CharacterDetailView({
         character={character || undefined}
         onCancel={onBack}
         onComplete={(savedCharacter) => {
-          // After completion, switch to viewing the character
-          onEdit(savedCharacter);
+          // After completion, go back to list and the character will appear
+          onBack();
         }}
       />
     );
