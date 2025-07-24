@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Save } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ArrowLeft, Save, Shield, Target, Users, Crown, History, Info } from 'lucide-react';
 import type { Faction } from '../../lib/types';
 
 interface FactionFormProps {
@@ -118,12 +118,36 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
         </Button>
       </div>
 
-      {/* Form Content */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Faction Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
+      {/* Form Content with Tabs */}
+      <Tabs defaultValue="identity" className="w-full">
+        <TabsList className="grid w-full grid-cols-6 mb-6">
+          <TabsTrigger value="identity" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Identity
+          </TabsTrigger>
+          <TabsTrigger value="goals" className="flex items-center gap-2">
+            <Target className="h-4 w-4" />
+            Goals & Methods
+          </TabsTrigger>
+          <TabsTrigger value="organization" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Organization
+          </TabsTrigger>
+          <TabsTrigger value="power" className="flex items-center gap-2">
+            <Crown className="h-4 w-4" />
+            Power & Resources
+          </TabsTrigger>
+          <TabsTrigger value="relations" className="flex items-center gap-2">
+            <History className="h-4 w-4" />
+            Relations & History
+          </TabsTrigger>
+          <TabsTrigger value="meta" className="flex items-center gap-2">
+            <Info className="h-4 w-4" />
+            Status & Meta
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="identity" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="name" className="text-sm font-medium">
@@ -166,7 +190,110 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
                 </SelectContent>
               </Select>
             </div>
+          </div>
 
+          <div>
+            <Label htmlFor="description" className="text-sm font-medium">
+              General Description
+            </Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              placeholder="Overall description of this faction..."
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="ideology" className="text-sm font-medium">
+              Core Ideology
+            </Label>
+            <Textarea
+              id="ideology"
+              value={formData.ideology}
+              onChange={(e) => handleInputChange('ideology', e.target.value)}
+              placeholder="What does this faction believe in?"
+              className="mt-2 min-h-[100px]"
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="goals" className="space-y-6">
+          <div>
+            <Label htmlFor="goals" className="text-sm font-medium">
+              Goals & Objectives
+            </Label>
+            <Textarea
+              id="goals"
+              value={formData.goals}
+              onChange={(e) => handleInputChange('goals', e.target.value)}
+              placeholder="What does this faction want to achieve?"
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="methods" className="text-sm font-medium">
+              Methods & Operations
+            </Label>
+            <Textarea
+              id="methods"
+              value={formData.methods}
+              onChange={(e) => handleInputChange('methods', e.target.value)}
+              placeholder="How does this faction operate? What tactics do they use?"
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="organization" className="space-y-6">
+          <div>
+            <Label htmlFor="leadership" className="text-sm font-medium">
+              Leadership & Structure
+            </Label>
+            <Textarea
+              id="leadership"
+              value={formData.leadership}
+              onChange={(e) => handleInputChange('leadership', e.target.value)}
+              placeholder="Who leads this faction? How is it organized?"
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="power" className="space-y-6">
+          <div>
+            <Label htmlFor="resources" className="text-sm font-medium">
+              Resources & Assets
+            </Label>
+            <Textarea
+              id="resources"
+              value={formData.resources}
+              onChange={(e) => handleInputChange('resources', e.target.value)}
+              placeholder="What resources, assets, and capabilities does this faction have?"
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="relations" className="space-y-6">
+          <div>
+            <Label htmlFor="relationships" className="text-sm font-medium">
+              Relationships & Alliances
+            </Label>
+            <Textarea
+              id="relationships"
+              value={formData.relationships}
+              onChange={(e) => handleInputChange('relationships', e.target.value)}
+              placeholder="How does this faction relate to others? Who are their allies and enemies?"
+              className="mt-2 min-h-[120px]"
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="meta" className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label htmlFor="status" className="text-sm font-medium">
                 Status
@@ -202,103 +329,8 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
               />
             </div>
           </div>
-
-          <div>
-            <Label htmlFor="description" className="text-sm font-medium">
-              Description
-            </Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleInputChange('description', e.target.value)}
-              placeholder="Describe the faction..."
-              className="mt-2 min-h-[100px]"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="ideology" className="text-sm font-medium">
-              Core Ideology
-            </Label>
-            <Textarea
-              id="ideology"
-              value={formData.ideology}
-              onChange={(e) => handleInputChange('ideology', e.target.value)}
-              placeholder="What does this faction believe in?"
-              className="mt-2 min-h-[80px]"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label htmlFor="goals" className="text-sm font-medium">
-                Goals
-              </Label>
-              <Textarea
-                id="goals"
-                value={formData.goals}
-                onChange={(e) => handleInputChange('goals', e.target.value)}
-                placeholder="What does this faction want to achieve?"
-                className="mt-2 min-h-[80px]"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="methods" className="text-sm font-medium">
-                Methods
-              </Label>
-              <Textarea
-                id="methods"
-                value={formData.methods}
-                onChange={(e) => handleInputChange('methods', e.target.value)}
-                placeholder="How does this faction operate?"
-                className="mt-2 min-h-[80px]"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label htmlFor="leadership" className="text-sm font-medium">
-                Leadership
-              </Label>
-              <Textarea
-                id="leadership"
-                value={formData.leadership}
-                onChange={(e) => handleInputChange('leadership', e.target.value)}
-                placeholder="Who leads this faction?"
-                className="mt-2 min-h-[80px]"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="resources" className="text-sm font-medium">
-                Resources
-              </Label>
-              <Textarea
-                id="resources"
-                value={formData.resources}
-                onChange={(e) => handleInputChange('resources', e.target.value)}
-                placeholder="What resources does this faction have?"
-                className="mt-2 min-h-[80px]"
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="relationships" className="text-sm font-medium">
-              Relationships
-            </Label>
-            <Textarea
-              id="relationships"
-              value={formData.relationships}
-              onChange={(e) => handleInputChange('relationships', e.target.value)}
-              placeholder="How does this faction relate to others?"
-              className="mt-2 min-h-[80px]"
-            />
-          </div>
-        </CardContent>
-      </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
