@@ -545,10 +545,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {/* Primary Action */}
           <div className="flex gap-3">
             <Button 
-              onClick={() => {
-                console.log('Create Character button clicked!');
-                setIsCreationLaunchOpen(true);
-              }} 
+              onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
               className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
@@ -645,10 +642,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {characters.length === 0 && (
             <div className="flex gap-3 justify-center pt-4">
               <Button 
-                onClick={() => {
-                  console.log('Create First Character button clicked!');
-                  setIsCreationLaunchOpen(true);
-                }} 
+                onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
                 className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
