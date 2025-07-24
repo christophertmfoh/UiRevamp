@@ -366,57 +366,56 @@ export function CharacterUnifiedView({
         </CardContent>
       </Card>
 
-      {/* Sidebar + Content Layout */}
-      <Card className="creative-card">
-        <CardContent className="p-0">
-          <div className="flex min-h-[600px]">
-            {/* Left Sidebar Navigation */}
-            <div className="w-64 border-r bg-muted/20 p-4">
-              <nav className="space-y-1">
-                {CHARACTER_SECTIONS.map(section => {
-                  const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
-                  const isActive = activeTab === section.id;
-                  
-                  return (
-                    <button
-                      key={section.id}
-                      onClick={() => setActiveTab(section.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
-                        isActive 
-                          ? 'bg-background text-foreground shadow-sm border' 
-                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
-                      }`}
-                    >
-                      <IconComponent className="h-4 w-4 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm">{section.title}</div>
-                        <div className="text-xs text-muted-foreground truncate">{section.description}</div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </nav>
-            </div>
-            
-            {/* Right Content Area */}
-            <div className="flex-1 p-6">
-              {CHARACTER_SECTIONS.map(section => {
+      {/* Main Content - Improved Sidebar Layout like Organizations */}
+      <div className="flex gap-6">
+        {/* Left Sidebar Navigation */}
+        <div className="w-64 space-y-2">
+          {CHARACTER_SECTIONS.map((section) => {
+            const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
+            const isActive = activeTab === section.id;
+            return (
+              <button
+                key={section.id}
+                onClick={() => setActiveTab(section.id)}
+                className={`w-full text-left p-3 rounded-lg transition-colors flex items-start space-x-3 ${
+                  isActive 
+                    ? 'bg-accent text-accent-foreground' 
+                    : 'hover:bg-accent/50 text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <IconComponent className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-medium text-sm">{section.title}</div>
+                  <div className="text-xs opacity-75">{section.description}</div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Right Content Area */}
+        <div className="flex-1">
+          <Card className="creative-card">
+            <div className="p-6">
+              {CHARACTER_SECTIONS.map((section) => {
                 if (activeTab !== section.id) return null;
                 
                 return (
-                  <div key={section.id} className="space-y-6">
-                    <div className="border-b pb-4">
-                      <h2 className="text-2xl font-semibold">{section.title}</h2>
-                      <p className="text-muted-foreground mt-1">{section.description}</p>
+                  <div key={section.id} className="space-y-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">{section.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-6">{section.description}</p>
+                      <div className="space-y-6">
+                        {renderTabContent(section.id)}
+                      </div>
                     </div>
-                    {renderTabContent(section.id)}
                   </div>
                 );
               })}
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </Card>
+        </div>
+      </div>
 
       {/* Character Portrait Modal */}
       <CharacterPortraitModal
