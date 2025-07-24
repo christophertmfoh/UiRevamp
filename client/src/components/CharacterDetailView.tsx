@@ -50,7 +50,7 @@ export function CharacterDetailView({
       projectId={projectId}
       character={character}
       onBack={onBack}
-      onEdit={onEdit}
+      onEdit={() => setIsEditing(true)}
       onDelete={onDelete}
     />
   );

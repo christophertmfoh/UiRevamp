@@ -91,7 +91,7 @@ export function CharacterDetailAccordion({
     const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
     if (!section) return null;
 
-    const content = section.fields.map(field => {
+    const content = section.fields.map((field, index) => {
       const value = (character as any)[field.key];
       
       if (field.type === 'array') {
@@ -105,7 +105,9 @@ export function CharacterDetailAccordion({
 
     return (
       <div className="space-y-4">
-        {content}
+        {content.map((item, index) => (
+          <div key={index}>{item}</div>
+        ))}
       </div>
     );
   };
