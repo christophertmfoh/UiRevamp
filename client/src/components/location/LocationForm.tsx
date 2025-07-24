@@ -5,9 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, Upload, User, Settings, Target, Languages, Palette } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Location } from '../lib/types';
 
@@ -20,64 +18,18 @@ interface LocationFormProps {
 export function LocationForm({ projectId, onCancel, location }: LocationFormProps) {
   const [formData, setFormData] = useState({
     name: location?.name || '',
-    title: location?.title || '',
-    race: location?.race || '',
-    class: location?.class || '',
-    age: location?.age || '',
-    role: location?.role || '',
-    
-    // Physical Appearance
-    physicalDescription: location?.physicalDescription || '',
-    facialFeatures: location?.facialFeatures || '',
-    hair: location?.hair || '',
-    skin: location?.skin || '',
-    attire: location?.attire || '',
-    distinguishingMarks: location?.distinguishingMarks || '',
-    
-    // Core Location Details
     description: location?.description || '',
-    personality: location?.personality || '',
-    backstory: location?.backstory || '',
-    
-    // Psychological Profile
-    personalityTraits: location?.personalityTraits?.join(', ') || '',
-    motivations: location?.motivations || '',
-    fears: location?.fears || '',
-    secrets: location?.secrets || '',
-    copingMechanisms: location?.copingMechanisms || '',
-    vulnerabilities: location?.vulnerabilities || '',
-    
-    // Background & History
-    background: location?.background || '',
-    academicHistory: location?.academicHistory || '',
-    personalStruggle: location?.personalStruggle || '',
-    
-    // Abilities & Skills
-    abilities: location?.abilities?.join(', ') || '',
-    skills: location?.skills?.join(', ') || '',
-    specialAbilities: location?.specialAbilities || '',
-    
-    // Story Elements
-    goals: location?.goals || '',
-    conflictSources: location?.conflictSources || '',
-    connectionToEvents: location?.connectionToEvents || '',
-    
-    // Language & Communication
-    languages: location?.languages?.join(', ') || '',
-    accent: location?.accent || '',
-    speechPatterns: location?.speechPatterns || '',
-    
-    // Meta Information
-    archetypes: location?.archetypes?.join(', ') || '',
+    history: location?.history || '',
+    significance: location?.significance || '',
+    atmosphere: location?.atmosphere || '',
     tags: location?.tags?.join(', ') || '',
-    proseVibe: location?.proseVibe || '',
-    narrativeRole: location?.narrativeRole || '',
   });
 
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('POST', `/api/projects/${projectId}/locations`, data),
+    mutationFn: (locationData: any) => 
+      apiRequest('POST', `/api/projects/${projectId}/locations`, locationData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
       onCancel();
@@ -85,7 +37,8 @@ export function LocationForm({ projectId, onCancel, location }: LocationFormProp
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('PUT', `/api/locations/${location?.id}`, data),
+    mutationFn: (locationData: any) => 
+      apiRequest('PUT', `/api/locations/${location?.id}`, locationData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
       onCancel();
@@ -96,47 +49,13 @@ export function LocationForm({ projectId, onCancel, location }: LocationFormProp
     e.preventDefault();
     
     const processedData = {
-      id: location?.id || Date.now().toString(),
-      projectId,
       name: formData.name,
-      title: formData.title,
-      race: formData.race,
-      class: formData.class,
-      age: formData.age,
-      role: formData.role,
-      physicalDescription: formData.physicalDescription,
-      facialFeatures: formData.facialFeatures,
-      hair: formData.hair,
-      skin: formData.skin,
-      attire: formData.attire,
-      distinguishingMarks: formData.distinguishingMarks,
       description: formData.description,
-      personality: formData.personality,
-      backstory: formData.backstory,
-      personalityTraits: formData.personalityTraits.split(',').map(s => s.trim()).filter(Boolean),
-      motivations: formData.motivations,
-      fears: formData.fears,
-      secrets: formData.secrets,
-      copingMechanisms: formData.copingMechanisms,
-      vulnerabilities: formData.vulnerabilities,
-      background: formData.background,
-      academicHistory: formData.academicHistory,
-      personalStruggle: formData.personalStruggle,
-      abilities: formData.abilities.split(',').map(s => s.trim()).filter(Boolean),
-      skills: formData.skills.split(',').map(s => s.trim()).filter(Boolean),
-      specialAbilities: formData.specialAbilities,
-      goals: formData.goals,
-      conflictSources: formData.conflictSources,
-      connectionToEvents: formData.connectionToEvents,
-      languages: formData.languages.split(',').map(s => s.trim()).filter(Boolean),
-      accent: formData.accent,
-      speechPatterns: formData.speechPatterns,
-      archetypes: formData.archetypes.split(',').map(s => s.trim()).filter(Boolean),
+      history: formData.history,
+      significance: formData.significance,
+      atmosphere: formData.atmosphere,
       tags: formData.tags.split(',').map(s => s.trim()).filter(Boolean),
-      proseVibe: formData.proseVibe,
-      narrativeRole: formData.narrativeRole,
-      isModelTrained: false,
-      imageUrl: '',
+      projectId,
     };
 
     if (location) {
@@ -180,412 +99,71 @@ export function LocationForm({ projectId, onCancel, location }: LocationFormProp
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <Tabs defaultValue="basic" className="w-full">
-              <TabsList className="grid w-full grid-cols-6">
-                <TabsTrigger value="basic" className="flex items-center gap-1">
-                  <User className="h-3 w-3" />
-                  Basic
-                </TabsTrigger>
-                <TabsTrigger value="physical" className="flex items-center gap-1">
-                  <Palette className="h-3 w-3" />
-                  Physical
-                </TabsTrigger>
-                <TabsTrigger value="psychology" className="flex items-center gap-1">
-                  <Settings className="h-3 w-3" />
-                  Psychology
-                </TabsTrigger>
-                <TabsTrigger value="abilities" className="flex items-center gap-1">
-                  <Target className="h-3 w-3" />
-                  Abilities
-                </TabsTrigger>
-                <TabsTrigger value="story" className="flex items-center gap-1">
-                  <Languages className="h-3 w-3" />
-                  Story
-                </TabsTrigger>
-                <TabsTrigger value="meta" className="flex items-center gap-1">
-                  <Settings className="h-3 w-3" />
-                  Meta
-                </TabsTrigger>
-              </TabsList>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="name">Location Name *</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => updateField('name', e.target.value)}
+                  placeholder="Enter location name..."
+                  required
+                />
+              </div>
 
-              <TabsContent value="basic" className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => updateField('name', e.target.value)}
-                      placeholder="Location's full name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="title">Title</Label>
-                    <Input
-                      id="title"
-                      value={formData.title}
-                      onChange={(e) => updateField('title', e.target.value)}
-                      placeholder="e.g., Lord, Dr., Captain"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="race">Race/Species</Label>
-                    <Input
-                      id="race"
-                      value={formData.race}
-                      onChange={(e) => updateField('race', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="class">Class/Profession</Label>
-                    <Input
-                      id="class"
-                      value={formData.class}
-                      onChange={(e) => updateField('class', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="age">Age</Label>
-                    <Input
-                      id="age"
-                      value={formData.age}
-                      onChange={(e) => updateField('age', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="role">Role *</Label>
-                    <Input
-                      id="role"
-                      value={formData.role}
-                      onChange={(e) => updateField('role', e.target.value)}
-                      placeholder="e.g., Protagonist, Antagonist, Supporting"
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <Label htmlFor="description">Description *</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => updateField('description', e.target.value)}
-                    rows={3}
-                    required
-                  />
-                </div>
+              <div>
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => updateField('description', e.target.value)}
+                  placeholder="Describe the location..."
+                  rows={4}
+                />
+              </div>
 
-                {/* Image Upload Area */}
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                  <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
-                  <h3 className="text-lg font-semibold mb-2">Location Image</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Upload an image or generate one with AI (coming soon)
-                  </p>
-                  <Button type="button" variant="outline" disabled>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload Image
-                  </Button>
-                </div>
-              </TabsContent>
+              <div>
+                <Label htmlFor="atmosphere">Atmosphere</Label>
+                <Input
+                  id="atmosphere"
+                  value={formData.atmosphere}
+                  onChange={(e) => updateField('atmosphere', e.target.value)}
+                  placeholder="e.g., mysterious, peaceful, dangerous..."
+                />
+              </div>
 
-              <TabsContent value="physical" className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="physicalDescription">Physical Description</Label>
-                    <Textarea
-                      id="physicalDescription"
-                      value={formData.physicalDescription}
-                      onChange={(e) => updateField('physicalDescription', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="facialFeatures">Facial Features</Label>
-                    <Textarea
-                      id="facialFeatures"
-                      value={formData.facialFeatures}
-                      onChange={(e) => updateField('facialFeatures', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="hair">Hair</Label>
-                    <Input
-                      id="hair"
-                      value={formData.hair}
-                      onChange={(e) => updateField('hair', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="skin">Skin</Label>
-                    <Input
-                      id="skin"
-                      value={formData.skin}
-                      onChange={(e) => updateField('skin', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="attire">Attire</Label>
-                    <Textarea
-                      id="attire"
-                      value={formData.attire}
-                      onChange={(e) => updateField('attire', e.target.value)}
-                      rows={2}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="distinguishingMarks">Distinguishing Marks</Label>
-                    <Textarea
-                      id="distinguishingMarks"
-                      value={formData.distinguishingMarks}
-                      onChange={(e) => updateField('distinguishingMarks', e.target.value)}
-                      rows={2}
-                    />
-                  </div>
-                </div>
-              </TabsContent>
+              <div>
+                <Label htmlFor="history">History</Label>
+                <Textarea
+                  id="history"
+                  value={formData.history}
+                  onChange={(e) => updateField('history', e.target.value)}
+                  placeholder="What is the history of this location?"
+                  rows={3}
+                />
+              </div>
 
-              <TabsContent value="psychology" className="space-y-4">
-                <div>
-                  <Label htmlFor="personality">Personality</Label>
-                  <Textarea
-                    id="personality"
-                    value={formData.personality}
-                    onChange={(e) => updateField('personality', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="personalityTraits">Personality Traits (comma-separated)</Label>
-                  <Input
-                    id="personalityTraits"
-                    value={formData.personalityTraits}
-                    onChange={(e) => updateField('personalityTraits', e.target.value)}
-                    placeholder="brave, curious, stubborn, compassionate"
-                  />
-                </div>
+              <div>
+                <Label htmlFor="significance">Significance</Label>
+                <Textarea
+                  id="significance"
+                  value={formData.significance}
+                  onChange={(e) => updateField('significance', e.target.value)}
+                  placeholder="Why is this location important to your story?"
+                  rows={3}
+                />
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="motivations">Motivations</Label>
-                    <Textarea
-                      id="motivations"
-                      value={formData.motivations}
-                      onChange={(e) => updateField('motivations', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="fears">Fears</Label>
-                    <Textarea
-                      id="fears"
-                      value={formData.fears}
-                      onChange={(e) => updateField('fears', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="secrets">Secrets</Label>
-                    <Textarea
-                      id="secrets"
-                      value={formData.secrets}
-                      onChange={(e) => updateField('secrets', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="vulnerabilities">Vulnerabilities</Label>
-                    <Textarea
-                      id="vulnerabilities"
-                      value={formData.vulnerabilities}
-                      onChange={(e) => updateField('vulnerabilities', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="backstory">Backstory</Label>
-                  <Textarea
-                    id="backstory"
-                    value={formData.backstory}
-                    onChange={(e) => updateField('backstory', e.target.value)}
-                    rows={4}
-                  />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="abilities" className="space-y-4">
-                <div>
-                  <Label htmlFor="abilities">Abilities (comma-separated)</Label>
-                  <Input
-                    id="abilities"
-                    value={formData.abilities}
-                    onChange={(e) => updateField('abilities', e.target.value)}
-                    placeholder="telepathy, super strength, magic, leadership"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="skills">Skills (comma-separated)</Label>
-                  <Input
-                    id="skills"
-                    value={formData.skills}
-                    onChange={(e) => updateField('skills', e.target.value)}
-                    placeholder="swordplay, diplomacy, investigation, medicine"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="specialAbilities">Special Abilities</Label>
-                  <Textarea
-                    id="specialAbilities"
-                    value={formData.specialAbilities}
-                    onChange={(e) => updateField('specialAbilities', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="languages">Languages (comma-separated)</Label>
-                  <Input
-                    id="languages"
-                    value={formData.languages}
-                    onChange={(e) => updateField('languages', e.target.value)}
-                    placeholder="Common, Elvish, Draconic"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="accent">Accent</Label>
-                    <Input
-                      id="accent"
-                      value={formData.accent}
-                      onChange={(e) => updateField('accent', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="speechPatterns">Speech Patterns</Label>
-                    <Input
-                      id="speechPatterns"
-                      value={formData.speechPatterns}
-                      onChange={(e) => updateField('speechPatterns', e.target.value)}
-                    />
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="story" className="space-y-4">
-                <div>
-                  <Label htmlFor="goals">Goals</Label>
-                  <Textarea
-                    id="goals"
-                    value={formData.goals}
-                    onChange={(e) => updateField('goals', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="conflictSources">Conflict Sources</Label>
-                  <Textarea
-                    id="conflictSources"
-                    value={formData.conflictSources}
-                    onChange={(e) => updateField('conflictSources', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="connectionToEvents">Connection to Events</Label>
-                  <Textarea
-                    id="connectionToEvents"
-                    value={formData.connectionToEvents}
-                    onChange={(e) => updateField('connectionToEvents', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="background">Background</Label>
-                    <Textarea
-                      id="background"
-                      value={formData.background}
-                      onChange={(e) => updateField('background', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="academicHistory">Academic History</Label>
-                    <Textarea
-                      id="academicHistory"
-                      value={formData.academicHistory}
-                      onChange={(e) => updateField('academicHistory', e.target.value)}
-                      rows={3}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="personalStruggle">Personal Struggle</Label>
-                  <Textarea
-                    id="personalStruggle"
-                    value={formData.personalStruggle}
-                    onChange={(e) => updateField('personalStruggle', e.target.value)}
-                    rows={3}
-                  />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="meta" className="space-y-4">
-                <div>
-                  <Label htmlFor="archetypes">Archetypes (comma-separated)</Label>
-                  <Input
-                    id="archetypes"
-                    value={formData.archetypes}
-                    onChange={(e) => updateField('archetypes', e.target.value)}
-                    placeholder="Hero, Mentor, Trickster, Sage"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="tags">Tags (comma-separated)</Label>
-                  <Input
-                    id="tags"
-                    value={formData.tags}
-                    onChange={(e) => updateField('tags', e.target.value)}
-                    placeholder="major location, love interest, comic relief"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="proseVibe">Prose Vibe</Label>
-                    <Input
-                      id="proseVibe"
-                      value={formData.proseVibe}
-                      onChange={(e) => updateField('proseVibe', e.target.value)}
-                      placeholder="mysterious, comical, tragic"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="narrativeRole">Narrative Role</Label>
-                    <Input
-                      id="narrativeRole"
-                      value={formData.narrativeRole}
-                      onChange={(e) => updateField('narrativeRole', e.target.value)}
-                      placeholder="catalyst, obstacle, ally"
-                    />
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-
-
+              <div>
+                <Label htmlFor="tags">Tags</Label>
+                <Input
+                  id="tags"
+                  value={formData.tags}
+                  onChange={(e) => updateField('tags', e.target.value)}
+                  placeholder="e.g., forest, magical, ancient, dangerous (comma-separated)"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </Card>

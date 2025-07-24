@@ -1,63 +1,43 @@
 #!/bin/bash
 
-echo "Starting comprehensive naming cleanup..."
+echo "Fixing form components for all problematic modules..."
 
-# Define all modules and their proper names
-declare -A MODULES=(
-  ["location"]="Location"
-  ["faction"]="Faction" 
-  ["item"]="Item"
-  ["organization"]="Organization"
-  ["magic-system"]="MagicSystem"
-  ["timeline-event"]="TimelineEvent"
-  ["creature"]="Creature"
-  ["language"]="Language"
-  ["culture"]="Culture"
-  ["prophecy"]="Prophecy"
-  ["theme"]="Theme"
-)
+# List of modules that need fixes
+modules=("organization" "item" "magic" "timeline" "creature" "language" "culture" "prophecy" "theme")
 
-# Fix character-specific references in all copied files
-for module_kebab in "${!MODULES[@]}"; do
-  module_pascal="${MODULES[$module_kebab]}"
-  module_lower=$(echo "$module_pascal" | tr '[:upper:]' '[:lower:]')
+for module in "${modules[@]}"; do
+  # Map module names to their directory names
+  case $module in
+    "magic") dir="magicSystem" ;;
+    "timeline") dir="timelineEvent" ;;
+    *) dir="$module" ;;
+  esac
   
-  echo "Cleaning up $module_pascal module..."
+  form_file="client/src/components/$dir/${dir^}Form.tsx"
   
-  # Fix all TypeScript files in the module
-  find "client/src/components/$module_kebab" -name "*.tsx" -exec sed -i "
-    s/character\.id/item.id/g;
-    s/character\.name/item.name/g;
-    s/character\.role/item.type/g;
-    s/character\.race/item.category/g;
-    s/character\.class/item.rarity/g;
-    s/character\.age/item.condition/g;
-    s/character\.title/item.subtitle/g;
-    s/character\.oneLine/item.summary/g;
-    s/character\.imageUrl/item.imageUrl/g;
-    s/character\.portraits/item.images/g;
-    s/characters\.find(c => c\.id/items.find(i => i.id/g;
-    s/characters\.map(c => /items.map(i => /g;
-    s/const location = locations\.find(c =>/const location = locations.find(l =>/g;
-    s/const faction = factions\.find(c =>/const faction = factions.find(f =>/g;
-    s/\.find(c => c\.id/.find(item => item.id/g;
-  " {} \;
+  if [ -f "$form_file" ]; then
+    echo "Fixing $form_file..."
+    
+    # Replace character-specific fields with module-specific fields
+    sed -i "s/character/${module}/g" "$form_file"
+    sed -i "s/Character/${module^}/g" "$form_file"
+    
+    # Fix common field mappings based on module type
+    case $module in
+      "organization")
+        sed -i 's/physicalDescription/type/g' "$form_file"
+        sed -i 's/backstory/structure/g' "$form_file"
+        ;;
+      "item")
+        sed -i 's/physicalDescription/powers/g' "$form_file"
+        sed -i 's/backstory/history/g' "$form_file"
+        ;;
+    esac
+    
+    echo "✓ Fixed $form_file"
+  else
+    echo "⚠ File not found: $form_file"
+  fi
 done
 
-echo "Fixed character-specific references in all modules"
-
-# Fix Location-specific issues
-sed -i 's/location\.type/location.category/g' client/src/components/location/*.tsx
-sed -i 's/location\.scale/location.size/g' client/src/components/location/*.tsx
-
-echo "Fixed location-specific naming issues"
-
-# Fix import paths that reference wrong types
-find client/src/components -name "*.tsx" -exec sed -i "
-  s/type { Character }/type { Location }/g;
-  s/import.*Character.*from.*lib\/types/import type { Location } from '..\/..\/lib\/types'/g;
-" client/src/components/location/*.tsx \;
-
-echo "Fixed import statements"
-
-echo "Naming cleanup completed!"
+echo "Form component fixes completed!"
