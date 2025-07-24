@@ -991,6 +991,8 @@ export function CharacterUnifiedViewPremium({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
                 { key: 'goals', label: 'Goals & Motivations', type: 'textarea', placeholder: 'Character goals and driving motivations...' },
+                { key: 'motivations', label: 'Motivations', type: 'textarea', placeholder: 'What drives this character...' },
+                { key: 'background', label: 'Background', type: 'textarea', placeholder: 'Character history and backstory...' },
                 { key: 'arc', label: 'Character Arc', type: 'textarea', placeholder: 'Character development and transformation...' },
                 { key: 'storyFunction', label: 'Story Function', type: 'text', placeholder: 'Role in the narrative' },
                 { key: 'archetypes', label: 'Archetypes', type: 'array', placeholder: 'Hero, Mentor, Trickster, etc.' },
@@ -999,7 +1001,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -1152,74 +1166,7 @@ export function CharacterUnifiedViewPremium({
             </div>
           </TabsContent>
 
-          <TabsContent value="meta" className="space-y-6">
-            <div className="border-b border-border/30 pb-4">
-              <h2 className="text-2xl font-bold text-foreground">Meta</h2>
-              <p className="text-muted-foreground mt-1">Story function, themes, and creative elements</p>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
-                { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'How this character serves the narrative...' },
-                { key: 'themes', label: 'Themes', type: 'textarea', placeholder: 'What themes does this character represent?' },
-                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What does this character symbolize?' },
-                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, other characters, or concepts that inspired this character' },
-                { key: 'notes', label: 'Creator Notes', type: 'textarea', placeholder: 'Personal notes about this character' }
-              ].map((field) => (
-                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
-                      {isEditing && (
-                        <FieldAIAssist
-                          character={character}
-                          fieldKey={field.key}
-                          fieldLabel={field.label}
-                          currentValue={(formData as any)[field.key]}
-                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
-                          disabled={isEnhancing}
-                        />
-                      )}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {isEditing ? (
-                      <Textarea
-                        value={(formData as any)[field.key] || ''}
-                        onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
-                        placeholder={field.placeholder}
-                        className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
-                        rows={4}
-                      />
-                    ) : (
-                      <div className="space-y-2">
-                        {(formData as any)[field.key] ? (
-                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                            {(formData as any)[field.key]}
-                          </p>
-                        ) : (
-                          <div className="text-center py-4">
-                            <p className="text-sm text-muted-foreground italic">
-                              No {field.label.toLowerCase()} added yet
-                            </p>
-                            <Button 
-                              onClick={() => setIsEditing(true)}
-                              variant="ghost" 
-                              size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
-                            >
-                              <Plus className="h-3 w-3 mr-1" />
-                              Add {field.label}
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
         </Tabs>
       </div>
 
