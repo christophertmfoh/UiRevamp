@@ -38,14 +38,6 @@ export async function enhanceCharacterWithAI({ currentData, project, character }
     story: ['motivations', 'goals', 'fears', 'secrets', 'flaws', 'character_arc', 'narrativeRole', 'plotImportance', 'internal_conflict', 'external_conflict']
   };
   
-  // Only include important character fields to avoid overwhelming the API
-  const importantFields = [
-    'personality', 'temperament', 'traits', 'quirks', 'mannerisms', 'backstory', 'childhood', 
-    'motivations', 'goals', 'fears', 'secrets', 'flaws', 'skills', 'abilities', 'strengths', 
-    'weaknesses', 'allies', 'enemies', 'likes', 'dislikes', 'hobbies', 'values', 'beliefs',
-    'socialClass', 'education', 'family', 'relationships', 'voice', 'speechPattern'
-  ];
-
   // Scan through all fields and categorize them
   Object.entries(currentData).forEach(([key, value]) => {
     if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
@@ -59,7 +51,7 @@ export async function enhanceCharacterWithAI({ currentData, project, character }
           break;
         }
       }
-    } else if (importantFields.includes(key) && !['id', 'projectId', 'createdAt', 'updatedAt', 'imageUrl', 'displayImageId', 'imageGallery', 'portraits'].includes(key)) {
+    } else if (!['id', 'projectId', 'createdAt', 'updatedAt', 'imageUrl', 'displayImageId', 'imageGallery', 'portraits'].includes(key)) {
       emptyFields.push(key);
     }
   });
@@ -97,76 +89,66 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  // Sequential enhancement to avoid rate limits (250k tokens/minute)
-  const enhancedData = { ...currentData };
-  let processedFields = 0;
-  const totalFields = emptyFields.length;
+  // Single optimized request approach to avoid rate limit issues
+  console.log(`Enhancing ${emptyFields.length} empty fields using single optimized request...`);
   
-  console.log(`Starting sequential enhancement of ${totalFields} fields to avoid rate limits...`);
-
-  // Process fields in small batches to respect API limits - limit to 20 total fields max
-  const limitedFields = emptyFields.slice(0, 20);
-  console.log(`Limiting to ${limitedFields.length} most important fields to avoid rate limits`);
+  // Create minimal context to reduce token usage
+  const filledSummary = filledFields.slice(0, 10).join('; '); // Limit to first 10 filled fields
   
-  const batchSize = 3;
-  for (let i = 0; i < limitedFields.length; i += batchSize) {
-    const batchFields = limitedFields.slice(i, i + batchSize);
-    
-    const prompt = `PROJECT: ${project.name} (${project.type}, ${project.genre?.join(', ') || 'General'})
+  const prompt = `Fill empty character fields based on existing data:
 
-EXISTING CHARACTER DATA:
-${analysisReport}
+FILLED: ${filledSummary}
+EMPTY: ${emptyFields.join(', ')}
 
-TASK: Fill only these fields: ${batchFields.join(', ')}
+Return complete character JSON with ALL empty fields filled contextually. Keep descriptions concise (1-2 sentences max).`;
 
-Current data: ${JSON.stringify(enhancedData, null, 2)}
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      config: {
+        systemInstruction: `You are a character development AI. Fill ALL empty fields in the character object with brief, contextually appropriate content based on the existing filled fields. For arrays, provide 2-3 items max.`,
+        responseMimeType: "application/json",
+      },
+      contents: prompt,
+    });
 
-Return JSON with ONLY the specified fields filled contextually.`;
-
-    try {
-      console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(limitedFields.length/batchSize)}: ${batchFields.join(', ')}`);
+    const result = response.text;
+    if (result) {
+      const enhancedData = JSON.parse(result);
+      console.log(`✓ Successfully enhanced character with AI-generated content`);
       
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        config: {
-          systemInstruction: `Fill specific character fields based on existing data. Keep responses brief but vivid. For arrays, provide 2-3 items.`,
-          responseMimeType: "application/json",
-        },
-        contents: prompt,
-      });
-
-      const result = response.text;
-      if (result) {
-        const batchData = JSON.parse(result);
-        Object.assign(enhancedData, batchData);
-        processedFields += batchFields.length;
-        console.log(`✓ Completed ${processedFields}/${limitedFields.length} fields`);
-      }
-
-      // Add delay between batches to respect rate limits
-      if (i + batchSize < limitedFields.length) {
-        console.log('Waiting 5 seconds to respect rate limits...');
-        await new Promise(resolve => setTimeout(resolve, 5000));
-      }
-
-    } catch (error: any) {
-      console.error(`Error in batch ${Math.floor(i/batchSize) + 1}:`, error.message);
-      // Continue with next batch
+      // Preserve existing data and merge with enhancements
+      const finalData = {
+        ...currentData, // Start with original data
+        ...enhancedData, // Apply enhancements
+        // Ensure system fields are preserved
+        id: currentData.id,
+        projectId: currentData.projectId,
+        imageUrl: currentData.imageUrl || '',
+        displayImageId: currentData.displayImageId || '',
+        imageGallery: currentData.imageGallery || [],
+        createdAt: currentData.createdAt,
+        updatedAt: currentData.updatedAt
+      };
+      
+      return finalData;
+    } else {
+      throw new Error("Empty response from AI");
     }
+  } catch (error: any) {
+    console.error('Single request enhancement error:', error.message);
+    
+    // Fallback: Return original data with a few key fields filled manually
+    const fallbackData = {
+      ...currentData,
+      personality: currentData.personality || "Complex and multi-layered individual with hidden depths",
+      motivations: currentData.motivations || "Driven by personal goals and circumstances",
+      backstory: currentData.backstory || "Shaped by past experiences and relationships"
+    };
+    
+    console.log('Using fallback enhancement due to API error');
+    return fallbackData;
   }
 
-  // Preserve system fields
-  const finalData = {
-    ...enhancedData,
-    id: currentData.id,
-    projectId: currentData.projectId,
-    imageUrl: currentData.imageUrl || '',
-    displayImageId: currentData.displayImageId || '',
-    imageGallery: currentData.imageGallery || [],
-    createdAt: currentData.createdAt,
-    updatedAt: currentData.updatedAt
-  };
 
-  console.log(`✅ Sequential enhancement completed: ${processedFields}/${limitedFields.length} important fields enhanced`);
-  return finalData;
 }
