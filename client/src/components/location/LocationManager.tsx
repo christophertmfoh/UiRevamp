@@ -236,7 +236,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
           {filteredLocations.map((location: Location) => (
             <Card 
               key={location.id} 
-              className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-green-500/30 hover:border-green-500/50"
+              className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"
               onClick={() => handleLocationClick(location)}
             >
               <CardContent className="p-4">
