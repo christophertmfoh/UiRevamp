@@ -56,7 +56,22 @@ export function CharacterUnifiedView({
   });
 
   const handleSave = () => {
-    saveMutation.mutate(formData);
+    // Process form data to ensure arrays are properly formatted
+    const processedData = { ...formData };
+    
+    // Convert comma-separated strings back to arrays for array fields
+    CHARACTER_SECTIONS.forEach(section => {
+      section.fields.forEach(field => {
+        if (field.type === 'array') {
+          const value = (formData as any)[field.key];
+          if (typeof value === 'string') {
+            (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+          }
+        }
+      });
+    });
+    
+    saveMutation.mutate(processedData);
   };
 
   const handleCancel = () => {
@@ -125,9 +140,9 @@ export function CharacterUnifiedView({
         {/* Show badges below input when in view mode and has values */}
         {!isEditing && values && values.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-2">
-            {(Array.isArray(values) ? values : values.split(',').map(v => v.trim()))
-              .filter(v => v?.trim())
-              .map((value, index) => (
+            {(Array.isArray(values) ? values : String(values).split(',').map((v: string) => v.trim()))
+              .filter((v: string) => v?.trim())
+              .map((value: string, index: number) => (
                 <Badge key={index} variant="outline" className="text-sm">
                   {value.trim()}
                 </Badge>
