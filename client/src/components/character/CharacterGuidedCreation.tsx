@@ -293,7 +293,7 @@ export function CharacterGuidedCreation({
             value={value}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-background/50 border-border/50 focus:border-accent/50"
+            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground"
           />
         );
       
@@ -304,19 +304,19 @@ export function CharacterGuidedCreation({
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
             rows={3}
-            className="bg-background/50 border-border/50 focus:border-accent/50 resize-none"
+            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground resize-none"
           />
         );
       
       case 'select':
         return (
           <Select value={value} onValueChange={(val) => updateField(field.key, val)}>
-            <SelectTrigger className="bg-background/50 border-border/50 focus:border-accent/50">
-              <SelectValue placeholder="Select an option" />
+            <SelectTrigger className="bg-card border-border/30 focus:border-accent/70 text-foreground">
+              <SelectValue placeholder="Select an option" className="text-muted-foreground" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-card border-border/30">
               {field.options?.map(option => (
-                <SelectItem key={option} value={option}>{option}</SelectItem>
+                <SelectItem key={option} value={option} className="text-foreground hover:bg-accent/10">{option}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -329,7 +329,7 @@ export function CharacterGuidedCreation({
             value={arrayValue}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-background/50 border-border/50 focus:border-accent/50"
+            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground"
           />
         );
       
@@ -367,7 +367,7 @@ export function CharacterGuidedCreation({
 
       <div className="flex min-h-[calc(100vh-88px)]">
         {/* Step Navigation Sidebar */}
-        <div className="w-80 border-r border-border/30 bg-muted/20 p-6">
+        <div className="w-80 border-r border-border/30 bg-card/30 backdrop-blur-sm p-6">
           <div className="space-y-2">
             {CREATION_STEPS.map((step, index) => {
               const Icon = step.icon;
@@ -382,12 +382,12 @@ export function CharacterGuidedCreation({
                   disabled={!isAccessible}
                   className={`w-full text-left p-4 rounded-lg transition-all duration-200 ${
                     isCurrent 
-                      ? 'bg-accent/10 border-2 border-accent/30 shadow-sm' 
+                      ? 'bg-accent/15 border-2 border-accent/40 shadow-sm text-foreground' 
                       : isCompleted
-                      ? 'bg-accent/5 border border-accent/20 hover:bg-accent/10'
+                      ? 'bg-accent/8 border border-accent/25 hover:bg-accent/12 text-foreground'
                       : isAccessible
-                      ? 'hover:bg-muted/40 border border-transparent'
-                      : 'opacity-50 cursor-not-allowed border border-transparent'
+                      ? 'hover:bg-card/60 border border-transparent text-foreground hover:text-accent'
+                      : 'opacity-50 cursor-not-allowed border border-transparent text-muted-foreground'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -402,11 +402,13 @@ export function CharacterGuidedCreation({
                     </div>
                     <div className="flex-1">
                       <div className={`font-semibold ${
-                        isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : 'text-muted-foreground'
+                        isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : ''
                       }`}>
                         {step.title}
                       </div>
-                      <div className="text-xs text-muted-foreground line-clamp-2">
+                      <div className={`text-xs line-clamp-2 ${
+                        isCurrent ? 'text-accent/70' : 'text-muted-foreground'
+                      }`}>
                         {step.description}
                       </div>
                     </div>
@@ -423,14 +425,14 @@ export function CharacterGuidedCreation({
         {/* Main Content */}
         <div className="flex-1 p-8">
           <div className="max-w-2xl mx-auto">
-            <Card className="border-border/50 shadow-lg">
-              <CardHeader className="pb-6">
+            <Card className="border-border/30 shadow-lg bg-card/50 backdrop-blur-sm">
+              <CardHeader className="pb-6 bg-gradient-to-r from-accent/5 to-accent/10 rounded-t-lg">
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-accent/10 rounded-xl">
+                  <div className="p-3 bg-accent/20 rounded-xl border border-accent/30">
                     <currentStep.icon className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <CardTitle className="text-2xl">{currentStep.title}</CardTitle>
+                    <CardTitle className="text-2xl text-foreground">{currentStep.title}</CardTitle>
                     <p className="text-muted-foreground mt-1">{currentStep.description}</p>
                   </div>
                 </div>
