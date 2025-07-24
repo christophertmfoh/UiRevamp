@@ -12,6 +12,7 @@ interface FieldAIAssistProps {
   currentValue: any;
   onFieldUpdate: (value: any) => void;
   disabled?: boolean;
+  fieldOptions?: string[];
 }
 
 export function FieldAIAssist({ 
@@ -20,7 +21,8 @@ export function FieldAIAssist({
   fieldLabel, 
   currentValue, 
   onFieldUpdate, 
-  disabled = false 
+  disabled = false,
+  fieldOptions
 }: FieldAIAssistProps) {
   const [isEnhancing, setIsEnhancing] = useState(false);
 
@@ -35,7 +37,8 @@ export function FieldAIAssist({
         character,
         fieldKey,
         fieldLabel,
-        currentValue
+        currentValue,
+        fieldOptions
       });
       
       const result = await response.json();

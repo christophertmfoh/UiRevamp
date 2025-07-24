@@ -6,7 +6,7 @@ console.log(`Field enhancement using API key: ${apiKey ? apiKey.substring(0, 10)
 
 const ai = new GoogleGenAI({ apiKey });
 
-export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any) {
+export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any, fieldOptions?: string[]) {
   try {
     console.log(`\n=== Processing Individual Field Enhancement ===`);
     console.log(`Field: ${fieldKey} (${fieldLabel})`);
@@ -33,8 +33,30 @@ Other Details: ${JSON.stringify(character).substring(0, 500)}
 
     console.log(`Full character context being sent to AI:`, characterContext);
 
-    // Create highly contextual prompt that forces AI to read existing data
-    const prompt = `You are a professional character development expert. I need you to analyze this character's existing information and generate appropriate content for the "${fieldLabel}" field.
+    // Check if this is a dropdown field with specific options
+    const isDropdownField = fieldOptions && fieldOptions.length > 0;
+    
+    let prompt;
+    if (isDropdownField) {
+      prompt = `You are a professional character development expert. Analyze this character and choose the most appropriate option from the dropdown list for "${fieldLabel}".
+
+CRITICAL: READ ALL CHARACTER DATA CAREFULLY:
+${characterContext}
+
+AVAILABLE OPTIONS FOR "${fieldLabel}":
+${fieldOptions.map(option => `- ${option}`).join('\n')}
+
+TASK: Choose the BEST option from the list above that fits this character
+CURRENT VALUE: ${currentValue || 'empty'}
+
+INSTRUCTIONS:
+1. CAREFULLY analyze the character information
+2. Consider the character's name, background, description, personality
+3. Choose the option that best fits their role in the story
+4. For a character named "beans" who is a cat, consider roles like "Comic Relief" or "Supporting Character"
+5. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
+    } else {
+      prompt = `You are a professional character development expert. I need you to analyze this character's existing information and generate appropriate content for the "${fieldLabel}" field.
 
 CRITICAL: READ ALL CHARACTER DATA CAREFULLY:
 ${characterContext}
@@ -57,6 +79,7 @@ For Race/Species specifically:
 - Only use "Human" if explicitly stated or clearly implied
 
 RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quotes, or labels:`;
+    }
 
     console.log(`Generating content for field: ${fieldKey}`);
     
@@ -97,6 +120,24 @@ RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quote
           fallbackContent = 'Dragon';
         } else {
           fallbackContent = 'Human'; // Only default to human if no other clues
+        }
+      } else if (fieldKey === 'role' && isDropdownField) {
+        // Smart role selection from dropdown options
+        const name = (character.name || '').toLowerCase();
+        const desc = (character.description || '').toLowerCase();
+        const background = (character.background || '').toLowerCase();
+        const allText = `${name} ${desc} ${background}`.toLowerCase();
+        
+        if (allText.includes('cat') || allText.includes('funny') || allText.includes('cute')) {
+          fallbackContent = fieldOptions.includes('Comic Relief') ? 'Comic Relief' : 'Supporting Character';
+        } else if (allText.includes('hero') || allText.includes('main')) {
+          fallbackContent = 'Protagonist';
+        } else if (allText.includes('villain') || allText.includes('evil')) {
+          fallbackContent = 'Antagonist';
+        } else if (allText.includes('mentor') || allText.includes('teacher')) {
+          fallbackContent = 'Mentor';
+        } else {
+          fallbackContent = 'Supporting Character'; // Default for dropdown
         }
       } else {
         // Other field fallbacks

@@ -456,12 +456,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/characters/:id/enhance-field", async (req, res) => {
     try {
       const { id } = req.params;
-      const { character, fieldKey, fieldLabel, currentValue } = req.body;
+      const { character, fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
       
       // Import the field enhancement function
       const { enhanceCharacterField } = await import('./characterFieldEnhancement');
       
-      const enhancedField = await enhanceCharacterField(character, fieldKey, fieldLabel, currentValue);
+      const enhancedField = await enhanceCharacterField(character, fieldKey, fieldLabel, currentValue, fieldOptions);
       
       console.log(`Enhanced field ${fieldKey}:`, enhancedField);
       
