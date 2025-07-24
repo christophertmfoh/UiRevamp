@@ -57,6 +57,8 @@ export function CharacterCreationLaunch({
     }, 200);
   };
 
+  console.log('CharacterCreationLaunch rendering with isOpen:', isOpen);
+  
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
