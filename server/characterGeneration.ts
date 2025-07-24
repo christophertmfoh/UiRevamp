@@ -106,6 +106,7 @@ ${projectContext}`;
     
     // Ensure the data matches our schema expectations
     const processedData = {
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // Generate unique ID
       name: generatedData.name || 'Generated Character',
       title: generatedData.title || '',
       role: generatedData.role || 'supporting',
@@ -122,13 +123,13 @@ ${projectContext}`;
       flaws: generatedData.flaws || '',
       weaknesses: generatedData.flaws || '', // Also map to weaknesses field
       secrets: generatedData.secrets || '',
-      skills: generatedData.skills || '',
+      skills: generatedData.skills ? generatedData.skills.split(',').map(s => s.trim()) : [], // Convert string to array
       equipment: generatedData.equipment || '',
       // Physical appearance fields from description
       physicalDescription: generatedData.description || '',
       // Ensure required fields are present
       imageUrl: null,
-      relationships: [],
+      relationships: '', // String field, not array
       notes: ''
     };
     
