@@ -222,12 +222,15 @@ export function CharacterPortraitModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto creative-card">
+    <Dialog open={isOpen} onOpenChange={handleModalClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto creative-card" aria-describedby="portrait-description">
         <DialogHeader>
           <DialogTitle className="font-title text-2xl">
             Manage Portraits for {character.name || 'Character'}
           </DialogTitle>
+          <div id="portrait-description" className="sr-only">
+            Generate AI portraits or upload images for your character. You can create multiple portraits and set one as the main character image.
+          </div>
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -476,9 +479,12 @@ export function CharacterPortraitModal({
       {/* Image Enlargement Modal */}
       {selectedMainImage && (
         <Dialog open={!!selectedMainImage} onOpenChange={() => setSelectedMainImage('')}>
-          <DialogContent className="max-w-4xl max-h-[90vh] p-2">
+          <DialogContent className="max-w-4xl max-h-[90vh] p-2" aria-describedby="portrait-preview-description">
             <DialogHeader>
               <DialogTitle>Portrait Preview</DialogTitle>
+              <div id="portrait-preview-description" className="sr-only">
+                View enlarged character portrait and set as main image if desired.
+              </div>
             </DialogHeader>
             <div className="flex items-center justify-center max-h-[80vh]">
               <img 

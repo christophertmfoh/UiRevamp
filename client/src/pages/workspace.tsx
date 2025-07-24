@@ -750,7 +750,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
 
       {/* Character Generation Modal */}
       <Dialog open={showCharacterModal} onOpenChange={setShowCharacterModal}>
-        <DialogContent className="glass-effect border-slate-700 max-w-2xl">
+        <DialogContent className="glass-effect border-slate-700 max-w-2xl" aria-describedby="character-gen-description">
           <DialogHeader>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -758,6 +758,9 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               </div>
               <DialogTitle className="gradient-text">AI Character Generator</DialogTitle>
             </div>
+            <DialogDescription id="character-gen-description">
+              Create detailed characters using AI assistance. Provide a character concept and story role to generate comprehensive character profiles.
+            </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-6">
@@ -843,7 +846,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
 
       {/* Brainstorm Modal */}
       <Dialog open={showBrainstormModal} onOpenChange={setShowBrainstormModal}>
-        <DialogContent className="glass-effect border-slate-700 max-w-3xl max-h-[90vh]">
+        <DialogContent className="glass-effect border-slate-700 max-w-3xl max-h-[90vh]" aria-describedby="brainstorm-description">
           <DialogHeader>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
@@ -851,6 +854,9 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               </div>
               <DialogTitle className="gradient-text">AI Story Brainstorming</DialogTitle>
             </div>
+            <DialogDescription id="brainstorm-description">
+              Generate story ideas, plot twists, character arcs, and narrative elements using AI assistance to enhance your creative writing process.
+            </DialogDescription>
           </DialogHeader>
           
           <ScrollArea className="max-h-[70vh]">

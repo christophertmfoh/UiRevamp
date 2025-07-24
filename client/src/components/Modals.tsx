@@ -62,18 +62,12 @@ export function ProjectModal({
     mutationFn: async (projectData: any) => {
       if (projectToEdit) {
         // Update existing project
-        return await apiRequest(`/api/projects/${projectToEdit.id}`, {
-          method: 'PUT',
-          body: JSON.stringify(projectData),
-        });
+        return await apiRequest('PUT', `/api/projects/${projectToEdit.id}`, projectData);
       } else {
         // Create new project
-        return await apiRequest('/api/projects', {
-          method: 'POST',
-          body: JSON.stringify({
-            id: Date.now().toString(),
-            ...projectData,
-          }),
+        return await apiRequest('POST', '/api/projects', {
+          id: Date.now().toString(),
+          ...projectData,
         });
       }
     },
@@ -84,7 +78,8 @@ export function ProjectModal({
       if (!projectToEdit) {
         // For new projects, fetch the full project data and navigate to it
         try {
-          const fullProject = await apiRequest(`/api/projects/${result.id}`);
+          const response = await apiRequest('GET', `/api/projects/${(await result.json()).id}`);
+          const fullProject = await response.json();
           if (onProjectCreated) {
             onProjectCreated(fullProject);
           }
@@ -635,10 +630,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
       };
 
       // Create the project via API
-      const newProject = await apiRequest('/api/projects', {
-        method: 'POST',
-        body: projectData,
-      });
+      const newProject = await apiRequest('POST', '/api/projects', projectData);
 
       // TODO: Future AI-powered content extraction will happen here
       // - Analyze document type automatically
@@ -655,7 +647,8 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
       });
 
       if (onProjectCreated) {
-        onProjectCreated(newProject);
+        const projectData = await newProject.json();
+        onProjectCreated(projectData);
       }
 
       onClose();
