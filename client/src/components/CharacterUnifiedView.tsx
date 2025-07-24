@@ -123,9 +123,9 @@ export function CharacterUnifiedView({
       
       let processedValues: string[] = [];
       if (typeof values === 'string') {
-        processedValues = values.split(',').map(v => v.trim()).filter(v => v);
+        processedValues = values.split(',').map((v: string) => v.trim()).filter((v: string) => v);
       } else if (Array.isArray(values)) {
-        processedValues = values.filter(v => v?.trim());
+        processedValues = values.filter((v: string) => v?.trim());
       }
       
       if (processedValues.length === 0) return null;
@@ -152,7 +152,7 @@ export function CharacterUnifiedView({
             id={field.key}
             value={stringValue}
             onChange={(e) => {
-              const arrayValue = e.target.value.split(',').map(v => v.trim()).filter(v => v);
+              const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
               handleInputChange(field.key, arrayValue);
             }}
             placeholder={field.placeholder}
