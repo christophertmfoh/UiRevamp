@@ -107,7 +107,7 @@ export function FactionUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated, but preserve portraits
-    const { createdAt, id, projectId, ...dataToSave } = processedData;
+    const { createdAt, updatedAt, id, projectId, ...dataToSave } = processedData;
     
     // Ensure portraits array is preserved
     if (faction.portraits) {
