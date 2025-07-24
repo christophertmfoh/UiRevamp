@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Save, X, User, Upload } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
-import { CharacterForm } from './CharacterForm';
+import { CharacterFormExpanded } from './CharacterFormExpanded';
 
 interface CharacterDetailViewProps {
   projectId: string;
@@ -31,7 +31,7 @@ export function CharacterDetailView({
   // If we're creating or there's no character, show the form
   if (isCreating || !character) {
     return (
-      <CharacterForm
+      <CharacterFormExpanded
         projectId={projectId}
         character={character || undefined}
         onCancel={onBack}
@@ -42,7 +42,7 @@ export function CharacterDetailView({
   // If we're editing an existing character, show the form
   if (isEditing) {
     return (
-      <CharacterForm
+      <CharacterFormExpanded
         projectId={projectId}
         character={character}
         onCancel={() => setIsEditing(false)}

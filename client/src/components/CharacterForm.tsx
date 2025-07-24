@@ -211,12 +211,12 @@ export function CharacterForm({ projectId, onCancel, character }: CharacterFormP
               <TabsContent value="basic" className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="name">Name *</Label>
+                    <Label htmlFor="name">Name</Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => updateField('name', e.target.value)}
-                      required
+                      placeholder="Character's full name"
                     />
                   </div>
                   <div>
