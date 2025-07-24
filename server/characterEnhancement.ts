@@ -89,91 +89,126 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  // Focus only on identity fields for now - comprehensive list (removed description, characterSummary, oneLine - redundant with physical description)
-  const identityFields = ['title', 'aliases', 'race', 'species', 'ethnicity', 'nationality', 'class', 'profession', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status', 'birthdate', 'zodiacSign'];
-  const emptyIdentityFields = emptyFields.filter(field => identityFields.includes(field));
+  // Define sequential category processing order
+  const ENHANCEMENT_CATEGORIES = [
+    {
+      name: 'identity',
+      fields: ['title', 'aliases', 'race', 'species', 'ethnicity', 'nationality', 'class', 'profession', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status', 'birthdate', 'zodiacSign'],
+      instruction: `Generate realistic identity details for ALL specified fields.`
+    },
+    {
+      name: 'physical',
+      fields: ['height', 'weight', 'build', 'bodyType', 'facialFeatures', 'eyes', 'eyeColor', 'hair', 'hairColor', 'hairStyle', 'facialHair', 'skin', 'skinTone', 'complexion', 'scars', 'tattoos', 'piercings', 'birthmarks', 'distinguishingMarks', 'attire', 'clothingStyle', 'accessories', 'posture', 'gait', 'gestures', 'mannerisms'],
+      instruction: `Generate detailed physical appearance traits for ALL specified fields.`
+    },
+    {
+      name: 'personality',
+      fields: ['personality', 'personalityTraits', 'temperament', 'disposition', 'worldview', 'beliefs', 'values', 'principles', 'morals', 'ethics', 'virtues', 'vices', 'habits', 'quirks', 'idiosyncrasies', 'petPeeves', 'likes', 'dislikes', 'hobbies', 'interests', 'passions'],
+      instruction: `Generate comprehensive personality traits for ALL specified fields.`
+    },
+    {
+      name: 'psychology',
+      fields: ['motivations', 'desires', 'needs', 'drives', 'ambitions', 'fears', 'phobias', 'anxieties', 'insecurities', 'secrets', 'shame', 'guilt', 'regrets', 'trauma', 'wounds', 'copingMechanisms', 'defenses', 'vulnerabilities', 'weaknesses', 'blindSpots', 'mentalHealth', 'emotionalState', 'maturityLevel', 'intelligenceType', 'learningStyle'],
+      instruction: `Generate deep psychological elements for ALL specified fields.`
+    },
+    {
+      name: 'background',
+      fields: ['background', 'backstory', 'origin', 'upbringing', 'childhood', 'familyHistory', 'socialClass', 'economicStatus', 'education', 'formativeEvents', 'pastTrauma', 'achievements', 'failures', 'reputation', 'currentSituation'],
+      instruction: `Generate rich background details for ALL specified fields.`
+    },
+    {
+      name: 'relationships',
+      fields: ['relationships', 'family', 'friends', 'enemies', 'allies', 'rivals', 'mentors', 'proteges', 'romanticHistory', 'currentRelationships', 'socialConnections', 'politicalAffiliations', 'organizationalMemberships'],
+      instruction: `Generate meaningful relationship details for ALL specified fields.`
+    },
+    {
+      name: 'abilities',
+      fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'magicalAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
+      instruction: `Generate comprehensive abilities for ALL specified fields.`
+    },
+    {
+      name: 'story',
+      fields: ['storyRole', 'narrative', 'characterArc', 'goals', 'conflicts', 'stakes', 'obstacles', 'growthPotential', 'thematicSignificance', 'symbolism', 'plotRelevance', 'relationshipDynamics', 'characterFunction'],
+      instruction: `Generate story elements for ALL specified fields.`
+    }
+  ];
+
+  let workingData = { ...currentData };
   
-  // Also check for fields that are null, undefined, or empty strings
-  const additionalEmptyFields = identityFields.filter(field => {
-    const value = currentData[field];
-    return !value || value === '' || value === null || value === undefined;
-  });
-  
-  // Combine and deduplicate
-  const allEmptyIdentityFields = [...new Set([...emptyIdentityFields, ...additionalEmptyFields])];
-  
-  console.log(`Enhancing ${allEmptyIdentityFields.length} identity fields: ${allEmptyIdentityFields.join(', ')}`);
-  
-  if (allEmptyIdentityFields.length === 0) {
-    console.log('No empty identity fields to enhance');
-    return currentData;
-  }
-  
-  // Create focused prompt for identity fields only
-  const prompt = `Character Enhancement Task:
+  // Process each category sequentially
+  for (const category of ENHANCEMENT_CATEGORIES) {
+    console.log(`\n=== Processing ${category.name.toUpperCase()} Category ===`);
+    
+    // Find empty fields in this category
+    const emptyFieldsInCategory = category.fields.filter(field => {
+      const value = workingData[field];
+      return !value || value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0);
+    });
+    
+    if (emptyFieldsInCategory.length === 0) {
+      console.log(`No empty ${category.name} fields to enhance, skipping...`);
+      continue;
+    }
+    
+    console.log(`Enhancing ${emptyFieldsInCategory.length} ${category.name} fields: ${emptyFieldsInCategory.join(', ')}`);
+    
+    // Create category-specific prompt with existing data context
+    const existingData = Object.entries(workingData)
+      .filter(([key, value]) => value && value !== '' && !emptyFieldsInCategory.includes(key))
+      .map(([key, value]) => `- ${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
+      .slice(0, 20) // Limit to prevent prompt overflow
+      .join('\n');
+
+    const prompt = `Character Enhancement - ${category.name.toUpperCase()} Category:
 
 EXISTING CHARACTER DATA:
-- Name: ${currentData.name || 'Unknown'}
-- Nicknames: ${currentData.nicknames || 'None'}
-- Physical Description: ${currentData.physicalDescription || 'Not provided'}
-- Clothing: ${currentData.clothingStyle || 'Not specified'}
+${existingData || '- Limited existing data'}
 
-FIELDS TO GENERATE: ${allEmptyIdentityFields.join(', ')}
+FIELDS TO GENERATE: ${emptyFieldsInCategory.join(', ')}
 
-Generate appropriate values for each empty identity field. Make the character feel authentic and consistent.
+Generate appropriate values for each empty ${category.name} field. Make the character feel authentic and consistent with existing data.
 
 Return JSON object with ONLY the specified fields filled with realistic, contextual data.`;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      config: {
-        systemInstruction: `You are a character development expert. Generate realistic identity details for ALL specified fields. 
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        config: {
+          systemInstruction: `You are a character development expert specializing in ${category.name} details. ${category.instruction}
 
 CRITICAL: You must provide a value for EVERY field listed in the request. Do not skip any fields.
 
-For each field:
-- title: A descriptive title/epithet that fits the character (e.g., "The Silent Watcher", "Street Fighter", "Former Noble")
-- aliases: Alternative names or nicknames beyond what's already provided
-- race: Human or fantasy race (default Human if unclear)  
-- species: Biological species (usually same as race)
-- ethnicity: Cultural/ethnic background (e.g., "Central European", "Nordic", "Mediterranean")
-- nationality: Where they're from (be creative but fitting)
-- class: Social class (Working Class, Middle Class, Noble, Outcast, etc.)
-- profession: General profession category
-- occupation: Specific job/profession (e.g., "Private Investigator", "Blacksmith", "Scholar")
-- role: Story role (Protagonist, Antagonist, Supporting Character, Anti-hero, etc.)
-- age: Specific age number (e.g., 34, 28, 45)
-- gender: Gender identity (Male, Female, Non-binary, etc.)
-- sexuality: Sexual orientation (Heterosexual, Homosexual, Bisexual, etc.)
-- status: Social/legal status (Citizen, Outlaw, Noble, Exile, etc.)
-- birthdate: Specific birthdate if relevant
-- zodiacSign: Astrological sign if relevant to world
+Use the existing character data as context to ensure consistency and authenticity. Build upon what's already established.
 
-Return a JSON object with ALL requested fields filled. Every field must have a meaningful, specific value.`,
-        responseMimeType: "application/json",
-      },
-      contents: prompt,
-    });
+Return a JSON object with ALL requested fields filled. Every field must have a meaningful, specific value that fits the character.`,
+          responseMimeType: "application/json",
+        },
+        contents: prompt,
+      });
 
-    const result = response.text;
-    if (result) {
-      const identityData = JSON.parse(result);
-      console.log(`✓ Enhanced identity fields:`, Object.keys(identityData));
-      
-      // Merge only the identity enhancements with current data
-      const enhancedData = {
-        ...currentData,
-        ...identityData
-      };
-      
-      console.log('Returning enhanced data:', Object.keys(enhancedData));
-      return enhancedData;
-    } else {
-      throw new Error("Empty response from AI");
+      const result = response.text;
+      if (result) {
+        const categoryData = JSON.parse(result);
+        console.log(`✓ Enhanced ${category.name} fields:`, Object.keys(categoryData));
+        
+        // Merge category enhancements with working data
+        workingData = {
+          ...workingData,
+          ...categoryData
+        };
+        
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } else {
+        console.log(`⚠ Empty response for ${category.name} category`);
+      }
+    } catch (error: any) {
+      console.error(`${category.name} enhancement error:`, error.message);
+      // Continue with next category even if one fails
     }
-  } catch (error: any) {
-    console.error('Identity enhancement error:', error.message);
-    return currentData; // Return unchanged data on error
   }
+  
+  console.log('\n=== Character Enhancement Complete ===');
+  console.log('Final enhanced data keys:', Object.keys(workingData));
+  return workingData;
 }
