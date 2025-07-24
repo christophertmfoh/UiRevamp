@@ -137,7 +137,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCharacter(character: InsertCharacter): Promise<Character> {
+    console.log('Storage: Inserting character into database:', JSON.stringify(character, null, 2));
     const [newCharacter] = await db.insert(characters).values(character).returning();
+    console.log('Storage: Character returned from database:', JSON.stringify(newCharacter, null, 2));
+    
+    if (!newCharacter) {
+      throw new Error('Failed to create character - no data returned from database');
+    }
+    
     return newCharacter;
   }
 
