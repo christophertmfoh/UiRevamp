@@ -82,8 +82,11 @@ export function CharacterUnifiedView({
       }
     });
     
-    console.log('Processed data before save:', processedData);
-    saveMutation.mutate(processedData);
+    // Remove system fields that shouldn't be updated
+    const { createdAt, ...dataToSave } = processedData;
+    
+    console.log('Processed data before save:', dataToSave);
+    saveMutation.mutate(dataToSave as Character);
   };
 
   const handleCancel = () => {
