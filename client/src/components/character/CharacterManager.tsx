@@ -148,7 +148,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       console.log('Creating character with data:', characterToCreate);
       
       // Create the character - this will automatically open it in the editor on success
-      createCharacterMutation.mutate(characterToCreate);
+      await createCharacterMutation.mutateAsync(characterToCreate);
       
       // Close the generation modal
       setIsGenerationModalOpen(false);
