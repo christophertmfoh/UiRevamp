@@ -302,14 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { generateContextualCharacter } = await import('./characterGeneration');
       
       const generatedCharacter = await generateContextualCharacter({
-        project: {
-          id: project.id,
-          name: project.name,
-          title: project.name,
-          type: project.type,
-          description: project.description,
-          genre: project.genre
-        },
+        project,
         locations,
         existingCharacters: characters,
         generationOptions: {

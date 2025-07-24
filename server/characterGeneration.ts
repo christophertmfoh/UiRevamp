@@ -172,7 +172,7 @@ ${projectContext}`;
       flaws: generatedData.flaws || '',
       weaknesses: generatedData.flaws || '', // Also map to weaknesses field
       secrets: generatedData.secrets || '',
-      skills: generatedData.skills ? generatedData.skills.split(',').map(s => s.trim()) : [], // Convert string to array
+      skills: generatedData.skills ? generatedData.skills.split(',').map((s: string) => s.trim()) : [], // Convert string to array
       equipment: generatedData.equipment || '',
       // Physical appearance fields from description
       physicalDescription: generatedData.description || '',
@@ -193,7 +193,7 @@ ${projectContext}`;
 function buildProjectContext(context: CharacterGenerationContext): string {
   const { project, locations, existingCharacters, generationOptions } = context;
   
-  let contextPrompt = `Create a character for the story project: "${project.title || project.name}"`;
+  let contextPrompt = `Create a character for the story project: "${project.name}"`;
   
   if (project.description) {
     contextPrompt += `\n\nProject Description: ${project.description}`;

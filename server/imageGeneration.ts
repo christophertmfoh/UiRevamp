@@ -52,17 +52,19 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     // Use Gemini's image generation model with correct API structure
     const gemini = getGeminiClient();
     const model = gemini.getGenerativeModel({ 
-      model: "gemini-2.0-flash-preview-image-generation",
-      generationConfig: {
-        responseModalities: ["TEXT", "IMAGE"],
-      }
+      model: "gemini-2.0-flash-preview-image-generation"
     });
     
     const response = await model.generateContent(fullPrompt);
 
     console.log('Gemini response structure:', JSON.stringify(response, null, 2));
 
-    const candidates = response.candidates;
+    const result = response.response;
+    if (!result) {
+      throw new Error("No response returned from Gemini");
+    }
+
+    const candidates = result.candidates;
     if (!candidates || candidates.length === 0) {
       throw new Error("No candidates returned from Gemini");
     }
