@@ -35,12 +35,10 @@ export interface Character {
   name?: string;
   nicknames?: string;
   title?: string;
-  honorifics?: string;
   aliases?: string;
   race?: string;
   species?: string;
   ethnicity?: string;
-  nationality?: string;
   class?: string;
   profession?: string;
   occupation?: string;
@@ -82,8 +80,6 @@ export interface Character {
   description?: string;
   characterSummary?: string;
   oneLine?: string;
-  elevator?: string;
-  concept?: string;
   
   // Personality (Deep Psychological Profile)
   personality?: string;
@@ -164,6 +160,9 @@ export interface Character {
   specialAbilities?: string;
   powers?: string;
   magicalAbilities?: string;
+  magicType?: string;
+  magicSource?: string;
+  magicLimitations?: string;
   superpowers?: string;
   strengths?: string;
   competencies?: string;

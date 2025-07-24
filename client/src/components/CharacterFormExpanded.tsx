@@ -22,12 +22,10 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     name: character?.name || '',
     nicknames: character?.nicknames || '',
     title: character?.title || '',
-    honorifics: character?.honorifics || '',
     aliases: character?.aliases || '',
     race: character?.race || '',
     species: character?.species || '',
     ethnicity: character?.ethnicity || '',
-    nationality: character?.nationality || '',
     class: character?.class || '',
     profession: character?.profession || '',
     occupation: character?.occupation || '',
@@ -69,8 +67,6 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     description: character?.description || '',
     characterSummary: character?.characterSummary || '',
     oneLine: character?.oneLine || '',
-    elevator: character?.elevator || '',
-    concept: character?.concept || '',
     
     // Personality
     personality: character?.personality || '',
@@ -151,6 +147,9 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     specialAbilities: character?.specialAbilities || '',
     powers: character?.powers || '',
     magicalAbilities: character?.magicalAbilities || '',
+    magicType: character?.magicType || '',
+    magicSource: character?.magicSource || '',
+    magicLimitations: character?.magicLimitations || '',
     superpowers: character?.superpowers || '',
     strengths: character?.strengths || '',
     competencies: character?.competencies || '',
@@ -397,15 +396,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       placeholder="Lord, Dr., Captain, etc."
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="honorifics">Honorifics</Label>
-                    <Input
-                      id="honorifics"
-                      value={formData.honorifics}
-                      onChange={(e) => updateField('honorifics', e.target.value)}
-                      placeholder="Sir, Dame, Your Majesty"
-                    />
-                  </div>
+
                   <div>
                     <Label htmlFor="aliases">Aliases</Label>
                     <Input
@@ -426,27 +417,18 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="race">Race</Label>
+                    <Label htmlFor="race">Race/Species</Label>
                     <Input
                       id="race"
                       value={formData.race}
                       onChange={(e) => updateField('race', e.target.value)}
-                      placeholder="Human, Elf, Dwarf, etc."
+                      placeholder="Human, Elf, Dwarf, Alien, etc."
                     />
                   </div>
                   <div>
-                    <Label htmlFor="species">Species</Label>
-                    <Input
-                      id="species"
-                      value={formData.species}
-                      onChange={(e) => updateField('species', e.target.value)}
-                      placeholder="Homo sapiens, Alien, etc."
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="ethnicity">Ethnicity</Label>
+                    <Label htmlFor="ethnicity">Ethnicity/Culture</Label>
                     <Input
                       id="ethnicity"
                       value={formData.ethnicity}
@@ -454,15 +436,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       placeholder="Cultural/ethnic background"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="nationality">Nationality</Label>
-                    <Input
-                      id="nationality"
-                      value={formData.nationality}
-                      onChange={(e) => updateField('nationality', e.target.value)}
-                      placeholder="Country of origin"
-                    />
-                  </div>
+
                   <div>
                     <Label htmlFor="age">Age</Label>
                     <Input
@@ -524,22 +498,22 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                     />
                   </div>
                   <div>
-                    <Label htmlFor="elevator">Elevator Pitch</Label>
+                    <Label htmlFor="description">Character Description</Label>
                     <Textarea
-                      id="elevator"
-                      value={formData.elevator}
-                      onChange={(e) => updateField('elevator', e.target.value)}
-                      placeholder="A 30-second description of who this character is"
-                      rows={2}
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => updateField('description', e.target.value)}
+                      placeholder="Overall description of the character"
+                      rows={4}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="concept">Character Concept</Label>
+                    <Label htmlFor="characterSummary">Character Summary</Label>
                     <Textarea
-                      id="concept"
-                      value={formData.concept}
-                      onChange={(e) => updateField('concept', e.target.value)}
-                      placeholder="The core idea or concept behind this character"
+                      id="characterSummary"
+                      value={formData.characterSummary}
+                      onChange={(e) => updateField('characterSummary', e.target.value)}
+                      placeholder="A comprehensive summary of who this character is"
                       rows={3}
                     />
                   </div>
@@ -822,6 +796,53 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                     placeholder="Detailed description of unique powers or abilities"
                     rows={4}
                   />
+                </div>
+
+                <div className="border-t pt-6">
+                  <h3 className="text-lg font-semibold mb-4">Magic & Supernatural</h3>
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <Label htmlFor="magicalAbilities">Magical Abilities</Label>
+                      <Textarea
+                        id="magicalAbilities"
+                        value={formData.magicalAbilities}
+                        onChange={(e) => updateField('magicalAbilities', e.target.value)}
+                        placeholder="Specific magical powers and spells"
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="magicType">Magic Type</Label>
+                      <Input
+                        id="magicType"
+                        value={formData.magicType}
+                        onChange={(e) => updateField('magicType', e.target.value)}
+                        placeholder="Elemental, Divine, Arcane, etc."
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="magicSource">Magic Source</Label>
+                      <Textarea
+                        id="magicSource"
+                        value={formData.magicSource}
+                        onChange={(e) => updateField('magicSource', e.target.value)}
+                        placeholder="Where their magic comes from (bloodline, training, artifact, etc.)"
+                        rows={2}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="magicLimitations">Magic Limitations</Label>
+                      <Textarea
+                        id="magicLimitations"
+                        value={formData.magicLimitations}
+                        onChange={(e) => updateField('magicLimitations', e.target.value)}
+                        placeholder="What restricts or limits their magical abilities"
+                        rows={2}
+                      />
+                    </div>
+                  </div>
                 </div>
               </TabsContent>
 
