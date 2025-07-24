@@ -246,7 +246,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       console.log('Updating character with data:', JSON.stringify(req.body, null, 2));
-      const characterData = insertCharacterSchema.partial().parse(req.body);
+      
+      // Handle displayImageId type conversion - convert string to number if needed
+      const processedData = { ...req.body };
+      if (processedData.displayImageId && typeof processedData.displayImageId === 'string') {
+        const numericId = parseInt(processedData.displayImageId, 10);
+        processedData.displayImageId = isNaN(numericId) ? null : numericId;
+      }
+      
+      const characterData = insertCharacterSchema.partial().parse(processedData);
       
       // Add updatedAt timestamp to track when the character was last modified
       const characterDataWithTimestamp = {
