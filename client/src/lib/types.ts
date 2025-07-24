@@ -1,9 +1,11 @@
 export interface Project {
   id: string;
   name: string;
+  title?: string;
   type: 'novel' | 'screenplay' | 'comic';
-  description: string;
-  genre: string[];
+  description?: string;
+  genre?: string | string[];
+  tone?: string;
   createdAt: Date;
   lastModified: Date;
   manuscript: {

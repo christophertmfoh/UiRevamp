@@ -5,11 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
+import type { Character, Project } from '../../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { generateContextualCharacter } from '../../lib/services';
 
 interface CharacterManagerProps {
   projectId: string;
@@ -23,10 +24,19 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isCreating, setIsCreating] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
     queryKey: ['/api/projects', projectId, 'characters'],
+  });
+
+  const { data: project } = useQuery<Project>({
+    queryKey: ['/api/projects', projectId],
+  });
+
+  const { data: locations = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', projectId, 'locations'],
   });
 
   // Auto-select character if selectedCharacterId is provided
@@ -58,6 +68,16 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     },
   });
 
+  const createCharacterMutation = useMutation({
+    mutationFn: (character: Partial<Character>) => 
+      apiRequest('POST', `/api/projects/${projectId}/characters`, character),
+    onSuccess: (newCharacter: Character) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      setSelectedCharacter(newCharacter);
+      setIsCreating(false);
+    },
+  });
+
   const filteredCharacters = characters.filter((character: Character) =>
     (character.name && character.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
     (character.role && character.role.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -84,6 +104,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const handleCreateNew = () => {
     setIsCreating(true);
     setSelectedCharacter(null);
+  };
+
+  const handleGenerateCharacter = async () => {
+    if (!project) return;
+    
+    setIsGenerating(true);
+    try {
+      const generatedCharacter = await generateContextualCharacter({
+        project,
+        locations,
+        existingCharacters: characters
+      });
+      
+      // Create the character with generated data
+      createCharacterMutation.mutate({
+        ...generatedCharacter,
+        projectId
+      });
+    } catch (error) {
+      console.error('Error generating character:', error);
+      // Show error to user - you could add a toast here
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleBackToList = () => {
@@ -145,13 +189,24 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
           </p>
         </div>
-        <Button 
-          onClick={handleCreateNew} 
-          className="interactive-warm"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Add Character
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={handleCreateNew} 
+            className="interactive-warm"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Character
+          </Button>
+          <Button 
+            onClick={handleGenerateCharacter} 
+            disabled={isGenerating || !project}
+            variant="outline"
+            className="border-accent/20 hover:bg-accent/10"
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            {isGenerating ? 'Generating...' : 'Generate Character'}
+          </Button>
+        </div>
       </div>
 
       {/* Search Bar */}

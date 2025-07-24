@@ -1,6 +1,31 @@
-import type { Project, GeneratedCharacter, FleshedOutCharacter, Character, Location, Faction, Item, AICoachFeedback } from './types';
+import type { Project, Character } from '../types';
 
-const API_KEY = process.env.GEMINI_API_KEY || process.env.API_KEY || 'your-gemini-api-key';
+// Define service-specific types
+interface GeneratedCharacter {
+  name: string;
+  role: string;
+  description: string;
+  personality: string;
+  backstory: string;
+  motivations: string;
+  archetypes: string[];
+}
+
+interface FleshedOutCharacter extends Character {
+  fears: string;
+  secrets: string;
+  relationships: any[];
+}
+
+interface AICoachFeedback {
+  corePrincipleAnalysis: string;
+  actionableSuggestions: string[];
+  guidingQuestions: string[];
+}
+
+// Check if we're in browser environment  
+const isClient = typeof window !== 'undefined';
+const API_KEY = isClient ? import.meta.env.VITE_GEMINI_API_KEY : (process.env.GEMINI_API_KEY || process.env.API_KEY || 'your-gemini-api-key');
 
 export async function generateNewCharacter(
   prompt: string, 
@@ -135,3 +160,6 @@ export async function getAICoachFeedback(
     ]
   };
 }
+
+// Export alias for compatibility
+export const generateCharacter = generateNewCharacter;
