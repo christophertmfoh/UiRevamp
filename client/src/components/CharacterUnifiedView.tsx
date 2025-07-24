@@ -43,10 +43,7 @@ export function CharacterUnifiedView({
   // Save mutation
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
-      return await apiRequest(`/api/characters/${character.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-      });
+      return await apiRequest('PUT', `/api/characters/${character.id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
