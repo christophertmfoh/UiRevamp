@@ -102,15 +102,15 @@ export function LocationPortraitModal({
       console.log('Style prompt:', stylePrompt);
       console.log('Using AI engine:', aiEngine);
 
-      const response = await fetch('/api/locations/generate-image', {
+      const response = await fetch('/api/generate-location-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          locationPrompt,
-          stylePrompt,
-          aiEngine
+          locationId: location.id,
+          locationName: location.name,
+          description: locationPrompt
         }),
       });
 
