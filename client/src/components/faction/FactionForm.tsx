@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, User, Eye, Brain, Zap, BookOpen, Settings } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import type { Faction } from '../../lib/types';
 
 interface FactionFormProps {
@@ -120,29 +120,41 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
 
       {/* Form Content with Tabs */}
       <Tabs defaultValue="identity" className="w-full">
-        <TabsList className="grid w-full grid-cols-6 mb-6">
-          <TabsTrigger value="identity" className="flex items-center gap-1">
-            <User className="h-3 w-3" />
+        <TabsList className="grid w-full grid-cols-6 mb-6 bg-muted p-1 rounded-lg">
+          <TabsTrigger 
+            value="identity" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Identity
           </TabsTrigger>
-          <TabsTrigger value="goals" className="flex items-center gap-1">
-            <Eye className="h-3 w-3" />
+          <TabsTrigger 
+            value="goals" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Goals & Methods
           </TabsTrigger>
-          <TabsTrigger value="organization" className="flex items-center gap-1">
-            <Brain className="h-3 w-3" />
+          <TabsTrigger 
+            value="organization" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Organization
           </TabsTrigger>
-          <TabsTrigger value="power" className="flex items-center gap-1">
-            <Zap className="h-3 w-3" />
+          <TabsTrigger 
+            value="power" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Power & Resources
           </TabsTrigger>
-          <TabsTrigger value="relations" className="flex items-center gap-1">
-            <BookOpen className="h-3 w-3" />
+          <TabsTrigger 
+            value="relations" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Relations & History
           </TabsTrigger>
-          <TabsTrigger value="meta" className="flex items-center gap-1">
-            <Settings className="h-3 w-3" />
+          <TabsTrigger 
+            value="meta" 
+            className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+          >
             Status & Meta
           </TabsTrigger>
         </TabsList>
