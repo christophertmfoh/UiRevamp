@@ -45,7 +45,13 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
 
   const handleDelete = (character: Character) => {
     if (confirm(`Are you sure you want to delete ${character.name}?`)) {
-      deleteMutation.mutate(character.id);
+      deleteMutation.mutate(character.id, {
+        onSuccess: () => {
+          // Navigate back to the character list after successful deletion
+          setSelectedCharacter(null);
+          setIsCreating(false);
+        }
+      });
     }
   };
 
