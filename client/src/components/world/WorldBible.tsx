@@ -40,6 +40,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
@@ -489,6 +490,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                       key={item.id} 
                       className="p-4 border-l-4 border-l-accent cursor-pointer hover:bg-muted/30 transition-colors"
                       onClick={() => {
+                        // Set the selected item and navigate to its category
+                        setSelectedItemId(item.id);
                         setActiveCategory(category);
                         setSearchQuery('');
                       }}
@@ -730,7 +733,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         );
 
       case 'characters':
-        return <CharacterManager projectId={project.id} />;
+        return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
         return (

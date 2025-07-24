@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,9 +13,11 @@ import { CharacterPortraitModal } from './CharacterPortraitModal';
 
 interface CharacterManagerProps {
   projectId: string;
+  selectedCharacterId?: string | null;
+  onClearSelection?: () => void;
 }
 
-export function CharacterManager({ projectId }: CharacterManagerProps) {
+export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -26,6 +28,19 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   const { data: characters = [], isLoading } = useQuery<Character[]>({
     queryKey: ['/api/projects', projectId, 'characters'],
   });
+
+  // Auto-select character if selectedCharacterId is provided
+  useEffect(() => {
+    if (selectedCharacterId && characters.length > 0) {
+      const character = characters.find(c => c.id === selectedCharacterId);
+      if (character) {
+        setSelectedCharacter(character);
+        setIsCreating(false);
+        // Clear the selection from the parent component
+        onClearSelection?.();
+      }
+    }
+  }, [selectedCharacterId, characters, onClearSelection]);
 
   const deleteMutation = useMutation({
     mutationFn: (characterId: string) => 
