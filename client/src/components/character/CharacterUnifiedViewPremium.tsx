@@ -317,22 +317,34 @@ export function CharacterUnifiedViewPremium({
       {/* Premium Character Details */}
       <div className="max-w-7xl mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4 bg-muted/20 p-1 rounded-xl">
+          <TabsList className="grid w-full grid-cols-7 bg-muted/20 p-1 rounded-xl">
             <TabsTrigger value="identity" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <User className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Identity</span>
             </TabsTrigger>
-            <TabsTrigger value="physical" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+            <TabsTrigger value="appearance" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <Eye className="h-4 w-4" />
-              <span className="text-xs font-medium hidden sm:block">Physical</span>
+              <span className="text-xs font-medium hidden sm:block">Appearance</span>
             </TabsTrigger>
             <TabsTrigger value="personality" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <Brain className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Personality</span>
             </TabsTrigger>
+            <TabsTrigger value="abilities" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <Zap className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Abilities</span>
+            </TabsTrigger>
             <TabsTrigger value="background" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <BookOpen className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Background</span>
+            </TabsTrigger>
+            <TabsTrigger value="relationships" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <Users className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Relationships</span>
+            </TabsTrigger>
+            <TabsTrigger value="meta" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <PenTool className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Meta</span>
             </TabsTrigger>
           </TabsList>
 
@@ -393,10 +405,10 @@ export function CharacterUnifiedViewPremium({
             </div>
           </TabsContent>
 
-          <TabsContent value="physical" className="space-y-6">
+          <TabsContent value="appearance" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
-              <h2 className="text-2xl font-bold text-foreground">Physical</h2>
-              <p className="text-muted-foreground mt-1">Physical appearance and characteristics</p>
+              <h2 className="text-2xl font-bold text-foreground">Appearance</h2>
+              <p className="text-muted-foreground mt-1">Physical characteristics and how they present themselves</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -584,6 +596,242 @@ export function CharacterUnifiedViewPremium({
                     ) : (
                       <div className="space-y-2">
                         {(formData as any)[field.key] ? (
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                            {(formData as any)[field.key]}
+                          </p>
+                        ) : (
+                          <div className="text-center py-4">
+                            <p className="text-sm text-muted-foreground italic">
+                              No {field.label.toLowerCase()} added yet
+                            </p>
+                            <Button 
+                              onClick={() => setIsEditing(true)}
+                              variant="ghost" 
+                              size="sm" 
+                              className="mt-2 text-accent hover:bg-accent/10"
+                            >
+                              <Plus className="h-3 w-3 mr-1" />
+                              Add {field.label}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="abilities" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Abilities</h2>
+              <p className="text-muted-foreground mt-1">Skills, talents, and special capabilities</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[
+                { key: 'abilities', label: 'Abilities', type: 'array', placeholder: 'Combat, Magic, etc.' },
+                { key: 'skills', label: 'Skills', type: 'array', placeholder: 'Swordsmanship, Diplomacy, etc.' },
+                { key: 'talents', label: 'Talents', type: 'array', placeholder: 'Natural gifts and aptitudes' },
+                { key: 'specialAbilities', label: 'Special Abilities', type: 'textarea', placeholder: 'Unique powers or magical abilities...' },
+                { key: 'strengths', label: 'Strengths', type: 'textarea', placeholder: 'Character strengths and competencies...' },
+                { key: 'training', label: 'Training', type: 'textarea', placeholder: 'Formal training and education...' }
+              ].map((field) => (
+                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isEditing ? (
+                      field.type === 'array' ? (
+                        <Input
+                          value={Array.isArray((formData as any)[field.key]) 
+                            ? (formData as any)[field.key].join(', ')
+                            : (formData as any)[field.key] || ''
+                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const arrayValue = value.trim() ? value.split(',').map(s => s.trim()) : [];
+                            setFormData({...formData, [field.key]: arrayValue});
+                          }}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      ) : field.type === 'textarea' ? (
+                        <Textarea
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                          rows={4}
+                        />
+                      ) : (
+                        <Input
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      )
+                    ) : (
+                      <div className="space-y-2">
+                        {(field.type === 'array' && Array.isArray((formData as any)[field.key]) && (formData as any)[field.key].length > 0) ? (
+                          <div className="flex flex-wrap gap-2">
+                            {(formData as any)[field.key].map((item: string, index: number) => (
+                              <Badge key={index} variant="secondary" className="bg-accent/10 text-accent border-accent/20">
+                                {item}
+                              </Badge>
+                            ))}
+                          </div>
+                        ) : (formData as any)[field.key] ? (
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                            {(formData as any)[field.key]}
+                          </p>
+                        ) : (
+                          <div className="text-center py-4">
+                            <p className="text-sm text-muted-foreground italic">
+                              No {field.label.toLowerCase()} added yet
+                            </p>
+                            <Button 
+                              onClick={() => setIsEditing(true)}
+                              variant="ghost" 
+                              size="sm" 
+                              className="mt-2 text-accent hover:bg-accent/10"
+                            >
+                              <Plus className="h-3 w-3 mr-1" />
+                              Add {field.label}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="relationships" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Relationships</h2>
+              <p className="text-muted-foreground mt-1">Connections with other characters and social dynamics</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[
+                { key: 'family', label: 'Family', type: 'textarea', placeholder: 'Family members and relationships...' },
+                { key: 'friends', label: 'Friends', type: 'textarea', placeholder: 'Close friends and companions...' },
+                { key: 'allies', label: 'Allies', type: 'textarea', placeholder: 'Political or strategic allies...' },
+                { key: 'enemies', label: 'Enemies', type: 'textarea', placeholder: 'Opponents and adversaries...' },
+                { key: 'mentors', label: 'Mentors', type: 'textarea', placeholder: 'Teachers and guides...' },
+                { key: 'relationships', label: 'Other Relationships', type: 'textarea', placeholder: 'Additional important connections...' }
+              ].map((field) => (
+                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isEditing ? (
+                      <Textarea
+                        value={(formData as any)[field.key] || ''}
+                        onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                        placeholder={field.placeholder}
+                        className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                        rows={4}
+                      />
+                    ) : (
+                      <div className="space-y-2">
+                        {(formData as any)[field.key] ? (
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                            {(formData as any)[field.key]}
+                          </p>
+                        ) : (
+                          <div className="text-center py-4">
+                            <p className="text-sm text-muted-foreground italic">
+                              No {field.label.toLowerCase()} added yet
+                            </p>
+                            <Button 
+                              onClick={() => setIsEditing(true)}
+                              variant="ghost" 
+                              size="sm" 
+                              className="mt-2 text-accent hover:bg-accent/10"
+                            >
+                              <Plus className="h-3 w-3 mr-1" />
+                              Add {field.label}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="meta" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Meta</h2>
+              <p className="text-muted-foreground mt-1">Story function, themes, and creative elements</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[
+                { key: 'goals', label: 'Goals & Motivations', type: 'textarea', placeholder: 'Character goals and driving motivations...' },
+                { key: 'arc', label: 'Character Arc', type: 'textarea', placeholder: 'Character development and transformation...' },
+                { key: 'storyFunction', label: 'Story Function', type: 'text', placeholder: 'Role in the narrative' },
+                { key: 'archetypes', label: 'Archetypes', type: 'array', placeholder: 'Hero, Mentor, Trickster, etc.' },
+                { key: 'themes', label: 'Themes', type: 'array', placeholder: 'Associated themes and symbolism' },
+                { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas...' }
+              ].map((field) => (
+                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isEditing ? (
+                      field.type === 'array' ? (
+                        <Input
+                          value={Array.isArray((formData as any)[field.key]) 
+                            ? (formData as any)[field.key].join(', ')
+                            : (formData as any)[field.key] || ''
+                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const arrayValue = value.trim() ? value.split(',').map(s => s.trim()) : [];
+                            setFormData({...formData, [field.key]: arrayValue});
+                          }}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      ) : field.type === 'textarea' ? (
+                        <Textarea
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                          rows={4}
+                        />
+                      ) : (
+                        <Input
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      )
+                    ) : (
+                      <div className="space-y-2">
+                        {(field.type === 'array' && Array.isArray((formData as any)[field.key]) && (formData as any)[field.key].length > 0) ? (
+                          <div className="flex flex-wrap gap-2">
+                            {(formData as any)[field.key].map((item: string, index: number) => (
+                              <Badge key={index} variant="secondary" className="bg-accent/10 text-accent border-accent/20">
+                                {item}
+                              </Badge>
+                            ))}
+                          </div>
+                        ) : (formData as any)[field.key] ? (
                           <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
                             {(formData as any)[field.key]}
                           </p>
