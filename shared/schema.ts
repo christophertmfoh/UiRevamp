@@ -254,6 +254,7 @@ export const locations = pgTable("locations", {
   significance: text("significance").default(''),
   atmosphere: text("atmosphere").default(''),
   tags: text("tags").array().default([]),
+  imageGallery: json("image_gallery").default([]),
   displayImageId: integer("display_image_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

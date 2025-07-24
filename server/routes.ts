@@ -12,6 +12,7 @@ import {
 } from "@shared/schema";
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
+import { generateLocation } from "./locationGeneration";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Project routes
@@ -344,6 +345,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error generating character image:", error);
       res.status(500).json({ 
         error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Location generation endpoint
+  app.post("/api/generate-location", async (req, res) => {
+    try {
+      const generatedLocation = await generateLocation(req.body);
+      res.json(generatedLocation);
+    } catch (error: any) {
+      console.error("Error generating location:", error);
+      res.status(500).json({ 
+        error: "Failed to generate location", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Location image generation endpoint
+  app.post("/api/generate-location-image", async (req, res) => {
+    try {
+      const { locationId, locationName, description } = req.body;
+      
+      if (!locationId || !locationName) {
+        return res.status(400).json({ error: "Location ID and name are required" });
+      }
+
+      const result = await generateCharacterImage({
+        characterPrompt: `A fantasy location called "${locationName}". ${description}. Create a scenic landscape or architectural view of this location.`,
+        stylePrompt: "fantasy landscape, detailed, cinematic, epic",
+        aiEngine: "gemini"
+      });
+      
+      if (result.success && result.imageUrl) {
+        // Get the current location and update its image gallery
+        const location = await storage.getLocation(locationId);
+        if (location) {
+          const imageGallery = Array.isArray(location.imageGallery) ? location.imageGallery : [];
+          const newImage = {
+            id: Date.now(),
+            url: result.imageUrl,
+            prompt: `${locationName}: ${description}`,
+            createdAt: new Date().toISOString()
+          };
+          
+          const updatedImageGallery = [...imageGallery, newImage];
+          await storage.updateLocation(locationId, {
+            ...location,
+            imageGallery: updatedImageGallery,
+            displayImageId: location.displayImageId || newImage.id
+          });
+        }
+      }
+      
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating location image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate location image", 
         details: error.message 
       });
     }
