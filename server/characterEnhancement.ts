@@ -130,6 +130,7 @@ Return JSON with ONLY these identity fields filled appropriately.`;
         ...identityData
       };
       
+      console.log('Returning enhanced data:', Object.keys(enhancedData));
       return enhancedData;
     } else {
       throw new Error("Empty response from AI");
@@ -138,6 +139,4 @@ Return JSON with ONLY these identity fields filled appropriately.`;
     console.error('Identity enhancement error:', error.message);
     return currentData; // Return unchanged data on error
   }
-
-
 }
