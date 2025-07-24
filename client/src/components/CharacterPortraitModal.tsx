@@ -280,7 +280,6 @@ export function CharacterPortraitModal({
       if (!response.ok) {
         console.error('Failed to update character imageUrl');
       } else {
-        console.log('Successfully updated character imageUrl:', imageUrl);
         // Invalidate cache to refresh the character list
         queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
       }
@@ -296,7 +295,6 @@ export function CharacterPortraitModal({
     // If there's a main image in the gallery, make sure it's saved to the character
     const mainImage = portraitGallery.find(img => img.isMain);
     if (mainImage && mainImage.url !== character.imageUrl) {
-      console.log('Saving main image on modal close:', mainImage.url);
       onImageGenerated?.(mainImage.url);
     }
     onClose();

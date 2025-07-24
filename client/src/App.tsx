@@ -51,7 +51,7 @@ export default function App() {
         }
       }
     } catch (error) {
-      console.error('Error creating project from manuscript:', error);
+      // Handle error silently - user will see no project was created
     }
   };
 
@@ -80,7 +80,7 @@ export default function App() {
         setModal({ type: null, project: null });
       }
     } catch (error) {
-      console.error('Error updating project:', error);
+      // Handle error silently - user will see no change occurred
     }
   };
 
@@ -98,7 +98,7 @@ export default function App() {
         }
       }
     } catch (error) {
-      console.error('Error deleting project:', error);
+      // Handle error silently - user will see project remains
     }
   };
 
@@ -112,7 +112,7 @@ export default function App() {
         setView('dashboard');
       }
     } catch (error) {
-      console.error('Error selecting project:', error);
+      // Handle error silently - user remains on current view
     }
   };
 

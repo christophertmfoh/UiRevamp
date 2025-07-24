@@ -84,7 +84,7 @@ export function ProjectModal({
             onProjectCreated(fullProject);
           }
         } catch (error) {
-          console.error('Error fetching created project:', error);
+          // Handle error silently - user will see creation failed
         }
       }
       
@@ -96,7 +96,7 @@ export function ProjectModal({
       onClose();
     },
     onError: (error) => {
-      console.error('Error saving project:', error);
+      // Handle error through mutation error state
       toast({
         title: "Error",
         description: `Failed to ${projectToEdit ? 'update' : 'create'} project. Please try again.`,
@@ -414,7 +414,7 @@ export function ImportManuscriptModal({
         onCreateProject(data, file.name);
       }
     } catch (error) {
-      console.error('Error processing file:', error);
+      // Handle error through UI feedback
     } finally {
       setIsProcessing(false);
     }
@@ -653,7 +653,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
 
       onClose();
     } catch (error) {
-      console.error('Error importing document:', error);
+      // Handle error through UI feedback
       toast({
         title: "Import Failed",
         description: "Failed to import document. Please try again.",

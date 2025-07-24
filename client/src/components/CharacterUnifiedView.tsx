@@ -46,7 +46,6 @@ export function CharacterUnifiedView({
   // Save mutation
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
-      console.log('Saving character data:', data);
       return await apiRequest('PUT', `/api/characters/${character.id}`, data);
     },
     onSuccess: () => {
@@ -60,7 +59,6 @@ export function CharacterUnifiedView({
 
   const handleSave = () => {
     const processedData = processDataForSave(formData);
-    console.log('Processed data before save:', processedData);
     saveMutation.mutate(processedData as Character);
   };
 
@@ -120,7 +118,6 @@ export function CharacterUnifiedView({
   };
 
   const handleImageGenerated = (imageUrl: string) => {
-    console.log('Image generated, updating character with URL:', imageUrl);
     // Update character with new image, preserving portraits
     const updatedData = { 
       ...formData, 
@@ -131,12 +128,10 @@ export function CharacterUnifiedView({
     
     // Process and save the data properly - exclude createdAt and other system fields
     const processedData = processDataForSave(updatedData);
-    console.log('Saving processed data:', processedData);
     saveMutation.mutate(processedData as Character);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
-    console.log('Image uploaded, updating character with URL:', imageUrl);
     // Update character with uploaded image, preserving portraits
     const updatedData = { 
       ...formData, 
@@ -147,7 +142,6 @@ export function CharacterUnifiedView({
     
     // Process and save the data properly - exclude createdAt and other system fields
     const processedData = processDataForSave(updatedData);
-    console.log('Saving processed data:', processedData);
     saveMutation.mutate(processedData as Character);
   };
 
