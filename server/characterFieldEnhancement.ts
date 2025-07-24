@@ -58,7 +58,7 @@ INSTRUCTIONS:
 5. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
     } else {
       // Field-specific prompts for better contextual generation
-      const fieldSpecificPrompts = {
+      const fieldSpecificPrompts: { [key: string]: string } = {
         race: `Generate the race/species for this character. If the name suggests an animal (like "beans" = cat), use that species. Look for clues in background, description, and personality.`,
         name: `Generate a fitting name for this character based on their race, background, and role. Consider cultural context and character traits.`,
         age: `Generate an appropriate age for this character considering their role, background, and species. For cats, use cat years or mention "appears to be X years old".`,
@@ -203,21 +203,6 @@ Generate ${fieldLabel.toLowerCase()}:`;
         };
         fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
       }
-        // Other field fallbacks
-        const contextualFallbacks: { [key: string]: string } = {
-          name: character.race ? `${character.race} Character` : 'Character Name',
-          title: character.class ? `The ${character.class}` : 'Noble',
-          age: character.role === 'mentor' ? '45' : '25',
-          class: character.role === 'protagonist' ? 'Hero' : 'Adventurer',
-          nicknames: character.name ? character.name.split(' ')[0] : 'Friend',
-          aliases: 'Shadow Walker',
-          goals: 'To protect those they care about',
-          motivations: 'A deep sense of justice and duty',
-          background: 'Grew up in a small village before discovering their destiny',
-          arc: 'A journey from uncertainty to confidence and mastery'
-        };
-        fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
-      }
       
       console.log(`Using intelligent fallback for ${fieldKey}: ${fallbackContent}`);
       return { [fieldKey]: fallbackContent };
@@ -225,7 +210,7 @@ Generate ${fieldLabel.toLowerCase()}:`;
 
     // Process array fields
     if (['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 'archetypes', 'tropes', 'tags'].includes(fieldKey)) {
-      const arrayContent = generatedContent.split(',').map(s => s.trim()).filter(s => s.length > 0);
+      const arrayContent = generatedContent.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
       return { [fieldKey]: arrayContent };
     }
 
