@@ -557,12 +557,17 @@ export function CharacterUnifiedView({
               {/* New Competitive Features Content */}
               {activeTab === 'relationships' && (
                 <div className="space-y-8">
-                  <CharacterRelationships
-                    characterName={character.name}
-                    onUpdateRelationships={(relationships) => {
-                      setFormData(prev => ({ ...prev, relationships: JSON.stringify(relationships) }));
-                    }}
-                  />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Character Relationships</h3>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Map {character.name}'s connections with other characters in your story
+                    </p>
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <p>Relationship mapping system coming soon</p>
+                      <p className="text-xs mt-2">This will connect with other characters in your project</p>
+                    </div>
+                  </div>
                 </div>
               )}
               
