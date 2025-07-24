@@ -31,7 +31,7 @@ export function CharacterUnifiedViewPremium({
   onDelete 
 }: CharacterUnifiedViewPremiumProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(character);
+  const [formData, setFormData] = useState<Character>(character);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
@@ -108,6 +108,34 @@ export function CharacterUnifiedViewPremium({
     }
   };
 
+  const handleAIEnhance = async () => {
+    setIsEnhancing(true);
+    try {
+      console.log('Starting AI enhancement for character:', character.id);
+      
+      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
+      const enhancedData = await response.json();
+      console.log('AI enhancement response received:', enhancedData);
+      
+      // Process the enhanced data to ensure correct types before updating form
+      const processedEnhancedData = processDataForSave({ ...character, ...enhancedData });
+      
+      // Update form data with processed data
+      setFormData({ ...character, ...processedEnhancedData } as Character);
+      
+      console.log('Form data updated with enhanced character');
+    } catch (error) {
+      console.error('Failed to enhance character:', error);
+      alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
+
+  const handleInputChange = (field: keyof Character, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   const completeness = calculateCompleteness(formData);
 
   return (
@@ -131,14 +159,34 @@ export function CharacterUnifiedViewPremium({
             {isEditing ? (
               <>
                 <Button 
+                  onClick={handleAIEnhance}
+                  disabled={isEnhancing || saveMutation.isPending}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:from-accent/20 hover:to-accent/25 hover:border-accent/50 text-accent transition-all duration-200"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  {isEnhancing ? 'AI Working...' : 'AI Assist'}
+                </Button>
+                <Button 
                   onClick={handleCancel} 
                   variant="outline" 
                   size="sm"
                   disabled={saveMutation.isPending}
-                  className="gap-2 border-border/40 hover:bg-muted/50"
+                  className="gap-2 border-border/40 hover:bg-muted/50 hover:text-foreground text-muted-foreground"
                 >
                   <X className="h-4 w-4" />
                   Cancel
+                </Button>
+                <Button 
+                  onClick={() => onDelete(character)} 
+                  variant="outline" 
+                  size="sm"
+                  disabled={saveMutation.isPending}
+                  className="gap-2 border-red-300/50 hover:bg-red-50 hover:border-red-400/60 hover:text-red-600 dark:hover:bg-red-950/50 dark:hover:border-red-700 dark:hover:text-red-400 transition-all duration-200"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete
                 </Button>
                 <Button 
                   onClick={handleSave} 
