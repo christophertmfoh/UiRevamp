@@ -55,9 +55,7 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       model: "gemini-2.0-flash-preview-image-generation"
     });
     
-    const response = await model.generateContent([
-      { text: fullPrompt }
-    ], {
+    const response = await model.generateContent(fullPrompt, {
       generationConfig: {
         responseModalities: ["TEXT", "IMAGE"] as any // Type assertion for experimental feature
       }
