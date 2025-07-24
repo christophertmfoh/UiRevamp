@@ -10,10 +10,9 @@ interface LocationCardProps {
   onSelect: (location: Location) => void;
   onEdit: (location: Location) => void;
   onDelete: (location: Location) => void;
-  onManageImages?: (location: Location) => void;
 }
 
-export function LocationCard({ location, onSelect, onEdit, onDelete, onManageImages }: LocationCardProps) {
+export function LocationCard({ location, onSelect, onEdit, onDelete }: LocationCardProps) {
   return (
     <Card className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => onSelect(location)}>
       <CardContent className="p-6">
@@ -99,17 +98,6 @@ export function LocationCard({ location, onSelect, onEdit, onDelete, onManageIma
                     <Edit2 className="h-4 w-4 mr-2" />
                     Edit
                   </DropdownMenuItem>
-                  {onManageImages && (
-                    <DropdownMenuItem 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onManageImages(location);
-                      }}
-                    >
-                      <Camera className="h-4 w-4 mr-2" />
-                      Manage Images
-                    </DropdownMenuItem>
-                  )}
                   <DropdownMenuItem 
                     onClick={(e) => {
                       e.stopPropagation();
