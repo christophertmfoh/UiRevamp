@@ -71,96 +71,71 @@ export function CharacterUnifiedView({
     }));
   };
 
-  // Helper function to render a field
+  // Helper function to render a field - always show inputs, toggle disabled state
   const renderField = (field: any, value: string | undefined) => {
-    if (!isEditing) {
-      // View mode - only show if has content
-      if (!value || value.trim().length === 0) return null;
+    if (field.type === 'textarea') {
       return (
         <div>
-          <h4 className="font-semibold mb-2 text-foreground">{field.label}</h4>
-          <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{value.trim()}</p>
+          <Label htmlFor={field.key}>{field.label}</Label>
+          <Textarea
+            id={field.key}
+            value={value || ''}
+            onChange={(e) => handleInputChange(field.key, e.target.value)}
+            placeholder={field.placeholder}
+            rows={field.rows || 3}
+            className="creative-input"
+            disabled={!isEditing}
+          />
         </div>
       );
     } else {
-      // Edit mode - show input field
-      if (field.type === 'textarea') {
-        return (
-          <div>
-            <Label htmlFor={field.key}>{field.label}</Label>
-            <Textarea
-              id={field.key}
-              value={value || ''}
-              onChange={(e) => handleInputChange(field.key, e.target.value)}
-              placeholder={field.placeholder}
-              rows={field.rows || 3}
-              className="creative-input"
-            />
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <Label htmlFor={field.key}>{field.label}</Label>
-            <Input
-              id={field.key}
-              value={value || ''}
-              onChange={(e) => handleInputChange(field.key, e.target.value)}
-              placeholder={field.placeholder}
-              className="creative-input"
-            />
-          </div>
-        );
-      }
-    }
-  };
-
-  // Helper function to render array fields
-  const renderArrayField = (field: any, values: string[] | undefined) => {
-    if (!isEditing) {
-      // View mode - show as badges
-      if (!values?.length || !values.some(v => v?.trim())) return null;
-      
-      let processedValues: string[] = [];
-      if (typeof values === 'string') {
-        processedValues = values.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-      } else if (Array.isArray(values)) {
-        processedValues = values.filter((v: string) => v?.trim());
-      }
-      
-      if (processedValues.length === 0) return null;
-      
-      return (
-        <div>
-          <h4 className="font-semibold mb-2 text-foreground">{field.label}</h4>
-          <div className="flex flex-wrap gap-2">
-            {processedValues.map((value, index) => (
-              <Badge key={index} variant="outline" className="text-sm">
-                {value.trim()}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      );
-    } else {
-      // Edit mode - show as comma-separated input
-      const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
       return (
         <div>
           <Label htmlFor={field.key}>{field.label}</Label>
           <Input
             id={field.key}
-            value={stringValue}
-            onChange={(e) => {
-              const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-              handleInputChange(field.key, arrayValue);
-            }}
+            value={value || ''}
+            onChange={(e) => handleInputChange(field.key, e.target.value)}
             placeholder={field.placeholder}
             className="creative-input"
+            disabled={!isEditing}
           />
         </div>
       );
     }
+  };
+
+  // Helper function to render array fields - always show input, toggle disabled state
+  const renderArrayField = (field: any, values: string[] | undefined) => {
+    const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
+    return (
+      <div>
+        <Label htmlFor={field.key}>{field.label}</Label>
+        <Input
+          id={field.key}
+          value={stringValue}
+          onChange={(e) => {
+            const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+            handleInputChange(field.key, arrayValue);
+          }}
+          placeholder={field.placeholder}
+          className="creative-input"
+          disabled={!isEditing}
+        />
+        {/* Show badges below input when in view mode and has values */}
+        {!isEditing && values && values.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {(Array.isArray(values) ? values : values.split(',').map(v => v.trim()))
+              .filter(v => v?.trim())
+              .map((value, index) => (
+                <Badge key={index} variant="outline" className="text-sm">
+                  {value.trim()}
+                </Badge>
+              ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   // Render tab content with grid layout like the original editor
