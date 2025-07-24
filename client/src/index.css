@@ -4,6 +4,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/* GLOBAL SCROLLBAR OVERRIDE - ABSOLUTE PRIORITY */
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: #a0967d transparent !important;
+}
+
+*::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Document level override */
+html::-webkit-scrollbar {
+  width: 8px !important;
+  background: transparent !important;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
+body::-webkit-scrollbar {
+  width: 8px !important;
+  background: transparent !important;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
 :root {
   /* Inspired by cozy writing interface - warmer, richer tones */
   --background: hsl(25, 12%, 6%);              /* Deep chocolate brown */
