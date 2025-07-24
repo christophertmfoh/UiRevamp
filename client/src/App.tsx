@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -8,11 +8,88 @@ import { LandingPage } from './components/LandingPage';
 import { ProjectsView, ProjectDashboard } from './components/project';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 
+// Force scrollbar styling with JavaScript
+const applyScrollbarStyles = () => {
+  const style = document.createElement('style');
+  style.textContent = `
+    * {
+      scrollbar-width: thin !important;
+      scrollbar-color: #a0967d transparent !important;
+    }
+    
+    *::-webkit-scrollbar {
+      width: 8px !important;
+      height: 8px !important;
+      background: transparent !important;
+    }
+    
+    *::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+    
+    *::-webkit-scrollbar-thumb {
+      background: #a0967d !important;
+      border-radius: 6px !important;
+      border: none !important;
+    }
+    
+    *::-webkit-scrollbar-thumb:hover {
+      background: #8b8269 !important;
+    }
+    
+    *::-webkit-scrollbar-corner {
+      background: transparent !important;
+    }
+    
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      width: 8px !important;
+      background: transparent !important;
+    }
+    
+    html::-webkit-scrollbar-track, body::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+    
+    html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
+      background: #a0967d !important;
+      border-radius: 6px !important;
+    }
+    
+    html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
+      background: #8b8269 !important;
+    }
+  `;
+  
+  // Remove any existing scrollbar styles
+  const existingScrollbarStyles = document.querySelectorAll('style[data-scrollbar]');
+  existingScrollbarStyles.forEach(el => el.remove());
+  
+  style.setAttribute('data-scrollbar', 'true');
+  document.head.appendChild(style);
+};
+
 export default function App() {
   const [view, setView] = useState('landing'); // landing, projects, dashboard
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<{type: string | null; project: Project | null}>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
+
+  // Apply scrollbar styles when component mounts and on view changes
+  useEffect(() => {
+    applyScrollbarStyles();
+    
+    // Also apply after a brief delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      applyScrollbarStyles();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [view]);
+
+  // Apply scrollbar styles on every render for maximum persistence
+  useEffect(() => {
+    applyScrollbarStyles();
+  });
 
   const handleProjectCreated = (project: Project) => {
     setActiveProject(project);
