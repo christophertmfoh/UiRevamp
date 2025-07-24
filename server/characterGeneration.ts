@@ -40,7 +40,7 @@ export async function generateContextualCharacter(
     
     const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
 
-Your response must be valid JSON in this exact format:
+Your response must be valid JSON in this exact format. Use only regular double quotes, avoid smart quotes or special characters:
 {
   "name": "Character Name",
   "title": "Character Title or Epithet", 
@@ -61,6 +61,8 @@ Your response must be valid JSON in this exact format:
   "equipment": "Notable possessions, tools, weapons, or gear they carry or own"
 }
 
+IMPORTANT: Ensure all text within quotes is properly escaped. Avoid using quotes within the character descriptions or use single quotes instead. Make sure the JSON is valid and complete.
+
 ${projectContext}`;
 
     console.log('Server: Sending prompt to Gemini');
@@ -70,15 +72,37 @@ ${projectContext}`;
     
     console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
     
+    // Clean and extract JSON from the response
+    let cleanText = text;
+    
+    // Remove markdown code blocks if present
+    cleanText = cleanText.replace(/```json\s*\n?/g, '').replace(/```\s*$/g, '');
+    
     // Extract JSON from the response (in case there's extra text)
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       console.error('Server: No JSON found in response:', text);
       throw new Error('No valid JSON found in response');
     }
     
-    const generatedData = JSON.parse(jsonMatch[0]);
-    console.log('Server: Parsed character data successfully');
+    let jsonString = jsonMatch[0];
+    
+    // Fix common JSON issues
+    // Replace smart quotes with regular quotes
+    jsonString = jsonString.replace(/[""]/g, '"');
+    jsonString = jsonString.replace(/['']/g, "'");
+    
+    console.log('Server: Attempting to parse JSON:', jsonString.substring(0, 200) + '...');
+    
+    let generatedData;
+    try {
+      generatedData = JSON.parse(jsonString);
+      console.log('Server: Parsed character data successfully');
+    } catch (parseError) {
+      console.error('Server: JSON parse error:', parseError);
+      console.error('Server: Problematic JSON:', jsonString);
+      throw new Error('Failed to parse character data. Please try again.');
+    }
     
     // Ensure the data matches our schema expectations
     const processedData = {
