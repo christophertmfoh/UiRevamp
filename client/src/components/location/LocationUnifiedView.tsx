@@ -39,13 +39,15 @@ export function LocationUnifiedView({
   onBack, 
   onDelete 
 }: LocationUnifiedViewProps) {
-  // Start in editing mode if this is a newly generated location
+  // Start in editing mode if this is a newly generated location (very specific patterns)
   const isNewlyGenerated = location.name && (
-    location.name.includes('Generated Location') || 
-    location.name.includes('mountain of') || 
-    location.name.includes('village of') || 
-    location.name.includes('city of') ||
-    location.name.includes('dungeon of')
+    location.name === 'Generated Location' || 
+    location.name.startsWith('Generated Location -') ||
+    // Only trigger for very generic AI-generated names, not user-saved ones
+    (location.name.startsWith('mountain of ') && location.description?.includes('generated')) ||
+    (location.name.startsWith('village of ') && location.description?.includes('generated')) ||
+    (location.name.startsWith('city of ') && location.description?.includes('generated')) ||
+    (location.name.startsWith('dungeon of ') && location.description?.includes('generated'))
   );
   const [isEditing, setIsEditing] = useState(Boolean(isNewlyGenerated));
   const [formData, setFormData] = useState(location);
