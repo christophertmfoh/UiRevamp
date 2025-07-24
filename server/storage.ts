@@ -4,6 +4,7 @@ import {
   locations, 
   factions, 
   items, 
+  organizations,
   outlines, 
   proseDocuments, 
   characterRelationships, 
@@ -19,6 +20,8 @@ import {
   type InsertFaction,
   type Item,
   type InsertItem,
+  type Organization,
+  type InsertOrganization,
   type Outline,
   type InsertOutline,
   type ProseDocument,
@@ -68,6 +71,13 @@ export interface IStorage {
   createItem(item: InsertItem): Promise<Item>;
   updateItem(id: string, item: Partial<InsertItem>): Promise<Item | undefined>;
   deleteItem(id: string): Promise<boolean>;
+
+  // Organization operations
+  getOrganizations(projectId: string): Promise<Organization[]>;
+  getOrganization(id: string): Promise<Organization | undefined>;
+  createOrganization(organization: InsertOrganization): Promise<Organization>;
+  updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined>;
+  deleteOrganization(id: string): Promise<boolean>;
 
   // Outline operations
   getOutlines(projectId: string): Promise<Outline[]>;
@@ -262,6 +272,58 @@ export class DatabaseStorage implements IStorage {
 
   async deleteItem(id: string): Promise<boolean> {
     const result = await db.delete(items).where(eq(items.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Organization operations
+  async getOrganizations(projectId: string): Promise<Organization[]> {
+    return await db.select().from(organizations).where(eq(organizations.projectId, projectId));
+  }
+
+  async getOrganization(id: string): Promise<Organization | undefined> {
+    const [organization] = await db.select().from(organizations).where(eq(organizations.id, id));
+    return organization || undefined;
+  }
+
+  async createOrganization(organization: InsertOrganization): Promise<Organization> {
+    console.log('Storage: Inserting organization into database:', JSON.stringify(organization, null, 2));
+    const [newOrganization] = await db.insert(organizations).values(organization).returning();
+    console.log('Storage: Organization returned from database:', JSON.stringify(newOrganization, null, 2));
+    
+    if (!newOrganization) {
+      throw new Error('Failed to create organization - no data returned from database');
+    }
+    
+    return newOrganization;
+  }
+
+  async updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined> {
+    console.log('Storage: Updating organization with data:', JSON.stringify(organization, null, 2));
+    
+    // Filter out empty strings and undefined values before database operation
+    const cleanedData = Object.fromEntries(
+      Object.entries(organization).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+    );
+    
+    if (Object.keys(cleanedData).length === 0) {
+      console.log('Storage: No valid data to update after cleaning');
+      return this.getOrganization(id);
+    }
+    
+    console.log('Storage: Cleaned data for update:', JSON.stringify(cleanedData, null, 2));
+    
+    const [updatedOrganization] = await db
+      .update(organizations)
+      .set(cleanedData)
+      .where(eq(organizations.id, id))
+      .returning();
+    
+    console.log('Storage: Updated organization returned from database:', JSON.stringify(updatedOrganization, null, 2));
+    return updatedOrganization || undefined;
+  }
+
+  async deleteOrganization(id: string): Promise<boolean> {
+    const result = await db.delete(organizations).where(eq(organizations.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 
