@@ -78,11 +78,19 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
 
 export async function generateCharacterImage(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
+    console.log('Attempting image generation with primary engine:', params.aiEngine);
     switch (params.aiEngine) {
       case 'openai':
         return await generateWithOpenAI(params);
       case 'gemini':
-        return await generateWithGemini(params);
+        try {
+          return await generateWithGemini(params);
+        } catch (geminiError) {
+          console.log('Gemini failed, falling back to OpenAI:', geminiError.message);
+          // Fallback to OpenAI if Gemini fails
+          const openaiParams = { ...params, aiEngine: 'openai' as const };
+          return await generateWithOpenAI(openaiParams);
+        }
       default:
         // Default to OpenAI if engine not specified or unknown
         return await generateWithOpenAI(params);
