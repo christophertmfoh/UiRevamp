@@ -14,21 +14,34 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
 
     // Always allow enhancement - users can improve existing content or generate new content
 
-    // Create comprehensive context from ALL available character data
+    // Create comprehensive context from ALL available character data using actual field names
     const characterContext = `
-Character Name: ${character.name || 'Unknown'}
-Role: ${character.role || 'Character'}  
-Race/Species: ${character.race || 'Unknown'}
-Class/Profession: ${character.class || 'Unknown'}
+=== CHARACTER ANALYSIS ===
+Name: ${character.name || 'Unknown'}
+Nicknames: ${character.nicknames || 'None'}
+Title: ${character.title || 'None'}
+Aliases: ${character.aliases || 'None'}
+Race/Species: ${character.race || character.species || 'Unknown'}
+Class/Profession: ${character.class || character.profession || character.occupation || 'Unknown'}
 Age: ${character.age || 'Unknown'}
 Background: ${character.background || 'Unknown'}
-Description: ${character.description || 'Unknown'}
-Personality: ${character.personality || character.personalityTraits?.join(', ') || 'Unknown'}
-Physical Description: ${character.physicalDescription || 'Unknown'}
-Appearance: ${character.appearance || 'Unknown'}
+Description: ${character.description || character.physicalDescription || 'Unknown'}
+Personality: ${character.personalityTraits || character.personality || 'Unknown'}
+Goals: ${character.goals || 'Unknown'}
+Motivations: ${character.motivations || 'Unknown'}
+Role: ${character.role || 'Unknown'}
+Height: ${character.height || 'Unknown'}
+Build: ${character.build || 'Unknown'}
+Eye Color: ${character.eyeColor || 'Unknown'}
+Hair Color: ${character.hairColor || 'Unknown'}
+Skills: ${character.skills || 'Unknown'}
+Abilities: ${character.abilities || 'Unknown'}
+Flaws: ${character.flaws || 'Unknown'}
 Story Function: ${character.storyFunction || 'Unknown'}
 Notes: ${character.notes || 'Unknown'}
-Other Details: ${JSON.stringify(character).substring(0, 500)}
+
+=== RAW CHARACTER DATA ===
+${JSON.stringify(character, null, 2).substring(0, 800)}
     `.trim();
 
     console.log(`Full character context being sent to AI:`, characterContext);
@@ -57,16 +70,91 @@ INSTRUCTIONS:
 4. For a character named "beans" who is a cat, consider roles like "Comic Relief" or "Supporting Character"
 5. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
     } else {
-      // Field-specific prompts for better contextual generation
+      // Enhanced field-specific prompts with detailed instructions for Identity section
       const fieldSpecificPrompts: { [key: string]: string } = {
-        race: `Generate the race/species for this character. If the name suggests an animal (like "beans" = cat), use that species. Look for clues in background, description, and personality.`,
-        name: `Generate a fitting name for this character based on their race, background, and role. Consider cultural context and character traits.`,
-        age: `Generate an appropriate age for this character considering their role, background, and species. For cats, use cat years or mention "appears to be X years old".`,
-        nicknames: `Generate nicknames that friends, family, or companions would call this character. Base it on their name, personality, or distinctive traits.`,
-        title: `Generate a title, rank, or honorific for this character based on their class, profession, and social status.`,
-        aliases: `Generate secret identities, false names, or alternate personas this character might use. Consider their background and goals.`,
-        class: `Generate a class or profession that fits this character's role, background, and species. For cats, consider "Familiar", "Scout", "Hunter", etc.`,
-        occupation: `Generate a job or role this character has in society, considering their species, skills, and background.`,
+        // IDENTITY SECTION - Detailed prompts for each field
+        name: `Generate a creative, fitting name for this character. Consider:
+- Their species (if "beans" is a cat, suggest cat-like names or human names that fit a pet)
+- Their background and role in the story
+- Cultural context if specified
+- Current name can be improved or completely replaced
+Be creative and meaningful, not generic.`,
+        
+        nicknames: `Generate 2-3 nicknames this character would actually be called by friends, family, or companions:
+- Based on their personality traits
+- Shortened versions of their name
+- Pet names or terms of endearment
+- Reflecting their species (for cats: "kitty", "whiskers", etc.)
+Format as a comma-separated list.`,
+        
+        title: `Generate an appropriate title, rank, or honorific for this character:
+- Consider their social status and profession
+- For cats: "Sir/Lady", "The Great", "Master/Mistress"
+- For humans: professional titles, nobility ranks
+- Fantasy titles that fit their role
+- Make it unique and fitting, not generic.`,
+        
+        aliases: `Generate 1-2 secret identities, code names, or false identities this character might use:
+- Consider their background and motivations
+- For sneaky characters: shadow names, descriptive aliases
+- For cats: playful or mysterious alternate names
+- Should feel authentic to their personality.`,
+        
+        role: `Analyze this character's personality and background to determine their story role:
+- Main character traits and motivations
+- Their function in the narrative
+- For cats: often "Comic Relief", "Familiar", "Companion"
+- Be specific about their narrative purpose.`,
+        
+        race: `Determine this character's race/species by analyzing ALL available information:
+- Name clues (like "beans" strongly suggests a cat)
+- Background mentions of species
+- Physical descriptions
+- Behavioral traits
+- NEVER default to "Human" unless clearly indicated
+- For animal names, use the animal species.`,
+        
+        ethnicity: `Generate cultural/ethnic background that fits this character:
+- Consider their name and background
+- For cats: describe their breed or origin
+- For humans: cultural heritage that matches their story
+- Make it rich and specific, not vague.`,
+        
+        age: `Generate appropriate age considering their species and role:
+- For cats: use realistic cat age (1-15 years) or describe as "appears X years old"
+- For humans: age that fits their role and experience level
+- Consider their background and life experience
+- Be specific, not generic ranges.`,
+        
+        birthdate: `Generate a specific birth date that fits this character:
+- Consider their age and current story timeline
+- For fantasy: create appropriate calendar dates
+- Make it feel real and purposeful
+- Include month, day, and year if possible.`,
+        
+        zodiacSign: `Generate a zodiac sign that matches this character's personality:
+- Analyze their personality traits carefully
+- Choose sign that actually reflects their nature
+- Consider both Western and Eastern zodiac if relevant
+- Explain why it fits briefly.`,
+        
+        class: `Generate a class/profession that perfectly fits this character:
+- For cats: "Familiar", "Scout", "Hunter", "Guardian", "Trickster"
+- Consider their skills and role in the story
+- Should match their personality and background
+- Be creative and specific.`,
+        
+        profession: `Generate a realistic profession for this character:
+- Consider their species and setting
+- For cats: "Mouser", "Companion", "Shop Cat"
+- Should fit their world and abilities
+- Make it interesting and fitting.`,
+        
+        occupation: `Generate their current job or daily role:
+- What they actually do day-to-day
+- Consider their skills and circumstances
+- For cats: their role in household/establishment
+- Should be specific and realistic.`,
         height: `Generate height appropriate for this character's race/species. For cats, use measurements like "12 inches at shoulder" or comparative descriptions.`,
         weight: `Generate weight appropriate for this character's race/species and build. For cats, use appropriate feline weight ranges.`,
         build: `Generate body type/build description fitting this character's race, age, and lifestyle. For cats, describe their feline physique.`,
@@ -117,14 +205,20 @@ Generate ${fieldLabel.toLowerCase()}:`;
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
-        temperature: 0.8,
-        maxOutputTokens: 200
+        temperature: 0.9, // Higher creativity for more varied responses
+        maxOutputTokens: 300, // More tokens for detailed responses
+        candidateCount: 1
       },
       contents: prompt,
     });
 
     const generatedContent = response.text?.trim() || '';
-    console.log(`Generated content for ${fieldKey}: ${generatedContent}`);
+    console.log(`Generated content for ${fieldKey}: ${generatedContent || 'EMPTY RESPONSE FROM AI'}`);
+    
+    // Enhanced error handling - if AI returns empty, log the prompt to debug
+    if (!generatedContent) {
+      console.log(`AI returned empty response for ${fieldKey}. Prompt was:`, prompt.substring(0, 200) + '...');
+    }
 
     if (!generatedContent) {
       console.log(`Empty response from AI for field ${fieldKey}, analyzing character for intelligent fallback`);
@@ -171,14 +265,109 @@ Generate ${fieldLabel.toLowerCase()}:`;
           fallbackContent = 'Supporting Character'; // Default for dropdown
         }
       } else {
-        // Enhanced field-specific fallbacks
+        // Enhanced contextual fallbacks that analyze character data intelligently
         const contextualFallbacks: { [key: string]: string } = {
-          name: character.race === 'Cat' ? 'Whiskers' : (character.race ? `${character.race} Character` : 'Character Name'),
-          title: character.class ? `The ${character.class}` : 'Noble',
-          age: character.race === 'Cat' ? '3 years old' : (character.role === 'mentor' ? '45' : '25'),
-          class: character.race === 'Cat' ? 'Familiar' : (character.role === 'protagonist' ? 'Hero' : 'Adventurer'),
-          nicknames: character.name ? character.name.split(' ')[0] : 'Friend',
-          aliases: 'Shadow Walker',
+          // IDENTITY SECTION INTELLIGENT FALLBACKS
+          name: (() => {
+            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') return 'Whiskers';
+            if (character.race) return character.race === 'Human' ? 'Alex Morgan' : `${character.race} Wanderer`;
+            return 'Character Name';
+          })(),
+          
+          nicknames: (() => {
+            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') return 'Kitty, Whiskers, Little One';
+            if (character.name) {
+              const firstName = character.name.split(' ')[0];
+              return `${firstName.substring(0, 3) || firstName}, Buddy, Friend`;
+            }
+            return 'Pal, Friend, Buddy';
+          })(),
+          
+          title: (() => {
+            if (character.race === 'Cat') return 'Sir Whiskers';
+            if (character.class?.toLowerCase().includes('mage')) return 'The Wise';
+            if (character.class?.toLowerCase().includes('warrior')) return 'The Brave';
+            if (character.profession) return `The ${character.profession}`;
+            return 'The Wanderer';
+          })(),
+          
+          aliases: (() => {
+            if (character.race === 'Cat') return 'Shadow Paws, Night Hunter';
+            if (character.class?.toLowerCase().includes('rogue')) return 'Silent Blade, Shadow Walker';
+            if (character.name) return `The ${character.name.split(' ')[0]}, Mystery Person`;
+            return 'The Stranger, Unknown One';
+          })(),
+          
+          role: (() => {
+            if (character.race === 'Cat') return 'Companion';
+            if (character.name?.toLowerCase().includes('hero') || character.class?.toLowerCase().includes('warrior')) return 'Protagonist';
+            if (character.background?.toLowerCase().includes('evil') || character.class?.toLowerCase().includes('dark')) return 'Antagonist';
+            return 'Supporting Character';
+          })(),
+          
+          race: (() => {
+            const name = (character.name || '').toLowerCase();
+            const background = (character.background || '').toLowerCase();
+            const desc = (character.description || '').toLowerCase();
+            const allText = `${name} ${background} ${desc}`;
+            
+            if (name === 'beans' || allText.includes('cat') || allText.includes('feline')) return 'Cat';
+            if (allText.includes('elf')) return 'Elf';
+            if (allText.includes('dwarf')) return 'Dwarf';
+            if (allText.includes('dragon')) return 'Dragon';
+            return 'Human';
+          })(),
+          
+          ethnicity: (() => {
+            if (character.race === 'Cat') return 'Domestic Shorthair';
+            if (character.race === 'Elf') return 'Wood Elf';
+            if (character.race === 'Dwarf') return 'Mountain Dwarf';
+            return 'Mixed Heritage';
+          })(),
+          
+          age: (() => {
+            if (character.race === 'Cat') return '3 years old';
+            if (character.role?.toLowerCase().includes('mentor')) return '55';
+            if (character.class?.toLowerCase().includes('young') || character.background?.toLowerCase().includes('student')) return '19';
+            return '27';
+          })(),
+          
+          birthdate: (() => {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const month = months[Math.floor(Math.random() * 12)];
+            const day = Math.floor(Math.random() * 28) + 1;
+            const year = character.race === 'Cat' ? 'Spring of 2021' : `${month} ${day}, 1995`;
+            return year;
+          })(),
+          
+          zodiacSign: (() => {
+            if (character.race === 'Cat') return 'Leo (playful and confident)';
+            const signs = ['Aries (bold)', 'Taurus (steady)', 'Gemini (curious)', 'Cancer (caring)', 'Leo (confident)', 'Virgo (precise)', 'Libra (balanced)', 'Scorpio (intense)', 'Sagittarius (adventurous)', 'Capricorn (determined)', 'Aquarius (independent)', 'Pisces (intuitive)'];
+            return signs[Math.floor(Math.random() * signs.length)];
+          })(),
+          
+          class: (() => {
+            if (character.race === 'Cat') return 'Familiar';
+            if (character.background?.toLowerCase().includes('fight') || character.role?.toLowerCase().includes('warrior')) return 'Warrior';
+            if (character.background?.toLowerCase().includes('magic') || character.role?.toLowerCase().includes('mage')) return 'Mage';
+            if (character.background?.toLowerCase().includes('sneak') || character.role?.toLowerCase().includes('thief')) return 'Rogue';
+            return 'Adventurer';
+          })(),
+          
+          profession: (() => {
+            if (character.race === 'Cat') return 'House Guardian';
+            if (character.class === 'Warrior') return 'Town Guard';
+            if (character.class === 'Mage') return 'Court Wizard';
+            if (character.class === 'Rogue') return 'Information Broker';
+            return 'Traveling Merchant';
+          })(),
+          
+          occupation: (() => {
+            if (character.race === 'Cat') return 'Professional Napper and Mouse Hunter';
+            if (character.profession) return character.profession;
+            if (character.class) return `Working ${character.class}`;
+            return 'Jack of All Trades';
+          })(),
           height: character.race === 'Cat' ? '10 inches at shoulder' : '5\'8"',
           weight: character.race === 'Cat' ? '12 pounds' : '160 lbs',
           build: character.race === 'Cat' ? 'Sleek and agile feline build' : 'Athletic',
