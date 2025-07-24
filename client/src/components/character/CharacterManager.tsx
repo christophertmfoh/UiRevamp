@@ -75,6 +75,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       apiRequest('POST', `/api/projects/${projectId}/characters`, character),
     onSuccess: (newCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      // Open the newly created character in the editor
       setSelectedCharacter(newCharacter);
       setIsCreating(false);
     },
@@ -117,6 +118,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     
     setIsGenerating(true);
     try {
+      console.log('Starting character generation with options:', options);
       const generatedCharacter = await generateContextualCharacter({
         project,
         locations,
@@ -124,17 +126,24 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         generationOptions: options
       });
       
-      // Create the character with generated data
-      createCharacterMutation.mutate({
+      console.log('Generated character data:', generatedCharacter);
+      
+      // Create the character with generated data and ensure it has the projectId
+      const characterToCreate = {
         ...generatedCharacter,
-        projectId
-      });
+        projectId,
+        // Ensure we have at least a basic name if generation didn't provide one
+        name: generatedCharacter.name || `Generated ${options.characterType || 'Character'}`
+      };
+      
+      // Create the character - this will automatically open it in the editor on success
+      createCharacterMutation.mutate(characterToCreate);
       
       // Close the generation modal
       setIsGenerationModalOpen(false);
     } catch (error) {
       console.error('Error generating character:', error);
-      // Show error to user - you could add a toast here
+      alert(`Failed to generate character: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsGenerating(false);
     }

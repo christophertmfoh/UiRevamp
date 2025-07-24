@@ -41,7 +41,7 @@ export async function generateContextualCharacter(
     const projectContext = buildProjectContext(context);
     
     const client = getGeminiClient();
-    const model = client.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
     
     const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
 
@@ -69,16 +69,20 @@ Your response must be valid JSON in this exact format:
 ${projectContext}`;
 
     const result = await model.generateContent(prompt);
-    const response = await result.response;
+    const response = result.response;
     const text = response.text();
+    
+    console.log('Gemini response:', text);
     
     // Extract JSON from the response (in case there's extra text)
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
+      console.error('No JSON found in response:', text);
       throw new Error('No valid JSON found in response');
     }
     
     const generatedData = JSON.parse(jsonMatch[0]);
+    console.log('Parsed character data:', generatedData);
     
     return {
       ...generatedData,
