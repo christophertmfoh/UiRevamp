@@ -456,7 +456,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/characters/:id/enhance-field", async (req, res) => {
     try {
       const { id } = req.params;
-      const { character, fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
+      const { fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
+      
+      // Retrieve the character from database
+      const character = await storage.getCharacter(id);
+      if (!character) {
+        return res.status(404).json({ error: "Character not found" });
+      }
+      
+      console.log(`Retrieved character for field enhancement:`, { id: character.id, name: character.name, race: character.race });
       
       // Import the field enhancement function
       const { enhanceCharacterField } = await import('./characterFieldEnhancement');

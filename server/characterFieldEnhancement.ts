@@ -8,21 +8,29 @@ const ai = new GoogleGenAI({ apiKey });
 
 // Rate limiting specifically for individual field enhancements
 // Full character generation and bulk operations bypass this
-const fieldRequestTimes: number[] = [];
+let fieldRequestTimes: number[] = [];
 const FIELD_RATE_LIMIT_WINDOW = 60000; // 1 minute
 const MAX_FIELD_REQUESTS_PER_MINUTE = 8; // Conservative for individual clicks
 
 function canMakeFieldRequest(): boolean {
   const now = Date.now();
   // Remove requests older than 1 minute
-  while (fieldRequestTimes.length > 0 && fieldRequestTimes[0] < now - FIELD_RATE_LIMIT_WINDOW) {
-    fieldRequestTimes.shift();
-  }
+  fieldRequestTimes = fieldRequestTimes.filter(time => time > now - FIELD_RATE_LIMIT_WINDOW);
+  
+  console.log(`Rate limit check: ${fieldRequestTimes.length}/${MAX_FIELD_REQUESTS_PER_MINUTE} requests in last minute`);
   return fieldRequestTimes.length < MAX_FIELD_REQUESTS_PER_MINUTE;
 }
 
 function recordFieldRequest(): void {
-  fieldRequestTimes.push(Date.now());
+  const now = Date.now();
+  fieldRequestTimes.push(now);
+  console.log(`Recorded field request at ${now}, total: ${fieldRequestTimes.length}`);
+}
+
+// Reset rate limiting - useful for debugging
+function resetRateLimit(): void {
+  fieldRequestTimes = [];
+  console.log('Rate limit reset');
 }
 
 export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any, fieldOptions?: string[], isIndividualRequest: boolean = true) {
@@ -30,13 +38,51 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
     console.log(`\n=== Processing ${isIndividualRequest ? 'Individual' : 'Bulk'} Field Enhancement ===`);
     console.log(`Field: ${fieldKey} (${fieldLabel})`);
     console.log(`Current value: ${currentValue || 'empty'}`);
+    console.log(`Character data:`, { name: character?.name, race: character?.race, id: character?.id });
+
+    // Ensure character data exists
+    if (!character) {
+      console.error('No character data provided to enhanceCharacterField');
+      return { [fieldKey]: `Generated ${fieldLabel}` };
+    }
 
     // Only apply rate limiting to individual field requests (genie clicks)
     // Full character generation and bulk operations bypass rate limiting
-    if (isIndividualRequest && !canMakeFieldRequest()) {
+    const canProceed = canMakeFieldRequest();
+    if (isIndividualRequest && !canProceed) {
       console.log(`Individual field rate limit reached, using intelligent fallback for ${fieldKey}`);
-      // Skip AI call and go directly to fallback for individual requests
-      throw new Error('Rate limited - using fallback');
+      
+      // Use intelligent fallback instead of throwing error
+      let fallbackContent = `Generated ${fieldLabel}`;
+      const randomSeed = Math.random();
+      
+      // Smart contextual fallbacks - with safe character access
+      const characterName = character?.name?.toLowerCase() || '';
+      const characterRace = character?.race || '';
+      
+      const contextualFallbacks: { [key: string]: string } = {
+        name: characterRace === 'Cat' || characterName === 'beans' ? 'Whiskers' : 'Brave Soul',
+        build: characterRace === 'Cat' ? 'Sleek and agile' : 'Athletic build',
+        eyeColor: characterRace === 'Cat' ? 'Golden amber' : 'Brown',
+        hairColor: characterRace === 'Cat' ? 'Tabby brown with white patches' : 'Brown',
+        race: characterName === 'beans' ? 'Cat' : 'Human',
+        goals: characterRace === 'Cat' ? 'To protect their territory and keep their human family safe' : 'To protect those they care about',
+        motivations: characterRace === 'Cat' ? 'Deep loyalty to family and territorial instincts' : 'A deep sense of justice and duty',
+        appearance: characterRace === 'Cat' ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
+        physicalDescription: characterRace === 'Cat' ? 'A graceful cat with alert eyes and fluid movements, carrying themselves with natural dignity' : 'A person of average height with a confident bearing and alert expression',
+        description: characterRace === 'Cat' ? 'A graceful cat with alert eyes and fluid movements, carrying themselves with natural dignity' : 'A person of average height with a confident bearing and alert expression'
+      };
+      
+      fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      
+      // Process array fields
+      if (['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 'archetypes', 'tropes', 'tags'].includes(fieldKey)) {
+        const arrayContent = fallbackContent.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+        return { [fieldKey]: arrayContent };
+      }
+      
+      console.log(`Using rate limit fallback for ${fieldKey}: ${fallbackContent}`);
+      return { [fieldKey]: fallbackContent };
     }
 
     // Always allow enhancement - users can improve existing content or generate new content
