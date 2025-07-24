@@ -1,88 +1,107 @@
-import React from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Clock, Star } from 'lucide-react';
-
-interface Location {
-  id: string;
-  name: string;
-  description: string;
-  history: string;
-  significance: string;
-  tags: string[];
-  imageGallery?: any[];
-  displayImageId?: number | null;
-}
+import { Button } from '@/components/ui/button';
+import { Edit, Trash2, MapPin, ChevronRight } from 'lucide-react';
+import type { Location } from '../lib/types';
 
 interface LocationCardProps {
   location: Location;
-  onClick: () => void;
+  onSelect: (location: Location) => void;
+  onEdit: (location: Location) => void;
+  onDelete: (location: Location) => void;
 }
 
-export function LocationCard({ location, onClick }: LocationCardProps) {
-  const displayImage = location.imageGallery?.find(img => img.id === location.displayImageId) || location.imageGallery?.[0];
-
+export function LocationCard({ location, onSelect, onEdit, onDelete }: LocationCardProps) {
   return (
-    <Card 
-      className="creative-card cursor-pointer hover:shadow-lg transition-all duration-300 group" 
-      onClick={onClick}
-    >
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1 flex-1 min-w-0">
-            <h3 className="font-title text-lg leading-tight group-hover:text-accent transition-colors">
-              {location.name}
-            </h3>
-            {location.significance && (
-              <div className="flex items-center text-xs text-muted-foreground">
-                <Star className="h-3 w-3 mr-1" />
-                <span className="truncate">{location.significance}</span>
-              </div>
+    <Card className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => onSelect(location)}>
+      <CardContent className="p-6">
+        <div className="flex items-start gap-6">
+          {/* Location Image */}
+          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-green-100 to-emerald-200 dark:from-green-900/30 dark:to-emerald-900/30 flex items-center justify-center flex-shrink-0">
+            {location.imageUrl ? (
+              <img 
+                src={location.imageUrl} 
+                alt={location.name}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              <MapPin className="h-10 w-10 text-green-600 dark:text-green-400" />
             )}
           </div>
-          <div className="ml-4 flex-shrink-0">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-blue-200 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg flex items-center justify-center overflow-hidden">
-              {displayImage?.url ? (
-                <img 
-                  src={displayImage.url} 
-                  alt={location.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              ) : (
-                <MapPin className="h-6 w-6 text-green-600 dark:text-green-400" />
-              )}
+
+          {/* Location Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg truncate group-hover:text-accent transition-colors">
+                  {location.name}
+                </h3>
+                
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="secondary" className="text-xs">
+                    {location.type}
+                  </Badge>
+                  {location.scale && (
+                    <Badge variant="outline" className="text-xs">
+                      {location.scale}
+                    </Badge>
+                  )}
+                  {location.significance && (
+                    <Badge variant="outline" className="text-xs">
+                      {location.significance}
+                    </Badge>
+                  )}
+                </div>
+
+                <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
+                  {location.description}
+                </p>
+
+                {/* Tags */}
+                {location.tags && location.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {location.tags.slice(0, 3).map((tag, index) => (
+                      <Badge key={index} variant="outline" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                    {location.tags.length > 3 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{location.tags.length - 3} more
+                      </Badge>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(location);
+                  }}
+                  className="h-8 w-8 p-0"
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(location);
+                  }}
+                  className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
+              </div>
             </div>
           </div>
-        </div>
-      </CardHeader>
-      
-      <CardContent className="pt-0">
-        <div className="space-y-3">
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {location.description || 'A location in your world...'}
-          </p>
-          
-          {location.history && (
-            <div className="flex items-start text-xs text-muted-foreground">
-              <Clock className="h-3 w-3 mr-1 mt-0.5 flex-shrink-0" />
-              <span className="line-clamp-1">{location.history}</span>
-            </div>
-          )}
-          
-          {location.tags && location.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {location.tags.slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs px-2 py-0">
-                  {tag}
-                </Badge>
-              ))}
-              {location.tags.length > 3 && (
-                <Badge variant="outline" className="text-xs px-2 py-0">
-                  +{location.tags.length - 3}
-                </Badge>
-              )}
-            </div>
-          )}
         </div>
       </CardContent>
     </Card>
