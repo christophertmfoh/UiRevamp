@@ -184,7 +184,10 @@ export function CharacterPortraitModal({
     
     const mainImage = updated.find(img => img.isMain);
     if (mainImage) {
+      // Update the character's main image in the parent components
       onImageGenerated?.(mainImage.url);
+      // Also notify the parent that an image was uploaded to trigger display updates
+      onImageUploaded?.(mainImage.url);
     }
   };
 
@@ -339,13 +342,28 @@ export function CharacterPortraitModal({
                             <img 
                               src={portrait.url} 
                               alt="Character portrait"
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover cursor-pointer"
+                              onClick={() => setSelectedMainImage(portrait.url)}
                             />
-                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedMainImage(portrait.url);
+                                }}
+                                className="text-xs bg-white/90 hover:bg-white"
+                              >
+                                🔍 View
+                              </Button>
                               <Button
                                 size="sm"
                                 variant={portrait.isMain ? "default" : "outline"}
-                                onClick={() => handleSetMainImage(portrait.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSetMainImage(portrait.id);
+                                }}
                                 className="text-xs"
                               >
                                 {portrait.isMain ? '★ Main' : '☆ Set Main'}
@@ -414,6 +432,38 @@ export function CharacterPortraitModal({
           </Button>
         </div>
       </DialogContent>
+
+      {/* Image Enlargement Modal */}
+      {selectedMainImage && (
+        <Dialog open={!!selectedMainImage} onOpenChange={() => setSelectedMainImage('')}>
+          <DialogContent className="max-w-4xl max-h-[90vh] p-2">
+            <DialogHeader>
+              <DialogTitle>Portrait Preview</DialogTitle>
+            </DialogHeader>
+            <div className="flex items-center justify-center max-h-[80vh]">
+              <img 
+                src={selectedMainImage} 
+                alt="Character portrait enlarged"
+                className="max-w-full max-h-full object-contain rounded-lg"
+              />
+            </div>
+            <div className="flex justify-center gap-2 pt-4">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  const portrait = portraitGallery.find(p => p.url === selectedMainImage);
+                  if (portrait) handleSetMainImage(portrait.id);
+                }}
+              >
+                Set as Main Image
+              </Button>
+              <Button onClick={() => setSelectedMainImage('')}>
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Dialog>
   );
 }
