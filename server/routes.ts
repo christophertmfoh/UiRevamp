@@ -207,7 +207,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { projectId } = req.params;
       console.log('Creating character with request body:', JSON.stringify(req.body, null, 2));
-      const characterData = insertCharacterSchema.parse({ ...req.body, projectId });
+      const characterData = insertCharacterSchema.parse({ ...req.body, projectId, id: Date.now().toString() + Math.random().toString(36).substr(2, 5) });
       console.log('Parsed character data for insertion:', JSON.stringify(characterData, null, 2));
       const character = await storage.createCharacter(characterData);
       console.log('Character created in database:', JSON.stringify(character, null, 2));
@@ -379,7 +379,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/locations/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const locationData = insertLocationSchema.partial().parse(req.body);
+      console.log("Updating location with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const locationData = insertLocationSchema.partial().parse(cleanedData);
       const location = await storage.updateLocation(id, locationData);
       
       if (!location) {
@@ -508,7 +519,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/projects/:projectId/factions", async (req, res) => {
     try {
       const { projectId } = req.params;
-      const factionData = insertFactionSchema.parse({ ...req.body, projectId });
+      const factionData = insertFactionSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
       const faction = await storage.createFaction(factionData);
       res.status(201).json(faction);
     } catch (error) {
@@ -523,7 +538,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/factions/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const factionData = insertFactionSchema.partial().parse(req.body);
+      console.log("Updating faction with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const factionData = insertFactionSchema.partial().parse(cleanedData);
       const faction = await storage.updateFaction(id, factionData);
       
       if (!faction) {
