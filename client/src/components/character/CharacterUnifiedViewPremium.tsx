@@ -13,6 +13,8 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { LoadingModal } from '@/components/ui/loading-modal';
+import { AIAssistModal } from './AIAssistModal';
+import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
@@ -36,6 +38,7 @@ export function CharacterUnifiedViewPremium({
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
+  const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   // Calculate character completeness
@@ -109,12 +112,16 @@ export function CharacterUnifiedViewPremium({
     }
   };
 
-  const handleAIEnhance = async () => {
+  const handleAIEnhance = async (selectedCategories: string[]) => {
+    setIsAIAssistModalOpen(false);
     setIsEnhancing(true);
     try {
-      console.log('Starting AI enhancement for character:', character.id);
+      console.log('Starting AI enhancement for character:', character.id, 'Categories:', selectedCategories);
       
-      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
+      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, {
+        ...formData,
+        selectedCategories
+      });
       const enhancedData = await response.json();
       console.log('AI enhancement response received:', enhancedData);
       
@@ -160,7 +167,7 @@ export function CharacterUnifiedViewPremium({
             {isEditing ? (
               <>
                 <Button 
-                  onClick={handleAIEnhance}
+                  onClick={() => setIsAIAssistModalOpen(true)}
                   disabled={isEnhancing || saveMutation.isPending}
                   variant="outline"
                   size="sm"
@@ -411,7 +418,19 @@ export function CharacterUnifiedViewPremium({
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
@@ -1029,6 +1048,14 @@ export function CharacterUnifiedViewPremium({
         onClose={() => setIsPortraitModalOpen(false)}
         onImageGenerated={handleImageGenerated}
         onImageUploaded={handleImageGenerated}
+      />
+
+      {/* AI Assist Explanation Modal */}
+      <AIAssistModal
+        isOpen={isAIAssistModalOpen}
+        onClose={() => setIsAIAssistModalOpen(false)}
+        onStartAssist={handleAIEnhance}
+        isProcessing={isEnhancing}
       />
 
       {/* AI Enhancement Loading Modal */}

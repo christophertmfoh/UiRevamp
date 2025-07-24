@@ -417,6 +417,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Individual field enhancement endpoint
+  app.post("/api/characters/:id/enhance-field", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { character, fieldKey, fieldLabel, currentValue } = req.body;
+      
+      // Import the field enhancement function
+      const { enhanceCharacterField } = await import('./characterFieldEnhancement');
+      
+      const enhancedField = await enhanceCharacterField(character, fieldKey, fieldLabel, currentValue);
+      
+      console.log(`Enhanced field ${fieldKey}:`, enhancedField);
+      
+      res.json(enhancedField);
+    } catch (error: any) {
+      console.error(`Error enhancing field ${req.body.fieldKey}:`, error);
+      res.status(500).json({ 
+        error: "Failed to enhance field", 
+        details: error.message 
+      });
+    }
+  });
+
   // Faction image generation endpoint
   app.post("/api/factions/generate-image", async (req, res) => {
     try {
