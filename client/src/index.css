@@ -377,49 +377,97 @@
   to { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
 }
 
-/* Custom Scrollbar Styles - Smooth & Minimal */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #a0967d transparent;
+/* Custom Scrollbar Styles - Force Override */
+html, body, div, section, article, main, aside, nav, header, footer, 
+form, fieldset, table, tr, td, th, ul, ol, li, dl, dt, dd, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, address, 
+canvas, embed, figure, object, video, audio, iframe, 
+input, textarea, select, button {
+  scrollbar-width: thin !important;
+  scrollbar-color: #a0967d transparent !important;
 }
 
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background: transparent;
+html::-webkit-scrollbar, body::-webkit-scrollbar, div::-webkit-scrollbar, 
+section::-webkit-scrollbar, article::-webkit-scrollbar, main::-webkit-scrollbar, 
+aside::-webkit-scrollbar, nav::-webkit-scrollbar, header::-webkit-scrollbar, 
+footer::-webkit-scrollbar, form::-webkit-scrollbar, fieldset::-webkit-scrollbar, 
+table::-webkit-scrollbar, tr::-webkit-scrollbar, td::-webkit-scrollbar, 
+th::-webkit-scrollbar, ul::-webkit-scrollbar, ol::-webkit-scrollbar, 
+li::-webkit-scrollbar, dl::-webkit-scrollbar, dt::-webkit-scrollbar, 
+dd::-webkit-scrollbar, h1::-webkit-scrollbar, h2::-webkit-scrollbar, 
+h3::-webkit-scrollbar, h4::-webkit-scrollbar, h5::-webkit-scrollbar, 
+h6::-webkit-scrollbar, p::-webkit-scrollbar, blockquote::-webkit-scrollbar, 
+pre::-webkit-scrollbar, address::-webkit-scrollbar, canvas::-webkit-scrollbar, 
+embed::-webkit-scrollbar, figure::-webkit-scrollbar, object::-webkit-scrollbar, 
+video::-webkit-scrollbar, audio::-webkit-scrollbar, iframe::-webkit-scrollbar, 
+input::-webkit-scrollbar, textarea::-webkit-scrollbar, select::-webkit-scrollbar, 
+button::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: transparent !important;
 }
 
-*::-webkit-scrollbar-track {
-  background: transparent;
-  border: none;
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, div::-webkit-scrollbar-track, 
+section::-webkit-scrollbar-track, article::-webkit-scrollbar-track, main::-webkit-scrollbar-track, 
+aside::-webkit-scrollbar-track, nav::-webkit-scrollbar-track, header::-webkit-scrollbar-track, 
+footer::-webkit-scrollbar-track, form::-webkit-scrollbar-track, fieldset::-webkit-scrollbar-track, 
+table::-webkit-scrollbar-track, tr::-webkit-scrollbar-track, td::-webkit-scrollbar-track, 
+th::-webkit-scrollbar-track, ul::-webkit-scrollbar-track, ol::-webkit-scrollbar-track, 
+li::-webkit-scrollbar-track, dl::-webkit-scrollbar-track, dt::-webkit-scrollbar-track, 
+dd::-webkit-scrollbar-track, h1::-webkit-scrollbar-track, h2::-webkit-scrollbar-track, 
+h3::-webkit-scrollbar-track, h4::-webkit-scrollbar-track, h5::-webkit-scrollbar-track, 
+h6::-webkit-scrollbar-track, p::-webkit-scrollbar-track, blockquote::-webkit-scrollbar-track, 
+pre::-webkit-scrollbar-track, address::-webkit-scrollbar-track, canvas::-webkit-scrollbar-track, 
+embed::-webkit-scrollbar-track, figure::-webkit-scrollbar-track, object::-webkit-scrollbar-track, 
+video::-webkit-scrollbar-track, audio::-webkit-scrollbar-track, iframe::-webkit-scrollbar-track, 
+input::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track, select::-webkit-scrollbar-track, 
+button::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none !important;
 }
 
-*::-webkit-scrollbar-thumb {
-  background: #a0967d;
-  border-radius: 6px;
-  border: none;
-  transition: background-color 0.2s ease;
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb, 
+section::-webkit-scrollbar-thumb, article::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb, 
+aside::-webkit-scrollbar-thumb, nav::-webkit-scrollbar-thumb, header::-webkit-scrollbar-thumb, 
+footer::-webkit-scrollbar-thumb, form::-webkit-scrollbar-thumb, fieldset::-webkit-scrollbar-thumb, 
+table::-webkit-scrollbar-thumb, tr::-webkit-scrollbar-thumb, td::-webkit-scrollbar-thumb, 
+th::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb, ol::-webkit-scrollbar-thumb, 
+li::-webkit-scrollbar-thumb, dl::-webkit-scrollbar-thumb, dt::-webkit-scrollbar-thumb, 
+dd::-webkit-scrollbar-thumb, h1::-webkit-scrollbar-thumb, h2::-webkit-scrollbar-thumb, 
+h3::-webkit-scrollbar-thumb, h4::-webkit-scrollbar-thumb, h5::-webkit-scrollbar-thumb, 
+h6::-webkit-scrollbar-thumb, p::-webkit-scrollbar-thumb, blockquote::-webkit-scrollbar-thumb, 
+pre::-webkit-scrollbar-thumb, address::-webkit-scrollbar-thumb, canvas::-webkit-scrollbar-thumb, 
+embed::-webkit-scrollbar-thumb, figure::-webkit-scrollbar-thumb, object::-webkit-scrollbar-thumb, 
+video::-webkit-scrollbar-thumb, audio::-webkit-scrollbar-thumb, iframe::-webkit-scrollbar-thumb, 
+input::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb, select::-webkit-scrollbar-thumb, 
+button::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+  border: none !important;
+  transition: background-color 0.2s ease !important;
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background: #8b8269;
-}
-
-*::-webkit-scrollbar-thumb:active {
-  background: #766c59;
-}
-
-*::-webkit-scrollbar-corner {
-  background: transparent;
+html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover, 
+section::-webkit-scrollbar-thumb:hover, article::-webkit-scrollbar-thumb:hover, main::-webkit-scrollbar-thumb:hover, 
+aside::-webkit-scrollbar-thumb:hover, nav::-webkit-scrollbar-thumb:hover, header::-webkit-scrollbar-thumb:hover, 
+footer::-webkit-scrollbar-thumb:hover, form::-webkit-scrollbar-thumb:hover, fieldset::-webkit-scrollbar-thumb:hover, 
+table::-webkit-scrollbar-thumb:hover, tr::-webkit-scrollbar-thumb:hover, td::-webkit-scrollbar-thumb:hover, 
+th::-webkit-scrollbar-thumb:hover, ul::-webkit-scrollbar-thumb:hover, ol::-webkit-scrollbar-thumb:hover, 
+li::-webkit-scrollbar-thumb:hover, dl::-webkit-scrollbar-thumb:hover, dt::-webkit-scrollbar-thumb:hover, 
+dd::-webkit-scrollbar-thumb:hover, h1::-webkit-scrollbar-thumb:hover, h2::-webkit-scrollbar-thumb:hover, 
+h3::-webkit-scrollbar-thumb:hover, h4::-webkit-scrollbar-thumb:hover, h5::-webkit-scrollbar-thumb:hover, 
+h6::-webkit-scrollbar-thumb:hover, p::-webkit-scrollbar-thumb:hover, blockquote::-webkit-scrollbar-thumb:hover, 
+pre::-webkit-scrollbar-thumb:hover, address::-webkit-scrollbar-thumb:hover, canvas::-webkit-scrollbar-thumb:hover, 
+embed::-webkit-scrollbar-thumb:hover, figure::-webkit-scrollbar-thumb:hover, object::-webkit-scrollbar-thumb:hover, 
+video::-webkit-scrollbar-thumb:hover, audio::-webkit-scrollbar-thumb:hover, iframe::-webkit-scrollbar-thumb:hover, 
+input::-webkit-scrollbar-thumb:hover, textarea::-webkit-scrollbar-thumb:hover, select::-webkit-scrollbar-thumb:hover, 
+button::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
 }
 
 /* Smooth scrolling behavior */
 html {
-  scroll-behavior: smooth;
-}
-
-* {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth !important;
 }
 
 /* Keep the class-based styling for specific elements */
