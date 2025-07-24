@@ -155,9 +155,166 @@ Format as a comma-separated list.`,
 - Consider their skills and circumstances
 - For cats: their role in household/establishment
 - Should be specific and realistic.`,
-        height: `Generate height appropriate for this character's race/species. For cats, use measurements like "12 inches at shoulder" or comparative descriptions.`,
-        weight: `Generate weight appropriate for this character's race/species and build. For cats, use appropriate feline weight ranges.`,
-        build: `Generate body type/build description fitting this character's race, age, and lifestyle. For cats, describe their feline physique.`,
+
+        // PHYSICAL/APPEARANCE SECTION - Detailed prompts for each field
+        height: `Generate height appropriate for this character's race/species:
+- For cats: "10-12 inches at shoulder" or "small/medium/large for a cat"
+- For humans: specific measurements like "5'8\"" or descriptive "tall/average/short"
+- Consider their age and build
+- Be specific and realistic for their species.`,
+        
+        weight: `Generate weight/build description appropriate for this character:
+- For cats: "8-15 pounds" or "lean/stocky/fluffy build"
+- For humans: descriptive like "lean", "muscular", "heavy-set"
+- Consider their lifestyle and activity level
+- Should match their overall physique.`,
+        
+        build: `Generate detailed body type/build description:
+- For cats: "sleek and agile", "sturdy and muscular", "slim and graceful"
+- Describe their overall physical structure
+- Consider their lifestyle and species traits
+- Be specific about their physique and presence.`,
+        
+        eyeColor: `Generate eye color that fits this character:
+- For cats: amber, green, blue, yellow, or heterochromia
+- Consider their personality and species
+- Can be descriptive: "bright amber", "deep emerald green"
+- Make it memorable and fitting.`,
+        
+        hairColor: `Generate hair/fur color appropriate for this character:
+- For cats: tabby patterns, solid colors, bi-color, calico
+- Be specific: "orange tabby with white patches", "sleek black"
+- Consider realistic colorations for their species
+- Make it distinctive and vivid.`,
+        
+        hairStyle: `Generate hair style description:
+- For cats: "short and sleek", "long and fluffy", "medium length"
+- For humans: specific styles that match their personality
+- Consider their lifestyle and maintenance ability
+- Should reflect their character traits.`,
+        
+        skinTone: `Generate skin tone description:
+- For cats: describe their underlying skin if visible
+- For humans: use respectful, descriptive terms
+- Consider their background and ethnicity
+- Be natural and appropriate.`,
+        
+        physicalDescription: `Generate a comprehensive physical description highlighting:
+- Overall appearance and presence
+- Most distinctive physical features
+- How they carry themselves
+- Species-specific details (feline grace, human posture)
+- What people notice first about them
+- Paint a vivid picture in 2-3 sentences.`,
+        
+        distinguishingMarks: `Generate distinctive marks, scars, or features:
+- For cats: unique markings, patterns, or features
+- Scars with brief stories behind them
+- Birthmarks or unusual colorations
+- Features that make them instantly recognizable
+- Should add personality and history.`,
+        
+        clothingStyle: `Generate clothing/style description:
+- For cats: describe any collars, accessories, or adornments
+- For humans: their typical fashion choices and style
+- Consider their personality and social status
+- Should reflect their character and role.`,
+        
+        bodyType: `Generate body type classification:
+- For cats: "lean hunter", "stocky house cat", "graceful climber"
+- Consider their lifestyle and genetics
+- Should match their build and activities
+- Be descriptive and specific.`,
+        
+        facialFeatures: `Generate distinctive facial features:
+- For cats: face shape, ear size, whisker prominence
+- Describe what makes their face memorable
+- Consider expression and features that show personality
+- Should capture their unique look.`,
+        
+        eyes: `Generate detailed eye description:
+- Shape, size, and expression
+- How they look at others
+- Any distinctive qualities
+- Should convey personality through their gaze.`,
+        
+        hair: `Generate detailed hair/fur description:
+- Texture, thickness, condition
+- How it moves or behaves
+- Maintenance and styling
+- Should add to their overall appearance.`,
+        
+        skin: `Generate skin description focusing on:
+- Texture and condition
+- Any notable characteristics
+- How it reflects their lifestyle
+- Should be appropriate for their species.`,
+        
+        complexion: `Generate complexion description:
+- Overall skin appearance
+- Health and vitality indicators
+- Environmental effects (sun, weather)
+- Should reflect their lifestyle and health.`,
+        
+        scars: `Generate scars with brief stories:
+- Location and appearance of scars
+- Hint at how they were acquired
+- What they reveal about character's past
+- Should add depth and history.`,
+        
+        tattoos: `Generate tattoos with meaning:
+- Design and placement
+- Personal significance or story
+- Artistic style and quality
+- Should reflect personality and values.`,
+        
+        piercings: `Generate piercings that fit the character:
+- Type and location
+- Style and materials
+- When and why they got them
+- Should match their personality.`,
+        
+        birthmarks: `Generate distinctive birthmarks:
+- Unique shapes or patterns
+- Location and size
+- Any cultural or personal significance
+- Should be memorable details.`,
+        
+        attire: `Generate current outfit description:
+- What they're wearing right now
+- Condition and style of clothing
+- How it reflects their status/role
+- Should paint a clear visual picture.`,
+        
+        accessories: `Generate accessories they typically wear:
+- Jewelry, watches, bags, etc.
+- Practical items they carry
+- Sentimental pieces
+- Should reflect personality and needs.`,
+        
+        posture: `Generate how they carry themselves:
+- Standing and sitting posture
+- Confidence level shown through body language
+- Any distinctive ways they hold themselves
+- Should reflect personality and background.`,
+        
+        gait: `Generate how they move and walk:
+- Walking style and pace
+- Any distinctive movement patterns
+- Grace, awkwardness, or unique traits
+- Should show personality through movement.`,
+        
+        gestures: `Generate distinctive hand and body gestures:
+- Common hand movements while talking
+- Nervous habits or confident displays
+- Cultural or personal gesture patterns
+- Should reveal personality traits.`,
+        
+        mannerisms: `Generate distinctive behavioral patterns:
+- Repeated actions or habits
+- Ways they react to situations
+- Unconscious behaviors
+- Should make them feel like a real person/character.`,
         eyeColor: `Generate eye color that fits this character's race and personality. Consider species-typical colors.`,
         hairColor: `Generate hair/fur color appropriate for this character's species. For cats, describe fur color and patterns.`,
         physicalDescription: `Generate a detailed physical description highlighting distinctive features, posture, and overall appearance for this character's species.`,
@@ -368,9 +525,154 @@ Generate ${fieldLabel.toLowerCase()}:`;
             if (character.class) return `Working ${character.class}`;
             return 'Jack of All Trades';
           })(),
-          height: character.race === 'Cat' ? '10 inches at shoulder' : '5\'8"',
-          weight: character.race === 'Cat' ? '12 pounds' : '160 lbs',
-          build: character.race === 'Cat' ? 'Sleek and agile feline build' : 'Athletic',
+          
+          // PHYSICAL/APPEARANCE SECTION INTELLIGENT FALLBACKS
+          height: (() => {
+            if (character.race === 'Cat') return '11 inches at shoulder';
+            if (character.build?.toLowerCase().includes('tall')) return '6\'1"';
+            if (character.build?.toLowerCase().includes('short')) return '5\'4"';
+            return '5\'8"';
+          })(),
+          
+          weight: (() => {
+            if (character.race === 'Cat') return '10 pounds';
+            if (character.build?.toLowerCase().includes('muscular')) return 'Muscular build, 180 lbs';
+            if (character.build?.toLowerCase().includes('slim')) return 'Lean build, 140 lbs';
+            return 'Average build, 160 lbs';
+          })(),
+          
+          build: (() => {
+            if (character.race === 'Cat') return 'Sleek and agile feline build with graceful movements';
+            if (character.class?.toLowerCase().includes('warrior')) return 'Muscular and athletic from training';
+            if (character.class?.toLowerCase().includes('mage')) return 'Lean and scholarly build';
+            return 'Well-proportioned and healthy';
+          })(),
+          
+          eyeColor: (() => {
+            if (character.race === 'Cat') return 'Bright amber with golden flecks';
+            const colors = ['Brown', 'Blue', 'Green', 'Hazel', 'Gray'];
+            return colors[Math.floor(Math.random() * colors.length)];
+          })(),
+          
+          hairColor: (() => {
+            if (character.race === 'Cat') return 'Orange tabby with white chest patch';
+            const colors = ['Brown', 'Black', 'Blonde', 'Auburn', 'Dark Brown'];
+            return colors[Math.floor(Math.random() * colors.length)];
+          })(),
+          
+          hairStyle: (() => {
+            if (character.race === 'Cat') return 'Short, soft fur that\'s well-groomed';
+            if (character.class?.toLowerCase().includes('warrior')) return 'Practical, short cut';
+            if (character.class?.toLowerCase().includes('noble')) return 'Elegant, well-styled';
+            return 'Medium length, casually styled';
+          })(),
+          
+          skinTone: (() => {
+            if (character.race === 'Cat') return 'Pink skin beneath fur';
+            const tones = ['Fair', 'Light', 'Medium', 'Olive', 'Tan', 'Dark'];
+            return tones[Math.floor(Math.random() * tones.length)];
+          })(),
+          
+          physicalDescription: (() => {
+            if (character.race === 'Cat') return 'A charming cat with bright, intelligent eyes and a graceful demeanor. Their sleek form moves with natural feline elegance, and their expressive face shows remarkable intelligence and curiosity.';
+            return 'A well-proportioned individual with an approachable demeanor and confident bearing. Their expressive features and steady gaze suggest both intelligence and reliability.';
+          })(),
+          
+          distinguishingMarks: (() => {
+            if (character.race === 'Cat') return 'Unique white marking on forehead resembling a small star';
+            const marks = ['Small scar above left eyebrow', 'Distinctive birthmark on left shoulder', 'Faint freckles across the nose', 'Small mole on right cheek'];
+            return marks[Math.floor(Math.random() * marks.length)];
+          })(),
+          
+          clothingStyle: (() => {
+            if (character.race === 'Cat') return 'Simple leather collar with a small bell';
+            if (character.class?.toLowerCase().includes('noble')) return 'Fine fabrics and elegant cuts in rich colors';
+            if (character.class?.toLowerCase().includes('warrior')) return 'Practical, durable clothing suited for action';
+            return 'Comfortable, practical clothing in earth tones';
+          })(),
+          
+          bodyType: (() => {
+            if (character.race === 'Cat') return 'Typical domestic cat build - lithe and agile';
+            if (character.build?.toLowerCase().includes('athletic')) return 'Mesomorphic - naturally athletic';
+            return 'Balanced build with good proportions';
+          })(),
+          
+          facialFeatures: (() => {
+            if (character.race === 'Cat') return 'Heart-shaped face with large, expressive eyes and prominent whiskers';
+            return 'Well-defined features with an open, honest expression';
+          })(),
+          
+          eyes: (() => {
+            if (character.race === 'Cat') return 'Large, round eyes that seem to see everything';
+            return 'Expressive eyes that reflect their inner thoughts';
+          })(),
+          
+          hair: (() => {
+            if (character.race === 'Cat') return 'Soft, dense fur with natural oils for healthy shine';
+            return 'Healthy hair with natural body and shine';
+          })(),
+          
+          skin: (() => {
+            if (character.race === 'Cat') return 'Healthy pink skin beneath soft fur';
+            return 'Clear, healthy skin with good tone';
+          })(),
+          
+          complexion: (() => {
+            if (character.race === 'Cat') return 'Healthy and well-maintained';
+            return 'Clear complexion with natural warmth';
+          })(),
+          
+          scars: (() => {
+            if (character.race === 'Cat') return 'Small scar on left ear from a childhood accident';
+            if (character.class?.toLowerCase().includes('warrior')) return 'Battle scar across knuckles from training';
+            return 'No significant scars';
+          })(),
+          
+          tattoos: (() => {
+            if (character.race === 'Cat') return 'No tattoos (fur covered)';
+            if (character.background?.toLowerCase().includes('sailor')) return 'Anchor tattoo on forearm';
+            return 'No tattoos';
+          })(),
+          
+          piercings: (() => {
+            if (character.race === 'Cat') return 'No piercings';
+            return 'Simple ear piercings';
+          })(),
+          
+          birthmarks: (() => {
+            if (character.race === 'Cat') return 'Unique fur pattern on belly';
+            return 'Small birthmark behind right ear';
+          })(),
+          
+          attire: (() => {
+            if (character.race === 'Cat') return 'Wearing a comfortable leather collar with identification tag';
+            return 'Currently dressed in practical, well-maintained clothing';
+          })(),
+          
+          accessories: (() => {
+            if (character.race === 'Cat') return 'Collar with small bell and ID tag';
+            return 'Simple, practical accessories';
+          })(),
+          
+          posture: (() => {
+            if (character.race === 'Cat') return 'Alert and poised, with natural feline grace';
+            return 'Confident posture with relaxed shoulders';
+          })(),
+          
+          gait: (() => {
+            if (character.race === 'Cat') return 'Silent, graceful movement with perfect balance';
+            return 'Steady, purposeful walk with good balance';
+          })(),
+          
+          gestures: (() => {
+            if (character.race === 'Cat') return 'Expressive tail movements and head tilts';
+            return 'Natural, understated hand gestures when speaking';
+          })(),
+          
+          mannerisms: (() => {
+            if (character.race === 'Cat') return 'Head tilts when curious, slow blinks when content, kneading with paws when happy';
+            return 'Thoughtful pausing before speaking, gentle nods when listening';
+          })(),
           eyeColor: character.race === 'Cat' ? 'Golden amber' : 'Brown',
           hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown',
           goals: 'To protect those they care about',
