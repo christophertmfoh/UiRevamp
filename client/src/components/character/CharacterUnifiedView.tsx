@@ -326,6 +326,11 @@ export function CharacterUnifiedView({
               )}
               
               <div className="flex flex-wrap gap-2 mb-4">
+                {formData.nicknames && (
+                  <Badge variant="secondary" className="text-sm px-3 py-1">
+                    "{formData.nicknames}"
+                  </Badge>
+                )}
                 {formData.role && (
                   <Badge variant="default" className="text-sm px-3 py-1">
                     {formData.role}
