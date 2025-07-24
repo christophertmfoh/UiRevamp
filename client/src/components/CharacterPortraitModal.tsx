@@ -191,6 +191,25 @@ export function CharacterPortraitModal({
     }
   };
 
+  const handleDeletePortrait = (imageId: string) => {
+    const updated = portraitGallery.filter(img => img.id !== imageId);
+    setPortraitGallery(updated);
+    
+    // If we deleted the main image, set a new main image if available
+    const deletedImage = portraitGallery.find(img => img.id === imageId);
+    if (deletedImage?.isMain && updated.length > 0) {
+      const newUpdated = updated.map((img, index) => ({
+        ...img,
+        isMain: index === 0 // Make first image the new main
+      }));
+      setPortraitGallery(newUpdated);
+      onImageGenerated?.(newUpdated[0].url);
+    } else if (deletedImage?.isMain && updated.length === 0) {
+      // No images left, clear the character image
+      onImageGenerated?.('');
+    }
+  };
+
   const handleTrainModel = () => {
     console.log('Training model with selected images:', selectedImages);
     // TODO: Implement model training
@@ -332,11 +351,11 @@ export function CharacterPortraitModal({
                       </div>
                     ) : (
                       <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                        {portraitGallery.map((portrait) => (
+                        {portraitGallery.slice(0, 20).map((portrait) => (
                           <div 
                             key={portrait.id} 
-                            className={`relative aspect-square rounded-lg overflow-hidden border-2 ${
-                              portrait.isMain ? 'border-yellow-500' : 'border-gray-200 dark:border-gray-700'
+                            className={`relative aspect-square rounded-lg overflow-hidden border-2 group ${
+                              portrait.isMain ? 'border-yellow-500 shadow-lg shadow-yellow-500/25' : 'border-gray-200 dark:border-gray-700'
                             }`}
                           >
                             <img 
@@ -345,7 +364,7 @@ export function CharacterPortraitModal({
                               className="w-full h-full object-cover cursor-pointer"
                               onClick={() => setSelectedMainImage(portrait.url)}
                             />
-                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                            <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-200 flex flex-col items-center justify-center gap-1 p-1">
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -353,7 +372,7 @@ export function CharacterPortraitModal({
                                   e.stopPropagation();
                                   setSelectedMainImage(portrait.url);
                                 }}
-                                className="text-xs bg-white/90 hover:bg-white"
+                                className="text-xs w-full h-7 bg-white/95 hover:bg-white text-black font-medium border-0"
                               >
                                 🔍 View
                               </Button>
@@ -364,9 +383,24 @@ export function CharacterPortraitModal({
                                   e.stopPropagation();
                                   handleSetMainImage(portrait.id);
                                 }}
-                                className="text-xs"
+                                className={`text-xs w-full h-7 font-medium border-0 ${
+                                  portrait.isMain 
+                                    ? 'bg-yellow-500 hover:bg-yellow-400 text-black' 
+                                    : 'bg-yellow-400/90 hover:bg-yellow-400 text-black'
+                                }`}
                               >
-                                {portrait.isMain ? '★ Main' : '☆ Set Main'}
+                                {portrait.isMain ? '★ Main' : '☆ Make Main'}
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeletePortrait(portrait.id);
+                                }}
+                                className="text-xs w-full h-7 bg-red-500 hover:bg-red-400 text-white font-medium border-0"
+                              >
+                                🗑️ Delete
                               </Button>
                             </div>
                             {portrait.isMain && (
