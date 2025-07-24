@@ -86,90 +86,20 @@ export function CharacterDetailView({
     });
   };
 
-  // Define sections matching EXACTLY the 8 tabs from CharacterFormExpanded
-  const identityFields = hasContent([
-    character.name, character.nicknames, character.title, character.aliases,
-    character.race, character.ethnicity, character.class, character.profession,
-    character.occupation, character.age, character.birthdate, character.zodiacSign,
-    character.role, character.description, character.characterSummary, character.oneLine
-  ]);
-
-  const physicalFields = hasContent([
-    character.physicalDescription, character.height, character.weight, character.build,
-    character.bodyType, character.facialFeatures, character.eyes, character.eyeColor,
-    character.hair, character.hairColor, character.hairStyle, character.facialHair,
-    character.skin, character.skinTone, character.complexion, character.scars,
-    character.tattoos, character.piercings, character.birthmarks, character.distinguishingMarks,
-    character.attire, character.clothingStyle, character.accessories,
-    character.posture, character.gait, character.gestures, character.mannerisms
-  ]);
-
-  const personalityFields = hasContent([
-    character.personality, character.personalityTraits, character.temperament,
-    character.disposition, character.worldview, character.beliefs, character.values,
-    character.principles, character.morals, character.ethics, character.virtues,
-    character.vices, character.habits, character.quirks, character.idiosyncrasies,
-    character.petPeeves, character.likes, character.dislikes, character.hobbies,
-    character.interests, character.passions
-  ]);
-
-  const psychologyFields = hasContent([
-    character.motivations, character.desires, character.needs, character.drives,
-    character.ambitions, character.fears, character.phobias, character.anxieties,
-    character.insecurities, character.secrets, character.shame, character.guilt,
-    character.regrets, character.trauma, character.wounds, character.copingMechanisms,
-    character.defenses, character.vulnerabilities, character.weaknesses,
-    character.blindSpots, character.mentalHealth, character.emotionalState,
-    character.maturityLevel, character.intelligenceType, character.learningStyle
-  ]);
-
-  const backgroundFields = hasContent([
-    character.background, character.backstory, character.origin, character.upbringing,
-    character.childhood, character.familyHistory, character.socialClass,
-    character.economicStatus, character.education, character.academicHistory,
-    character.formativeEvents, character.lifeChangingMoments, character.personalStruggle,
-    character.challenges, character.achievements, character.failures, character.losses,
-    character.victories, character.reputation
-  ]);
-
-  const abilitiesFields = hasContent([
-    character.abilities, character.skills, character.talents, character.expertise,
-    character.specialAbilities, character.powers, character.magicalAbilities,
-    character.magicType, character.magicSource, character.magicLimitations,
-    character.superpowers, character.strengths, character.competencies,
-    character.training, character.experience
-  ]);
-
-  const storyFields = hasContent([
-    character.goals, character.objectives, character.wants, character.obstacles,
-    character.conflicts, character.conflictSources, character.stakes, character.consequences,
-    character.arc, character.journey, character.transformation, character.growth,
-    character.allies, character.enemies, character.mentors, character.rivals,
-    character.connectionToEvents, character.plotRelevance, character.storyFunction
-  ]);
-
-  const languageFields = hasContent([
-    character.languages, character.nativeLanguage, character.accent, character.dialect,
-    character.voiceDescription, character.speechPatterns, character.vocabulary,
-    character.catchphrases, character.slang, character.communicationStyle
-  ]);
-
-  const socialFields = hasContent([
-    character.family, character.parents, character.siblings, character.spouse,
-    character.children, character.friends, character.socialCircle, character.community,
-    character.culture, character.traditions, character.customs, character.religion,
-    character.spirituality, character.politicalViews
-  ]);
-
-  const metaFields = hasContent([
-    character.archetypes, character.tropes, character.inspiration, character.basedOn,
-    character.tags, character.genre, character.proseVibe, character.narrativeRole,
-    character.characterType, character.importance, character.screenTime,
-    character.firstAppearance, character.lastAppearance, character.notes,
-    character.development, character.evolution, character.alternatives,
-    character.unused, character.research, character.references, character.mood,
-    character.theme, character.symbolism
-  ]);
+  // For debugging - always show all sections if any basic character data exists
+  // This ensures ALL sections are visible so user can see all their entered information
+  const hasAnyData = character.name || character.description || character.role || character.age || character.race;
+  
+  const identityFields = hasAnyData; // Always show if character has any basic data
+  const physicalFields = hasAnyData; // Always show if character has any basic data
+  const personalityFields = hasAnyData; // Always show if character has any basic data
+  const psychologyFields = hasAnyData; // Always show if character has any basic data
+  const backgroundFields = hasAnyData; // Always show if character has any basic data
+  const abilitiesFields = hasAnyData; // Always show if character has any basic data
+  const storyFields = hasAnyData; // Always show if character has any basic data
+  const languageFields = hasAnyData; // Always show if character has any basic data
+  const socialFields = hasAnyData; // Always show if character has any basic data
+  const metaFields = hasAnyData; // Always show if character has any basic data
 
   // Otherwise, show the detailed read-only view
   return (
