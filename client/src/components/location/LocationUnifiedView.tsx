@@ -51,6 +51,7 @@ export function LocationUnifiedView({
 
   // Update formData when location changes (important for newly created locations)
   React.useEffect(() => {
+    console.log('LocationUnifiedView: location data received:', location);
     setFormData(location);
   }, [location]);
   const [activeTab, setActiveTab] = useState('identity');
@@ -319,6 +320,13 @@ export function LocationUnifiedView({
             
             {formData.description && (
               <p className="text-muted-foreground mb-4 text-lg leading-relaxed">{formData.description}</p>
+            )}
+            
+            {/* Debug: Show raw formData */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mb-4 p-2 bg-yellow-100 text-xs">
+                <strong>Debug formData:</strong> {JSON.stringify(formData, null, 2)}
+              </div>
             )}
 
             {/* Location Type and Status Badges */}
