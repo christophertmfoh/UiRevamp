@@ -9,14 +9,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../lib/types';
+import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config/characterFieldsConfig';
+import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
   projectId: string;
   onCancel: () => void;
   character?: Character;
 }
+
+const AI_ENABLED_FIELD_TYPES = ['text', 'textarea', 'array'];
 
 export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
   // Initialize form data with all fields from CHARACTER_SECTIONS
@@ -38,6 +41,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
   };
 
   const [formData, setFormData] = useState(initializeFormData);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
@@ -106,7 +110,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
   };
 
   const updateField = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
   const renderField = (field: any) => {
@@ -116,7 +120,17 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'textarea':
         return (
           <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
-            <Label htmlFor={field.key}>{field.label}</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <FieldAIAssist
+                character={character || null}
+                fieldKey={field.key}
+                fieldLabel={field.label}
+                currentValue={value}
+                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                disabled={isEnhancing}
+              />
+            </div>
             <Textarea
               id={field.key}
               value={value}
@@ -136,7 +150,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                 <SelectValue placeholder={field.placeholder} />
               </SelectTrigger>
               <SelectContent>
-                {field.options?.map(option => (
+                {field.options?.map((option: string) => (
                   <SelectItem key={option} value={option}>
                     {option}
                   </SelectItem>
@@ -149,7 +163,17 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'array':
         return (
           <div key={field.key} className="col-span-2">
-            <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
+              <FieldAIAssist
+                character={character || null}
+                fieldKey={field.key}
+                fieldLabel={field.label}
+                currentValue={value}
+                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                disabled={isEnhancing}
+              />
+            </div>
             <Input
               id={field.key}
               value={value}
@@ -162,7 +186,17 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       default: // text
         return (
           <div key={field.key}>
-            <Label htmlFor={field.key}>{field.label}</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <FieldAIAssist
+                character={character || null}
+                fieldKey={field.key}
+                fieldLabel={field.label}
+                currentValue={value}
+                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                disabled={isEnhancing}
+              />
+            </div>
             <Input
               id={field.key}
               value={value}
