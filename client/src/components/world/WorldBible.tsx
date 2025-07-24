@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,7 +24,8 @@ import {
   ChevronRight,
   Globe,
   Castle,
-  Sword
+  Sword,
+  X
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
@@ -40,10 +41,149 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
 
-  // Fetch characters to get dynamic count
+  // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
     queryKey: ['/api/projects', project.id, 'characters'],
   });
+
+  const { data: locations = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'locations'],
+  });
+
+  const { data: factions = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'factions'],
+  });
+
+  const { data: items = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'items'],
+  });
+
+  const { data: organizations = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'organizations'],
+  });
+
+  const { data: magicSystems = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'magic-systems'],
+  });
+
+  const { data: timelineEvents = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'timeline-events'],
+  });
+
+  const { data: creatures = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'creatures'],
+  });
+
+  const { data: languages = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'languages'],
+  });
+
+  const { data: cultures = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'cultures'],
+  });
+
+  const { data: prophecies = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'prophecies'],
+  });
+
+  const { data: themes = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'themes'],
+  });
+
+  // Global search functionality across all world bible categories
+  const allWorldData = useMemo(() => {
+    return [
+      ...characters.map(item => ({ ...item, category: 'characters', categoryLabel: 'Characters', icon: Users })),
+      ...locations.map(item => ({ ...item, category: 'locations', categoryLabel: 'Locations', icon: MapPin })),
+      ...factions.map(item => ({ ...item, category: 'factions', categoryLabel: 'Factions', icon: Shield })),
+      ...items.map(item => ({ ...item, category: 'items', categoryLabel: 'Items', icon: Package })),
+      ...organizations.map(item => ({ ...item, category: 'organizations', categoryLabel: 'Organizations', icon: Crown })),
+      ...magicSystems.map(item => ({ ...item, category: 'magic-systems', categoryLabel: 'Magic Systems', icon: Sparkles })),
+      ...timelineEvents.map(item => ({ ...item, category: 'timeline-events', categoryLabel: 'Timeline', icon: Clock })),
+      ...creatures.map(item => ({ ...item, category: 'creatures', categoryLabel: 'Creatures', icon: Eye })),
+      ...languages.map(item => ({ ...item, category: 'languages', categoryLabel: 'Languages', icon: Languages })),
+      ...cultures.map(item => ({ ...item, category: 'cultures', categoryLabel: 'Cultures', icon: Heart })),
+      ...prophecies.map(item => ({ ...item, category: 'prophecies', categoryLabel: 'Prophecies', icon: Scroll })),
+      ...themes.map(item => ({ ...item, category: 'themes', categoryLabel: 'Themes', icon: Globe })),
+    ];
+  }, [characters, locations, factions, items, organizations, magicSystems, timelineEvents, creatures, languages, cultures, prophecies, themes]);
+
+  // Search results based on query
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    
+    const query = searchQuery.toLowerCase().trim();
+    
+    return allWorldData.filter(item => {
+      // Search in name/title
+      if (item.name?.toLowerCase().includes(query)) return true;
+      if (item.title?.toLowerCase().includes(query)) return true;
+      
+      // Search in description
+      if (item.description?.toLowerCase().includes(query)) return true;
+      
+      // Search in tags
+      if (item.tags && Array.isArray(item.tags)) {
+        if (item.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+      }
+      
+      // Search in specific fields based on category
+      if (item.category === 'characters') {
+        const searchFields = [
+          item.race, item.occupation, item.background, item.personality,
+          item.appearance, item.goals, item.fears, item.secrets
+        ];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'locations') {
+        const searchFields = [item.history, item.significance, item.atmosphere];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'factions') {
+        const searchFields = [item.goals, item.methods, item.history, item.leadership];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'magic-systems') {
+        const searchFields = [item.type, item.source, item.limitations, item.corruption];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.practitioners && Array.isArray(item.practitioners)) {
+          if (item.practitioners.some(p => p.toLowerCase().includes(query))) return true;
+        }
+        if (item.effects && Array.isArray(item.effects)) {
+          if (item.effects.some(e => e.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'timeline-events') {
+        const searchFields = [item.era, item.period, item.significance, item.consequences];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.participants && Array.isArray(item.participants)) {
+          if (item.participants.some(p => p.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'creatures') {
+        const searchFields = [
+          item.species, item.classification, item.habitat, item.behavior, 
+          item.threat, item.significance
+        ];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.abilities && Array.isArray(item.abilities)) {
+          if (item.abilities.some(a => a.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'prophecies') {
+        const searchFields = [item.text, item.origin, item.interpretation, item.fulfillment];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      return false;
+    });
+  }, [allWorldData, searchQuery]);
 
   // Drag and drop handlers
   const handleDragStart = (e: React.DragEvent, categoryId: string) => {
@@ -274,6 +414,122 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         : cat
     ));
   }, [characters.length]);
+
+  // Render search results
+  const renderSearchResults = () => {
+    if (searchResults.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <Search className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+          <h3 className="font-title text-xl mb-2">No Results Found</h3>
+          <p className="text-muted-foreground mb-4">
+            No items found for "{searchQuery}" in your world bible.
+          </p>
+          <Button 
+            variant="outline" 
+            onClick={() => setSearchQuery('')}
+            className="interactive-warm"
+          >
+            Clear Search
+          </Button>
+        </div>
+      );
+    }
+
+    // Group results by category
+    const groupedResults = searchResults.reduce((acc, item) => {
+      if (!acc[item.category]) {
+        acc[item.category] = [];
+      }
+      acc[item.category].push(item);
+      return acc;
+    }, {} as Record<string, any[]>);
+
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-title text-2xl">Search Results</h2>
+            <p className="text-muted-foreground">
+              Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{searchQuery}"
+            </p>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => setSearchQuery('')}
+            className="interactive-warm"
+          >
+            <X className="h-4 w-4 mr-2" />
+            Clear Search
+          </Button>
+        </div>
+
+        {Object.entries(groupedResults).map(([category, items]) => {
+          const categoryInfo = categories.find(cat => cat.id === category);
+          if (!categoryInfo) return null;
+          
+          const Icon = categoryInfo.icon;
+          
+          return (
+            <Card key={category} className="creative-card">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-3">
+                  <Icon className="h-5 w-5" />
+                  {categoryInfo.label}
+                  <Badge variant="secondary" className="text-xs">
+                    {items.length}
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="grid gap-3">
+                  {items.map((item) => (
+                    <Card 
+                      key={item.id} 
+                      className="p-4 border-l-4 border-l-accent cursor-pointer hover:bg-muted/30 transition-colors"
+                      onClick={() => {
+                        setActiveCategory(category);
+                        setSearchQuery('');
+                      }}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm mb-1">
+                            {item.name || item.title}
+                          </h4>
+                          {item.description && (
+                            <p className="text-muted-foreground text-xs line-clamp-2 mb-2">
+                              {item.description}
+                            </p>
+                          )}
+                          {item.tags && item.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {item.tags.slice(0, 3).map((tag: string, index: number) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                              {item.tags.length > 3 && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{item.tags.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  };
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
@@ -745,14 +1001,35 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
             <p className="text-muted-foreground">The BloomWeaver's Lament</p>
           </div>
           <div className="flex items-center space-x-2">
-            <Input
-              placeholder="Search world..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-48"
-            />
-            <Button size="sm" variant="outline">
+            <div className="relative">
+              <Input
+                placeholder="Search world..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-64 pr-8"
+              />
+              {searchQuery && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                  onClick={() => setSearchQuery('')}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+            <Button 
+              size="sm" 
+              variant="outline"
+              className={searchQuery ? "bg-accent/20" : ""}
+            >
               <Search className="h-4 w-4" />
+              {searchResults.length > 0 && (
+                <Badge variant="secondary" className="ml-2 px-1 py-0 text-xs">
+                  {searchResults.length}
+                </Badge>
+              )}
             </Button>
           </div>
         </div>
@@ -824,7 +1101,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
           <div className="lg:col-span-3">
             <Card className="creative-card">
               <CardContent className="p-6">
-                {renderCategoryContent()}
+                {searchQuery ? renderSearchResults() : renderCategoryContent()}
               </CardContent>
             </Card>
           </div>
