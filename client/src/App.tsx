@@ -12,6 +12,38 @@ import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImp
 const applyScrollbarStyles = () => {
   const style = document.createElement('style');
   style.textContent = `
+    /* Main document scrollbar - highest priority */
+    ::-webkit-scrollbar {
+      width: 8px !important;
+      height: 8px !important;
+      background: transparent !important;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #a0967d !important;
+      border-radius: 6px !important;
+      border: none !important;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #8b8269 !important;
+    }
+    
+    ::-webkit-scrollbar-corner {
+      background: transparent !important;
+    }
+    
+    /* Firefox main scrollbar */
+    html {
+      scrollbar-width: thin !important;
+      scrollbar-color: #a0967d transparent !important;
+    }
+    
+    /* All other elements */
     * {
       scrollbar-width: thin !important;
       scrollbar-color: #a0967d transparent !important;
@@ -39,24 +71,6 @@ const applyScrollbarStyles = () => {
     
     *::-webkit-scrollbar-corner {
       background: transparent !important;
-    }
-    
-    html::-webkit-scrollbar, body::-webkit-scrollbar {
-      width: 8px !important;
-      background: transparent !important;
-    }
-    
-    html::-webkit-scrollbar-track, body::-webkit-scrollbar-track {
-      background: transparent !important;
-    }
-    
-    html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb {
-      background: #a0967d !important;
-      border-radius: 6px !important;
-    }
-    
-    html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover {
-      background: #8b8269 !important;
     }
   `;
   
