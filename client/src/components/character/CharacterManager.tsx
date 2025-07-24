@@ -555,25 +555,24 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               size="lg"
               className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              {/* SVG Border Trace - Always visible */}
-              <svg 
-                className="absolute inset-0 w-full h-full pointer-events-none" 
-                style={{ transform: 'scale(1.02)' }}
-              >
-                <rect
-                  x="1" y="1"
-                  width="calc(100% - 2px)" height="calc(100% - 2px)"
-                  rx="8" ry="8"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.4)"
-                  strokeWidth="2"
-                  strokeDasharray="8 16"
-                  strokeDashoffset="0"
+              {/* Border trace line effect */}
+              <div className="absolute -inset-0.5 rounded-lg overflow-hidden">
+                <div 
+                  className="absolute inset-0 rounded-lg"
                   style={{
-                    animation: 'borderTrace 3s linear infinite'
+                    background: `
+                      linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                      linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                      linear-gradient(270deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                      linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%)
+                    `,
+                    backgroundSize: '100% 2px, 2px 100%, 100% 2px, 2px 100%',
+                    backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%',
+                    backgroundRepeat: 'no-repeat',
+                    animation: 'borderTrace 2s linear infinite'
                   }}
                 />
-              </svg>
+              </div>
               
               {/* Hover glow effect */}
               <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
@@ -675,25 +674,24 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 size="lg"
                 className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                {/* SVG Border Trace - Always visible */}
-                <svg 
-                  className="absolute inset-0 w-full h-full pointer-events-none" 
-                  style={{ transform: 'scale(1.02)' }}
-                >
-                  <rect
-                    x="1" y="1"
-                    width="calc(100% - 2px)" height="calc(100% - 2px)"
-                    rx="8" ry="8"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.4)"
-                    strokeWidth="2"
-                    strokeDasharray="8 16"
-                    strokeDashoffset="0"
+                {/* Border trace line effect */}
+                <div className="absolute -inset-0.5 rounded-lg overflow-hidden">
+                  <div 
+                    className="absolute inset-0 rounded-lg"
                     style={{
-                      animation: 'borderTrace 3s linear infinite'
+                      background: `
+                        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                        linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                        linear-gradient(270deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
+                        linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%)
+                      `,
+                      backgroundSize: '100% 2px, 2px 100%, 100% 2px, 2px 100%',
+                      backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%',
+                      backgroundRepeat: 'no-repeat',
+                      animation: 'borderTrace 2s linear infinite'
                     }}
                   />
-                </svg>
+                </div>
                 
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
