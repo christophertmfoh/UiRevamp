@@ -105,7 +105,7 @@ export function LocationUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated, but preserve imageGallery
-    const { createdAt, id, projectId, ...dataToSave } = processedData;
+    const { id, projectId, ...dataToSave } = processedData;
     
     // Ensure imageGallery array is preserved
     if (location.imageGallery) {
@@ -129,8 +129,104 @@ export function LocationUnifiedView({
     saveMutation.mutate(processedData as Location);
   };
 
-  const updateField = (key: string, value: any) => {
-    setFormData(prev => ({ ...prev, [key]: value }));
+  const handleInputChange = (field: string, value: string | string[]) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // Helper function to render a field - always show inputs, toggle disabled state
+  const renderField = (field: any, value: string | undefined) => {
+    if (field.type === 'textarea') {
+      return (
+        <div>
+          <Label htmlFor={field.key}>{field.label}</Label>
+          <Textarea
+            id={field.key}
+            value={value || ''}
+            onChange={(e) => handleInputChange(field.key, e.target.value)}
+            placeholder={isEditing ? field.placeholder : ''}
+            rows={4}
+            className="min-h-[100px]"
+            disabled={!isEditing}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Label htmlFor={field.key}>{field.label}</Label>
+          <Input
+            id={field.key}
+            value={value || ''}
+            onChange={(e) => handleInputChange(field.key, e.target.value)}
+            placeholder={isEditing ? field.placeholder : ''}
+            disabled={!isEditing}
+          />
+        </div>
+      );
+    }
+  };
+
+  // Helper function to render array fields - always show input, toggle disabled state
+  const renderArrayField = (field: any, values: string[] | undefined) => {
+    const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
+    return (
+      <div>
+        <Label htmlFor={field.key}>{field.label}</Label>
+        <Input
+          id={field.key}
+          value={stringValue}
+          onChange={(e) => {
+            const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+            handleInputChange(field.key, arrayValue);
+          }}
+          placeholder={isEditing ? field.placeholder : ''}
+          disabled={!isEditing}
+        />
+        {/* Show badges below input when in view mode and has values */}
+        {!isEditing && values && values.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {(Array.isArray(values) ? values : String(values).split(',').map((v: string) => v.trim()))
+              .filter((v: string) => v?.trim())
+              .map((value: string, index: number) => (
+                <Badge key={index} variant="outline" className="text-sm">
+                  {value.trim()}
+                </Badge>
+              ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Render tab content with grid layout like the original editor
+  const renderTabContent = (sectionId: string) => {
+    const section = LOCATION_SECTIONS.find(s => s.id === sectionId);
+    if (!section) return null;
+
+    return (
+      <div className="space-y-6">
+        {section.fields.map((field, index) => {
+          const value = (formData as any)[field.key];
+          
+          if (field.type === 'array') {
+            return (
+              <div key={field.key}>
+                {renderArrayField(field, value)}
+              </div>
+            );
+          } else {
+            return (
+              <div key={field.key}>
+                {renderField(field, value)}
+              </div>
+            );
+          }
+        })}
+      </div>
+    );
   };
 
   return (
@@ -199,8 +295,8 @@ export function LocationUnifiedView({
           <div className="flex-1">
             <h1 className="font-title text-4xl mb-2">{formData.name}</h1>
             
-            {formData.nicknames && (
-              <p className="text-lg text-muted-foreground mb-2">"{formData.nicknames}"</p>
+            {(formData as any).nicknames && (
+              <p className="text-lg text-muted-foreground mb-2">"{(formData as any).nicknames}"</p>
             )}
             
             {formData.description && (
@@ -209,19 +305,19 @@ export function LocationUnifiedView({
 
             {/* Location Type and Status Badges */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {formData.locationType && (
+              {(formData as any).locationType && (
                 <Badge variant="secondary" className="text-sm px-3 py-1">
-                  {formData.locationType}
+                  {(formData as any).locationType}
                 </Badge>
               )}
-              {formData.classification && (
+              {(formData as any).classification && (
                 <Badge variant="outline" className="text-sm px-3 py-1">
-                  {formData.classification}
+                  {(formData as any).classification}
                 </Badge>
               )}
-              {formData.status && (
+              {(formData as any).status && (
                 <Badge variant="outline" className="text-sm px-3 py-1">
-                  Status: {formData.status}
+                  Status: {(formData as any).status}
                 </Badge>
               )}
             </div>
@@ -242,10 +338,10 @@ export function LocationUnifiedView({
                 </div>
               )}
 
-              {formData.population && (
+              {(formData as any).population && (
                 <div>
                   <p className="text-muted-foreground text-xs uppercase tracking-wider mb-2 font-medium">Population</p>
-                  <p className="text-base">{formData.population}</p>
+                  <p className="text-base">{(formData as any).population}</p>
                 </div>
               )}
             </div>
@@ -253,84 +349,54 @@ export function LocationUnifiedView({
         </div>
       </Card>
 
-      {/* Detailed Location Information in Tabs */}
-      <Card className="p-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8">
-            {LOCATION_SECTIONS.map((section) => {
-              const IconComponent = (ICON_COMPONENTS as any)[section.icon];
-              return (
-                <TabsTrigger key={section.id} value={section.id} className="gap-2">
-                  {IconComponent && <IconComponent className="h-4 w-4" />}
-                  {section.label}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-
-          {LOCATION_SECTIONS.map((section) => (
-            <TabsContent key={section.id} value={section.id} className="space-y-6 mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {section.fields.map((field) => (
-                  <div key={field.key} className={field.type === 'textarea' ? 'md:col-span-2' : ''}>
-                    <Label htmlFor={field.key} className="text-sm font-medium mb-2 block">
-                      {field.label}
-                    </Label>
-                    
-                    {isEditing ? (
-                      field.type === 'textarea' ? (
-                        <Textarea
-                          id={field.key}
-                          value={(formData as any)[field.key] || ''}
-                          onChange={(e) => updateField(field.key, e.target.value)}
-                          placeholder={field.placeholder}
-                          rows={4}
-                          className="min-h-[100px]"
-                        />
-                      ) : field.type === 'array' ? (
-                        <Input
-                          id={field.key}
-                          value={Array.isArray((formData as any)[field.key]) ? ((formData as any)[field.key] as string[]).join(', ') : (formData as any)[field.key] || ''}
-                          onChange={(e) => updateField(field.key, e.target.value)}
-                          placeholder={field.placeholder}
-                        />
-                      ) : (
-                        <Input
-                          id={field.key}
-                          value={(formData as any)[field.key] || ''}
-                          onChange={(e) => updateField(field.key, e.target.value)}
-                          placeholder={field.placeholder}
-                        />
-                      )
-                    ) : (
-                      <div className="min-h-[40px] p-3 bg-muted/30 rounded-md border">
-                        {field.type === 'array' ? (
-                          Array.isArray((formData as any)[field.key]) && ((formData as any)[field.key] as string[]).length > 0 ? (
-                            <div className="flex flex-wrap gap-1">
-                              {((formData as any)[field.key] as string[]).map((item: string, index: number) => (
-                                <Badge key={index} variant="secondary" className="text-xs">
-                                  {item}
-                                </Badge>
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground text-sm">No {field.label.toLowerCase()} specified</span>
-                          )
-                        ) : (
-                          (formData as any)[field.key] ? (
-                            <p className="text-sm whitespace-pre-wrap">{(formData as any)[field.key]}</p>
-                          ) : (
-                            <span className="text-muted-foreground text-sm">No {field.label.toLowerCase()} specified</span>
-                          )
-                        )}
+      {/* Sidebar + Content Layout */}
+      <Card className="creative-card">
+        <CardContent className="p-0">
+          <div className="flex min-h-[600px]">
+            {/* Left Sidebar Navigation */}
+            <div className="w-64 border-r bg-muted/20 p-4">
+              <nav className="space-y-1">
+                {LOCATION_SECTIONS.map(section => {
+                  const IconComponent = (ICON_COMPONENTS as any)[section.icon] || MapPin;
+                  const isActive = activeTab === section.id;
+                  
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveTab(section.id)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
+                        isActive 
+                          ? 'bg-background text-foreground shadow-sm border' 
+                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      <IconComponent className="h-4 w-4 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm">{section.label}</div>
                       </div>
-                    )}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+            
+            {/* Right Content Area */}
+            <div className="flex-1 p-6">
+              {LOCATION_SECTIONS.map(section => {
+                if (activeTab !== section.id) return null;
+                
+                return (
+                  <div key={section.id} className="space-y-6">
+                    <div className="border-b pb-4">
+                      <h2 className="text-2xl font-semibold">{section.label}</h2>
+                    </div>
+                    {renderTabContent(section.id)}
                   </div>
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+                );
+              })}
+            </div>
+          </div>
+        </CardContent>
       </Card>
 
       {/* Image Generation Modal */}
