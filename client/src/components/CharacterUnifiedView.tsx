@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
@@ -38,6 +38,7 @@ export function CharacterUnifiedView({
 }: CharacterUnifiedViewProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(character);
+  const [activeTab, setActiveTab] = useState('identity');
   const queryClient = useQueryClient();
 
   // Save mutation
@@ -162,44 +163,30 @@ export function CharacterUnifiedView({
     }
   };
 
-  // Check if section has content
-  const sectionHasContent = (sectionId: string) => {
-    if (isEditing) return true; // Show all sections in edit mode
-    
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
-    if (!section) return false;
-    
-    return section.fields.some(field => {
-      const value = (formData as any)[field.key];
-      if (field.type === 'array') {
-        return Array.isArray(value) && value.length > 0 && value.some(v => v?.trim());
-      }
-      return value && value.toString().trim().length > 0;
-    });
-  };
-
-  // Render section content
-  const renderSectionContent = (sectionId: string) => {
+  // Render tab content with grid layout like the original editor
+  const renderTabContent = (sectionId: string) => {
     const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
     if (!section) return null;
 
-    const content = section.fields.map((field, index) => {
-      const value = (formData as any)[field.key];
-      
-      if (field.type === 'array') {
-        return renderArrayField(field, value);
-      } else {
-        return renderField(field, value);
-      }
-    }).filter(Boolean);
-
-    if (!isEditing && content.length === 0) return null;
-
     return (
-      <div className="space-y-4">
-        {content.map((item, index) => (
-          <div key={index}>{item}</div>
-        ))}
+      <div className="space-y-6">
+        {section.fields.map((field, index) => {
+          const value = (formData as any)[field.key];
+          
+          if (field.type === 'array') {
+            return (
+              <div key={field.key}>
+                {renderArrayField(field, value)}
+              </div>
+            );
+          } else {
+            return (
+              <div key={field.key}>
+                {renderField(field, value)}
+              </div>
+            );
+          }
+        })}
       </div>
     );
   };
@@ -318,37 +305,38 @@ export function CharacterUnifiedView({
         </CardContent>
       </Card>
 
-      {/* Unified Editor/Viewer Sections */}
+      {/* Tabbed Editor/Viewer Interface */}
       <Card className="creative-card">
         <CardContent className="p-6">
-          <Accordion 
-            type="multiple" 
-            className="w-full"
-            defaultValue={isEditing ? CHARACTER_SECTIONS.map(s => s.id) : []}
-          >
-            {CHARACTER_SECTIONS.map(section => {
-              if (!sectionHasContent(section.id)) return null;
-              
-              const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
-              
-              return (
-                <AccordionItem key={section.id} value={section.id}>
-                  <AccordionTrigger className="hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <IconComponent className="h-5 w-5" />
-                      <div className="text-left">
-                        <div className="font-semibold">{section.title}</div>
-                        <div className="text-sm text-muted-foreground">{section.description}</div>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4">
-                    {renderSectionContent(section.id)}
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-8">
+              {CHARACTER_SECTIONS.map(section => {
+                const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
+                return (
+                  <TabsTrigger 
+                    key={section.id} 
+                    value={section.id}
+                    className="flex items-center gap-2 text-xs"
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    <span className="hidden sm:inline">{section.title}</span>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+            
+            {CHARACTER_SECTIONS.map(section => (
+              <TabsContent key={section.id} value={section.id} className="mt-6">
+                <div className="space-y-4">
+                  <div className="border-b pb-2">
+                    <h3 className="text-lg font-semibold">{section.title}</h3>
+                    <p className="text-sm text-muted-foreground">{section.description}</p>
+                  </div>
+                  {renderTabContent(section.id)}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
         </CardContent>
       </Card>
     </div>
