@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import type { Character } from '../../lib/types';
 import { CharacterFormExpanded } from './CharacterFormExpanded';
 import { CharacterUnifiedViewPremium } from './CharacterUnifiedViewPremium';
+import { CharacterGuidedCreation } from './CharacterGuidedCreation';
 
 interface CharacterDetailViewProps {
   projectId: string;
   character: Character | null;
   isCreating?: boolean;
+  isGuidedCreation?: boolean;
   onBack: () => void;
   onEdit: (character: Character) => void;
   onDelete: (character: Character) => void;
@@ -15,14 +17,30 @@ interface CharacterDetailViewProps {
 export function CharacterDetailView({ 
   projectId, 
   character, 
-  isCreating = false, 
+  isCreating = false,
+  isGuidedCreation = false,
   onBack, 
   onEdit, 
   onDelete 
 }: CharacterDetailViewProps) {
-  const [isEditing, setIsEditing] = useState(isCreating);
+  const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation);
   
-  // If we're creating or there's no character, show the form
+  // If we're doing guided creation, show the guided flow
+  if (isGuidedCreation || (isCreating && !character)) {
+    return (
+      <CharacterGuidedCreation
+        projectId={projectId}
+        character={character || undefined}
+        onCancel={onBack}
+        onComplete={(savedCharacter) => {
+          // After completion, switch to viewing the character
+          onEdit(savedCharacter);
+        }}
+      />
+    );
+  }
+
+  // If we're creating with existing data, show the form
   if (isCreating || !character) {
     return (
       <CharacterFormExpanded

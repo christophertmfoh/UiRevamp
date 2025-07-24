@@ -30,6 +30,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isGuidedCreation, setIsGuidedCreation] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -138,7 +139,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   };
 
   const handleCreateNew = () => {
+    setIsCreationLaunchOpen(false);
     setIsCreating(true);
+    setIsGuidedCreation(true);
     setSelectedCharacter(null);
   };
 
@@ -208,6 +211,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
     setSelectedCharacter(null);
     setIsCreating(false);
+    setIsGuidedCreation(false);
   };
 
   const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
@@ -243,6 +247,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         projectId={projectId}
         character={selectedCharacter}
         isCreating={isCreating}
+        isGuidedCreation={isGuidedCreation}
         onBack={handleBackToList}
         onEdit={handleEdit}
         onDelete={handleDelete}
