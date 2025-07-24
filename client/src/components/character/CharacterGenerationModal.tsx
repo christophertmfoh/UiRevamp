@@ -73,13 +73,19 @@ export function CharacterGenerationModal({
                 <SelectItem value="protagonist">Protagonist</SelectItem>
                 <SelectItem value="antagonist">Antagonist</SelectItem>
                 <SelectItem value="supporting">Supporting Character</SelectItem>
-                <SelectItem value="mentor">Mentor</SelectItem>
                 <SelectItem value="love-interest">Love Interest</SelectItem>
-                <SelectItem value="comic-relief">Comic Relief</SelectItem>
-                <SelectItem value="mysterious">Mysterious Figure</SelectItem>
+                <SelectItem value="mentor">Mentor</SelectItem>
+                <SelectItem value="sidekick">Sidekick</SelectItem>
                 <SelectItem value="villain">Villain</SelectItem>
-                <SelectItem value="ally">Ally</SelectItem>
-                <SelectItem value="rival">Rival</SelectItem>
+                <SelectItem value="anti-hero">Anti-Hero</SelectItem>
+                <SelectItem value="comic-relief">Comic Relief</SelectItem>
+                <SelectItem value="mysterious-figure">Mysterious Figure</SelectItem>
+                <SelectItem value="wise-elder">Wise Elder</SelectItem>
+                <SelectItem value="innocent">Innocent</SelectItem>
+                <SelectItem value="rebel">Rebel</SelectItem>
+                <SelectItem value="guardian">Guardian</SelectItem>
+                <SelectItem value="trickster">Trickster</SelectItem>
+
               </SelectContent>
             </Select>
           </div>

@@ -4,9 +4,10 @@
 export interface FieldConfig {
   key: string;
   label: string;
-  type: 'text' | 'textarea' | 'array';
+  type: 'text' | 'textarea' | 'array' | 'select';
   placeholder?: string;
   rows?: number;
+  options?: string[];
 }
 
 export interface SectionConfig {
@@ -28,12 +29,12 @@ export const CHARACTER_SECTIONS: SectionConfig[] = [
       { key: 'nicknames', label: 'Nicknames', type: 'text', placeholder: 'Common nicknames' },
       { key: 'title', label: 'Title', type: 'text', placeholder: 'Sir, Dr., Captain, etc.' },
       { key: 'aliases', label: 'Aliases', type: 'text', placeholder: 'Secret identities, code names' },
-      { key: 'role', label: 'Role in Story', type: 'text', placeholder: 'protagonist, antagonist, supporting' },
+      { key: 'role', label: 'Role in Story', type: 'select', options: ['protagonist', 'antagonist', 'supporting', 'love-interest', 'mentor', 'sidekick', 'villain', 'anti-hero', 'comic-relief', 'mysterious-figure', 'wise-elder', 'innocent', 'rebel', 'guardian', 'trickster'] },
       { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, elf, alien, etc.' },
       { key: 'ethnicity', label: 'Ethnicity/Culture', type: 'text', placeholder: 'Cultural background' },
       { key: 'age', label: 'Age', type: 'text', placeholder: '25, young adult, ancient' },
       { key: 'birthdate', label: 'Birth Date', type: 'text', placeholder: 'When they were born' },
-      { key: 'class', label: 'Class', type: 'text', placeholder: 'Warrior, mage, rogue, etc.' },
+      { key: 'class', label: 'Class', type: 'select', options: ['Warrior', 'Mage', 'Rogue', 'Cleric', 'Ranger', 'Paladin', 'Barbarian', 'Bard', 'Wizard', 'Sorcerer', 'Warlock', 'Druid', 'Monk', 'Fighter', 'Assassin', 'Knight', 'Scholar', 'Merchant', 'Noble', 'Commoner', 'Outlaw', 'Healer', 'Hunter', 'Craftsperson', 'Artist', 'Diplomat', 'Spy', 'Detective', 'Scientist', 'Engineer', 'Pilot', 'Soldier', 'Doctor', 'Teacher', 'Leader', 'Rebel', 'Explorer', 'Survivor'] },
       { key: 'profession', label: 'Profession', type: 'text', placeholder: 'What they do for work' },
       { key: 'occupation', label: 'Current Occupation', type: 'text', placeholder: 'Current job or role' },
     ]
@@ -46,10 +47,10 @@ export const CHARACTER_SECTIONS: SectionConfig[] = [
     fields: [
       { key: 'height', label: 'Height', type: 'text', placeholder: '5\'8", tall, short' },
       { key: 'weight', label: 'Weight/Build', type: 'text', placeholder: 'Lean, muscular, heavy-set' },
-      { key: 'eyeColor', label: 'Eye Color', type: 'text', placeholder: 'Brown, blue, green, hazel' },
-      { key: 'hairColor', label: 'Hair Color', type: 'text', placeholder: 'Blonde, brunette, black, red' },
-      { key: 'hairStyle', label: 'Hair Style', type: 'text', placeholder: 'Long, short, curly, straight' },
-      { key: 'skinTone', label: 'Skin Tone', type: 'text', placeholder: 'Fair, olive, dark, tanned' },
+      { key: 'eyeColor', label: 'Eye Color', type: 'select', options: ['Brown', 'Blue', 'Green', 'Hazel', 'Gray', 'Amber', 'Violet', 'Black', 'Red', 'Gold', 'Silver', 'Heterochromia', 'Glowing', 'Changing', 'Other'] },
+      { key: 'hairColor', label: 'Hair Color', type: 'select', options: ['Black', 'Brown', 'Blonde', 'Red', 'Auburn', 'Strawberry Blonde', 'White', 'Silver', 'Gray', 'Blue', 'Green', 'Purple', 'Pink', 'Multicolored', 'Bald', 'Other'] },
+      { key: 'hairStyle', label: 'Hair Style', type: 'select', options: ['Long', 'Short', 'Medium', 'Curly', 'Straight', 'Wavy', 'Braided', 'Ponytail', 'Bun', 'Mohawk', 'Buzz Cut', 'Afro', 'Dreadlocks', 'Shaved', 'Messy', 'Neat', 'Wild', 'Other'] },
+      { key: 'skinTone', label: 'Skin Tone', type: 'select', options: ['Very Fair', 'Fair', 'Light', 'Medium', 'Olive', 'Tan', 'Brown', 'Dark', 'Very Dark', 'Pale', 'Rosy', 'Golden', 'Ashen', 'Translucent', 'Scaled', 'Furry', 'Other'] },
       { key: 'physicalDescription', label: 'Overall Physical Description', type: 'textarea', placeholder: 'Detailed physical appearance description', rows: 4 },
       { key: 'distinguishingMarks', label: 'Distinguishing Marks', type: 'textarea', placeholder: 'Scars, tattoos, birthmarks, etc.', rows: 3 },
       { key: 'clothingStyle', label: 'Clothing Style', type: 'textarea', placeholder: 'How they typically dress', rows: 3 },
@@ -63,7 +64,7 @@ export const CHARACTER_SECTIONS: SectionConfig[] = [
     fields: [
       { key: 'personality', label: 'Overall Personality', type: 'textarea', placeholder: 'General personality description', rows: 4 },
       { key: 'personalityTraits', label: 'Personality Traits', type: 'array', placeholder: 'brave, stubborn, kind, sarcastic' },
-      { key: 'temperament', label: 'Temperament', type: 'text', placeholder: 'calm, fiery, melancholic, optimistic' },
+      { key: 'temperament', label: 'Temperament', type: 'select', options: ['Calm', 'Fiery', 'Melancholic', 'Optimistic', 'Pessimistic', 'Aggressive', 'Passive', 'Volatile', 'Steady', 'Anxious', 'Confident', 'Impulsive', 'Thoughtful', 'Energetic', 'Lethargic', 'Balanced', 'Extreme', 'Peaceful', 'Confrontational', 'Adaptable'] },
       { key: 'beliefs', label: 'Beliefs & Values', type: 'textarea', placeholder: 'What they believe in, their core values', rows: 3 },
       { key: 'worldview', label: 'Worldview', type: 'textarea', placeholder: 'How they see the world, their philosophy', rows: 3 },
       { key: 'likes', label: 'Likes', type: 'textarea', placeholder: 'Things they enjoy', rows: 2 },
