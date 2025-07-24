@@ -89,24 +89,31 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  // Single optimized request approach to avoid rate limit issues
-  console.log(`Enhancing ${emptyFields.length} empty fields using single optimized request...`);
+  // Focus only on identity fields for now
+  const identityFields = ['title', 'aliases', 'race', 'ethnicity', 'nationality', 'class', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status'];
+  const emptyIdentityFields = emptyFields.filter(field => identityFields.includes(field));
   
-  // Create minimal context to reduce token usage
-  const filledSummary = filledFields.slice(0, 10).join('; '); // Limit to first 10 filled fields
+  console.log(`Enhancing ${emptyIdentityFields.length} identity fields: ${emptyIdentityFields.join(', ')}`);
   
-  const prompt = `Fill empty character fields based on existing data:
+  if (emptyIdentityFields.length === 0) {
+    console.log('No empty identity fields to enhance');
+    return currentData;
+  }
+  
+  // Create focused prompt for identity fields only
+  const prompt = `Based on this character data, fill only the missing identity fields:
 
-FILLED: ${filledSummary}
-EMPTY: ${emptyFields.join(', ')}
+Existing data: name="${currentData.name}", nicknames="${currentData.nicknames}", physical="${currentData.physicalDescription}"
 
-Return complete character JSON with ALL empty fields filled contextually. Keep descriptions concise (1-2 sentences max).`;
+Fill these identity fields: ${emptyIdentityFields.join(', ')}
+
+Return JSON with ONLY these identity fields filled appropriately.`;
 
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
-        systemInstruction: `You are a character development AI. Fill ALL empty fields in the character object with brief, contextually appropriate content based on the existing filled fields. For arrays, provide 2-3 items max.`,
+        systemInstruction: `Fill only the specified identity fields based on the character's name and existing details. Keep responses brief and contextual.`,
         responseMimeType: "application/json",
       },
       contents: prompt,
@@ -114,40 +121,22 @@ Return complete character JSON with ALL empty fields filled contextually. Keep d
 
     const result = response.text;
     if (result) {
-      const enhancedData = JSON.parse(result);
-      console.log(`✓ Successfully enhanced character with AI-generated content`);
+      const identityData = JSON.parse(result);
+      console.log(`✓ Enhanced identity fields:`, Object.keys(identityData));
       
-      // Preserve existing data and merge with enhancements
-      const finalData = {
-        ...currentData, // Start with original data
-        ...enhancedData, // Apply enhancements
-        // Ensure system fields are preserved
-        id: currentData.id,
-        projectId: currentData.projectId,
-        imageUrl: currentData.imageUrl || '',
-        displayImageId: currentData.displayImageId || '',
-        imageGallery: currentData.imageGallery || [],
-        createdAt: currentData.createdAt,
-        updatedAt: currentData.updatedAt
+      // Merge only the identity enhancements with current data
+      const enhancedData = {
+        ...currentData,
+        ...identityData
       };
       
-      return finalData;
+      return enhancedData;
     } else {
       throw new Error("Empty response from AI");
     }
   } catch (error: any) {
-    console.error('Single request enhancement error:', error.message);
-    
-    // Fallback: Return original data with a few key fields filled manually
-    const fallbackData = {
-      ...currentData,
-      personality: currentData.personality || "Complex and multi-layered individual with hidden depths",
-      motivations: currentData.motivations || "Driven by personal goals and circumstances",
-      backstory: currentData.backstory || "Shaped by past experiences and relationships"
-    };
-    
-    console.log('Using fallback enhancement due to API error');
-    return fallbackData;
+    console.error('Identity enhancement error:', error.message);
+    return currentData; // Return unchanged data on error
   }
 
 
