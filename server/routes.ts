@@ -399,6 +399,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         character
       });
       
+      console.log('Server: About to send enhanced data to frontend, keys:', Object.keys(enhancedData));
+      console.log('Server: Sample enhanced fields:', {
+        name: enhancedData.name,
+        title: enhancedData.title,
+        age: enhancedData.age,
+        occupation: enhancedData.occupation
+      });
+      
       res.json(enhancedData);
     } catch (error: any) {
       console.error("Error enhancing character:", error);

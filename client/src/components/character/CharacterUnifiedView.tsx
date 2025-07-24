@@ -76,14 +76,15 @@ export function CharacterUnifiedView({
       console.log('Starting AI enhancement for character:', character.id);
       
       const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
-      console.log('AI enhancement response received:', response);
+      const enhancedData = await response.json();
+      console.log('AI enhancement response received:', enhancedData);
       
       // Force form data update
-      setFormData({ ...response } as Character);
+      setFormData({ ...enhancedData } as Character);
       
       // Force re-render by toggling state
       setTimeout(() => {
-        setFormData(prev => ({ ...prev, ...response } as Character));
+        setFormData(prev => ({ ...prev, ...enhancedData } as Character));
       }, 100);
       
       console.log('Form data updated with enhanced character');
