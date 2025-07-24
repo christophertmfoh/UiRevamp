@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config';
+import { CHARACTER_SECTIONS } from '../../lib/config/characterFieldsConfig';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
 import { LoadingModal } from '../ui/loading-modal';
 
