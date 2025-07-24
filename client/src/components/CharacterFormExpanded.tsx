@@ -281,17 +281,19 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       archetypes: formData.archetypes.split(',').map(s => s.trim()).filter(Boolean),
       tropes: formData.tropes.split(',').map(s => s.trim()).filter(Boolean),
       tags: formData.tags.split(',').map(s => s.trim()).filter(Boolean),
-      relationships: [],
       isModelTrained: false,
       imageUrl: '',
-      imageGallery: [],
-      modelImageUrls: [],
     };
 
     if (character) {
       updateMutation.mutate(processedData);
     } else {
-      createMutation.mutate(processedData);
+      // Generate ID for new character
+      const newCharacterData = {
+        ...processedData,
+        id: Date.now().toString(),
+      };
+      createMutation.mutate(newCharacterData);
     }
   };
 
