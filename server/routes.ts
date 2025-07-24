@@ -265,7 +265,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the character was last modified
       const characterDataWithTimestamp = {
         ...characterData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       console.log('Parsed character data with timestamp:', JSON.stringify(characterDataWithTimestamp, null, 2));
@@ -471,7 +471,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the location was last modified
       const locationDataWithTimestamp = {
         ...locationData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       const location = await storage.updateLocation(id, locationDataWithTimestamp);
@@ -637,7 +637,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the faction was last modified
       const factionDataWithTimestamp = {
         ...factionData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       const faction = await storage.updateFaction(id, factionDataWithTimestamp);
@@ -757,7 +757,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the item was last modified
       const itemDataWithTimestamp = {
         ...itemData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       const item = await storage.updateItem(id, itemDataWithTimestamp);
@@ -842,7 +842,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the organization was last modified
       const organizationDataWithTimestamp = {
         ...organizationData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       const organization = await storage.updateOrganization(id, organizationDataWithTimestamp);
@@ -927,7 +927,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add updatedAt timestamp to track when the magic system was last modified
       const magicSystemDataWithTimestamp = {
         ...magicSystemData,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date()
       };
       
       const magicSystem = await storage.updateMagicSystem(id, magicSystemDataWithTimestamp);

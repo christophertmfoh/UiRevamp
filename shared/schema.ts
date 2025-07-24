@@ -373,6 +373,7 @@ export const locations = pgTable("locations", {
   displayImageId: text("display_image_id"),
   
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const factions = pgTable("factions", {
@@ -404,6 +405,7 @@ export const factions = pgTable("factions", {
   imageUrl: text("image_url"),
   portraits: text("portraits").array().default([]),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const items = pgTable("items", {
@@ -417,6 +419,7 @@ export const items = pgTable("items", {
   tags: text("tags").array().default([]),
   displayImageId: integer("display_image_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Additional World Bible tables for BloomWeaver complexity
@@ -435,6 +438,7 @@ export const organizations = pgTable("organizations", {
   status: text("status").default(''),
   tags: text("tags").array().default([]),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const magicSystems = pgTable("magic_systems", {
@@ -450,6 +454,7 @@ export const magicSystems = pgTable("magic_systems", {
   corruption: text("corruption").default(''),
   tags: text("tags").array().default([]),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const timelineEvents = pgTable("timeline_events", {
