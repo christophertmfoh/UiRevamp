@@ -40,15 +40,16 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 - User appreciates concise, professional communication
 - Focus on functionality and reliability over verbose explanations
 - Prefers working solutions with proper error handling and fallbacks
+- Does not have OpenAI subscription - use only free/available services
 
 ## API Keys Configuration
 - ✅ GOOGLE_API_KEY: Configured for Gemini AI services
-- ✅ OPENAI_API_KEY: Configured for DALL-E image generation
+- ❌ OPENAI_API_KEY: Available but user doesn't have subscription
 - ✅ DATABASE_URL: PostgreSQL connection configured
 
 ## Known Issues
-- Gemini image generation may occasionally fail due to API model limitations
-- Automatic fallback to OpenAI ensures image generation continues to work
+- Image generation is currently disabled due to lack of available free services
+- Character generation works perfectly with Gemini
 - Some dialog components show accessibility warnings (non-critical)
 
 ## Next Steps

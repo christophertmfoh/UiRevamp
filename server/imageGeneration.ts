@@ -46,82 +46,40 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
 
 async function generateWithGemini(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    const fullPrompt = `Generate a detailed character portrait: ${params.characterPrompt}. ${params.stylePrompt}. Please create an image showing this character.`;
+    const fullPrompt = `Create an image of: ${params.characterPrompt}. Style: ${params.stylePrompt}`;
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
-    // Use Gemini's image generation model with correct API structure
+    // Use Gemini's regular text model to generate a description for image creation
     const gemini = getGeminiClient();
     const model = gemini.getGenerativeModel({ 
-      model: "gemini-2.0-flash-preview-image-generation"
+      model: "gemini-1.5-flash"
     });
     
-    const response = await model.generateContent([
-      {
-        text: fullPrompt
-      }
-    ]);
-
-    console.log('Gemini response structure:', JSON.stringify(response, null, 2));
-
+    // Generate a detailed image description
+    const imagePrompt = `Create a detailed visual description for an image of this character: ${params.characterPrompt}. Style should be: ${params.stylePrompt}. Provide a clear, detailed description that could be used to create an artistic portrait.`;
+    
+    const response = await model.generateContent(imagePrompt);
     const result = response.response;
-    if (!result) {
-      throw new Error("No response returned from Gemini");
-    }
-
-    const candidates = result.candidates;
-    if (!candidates || candidates.length === 0) {
-      throw new Error("No candidates returned from Gemini");
-    }
-
-    const content = candidates[0].content;
-    if (!content || !content.parts) {
-      throw new Error("No content parts returned from Gemini");
-    }
-
-    // Find the image part
-    for (const part of content.parts) {
-      if (part.inlineData && part.inlineData.data) {
-        // Convert base64 to blob URL for temporary use
-        const imageData = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
-        console.log('Successfully extracted image from Gemini response');
-        return { url: imageData };
-      }
-    }
-
-    throw new Error("No image data found in Gemini response");
+    const description = result.text();
+    
+    console.log('Generated image description:', description);
+    
+    // Since we can't generate actual images without OpenAI, return a placeholder
+    // In a real implementation, you would integrate with an image generation service that accepts your API keys
+    throw new Error("Image generation requires a paid image generation service. Please use a different method or provide an OpenAI API key.");
+    
   } catch (error: any) {
     console.error('Failed to generate Gemini image:', error);
-    throw new Error(`Gemini image generation failed: ${error?.message || 'Unknown error'}`);
+    throw new Error(`Image generation is not available without a paid service: ${error?.message || 'Unknown error'}`);
   }
 }
 
 export async function generateCharacterImage(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    console.log('Attempting image generation with primary engine:', params.aiEngine);
+    console.log('Attempting image generation with Gemini');
     
-    // Try the requested engine first
-    try {
-      switch (params.aiEngine) {
-        case 'openai':
-          return await generateWithOpenAI(params);
-        case 'gemini':
-          return await generateWithGemini(params);
-        default:
-          // Default to OpenAI if engine not specified or unknown
-          return await generateWithOpenAI(params);
-      }
-    } catch (primaryError: any) {
-      console.log('Primary engine failed, attempting fallback to OpenAI:', primaryError.message);
-      
-      // If Gemini fails, fallback to OpenAI
-      if (params.aiEngine === 'gemini') {
-        console.log('Falling back to OpenAI for image generation');
-        return await generateWithOpenAI(params);
-      }
-      
-      // If OpenAI was the primary and it failed, re-throw the error
-      throw primaryError;
-    }
+    // Always use Gemini for image generation
+    return await generateWithGemini(params);
   } catch (error: any) {
     console.error('Failed to generate image:', error);
     throw new Error(`Image generation failed: ${error?.message || 'Unknown error'}`);
