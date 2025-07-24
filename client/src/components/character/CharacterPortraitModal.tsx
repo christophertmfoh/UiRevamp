@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Sparkles, Image, Brain, X } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { Character } from '../lib/types';
+import type { Character } from '../../lib/types';
 
 interface CharacterPortraitModalProps {
   character: Character;
