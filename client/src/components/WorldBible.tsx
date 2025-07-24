@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +26,7 @@ import {
   Castle,
   Sword
 } from 'lucide-react';
-import type { Project } from '../lib/types';
+import type { Project, Character } from '../lib/types';
 import { CharacterManager } from './CharacterManager';
 
 interface WorldBibleProps {
@@ -38,6 +39,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
+
+  // Fetch characters to get dynamic count
+  const { data: characters = [] } = useQuery<Character[]>({
+    queryKey: ['/api/projects', project.id, 'characters'],
+  });
 
   // Drag and drop handlers
   const handleDragStart = (e: React.DragEvent, categoryId: string) => {
@@ -246,7 +252,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   // World Bible categories with drag-and-drop capability (moved after worldData definition)
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: worldData.characters.length, locked: false },
+    { id: 'characters', label: 'Characters', icon: Users, count: 0, locked: false },
     { id: 'locations', label: 'Locations', icon: MapPin, count: worldData.locations.length, locked: false },
     { id: 'factions', label: 'Factions', icon: Shield, count: worldData.factions.length, locked: false },
     { id: 'organizations', label: 'Organizations', icon: Crown, count: worldData.organizations.length, locked: false },
@@ -259,6 +265,15 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
     { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 0, locked: false },
     { id: 'themes', label: 'Themes', icon: Sword, count: 0, locked: false }
   ]);
+
+  // Update character count when characters change
+  useEffect(() => {
+    setCategories(prev => prev.map(cat => 
+      cat.id === 'characters' 
+        ? { ...cat, count: characters.length }
+        : cat
+    ));
+  }, [characters.length]);
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
