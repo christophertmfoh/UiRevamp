@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
@@ -152,98 +153,127 @@ export function CharacterUnifiedView({
     }));
   };
 
-  // Helper function to render a field - always show inputs, toggle disabled state
-  const renderField = (field: any, value: string | undefined) => {
-    if (field.type === 'textarea') {
-      return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Textarea
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            rows={field.rows || 3}
-            className="creative-input"
-            disabled={!isEditing}
-          />
-        </div>
-      );
+  // Helper function to render field based on type - matching organization module
+  const renderField = (field: any, value: any) => {
+    if (isEditing) {
+      switch (field.type) {
+        case 'text':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        case 'textarea':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Textarea
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input min-h-[100px] resize-y"
+              />
+            </div>
+          );
+        
+        case 'select':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Select 
+                value={value || ''} 
+                onValueChange={(newValue) => handleInputChange(field.key, newValue)}
+              >
+                <SelectTrigger className="creative-input">
+                  <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {field.options?.map((option: string) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          );
+        
+        case 'array':
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={Array.isArray(value) ? value.join(', ') : ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={`Enter ${field.label.toLowerCase()}, separated by commas...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        default:
+          return (
+            <div key={field.key} className="space-y-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              <Input
+                id={field.key}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.key, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input"
+              />
+            </div>
+          );
+      }
     } else {
+      // View mode - show clean text like organization module
+      if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) {
+        return (
+          <div key={field.key} className="space-y-2">
+            <Label className="text-muted-foreground">{field.label}</Label>
+            <p className="text-sm text-muted-foreground italic">Not specified</p>
+          </div>
+        );
+      }
+
       return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Input
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            className="creative-input"
-            disabled={!isEditing}
-          />
+        <div key={field.key} className="space-y-2">
+          <Label className="text-muted-foreground">{field.label}</Label>
+          {Array.isArray(value) ? (
+            <div className="flex flex-wrap gap-1">
+              {value.map((item: string, index: number) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {item}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm">{value}</p>
+          )}
         </div>
       );
     }
   };
 
-  // Helper function to render array fields - always show input, toggle disabled state
-  const renderArrayField = (field: any, values: string[] | undefined) => {
-    const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
-    return (
-      <div>
-        <Label htmlFor={field.key}>{field.label}</Label>
-        <Input
-          id={field.key}
-          value={stringValue}
-          onChange={(e) => {
-            const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-            handleInputChange(field.key, arrayValue);
-          }}
-          placeholder={isEditing ? field.placeholder : ''}
-          className="creative-input"
-          disabled={!isEditing}
-        />
-        {/* Show badges below input when in view mode and has values */}
-        {!isEditing && values && values.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {(Array.isArray(values) ? values : String(values).split(',').map((v: string) => v.trim()))
-              .filter((v: string) => v?.trim())
-              .map((value: string, index: number) => (
-                <Badge key={index} variant="outline" className="text-sm">
-                  {value.trim()}
-                </Badge>
-              ))}
-          </div>
-        )}
-      </div>
-    );
-  };
 
-  // Render tab content with grid layout like the original editor
+
+  // Render tab content with grid layout matching organization module
   const renderTabContent = (sectionId: string) => {
     const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
     if (!section) return null;
 
-    return (
-      <div className="space-y-6">
-        {section.fields.map((field, index) => {
-          const value = (formData as any)[field.key];
-          
-          if (field.type === 'array') {
-            return (
-              <div key={field.key}>
-                {renderArrayField(field, value)}
-              </div>
-            );
-          } else {
-            return (
-              <div key={field.key}>
-                {renderField(field, value)}
-              </div>
-            );
-          }
-        })}
-      </div>
+    return section.fields.map((field) => 
+      renderField(field, formData[field.key as keyof Character])
     );
   };
 
