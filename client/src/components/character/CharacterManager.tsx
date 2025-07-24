@@ -248,177 +248,252 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     );
   }
 
-  // Enhanced Character Card for Grid View
+  // Premium Character Card for Grid View
   const CharacterCard = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border border-border/40 hover:border-accent/40 bg-gradient-to-br from-background via-background to-muted/10 overflow-hidden" 
+    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5 overflow-hidden relative" 
           onClick={() => setSelectedCharacter(character)}>
-      <CardContent className="p-0">
+      <CardContent className="p-0 relative">
+        {/* Glow Effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+        
         {/* Character Image Header */}
-        <div className="relative h-52 bg-gradient-to-br from-purple-50 via-amber-50 to-pink-50 dark:from-purple-900/20 dark:via-amber-900/20 dark:to-pink-900/20 overflow-hidden">
+        <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
           {character.imageUrl ? (
-            <img 
-              src={character.imageUrl} 
-              alt={character.name}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
+            <>
+              <img 
+                src={character.imageUrl} 
+                alt={character.name}
+                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+              />
+              {/* Image Overlay for Better Text Contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
               <div className="text-center">
-                <Users className="h-16 w-16 mx-auto text-muted-foreground/40 mb-2" />
-                <p className="text-xs text-muted-foreground/60">No portrait</p>
+                <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
+                  <Users className="h-10 w-10 text-accent/60" />
+                </div>
+                <p className="text-sm text-muted-foreground font-medium">Ready for portrait</p>
               </div>
             </div>
           )}
           
-          {/* Enhanced Action Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <div className="absolute top-3 right-3 flex gap-2">
-              <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/95 hover:bg-white text-black shadow-lg backdrop-blur-sm" 
+          {/* Premium Action Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="absolute top-4 right-4 flex gap-2">
+              <Button size="sm" className="h-9 w-9 p-0 bg-white/90 hover:bg-white text-black shadow-xl backdrop-blur-sm border-0" 
                       onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
-                <Edit className="h-3 w-3" />
+                <Edit className="h-4 w-4" />
               </Button>
-              <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/95 hover:bg-white text-black shadow-lg backdrop-blur-sm"
+              <Button size="sm" className="h-9 w-9 p-0 bg-accent/90 hover:bg-accent text-accent-foreground shadow-xl backdrop-blur-sm border-0"
                       onClick={(e) => handlePortraitClick(character, e)}>
-                <Camera className="h-3 w-3" />
+                <Camera className="h-4 w-4" />
               </Button>
+            </div>
+            
+            {/* Quick Preview Text */}
+            <div className="absolute bottom-4 left-4 right-4">
+              <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
+                {character.description || 'Click to add character details and bring them to life...'}
+              </div>
             </div>
           </div>
 
-          {/* Enhanced Status Badge */}
-          <div className="absolute bottom-3 left-3">
-            <Badge variant="secondary" className="bg-black/70 text-white backdrop-blur-sm border-0 shadow-lg text-xs">
+          {/* Premium Status Badge */}
+          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+            <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
               {character.role || 'Character'}
             </Badge>
           </div>
         </div>
 
-        {/* Enhanced Character Info */}
-        <div className="p-5 space-y-3">
+        {/* Premium Character Info */}
+        <div className="p-6 space-y-4 relative">
           <div>
-            <h3 className="font-semibold text-lg group-hover:text-accent transition-colors truncate leading-tight">
+            <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight mb-1">
               {character.name}
             </h3>
             {character.title && (
-              <p className="text-muted-foreground text-sm mt-0.5 truncate">
-                {character.title}
+              <p className="text-accent/80 text-sm font-medium truncate mb-3">
+                "{character.title}"
               </p>
             )}
             
-            <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <div className="flex items-center gap-2 mt-3 flex-wrap">
               {character.race && (
-                <Badge variant="outline" className="text-xs bg-muted/30 hover:bg-muted/50 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   {character.race}
                 </Badge>
               )}
               {character.class && (
-                <Badge variant="outline" className="text-xs bg-muted/30 hover:bg-muted/50 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   {character.class}
                 </Badge>
               )}
               {character.age && (
-                <Badge variant="outline" className="text-xs bg-muted/30 hover:bg-muted/50 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   Age {character.age}
                 </Badge>
               )}
             </div>
           </div>
 
-          {character.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-              {character.description}
-            </p>
+          {!character.description && (
+            <div className="text-center py-2">
+              <p className="text-sm text-muted-foreground italic">
+                Click to add character details...
+              </p>
+            </div>
           )}
 
-          {/* Enhanced Key Traits */}
+          {/* Premium Key Traits */}
           {character.personalityTraits && character.personalityTraits.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {character.personalityTraits.slice(0, 3).map((trait, index) => (
-                <span key={index} className="text-xs px-2.5 py-1 bg-accent/10 text-accent rounded-full font-medium">
+                <span key={index} className="text-xs px-3 py-1.5 bg-accent/15 text-accent rounded-full font-semibold border border-accent/20">
                   {trait}
                 </span>
               ))}
               {character.personalityTraits.length > 3 && (
-                <span className="text-xs px-2.5 py-1 bg-muted/60 rounded-full text-muted-foreground font-medium">
+                <span className="text-xs px-3 py-1.5 bg-muted/40 rounded-full text-muted-foreground font-semibold border border-muted/40">
                   +{character.personalityTraits.length - 3} more
                 </span>
               )}
             </div>
           )}
+
+          {/* Character Completeness Indicator */}
+          <div className="flex items-center gap-2 pt-2 border-t border-border/30">
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
+                    style={{
+                      width: `${Math.min(100, ((character.name ? 20 : 0) + 
+                                                (character.description ? 20 : 0) + 
+                                                (character.imageUrl ? 20 : 0) + 
+                                                (character.personalityTraits?.length ? 20 : 0) + 
+                                                (character.race || character.class ? 20 : 0)))}%`
+                    }}
+                  />
+                </div>
+                <span className="text-xs text-muted-foreground font-medium">
+                  {Math.min(100, ((character.name ? 20 : 0) + 
+                                  (character.description ? 20 : 0) + 
+                                  (character.imageUrl ? 20 : 0) + 
+                                  (character.personalityTraits?.length ? 20 : 0) + 
+                                  (character.race || character.class ? 20 : 0)))}%
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
   );
 
-  // Enhanced Compact List View Item
+  // Premium List View Item
   const CharacterListItem = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-[1.01] border border-border/40 hover:border-accent/40 bg-gradient-to-r from-background via-background to-muted/5" 
+    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
           onClick={() => setSelectedCharacter(character)}>
-      <CardContent className="p-4">
-        <div className="flex items-center gap-4">
-          {/* Enhanced Avatar */}
-          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-50 via-amber-50 to-pink-50 dark:from-purple-900/20 dark:via-amber-900/20 dark:to-pink-900/20 flex items-center justify-center flex-shrink-0 border border-border/30 shadow-sm">
+      <CardContent className="p-5 relative">
+        {/* Subtle Glow Effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        
+        <div className="flex items-center gap-5 relative">
+          {/* Premium Avatar */}
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
             {character.imageUrl ? (
               <img 
                 src={character.imageUrl} 
                 alt={character.name}
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
               />
             ) : (
-              <Users className="h-7 w-7 text-muted-foreground/60" />
+              <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                <Users className="h-6 w-6 text-accent/70" />
+              </div>
             )}
           </div>
 
-          {/* Enhanced Character Info */}
+          {/* Premium Character Info */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-lg group-hover:text-accent transition-colors truncate">
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
                 {character.name}
               </h3>
               {character.title && (
-                <span className="text-muted-foreground text-sm font-medium">· {character.title}</span>
+                <span className="text-accent/70 text-sm font-medium italic">"{character.title}"</span>
               )}
             </div>
             
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              <Badge variant="secondary" className="text-xs bg-accent/10 text-accent font-medium">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
                 {character.role || 'Character'}
               </Badge>
               {character.race && (
-                <Badge variant="outline" className="text-xs bg-muted/20 hover:bg-muted/30 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   {character.race}
                 </Badge>
               )}
               {character.class && (
-                <Badge variant="outline" className="text-xs bg-muted/20 hover:bg-muted/30 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   {character.class}
                 </Badge>
               )}
               {character.age && (
-                <Badge variant="outline" className="text-xs bg-muted/20 hover:bg-muted/30 transition-colors">
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
                   Age {character.age}
                 </Badge>
               )}
             </div>
 
-            {/* Description Preview */}
-            {character.description && (
-              <p className="text-sm text-muted-foreground mt-2 line-clamp-1 leading-relaxed">
+            {/* Enhanced Description or Call to Action */}
+            {character.description ? (
+              <p className="text-sm text-muted-foreground line-clamp-1 leading-relaxed font-medium">
                 {character.description}
               </p>
+            ) : (
+              <p className="text-sm text-accent/60 italic font-medium">
+                Ready to develop • Click to add details and bring them to life
+              </p>
             )}
+
+            {/* Character Completeness Mini-Indicator */}
+            <div className="flex items-center gap-2 mt-2">
+              <div className="h-1 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
+                <div 
+                  className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
+                  style={{
+                    width: `${Math.min(100, ((character.name ? 25 : 0) + 
+                                            (character.description ? 25 : 0) + 
+                                            (character.imageUrl ? 25 : 0) + 
+                                            (character.personalityTraits?.length ? 25 : 0)))}%`
+                  }}
+                />
+              </div>
+              <span className="text-xs text-muted-foreground font-medium">
+                {Math.min(100, ((character.name ? 25 : 0) + 
+                                (character.description ? 25 : 0) + 
+                                (character.imageUrl ? 25 : 0) + 
+                                (character.personalityTraits?.length ? 25 : 0)))}%
+              </span>
+            </div>
           </div>
 
-          {/* Enhanced Quick Actions */}
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
-            <Button size="sm" variant="ghost" className="h-9 w-9 p-0 hover:bg-accent/10 hover:text-accent transition-colors"
+          {/* Premium Quick Actions */}
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
                     onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
               <Eye className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="ghost" className="h-9 w-9 p-0 hover:bg-blue-500/10 hover:text-blue-600 transition-colors"
+            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
                     onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
               <Edit className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="ghost" className="h-9 w-9 p-0 hover:bg-purple-500/10 hover:text-purple-600 transition-colors"
+            <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
                     onClick={(e) => handlePortraitClick(character, e)}>
               <Camera className="h-4 w-4" />
             </Button>
@@ -454,7 +529,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={handleCreateNew} 
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+              className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Character
@@ -463,7 +538,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               onClick={() => setIsTemplateModalOpen(true)} 
               size="lg"
               variant="outline"
-              className="border-purple-400/50 hover:bg-purple-500/10 hover:border-purple-500/60 text-purple-700 dark:text-purple-300 transition-all duration-200"
+              className="border-accent/30 hover:bg-accent/10 hover:border-accent/50 transition-all duration-200"
             >
               <FileText className="h-4 w-4 mr-2" />
               Use Template
@@ -473,10 +548,11 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               disabled={!project}
               size="lg"
               variant="outline"
-              className="border-amber-400/50 hover:bg-amber-500/10 hover:border-amber-500/60 text-amber-700 dark:text-amber-300 transition-all duration-200"
+              className="border-accent/30 hover:bg-accent/10 hover:border-accent/50 transition-all duration-200 relative overflow-hidden group"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
-              AI Generate
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              <Sparkles className="h-4 w-4 mr-2 relative z-10" />
+              <span className="relative z-10">AI Generate</span>
             </Button>
           </div>
         </div>
