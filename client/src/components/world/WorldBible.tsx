@@ -736,7 +736,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
-        return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+        return <LocationManager project={project} />;
 
       case 'factions':
         return <FactionManager project={project} />;
