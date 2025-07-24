@@ -55,11 +55,39 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       model: "gemini-2.0-flash-preview-image-generation"
     });
     
-    const response = await model.generateContent(fullPrompt, {
-      generationConfig: {
-        responseModalities: ["TEXT", "IMAGE"] as any // Type assertion for experimental feature
+    // Try different configuration approaches
+    let response;
+    try {
+      // First attempt: Use the newer SDK approach
+      response = await model.generateContent({
+        contents: [{ parts: [{ text: fullPrompt }] }],
+        generationConfig: {
+          responseModalities: ["IMAGE", "TEXT"] as any
+        }
+      } as any);
+    } catch (configError: any) {
+      console.log('First config failed, trying alternative approach:', configError.message);
+      
+      // Second attempt: Try without explicit configuration
+      try {
+        response = await model.generateContent(fullPrompt);
+      } catch (fallbackError: any) {
+        console.log('Fallback approach also failed:', fallbackError.message);
+        
+        // If both fail, it's likely an API key permission or regional issue
+        if (fallbackError.message.includes('response modalities') || 
+            fallbackError.message.includes('not supported') ||
+            fallbackError.message.includes('Bad Request')) {
+          throw new Error('Image generation not available with your current Google API key. This could be due to:\n' +
+                         '• Regional restrictions (not available in all countries)\n' +
+                         '• API key limitations (may need paid tier)\n' +
+                         '• Model experimental status\n\n' +
+                         'Try using Google AI Studio directly at https://aistudio.google.com/ to test image generation.');
+        }
+        throw fallbackError;
       }
-    });
+    }
+    
     console.log('Gemini response received');
 
     // Process the response to extract image data
@@ -84,7 +112,7 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       }
     }
 
-    throw new Error("No image data found in Gemini response");
+    throw new Error("No image data found in Gemini response - model may have returned only text");
   } catch (error: any) {
     console.error('Failed to generate Gemini image:', error);
     throw new Error(`Gemini image generation failed: ${error?.message || 'Unknown error'}`);

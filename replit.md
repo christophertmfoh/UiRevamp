@@ -53,10 +53,12 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 - Character generation works perfectly with Gemini
 - Some dialog components show accessibility warnings (non-critical)
 
-## Gemini API Limits
+## Gemini API Limits & Issues
 - Free tier: ~50 images/day through Google AI Studio
 - API free tier: Limited daily requests with rate limits
 - Rate limited by Google's usage tiers
+- Image generation may have regional restrictions or require specific API permissions
+- Some users may need to test image generation directly in Google AI Studio first
 
 ## Next Steps
 - Monitor image generation performance
