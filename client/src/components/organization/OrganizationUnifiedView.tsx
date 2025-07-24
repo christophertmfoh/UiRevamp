@@ -157,15 +157,13 @@ export function OrganizationUnifiedView({
           return null;
       }
     } else {
-      // View mode - only show fields that have content
-      if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) {
-        return null; // Don't render empty fields in view mode
-      }
-
+      // View mode - show all fields, but only display content if present
       return (
         <div key={field.name} className="space-y-2">
           <Label className="text-muted-foreground">{field.label}</Label>
-          {Array.isArray(value) ? (
+          {(!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) ? (
+            <div className="h-5"></div> // Empty space to maintain layout
+          ) : Array.isArray(value) ? (
             <div className="flex flex-wrap gap-1">
               {value.map((item: string, index: number) => (
                 <Badge key={index} variant="secondary" className="text-xs">
