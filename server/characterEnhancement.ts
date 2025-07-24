@@ -38,6 +38,14 @@ export async function enhanceCharacterWithAI({ currentData, project, character }
     story: ['motivations', 'goals', 'fears', 'secrets', 'flaws', 'character_arc', 'narrativeRole', 'plotImportance', 'internal_conflict', 'external_conflict']
   };
   
+  // Only include important character fields to avoid overwhelming the API
+  const importantFields = [
+    'personality', 'temperament', 'traits', 'quirks', 'mannerisms', 'backstory', 'childhood', 
+    'motivations', 'goals', 'fears', 'secrets', 'flaws', 'skills', 'abilities', 'strengths', 
+    'weaknesses', 'allies', 'enemies', 'likes', 'dislikes', 'hobbies', 'values', 'beliefs',
+    'socialClass', 'education', 'family', 'relationships', 'voice', 'speechPattern'
+  ];
+
   // Scan through all fields and categorize them
   Object.entries(currentData).forEach(([key, value]) => {
     if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
@@ -51,7 +59,7 @@ export async function enhanceCharacterWithAI({ currentData, project, character }
           break;
         }
       }
-    } else if (!['id', 'projectId', 'createdAt', 'updatedAt', 'imageUrl', 'displayImageId', 'imageGallery', 'portraits'].includes(key)) {
+    } else if (importantFields.includes(key) && !['id', 'projectId', 'createdAt', 'updatedAt', 'imageUrl', 'displayImageId', 'imageGallery', 'portraits'].includes(key)) {
       emptyFields.push(key);
     }
   });
@@ -96,10 +104,13 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
   
   console.log(`Starting sequential enhancement of ${totalFields} fields to avoid rate limits...`);
 
-  // Process fields in small batches to respect API limits
-  const batchSize = 4;
-  for (let i = 0; i < emptyFields.length; i += batchSize) {
-    const batchFields = emptyFields.slice(i, i + batchSize);
+  // Process fields in small batches to respect API limits - limit to 20 total fields max
+  const limitedFields = emptyFields.slice(0, 20);
+  console.log(`Limiting to ${limitedFields.length} most important fields to avoid rate limits`);
+  
+  const batchSize = 3;
+  for (let i = 0; i < limitedFields.length; i += batchSize) {
+    const batchFields = limitedFields.slice(i, i + batchSize);
     
     const prompt = `PROJECT: ${project.name} (${project.type}, ${project.genre?.join(', ') || 'General'})
 
@@ -113,7 +124,7 @@ Current data: ${JSON.stringify(enhancedData, null, 2)}
 Return JSON with ONLY the specified fields filled contextually.`;
 
     try {
-      console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(emptyFields.length/batchSize)}: ${batchFields.join(', ')}`);
+      console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(limitedFields.length/batchSize)}: ${batchFields.join(', ')}`);
       
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
@@ -129,13 +140,13 @@ Return JSON with ONLY the specified fields filled contextually.`;
         const batchData = JSON.parse(result);
         Object.assign(enhancedData, batchData);
         processedFields += batchFields.length;
-        console.log(`✓ Completed ${processedFields}/${totalFields} fields`);
+        console.log(`✓ Completed ${processedFields}/${limitedFields.length} fields`);
       }
 
       // Add delay between batches to respect rate limits
-      if (i + batchSize < emptyFields.length) {
-        console.log('Waiting 3 seconds to respect rate limits...');
-        await new Promise(resolve => setTimeout(resolve, 3000));
+      if (i + batchSize < limitedFields.length) {
+        console.log('Waiting 5 seconds to respect rate limits...');
+        await new Promise(resolve => setTimeout(resolve, 5000));
       }
 
     } catch (error: any) {
@@ -156,6 +167,6 @@ Return JSON with ONLY the specified fields filled contextually.`;
     updatedAt: currentData.updatedAt
   };
 
-  console.log(`✅ Sequential enhancement completed: ${processedFields}/${totalFields} fields enhanced`);
+  console.log(`✅ Sequential enhancement completed: ${processedFields}/${limitedFields.length} important fields enhanced`);
   return finalData;
 }
