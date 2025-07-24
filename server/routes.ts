@@ -350,6 +350,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Faction image generation endpoint
+  app.post("/api/factions/generate-image", async (req, res) => {
+    try {
+      const { factionPrompt, stylePrompt = "digital art, fantasy", aiEngine = "gemini" } = req.body;
+      
+      if (!factionPrompt) {
+        return res.status(400).json({ error: "Faction prompt is required" });
+      }
+
+      const result = await generateCharacterImage({
+        characterPrompt: factionPrompt,
+        stylePrompt,
+        aiEngine
+      });
+      
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating faction image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
   // Location routes
   app.get("/api/projects/:projectId/locations", async (req, res) => {
     try {
