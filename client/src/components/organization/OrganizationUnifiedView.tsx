@@ -7,10 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Edit, Save, X, Building2, Target, Users, Cog, Handshake, History, Heart, Settings, Camera, Trash2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Organization } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config';
+import { ORGANIZATION_SECTIONS } from '../../lib/organizationConfig';
 import { OrganizationPortraitModal } from './OrganizationPortraitModal';
 
 interface OrganizationUnifiedViewProps {
@@ -20,15 +21,16 @@ interface OrganizationUnifiedViewProps {
   onDelete: (organization: Organization) => void;
 }
 
-// Icon mapping for dynamic icon rendering
+// Icon mapping for organization tabs
 const ICON_COMPONENTS = {
-  User,
-  Eye,
-  Brain,
-  Zap,
-  BookOpen,
-  Users,
-  PenTool,
+  Identity: Building2,
+  Purpose: Target,
+  Structure: Users,
+  Operations: Cog,
+  Relations: Handshake,
+  History: History,
+  Culture: Heart,
+  Meta: Settings,
 };
 
 export function OrganizationUnifiedView({ 
@@ -46,7 +48,18 @@ export function OrganizationUnifiedView({
   // Save mutation
   const saveMutation = useMutation({
     mutationFn: async (data: Organization) => {
-      return await apiRequest('PUT', `/api/organizations/${organization.id}`, data);
+      // Clean data before sending
+      const cleanedData = Object.fromEntries(
+        Object.entries(data).filter(([key, value]) => {
+          if (key === 'updatedAt') return false;
+          if (typeof value === 'string' && value.trim() === '') return false;
+          if (Array.isArray(value) && value.length === 0) return false;
+          if (value === null || value === undefined) return false;
+          return true;
+        })
+      );
+      
+      return await apiRequest('PUT', `/api/projects/${projectId}/organizations/${organization.id}`, cleanedData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'organizations'] });
@@ -58,91 +71,12 @@ export function OrganizationUnifiedView({
   });
 
   const handleSave = () => {
-    const processedData = processDataForSave(formData);
-    saveMutation.mutate(processedData as Organization);
+    saveMutation.mutate(formData as Organization);
   };
 
   const handleCancel = () => {
     setFormData(organization); // Reset form data
     setIsEditing(false);
-  };
-
-  const processDataForSave = (data: Organization) => {
-    const processedData = { ...data };
-    
-    // Ensure all array fields are properly formatted
-    const arrayFields = [
-      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
-    ];
-    
-    arrayFields.forEach(field => {
-      const value = (data as any)[field];
-      if (typeof value === 'string') {
-        (processedData as any)[field] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-      } else if (!Array.isArray(value) || value === undefined || value === null) {
-        (processedData as any)[field] = [];
-      }
-    });
-    
-    // Convert comma-separated strings back to arrays for array fields from sections
-    CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
-        if (field.type === 'array') {
-          const value = (data as any)[field.key];
-          if (typeof value === 'string') {
-            (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-          } else if (!Array.isArray(value)) {
-            (processedData as any)[field.key] = [];
-          }
-        }
-      });
-    });
-    
-    // Remove any undefined values that might cause validation issues
-    Object.keys(processedData).forEach(key => {
-      if ((processedData as any)[key] === undefined || (processedData as any)[key] === null) {
-        (processedData as any)[key] = '';
-      }
-    });
-    
-    // Remove system fields that shouldn't be updated, but preserve portraits
-    const { createdAt, updatedAt, id, projectId, ...dataToSave } = processedData;
-    
-    // Ensure portraits array is preserved
-    if (organization.portraits) {
-      dataToSave.portraits = organization.portraits;
-    }
-    
-    return dataToSave;
-  };
-
-  const handleImageGenerated = (imageUrl: string) => {
-    // Update organization with new image, preserving portraits
-    const updatedData = { 
-      ...formData, 
-      imageUrl,
-      portraits: organization.portraits || [] // Preserve existing portraits
-    };
-    setFormData(updatedData);
-    
-    // Process and save the data properly - exclude createdAt and other system fields
-    const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Organization);
-  };
-
-  const handleImageUploaded = (imageUrl: string) => {
-    // Update organization with uploaded image, preserving portraits
-    const updatedData = { 
-      ...formData, 
-      imageUrl,
-      portraits: organization.portraits || [] // Preserve existing portraits
-    };
-    setFormData(updatedData);
-    
-    // Process and save the data properly - exclude createdAt and other system fields
-    const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Organization);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
@@ -152,274 +86,246 @@ export function OrganizationUnifiedView({
     }));
   };
 
-  // Helper function to render a field - always show inputs, toggle disabled state
-  const renderField = (field: any, value: string | undefined) => {
-    if (field.type === 'textarea') {
-      return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Textarea
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            rows={field.rows || 3}
-            className="creative-input"
-            disabled={!isEditing}
-          />
-        </div>
-      );
+  const renderField = (field: any, value: any) => {
+    if (isEditing) {
+      switch (field.type) {
+        case 'text':
+          return (
+            <div key={field.name} className="space-y-2">
+              <Label htmlFor={field.name}>{field.label}</Label>
+              <Input
+                id={field.name}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        case 'textarea':
+          return (
+            <div key={field.name} className="space-y-2">
+              <Label htmlFor={field.name}>{field.label}</Label>
+              <Textarea
+                id={field.name}
+                value={value || ''}
+                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                placeholder={`Enter ${field.label.toLowerCase()}...`}
+                className="creative-input min-h-[100px] resize-y"
+              />
+            </div>
+          );
+        
+        case 'select':
+          return (
+            <div key={field.name} className="space-y-2">
+              <Label htmlFor={field.name}>{field.label}</Label>
+              <Select 
+                value={value || ''} 
+                onValueChange={(newValue) => handleInputChange(field.name, newValue)}
+              >
+                <SelectTrigger className="creative-input">
+                  <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {field.options?.map((option: string) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          );
+        
+        case 'array':
+          return (
+            <div key={field.name} className="space-y-2">
+              <Label htmlFor={field.name}>{field.label}</Label>
+              <Input
+                id={field.name}
+                value={Array.isArray(value) ? value.join(', ') : ''}
+                onChange={(e) => handleInputChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+                placeholder={`Enter ${field.label.toLowerCase()}, separated by commas...`}
+                className="creative-input"
+              />
+            </div>
+          );
+        
+        default:
+          return null;
+      }
     } else {
+      // View mode
+      if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) {
+        return (
+          <div key={field.name} className="space-y-2">
+            <Label className="text-muted-foreground">{field.label}</Label>
+            <p className="text-sm text-muted-foreground italic">Not specified</p>
+          </div>
+        );
+      }
+
       return (
-        <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
-          <Input
-            id={field.key}
-            value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
-            placeholder={isEditing ? field.placeholder : ''}
-            className="creative-input"
-            disabled={!isEditing}
-          />
+        <div key={field.name} className="space-y-2">
+          <Label className="text-muted-foreground">{field.label}</Label>
+          {Array.isArray(value) ? (
+            <div className="flex flex-wrap gap-1">
+              {value.map((item: string, index: number) => (
+                <Badge key={index} variant="secondary" className="text-xs">
+                  {item}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm">{value}</p>
+          )}
         </div>
       );
     }
   };
 
-  // Helper function to render array fields - always show input, toggle disabled state
-  const renderArrayField = (field: any, values: string[] | undefined) => {
-    const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
-    return (
-      <div>
-        <Label htmlFor={field.key}>{field.label}</Label>
-        <Input
-          id={field.key}
-          value={stringValue}
-          onChange={(e) => {
-            const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-            handleInputChange(field.key, arrayValue);
-          }}
-          placeholder={isEditing ? field.placeholder : ''}
-          className="creative-input"
-          disabled={!isEditing}
-        />
-        {/* Show badges below input when in view mode and has values */}
-        {!isEditing && values && values.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {(Array.isArray(values) ? values : String(values).split(',').map((v: string) => v.trim()))
-              .filter((v: string) => v?.trim())
-              .map((value: string, index: number) => (
-                <Badge key={index} variant="outline" className="text-sm">
-                  {value.trim()}
-                </Badge>
-              ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // Render tab content with grid layout like the original editor
-  const renderTabContent = (sectionId: string) => {
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
-    if (!section) return null;
-
-    return (
-      <div className="space-y-6">
-        {section.fields.map((field, index) => {
-          const value = (formData as any)[field.key];
-          
-          if (field.type === 'array') {
-            return (
-              <div key={field.key}>
-                {renderArrayField(field, value)}
-              </div>
-            );
-          } else {
-            return (
-              <div key={field.key}>
-                {renderField(field, value)}
-              </div>
-            );
-          }
-        })}
-      </div>
-    );
-  };
-
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" onClick={onBack} className="gap-2">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Organizations
-        </Button>
-        <div className="flex gap-2">
-          {!isEditing ? (
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center space-x-4">
+          <Button 
+            variant="ghost" 
+            onClick={onBack}
+            className="flex items-center space-x-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Organizations</span>
+          </Button>
+        </div>
+        <div className="flex items-center space-x-3">
+          {isEditing ? (
             <>
-              <Button onClick={() => setIsEditing(true)} className="interactive-warm gap-2">
-                <Edit className="h-4 w-4" />
-                Edit Organization
+              <Button 
+                variant="outline" 
+                onClick={handleCancel}
+                disabled={saveMutation.isPending}
+              >
+                <X className="h-4 w-4 mr-2" />
+                Cancel
               </Button>
               <Button 
-                variant="destructive" 
-                onClick={() => onDelete(organization)}
-                className="gap-2"
+                onClick={handleSave}
+                disabled={saveMutation.isPending || !formData.name?.trim()}
+                className="interactive-warm"
               >
-                <X className="h-4 w-4" />
-                Delete
+                <Save className="h-4 w-4 mr-2" />
+                {saveMutation.isPending ? 'Saving...' : 'Save Organization'}
               </Button>
             </>
           ) : (
             <>
               <Button 
-                onClick={handleSave} 
-                disabled={saveMutation.isPending}
-                className="interactive-warm gap-2"
+                variant="outline" 
+                onClick={() => setIsEditing(true)}
               >
-                <Save className="h-4 w-4" />
-                {saveMutation.isPending ? 'Saving...' : 'Save Organization'}
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Organization
               </Button>
-              <Button onClick={handleCancel} variant="outline" className="gap-2">
-                <X className="h-4 w-4" />
-                Cancel
+              <Button 
+                variant="destructive" 
+                onClick={() => onDelete(organization)}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete
               </Button>
             </>
           )}
         </div>
       </div>
 
-      {/* Organization Header Card */}
-      <Card className="creative-card">
-        <CardContent className="p-6">
-          <div className="flex items-start gap-6">
-            {/* Organization Image - Clickable */}
-            <div 
-              className="w-32 h-32 rounded-xl bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
-              onClick={() => setIsPortraitModalOpen(true)}
-            >
-              {formData.imageUrl ? (
-                <img 
-                  src={formData.imageUrl} 
-                  alt={formData.name}
-                  className="w-full h-full object-cover rounded-xl"
-                />
-              ) : (
-                <User className="h-16 w-16 text-amber-600 dark:text-amber-400" />
-              )}
-              
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Camera className="h-8 w-8 text-white" />
-              </div>
-            </div>
-
-            {/* Organization Basic Info */}
-            <div className="flex-1">
-              <h1 className="font-title text-3xl mb-2">
-                {formData.name || 'Unnamed Organization'}
-              </h1>
-              
-              {formData.title && (
-                <p className="text-lg text-muted-foreground mb-3 italic">"{formData.title}"</p>
-              )}
-              
-              <div className="flex flex-wrap gap-2 mb-4">
-                {formData.role && (
-                  <Badge variant="default" className="text-sm px-3 py-1">
-                    {formData.role}
-                  </Badge>
-                )}
-                {formData.class && (
-                  <Badge variant="outline" className="text-sm">
-                    {formData.class}
-                  </Badge>
-                )}
-                {formData.age && (
-                  <Badge variant="outline" className="text-sm">
-                    Age {formData.age}
-                  </Badge>
-                )}
-              </div>
-
-
-
-              {formData.oneLine && (
-                <p className="text-lg italic text-muted-foreground mb-3">
-                  "{formData.oneLine}"
-                </p>
-              )}
-              
-              {formData.description && (
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {formData.description}
-                </p>
-              )}
-            </div>
+      {/* Organization Header */}
+      <div className="flex items-start space-x-6 mb-8">
+        <div className="relative">
+          <div className="w-32 h-32 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900 dark:to-amber-800 rounded-lg flex items-center justify-center shadow-lg">
+            {organization.imageUrl ? (
+              <img 
+                src={organization.imageUrl} 
+                alt={organization.name}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              <Building2 className="w-16 h-16 text-amber-600 dark:text-amber-400" />
+            )}
           </div>
-        </CardContent>
-      </Card>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="absolute -bottom-2 -right-2 rounded-full h-8 w-8 p-0"
+            onClick={() => setIsPortraitModalOpen(true)}
+          >
+            <Camera className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="flex-1">
+          <h1 className="font-title text-4xl mb-2">{organization.name}</h1>
+          {organization.type && (
+            <Badge variant="secondary" className="mb-3">
+              {organization.type}
+            </Badge>
+          )}
+          {organization.description && (
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {organization.description}
+            </p>
+          )}
+        </div>
+      </div>
 
-      {/* Sidebar + Content Layout */}
+      {/* Main Content */}
       <Card className="creative-card">
-        <CardContent className="p-0">
-          <div className="flex min-h-[600px]">
-            {/* Left Sidebar Navigation */}
-            <div className="w-64 border-r bg-muted/20 p-4">
-              <nav className="space-y-1">
-                {CHARACTER_SECTIONS.map(section => {
-                  const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
-                  const isActive = activeTab === section.id;
-                  
+        <div className="p-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <div className="border-b mb-6">
+              <TabsList className="grid w-full grid-cols-8 mb-0 bg-transparent border-0 p-0">
+                {ORGANIZATION_SECTIONS.map((section) => {
+                  const Icon = ICON_COMPONENTS[section.title as keyof typeof ICON_COMPONENTS];
                   return (
-                    <button
-                      key={section.id}
-                      onClick={() => setActiveTab(section.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
-                        isActive 
-                          ? 'bg-background text-foreground shadow-sm border' 
-                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
-                      }`}
+                    <TabsTrigger 
+                      key={section.title} 
+                      value={section.title.toLowerCase()}
+                      className="flex items-center space-x-2 px-4 py-3 text-sm border-b-2 border-transparent data-[state=active]:border-accent data-[state=active]:bg-transparent bg-transparent hover:bg-accent/10 transition-colors rounded-none"
                     >
-                      <IconComponent className="h-4 w-4 flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm">{section.title}</div>
-                        <div className="text-xs text-muted-foreground truncate">{section.description}</div>
-                      </div>
-                    </button>
+                      {Icon && <Icon className="h-4 w-4" />}
+                      <span className="hidden sm:inline">{section.title}</span>
+                    </TabsTrigger>
                   );
                 })}
-              </nav>
+              </TabsList>
             </div>
-            
-            {/* Right Content Area */}
-            <div className="flex-1 p-6">
-              {CHARACTER_SECTIONS.map(section => {
-                if (activeTab !== section.id) return null;
-                
-                return (
-                  <div key={section.id} className="space-y-6">
-                    <div className="border-b pb-4">
-                      <h2 className="text-2xl font-semibold">{section.title}</h2>
-                      <p className="text-muted-foreground mt-1">{section.description}</p>
+
+            {ORGANIZATION_SECTIONS.map((section) => (
+              <TabsContent key={section.title} value={section.title.toLowerCase()} className="mt-6">
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {section.fields.map((field) => 
+                        renderField(field, formData[field.name as keyof Organization])
+                      )}
                     </div>
-                    {renderTabContent(section.id)}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </CardContent>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
       </Card>
 
-      {/* Organization Portrait Modal */}
+      {/* Portrait Modal */}
       <OrganizationPortraitModal
-        organization={formData}
         isOpen={isPortraitModalOpen}
         onClose={() => setIsPortraitModalOpen(false)}
-        onImageGenerated={handleImageGenerated}
-        onImageUploaded={handleImageUploaded}
+        organization={organization}
+        projectId={projectId}
       />
     </div>
   );
