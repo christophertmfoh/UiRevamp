@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, MapPin, Compass, TreePine, Building, Crown, Scroll, Camera, Settings } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Location } from '@/lib/types';
 
@@ -203,37 +203,53 @@ export function LocationFormExpanded({ projectId, onCancel, location }: Location
         </h1>
 
         <Tabs defaultValue="Identity" className="w-full">
-          <TabsList className="grid w-full grid-cols-8">
-            <TabsTrigger value="Identity" className="gap-2">
-              <MapPin className="h-4 w-4" />
+          <TabsList className="grid w-full grid-cols-8 gap-1 bg-transparent">
+            <TabsTrigger 
+              value="Identity"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               Identity
             </TabsTrigger>
-            <TabsTrigger value="Physical" className="gap-2">
-              <Compass className="h-4 w-4" />
+            <TabsTrigger 
+              value="Physical"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               Physical
             </TabsTrigger>
-            <TabsTrigger value="Atmosphere" className="gap-2">
-              <TreePine className="h-4 w-4" />
-              Atmosphere
+            <TabsTrigger 
+              value="Atmosphere"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
+              Mood
             </TabsTrigger>
-            <TabsTrigger value="Architecture" className="gap-2">
-              <Building className="h-4 w-4" />
-              Architecture
+            <TabsTrigger 
+              value="Architecture"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
+              Buildings
             </TabsTrigger>
-            <TabsTrigger value="Society" className="gap-2">
-              <Crown className="h-4 w-4" />
+            <TabsTrigger 
+              value="Society"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               Society
             </TabsTrigger>
-            <TabsTrigger value="History" className="gap-2">
-              <Scroll className="h-4 w-4" />
+            <TabsTrigger 
+              value="History"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               History
             </TabsTrigger>
-            <TabsTrigger value="Story" className="gap-2">
-              <Camera className="h-4 w-4" />
+            <TabsTrigger 
+              value="Story"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               Story
             </TabsTrigger>
-            <TabsTrigger value="Meta" className="gap-2">
-              <Settings className="h-4 w-4" />
+            <TabsTrigger 
+              value="Meta"
+              className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+            >
               Meta
             </TabsTrigger>
           </TabsList>
