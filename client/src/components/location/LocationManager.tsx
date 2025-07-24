@@ -340,16 +340,6 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
                           <DropdownMenuItem 
                             onClick={(e) => {
                               e.stopPropagation();
-                              setPortraitLocation(location);
-                              setIsPortraitModalOpen(true);
-                            }}
-                          >
-                            <Camera className="h-4 w-4 mr-2" />
-                            Generate Image
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={(e) => {
-                              e.stopPropagation();
                               handleDeleteLocation(location);
                             }}
                             className="text-destructive"
