@@ -43,7 +43,8 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 - Does not have OpenAI subscription - use only free/available services
 
 ## API Keys Configuration
-- ✅ GOOGLE_API_KEY: Configured for Gemini AI services
+- ✅ GOOGLE_API_KEY_1: Primary Gemini API key for AI services
+- ✅ GOOGLE_API_KEY: Secondary Gemini API key (fallback)
 - ❌ OPENAI_API_KEY: Available but user doesn't have subscription
 - ✅ DATABASE_URL: PostgreSQL connection configured
 
