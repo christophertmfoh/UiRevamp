@@ -856,6 +856,162 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Timeline Event routes
+  app.get("/api/projects/:projectId/timeline-events", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const timelineEvents = await storage.getTimelineEvents(projectId);
+      res.json(timelineEvents);
+    } catch (error) {
+      console.error("Error fetching timeline events:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/timeline-events", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const timelineEventData = insertTimelineEventSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+      const timelineEvent = await storage.createTimelineEvent(timelineEventData);
+      res.status(201).json(timelineEvent);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating timeline event:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/timeline-events/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating timeline event with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const timelineEventData = insertTimelineEventSchema.partial().parse(cleanedData);
+      const timelineEvent = await storage.updateTimelineEvent(id, timelineEventData);
+      
+      if (!timelineEvent) {
+        return res.status(404).json({ error: "Timeline event not found" });
+      }
+      
+      res.json(timelineEvent);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating timeline event:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/timeline-events/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteTimelineEvent(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Timeline event not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting timeline event:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Creature routes
+  app.get("/api/projects/:projectId/creatures", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const creatures = await storage.getCreatures(projectId);
+      res.json(creatures);
+    } catch (error) {
+      console.error("Error fetching creatures:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/creatures", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const creatureData = insertCreatureSchema.parse({ 
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+      const creature = await storage.createCreature(creatureData);
+      res.status(201).json(creature);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating creature:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/creatures/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log("Updating creature with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const creatureData = insertCreatureSchema.partial().parse(cleanedData);
+      const creature = await storage.updateCreature(id, creatureData);
+      
+      if (!creature) {
+        return res.status(404).json({ error: "Creature not found" });
+      }
+      
+      res.json(creature);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating creature:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/creatures/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteCreature(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Creature not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting creature:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
