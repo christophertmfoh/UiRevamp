@@ -5,8 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
-import { ProjectsView } from './components/ProjectsView';
-import { ProjectDashboard } from './components/ProjectDashboard';
+import { ProjectsView, ProjectDashboard } from './components/project';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 
 export default function App() {
@@ -122,7 +121,7 @@ export default function App() {
         return (
           <ProjectsView 
             onSelectProject={handleSelectProject} 
-            onOpenModal={(modalInfo) => setModal(modalInfo)} 
+            onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)} 
             onBack={() => setView('landing')} 
             guideMode={guideMode}
           />
@@ -137,7 +136,7 @@ export default function App() {
             project={activeProject} 
             onBack={() => { setView('projects'); setActiveProject(null); }} 
             onUpdateProject={handleUpdateProject} 
-            onOpenModal={(modalInfo) => setModal(modalInfo)}
+            onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)}
             guideMode={guideMode}
             setGuideMode={setGuideMode}
           />

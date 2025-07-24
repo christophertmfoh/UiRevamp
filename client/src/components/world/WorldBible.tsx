@@ -26,8 +26,8 @@ import {
   Castle,
   Sword
 } from 'lucide-react';
-import type { Project, Character } from '../lib/types';
-import { CharacterManager } from './CharacterManager';
+import type { Project, Character } from '../../lib/types';
+import { CharacterManager } from '../character';
 
 interface WorldBibleProps {
   project: Project;

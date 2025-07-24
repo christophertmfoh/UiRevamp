@@ -9,8 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../lib/types';
-import { CHARACTER_SECTIONS } from '../lib/characterFieldsConfig';
+import type { Character } from '../../lib/types';
+import { CHARACTER_SECTIONS } from '../../lib/config';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
 
 interface CharacterUnifiedViewProps {

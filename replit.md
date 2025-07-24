@@ -15,7 +15,7 @@ Story Weaver is a comprehensive AI-integrated creative suite designed to take cr
 - **Train Model Foundation**: UI framework ready for future character consistency ML training
 - **Clickable Image Interface**: Both character detail view and list view images open portrait modal on click
 - **Real-time Updates**: Generated/uploaded images immediately update character profiles with cache invalidation
-- **Optimized Code Base**: Removed debug logging, cleaned unused state variables, improved error handling efficiency
+- **Optimized Code Organization**: Reorganized into feature-based modules (character/, project/, world/) with centralized exports for faster navigation
 
 ### World Bible Implementation Complete
 - **Comprehensive Database Schema**: Added 8 new tables for all world bible categories (organizations, magic systems, timeline events, creatures, languages, cultures, prophecies, themes)
@@ -53,6 +53,12 @@ Development approach: Build core system architecture first, add AI generation fe
 - **State Management**: React hooks and context for local state, TanStack Query for server state
 - **Routing**: Wouter for lightweight client-side routing
 - **Design System**: Custom dark theme with modern glassmorphic elements and "studio" aesthetic
+- **Code Organization**: Feature-based modules with centralized index exports:
+  - `components/character/` - All character-related components
+  - `components/project/` - Project dashboard and management
+  - `components/world/` - World building components
+  - `lib/config/` - Configuration files and constants
+  - `lib/services/` - API services and external integrations
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js framework

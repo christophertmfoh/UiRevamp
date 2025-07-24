@@ -26,8 +26,8 @@ import {
   Clock,
   Edit3
 } from 'lucide-react';
-import type { Project, ModalInfo } from '../lib/types';
-import { WorldBible } from './WorldBible';
+import type { Project, ModalInfo } from '../../lib/types';
+import { WorldBible } from '../world';
 
 interface ProjectDashboardProps {
   project: Project;

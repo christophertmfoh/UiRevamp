@@ -4,8 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowLeft, Edit, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool } from 'lucide-react';
-import type { Character } from '../lib/types';
-import { CHARACTER_SECTIONS } from '../lib/characterFieldsConfig';
+import type { Character } from '../../lib/types';
+import { CHARACTER_SECTIONS } from '../../lib/config';
 
 interface CharacterDetailAccordionProps {
   projectId: string;

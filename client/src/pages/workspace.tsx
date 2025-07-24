@@ -8,8 +8,8 @@ import {
     fleshOutItem, generateItemImage, 
     generateLocationImage, fleshOutLocation,
     fleshOutFaction, getAICoachFeedback
-} from '../lib/geminiService';
-import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/constants';
+} from '../lib/services';
+import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
 import type { Project, SidebarItem, OutlineNode, Character, Location, Faction, CharacterRelationship, Item, GeneratedCharacter, FleshedOutCharacter, ImageAsset, ProseDocument, AICoachFeedback, AICraftConfig, AICraftPreset } from '../lib/types';
 import { readFileContent } from '../lib/utils';
 import { Button } from "@/components/ui/button";
