@@ -9,10 +9,25 @@ let gemini: GoogleGenerativeAI | null = null;
 
 function getGeminiClient(): GoogleGenerativeAI {
   if (!gemini) {
-    const apiKey = isClient ? import.meta.env.VITE_GEMINI_API_KEY : process.env.GEMINI_API_KEY;
+    // Try different possible environment variable names since user mentioned GOOGLE_API_KEY
+    const apiKey = isClient ? 
+      (import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GOOGLE_API_KEY) : 
+      (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY);
+    
+    console.log('Environment check:', {
+      isClient,
+      VITE_GEMINI_API_KEY: isClient ? !!import.meta.env.VITE_GEMINI_API_KEY : 'server',
+      VITE_GOOGLE_API_KEY: isClient ? !!import.meta.env.VITE_GOOGLE_API_KEY : 'server',
+      GEMINI_API_KEY: !isClient ? !!process.env.GEMINI_API_KEY : 'client',
+      GOOGLE_API_KEY: !isClient ? !!process.env.GOOGLE_API_KEY : 'client',
+      foundKey: !!apiKey
+    });
+    
     if (!apiKey) {
-      throw new Error('Gemini API key is not configured. Please add VITE_GEMINI_API_KEY to your environment variables.');
+      throw new Error('Gemini API key is not configured. Please add GEMINI_API_KEY or GOOGLE_API_KEY to your environment variables.');
     }
+    
+    console.log('Initializing Gemini client with API key found');
     gemini = new GoogleGenerativeAI(apiKey);
   }
   return gemini;
