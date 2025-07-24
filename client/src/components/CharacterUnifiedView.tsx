@@ -309,17 +309,17 @@ export function CharacterUnifiedView({
       <Card className="creative-card">
         <CardContent className="p-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-8">
+            <TabsList className="grid w-full grid-cols-8 h-12 p-1">
               {CHARACTER_SECTIONS.map(section => {
                 const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
                 return (
                   <TabsTrigger 
                     key={section.id} 
                     value={section.id}
-                    className="flex items-center gap-2 text-xs"
+                    className="flex flex-col items-center gap-1 text-xs p-2 h-10"
                   >
                     <IconComponent className="h-4 w-4" />
-                    <span className="hidden sm:inline">{section.title}</span>
+                    <span className="text-xs leading-none">{section.title}</span>
                   </TabsTrigger>
                 );
               })}
