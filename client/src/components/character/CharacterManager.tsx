@@ -553,21 +553,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              {/* Rotating metallic border trace */}
-              <div className="absolute inset-0 rounded-lg">
-                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div 
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      background: 'conic-gradient(from 0deg, transparent 70%, rgba(255,255,255,0.6) 85%, transparent 100%)',
-                      animation: 'borderTrace 2s linear infinite'
-                    }}
-                  />
-                  <div className="absolute inset-[2px] rounded-lg bg-gradient-to-r from-accent via-accent/90 to-accent/80" />
-                </div>
-              </div>
+              {/* SVG Border Trace - Always visible */}
+              <svg 
+                className="absolute inset-0 w-full h-full pointer-events-none" 
+                style={{ transform: 'scale(1.02)' }}
+              >
+                <rect
+                  x="1" y="1"
+                  width="calc(100% - 2px)" height="calc(100% - 2px)"
+                  rx="8" ry="8"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.4)"
+                  strokeWidth="2"
+                  strokeDasharray="8 16"
+                  strokeDashoffset="0"
+                  style={{
+                    animation: 'borderTrace 3s linear infinite'
+                  }}
+                />
+              </svg>
+              
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
               
               <div className="relative flex items-center">
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
@@ -664,21 +673,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                {/* Rotating metallic border trace */}
-                <div className="absolute inset-0 rounded-lg">
-                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div 
-                      className="absolute inset-0 rounded-lg"
-                      style={{
-                        background: 'conic-gradient(from 0deg, transparent 70%, rgba(255,255,255,0.6) 85%, transparent 100%)',
-                        animation: 'borderTrace 2s linear infinite'
-                      }}
-                    />
-                    <div className="absolute inset-[2px] rounded-lg bg-gradient-to-r from-accent via-accent/90 to-accent/80" />
-                  </div>
-                </div>
+                {/* SVG Border Trace - Always visible */}
+                <svg 
+                  className="absolute inset-0 w-full h-full pointer-events-none" 
+                  style={{ transform: 'scale(1.02)' }}
+                >
+                  <rect
+                    x="1" y="1"
+                    width="calc(100% - 2px)" height="calc(100% - 2px)"
+                    rx="8" ry="8"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.4)"
+                    strokeWidth="2"
+                    strokeDasharray="8 16"
+                    strokeDashoffset="0"
+                    style={{
+                      animation: 'borderTrace 3s linear infinite'
+                    }}
+                  />
+                </svg>
+                
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
                 
                 <div className="relative flex items-center">
                   <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
