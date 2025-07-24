@@ -6,39 +6,40 @@ console.log(`Field enhancement using API key: ${apiKey ? apiKey.substring(0, 10)
 
 const ai = new GoogleGenAI({ apiKey });
 
-// Simple rate limiting to avoid quota issues
-const requestTimes: number[] = [];
-const RATE_LIMIT_WINDOW = 60000; // 1 minute
-const MAX_REQUESTS_PER_MINUTE = 8; // Conservative limit under 10
+// Rate limiting specifically for individual field enhancements
+// Full character generation and bulk operations bypass this
+const fieldRequestTimes: number[] = [];
+const FIELD_RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_FIELD_REQUESTS_PER_MINUTE = 8; // Conservative for individual clicks
 
-function canMakeRequest(): boolean {
+function canMakeFieldRequest(): boolean {
   const now = Date.now();
   // Remove requests older than 1 minute
-  while (requestTimes.length > 0 && requestTimes[0] < now - RATE_LIMIT_WINDOW) {
-    requestTimes.shift();
+  while (fieldRequestTimes.length > 0 && fieldRequestTimes[0] < now - FIELD_RATE_LIMIT_WINDOW) {
+    fieldRequestTimes.shift();
   }
-  return requestTimes.length < MAX_REQUESTS_PER_MINUTE;
+  return fieldRequestTimes.length < MAX_FIELD_REQUESTS_PER_MINUTE;
 }
 
-function recordRequest(): void {
-  requestTimes.push(Date.now());
+function recordFieldRequest(): void {
+  fieldRequestTimes.push(Date.now());
 }
 
-export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any, fieldOptions?: string[]) {
+export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any, fieldOptions?: string[], isIndividualRequest: boolean = true) {
   try {
-    console.log(`\n=== Processing Individual Field Enhancement ===`);
+    console.log(`\n=== Processing ${isIndividualRequest ? 'Individual' : 'Bulk'} Field Enhancement ===`);
     console.log(`Field: ${fieldKey} (${fieldLabel})`);
     console.log(`Current value: ${currentValue || 'empty'}`);
 
-    // Check rate limit before making AI request
-    if (!canMakeRequest()) {
-      console.log(`Rate limit reached, using intelligent fallback for ${fieldKey}`);
-      // Skip AI call and go directly to fallback
+    // Only apply rate limiting to individual field requests (genie clicks)
+    // Full character generation and bulk operations bypass rate limiting
+    if (isIndividualRequest && !canMakeFieldRequest()) {
+      console.log(`Individual field rate limit reached, using intelligent fallback for ${fieldKey}`);
+      // Skip AI call and go directly to fallback for individual requests
       throw new Error('Rate limited - using fallback');
     }
 
     // Always allow enhancement - users can improve existing content or generate new content
-    // Add variety instruction for regeneration
 
     // Create comprehensive context from ALL available character data using actual field names
     const characterContext = `
@@ -388,8 +389,10 @@ Generate ${fieldLabel.toLowerCase()}:`;
 
     console.log(`Generating content for field: ${fieldKey}`);
     
-    // Record this request for rate limiting
-    recordRequest();
+    // Only record individual field requests for rate limiting
+    if (isIndividualRequest) {
+      recordFieldRequest();
+    }
     
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
