@@ -347,7 +347,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character image generation endpoint
+  // Character image generation endpoint (correct route for frontend)
+  app.post("/api/generate-character-image", async (req, res) => {
+    console.log('=== CHARACTER IMAGE GENERATION REQUEST RECEIVED ===');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    
+    try {
+      const { prompt, characterId, engineType = "gemini" } = req.body;
+      
+      if (!prompt) {
+        console.log('Error: No prompt provided');
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+
+      console.log('Generating character image with prompt:', prompt);
+      console.log('Engine type:', engineType);
+
+      const result = await generateCharacterImage({
+        characterPrompt: prompt,
+        stylePrompt: "portrait, high quality, detailed",
+        aiEngine: engineType
+      });
+      
+      console.log('Image generation successful, returning result');
+      
+      // Return result in expected format
+      res.json({ imageUrl: result.url });
+    } catch (error: any) {
+      console.error("Error generating character image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Legacy character image generation endpoint
   app.post("/api/characters/generate-image", async (req, res) => {
     try {
       const { characterPrompt, stylePrompt = "digital art, fantasy", aiEngine = "openai" } = req.body;

@@ -50,61 +50,41 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     const fullPrompt = `Create a detailed character portrait: ${params.characterPrompt}. Style: ${params.stylePrompt}`;
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
-    // Use Gemini's image generation model with correct configuration
-    const gemini = getGeminiClient();
-    const model = gemini.getGenerativeModel({ 
-      model: "gemini-2.0-flash-preview-image-generation"
-    });
+    // Use the @google/genai library with proper configuration
+    const { GoogleGenAI, Modality } = await import("@google/genai");
     
-    // Try different configuration approaches
-    let response;
-    try {
-      // First attempt: Use the newer SDK approach
-      response = await model.generateContent({
-        contents: [{ parts: [{ text: fullPrompt }] }],
-        generationConfig: {
-          responseModalities: ["IMAGE", "TEXT"] as any
-        }
-      } as any);
-    } catch (configError: any) {
-      console.log('First config failed, trying alternative approach:', configError.message);
-      
-      // Second attempt: Try without explicit configuration
-      try {
-        response = await model.generateContent(fullPrompt);
-      } catch (fallbackError: any) {
-        console.log('Fallback approach also failed:', fallbackError.message);
-        
-        // If both fail, it's likely an API key permission or regional issue
-        if (fallbackError.message.includes('response modalities') || 
-            fallbackError.message.includes('not supported') ||
-            fallbackError.message.includes('Bad Request')) {
-          throw new Error('Image generation not available with your current Google API key. This could be due to:\n' +
-                         '• Regional restrictions (not available in all countries)\n' +
-                         '• API key limitations (may need paid tier)\n' +
-                         '• Model experimental status\n\n' +
-                         'Try using Google AI Studio directly at https://aistudio.google.com/ to test image generation.');
-        }
-        throw fallbackError;
-      }
+    const apiKey = process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
     }
     
-    console.log('Gemini response received');
+    const ai = new GoogleGenAI({ apiKey });
+    
+    // Use the image generation model
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-preview-image-generation",
+      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE],
+      },
+    });
 
-    // Process the response to extract image data
-    const result = response.response;
-    if (!result || !result.candidates || result.candidates.length === 0) {
+    const candidates = response.candidates;
+    if (!candidates || candidates.length === 0) {
       throw new Error("No candidates returned from Gemini");
     }
 
-    const content = result.candidates[0].content;
+    const content = candidates[0].content;
     if (!content || !content.parts) {
       throw new Error("No content parts returned from Gemini");
     }
 
     // Find the image part
     for (const part of content.parts) {
-      if (part.inlineData && part.inlineData.data) {
+      if (part.text) {
+        console.log('Gemini response text:', part.text);
+      } else if (part.inlineData && part.inlineData.data) {
         // Convert base64 to data URL for display
         const mimeType = part.inlineData.mimeType || 'image/png';
         const imageData = `data:${mimeType};base64,${part.inlineData.data}`;
@@ -116,6 +96,16 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     throw new Error("No image data found in Gemini response - model may have returned only text");
   } catch (error: any) {
     console.error('Failed to generate Gemini image:', error);
+    
+    // Provide helpful error messages based on common issues
+    if (error.message.includes('not supported') || error.message.includes('Bad Request')) {
+      throw new Error('Image generation not available with your current Google API key. This could be due to:\n' +
+                     '• Regional restrictions (not available in all countries)\n' +
+                     '• API key limitations (may need paid tier)\n' +
+                     '• Model experimental status\n\n' +
+                     'Try using Google AI Studio directly at https://aistudio.google.com/ to test image generation.');
+    }
+    
     throw new Error(`Gemini image generation failed: ${error?.message || 'Unknown error'}`);
   }
 }
