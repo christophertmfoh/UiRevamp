@@ -1001,17 +1001,24 @@ Generate ${fieldLabel.toLowerCase()}:`;
     if (!generatedContent) {
       console.log(`Empty response from AI for field ${fieldKey}, analyzing character for intelligent fallback`);
       
+      // Smart character analysis - check name, background, and any text for clues
+      const name = (character.name || '').toLowerCase();
+      const desc = (character.description || character.physicalDescription || '').toLowerCase();
+      const background = (character.background || '').toLowerCase();
+      const goals = (character.goals || '').toLowerCase();
+      const motivations = (character.motivations || '').toLowerCase();
+      const allText = `${name} ${desc} ${background} ${goals} ${motivations}`.toLowerCase();
+      
+      // Detect if this is a cat character
+      const isCat = name.includes('beans') || allText.includes('cat') || allText.includes('feline') || allText.includes('is a cat');
+      
+      console.log(`Character analysis: name="${name}", isCat=${isCat}, allText contains "cat": ${allText.includes('cat')}`);
+      
       // Intelligent contextual fallbacks that actually read character data
       let fallbackContent = `Generated ${fieldLabel}`;
       
       if (fieldKey === 'race') {
-        // Smart race detection from character data
-        const name = (character.name || '').toLowerCase();
-        const desc = (character.description || '').toLowerCase();
-        const background = (character.background || '').toLowerCase();
-        const allText = `${name} ${desc} ${background}`.toLowerCase();
-        
-        if (name.includes('beans') || allText.includes('cat') || allText.includes('feline')) {
+        if (isCat) {
           fallbackContent = 'Cat';
         } else if (allText.includes('dog') || allText.includes('canine')) {
           fallbackContent = 'Dog';
@@ -1022,16 +1029,11 @@ Generate ${fieldLabel.toLowerCase()}:`;
         } else if (allText.includes('dragon')) {
           fallbackContent = 'Dragon';
         } else {
-          fallbackContent = 'Human'; // Only default to human if no other clues
+          fallbackContent = 'Human';
         }
       } else if (fieldKey === 'role' && isDropdownField) {
         // Smart role selection from dropdown options
-        const name = (character.name || '').toLowerCase();
-        const desc = (character.description || '').toLowerCase();
-        const background = (character.background || '').toLowerCase();
-        const allText = `${name} ${desc} ${background}`.toLowerCase();
-        
-        if (allText.includes('cat') || allText.includes('funny') || allText.includes('cute')) {
+        if (isCat || allText.includes('funny') || allText.includes('cute')) {
           fallbackContent = fieldOptions && fieldOptions.includes('Comic Relief') ? 'Comic Relief' : 'Supporting Character';
         } else if (allText.includes('hero') || allText.includes('main')) {
           fallbackContent = 'Protagonist';
@@ -1040,16 +1042,15 @@ Generate ${fieldLabel.toLowerCase()}:`;
         } else if (allText.includes('mentor') || allText.includes('teacher')) {
           fallbackContent = 'Mentor';
         } else {
-          fallbackContent = 'Supporting Character'; // Default for dropdown
+          fallbackContent = 'Supporting Character';
         }
       } else {
-        // Enhanced contextual fallbacks that analyze character data intelligently
-        // Add variety by using random selection and dynamic generation
+        // Enhanced contextual fallbacks using the comprehensive system
         const randomSeed = Math.random();
         const contextualFallbacks: { [key: string]: string } = {
           // IDENTITY SECTION INTELLIGENT FALLBACKS
           name: (() => {
-            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') {
+            if (isCat) {
               const catNames = ['Whiskers', 'Shadow', 'Luna', 'Mochi', 'Pixel', 'Nova', 'Sage', 'Ash'];
               return catNames[Math.floor(randomSeed * catNames.length)];
             }
@@ -1706,8 +1707,8 @@ Generate ${fieldLabel.toLowerCase()}:`;
             return 'Develops emotional maturity, gains wisdom through experience, finds inner strength';
           })(),
           // REMAINING STANDARD FALLBACKS
-          eyeColor: character.race === 'Cat' ? 'Golden amber' : 'Brown',
-          hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown', 
+          eyeColor: isCat ? 'Golden amber' : 'Brown',
+          hairColor: isCat ? 'Tabby brown with white patches' : 'Brown', 
           parents: character.race === 'Cat' ? 'Loving mother cat who taught survival skills, unknown father with noble bearing' : 'Caring parents who provided stable upbringing',
           siblings: character.race === 'Cat' ? 'Two littermates who remained close, occasional territorial disputes but deep affection' : 'Supportive siblings who shaped their competitive nature',
           spouse: character.race === 'Cat' ? 'Bonded companion cat who shares territory and responsibilities' : 'Devoted partner who complements their strengths',
@@ -1722,10 +1723,15 @@ Generate ${fieldLabel.toLowerCase()}:`;
           spirituality: character.race === 'Cat' ? 'Daily meditation in sunny spots, connection with natural cycles' : 'Regular reflection and connection with higher purpose',
           politicalViews: character.race === 'Cat' ? 'Strong believer in territorial rights balanced with community cooperation' : 'Moderate views favoring practical solutions and social responsibility',
           education: character.race === 'Cat' ? 'Trained by elder cats in survival, social skills, and territorial management' : 'Well-educated with focus on practical skills and moral development',
-          appearance: character.race === 'Cat' ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
-          distinguishingFeatures: character.race === 'Cat' ? 'Unusually bright eyes and a distinctive tail marking' : 'A distinctive scar and penetrating gaze'
+          appearance: isCat ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
+          physicalDescription: isCat ? 'A graceful cat with alert golden eyes and fluid movements, carrying themselves with natural feline dignity and elegance' : 'A person of average height with a confident bearing and alert expression',
+          description: isCat ? 'A graceful cat with alert golden eyes and fluid movements, carrying themselves with natural feline dignity and elegance' : 'A person of average height with a confident bearing and alert expression',
+          distinguishingFeatures: isCat ? 'Unusually bright eyes and a distinctive tail marking' : 'A distinctive scar and penetrating gaze',
+          talents: isCat ? 'Natural balance and grace, exceptional hearing, emotional sensitivity, stealth abilities' : 'Quick learning and adaptability, problem-solving skills, leadership potential',
+          strengths: isCat ? 'Exceptional agility and reflexes, keen senses and alertness, independent yet loyal nature' : 'Determined and resourceful, strategic thinking, reliable team member'
         };
         fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+        console.log(`Selected contextual fallback for ${fieldKey}: ${fallbackContent}`);
       }
       
       console.log(`Using intelligent fallback for ${fieldKey}: ${fallbackContent}`);
