@@ -130,6 +130,29 @@ export default function App() {
   // Apply scrollbar styles on every render for maximum persistence
   useEffect(() => {
     applyScrollbarStyles();
+    
+    // Nuclear option: inject raw CSS after everything loads
+    const forceScrollbarCSS = () => {
+      const css = `
+        html::-webkit-scrollbar { width: 8px !important; background: transparent !important; display: block !important; }
+        html::-webkit-scrollbar-track { background: transparent !important; }
+        html::-webkit-scrollbar-thumb { background: #a0967d !important; border-radius: 6px !important; }
+        html::-webkit-scrollbar-thumb:hover { background: #8b8269 !important; }
+        body::-webkit-scrollbar { width: 8px !important; background: transparent !important; display: block !important; }
+        body::-webkit-scrollbar-track { background: transparent !important; }
+        body::-webkit-scrollbar-thumb { background: #a0967d !important; border-radius: 6px !important; }
+        body::-webkit-scrollbar-thumb:hover { background: #8b8269 !important; }
+      `;
+      
+      const styleEl = document.createElement('style');
+      styleEl.textContent = css;
+      styleEl.setAttribute('data-nuclear-scrollbar', 'true');
+      document.head.appendChild(styleEl);
+    };
+    
+    setTimeout(forceScrollbarCSS, 50);
+    setTimeout(forceScrollbarCSS, 200);
+    setTimeout(forceScrollbarCSS, 500);
   });
 
   const handleProjectCreated = (project: Project) => {
