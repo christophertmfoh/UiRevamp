@@ -27,9 +27,6 @@ export function CharacterCreationLaunch({
       title: 'Start from Scratch',
       description: 'Create a character completely from your imagination',
       icon: Plus,
-      gradient: 'from-accent/20 to-accent/10',
-      borderColor: 'border-accent/30',
-      hoverColor: 'hover:border-accent/50',
       action: onCreateBlank,
       features: ['Complete creative control', 'Build step by step', 'Perfect for unique concepts']
     },
@@ -38,9 +35,6 @@ export function CharacterCreationLaunch({
       title: 'Use Professional Template',
       description: 'Start with proven character archetypes and storytelling patterns',
       icon: FileText,
-      gradient: 'from-accent/25 to-accent/15',
-      borderColor: 'border-accent/40',
-      hoverColor: 'hover:border-accent/60',
       action: onOpenTemplates,
       features: ['6 story-tested archetypes', 'Pre-filled character fields', 'Industry best practices']
     },
@@ -49,9 +43,6 @@ export function CharacterCreationLaunch({
       title: 'AI-Powered Creation',
       description: 'Let AI generate a complete character based on your story needs',
       icon: Sparkles,
-      gradient: 'from-accent/30 to-accent/20',
-      borderColor: 'border-accent/50',
-      hoverColor: 'hover:border-accent/70',
       action: onOpenAIGeneration,
       features: ['Context-aware generation', 'Instant backstory creation', 'Portrait generation included']
     }
@@ -92,26 +83,26 @@ export function CharacterCreationLaunch({
               return (
                 <Card 
                   key={option.id}
-                  className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-2 ${option.borderColor} ${option.hoverColor} bg-gradient-to-br ${option.gradient} relative overflow-hidden ${
-                    isSelected ? 'scale-[1.02] shadow-xl border-accent/60' : ''
+                  className={`group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-transparent hover:border-accent/60 bg-gradient-to-br from-amber-50/10 via-orange-50/10 to-yellow-50/5 backdrop-blur-sm relative overflow-hidden ${
+                    isSelected ? 'scale-105 shadow-2xl border-accent/80' : ''
                   }`}
                   onClick={() => handleOptionSelect(option.id, option.action)}
                 >
-                  <CardContent className="p-6 relative">
-                    {/* Glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardContent className="p-6 relative h-full flex flex-col">
+                    {/* Warm glow effect on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400/5 via-amber-300/5 to-yellow-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                     
                     {/* Icon */}
                     <div className="relative mb-4">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-accent/30 to-accent/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                        <Icon className="h-8 w-8 text-accent-foreground" />
+                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500/20 to-orange-400/15 rounded-2xl flex items-center justify-center transition-transform duration-300 shadow-lg border border-amber-400/20">
+                        <Icon className="h-8 w-8 text-amber-600" />
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="relative text-center space-y-4">
+                    <div className="relative text-center space-y-4 flex-1 flex flex-col">
                       <div>
-                        <h3 className="font-bold text-xl mb-2 group-hover:text-accent transition-colors">
+                        <h3 className="font-bold text-xl mb-2 text-foreground">
                           {option.title}
                         </h3>
                         <p className="text-muted-foreground text-sm leading-relaxed">
@@ -120,32 +111,34 @@ export function CharacterCreationLaunch({
                       </div>
 
                       {/* Features */}
-                      <div className="space-y-2">
+                      <div className="space-y-2 flex-1">
                         {option.features.map((feature, index) => (
                           <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <div className="w-1.5 h-1.5 bg-accent/60 rounded-full" />
+                            <div className="w-1.5 h-1.5 bg-amber-500/70 rounded-full" />
                             <span>{feature}</span>
                           </div>
                         ))}
                       </div>
 
-                      {/* Action button */}
-                      <Button 
-                        className="w-full bg-accent/90 hover:bg-accent text-accent-foreground shadow-lg group-hover:shadow-xl transition-all duration-200 mt-4"
-                        disabled={isSelected}
-                      >
-                        {isSelected ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin mr-2" />
-                            Loading...
-                          </>
-                        ) : (
-                          <>
-                            <Icon className="h-4 w-4 mr-2" />
-                            Choose This
-                          </>
-                        )}
-                      </Button>
+                      {/* Action button - always at bottom */}
+                      <div className="mt-6">
+                        <Button 
+                          className="w-full bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+                          disabled={isSelected}
+                        >
+                          {isSelected ? (
+                            <>
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                              Loading...
+                            </>
+                          ) : (
+                            <>
+                              <Icon className="h-4 w-4 mr-2" />
+                              Choose This
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
