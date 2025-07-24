@@ -43,10 +43,16 @@ export function LocationUnifiedView({
     location.name.includes('Generated Location') || 
     location.name.includes('mountain of') || 
     location.name.includes('village of') || 
-    location.name.includes('city of')
+    location.name.includes('city of') ||
+    location.name.includes('dungeon of')
   );
   const [isEditing, setIsEditing] = useState(Boolean(isNewlyGenerated));
   const [formData, setFormData] = useState(location);
+
+  // Update formData when location changes (important for newly created locations)
+  React.useEffect(() => {
+    setFormData(location);
+  }, [location]);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const queryClient = useQueryClient();

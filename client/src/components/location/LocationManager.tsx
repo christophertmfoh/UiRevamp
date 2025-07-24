@@ -122,21 +122,14 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
     try {
       console.log('Generating location with options:', options);
       
-      // Generate rich location data based on options
+      // Generate rich location data based on options - only include fields that exist in the Location schema
       const locationName = options.customPrompt || `${options.locationType || 'Location'} of ${project.name}`;
       const generatedLocation = {
         name: locationName,
         description: `A ${options.scale || 'medium-sized'} ${options.locationType || 'location'} with ${options.atmosphere || 'a mysterious atmosphere'}.`,
-        locationType: options.locationType || 'settlement',
-        classification: options.scale === 'massive' ? 'major location' : options.scale === 'small' ? 'minor location' : 'standard location',
-        size: options.scale || 'medium',
         atmosphere: options.atmosphere || 'A place of mystery and intrigue',
         significance: `An important ${options.locationType || 'location'} in the world of ${project.name}`,
-        physicalDescription: `This ${options.locationType || 'location'} features distinctive architecture and layout typical of its type.`,
-        geography: `Located in a strategic position, this ${options.locationType || 'place'} benefits from its geographical setting.`,
         history: `Founded in ancient times, this ${options.locationType || 'location'} has witnessed many important events.`,
-        culture: `The inhabitants of this ${options.locationType || 'place'} have developed unique customs and traditions.`,
-        narrativeRole: `This location serves as ${options.locationType === 'city' ? 'a major hub' : options.locationType === 'village' ? 'a peaceful refuge' : 'an important setting'} in the story.`,
         tags: [options.locationType || 'location', options.scale || 'medium', options.atmosphere || 'mysterious'].filter(Boolean)
       };
       
