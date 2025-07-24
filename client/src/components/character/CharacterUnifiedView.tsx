@@ -330,7 +330,7 @@ export function CharacterUnifiedView({
                 onClick={handleAIEnhance}
                 disabled={isEnhancing}
                 variant="outline"
-                className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-300 hover:from-purple-500/20 hover:to-pink-500/20"
+                className="bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border-orange-300 hover:from-orange-500/20 hover:to-yellow-500/20"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
                 {isEnhancing ? 'Enhancing...' : 'AI Genie'}

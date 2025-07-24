@@ -14,8 +14,8 @@ export function LoadingModal({ isOpen, title = "AI is thinking...", message = "A
       <DialogContent className="sm:max-w-md">
         <div className="flex flex-col items-center justify-center p-6 space-y-4">
           <div className="relative">
-            <Sparkles className="h-12 w-12 text-purple-500 animate-pulse" />
-            <Loader2 className="h-6 w-6 text-purple-400 animate-spin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            <Sparkles className="h-12 w-12 text-orange-500 animate-pulse" />
+            <Loader2 className="h-6 w-6 text-orange-400 animate-spin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
           </div>
           
           <div className="text-center space-y-2">
@@ -24,7 +24,7 @@ export function LoadingModal({ isOpen, title = "AI is thinking...", message = "A
           </div>
           
           <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 animate-pulse"></div>
+            <div className="h-full bg-gradient-to-r from-orange-500 to-yellow-500 animate-pulse"></div>
           </div>
         </div>
       </DialogContent>
