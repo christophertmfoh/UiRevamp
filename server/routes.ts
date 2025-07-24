@@ -350,6 +350,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Location routes
+  app.get("/api/projects/:projectId/locations", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const locations = await storage.getLocations(projectId);
+      res.json(locations);
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/locations", async (req, res) => {
+    try {
+      const locationData = insertLocationSchema.parse(req.body);
+      const location = await storage.createLocation(locationData);
+      res.status(201).json(location);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating location:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/locations/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const locationData = insertLocationSchema.partial().parse(req.body);
+      const location = await storage.updateLocation(id, locationData);
+      
+      if (!location) {
+        return res.status(404).json({ error: "Location not found" });
+      }
+      
+      res.json(location);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating location:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/locations/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteLocation(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Location not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting location:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Location generation endpoint
   app.post("/api/generate-location", async (req, res) => {
     try {
@@ -379,14 +441,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         aiEngine: "gemini"
       });
       
-      if (result.success && result.imageUrl) {
+      if (result.url) {
         // Get the current location and update its image gallery
         const location = await storage.getLocation(locationId);
         if (location) {
           const imageGallery = Array.isArray(location.imageGallery) ? location.imageGallery : [];
           const newImage = {
             id: Date.now(),
-            url: result.imageUrl,
+            url: result.url,
             prompt: `${locationName}: ${description}`,
             createdAt: new Date().toISOString()
           };
