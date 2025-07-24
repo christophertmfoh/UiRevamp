@@ -5,12 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModal';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
+import { CharacterTemplates } from './CharacterTemplates';
 import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
 interface CharacterManagerProps {
@@ -32,6 +33,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -139,6 +142,19 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
 
   const handleOpenGenerationModal = () => {
     setIsGenerationModalOpen(true);
+  };
+
+  const handleSelectTemplate = (template: any) => {
+    // Create new character with template data
+    const newCharacter = {
+      ...template.fields,
+      name: template.fields.name || 'New Character',
+      projectId: projectId
+    };
+    
+    setNewCharacterData(newCharacter);
+    setIsCreating(true);
+    setIsTemplateModalOpen(false);
   };
 
   const handleGenerateCharacter = async (options: CharacterGenerationOptions) => {
@@ -417,6 +433,15 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               Create Character
             </Button>
             <Button 
+              onClick={() => setIsTemplateModalOpen(true)} 
+              size="lg"
+              variant="outline"
+              className="border-purple-500/30 hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-200"
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              Use Template
+            </Button>
+            <Button 
               onClick={handleOpenGenerationModal} 
               disabled={!project}
               size="lg"
@@ -558,6 +583,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           onImageUploaded={handleImageUploaded}
         />
       )}
+
+      <CharacterTemplates
+        isOpen={isTemplateModalOpen}
+        onClose={() => setIsTemplateModalOpen(false)}
+        onSelectTemplate={handleSelectTemplate}
+      />
     </div>
   );
 }
