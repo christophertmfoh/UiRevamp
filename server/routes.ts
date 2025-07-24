@@ -210,7 +210,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Parsed character data for insertion:', JSON.stringify(characterData, null, 2));
       const character = await storage.createCharacter(characterData);
       console.log('Character created in database:', JSON.stringify(character, null, 2));
-      res.status(201).json(character);
+      
+      // Ensure we return a clean character object without any undefined values that might cause serialization issues
+      const cleanCharacter = {
+        ...character,
+        // Convert any undefined values to null for proper JSON serialization
+        imageUrl: character.imageUrl || null,
+        portraits: character.portraits || [],
+        relationships: character.relationships || '',
+      };
+      
+      console.log('Sending character response:', JSON.stringify(cleanCharacter, null, 2));
+      res.status(201).json(cleanCharacter);
     } catch (error) {
       if (error instanceof z.ZodError) {
         console.error("Character validation errors:", error.errors);
