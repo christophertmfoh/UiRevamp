@@ -85,13 +85,11 @@ export function CharacterUnifiedView({
       const enhancedData = await response.json();
       console.log('AI enhancement response received:', enhancedData);
       
-      // Force form data update
-      setFormData({ ...enhancedData } as Character);
+      // Process the enhanced data to ensure correct types before updating form
+      const processedEnhancedData = processDataForSave({ ...character, ...enhancedData });
       
-      // Force re-render by toggling state
-      setTimeout(() => {
-        setFormData(prev => ({ ...prev, ...enhancedData } as Character));
-      }, 100);
+      // Update form data with processed data
+      setFormData({ ...character, ...processedEnhancedData } as Character);
       
       console.log('Form data updated with enhanced character');
     } catch (error) {
@@ -105,18 +103,43 @@ export function CharacterUnifiedView({
   const processDataForSave = (data: Character) => {
     const processedData = { ...data };
     
-    // Ensure all array fields are properly formatted
+    // Define all fields that should be arrays according to schema
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
       'languages', 'archetypes', 'tropes', 'tags'
     ];
     
+    // Define all fields that should be strings according to schema  
+    const stringFields = [
+      'beliefs', 'values', 'principles', 'virtues', 'vices', 'habits', 'quirks',
+      'idiosyncrasies', 'petPeeves', 'likes', 'dislikes', 'hobbies', 'interests', 
+      'passions', 'formativeEvents', 'failures', 'allies', 'enemies', 'mentors', 
+      'rivals', 'friends', 'family'
+    ];
+    
+    // Process array fields - convert strings to arrays, keep arrays as arrays
     arrayFields.forEach(field => {
       const value = (data as any)[field];
       if (typeof value === 'string') {
         (processedData as any)[field] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-      } else if (!Array.isArray(value) || value === undefined || value === null) {
+      } else if (Array.isArray(value)) {
+        (processedData as any)[field] = value; // Keep arrays as is
+      } else {
         (processedData as any)[field] = [];
+      }
+    });
+    
+    // Process string fields - convert arrays/objects to strings
+    stringFields.forEach(field => {
+      const value = (data as any)[field];
+      if (Array.isArray(value)) {
+        (processedData as any)[field] = value.join(', ');
+      } else if (typeof value === 'object' && value !== null) {
+        (processedData as any)[field] = JSON.stringify(value);
+      } else if (value === undefined || value === null) {
+        (processedData as any)[field] = '';
+      } else {
+        (processedData as any)[field] = String(value);
       }
     });
     
@@ -134,7 +157,12 @@ export function CharacterUnifiedView({
       });
     });
     
-    // Remove any undefined values that might cause validation issues
+    // Ensure age is a string
+    if (typeof processedData.age === 'number') {
+      processedData.age = String(processedData.age);
+    }
+    
+    // Remove any remaining undefined/null values
     Object.keys(processedData).forEach(key => {
       if ((processedData as any)[key] === undefined || (processedData as any)[key] === null) {
         (processedData as any)[key] = '';
