@@ -7,6 +7,7 @@ import {
   insertLocationSchema, 
   insertFactionSchema, 
   insertItemSchema, 
+  insertOrganizationSchema, 
   insertOutlineSchema, 
   insertProseDocumentSchema 
 } from "@shared/schema";
