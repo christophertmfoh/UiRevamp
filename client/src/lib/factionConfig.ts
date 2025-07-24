@@ -13,7 +13,7 @@ export const FACTION_SECTIONS = [
     ]
   },
   {
-    title: "Goals & Methods",
+    title: "Goals",
     fields: [
       { name: "goals", label: "Primary Goals", type: "textarea" },
       { name: "methods", label: "Methods (General)", type: "textarea" },
@@ -22,7 +22,7 @@ export const FACTION_SECTIONS = [
     ]
   },
   {
-    title: "Organization",
+    title: "Structure",
     fields: [
       { name: "leadership", label: "Leadership", type: "textarea" },
       { name: "structure", label: "Organizational Structure", type: "textarea" },
@@ -31,7 +31,7 @@ export const FACTION_SECTIONS = [
     ]
   },
   {
-    title: "Power & Resources",
+    title: "Resources",
     fields: [
       { name: "resources", label: "Resources & Assets", type: "textarea" },
       { name: "strongholds", label: "Strongholds & Territories", type: "textarea" },
@@ -41,7 +41,7 @@ export const FACTION_SECTIONS = [
     ]
   },
   {
-    title: "Relations & History",
+    title: "Relations",
     fields: [
       { name: "relationships", label: "Relationships", type: "textarea" },
       { name: "history", label: "History", type: "textarea" },
@@ -50,7 +50,7 @@ export const FACTION_SECTIONS = [
     ]
   },
   {
-    title: "Status & Meta",
+    title: "Meta",
     fields: [
       { name: "status", label: "Current Status", type: "select",
         options: ["Active", "Dormant", "Growing", "Declining", "Destroyed", "Unknown"] },

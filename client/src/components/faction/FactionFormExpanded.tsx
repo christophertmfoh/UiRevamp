@@ -200,12 +200,12 @@ export function FactionFormExpanded({ projectId, onCancel, faction }: FactionFor
       {/* Form Content */}
       <Card className="p-6">
         <Tabs defaultValue="Identity" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-muted p-1 rounded-lg">
+          <TabsList className="grid w-full grid-cols-6 gap-1 bg-transparent">
             {FACTION_SECTIONS.map((section) => (
               <TabsTrigger 
                 key={section.title} 
                 value={section.title}
-                className="rounded-md px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground"
+                className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
               >
                 {section.title}
               </TabsTrigger>
