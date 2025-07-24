@@ -136,7 +136,7 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
           {filteredCharacters.map((character: Character) => (
             <Card 
               key={character.id} 
-              className="creative-card cursor-pointer hover:shadow-lg transition-shadow"
+              className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"
               onClick={() => handleEdit(character)}
             >
               <CardContent className="p-4">
