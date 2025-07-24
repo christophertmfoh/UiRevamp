@@ -122,14 +122,16 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
-              <FieldAIAssist
-                character={character || null}
-                fieldKey={field.key}
-                fieldLabel={field.label}
-                currentValue={value}
-                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                disabled={isEnhancing}
-              />
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Textarea
               id={field.key}
@@ -165,14 +167,16 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key} className="col-span-2">
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
-              <FieldAIAssist
-                character={character || null}
-                fieldKey={field.key}
-                fieldLabel={field.label}
-                currentValue={value}
-                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                disabled={isEnhancing}
-              />
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Input
               id={field.key}
@@ -188,14 +192,16 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key}>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
-              <FieldAIAssist
-                character={character || null}
-                fieldKey={field.key}
-                fieldLabel={field.label}
-                currentValue={value}
-                onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                disabled={isEnhancing}
-              />
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Input
               id={field.key}
