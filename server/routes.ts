@@ -353,7 +353,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Faction image generation endpoint
   app.post("/api/factions/generate-image", async (req, res) => {
     try {
-      const { factionPrompt, stylePrompt = "digital art, fantasy", aiEngine = "gemini" } = req.body;
+      const { factionPrompt, stylePrompt = "heraldic emblem, clean design, symbol logo", aiEngine = "gemini" } = req.body;
       
       if (!factionPrompt) {
         return res.status(400).json({ error: "Faction prompt is required" });

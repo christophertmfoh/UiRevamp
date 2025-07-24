@@ -40,57 +40,65 @@ export function FactionPortraitModal({
   });
   const [selectedMainImage, setSelectedMainImage] = useState<string>('');
 
-  // Generate comprehensive AI prompt from all physical faction data
+  // Generate faction symbol/logo prompt based on faction characteristics
   const generateFactionPrompt = () => {
     const parts = [];
     
-    // Basic info
-    if (faction.name) parts.push(`Faction named ${faction.name}`);
-    if (faction.age) parts.push(`${faction.age} years old`);
-    if (faction.race) parts.push(faction.race);
-    if (faction.ethnicity) parts.push(faction.ethnicity);
+    // Start with base symbol description
+    parts.push("Create a faction symbol, emblem, or logo");
     
-    // Physical build and body
-    if (faction.build) parts.push(`${faction.build} build`);
-    if (faction.bodyType) parts.push(`${faction.bodyType} body type`);
-    if (faction.height) parts.push(`${faction.height} tall`);
-    if (faction.posture) parts.push(`${faction.posture} posture`);
-    
-    // Facial features
-    if (faction.facialFeatures) parts.push(faction.facialFeatures);
-    if (faction.eyes || faction.eyeColor) {
-      const eyeDesc = [faction.eyeColor, faction.eyes].filter(Boolean).join(' ');
-      parts.push(`${eyeDesc} eyes`);
-    }
-    if (faction.complexion) parts.push(`${faction.complexion} complexion`);
-    if (faction.skin || faction.skinTone) {
-      const skinDesc = [faction.skinTone, faction.skin].filter(Boolean).join(' ');
-      parts.push(`${skinDesc} skin`);
+    // Add faction name if available
+    if (faction.name) {
+      parts.push(`for the faction "${faction.name}"`);
     }
     
-    // Hair
-    if (faction.hair || faction.hairColor || faction.hairStyle) {
-      const hairDesc = [faction.hairColor, faction.hairStyle, faction.hair].filter(Boolean).join(' ');
-      parts.push(`${hairDesc} hair`);
+    // Add faction type context
+    if (faction.type) {
+      parts.push(`representing a ${faction.type.toLowerCase()}`);
     }
-    if (faction.facialHair) parts.push(faction.facialHair);
     
-    // Clothing and accessories
-    if (faction.attire) parts.push(`wearing ${faction.attire}`);
-    if (faction.clothingStyle) parts.push(`${faction.clothingStyle} clothing style`);
-    if (faction.accessories) parts.push(`accessories: ${faction.accessories}`);
+    // Add core ideology or values
+    if (faction.core_ideology) {
+      parts.push(`embodying the ideology of ${faction.core_ideology}`);
+    }
     
-    // Distinguishing features
-    if (faction.scars) parts.push(`scars: ${faction.scars}`);
-    if (faction.tattoos) parts.push(`tattoos: ${faction.tattoos}`);
-    if (faction.piercings) parts.push(`piercings: ${faction.piercings}`);
-    if (faction.birthmarks) parts.push(`birthmarks: ${faction.birthmarks}`);
-    if (faction.distinguishingMarks) parts.push(`distinguishing marks: ${faction.distinguishingMarks}`);
+    // Add goals or primary objectives
+    if (faction.primary_goals) {
+      parts.push(`focused on ${faction.primary_goals}`);
+    }
     
-    // General physical description
-    if (faction.physicalDescription) parts.push(faction.physicalDescription);
+    // Add methods or approach
+    if (faction.methods) {
+      parts.push(`using ${faction.methods} methods`);
+    }
     
-    return parts.filter(Boolean).join(', ');
+    // Add visual elements based on faction characteristics
+    const visualElements = [];
+    
+    if (faction.status) {
+      if (faction.status.toLowerCase().includes('active')) visualElements.push('strong, bold design');
+      if (faction.status.toLowerCase().includes('defunct')) visualElements.push('weathered, ancient appearance');
+      if (faction.status.toLowerCase().includes('secret')) visualElements.push('mysterious, cryptic symbols');
+    }
+    
+    if (faction.threat_level) {
+      if (faction.threat_level.toLowerCase().includes('high')) visualElements.push('intimidating, aggressive imagery');
+      if (faction.threat_level.toLowerCase().includes('low')) visualElements.push('peaceful, diplomatic symbols');
+    }
+    
+    if (faction.territory) {
+      visualElements.push(`incorporating elements representing ${faction.territory}`);
+    }
+    
+    if (visualElements.length > 0) {
+      parts.push(`with ${visualElements.join(', ')}`);
+    }
+    
+    // Add style specifications for emblems/logos
+    parts.push("The design should be suitable for use as a banner, coat of arms, or insignia");
+    parts.push("Clean, recognizable symbol that could be emblazoned on flags, armor, or buildings");
+    
+    return parts.filter(Boolean).join('. ') + '.';
   };
 
   const handleGenerateImage = async () => {
@@ -310,10 +318,10 @@ export function FactionPortraitModal({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto creative-card" aria-describedby="portrait-description">
         <DialogHeader>
           <DialogTitle className="font-title text-2xl">
-            Manage Portraits for {faction.name || 'Faction'}
+            Manage Symbols for {faction.name || 'Faction'}
           </DialogTitle>
           <div id="portrait-description" className="sr-only">
-            Generate AI portraits or upload images for your faction. You can create multiple portraits and set one as the main faction image.
+            Generate AI faction symbols, emblems, or logos, or upload images for your faction. You can create multiple symbols and set one as the main faction emblem.
           </div>
         </DialogHeader>
 
@@ -365,26 +373,26 @@ export function FactionPortraitModal({
                       <Textarea
                         value={stylePrompt}
                         onChange={(e) => setStylePrompt(e.target.value)}
-                        placeholder="oil painting • digital art • anime style • realistic portrait • watercolor • pencil sketch • dark fantasy • cyberpunk • medieval art • concept art"
+                        placeholder="heraldic design • minimalist logo • medieval coat of arms • geometric symbol • tribal emblem • corporate logo • fantasy banner • military insignia • ancient seal"
                         className="creative-input"
                         rows={2}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Leave blank for default style, or specify artistic direction
+                        Leave blank for default style, or specify emblem/logo style
                       </p>
                     </div>
 
                     {/* Faction Prompt Preview */}
                     <div>
-                      <Label>Faction Description (Auto-generated)</Label>
+                      <Label>Symbol Description (Auto-generated)</Label>
                       <Textarea
-                        value={generateFactionPrompt() || 'Add faction details in the Faction Editor to auto-generate description...'}
+                        value={generateFactionPrompt() || 'Add faction details in the Faction Editor to auto-generate symbol description...'}
                         readOnly
                         className="creative-input text-sm text-muted-foreground"
                         rows={3}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        This description compiles all physical information from your faction profile
+                        This description creates faction symbols based on your faction's characteristics
                       </p>
                     </div>
 
@@ -395,7 +403,7 @@ export function FactionPortraitModal({
                       className="w-full interactive-warm"
                     >
                       <Sparkles className="h-4 w-4 mr-2" />
-                      {isGenerating ? 'Generating...' : 'Generate with AI'}
+{isGenerating ? 'Generating Symbol...' : 'Generate Faction Symbol'}
                     </Button>
 
                     <div className="text-center text-sm text-muted-foreground">
@@ -428,9 +436,9 @@ export function FactionPortraitModal({
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Portrait Gallery</CardTitle>
+                    <CardTitle className="text-lg">Symbol Gallery</CardTitle>
                     <p className="text-sm text-muted-foreground">
-                      Up to 20 portraits • Click star to set as main image
+                      Up to 20 symbols • Click star to set as main emblem
                     </p>
                   </CardHeader>
                   <CardContent>
