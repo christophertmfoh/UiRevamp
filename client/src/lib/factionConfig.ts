@@ -7,7 +7,7 @@ export const FACTION_SECTIONS = [
     fields: [
       { name: "name", label: "Name", type: "text", required: true },
       { name: "type", label: "Faction Type", type: "select", 
-        options: ["Cultist Group", "Stone Lords", "Regional Peoples", "Underground Movement", "Ancient Order", "Other"] },
+        options: ["Military Force", "Political Party", "Religious Order", "Trading Guild", "Criminal Organization", "Rebel Group", "Noble House", "Secret Society", "Mercenary Company", "Scholar Circle", "Underground Movement", "Ancient Order", "Other"] },
       { name: "description", label: "Description", type: "textarea" },
       { name: "ideology", label: "Core Ideology", type: "textarea" }
     ]

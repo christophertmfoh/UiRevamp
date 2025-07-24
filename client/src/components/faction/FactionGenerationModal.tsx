@@ -70,16 +70,18 @@ export function FactionGenerationModal({
                 <SelectValue placeholder="What kind of faction?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Cultist Group">Cultist Group</SelectItem>
-                <SelectItem value="Stone Lords">Stone Lords</SelectItem>
-                <SelectItem value="Regional Peoples">Regional Peoples</SelectItem>
+                <SelectItem value="Military Force">Military Force</SelectItem>
+                <SelectItem value="Political Party">Political Party</SelectItem>
+                <SelectItem value="Religious Order">Religious Order</SelectItem>
+                <SelectItem value="Trading Guild">Trading Guild</SelectItem>
+                <SelectItem value="Criminal Organization">Criminal Organization</SelectItem>
+                <SelectItem value="Rebel Group">Rebel Group</SelectItem>
+                <SelectItem value="Noble House">Noble House</SelectItem>
+                <SelectItem value="Secret Society">Secret Society</SelectItem>
+                <SelectItem value="Mercenary Company">Mercenary Company</SelectItem>
+                <SelectItem value="Scholar Circle">Scholar Circle</SelectItem>
                 <SelectItem value="Underground Movement">Underground Movement</SelectItem>
                 <SelectItem value="Ancient Order">Ancient Order</SelectItem>
-                <SelectItem value="Trading Guild">Trading Guild</SelectItem>
-                <SelectItem value="Military Force">Military Force</SelectItem>
-                <SelectItem value="Religious Order">Religious Order</SelectItem>
-                <SelectItem value="Political Party">Political Party</SelectItem>
-                <SelectItem value="Criminal Organization">Criminal Organization</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -101,18 +103,16 @@ export function FactionGenerationModal({
                 <SelectValue placeholder="Choose an archetype" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="corrupting-force">The Corrupting Force</SelectItem>
-                <SelectItem value="ancient-guardians">The Ancient Guardians</SelectItem>
-                <SelectItem value="survivors">The Survivors</SelectItem>
-                <SelectItem value="zealots">The Zealots</SelectItem>
-                <SelectItem value="rebels">The Rebels</SelectItem>
-                <SelectItem value="merchants">The Merchants</SelectItem>
-                <SelectItem value="protectors">The Protectors</SelectItem>
-                <SelectItem value="scholars">The Scholars</SelectItem>
-                <SelectItem value="outcasts">The Outcasts</SelectItem>
-                <SelectItem value="caregiver">The Caregiver</SelectItem>
-                <SelectItem value="creator">The Creator</SelectItem>
-                <SelectItem value="ruler">The Ruler</SelectItem>
+                <SelectItem value="the-protectors">The Protectors</SelectItem>
+                <SelectItem value="the-rebels">The Rebels</SelectItem>
+                <SelectItem value="the-merchants">The Merchants</SelectItem>
+                <SelectItem value="the-scholars">The Scholars</SelectItem>
+                <SelectItem value="the-outcasts">The Outcasts</SelectItem>
+                <SelectItem value="the-zealots">The Zealots</SelectItem>
+                <SelectItem value="the-rulers">The Rulers</SelectItem>
+                <SelectItem value="the-survivors">The Survivors</SelectItem>
+                <SelectItem value="the-guardians">The Guardians</SelectItem>
+                <SelectItem value="the-conspirators">The Conspirators</SelectItem>
               </SelectContent>
             </Select>
           </div>

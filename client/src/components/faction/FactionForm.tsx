@@ -6,12 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, Target, Users, Sword, Castle, History, Settings } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
-import { FACTION_SECTIONS, FACTION_TYPES, BLOOMWEAVER_REGIONS } from '@/lib/factionConfig';
-import type { Faction } from '@/lib/types';
+import { ArrowLeft, Save } from 'lucide-react';
+import type { Faction } from '../../lib/types';
 
 interface FactionFormProps {
   projectId: string;
@@ -22,248 +18,287 @@ interface FactionFormProps {
 export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) {
   const [formData, setFormData] = useState({
     name: faction?.name || '',
-    description: faction?.description || '',
     type: faction?.type || '',
+    description: faction?.description || '',
+    ideology: faction?.ideology || '',
     goals: faction?.goals || '',
     methods: faction?.methods || '',
-    history: faction?.history || '',
     leadership: faction?.leadership || '',
-    structure: faction?.structure || '',
     resources: faction?.resources || '',
     relationships: faction?.relationships || '',
     status: faction?.status || '',
-    ideology: faction?.ideology || '',
-    methods_detailed: faction?.methods_detailed || '',
-    corruption_techniques: faction?.corruption_techniques || '',
-    recruitment: faction?.recruitment || '',
-    strongholds: faction?.strongholds || '',
-    weaknesses: faction?.weaknesses || '',
-    threat_level: faction?.threat_level || '',
-    current_operations: faction?.current_operations || '',
-    key_figures: faction?.key_figures || '',
-    origin_story: faction?.origin_story || '',
-    tags: (faction?.tags || []).join(', '),
+    tags: faction?.tags?.join(', ') || ''
   });
 
   const queryClient = useQueryClient();
 
-  const createMutation = useMutation({
-    mutationFn: (data: any) => 
-      fetch(`/api/factions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, projectId }),
-      }).then(res => res.json()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/factions', projectId] });
-      onCancel();
+  const saveMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const endpoint = faction 
+        ? `/api/projects/${projectId}/factions/${faction.id}`
+        : `/api/projects/${projectId}/factions`;
+      
+      const response = await fetch(endpoint, {
+        method: faction ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to save faction');
+      }
+      
+      return response.json();
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'factions'] });
+      onCancel();
+    }
   });
 
-  const updateMutation = useMutation({
-    mutationFn: (data: any) => 
-      fetch(`/api/factions/${faction?.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }).then(res => res.json()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/factions', projectId] });
-      onCancel();
-    },
-  });
+  const handleSave = () => {
+    const cleanedData = { ...formData } as any;
+    
+    // Convert tags string to array
+    if (cleanedData.tags) {
+      cleanedData.tags = cleanedData.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean);
+    } else {
+      cleanedData.tags = [];
+    }
+    
+    // Clean empty strings to prevent database errors
+    Object.keys(cleanedData).forEach((key: string) => {
+      if (cleanedData[key] === '') {
+        delete cleanedData[key];
+      }
+    });
+
+    saveMutation.mutate(cleanedData);
+  };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleFactionTypeChange = (newType: string) => {
-    const typeDefaults = FACTION_TYPES[newType as keyof typeof FACTION_TYPES];
-    if (typeDefaults) {
-      setFormData(prev => ({
-        ...prev,
-        type: newType,
-        ...typeDefaults.defaultValues
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, type: newType }));
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const submitData = {
-      ...formData,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-    };
-
-    if (faction) {
-      updateMutation.mutate(submitData);
-    } else {
-      createMutation.mutate(submitData);
-    }
-  };
-
-  const renderField = (field: any) => {
-    const value = formData[field.name as keyof typeof formData] as string;
-    
-    switch (field.type) {
-      case 'select':
-        return (
-          <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Select value={value} onValueChange={(val) => {
-              if (field.name === 'type') {
-                handleFactionTypeChange(val);
-              } else {
-                handleInputChange(field.name, val);
-              }
-            }}>
-              <SelectTrigger>
-                <SelectValue placeholder={`Select ${field.label}`} />
-              </SelectTrigger>
-              <SelectContent>
-                {field.options.map((option: string) => (
-                  <SelectItem key={option} value={option}>{option}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-      case 'textarea':
-        return (
-          <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Textarea
-              id={field.name}
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              className="min-h-24"
-              placeholder={`Enter ${field.label.toLowerCase()}...`}
-            />
-          </div>
-        );
-      case 'array':
-        return (
-          <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Input
-              id={field.name}
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder="Enter tags separated by commas"
-            />
-            <div className="flex flex-wrap gap-2 mt-2">
-              {value.split(',').map((tag, idx) => (
-                tag.trim() && <Badge key={idx} variant="secondary">{tag.trim()}</Badge>
-              ))}
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <div key={field.name} className="space-y-2">
-            <Label htmlFor={field.name}>{field.label}</Label>
-            <Input
-              id={field.name}
-              value={value}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-              placeholder={`Enter ${field.label.toLowerCase()}...`}
-              required={field.required}
-            />
-          </div>
-        );
-    }
-  };
-
-  const getTabIcon = (index: number) => {
-    const icons = [Target, Users, Sword, Castle, History, Settings];
-    const Icon = icons[index] || Settings;
-    return <Icon className="w-4 h-4" />;
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
-    <div className="h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
-      <div className="h-full flex flex-col">
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-800 border-b px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onCancel}
-                className="text-gray-600 dark:text-gray-300"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                  {faction ? 'Edit Faction' : 'Create New Faction'}
-                </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  BloomWeaver faction configuration
-                </p>
-              </div>
-            </div>
-            <Button
-              onClick={handleSubmit}
-              disabled={createMutation.isPending || updateMutation.isPending}
-              className="bg-amber-600 hover:bg-amber-700 text-white"
-            >
-              <Save className="w-4 h-4 mr-2" />
-              {faction ? 'Update' : 'Create'} Faction
-            </Button>
+    <div className="max-w-2xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onCancel}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Factions
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold">
+              {faction ? `Edit ${faction.name}` : 'Create New Faction'}
+            </h1>
+            <p className="text-muted-foreground">
+              {faction ? 'Modify faction details' : 'Add a new faction to your world'}
+            </p>
           </div>
         </div>
-
-        {/* Content */}
-        <div className="flex-1 overflow-hidden">
-          <div className="h-full p-6">
-            <Card className="h-full">
-              <CardContent className="p-6 h-full">
-                <Tabs defaultValue="0" className="h-full flex flex-col">
-                  <TabsList className="grid grid-cols-6 mb-6">
-                    {FACTION_SECTIONS.map((section, index) => (
-                      <TabsTrigger
-                        key={index}
-                        value={index.toString()}
-                        className="flex items-center gap-2"
-                      >
-                        {getTabIcon(index)}
-                        <span className="hidden sm:inline">{section.title}</span>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-
-                  <div className="flex-1 overflow-auto">
-                    {FACTION_SECTIONS.map((section, index) => (
-                      <TabsContent
-                        key={index}
-                        value={index.toString()}
-                        className="mt-0 h-full"
-                      >
-                        <div className="space-y-6">
-                          <div className="border-b pb-4">
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                              {section.title}
-                            </h3>
-                          </div>
-                          <div className="grid gap-6">
-                            {section.fields.map(renderField)}
-                          </div>
-                        </div>
-                      </TabsContent>
-                    ))}
-                  </div>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        <Button 
+          onClick={handleSave} 
+          disabled={saveMutation.isPending || !formData.name}
+          className="bg-accent hover:bg-accent/90"
+        >
+          <Save className="h-4 w-4 mr-2" />
+          {saveMutation.isPending ? 'Saving...' : faction ? 'Save Changes' : 'Create Faction'}
+        </Button>
       </div>
+
+      {/* Form Content */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Faction Details</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="name" className="text-sm font-medium">
+                Name <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                placeholder="Enter faction name..."
+                className="mt-2"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="type" className="text-sm font-medium">
+                Faction Type
+              </Label>
+              <Select
+                value={formData.type}
+                onValueChange={(value) => handleInputChange('type', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select faction type..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Military Force">Military Force</SelectItem>
+                  <SelectItem value="Political Party">Political Party</SelectItem>
+                  <SelectItem value="Religious Order">Religious Order</SelectItem>
+                  <SelectItem value="Trading Guild">Trading Guild</SelectItem>
+                  <SelectItem value="Criminal Organization">Criminal Organization</SelectItem>
+                  <SelectItem value="Rebel Group">Rebel Group</SelectItem>
+                  <SelectItem value="Noble House">Noble House</SelectItem>
+                  <SelectItem value="Secret Society">Secret Society</SelectItem>
+                  <SelectItem value="Mercenary Company">Mercenary Company</SelectItem>
+                  <SelectItem value="Scholar Circle">Scholar Circle</SelectItem>
+                  <SelectItem value="Underground Movement">Underground Movement</SelectItem>
+                  <SelectItem value="Ancient Order">Ancient Order</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="status" className="text-sm font-medium">
+                Status
+              </Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value) => handleInputChange('status', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select status..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="Dormant">Dormant</SelectItem>
+                  <SelectItem value="Growing">Growing</SelectItem>
+                  <SelectItem value="Declining">Declining</SelectItem>
+                  <SelectItem value="Destroyed">Destroyed</SelectItem>
+                  <SelectItem value="Unknown">Unknown</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="tags" className="text-sm font-medium">
+                Tags
+              </Label>
+              <Input
+                id="tags"
+                value={formData.tags}
+                onChange={(e) => handleInputChange('tags', e.target.value)}
+                placeholder="Enter tags separated by commas..."
+                className="mt-2"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="description" className="text-sm font-medium">
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              placeholder="Describe the faction..."
+              className="mt-2 min-h-[100px]"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="ideology" className="text-sm font-medium">
+              Core Ideology
+            </Label>
+            <Textarea
+              id="ideology"
+              value={formData.ideology}
+              onChange={(e) => handleInputChange('ideology', e.target.value)}
+              placeholder="What does this faction believe in?"
+              className="mt-2 min-h-[80px]"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="goals" className="text-sm font-medium">
+                Goals
+              </Label>
+              <Textarea
+                id="goals"
+                value={formData.goals}
+                onChange={(e) => handleInputChange('goals', e.target.value)}
+                placeholder="What does this faction want to achieve?"
+                className="mt-2 min-h-[80px]"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="methods" className="text-sm font-medium">
+                Methods
+              </Label>
+              <Textarea
+                id="methods"
+                value={formData.methods}
+                onChange={(e) => handleInputChange('methods', e.target.value)}
+                placeholder="How does this faction operate?"
+                className="mt-2 min-h-[80px]"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="leadership" className="text-sm font-medium">
+                Leadership
+              </Label>
+              <Textarea
+                id="leadership"
+                value={formData.leadership}
+                onChange={(e) => handleInputChange('leadership', e.target.value)}
+                placeholder="Who leads this faction?"
+                className="mt-2 min-h-[80px]"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="resources" className="text-sm font-medium">
+                Resources
+              </Label>
+              <Textarea
+                id="resources"
+                value={formData.resources}
+                onChange={(e) => handleInputChange('resources', e.target.value)}
+                placeholder="What resources does this faction have?"
+                className="mt-2 min-h-[80px]"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="relationships" className="text-sm font-medium">
+              Relationships
+            </Label>
+            <Textarea
+              id="relationships"
+              value={formData.relationships}
+              onChange={(e) => handleInputChange('relationships', e.target.value)}
+              placeholder="How does this faction relate to others?"
+              className="mt-2 min-h-[80px]"
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
