@@ -387,28 +387,53 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   // World Bible categories with drag-and-drop capability (moved after worldData definition)
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: 0, locked: false },
+    { id: 'characters', label: 'Characters', icon: Users, count: characters.length, locked: false },
     { id: 'locations', label: 'Locations', icon: MapPin, count: locations.length, locked: false },
-    { id: 'factions', label: 'Factions', icon: Shield, count: worldData.factions.length, locked: false },
-    { id: 'organizations', label: 'Organizations', icon: Crown, count: worldData.organizations.length, locked: false },
-    { id: 'items', label: 'Items & Artifacts', icon: Package, count: 0, locked: false },
-    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: worldData.magic.length, locked: false },
-    { id: 'timeline', label: 'Timeline', icon: Clock, count: worldData.timeline.length, locked: false },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 0, locked: false },
-    { id: 'languages', label: 'Languages', icon: Languages, count: 0, locked: false },
-    { id: 'culture', label: 'Culture', icon: Heart, count: 0, locked: false },
-    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: 0, locked: false },
-    { id: 'themes', label: 'Themes', icon: Sword, count: 0, locked: false }
+    { id: 'factions', label: 'Factions', icon: Shield, count: factions.length, locked: false },
+    { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length, locked: false },
+    { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length, locked: false },
+    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: magicSystems.length, locked: false },
+    { id: 'timeline', label: 'Timeline', icon: Clock, count: timelineEvents.length, locked: false },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length, locked: false },
+    { id: 'languages', label: 'Languages', icon: Languages, count: languages.length, locked: false },
+    { id: 'culture', label: 'Culture', icon: Heart, count: cultures.length, locked: false },
+    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: prophecies.length, locked: false },
+    { id: 'themes', label: 'Themes', icon: Sword, count: themes.length, locked: false }
   ]);
 
-  // Update character count when characters change
+  // Update counts dynamically when data changes
   useEffect(() => {
-    setCategories(prev => prev.map(cat => 
-      cat.id === 'characters' 
-        ? { ...cat, count: characters.length }
-        : cat
-    ));
-  }, [characters.length]);
+    setCategories(prev => prev.map(cat => {
+      switch (cat.id) {
+        case 'characters': return { ...cat, count: characters.length };
+        case 'locations': return { ...cat, count: locations.length };
+        case 'factions': return { ...cat, count: factions.length };
+        case 'organizations': return { ...cat, count: organizations.length };
+        case 'items': return { ...cat, count: items.length };
+        case 'magic': return { ...cat, count: magicSystems.length };
+        case 'timeline': return { ...cat, count: timelineEvents.length };
+        case 'bestiary': return { ...cat, count: creatures.length };
+        case 'languages': return { ...cat, count: languages.length };
+        case 'culture': return { ...cat, count: cultures.length };
+        case 'prophecies': return { ...cat, count: prophecies.length };
+        case 'themes': return { ...cat, count: themes.length };
+        default: return cat;
+      }
+    }));
+  }, [
+    characters.length, 
+    locations.length, 
+    factions.length, 
+    organizations.length, 
+    items.length, 
+    magicSystems.length, 
+    timelineEvents.length, 
+    creatures.length, 
+    languages.length, 
+    cultures.length, 
+    prophecies.length, 
+    themes.length
+  ]);
 
   // Render search results
   const renderSearchResults = () => {
