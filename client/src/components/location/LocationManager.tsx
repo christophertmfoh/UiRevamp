@@ -67,21 +67,22 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
   });
 
   const createLocationMutation = useMutation({
-    mutationFn: async (location: Partial<Location>): Promise<Location> => {
+    mutationFn: async (location: Partial<Location>) => {
       console.log('Mutation: Creating location with data:', location);
       const response = await apiRequest('POST', `/api/projects/${projectId}/locations`, {
         ...location,
         projectId,
       });
-      return response as unknown as Location;
+      console.log('Mutation: Received response:', response);
+      const result = await response.json();
+      console.log('Mutation: Parsed JSON:', result);
+      return result;
     },
     onSuccess: (newLocation: Location) => {
-      console.log('Mutation: Location created successfully:', newLocation);
+      console.log('Location created successfully, setting as selected:', newLocation);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
       setSelectedLocation(newLocation);
       setIsCreating(false);
-      // When coming from generation, we want to start in editing mode for the LocationUnifiedView
-      // The UnifiedView will detect if it's a new location and start in edit mode
     },
     onError: (error) => {
       console.error('Mutation: Failed to create location:', error);
