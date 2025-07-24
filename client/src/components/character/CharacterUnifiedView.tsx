@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config';
@@ -42,6 +42,7 @@ export function CharacterUnifiedView({
   const [formData, setFormData] = useState(character);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const queryClient = useQueryClient();
 
   // Save mutation
@@ -66,6 +67,18 @@ export function CharacterUnifiedView({
   const handleCancel = () => {
     setFormData(character); // Reset form data
     setIsEditing(false);
+  };
+
+  const handleAIEnhance = async () => {
+    setIsEnhancing(true);
+    try {
+      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
+      setFormData(response as Character);
+    } catch (error) {
+      console.error('Failed to enhance character:', error);
+    } finally {
+      setIsEnhancing(false);
+    }
   };
 
   const processDataForSave = (data: Character) => {
@@ -108,7 +121,7 @@ export function CharacterUnifiedView({
     });
     
     // Remove system fields that shouldn't be updated, but preserve portraits
-    const { createdAt, updatedAt, id, projectId, ...dataToSave } = processedData;
+    const { createdAt, id, projectId, ...dataToSave } = processedData;
     
     // Ensure portraits array is preserved
     if (character.portraits) {
@@ -298,6 +311,15 @@ export function CharacterUnifiedView({
             </>
           ) : (
             <>
+              <Button 
+                onClick={handleAIEnhance}
+                disabled={isEnhancing}
+                variant="outline"
+                className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-300 hover:from-purple-500/20 hover:to-pink-500/20"
+              >
+                <Sparkles className="h-4 w-4 mr-2" />
+                {isEnhancing ? 'Enhancing...' : 'AI Genie'}
+              </Button>
               <Button 
                 onClick={handleSave} 
                 disabled={saveMutation.isPending}

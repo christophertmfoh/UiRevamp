@@ -372,6 +372,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Character enhancement endpoint
+  app.post("/api/characters/:id/enhance", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const currentData = req.body;
+      
+      // Get the character from database to get project context
+      const character = await storage.getCharacter(id);
+      if (!character) {
+        return res.status(404).json({ error: "Character not found" });
+      }
+      
+      // Get project data for context
+      const project = await storage.getProject(character.projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Import the enhancement function
+      const { enhanceCharacterWithAI } = await import('./characterEnhancement');
+      
+      const enhancedData = await enhanceCharacterWithAI({
+        currentData,
+        project,
+        character
+      });
+      
+      res.json(enhancedData);
+    } catch (error: any) {
+      console.error("Error enhancing character:", error);
+      res.status(500).json({ 
+        error: "Failed to enhance character", 
+        details: error.message 
+      });
+    }
+  });
+
   // Faction image generation endpoint
   app.post("/api/factions/generate-image", async (req, res) => {
     try {
