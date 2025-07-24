@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Faction } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config';
+import { FACTION_SECTIONS } from '../../lib/factionConfig';
 import { FactionPortraitModal } from './FactionPortraitModal';
 
 interface FactionUnifiedViewProps {
@@ -39,7 +39,7 @@ export function FactionUnifiedView({
 }: FactionUnifiedViewProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(faction);
-  const [activeTab, setActiveTab] = useState('identity');
+  const [activeTab, setActiveTab] = useState('Identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
@@ -86,14 +86,14 @@ export function FactionUnifiedView({
     });
     
     // Convert comma-separated strings back to arrays for array fields from sections
-    CHARACTER_SECTIONS.forEach(section => {
+    FACTION_SECTIONS.forEach(section => {
       section.fields.forEach(field => {
         if (field.type === 'array') {
-          const value = (data as any)[field.key];
+          const value = (data as any)[field.name];
           if (typeof value === 'string') {
-            (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+            (processedData as any)[field.name] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
           } else if (!Array.isArray(value)) {
-            (processedData as any)[field.key] = [];
+            (processedData as any)[field.name] = [];
           }
         }
       });
@@ -157,11 +157,11 @@ export function FactionUnifiedView({
     if (field.type === 'textarea') {
       return (
         <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
+          <Label htmlFor={field.name}>{field.label}</Label>
           <Textarea
-            id={field.key}
+            id={field.name}
             value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
+            onChange={(e) => handleInputChange(field.name, e.target.value)}
             placeholder={isEditing ? field.placeholder : ''}
             rows={field.rows || 3}
             className="creative-input"
@@ -172,11 +172,11 @@ export function FactionUnifiedView({
     } else {
       return (
         <div>
-          <Label htmlFor={field.key}>{field.label}</Label>
+          <Label htmlFor={field.name}>{field.label}</Label>
           <Input
-            id={field.key}
+            id={field.name}
             value={value || ''}
-            onChange={(e) => handleInputChange(field.key, e.target.value)}
+            onChange={(e) => handleInputChange(field.name, e.target.value)}
             placeholder={isEditing ? field.placeholder : ''}
             className="creative-input"
             disabled={!isEditing}
@@ -191,13 +191,13 @@ export function FactionUnifiedView({
     const stringValue = Array.isArray(values) ? values.join(', ') : values || '';
     return (
       <div>
-        <Label htmlFor={field.key}>{field.label}</Label>
+        <Label htmlFor={field.name}>{field.label}</Label>
         <Input
-          id={field.key}
+          id={field.name}
           value={stringValue}
           onChange={(e) => {
             const arrayValue = e.target.value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-            handleInputChange(field.key, arrayValue);
+            handleInputChange(field.name, arrayValue);
           }}
           placeholder={isEditing ? field.placeholder : ''}
           className="creative-input"
@@ -220,24 +220,24 @@ export function FactionUnifiedView({
   };
 
   // Render tab content with grid layout like the original editor
-  const renderTabContent = (sectionId: string) => {
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
+  const renderTabContent = (sectionTitle: string) => {
+    const section = FACTION_SECTIONS.find(s => s.title === sectionTitle);
     if (!section) return null;
 
     return (
       <div className="space-y-6">
         {section.fields.map((field, index) => {
-          const value = (formData as any)[field.key];
+          const value = (formData as any)[field.name];
           
           if (field.type === 'array') {
             return (
-              <div key={field.key}>
+              <div key={field.name}>
                 {renderArrayField(field, value)}
               </div>
             );
           } else {
             return (
-              <div key={field.key}>
+              <div key={field.name}>
                 {renderField(field, value)}
               </div>
             );
@@ -321,35 +321,23 @@ export function FactionUnifiedView({
                 {formData.name || 'Unnamed Faction'}
               </h1>
               
-              {formData.title && (
-                <p className="text-lg text-muted-foreground mb-3 italic">"{formData.title}"</p>
-              )}
-              
               <div className="flex flex-wrap gap-2 mb-4">
-                {formData.role && (
+                {formData.type && (
                   <Badge variant="default" className="text-sm px-3 py-1">
-                    {formData.role}
+                    {formData.type}
                   </Badge>
                 )}
-                {formData.class && (
+                {formData.status && (
                   <Badge variant="outline" className="text-sm">
-                    {formData.class}
+                    {formData.status}
                   </Badge>
                 )}
-                {formData.age && (
-                  <Badge variant="outline" className="text-sm">
-                    Age {formData.age}
+                {formData.threat_level && (
+                  <Badge variant="destructive" className="text-sm">
+                    Threat: {formData.threat_level}
                   </Badge>
                 )}
               </div>
-
-
-
-              {formData.oneLine && (
-                <p className="text-lg italic text-muted-foreground mb-3">
-                  "{formData.oneLine}"
-                </p>
-              )}
               
               {formData.description && (
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -368,24 +356,29 @@ export function FactionUnifiedView({
             {/* Left Sidebar Navigation */}
             <div className="w-64 border-r bg-muted/20 p-4">
               <nav className="space-y-1">
-                {CHARACTER_SECTIONS.map(section => {
-                  const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
-                  const isActive = activeTab === section.id;
+                {FACTION_SECTIONS.map(section => {
+                  const isActive = activeTab === section.title;
                   
                   return (
                     <button
-                      key={section.id}
-                      onClick={() => setActiveTab(section.id)}
+                      key={section.title}
+                      onClick={() => setActiveTab(section.title)}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
                         isActive 
                           ? 'bg-background text-foreground shadow-sm border' 
                           : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
                       }`}
                     >
-                      <IconComponent className="h-4 w-4 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-sm">{section.title}</div>
-                        <div className="text-xs text-muted-foreground truncate">{section.description}</div>
+                        <div className="text-xs text-muted-foreground truncate">
+                          {section.title === 'Identity' && 'Basic faction information and core identity'}
+                          {section.title === 'Goals' && 'Primary objectives and methods'}
+                          {section.title === 'Structure' && 'Leadership and organizational details'}
+                          {section.title === 'Resources' && 'Assets, territories, and capabilities'}
+                          {section.title === 'Relations' && 'Relationships and historical context'}
+                          {section.title === 'Meta' && 'Development notes and metadata'}
+                        </div>
                       </div>
                     </button>
                   );
@@ -395,16 +388,23 @@ export function FactionUnifiedView({
             
             {/* Right Content Area */}
             <div className="flex-1 p-6">
-              {CHARACTER_SECTIONS.map(section => {
-                if (activeTab !== section.id) return null;
+              {FACTION_SECTIONS.map(section => {
+                if (activeTab !== section.title) return null;
                 
                 return (
-                  <div key={section.id} className="space-y-6">
+                  <div key={section.title} className="space-y-6">
                     <div className="border-b pb-4">
                       <h2 className="text-2xl font-semibold">{section.title}</h2>
-                      <p className="text-muted-foreground mt-1">{section.description}</p>
+                      <p className="text-muted-foreground mt-1">
+                        {section.title === 'Identity' && 'Basic faction information and core identity'}
+                        {section.title === 'Goals' && 'Primary objectives and methods'}
+                        {section.title === 'Structure' && 'Leadership and organizational details'}
+                        {section.title === 'Resources' && 'Assets, territories, and capabilities'}
+                        {section.title === 'Relations' && 'Relationships and historical context'}
+                        {section.title === 'Meta' && 'Development notes and metadata'}
+                      </p>
                     </div>
-                    {renderTabContent(section.id)}
+                    {renderTabContent(section.title)}
                   </div>
                 );
               })}
