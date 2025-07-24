@@ -8,7 +8,7 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 ✓ **PORTRAIT STUDIO SCROLLING FIXED** - Added proper scroll capability with custom subtle scrollbars in portrait generation modal
 ✓ **TEMPLATE SELECTION SCROLLING** - Character templates modal now has scrollable category sidebar and template grid with refined scrollbars
 ✓ **CHARACTER GENERATION MODAL SCROLLING** - AI character generation modal supports scrolling through multi-step creation process
-✓ **SUBTLE SCROLLBAR STYLING** - Implemented minimal gray scrollbars (6px width, transparent track, low opacity) that don't distract from content
+✓ **COLORED SCROLLBAR STYLING** - Implemented warm accent-colored scrollbars (40% opacity, 8px width, subtle track) that complement the application aesthetic
 ✓ **IMPROVED MODAL UX** - All major modal windows now have proper overflow handling and maintain visual consistency
 ✓ **COHESIVE SCROLL EXPERIENCE** - Unified scrollbar appearance with warm, subtle colors that complement the cozy application aesthetic
 

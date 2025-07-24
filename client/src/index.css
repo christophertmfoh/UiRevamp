@@ -380,32 +380,32 @@
 /* Custom Scrollbar Styles */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  scrollbar-color: hsl(var(--accent) / 0.4) hsl(var(--muted) / 0.1);
 }
 
 .scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 .scrollbar-track-muted\/20::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 3px;
+  background: hsl(var(--muted) / 0.1);
+  border-radius: 4px;
 }
 
 .scrollbar-thumb-accent\/60::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.25);
-  border-radius: 3px;
-  border: none;
+  background: hsl(var(--accent) / 0.4);
+  border-radius: 4px;
+  border: 1px solid hsl(var(--background));
 }
 
 .scrollbar-thumb-accent\/60:hover::-webkit-scrollbar-thumb,
 .hover\:scrollbar-thumb-accent\/80:hover::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.4);
+  background: hsl(var(--accent) / 0.6);
 }
 
 .scrollbar-thumb-accent\/60::-webkit-scrollbar-thumb:active {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(var(--accent) / 0.7);
 }
 
 /* Hide scrollbar corner */
