@@ -245,7 +245,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
     }
   });
@@ -261,7 +261,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
     }
   });
