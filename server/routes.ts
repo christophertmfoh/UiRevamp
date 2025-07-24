@@ -205,11 +205,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/projects/:projectId/characters", async (req, res) => {
     try {
       const { projectId } = req.params;
+      console.log('Creating character with request body:', JSON.stringify(req.body, null, 2));
       const characterData = insertCharacterSchema.parse({ ...req.body, projectId });
       const character = await storage.createCharacter(characterData);
       res.status(201).json(character);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("Character validation errors:", error.errors);
         return res.status(400).json({ error: error.errors });
       }
       console.error("Error creating character:", error);
