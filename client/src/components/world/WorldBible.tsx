@@ -271,24 +271,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
       ]
     },
     characters: [],
-    locations: [
-      {
-        name: "The Garden of Expanse",
-        type: "Cosmic Origin Point",
-        description: "Heart of the tragic beginning where Essylt transformed into The Bloom. The place where Somnus solidified his essence as the Dream Weaver. Origin point of both the Bloom and corrupted dreams.",
-        significance: "Epicenter of the cataclysm",
-        threats: ["Concentrated Bloom presence", "Reality distortion", "Dream corruption"],
-        connections: ["The Bloom's starting point", "Dream Weaver's manifestation site"]
-      },
-      {
-        name: "The Somnus Verdant",
-        type: "Central Continent",
-        description: "Sprawling landmass with dense forests, winding rivers, and plains. Most fertile and populated region, now being rapidly consumed by The Bloom's expansion.",
-        significance: "Primary populated area",
-        threats: ["Bloom assimilation", "Waking Phantoms", "Stone Lord rampage"],
-        connections: ["Contains Garden of Expanse", "Stone Lord territories"]
-      }
-    ],
+    locations: locations,
     factions: [
       {
         name: "The Cultist Group",
@@ -394,7 +377,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
     { id: 'characters', label: 'Characters', icon: Users, count: 0, locked: false },
-    { id: 'locations', label: 'Locations', icon: MapPin, count: worldData.locations.length, locked: false },
+    { id: 'locations', label: 'Locations', icon: MapPin, count: locations.length, locked: false },
     { id: 'factions', label: 'Factions', icon: Shield, count: worldData.factions.length, locked: false },
     { id: 'organizations', label: 'Organizations', icon: Crown, count: worldData.organizations.length, locked: false },
     { id: 'items', label: 'Items & Artifacts', icon: Package, count: 0, locked: false },
@@ -634,13 +617,19 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {worldData.locations.slice(0, 3).map((location, index) => (
-                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-green-500/50">
-                      <div className="font-medium">{location.name}</div>
-                      <div className="text-sm text-muted-foreground">{location.type}</div>
-                      <div className="text-xs text-muted-foreground mt-1">{location.significance}</div>
+                  {locations.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <MapPin className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                      <p>No locations created yet</p>
                     </div>
-                  ))}
+                  ) : (
+                    locations.slice(0, 3).map((location, index) => (
+                      <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-green-500/50">
+                        <div className="font-medium">{location.name}</div>
+                        <div className="text-sm text-muted-foreground">{location.description?.substring(0, 80)}...</div>
+                      </div>
+                    ))
+                  )}
                   <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('locations')}>
                     View All Locations →
                   </Button>
@@ -746,51 +735,52 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
               </Button>
             </div>
             
-            <div className="grid gap-4">
-              {worldData.locations.map((location, index) => (
-                <Card key={index} className="creative-card">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl">{location.name}</CardTitle>
-                        <CardDescription className="text-accent font-medium">
-                          {location.type}
-                        </CardDescription>
-                      </div>
-                      <MapPin className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4">{location.description}</p>
-                    
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-semibold mb-2">Significance</h4>
-                        <p className="text-sm text-muted-foreground">{location.significance}</p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold mb-2">Threats</h4>
-                        <div className="space-y-1">
-                          {location.threats.map((threat, i) => (
-                            <div key={i} className="text-sm text-red-400">• {threat}</div>
-                          ))}
+            {locations.length === 0 ? (
+              <div className="text-center py-12">
+                <MapPin className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="font-title text-xl mb-2">No Locations Yet</h3>
+                <p className="text-muted-foreground mb-6">Start building your world by creating your first location</p>
+                <Button className="interactive-warm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create First Location
+                </Button>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {locations.map((location) => (
+                  <Card key={location.id} className="creative-card">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <CardTitle className="text-xl">{location.name}</CardTitle>
+                          <CardDescription className="text-accent font-medium">
+                            {location.significance || 'Location'}
+                          </CardDescription>
                         </div>
+                        <MapPin className="h-5 w-5 text-muted-foreground" />
                       </div>
-                    </div>
-                    
-                    <div className="mt-4">
-                      <h4 className="font-semibold mb-2">Connections</h4>
-                      <div className="space-y-1">
-                        {location.connections.map((conn, i) => (
-                          <div key={i} className="text-sm text-muted-foreground">• {conn}</div>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-4">{location.description}</p>
+                      
+                      {location.history && (
+                        <div className="mb-4">
+                          <h4 className="font-semibold mb-2">History</h4>
+                          <p className="text-sm text-muted-foreground">{location.history}</p>
+                        </div>
+                      )}
+                      
+                      {location.atmosphere && (
+                        <div>
+                          <h4 className="font-semibold mb-2">Atmosphere</h4>
+                          <p className="text-sm text-muted-foreground">{location.atmosphere}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
         );
 
