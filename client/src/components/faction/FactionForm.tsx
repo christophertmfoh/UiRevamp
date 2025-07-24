@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, Shield, Target, Users, DollarSign, Clock, Settings } from 'lucide-react';
+import { ArrowLeft, Save, User, Eye, Brain, Zap, BookOpen, Settings } from 'lucide-react';
 import type { Faction } from '../../lib/types';
 
 interface FactionFormProps {
@@ -122,23 +122,23 @@ export function FactionForm({ projectId, onCancel, faction }: FactionFormProps) 
       <Tabs defaultValue="identity" className="w-full">
         <TabsList className="grid w-full grid-cols-6 mb-6">
           <TabsTrigger value="identity" className="flex items-center gap-1">
-            <Shield className="h-3 w-3" />
+            <User className="h-3 w-3" />
             Identity
           </TabsTrigger>
           <TabsTrigger value="goals" className="flex items-center gap-1">
-            <Target className="h-3 w-3" />
+            <Eye className="h-3 w-3" />
             Goals & Methods
           </TabsTrigger>
           <TabsTrigger value="organization" className="flex items-center gap-1">
-            <Users className="h-3 w-3" />
+            <Brain className="h-3 w-3" />
             Organization
           </TabsTrigger>
           <TabsTrigger value="power" className="flex items-center gap-1">
-            <DollarSign className="h-3 w-3" />
+            <Zap className="h-3 w-3" />
             Power & Resources
           </TabsTrigger>
           <TabsTrigger value="relations" className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
+            <BookOpen className="h-3 w-3" />
             Relations & History
           </TabsTrigger>
           <TabsTrigger value="meta" className="flex items-center gap-1">
