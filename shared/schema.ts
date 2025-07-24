@@ -243,6 +243,7 @@ export const characters = pgTable("characters", {
   portraits: json("portraits").default([]),
   
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const locations = pgTable("locations", {

@@ -249,9 +249,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Handle displayImageId type conversion - convert string to number if needed
       const processedData = { ...req.body };
-      if (processedData.displayImageId && typeof processedData.displayImageId === 'string') {
-        const numericId = parseInt(processedData.displayImageId, 10);
-        processedData.displayImageId = isNaN(numericId) ? null : numericId;
+      if (processedData.displayImageId !== undefined) {
+        if (typeof processedData.displayImageId === 'string') {
+          const numericId = parseInt(processedData.displayImageId, 10);
+          processedData.displayImageId = isNaN(numericId) ? null : numericId;
+        }
+        // If it's already null or undefined, keep it as is
+        if (processedData.displayImageId === null) {
+          delete processedData.displayImageId; // Remove null values to prevent validation issues
+        }
       }
       
       const characterData = insertCharacterSchema.partial().parse(processedData);
