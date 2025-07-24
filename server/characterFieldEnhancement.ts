@@ -6,13 +6,39 @@ console.log(`Field enhancement using API key: ${apiKey ? apiKey.substring(0, 10)
 
 const ai = new GoogleGenAI({ apiKey });
 
+// Simple rate limiting to avoid quota issues
+const requestTimes: number[] = [];
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS_PER_MINUTE = 8; // Conservative limit under 10
+
+function canMakeRequest(): boolean {
+  const now = Date.now();
+  // Remove requests older than 1 minute
+  while (requestTimes.length > 0 && requestTimes[0] < now - RATE_LIMIT_WINDOW) {
+    requestTimes.shift();
+  }
+  return requestTimes.length < MAX_REQUESTS_PER_MINUTE;
+}
+
+function recordRequest(): void {
+  requestTimes.push(Date.now());
+}
+
 export async function enhanceCharacterField(character: any, fieldKey: string, fieldLabel: string, currentValue: any, fieldOptions?: string[]) {
   try {
     console.log(`\n=== Processing Individual Field Enhancement ===`);
     console.log(`Field: ${fieldKey} (${fieldLabel})`);
     console.log(`Current value: ${currentValue || 'empty'}`);
 
+    // Check rate limit before making AI request
+    if (!canMakeRequest()) {
+      console.log(`Rate limit reached, using intelligent fallback for ${fieldKey}`);
+      // Skip AI call and go directly to fallback
+      throw new Error('Rate limited - using fallback');
+    }
+
     // Always allow enhancement - users can improve existing content or generate new content
+    // Add variety instruction for regeneration
 
     // Create comprehensive context from ALL available character data using actual field names
     const characterContext = `
@@ -68,7 +94,8 @@ INSTRUCTIONS:
 2. Consider the character's name, background, description, personality
 3. Choose the option that best fits their role in the story
 4. For a character named "beans" who is a cat, consider roles like "Comic Relief" or "Supporting Character"
-5. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
+5. If regenerating, choose a DIFFERENT option than before to provide variety
+6. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
     } else {
       // Enhanced field-specific prompts with detailed instructions for Identity section
       const fieldSpecificPrompts: { [key: string]: string } = {
@@ -351,6 +378,8 @@ CRITICAL INSTRUCTIONS:
 - Generate content specific to the ${fieldLabel} field
 - Make it contextually relevant to this character's established traits
 - For animal characters, use species-appropriate details
+- If content already exists, generate something DIFFERENT for variety
+- Use random variation (${Math.random().toString(36).substring(7)}) to ensure uniqueness
 - Keep responses concise but meaningful
 - RESPOND WITH ONLY THE CONTENT - no explanations or quotes
 
@@ -359,10 +388,13 @@ Generate ${fieldLabel.toLowerCase()}:`;
 
     console.log(`Generating content for field: ${fieldKey}`);
     
+    // Record this request for rate limiting
+    recordRequest();
+    
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
-        temperature: 0.9, // Higher creativity for more varied responses
+        temperature: 0.95, // Higher creativity for more varied responses
         maxOutputTokens: 300, // More tokens for detailed responses
         candidateCount: 1
       },
@@ -423,21 +455,44 @@ Generate ${fieldLabel.toLowerCase()}:`;
         }
       } else {
         // Enhanced contextual fallbacks that analyze character data intelligently
+        // Add variety by using random selection and dynamic generation
+        const randomSeed = Math.random();
         const contextualFallbacks: { [key: string]: string } = {
           // IDENTITY SECTION INTELLIGENT FALLBACKS
           name: (() => {
-            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') return 'Whiskers';
-            if (character.race) return character.race === 'Human' ? 'Alex Morgan' : `${character.race} Wanderer`;
-            return 'Character Name';
+            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') {
+              const catNames = ['Whiskers', 'Shadow', 'Luna', 'Mochi', 'Pixel', 'Nova', 'Sage', 'Ash'];
+              return catNames[Math.floor(randomSeed * catNames.length)];
+            }
+            if (character.race) {
+              const humanNames = ['Alex Morgan', 'Jordan Blake', 'Casey Rivers', 'Riley Stone'];
+              const fantasyNames = ['Wanderer', 'Seeker', 'Traveler', 'Keeper'];
+              return character.race === 'Human' ? 
+                humanNames[Math.floor(randomSeed * humanNames.length)] : 
+                `${character.race} ${fantasyNames[Math.floor(randomSeed * fantasyNames.length)]}`;
+            }
+            const genericNames = ['Character Name', 'Unknown Hero', 'The Stranger', 'Nameless One'];
+            return genericNames[Math.floor(randomSeed * genericNames.length)];
           })(),
           
           nicknames: (() => {
-            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') return 'Kitty, Whiskers, Little One';
+            if (character.race === 'Cat' || character.name?.toLowerCase() === 'beans') {
+              const catNicknameSets = [
+                'Kitty, Whiskers, Little One',
+                'Bean, Beanie, Sweetie',
+                'Furball, Paws, Cutie',
+                'Shadow, Ninja, Sneaky',
+                'Fluffy, Softie, Snuggles'
+              ];
+              return catNicknameSets[Math.floor(randomSeed * catNicknameSets.length)];
+            }
             if (character.name) {
               const firstName = character.name.split(' ')[0];
-              return `${firstName.substring(0, 3) || firstName}, Buddy, Friend`;
+              const endings = ['Buddy, Friend', 'Ace, Champ', 'Star, Hero', 'Chief, Boss'];
+              return `${firstName.substring(0, 3) || firstName}, ${endings[Math.floor(randomSeed * endings.length)]}`;
             }
-            return 'Pal, Friend, Buddy';
+            const genericSets = ['Pal, Friend, Buddy', 'Ace, Champ, Hero', 'Star, Chief, Boss'];
+            return genericSets[Math.floor(randomSeed * genericSets.length)];
           })(),
           
           title: (() => {
