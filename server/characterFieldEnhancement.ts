@@ -980,22 +980,92 @@ Generate ${fieldLabel.toLowerCase()}:`;
       recordFieldRequest();
     }
     
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      config: {
-        temperature: 0.95, // Higher creativity for more varied responses
-        maxOutputTokens: 300, // More tokens for detailed responses
-        candidateCount: 1
-      },
-      contents: prompt,
-    });
-
-    const generatedContent = response.text?.trim() || '';
-    console.log(`Generated content for ${fieldKey}: ${generatedContent || 'EMPTY RESPONSE FROM AI'}`);
+    // Enhanced retry logic with safety settings
+    let generatedContent = '';
+    const maxRetries = 3;
     
-    // Enhanced error handling - if AI returns empty, log the prompt to debug
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        console.log(`AI attempt ${attempt + 1}/${maxRetries} for field: ${fieldKey}`);
+        
+        const response = await ai.models.generateContent({
+          model: "gemini-2.5-flash",
+          config: {
+            temperature: 0.8, // Slightly lower for consistency 
+            maxOutputTokens: 200, // Reduced to avoid triggers
+            candidateCount: 1,
+            // Add safety settings to reduce blocking
+            safetySettings: [
+              {
+                category: "HARM_CATEGORY_HARASSMENT",
+                threshold: "BLOCK_ONLY_HIGH"
+              },
+              {
+                category: "HARM_CATEGORY_HATE_SPEECH", 
+                threshold: "BLOCK_ONLY_HIGH"
+              },
+              {
+                category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                threshold: "BLOCK_ONLY_HIGH"
+              },
+              {
+                category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                threshold: "BLOCK_ONLY_HIGH"
+              }
+            ]
+          },
+          contents: prompt,
+        });
+
+        generatedContent = response.text?.trim() || '';
+        
+        // Check if response was blocked by safety filters
+        if (response.candidates && response.candidates[0]) {
+          const candidate = response.candidates[0];
+          if (candidate.finishReason === 'SAFETY') {
+            console.log(`Response blocked by safety filters for ${fieldKey}, trying simpler prompt`);
+            
+            // Try with simplified, safer prompt
+            const safePrompt = `Generate a brief, appropriate ${fieldLabel.toLowerCase()} for a character named ${character.name || 'character'}.`;
+            
+            const safeResponse = await ai.models.generateContent({
+              model: "gemini-2.5-flash",
+              config: {
+                temperature: 0.7,
+                maxOutputTokens: 100,
+                candidateCount: 1
+              },
+              contents: safePrompt,
+            });
+            
+            generatedContent = safeResponse.text?.trim() || '';
+          }
+        }
+        
+        if (generatedContent && generatedContent.length > 0) {
+          console.log(`Generated content for ${fieldKey} (attempt ${attempt + 1}): ${generatedContent.substring(0, 100)}...`);
+          break;
+        }
+        
+        // If still empty, wait before retry
+        if (attempt < maxRetries - 1) {
+          const waitTime = Math.pow(2, attempt) * 1000; // Exponential backoff
+          console.log(`Empty response, waiting ${waitTime}ms before retry...`);
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
+        
+      } catch (error) {
+        console.log(`AI request failed (attempt ${attempt + 1}):`, error);
+        if (attempt < maxRetries - 1) {
+          const waitTime = Math.pow(2, attempt) * 1000;
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
+      }
+    }
+    
+    // Enhanced error handling - if AI returns empty after retries, log detailed info
     if (!generatedContent) {
-      console.log(`AI returned empty response for ${fieldKey}. Prompt was:`, prompt.substring(0, 200) + '...');
+      console.log(`AI returned empty response for ${fieldKey} after ${maxRetries} attempts. Prompt was:`, prompt.substring(0, 300) + '...');
     }
 
     if (!generatedContent) {
@@ -1012,27 +1082,47 @@ Generate ${fieldLabel.toLowerCase()}:`;
       // Detect if this is a cat character
       const isCat = name.includes('beans') || allText.includes('cat') || allText.includes('feline') || allText.includes('is a cat');
       
-      console.log(`Character analysis: name="${name}", isCat=${isCat}, allText contains "cat": ${allText.includes('cat')}`);
+      console.log(`Character analysis: name="${name}", isCat=${isCat}, allText="${allText.substring(0, 100)}..."`);
       
-      // Intelligent contextual fallbacks that actually read character data
-      let fallbackContent = `Generated ${fieldLabel}`;
+      // Enhanced fallback system with specific field handling
+      let fallbackContent = '';
       
-      if (fieldKey === 'race') {
-        if (isCat) {
-          fallbackContent = 'Cat';
-        } else if (allText.includes('dog') || allText.includes('canine')) {
-          fallbackContent = 'Dog';
-        } else if (allText.includes('elf') || allText.includes('elven')) {
-          fallbackContent = 'Elf';
-        } else if (allText.includes('dwarf') || allText.includes('dwarven')) {
-          fallbackContent = 'Dwarf';
-        } else if (allText.includes('dragon')) {
-          fallbackContent = 'Dragon';
-        } else {
-          fallbackContent = 'Human';
-        }
-      } else if (fieldKey === 'role' && isDropdownField) {
-        // Smart role selection from dropdown options
+      // Field-specific intelligent fallbacks
+      const fieldSpecificFallbacks: { [key: string]: string } = {
+        // Physical attributes
+        description: isCat ? 'A graceful cat with alert golden eyes and fluid movements, carrying themselves with natural feline dignity and elegance' : 'A person of average height with a confident bearing and alert expression',
+        physicalDescription: isCat ? 'A graceful cat with alert golden eyes and fluid movements, carrying themselves with natural feline dignity and elegance' : 'A person of average height with a confident bearing and alert expression',
+        appearance: isCat ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
+        build: isCat ? 'Sleek and agile' : 'Athletic build',
+        eyeColor: isCat ? 'Golden amber' : 'Brown',
+        hairColor: isCat ? 'Tabby brown with white patches' : 'Brown',
+        height: isCat ? '1 foot tall' : '5\'8" tall',
+        
+        // Abilities and skills
+        talents: isCat ? 'Natural balance and grace, exceptional hearing, emotional sensitivity, stealth abilities' : 'Quick learning and adaptability, problem-solving skills, leadership potential',
+        strengths: isCat ? 'Exceptional agility and reflexes, keen senses and alertness, independent yet loyal nature' : 'Determined and resourceful, strategic thinking, reliable team member',
+        abilities: isCat ? 'Night vision, enhanced hearing, whisker sensitivity, emotional intuition' : 'Quick learning, pattern recognition, strategic thinking, leadership potential',
+        skills: isCat ? 'Expert hunter, silent stalking, acrobatic climbing, reading human emotions' : 'Problem solving, communication, adaptability, teamwork',
+        
+        // Personality and background
+        goals: isCat ? 'To protect their territory and keep their human family safe' : 'To protect those they care about',
+        motivations: isCat ? 'Deep loyalty to family and territorial instincts' : 'A deep sense of justice and duty',
+        background: isCat ? 'A house cat who discovered their magical abilities' : 'Grew up in a small village before discovering their destiny',
+        personality: isCat ? 'Independent yet affectionate, curious about everything, protective of family' : 'Brave and determined, always ready to help others in need',
+        
+        // Identity
+        race: isCat ? 'Cat' : 'Human',
+        name: isCat ? 'Whiskers' : 'Alex Morgan',
+        age: isCat ? '3 years old' : '27',
+        
+        // Story elements
+        flaws: isCat ? 'Stubbornness, territorial jealousy, dependency on routine' : 'Overthinking decisions, self-doubt in new situations'
+      };
+      
+      fallbackContent = fieldSpecificFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      
+      // Special handling for dropdown fields
+      if (fieldKey === 'role' && isDropdownField) {
         if (isCat || allText.includes('funny') || allText.includes('cute')) {
           fallbackContent = fieldOptions && fieldOptions.includes('Comic Relief') ? 'Comic Relief' : 'Supporting Character';
         } else if (allText.includes('hero') || allText.includes('main')) {
@@ -1044,8 +1134,10 @@ Generate ${fieldLabel.toLowerCase()}:`;
         } else {
           fallbackContent = 'Supporting Character';
         }
-      } else {
-        // Enhanced contextual fallbacks using the comprehensive system
+      }
+      
+      // If no specific fallback was found, use comprehensive system
+      if (!fallbackContent || fallbackContent === `Generated ${fieldLabel}`) {
         const randomSeed = Math.random();
         const contextualFallbacks: { [key: string]: string } = {
           // IDENTITY SECTION INTELLIGENT FALLBACKS
@@ -1730,11 +1822,17 @@ Generate ${fieldLabel.toLowerCase()}:`;
           talents: isCat ? 'Natural balance and grace, exceptional hearing, emotional sensitivity, stealth abilities' : 'Quick learning and adaptability, problem-solving skills, leadership potential',
           strengths: isCat ? 'Exceptional agility and reflexes, keen senses and alertness, independent yet loyal nature' : 'Determined and resourceful, strategic thinking, reliable team member'
         };
-        fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
-        console.log(`Selected contextual fallback for ${fieldKey}: ${fallbackContent}`);
+        const advancedFallback = contextualFallbacks[fieldKey];
+        if (advancedFallback) {
+          fallbackContent = advancedFallback;
+          console.log(`Using advanced contextual fallback for ${fieldKey}`);
+        } else {
+          fallbackContent = fallbackContent || `Generated ${fieldLabel}`;
+          console.log(`Using basic fallback for ${fieldKey}`);
+        }
       }
       
-      console.log(`Using intelligent fallback for ${fieldKey}: ${fallbackContent}`);
+      console.log(`Final fallback for ${fieldKey}: ${fallbackContent.substring(0, 50)}...`);
       return { [fieldKey]: fallbackContent };
     }
 
