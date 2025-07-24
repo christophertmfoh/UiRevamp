@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Organization, Project } from '../../lib/types';
 import { OrganizationDetailView } from './OrganizationDetailView';
@@ -19,8 +19,11 @@ interface OrganizationManagerProps {
   onClearSelection?: () => void;
 }
 
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
+
 export function OrganizationManager({ projectId, selectedOrganizationId, onClearSelection }: OrganizationManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [portraitOrganization, setPortraitOrganization] = useState<Organization | null>(null);
@@ -210,6 +213,28 @@ export function OrganizationManager({ projectId, selectedOrganizationId, onClear
     }
   };
 
+  // Sort and filter organizations
+  const sortOrganizations = (orgs: Organization[]): Organization[] => {
+    switch (sortBy) {
+      case 'alphabetical':
+        return [...orgs].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      case 'recently-added':
+        return [...orgs].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      case 'recently-edited':
+        return [...orgs].sort((a, b) => new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime());
+      default:
+        return orgs;
+    }
+  };
+
+  const filteredAndSortedOrganizations = sortOrganizations(
+    organizations.filter(org => 
+      (org.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (org.type || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (org.description || '').toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
   // Show organization detail view (which handles both viewing and editing)
   if (selectedOrganization || isCreating) {
     return (
@@ -254,15 +279,38 @@ export function OrganizationManager({ projectId, selectedOrganizationId, onClear
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search organizations by name, role, or race..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 creative-input"
-        />
+      {/* Search and Sort Bar */}
+      <div className="flex gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search organizations by name, type, or description..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 creative-input"
+          />
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="min-w-[140px]">
+              <ArrowUpDown className="h-4 w-4 mr-2" />
+              {sortBy === 'alphabetical' && 'A-Z'}
+              {sortBy === 'recently-added' && 'Recently Added'}
+              {sortBy === 'recently-edited' && 'Recently Edited'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
+              Alphabetical (A-Z)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
+              Recently Added
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
+              Recently Edited
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Organization List */}
@@ -271,7 +319,7 @@ export function OrganizationManager({ projectId, selectedOrganizationId, onClear
           <div className="animate-spin h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
           <p>Loading organizations...</p>
         </div>
-      ) : filteredOrganizations.length === 0 ? (
+      ) : filteredAndSortedOrganizations.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Users className="h-24 w-24 mx-auto mb-6 opacity-30" />
           <h3 className="text-xl font-semibold mb-3">
@@ -295,7 +343,7 @@ export function OrganizationManager({ projectId, selectedOrganizationId, onClear
         </div>
       ) : (
         <div className="grid gap-4">
-          {filteredOrganizations.map((organization: Organization) => (
+          {filteredAndSortedOrganizations.map((organization: Organization) => (
             <Card 
               key={organization.id} 
               className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"
