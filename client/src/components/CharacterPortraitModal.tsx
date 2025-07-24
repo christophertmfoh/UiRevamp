@@ -31,7 +31,11 @@ export function CharacterPortraitModal({
   const [stylePrompt, setStylePrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>([]);
+  const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
+    // Initialize from character.portraits if available
+    const existingPortraits = character.portraits || [];
+    return Array.isArray(existingPortraits) ? existingPortraits : [];
+  });
   const [selectedMainImage, setSelectedMainImage] = useState<string>('');
 
   // Generate comprehensive AI prompt from all physical character data
@@ -152,8 +156,10 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Always update character with new image (either as main or just to save it)
+    // Update character with new image and save portraits array
     onImageGenerated?.(imageUrl);
+    // Also trigger a save of the portraits array
+    savePortraitsToCharacter(updated);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
@@ -167,8 +173,10 @@ export function CharacterPortraitModal({
     const updated = [...portraitGallery, newPortrait];
     setPortraitGallery(updated);
     
-    // Always update character with new image
+    // Update character with new image and save portraits array
     onImageUploaded?.(imageUrl);
+    // Also trigger a save of the portraits array
+    savePortraitsToCharacter(updated);
   };
 
   const handleSetMainImage = (imageId: string) => {
@@ -185,28 +193,59 @@ export function CharacterPortraitModal({
       // Also notify the parent that an image was uploaded to trigger display updates
       onImageUploaded?.(mainImage.url);
     }
+    
+    // Save the updated portraits array
+    savePortraitsToCharacter(updated);
   };
 
   const handleDeletePortrait = (imageId: string) => {
     const updated = portraitGallery.filter(img => img.id !== imageId);
-    setPortraitGallery(updated);
     
     // If we deleted the main image, set a new main image if available
     const deletedImage = portraitGallery.find(img => img.id === imageId);
+    let finalUpdated = updated;
+    
     if (deletedImage?.isMain && updated.length > 0) {
-      const newUpdated = updated.map((img, index) => ({
+      finalUpdated = updated.map((img, index) => ({
         ...img,
         isMain: index === 0 // Make first image the new main
       }));
-      setPortraitGallery(newUpdated);
-      onImageGenerated?.(newUpdated[0].url);
+      onImageGenerated?.(finalUpdated[0].url);
     } else if (deletedImage?.isMain && updated.length === 0) {
       // No images left, clear the character image
       onImageGenerated?.('');
     }
+    
+    setPortraitGallery(finalUpdated);
+    // Save the updated portraits array
+    savePortraitsToCharacter(finalUpdated);
+  };
+
+  // Helper function to save portraits to character
+  const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+    try {
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          portraits: updatedPortraits
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to save portraits to character');
+      }
+    } catch (error) {
+      console.error('Error saving portraits:', error);
+    }
   };
 
   const handleModalClose = () => {
+    // Save the current gallery state to the character
+    savePortraitsToCharacter(portraitGallery);
+    
     // If there's a main image in the gallery, make sure it's saved to the character
     const mainImage = portraitGallery.find(img => img.isMain);
     if (mainImage && mainImage.url !== character.imageUrl) {

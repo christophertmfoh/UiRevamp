@@ -249,6 +249,7 @@ export interface Character {
   isModelTrained?: boolean;
   displayImageId?: number;
   imageUrl?: string;
+  portraits?: Array<{id: string, url: string, isMain: boolean}>;
   imageGallery?: ImageAsset[];
   modelImageUrls?: string[];
   createdAt?: Date;

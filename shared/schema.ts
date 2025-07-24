@@ -240,6 +240,7 @@ export const characters = pgTable("characters", {
   isModelTrained: boolean("is_model_trained").default(false),
   displayImageId: integer("display_image_id"),
   imageUrl: text("image_url").default(''),
+  portraits: json("portraits").default([]),
   
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
