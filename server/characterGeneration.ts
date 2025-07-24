@@ -92,6 +92,20 @@ ${projectContext}`;
     jsonString = jsonString.replace(/[""]/g, '"');
     jsonString = jsonString.replace(/['']/g, "'");
     
+    // Fix incomplete JSON by ensuring it ends properly
+    if (!jsonString.trim().endsWith('}')) {
+      console.log('Server: JSON appears incomplete, attempting to complete it');
+      // Find the last complete field and close the JSON
+      const lastCommaIndex = jsonString.lastIndexOf(',');
+      const lastQuoteIndex = jsonString.lastIndexOf('"');
+      if (lastCommaIndex > lastQuoteIndex) {
+        // Remove trailing comma and close
+        jsonString = jsonString.substring(0, lastCommaIndex) + '}';
+      } else {
+        jsonString = jsonString + '}';
+      }
+    }
+    
     console.log('Server: Attempting to parse JSON:', jsonString.substring(0, 200) + '...');
     
     let generatedData;
@@ -100,8 +114,43 @@ ${projectContext}`;
       console.log('Server: Parsed character data successfully');
     } catch (parseError) {
       console.error('Server: JSON parse error:', parseError);
-      console.error('Server: Problematic JSON:', jsonString);
-      throw new Error('Failed to parse character data. Please try again.');
+      console.error('Server: Problematic JSON (first 500 chars):', jsonString.substring(0, 500));
+      console.error('Server: Problematic JSON (last 500 chars):', jsonString.substring(Math.max(0, jsonString.length - 500)));
+      
+      // Try to salvage partial data by manually extracting key fields
+      try {
+        const nameMatch = jsonString.match(/"name"\s*:\s*"([^"]+)"/);
+        const titleMatch = jsonString.match(/"title"\s*:\s*"([^"]+)"/);
+        const roleMatch = jsonString.match(/"role"\s*:\s*"([^"]+)"/);
+        const descMatch = jsonString.match(/"description"\s*:\s*"([^"]+)"/);
+        
+        if (nameMatch) {
+          console.log('Server: Attempting to salvage partial character data');
+          generatedData = {
+            name: nameMatch[1] || 'Generated Character',
+            title: titleMatch?.[1] || '',
+            role: roleMatch?.[1] || 'supporting',
+            description: descMatch?.[1] || '',
+            class: '',
+            age: '25',
+            race: 'Human',
+            oneLine: 'A mysterious character from the world.',
+            personality: '',
+            backstory: '',
+            motivations: '',
+            goals: '',
+            fears: '',
+            flaws: '',
+            secrets: '',
+            skills: '',
+            equipment: ''
+          };
+        } else {
+          throw new Error('Failed to parse character data. Please try again.');
+        }
+      } catch (salvageError) {
+        throw new Error('Failed to parse character data. Please try again.');
+      }
     }
     
     // Ensure the data matches our schema expectations
