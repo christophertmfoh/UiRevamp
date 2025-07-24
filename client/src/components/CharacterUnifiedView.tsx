@@ -108,16 +108,25 @@ export function CharacterUnifiedView({
       }
     });
     
-    // Remove system fields that shouldn't be updated
+    // Remove system fields that shouldn't be updated, but preserve portraits
     const { createdAt, id, projectId, ...dataToSave } = processedData;
+    
+    // Ensure portraits array is preserved
+    if (character.portraits) {
+      dataToSave.portraits = character.portraits;
+    }
     
     return dataToSave;
   };
 
   const handleImageGenerated = (imageUrl: string) => {
     console.log('Image generated, updating character with URL:', imageUrl);
-    // Update character with new image
-    const updatedData = { ...formData, imageUrl };
+    // Update character with new image, preserving portraits
+    const updatedData = { 
+      ...formData, 
+      imageUrl,
+      portraits: character.portraits || [] // Preserve existing portraits
+    };
     setFormData(updatedData);
     
     // Process and save the data properly - exclude createdAt and other system fields
@@ -128,8 +137,12 @@ export function CharacterUnifiedView({
 
   const handleImageUploaded = (imageUrl: string) => {
     console.log('Image uploaded, updating character with URL:', imageUrl);
-    // Update character with uploaded image
-    const updatedData = { ...formData, imageUrl };
+    // Update character with uploaded image, preserving portraits
+    const updatedData = { 
+      ...formData, 
+      imageUrl,
+      portraits: character.portraits || [] // Preserve existing portraits
+    };
     setFormData(updatedData);
     
     // Process and save the data properly - exclude createdAt and other system fields

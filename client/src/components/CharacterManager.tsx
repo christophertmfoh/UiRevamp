@@ -72,6 +72,8 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
   };
 
   const handleBackToList = () => {
+    // Invalidate the character list query to fetch fresh data
+    queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
     setSelectedCharacter(null);
     setIsCreating(false);
   };
@@ -84,13 +86,23 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
 
   const handleImageGenerated = (imageUrl: string) => {
     if (portraitCharacter) {
-      updateCharacterMutation.mutate({ ...portraitCharacter, imageUrl });
+      updateCharacterMutation.mutate({ 
+        ...portraitCharacter, 
+        imageUrl,
+        // Make sure to preserve any existing portraits array
+        portraits: portraitCharacter.portraits || []
+      });
     }
   };
 
   const handleImageUploaded = (imageUrl: string) => {
     if (portraitCharacter) {
-      updateCharacterMutation.mutate({ ...portraitCharacter, imageUrl });
+      updateCharacterMutation.mutate({ 
+        ...portraitCharacter, 
+        imageUrl,
+        // Make sure to preserve any existing portraits array
+        portraits: portraitCharacter.portraits || []
+      });
     }
   };
 
