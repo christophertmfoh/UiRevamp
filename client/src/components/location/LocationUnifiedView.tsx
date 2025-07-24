@@ -38,7 +38,10 @@ export function LocationUnifiedView({
   onBack, 
   onDelete 
 }: LocationUnifiedViewProps) {
-  const [isEditing, setIsEditing] = useState(false);
+  // Start in editing mode if this is a newly generated location (has generated content but minimal user input)
+  const isNewlyGenerated = location.name.includes('Generated Location') || 
+                          (location.physicalDescription && !location.notes && !location.inspiration);
+  const [isEditing, setIsEditing] = useState(isNewlyGenerated);
   const [formData, setFormData] = useState(location);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
