@@ -157,14 +157,9 @@ export function OrganizationUnifiedView({
           return null;
       }
     } else {
-      // View mode
+      // View mode - only show fields that have content
       if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) {
-        return (
-          <div key={field.name} className="space-y-2">
-            <Label className="text-muted-foreground">{field.label}</Label>
-            <p className="text-sm text-muted-foreground italic">Not specified</p>
-          </div>
-        );
+        return null; // Don't render empty fields in view mode
       }
 
       return (
