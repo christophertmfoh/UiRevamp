@@ -484,7 +484,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (location) {
           const imageGallery = Array.isArray(location.imageGallery) ? location.imageGallery : [];
           const newImage = {
-            id: Date.now(),
+            id: Date.now().toString(),
             url: result.url,
             prompt: `${locationName}: ${description}`,
             createdAt: new Date().toISOString()

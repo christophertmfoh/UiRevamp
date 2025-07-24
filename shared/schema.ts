@@ -369,7 +369,7 @@ export const locations = pgTable("locations", {
   // Technical (Images & Display)
   imageUrl: text("image_url").default(''),
   imageGallery: json("image_gallery").default([]),
-  displayImageId: integer("display_image_id"),
+  displayImageId: text("display_image_id"),
   
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
