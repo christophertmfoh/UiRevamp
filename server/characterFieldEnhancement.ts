@@ -12,11 +12,7 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
     console.log(`Field: ${fieldKey} (${fieldLabel})`);
     console.log(`Current value: ${currentValue || 'empty'}`);
 
-    // Don't enhance if field already has content (non-destructive)
-    if (currentValue && currentValue !== '' && (!Array.isArray(currentValue) || currentValue.length > 0)) {
-      console.log(`Field ${fieldKey} already has content, skipping enhancement`);
-      return { [fieldKey]: currentValue };
-    }
+    // Always allow enhancement - users can improve existing content or generate new content
 
     // Create context from existing character data
     const characterContext = `
@@ -31,12 +27,24 @@ Personality: ${character.personality || character.personalityTraits?.join(', ') 
     `.trim();
 
     // Create a more robust prompt that works better with Gemini
-    const prompt = `You are a professional character development expert. Generate content for the "${fieldLabel}" field for this character:
+    const prompt = `You are a professional character development expert helping writers create rich, detailed characters. Generate content for the "${fieldLabel}" field.
 
 CHARACTER CONTEXT:
 ${characterContext}
 
-TASK: Generate appropriate content for "${fieldLabel}" that fits this character.
+INSTRUCTIONS:
+- Generate creative, unique content for "${fieldLabel}" that fits this character's established traits
+- Make it specific and interesting, not generic
+- Consider the character's role, background, and personality
+- Keep responses concise but meaningful
+- For names/nicknames: be creative and fitting to the character
+- For abilities/skills: match the character's class and background
+- For personality traits: be specific and show depth
+
+Generate content for "${fieldLabel}": 
+
+CURRENT VALUE: ${currentValue || 'empty'}
+${currentValue ? 'Improve or replace the current value with something better:' : 'Generate new content:'}
 
 IMPORTANT: 
 - Return ONLY the content for this field
