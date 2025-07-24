@@ -12,7 +12,7 @@ import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTo
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config/characterFieldsConfig';
-import { CharacterPortraitModal } from './CharacterPortraitModal';
+import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
 import { CharacterInsights } from './CharacterInsights';
