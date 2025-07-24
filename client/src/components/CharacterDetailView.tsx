@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Save, X, User, Upload } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
+import { ArrowLeft, Edit, X, User, Upload } from 'lucide-react';
 import type { Character } from '../lib/types';
 import { CharacterFormExpanded } from './CharacterFormExpanded';
 
@@ -49,6 +46,100 @@ export function CharacterDetailView({
       />
     );
   }
+
+  // Helper function to render a field if it has content
+  const renderField = (label: string, value: string | undefined, className = "") => {
+    if (!value?.trim()) return null;
+    return (
+      <div className={className}>
+        <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+        <p className="text-muted-foreground leading-relaxed">{value}</p>
+      </div>
+    );
+  };
+
+  // Helper function to render array fields as badges
+  const renderArrayField = (label: string, values: string[] | undefined, variant: "default" | "secondary" | "outline" = "outline") => {
+    if (!values?.length) return null;
+    return (
+      <div>
+        <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+        <div className="flex flex-wrap gap-2">
+          {values.map((value, index) => (
+            <Badge key={index} variant={variant} className="text-sm">
+              {value}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Helper function to check if a section has any content
+  const hasContent = (fields: (string | string[] | undefined)[]) => {
+    return fields.some(field => {
+      if (Array.isArray(field)) return field.length > 0;
+      return field?.trim();
+    });
+  };
+
+  // Define sections matching the 8 tabs from the form
+  const identityFields = hasContent([
+    character.name, character.nicknames, character.title, character.aliases,
+    character.race, character.ethnicity, character.class, character.profession,
+    character.occupation, character.gender, character.sexuality, character.pronouns,
+    character.age, character.birthdate, character.birthplace, character.currentResidence,
+    character.oneLine, character.description
+  ]);
+
+  const physicalFields = hasContent([
+    character.physicalDescription, character.height, character.weight, character.build,
+    character.facialFeatures, character.hair, character.eyes, character.skin,
+    character.distinguishingMarks, character.attire, character.accessories,
+    character.scent, character.voiceDescription, character.accent, character.mannerisms
+  ]);
+
+  const personalityFields = hasContent([
+    character.personality, character.temperament, character.coreTraits,
+    character.humorStyle, character.speechPatterns, character.decisionMaking,
+    character.stressResponse, character.relaxationMethods, character.socialBehavior,
+    character.leadership, character.creativity, character.traditions
+  ]);
+
+  const psychologyFields = hasContent([
+    character.motivations, character.goals, character.fears, character.insecurities,
+    character.moralCode, character.beliefs, character.philosophy, character.mentalDisorders,
+    character.coping, character.triggers, character.regrets, character.secrets,
+    character.hopes, character.pride
+  ]);
+
+  const backgroundFields = hasContent([
+    character.backstory, character.background, character.childhoood, character.family,
+    character.education, character.academicHistory, character.career, character.relationships,
+    character.allies, character.enemies, character.mentors, character.students,
+    character.romanticHistory, character.socialStatus, character.reputation,
+    character.significantEvents
+  ]);
+
+  const abilitiesFields = hasContent([
+    character.abilities, character.skills, character.specialAbilities,
+    character.magicalAbilities, character.magicType, character.magicSource,
+    character.magicLimitations, character.talents, character.expertise,
+    character.training, character.weaknesses, character.languages
+  ]);
+
+  const storyFields = hasContent([
+    character.role, character.narrativeRole, character.characterArc,
+    character.relationships, character.conflictSources, character.connectionToEvents,
+    character.plotSignificance, character.thematicRole, character.growth,
+    character.challenges
+  ]);
+
+  const metaFields = hasContent([
+    character.tags, character.archetypes, character.inspirations,
+    character.proseVibe, character.voiceStyle, character.notes,
+    character.authorNotes, character.version
+  ]);
 
   // Otherwise, show the detailed read-only view
   return (
@@ -95,20 +186,21 @@ export function CharacterDetailView({
             {/* Character Basic Info */}
             <div className="flex-1">
               <h1 className="font-title text-3xl mb-2">
-                {character.name}
-                {character.title && (
-                  <span className="text-muted-foreground font-normal text-xl ml-2">
-                    "{character.title}"
-                  </span>
-                )}
+                {character.name || 'Unnamed Character'}
               </h1>
               
+              {character.title && (
+                <p className="text-lg text-muted-foreground mb-3 italic">"{character.title}"</p>
+              )}
+              
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="secondary" className="text-sm px-3 py-1">
-                  {character.role}
-                </Badge>
+                {character.role && (
+                  <Badge variant="default" className="text-sm px-3 py-1">
+                    {character.role}
+                  </Badge>
+                )}
                 {character.race && (
-                  <Badge variant="outline" className="text-sm">
+                  <Badge variant="secondary" className="text-sm">
                     {character.race}
                   </Badge>
                 )}
@@ -122,8 +214,19 @@ export function CharacterDetailView({
                     Age {character.age}
                   </Badge>
                 )}
+                {character.occupation && (
+                  <Badge variant="outline" className="text-sm">
+                    {character.occupation}
+                  </Badge>
+                )}
               </div>
 
+              {character.oneLine && (
+                <p className="text-lg italic text-muted-foreground mb-3">
+                  "{character.oneLine}"
+                </p>
+              )}
+              
               {character.description && (
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   {character.description}
@@ -134,326 +237,220 @@ export function CharacterDetailView({
         </CardContent>
       </Card>
 
-      {/* Character Details - Vertical Layout */}
+      {/* Dynamic Content Sections - Only show sections with content */}
       <div className="space-y-6">
-        {/* Basic Information Section */}
-        <div className="grid gap-6 md:grid-cols-2">
+        
+        {/* Identity Section */}
+        {identityFields && (
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Identity
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.backstory && (
-                <div>
-                  <h4 className="font-semibold mb-2">Backstory</h4>
-                  <p className="text-muted-foreground">{character.backstory}</p>
-                </div>
-              )}
-              {character.background && (
-                <div>
-                  <h4 className="font-semibold mb-2">Background</h4>
-                  <p className="text-muted-foreground">{character.background}</p>
-                </div>
-              )}
-              {character.academicHistory && (
-                <div>
-                  <h4 className="font-semibold mb-2">Academic History</h4>
-                  <p className="text-muted-foreground">{character.academicHistory}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Full Name", character.name)}
+                {renderField("Nicknames", character.nicknames)}
+                {renderField("Title/Honorific", character.title)}
+                {renderField("Aliases", character.aliases)}
+                {renderField("Race/Species", character.race)}
+                {renderField("Ethnicity", character.ethnicity)}
+                {renderField("Class", character.class)}
+                {renderField("Profession", character.profession)}
+                {renderField("Occupation", character.occupation)}
+                {renderField("Gender", character.gender)}
+                {renderField("Sexuality", character.sexuality)}
+                {renderField("Pronouns", character.pronouns)}
+                {renderField("Age", character.age)}
+                {renderField("Birthdate", character.birthdate)}
+                {renderField("Birthplace", character.birthplace)}
+                {renderField("Current Residence", character.currentResidence)}
+              </div>
+              {renderField("One-Line Description", character.oneLine, "md:col-span-2")}
+              {renderField("Full Description", character.description, "md:col-span-2")}
             </CardContent>
           </Card>
+        )}
 
+        {/* Physical Section */}
+        {physicalFields && (
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Languages & Communication</CardTitle>
+              <CardTitle>Physical Appearance</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.languages && character.languages.length > 0 ? (
-                <div>
-                  <h4 className="font-semibold mb-2">Languages</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.languages.map((language, index) => (
-                      <Badge key={index} variant="secondary">{language}</Badge>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No languages specified</p>
-              )}
-              {character.accent && (
-                <div>
-                  <h4 className="font-semibold mb-2">Accent</h4>
-                  <p className="text-muted-foreground">{character.accent}</p>
-                </div>
-              )}
-              {character.speechPatterns && (
-                <div>
-                  <h4 className="font-semibold mb-2">Speech Patterns</h4>
-                  <p className="text-muted-foreground">{character.speechPatterns}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Height", character.height)}
+                {renderField("Weight", character.weight)}
+                {renderField("Build", character.build)}
+                {renderField("Hair", character.hair)}
+                {renderField("Eyes", character.eyes)}
+                {renderField("Skin", character.skin)}
+                {renderField("Distinguishing Marks", character.distinguishingMarks)}
+                {renderField("Attire", character.attire)}
+                {renderField("Accessories", character.accessories)}
+                {renderField("Scent", character.scent)}
+                {renderField("Voice", character.voiceDescription)}
+                {renderField("Accent", character.accent)}
+                {renderField("Mannerisms", character.mannerisms)}
+              </div>
+              {renderField("Physical Description", character.physicalDescription, "md:col-span-2")}
+              {renderField("Facial Features", character.facialFeatures, "md:col-span-2")}
             </CardContent>
           </Card>
-        </div>
+        )}
 
-        {/* Physical Appearance Section */}
-        <Card className="creative-card">
-          <CardHeader>
-            <CardTitle>Physical Appearance</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              {character.physicalDescription && (
-                <div>
-                  <h4 className="font-semibold mb-2">Overall Description</h4>
-                  <p className="text-muted-foreground">{character.physicalDescription}</p>
-                </div>
-              )}
-              {character.facialFeatures && (
-                <div>
-                  <h4 className="font-semibold mb-2">Facial Features</h4>
-                  <p className="text-muted-foreground">{character.facialFeatures}</p>
-                </div>
-              )}
-              {character.hair && (
-                <div>
-                  <h4 className="font-semibold mb-2">Hair</h4>
-                  <p className="text-muted-foreground">{character.hair}</p>
-                </div>
-              )}
-              {character.skin && (
-                <div>
-                  <h4 className="font-semibold mb-2">Skin</h4>
-                  <p className="text-muted-foreground">{character.skin}</p>
-                </div>
-              )}
-              {character.attire && (
-                <div>
-                  <h4 className="font-semibold mb-2">Attire</h4>
-                  <p className="text-muted-foreground">{character.attire}</p>
-                </div>
-              )}
-              {character.distinguishingMarks && (
-                <div>
-                  <h4 className="font-semibold mb-2">Distinguishing Marks</h4>
-                  <p className="text-muted-foreground">{character.distinguishingMarks}</p>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Psychology Section */}
-        <div className="grid gap-6 md:grid-cols-2">
+        {/* Personality Section */}
+        {personalityFields && (
           <Card className="creative-card">
             <CardHeader>
               <CardTitle>Personality</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.personality && (
-                <div>
-                  <h4 className="font-semibold mb-2">Overview</h4>
-                  <p className="text-muted-foreground">{character.personality}</p>
-                </div>
-              )}
-              {character.personalityTraits && character.personalityTraits.length > 0 && (
-                <div>
-                  <h4 className="font-semibold mb-2">Traits</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.personalityTraits.map((trait, index) => (
-                      <Badge key={index} variant="outline">{trait}</Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {character.copingMechanisms && (
-                <div>
-                  <h4 className="font-semibold mb-2">Coping Mechanisms</h4>
-                  <p className="text-muted-foreground">{character.copingMechanisms}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Temperament", character.temperament)}
+                {renderField("Humor Style", character.humorStyle)}
+                {renderField("Decision Making", character.decisionMaking)}
+                {renderField("Stress Response", character.stressResponse)}
+                {renderField("Relaxation Methods", character.relaxationMethods)}
+                {renderField("Social Behavior", character.socialBehavior)}
+                {renderField("Leadership Style", character.leadership)}
+                {renderField("Creativity", character.creativity)}
+                {renderField("Traditions", character.traditions)}
+              </div>
+              {renderField("Overall Personality", character.personality, "md:col-span-2")}
+              {renderField("Core Traits", character.coreTraits, "md:col-span-2")}
+              {renderField("Speech Patterns", character.speechPatterns, "md:col-span-2")}
             </CardContent>
           </Card>
+        )}
 
+        {/* Psychology Section */}
+        {psychologyFields && (
           <Card className="creative-card">
             <CardHeader>
               <CardTitle>Psychology</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.motivations && (
-                <div>
-                  <h4 className="font-semibold mb-2">Motivations</h4>
-                  <p className="text-muted-foreground">{character.motivations}</p>
-                </div>
-              )}
-              {character.fears && (
-                <div>
-                  <h4 className="font-semibold mb-2">Fears</h4>
-                  <p className="text-muted-foreground">{character.fears}</p>
-                </div>
-              )}
-              {character.secrets && (
-                <div>
-                  <h4 className="font-semibold mb-2">Secrets</h4>
-                  <p className="text-muted-foreground">{character.secrets}</p>
-                </div>
-              )}
-              {character.vulnerabilities && (
-                <div>
-                  <h4 className="font-semibold mb-2">Vulnerabilities</h4>
-                  <p className="text-muted-foreground">{character.vulnerabilities}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Motivations", character.motivations)}
+                {renderField("Goals", character.goals)}
+                {renderField("Fears", character.fears)}
+                {renderField("Insecurities", character.insecurities)}
+                {renderField("Moral Code", character.moralCode)}
+                {renderField("Beliefs", character.beliefs)}
+                {renderField("Philosophy", character.philosophy)}
+                {renderField("Mental Disorders", character.mentalDisorders)}
+                {renderField("Coping Mechanisms", character.coping)}
+                {renderField("Triggers", character.triggers)}
+                {renderField("Regrets", character.regrets)}
+                {renderField("Secrets", character.secrets)}
+                {renderField("Hopes", character.hopes)}
+                {renderField("Pride", character.pride)}
+              </div>
             </CardContent>
           </Card>
-        </div>
+        )}
 
-        {/* Abilities & Skills Section */}
-        <div className="grid gap-6 md:grid-cols-2">
+        {/* Background Section */}
+        {backgroundFields && (
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Abilities</CardTitle>
+              <CardTitle>Background</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.abilities && character.abilities.length > 0 ? (
-                <div>
-                  <h4 className="font-semibold mb-2">General Abilities</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.abilities.map((ability, index) => (
-                      <Badge key={index} variant="secondary">{ability}</Badge>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No abilities specified</p>
-              )}
-              {character.specialAbilities && (
-                <div>
-                  <h4 className="font-semibold mb-2">Special Abilities</h4>
-                  <p className="text-muted-foreground">{character.specialAbilities}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Childhood", character.childhoood)}
+                {renderField("Family", character.family)}
+                {renderField("Education", character.education)}
+                {renderField("Academic History", character.academicHistory)}
+                {renderField("Career", character.career)}
+                {renderField("Allies", character.allies)}
+                {renderField("Enemies", character.enemies)}
+                {renderField("Mentors", character.mentors)}
+                {renderField("Students", character.students)}
+                {renderField("Romantic History", character.romanticHistory)}
+                {renderField("Social Status", character.socialStatus)}
+                {renderField("Reputation", character.reputation)}
+              </div>
+              {renderField("Backstory", character.backstory, "md:col-span-2")}
+              {renderField("Background", character.background, "md:col-span-2")}
+              {renderField("Relationships", character.relationships, "md:col-span-2")}
+              {renderField("Significant Events", character.significantEvents, "md:col-span-2")}
             </CardContent>
           </Card>
+        )}
 
+        {/* Abilities Section */}
+        {abilitiesFields && (
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Skills</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {character.skills && character.skills.length > 0 ? (
-                <div>
-                  <h4 className="font-semibold mb-2">Acquired Skills</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.skills.map((skill, index) => (
-                      <Badge key={index} variant="outline">{skill}</Badge>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No skills specified</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Story Elements Section */}
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card className="creative-card">
-            <CardHeader>
-              <CardTitle>Story Elements</CardTitle>
+              <CardTitle>Abilities & Skills</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {character.goals && (
-                <div>
-                  <h4 className="font-semibold mb-2">Goals</h4>
-                  <p className="text-muted-foreground">{character.goals}</p>
-                </div>
-              )}
-              {character.conflictSources && (
-                <div>
-                  <h4 className="font-semibold mb-2">Conflict Sources</h4>
-                  <p className="text-muted-foreground">{character.conflictSources}</p>
-                </div>
-              )}
-              {character.personalStruggle && (
-                <div>
-                  <h4 className="font-semibold mb-2">Personal Struggle</h4>
-                  <p className="text-muted-foreground">{character.personalStruggle}</p>
-                </div>
-              )}
-              {character.connectionToEvents && (
-                <div>
-                  <h4 className="font-semibold mb-2">Connection to Events</h4>
-                  <p className="text-muted-foreground">{character.connectionToEvents}</p>
-                </div>
-              )}
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderArrayField("Abilities", character.abilities)}
+                {renderArrayField("Skills", character.skills)}
+                {renderArrayField("Languages", character.languages)}
+                {renderField("Special Abilities", character.specialAbilities)}
+                {renderField("Magical Abilities", character.magicalAbilities)}
+                {renderField("Magic Type", character.magicType)}
+                {renderField("Magic Source", character.magicSource)}
+                {renderField("Magic Limitations", character.magicLimitations)}
+                {renderField("Talents", character.talents)}
+                {renderField("Expertise", character.expertise)}
+                {renderField("Training", character.training)}
+                {renderField("Weaknesses", character.weaknesses)}
+              </div>
             </CardContent>
           </Card>
+        )}
 
+        {/* Story Section */}
+        {storyFields && (
           <Card className="creative-card">
             <CardHeader>
-              <CardTitle>Relationships</CardTitle>
+              <CardTitle>Story Role</CardTitle>
             </CardHeader>
-            <CardContent>
-              {character.relationships && character.relationships.length > 0 ? (
-                <div className="space-y-2">
-                  {character.relationships.map((relationship, index) => (
-                    <div key={index} className="p-3 bg-muted rounded-lg">
-                      <p className="text-sm">{typeof relationship === 'string' ? relationship : `${relationship.characterId} - ${relationship.relationshipType}: ${relationship.description}`}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No relationships specified</p>
-              )}
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderField("Role", character.role)}
+                {renderField("Narrative Role", character.narrativeRole)}
+                {renderField("Character Arc", character.characterArc)}
+                {renderField("Conflict Sources", character.conflictSources)}
+                {renderField("Connection to Events", character.connectionToEvents)}
+                {renderField("Plot Significance", character.plotSignificance)}
+                {renderField("Thematic Role", character.thematicRole)}
+                {renderField("Growth", character.growth)}
+                {renderField("Challenges", character.challenges)}
+              </div>
             </CardContent>
           </Card>
-        </div>
+        )}
 
-        {/* Meta Information Section */}
-        <Card className="creative-card">
-          <CardHeader>
-            <CardTitle>Meta Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              {character.tags && character.tags.length > 0 && (
-                <div>
-                  <h4 className="font-semibold mb-2">Tags</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.tags.map((tag, index) => (
-                      <Badge key={index} variant="outline">{tag}</Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {character.archetypes && character.archetypes.length > 0 && (
-                <div>
-                  <h4 className="font-semibold mb-2">Archetypes</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {character.archetypes.map((archetype, index) => (
-                      <Badge key={index} variant="secondary">{archetype}</Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {character.proseVibe && (
-                <div>
-                  <h4 className="font-semibold mb-2">Prose Vibe</h4>
-                  <p className="text-muted-foreground">{character.proseVibe}</p>
-                </div>
-              )}
-              {character.narrativeRole && (
-                <div>
-                  <h4 className="font-semibold mb-2">Narrative Role</h4>
-                  <p className="text-muted-foreground">{character.narrativeRole}</p>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Meta Section */}
+        {metaFields && (
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Meta Information</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                {renderArrayField("Tags", character.tags)}
+                {renderArrayField("Archetypes", character.archetypes, "secondary")}
+                {renderField("Inspirations", character.inspirations)}
+                {renderField("Prose Vibe", character.proseVibe)}
+                {renderField("Voice Style", character.voiceStyle)}
+                {renderField("Version", character.version)}
+              </div>
+              {renderField("Notes", character.notes, "md:col-span-2")}
+              {renderField("Author Notes", character.authorNotes, "md:col-span-2")}
+            </CardContent>
+          </Card>
+        )}
+
       </div>
     </div>
   );

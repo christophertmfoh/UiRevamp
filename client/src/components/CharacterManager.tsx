@@ -132,27 +132,25 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
           )}
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredCharacters.map((character: Character) => (
             <Card 
               key={character.id} 
-              className="creative-card cursor-pointer hover:shadow-lg transition-shadow"
+              className="creative-card cursor-pointer hover:shadow-lg transition-shadow aspect-square"
               onClick={() => handleEdit(character)}
             >
-              <CardContent className="p-4">
+              <CardContent className="p-4 h-full flex flex-col">
+                {/* Header with dropdown */}
                 <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-1">{character.name || 'Unnamed Character'}</h3>
-                    {character.title && (
-                      <p className="text-sm text-muted-foreground mb-1">{character.title}</p>
-                    )}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-base mb-1 truncate">{character.name || 'Unnamed Character'}</h3>
                     {character.role && (
-                      <Badge variant="secondary" className="mb-2">{character.role}</Badge>
+                      <Badge variant="secondary" className="text-xs mb-2">{character.role}</Badge>
                     )}
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger 
-                      className="opacity-70 hover:opacity-100 transition-opacity"
+                      className="opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreVertical className="h-4 w-4" />
@@ -181,42 +179,49 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
                   </DropdownMenu>
                 </div>
                 
-                <div className="space-y-2 text-sm">
-                  {character.race && (
-                    <div className="flex items-center text-muted-foreground">
-                      <span className="font-medium">Race:</span>
-                      <span className="ml-2">{character.race}</span>
-                    </div>
+                {/* Key info - compact for square layout */}
+                <div className="flex-1 space-y-2 text-xs overflow-hidden">
+                  {character.title && (
+                    <p className="text-muted-foreground italic truncate">"{character.title}"</p>
                   )}
-                  {character.age && (
-                    <div className="flex items-center text-muted-foreground">
-                      <span className="font-medium">Age:</span>
-                      <span className="ml-2">{character.age}</span>
-                    </div>
-                  )}
-                  {character.occupation && (
-                    <div className="flex items-center text-muted-foreground">
-                      <span className="font-medium">Occupation:</span>
-                      <span className="ml-2">{character.occupation}</span>
-                    </div>
-                  )}
+                  
+                  <div className="grid grid-cols-2 gap-1 text-muted-foreground">
+                    {character.race && (
+                      <div className="truncate">
+                        <span className="font-medium">Race:</span> {character.race}
+                      </div>
+                    )}
+                    {character.age && (
+                      <div className="truncate">
+                        <span className="font-medium">Age:</span> {character.age}
+                      </div>
+                    )}
+                    {character.occupation && (
+                      <div className="col-span-2 truncate">
+                        <span className="font-medium">Job:</span> {character.occupation}
+                      </div>
+                    )}
+                  </div>
+
                   {character.oneLine && (
-                    <p className="text-muted-foreground italic mt-2">
+                    <p className="text-muted-foreground italic text-xs line-clamp-2 mt-2">
                       "{character.oneLine}"
                     </p>
                   )}
+                  
                   {!character.oneLine && character.description && (
-                    <p className="text-muted-foreground line-clamp-2 mt-2">
+                    <p className="text-muted-foreground text-xs line-clamp-2 mt-2">
                       {character.description}
                     </p>
                   )}
                 </div>
 
-                {/* Key abilities or traits */}
-                {(character.abilities?.length > 0 || character.magicalAbilities || character.specialAbilities) && (
-                  <div className="mt-3">
+                {/* Bottom section - abilities and tags */}
+                <div className="mt-auto pt-2 space-y-2">
+                  {/* Key abilities */}
+                  {((character.abilities && character.abilities.length > 0) || character.magicalAbilities || character.specialAbilities) && (
                     <div className="flex flex-wrap gap-1">
-                      {character.abilities?.slice(0, 2).map((ability, index) => (
+                      {character.abilities?.slice(0, 1).map((ability, index) => (
                         <Badge key={index} variant="outline" className="text-xs bg-blue-50 text-blue-700">
                           {ability}
                         </Badge>
@@ -232,23 +237,24 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
                         </Badge>
                       )}
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {character.tags && character.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-3">
-                    {character.tags.slice(0, 3).map((tag, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                    {character.tags.length > 3 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{character.tags.length - 3} more
-                      </Badge>
-                    )}
-                  </div>
-                )}
+                  {/* Tags */}
+                  {character.tags && character.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {character.tags.slice(0, 2).map((tag, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {character.tags.length > 2 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{character.tags.length - 2}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           ))}
