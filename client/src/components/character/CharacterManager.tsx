@@ -553,31 +553,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              {/* Border trace line effect */}
-              <div className="absolute -inset-0.5 rounded-lg overflow-hidden">
-                <div 
-                  className="absolute inset-0 rounded-lg"
-                  style={{
-                    background: `
-                      linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                      linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                      linear-gradient(270deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                      linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%)
-                    `,
-                    backgroundSize: '100% 2px, 2px 100%, 100% 2px, 2px 100%',
-                    backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%',
-                    backgroundRepeat: 'no-repeat',
-                    animation: 'borderTrace 2s linear infinite'
-                  }}
-                />
-              </div>
-              
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
-              
-              <div className="relative flex items-center">
+              <div className="flex items-center">
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                   <Plus className="h-4 w-4" />
                 </div>
@@ -672,31 +650,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="relative overflow-visible bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
-                {/* Border trace line effect */}
-                <div className="absolute -inset-0.5 rounded-lg overflow-hidden">
-                  <div 
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      background: `
-                        linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                        linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                        linear-gradient(270deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%),
-                        linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.6) 10%, transparent 20%)
-                      `,
-                      backgroundSize: '100% 2px, 2px 100%, 100% 2px, 2px 100%',
-                      backgroundPosition: '0% 0%, 100% 0%, 100% 100%, 0% 100%',
-                      backgroundRepeat: 'no-repeat',
-                      animation: 'borderTrace 2s linear infinite'
-                    }}
-                  />
-                </div>
-                
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 rounded-lg bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
-                
-                <div className="relative flex items-center">
+                <div className="flex items-center">
                   <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                     <Plus className="h-4 w-4" />
                   </div>
