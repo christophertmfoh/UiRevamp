@@ -101,19 +101,41 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
   }
   
   // Create focused prompt for identity fields only
-  const prompt = `Based on this character data, fill only the missing identity fields:
+  const prompt = `Character Enhancement Task:
 
-Existing data: name="${currentData.name}", nicknames="${currentData.nicknames}", physical="${currentData.physicalDescription}"
+EXISTING CHARACTER DATA:
+- Name: ${currentData.name || 'Unknown'}
+- Nicknames: ${currentData.nicknames || 'None'}
+- Physical Description: ${currentData.physicalDescription || 'Not provided'}
+- Clothing: ${currentData.clothingStyle || 'Not specified'}
 
-Fill these identity fields: ${emptyIdentityFields.join(', ')}
+FIELDS TO GENERATE: ${emptyIdentityFields.join(', ')}
 
-Return JSON with ONLY these identity fields filled appropriately.`;
+Generate appropriate values for each empty identity field. Make the character feel authentic and consistent.
+
+Return JSON object with ONLY the specified fields filled with realistic, contextual data.`;
 
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
-        systemInstruction: `Fill only the specified identity fields based on the character's name and existing details. Keep responses brief and contextual.`,
+        systemInstruction: `You are a character development expert. Generate realistic identity details for the specified fields only. 
+        
+For each field:
+- title: A descriptive title/epithet that fits the character (e.g., "The Wanderer", "Street Fighter", "Former Noble")
+- aliases: Alternative names or nicknames (if name suggests them)
+- race: Human or fantasy race (default Human if unclear)
+- ethnicity: Cultural/ethnic background fitting the world
+- nationality: Where they're from (be creative but fitting)
+- class: Social class (Working Class, Middle Class, Noble, etc.)
+- occupation: Specific job/profession
+- role: Story role (Protagonist, Antagonist, Supporting Character, etc.)
+- age: Specific age or age range
+- gender: Gender identity
+- sexuality: Sexual orientation (if relevant)
+- status: Social/legal status
+
+Return ONLY a JSON object with the requested fields filled with appropriate, specific values.`,
         responseMimeType: "application/json",
       },
       contents: prompt,
