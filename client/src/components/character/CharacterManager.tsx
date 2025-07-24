@@ -74,11 +74,15 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     mutationFn: (character: Partial<Character>) => 
       apiRequest('POST', `/api/projects/${projectId}/characters`, character),
     onSuccess: (newCharacter: Character) => {
+      console.log('Character created successfully, setting as selected:', newCharacter);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       // Open the newly created character in the editor
       setSelectedCharacter(newCharacter);
       setIsCreating(false);
     },
+    onError: (error) => {
+      console.error('Failed to create character:', error);
+    }
   });
 
   const filteredCharacters = characters.filter((character: Character) =>
@@ -148,7 +152,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       console.log('Creating character with data:', characterToCreate);
       
       // Create the character - this will automatically open it in the editor on success
-      await createCharacterMutation.mutateAsync(characterToCreate);
+      const createdCharacter = await createCharacterMutation.mutateAsync(characterToCreate);
+      console.log('Character creation completed, created character:', createdCharacter);
+      
+      // Explicitly set the character and ensure we're not in creating mode
+      setSelectedCharacter(createdCharacter);
+      setIsCreating(false);
       
       // Close the generation modal
       setIsGenerationModalOpen(false);
