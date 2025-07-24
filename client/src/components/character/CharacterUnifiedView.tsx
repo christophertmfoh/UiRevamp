@@ -73,28 +73,22 @@ export function CharacterUnifiedView({
   const handleAIEnhance = async () => {
     setIsEnhancing(true);
     try {
-      // Scan through all categories and collect user input
-      const userInput: Record<string, any> = {};
-      const filledFields: string[] = [];
-      
-      // Scan through all sections and their fields
-      CHARACTER_SECTIONS.forEach(section => {
-        section.fields.forEach(field => {
-          const value = (formData as any)[field.key];
-          if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
-            userInput[field.key] = value;
-            filledFields.push(`${section.label} - ${field.label}: ${Array.isArray(value) ? value.join(', ') : value}`);
-          }
-        });
-      });
-      
-      console.log('User input detected:', filledFields);
+      console.log('Starting AI enhancement for character:', character.id);
       
       const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
-      setFormData(response as Character);
+      console.log('AI enhancement response received:', response);
+      
+      // Force form data update
+      setFormData({ ...response } as Character);
+      
+      // Force re-render by toggling state
+      setTimeout(() => {
+        setFormData(prev => ({ ...prev, ...response } as Character));
+      }, 100);
+      
+      console.log('Form data updated with enhanced character');
     } catch (error) {
       console.error('Failed to enhance character:', error);
-      // Show user-friendly error message
       alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
     } finally {
       setIsEnhancing(false);
