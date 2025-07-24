@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Save, User, Eye, Brain, Zap, BookOpen, Users, Settings, PenTool } from 'lucide-react';
+import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../lib/types';
 
@@ -332,37 +332,53 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <Tabs defaultValue="identity" className="w-full">
-              <TabsList className="grid w-full grid-cols-8">
-                <TabsTrigger value="identity" className="flex items-center gap-1">
-                  <User className="h-3 w-3" />
+              <TabsList className="grid w-full grid-cols-8 gap-1 bg-transparent">
+                <TabsTrigger 
+                  value="identity"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Identity
                 </TabsTrigger>
-                <TabsTrigger value="physical" className="flex items-center gap-1">
-                  <Eye className="h-3 w-3" />
+                <TabsTrigger 
+                  value="physical"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Physical
                 </TabsTrigger>
-                <TabsTrigger value="personality" className="flex items-center gap-1">
-                  <Brain className="h-3 w-3" />
+                <TabsTrigger 
+                  value="personality"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Personality
                 </TabsTrigger>
-                <TabsTrigger value="psychology" className="flex items-center gap-1">
-                  <Brain className="h-3 w-3" />
+                <TabsTrigger 
+                  value="psychology"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Psychology
                 </TabsTrigger>
-                <TabsTrigger value="background" className="flex items-center gap-1">
-                  <BookOpen className="h-3 w-3" />
+                <TabsTrigger 
+                  value="background"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Background
                 </TabsTrigger>
-                <TabsTrigger value="abilities" className="flex items-center gap-1">
-                  <Zap className="h-3 w-3" />
+                <TabsTrigger 
+                  value="abilities"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Abilities
                 </TabsTrigger>
-                <TabsTrigger value="story" className="flex items-center gap-1">
-                  <BookOpen className="h-3 w-3" />
+                <TabsTrigger 
+                  value="story"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Story
                 </TabsTrigger>
-                <TabsTrigger value="meta" className="flex items-center gap-1">
-                  <PenTool className="h-3 w-3" />
+                <TabsTrigger 
+                  value="meta"
+                  className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                >
                   Meta
                 </TabsTrigger>
               </TabsList>
