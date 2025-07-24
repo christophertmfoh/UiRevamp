@@ -44,7 +44,7 @@ export function ProphecyManager({ projectId, selectedProphecyId, onClearSelectio
   // Auto-select prophecy if selectedProphecyId is provided
   useEffect(() => {
     if (selectedProphecyId && prophecys.length > 0) {
-      const prophecy = prophecys.find(c => c.id === selectedProphecyId);
+      const prophecy = prophecys.find(item => item.id === selectedProphecyId);
       if (prophecy) {
         setSelectedProphecy(prophecy);
         setIsCreating(false);

@@ -44,7 +44,7 @@ export function MagicSystemManager({ projectId, selectedMagicSystemId, onClearSe
   // Auto-select magicsystem if selectedMagicSystemId is provided
   useEffect(() => {
     if (selectedMagicSystemId && magicsystems.length > 0) {
-      const magicsystem = magicsystems.find(c => c.id === selectedMagicSystemId);
+      const magicsystem = magicsystems.find(item => item.id === selectedMagicSystemId);
       if (magicsystem) {
         setSelectedMagicSystem(magicsystem);
         setIsCreating(false);

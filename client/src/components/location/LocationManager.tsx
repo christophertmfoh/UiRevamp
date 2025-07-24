@@ -40,7 +40,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
   // Auto-select location if selectedLocationId is provided
   useEffect(() => {
     if (selectedLocationId && locations.length > 0) {
-      const location = locations.find(c => c.id === selectedLocationId);
+      const location = locations.find(l => c.id === selectedLocationId);
       if (location) {
         setSelectedLocation(location);
         setIsCreating(false);
@@ -74,7 +74,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
         projectId,
       });
     },
-    onSuccess: (newLocation) => {
+    onSuccess: (newLocation: Location) => {
       console.log('Mutation: Location created successfully:', newLocation);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
       setSelectedLocation(newLocation);
@@ -124,7 +124,7 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
         {
           ...options,
           existingContext: {
-            locations: locations.map(c => ({ name: c.name, type: c.type })),
+            locations: locations.map(l => ({ name: l.name, description: l.description })),
           }
         }
       );
@@ -139,13 +139,13 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
     }
   };
 
-  const handleUpdateImageData = async (locationId: string, imageUrl: string | null, displayImageId: number | null) => {
-    const location = locations.find(c => c.id === locationId);
+  const handleUpdateImageData = async (locationId: string, imageUrl: string) => {
+    const location = locations.find(l => l.id === locationId);
     if (!location) return;
 
     const updatedLocation = {
       ...location,
-      displayImageId,
+      imageUrl,
     };
 
     updateLocationMutation.mutate(updatedLocation);
@@ -251,14 +251,12 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
                         </h3>
                         
                         <div className="flex items-center gap-2 mt-1">
-                          {location.type && (
-                            <Badge variant="secondary" className="text-xs">
-                              {location.type}
-                            </Badge>
-                          )}
-                          {location.scale && (
+                          <Badge variant="secondary" className="text-xs">
+                            Location
+                          </Badge>
+                          {location.tags && location.tags.length > 0 && (
                             <Badge variant="outline" className="text-xs">
-                              {location.scale}
+                              {location.tags[0]}
                             </Badge>
                           )}
                         </div>

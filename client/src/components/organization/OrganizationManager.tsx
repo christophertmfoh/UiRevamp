@@ -44,7 +44,7 @@ export function OrganizationManager({ projectId, selectedOrganizationId, onClear
   // Auto-select organization if selectedOrganizationId is provided
   useEffect(() => {
     if (selectedOrganizationId && organizations.length > 0) {
-      const organization = organizations.find(c => c.id === selectedOrganizationId);
+      const organization = organizations.find(item => item.id === selectedOrganizationId);
       if (organization) {
         setSelectedOrganization(organization);
         setIsCreating(false);

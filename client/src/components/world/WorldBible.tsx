@@ -136,7 +136,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
       
       // Search in tags
       if (item.tags && Array.isArray(item.tags)) {
-        if (item.tags.some(tag => tag.toLowerCase().includes(query))) return true;
+        if (item.tags.some((tag: string) => tag.toLowerCase().includes(query))) return true;
       }
       
       // Search in specific fields based on category
@@ -162,10 +162,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         const searchFields = [item.type, item.source, item.limitations, item.corruption];
         if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
         if (item.practitioners && Array.isArray(item.practitioners)) {
-          if (item.practitioners.some(p => p.toLowerCase().includes(query))) return true;
+          if (item.practitioners.some((p: string) => p.toLowerCase().includes(query))) return true;
         }
         if (item.effects && Array.isArray(item.effects)) {
-          if (item.effects.some(e => e.toLowerCase().includes(query))) return true;
+          if (item.effects.some((e: string) => e.toLowerCase().includes(query))) return true;
         }
       }
       
@@ -173,7 +173,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         const searchFields = [item.era, item.period, item.significance, item.consequences];
         if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
         if (item.participants && Array.isArray(item.participants)) {
-          if (item.participants.some(p => p.toLowerCase().includes(query))) return true;
+          if (item.participants.some((p: string) => p.toLowerCase().includes(query))) return true;
         }
       }
       
@@ -184,7 +184,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         ];
         if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
         if (item.abilities && Array.isArray(item.abilities)) {
-          if (item.abilities.some(a => a.toLowerCase().includes(query))) return true;
+          if (item.abilities.some((a: string) => a.toLowerCase().includes(query))) return true;
         }
       }
       
@@ -460,7 +460,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
           </Button>
         </div>
 
-        {Object.entries(groupedResults).map(([category, items]) => {
+        {Object.entries(groupedResults).map(([category, items]: [string, any[]]) => {
           const categoryInfo = categories.find(cat => cat.id === category);
           if (!categoryInfo) return null;
           
@@ -479,7 +479,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="grid gap-3">
-                  {items.map((item) => (
+                  {items.map((item: any) => (
                     <Card 
                       key={item.id} 
                       className="p-4 border-l-4 border-l-accent cursor-pointer hover:bg-muted/30 transition-colors"

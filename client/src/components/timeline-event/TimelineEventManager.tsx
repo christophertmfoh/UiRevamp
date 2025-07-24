@@ -44,7 +44,7 @@ export function TimelineEventManager({ projectId, selectedTimelineEventId, onCle
   // Auto-select timelineevent if selectedTimelineEventId is provided
   useEffect(() => {
     if (selectedTimelineEventId && timelineevents.length > 0) {
-      const timelineevent = timelineevents.find(c => c.id === selectedTimelineEventId);
+      const timelineevent = timelineevents.find(item => item.id === selectedTimelineEventId);
       if (timelineevent) {
         setSelectedTimelineEvent(timelineevent);
         setIsCreating(false);

@@ -44,7 +44,7 @@ export function ThemeManager({ projectId, selectedThemeId, onClearSelection }: T
   // Auto-select theme if selectedThemeId is provided
   useEffect(() => {
     if (selectedThemeId && themes.length > 0) {
-      const theme = themes.find(c => c.id === selectedThemeId);
+      const theme = themes.find(item => item.id === selectedThemeId);
       if (theme) {
         setSelectedTheme(theme);
         setIsCreating(false);

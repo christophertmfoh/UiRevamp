@@ -44,7 +44,7 @@ export function CultureManager({ projectId, selectedCultureId, onClearSelection 
   // Auto-select culture if selectedCultureId is provided
   useEffect(() => {
     if (selectedCultureId && cultures.length > 0) {
-      const culture = cultures.find(c => c.id === selectedCultureId);
+      const culture = cultures.find(item => item.id === selectedCultureId);
       if (culture) {
         setSelectedCulture(culture);
         setIsCreating(false);

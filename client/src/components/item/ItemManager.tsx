@@ -44,7 +44,7 @@ export function ItemManager({ projectId, selectedItemId, onClearSelection }: Ite
   // Auto-select item if selectedItemId is provided
   useEffect(() => {
     if (selectedItemId && items.length > 0) {
-      const item = items.find(c => c.id === selectedItemId);
+      const item = items.find(item => item.id === selectedItemId);
       if (item) {
         setSelectedItem(item);
         setIsCreating(false);

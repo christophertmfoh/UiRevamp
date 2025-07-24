@@ -259,13 +259,17 @@ export interface Character {
 
 export interface Location {
   id: string;
+  projectId: string;
   name: string;
   description: string;
   history: string;
   significance: string;
   atmosphere: string;
+  type?: string;
+  scale?: string;
   imageGallery: ImageAsset[];
   displayImageId?: number;
+  imageUrl?: string;
   tags: string[];
 }
 

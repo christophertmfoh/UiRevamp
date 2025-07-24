@@ -44,7 +44,7 @@ export function FactionManager({ projectId, selectedFactionId, onClearSelection 
   // Auto-select faction if selectedFactionId is provided
   useEffect(() => {
     if (selectedFactionId && factions.length > 0) {
-      const faction = factions.find(c => c.id === selectedFactionId);
+      const faction = factions.find(f => c.id === selectedFactionId);
       if (faction) {
         setSelectedFaction(faction);
         setIsCreating(false);

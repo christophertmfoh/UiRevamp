@@ -44,7 +44,7 @@ export function LanguageManager({ projectId, selectedLanguageId, onClearSelectio
   // Auto-select language if selectedLanguageId is provided
   useEffect(() => {
     if (selectedLanguageId && languages.length > 0) {
-      const language = languages.find(c => c.id === selectedLanguageId);
+      const language = languages.find(item => item.id === selectedLanguageId);
       if (language) {
         setSelectedLanguage(language);
         setIsCreating(false);

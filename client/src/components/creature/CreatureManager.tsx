@@ -44,7 +44,7 @@ export function CreatureManager({ projectId, selectedCreatureId, onClearSelectio
   // Auto-select creature if selectedCreatureId is provided
   useEffect(() => {
     if (selectedCreatureId && creatures.length > 0) {
-      const creature = creatures.find(c => c.id === selectedCreatureId);
+      const creature = creatures.find(item => item.id === selectedCreatureId);
       if (creature) {
         setSelectedCreature(creature);
         setIsCreating(false);
