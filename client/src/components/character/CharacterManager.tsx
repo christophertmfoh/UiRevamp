@@ -548,7 +548,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </div>
           </div>
           
-          {/* Primary Actions */}
+          {/* Primary Action */}
           <div className="flex gap-3">
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
@@ -557,26 +557,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Character
-            </Button>
-            <Button 
-              onClick={() => setIsTemplateModalOpen(true)} 
-              size="lg"
-              variant="outline"
-              className="border-accent/30 hover:bg-accent/10 hover:border-accent/50 transition-all duration-200"
-            >
-              <FileText className="h-4 w-4 mr-2" />
-              Use Template
-            </Button>
-            <Button 
-              onClick={handleOpenGenerationModal} 
-              disabled={!project}
-              size="lg"
-              variant="outline"
-              className="border-accent/30 hover:bg-accent/10 hover:border-accent/50 transition-all duration-200 relative overflow-hidden group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              <Sparkles className="h-4 w-4 mr-2 relative z-10" />
-              <span className="relative z-10">AI Generate</span>
             </Button>
           </div>
         </div>
@@ -663,13 +643,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           </div>
           {characters.length === 0 && (
             <div className="flex gap-3 justify-center pt-4">
-              <Button onClick={handleCreateNew} className="interactive-warm">
+              <Button onClick={() => setIsCreationLaunchOpen(true)} className="interactive-warm">
                 <Plus className="h-4 w-4 mr-2" />
                 Create First Character
-              </Button>
-              <Button onClick={handleOpenGenerationModal} variant="outline">
-                <Sparkles className="h-4 w-4 mr-2" />
-                Generate Character
               </Button>
             </div>
           )}
