@@ -24,7 +24,6 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     title: character?.title || '',
     aliases: character?.aliases || '',
     race: character?.race || '',
-    species: character?.species || '',
     ethnicity: character?.ethnicity || '',
     class: character?.class || '',
     profession: character?.profession || '',

@@ -37,7 +37,6 @@ export interface Character {
   title?: string;
   aliases?: string;
   race?: string;
-  species?: string;
   ethnicity?: string;
   class?: string;
   profession?: string;
