@@ -115,23 +115,27 @@ export function CharacterUnifiedView({
   };
 
   const handleImageGenerated = (imageUrl: string) => {
+    console.log('Image generated, updating character with URL:', imageUrl);
     // Update character with new image
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
     
-    // Process and save the data properly
-    const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Character);
+    // Process and save the data properly - only send imageUrl for this operation
+    const minimalUpdate = { imageUrl };
+    console.log('Saving minimal update:', minimalUpdate);
+    saveMutation.mutate(minimalUpdate as any);
   };
 
   const handleImageUploaded = (imageUrl: string) => {
+    console.log('Image uploaded, updating character with URL:', imageUrl);
     // Update character with uploaded image
     const updatedData = { ...formData, imageUrl };
     setFormData(updatedData);
     
-    // Process and save the data properly
-    const processedData = processDataForSave(updatedData);
-    saveMutation.mutate(processedData as Character);
+    // Process and save the data properly - only send imageUrl for this operation
+    const minimalUpdate = { imageUrl };
+    console.log('Saving minimal update:', minimalUpdate);
+    saveMutation.mutate(minimalUpdate as any);
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {

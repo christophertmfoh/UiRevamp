@@ -220,7 +220,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/characters/:id", async (req, res) => {
     try {
       const { id } = req.params;
+      console.log('Updating character with data:', JSON.stringify(req.body, null, 2));
       const characterData = insertCharacterSchema.partial().parse(req.body);
+      console.log('Parsed character data:', JSON.stringify(characterData, null, 2));
       const character = await storage.updateCharacter(id, characterData);
       
       if (!character) {
@@ -230,6 +232,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(character);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("Validation errors:", error.errors);
         return res.status(400).json({ error: error.errors });
       }
       console.error("Error updating character:", error);
