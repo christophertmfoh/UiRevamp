@@ -12,6 +12,7 @@ import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
+import { CharacterCreationLaunch } from './CharacterCreationLaunch';
 import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
 interface CharacterManagerProps {
@@ -34,6 +35,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
   const queryClient = useQueryClient();
 
@@ -371,20 +373,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                   <div 
                     className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
                     style={{
-                      width: `${Math.min(100, ((character.name ? 20 : 0) + 
-                                                (character.description ? 20 : 0) + 
-                                                (character.imageUrl ? 20 : 0) + 
-                                                (character.personalityTraits?.length ? 20 : 0) + 
-                                                (character.race || character.class ? 20 : 0)))}%`
+                      width: `${Math.min(100, ((character.name ? 10 : 0) + 
+                                                (character.description ? 15 : 0) + 
+                                                (character.imageUrl ? 15 : 0) + 
+                                                (character.personalityTraits?.length ? 10 : 0) + 
+                                                (character.race ? 10 : 0) +
+                                                (character.class ? 10 : 0) +
+                                                (character.age ? 5 : 0) +
+                                                (character.background ? 10 : 0) +
+                                                (character.goals ? 10 : 0) +
+                                                (character.relationships ? 5 : 0)))}%`
                     }}
                   />
                 </div>
                 <span className="text-xs text-muted-foreground font-medium">
-                  {Math.min(100, ((character.name ? 20 : 0) + 
-                                  (character.description ? 20 : 0) + 
-                                  (character.imageUrl ? 20 : 0) + 
-                                  (character.personalityTraits?.length ? 20 : 0) + 
-                                  (character.race || character.class ? 20 : 0)))}%
+                  {Math.min(100, ((character.name ? 10 : 0) + 
+                                  (character.description ? 15 : 0) + 
+                                  (character.imageUrl ? 15 : 0) + 
+                                  (character.personalityTraits?.length ? 10 : 0) + 
+                                  (character.race ? 10 : 0) +
+                                  (character.class ? 10 : 0) +
+                                  (character.age ? 5 : 0) +
+                                  (character.background ? 10 : 0) +
+                                  (character.goals ? 10 : 0) +
+                                  (character.relationships ? 5 : 0)))}%
                 </span>
               </div>
             </div>
@@ -467,18 +479,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 <div 
                   className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
                   style={{
-                    width: `${Math.min(100, ((character.name ? 25 : 0) + 
-                                            (character.description ? 25 : 0) + 
-                                            (character.imageUrl ? 25 : 0) + 
-                                            (character.personalityTraits?.length ? 25 : 0)))}%`
+                    width: `${Math.min(100, ((character.name ? 10 : 0) + 
+                                            (character.description ? 15 : 0) + 
+                                            (character.imageUrl ? 15 : 0) + 
+                                            (character.personalityTraits?.length ? 10 : 0) + 
+                                            (character.race ? 10 : 0) +
+                                            (character.class ? 10 : 0) +
+                                            (character.age ? 5 : 0) +
+                                            (character.background ? 10 : 0) +
+                                            (character.goals ? 10 : 0) +
+                                            (character.relationships ? 5 : 0)))}%`
                   }}
                 />
               </div>
               <span className="text-xs text-muted-foreground font-medium">
-                {Math.min(100, ((character.name ? 25 : 0) + 
-                                (character.description ? 25 : 0) + 
-                                (character.imageUrl ? 25 : 0) + 
-                                (character.personalityTraits?.length ? 25 : 0)))}%
+                {Math.min(100, ((character.name ? 10 : 0) + 
+                                (character.description ? 15 : 0) + 
+                                (character.imageUrl ? 15 : 0) + 
+                                (character.personalityTraits?.length ? 10 : 0) + 
+                                (character.race ? 10 : 0) +
+                                (character.class ? 10 : 0) +
+                                (character.age ? 5 : 0) +
+                                (character.background ? 10 : 0) +
+                                (character.goals ? 10 : 0) +
+                                (character.relationships ? 5 : 0)))}%
               </span>
             </div>
           </div>
@@ -527,7 +551,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {/* Primary Actions */}
           <div className="flex gap-3">
             <Button 
-              onClick={handleCreateNew} 
+              onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
               className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
             >
@@ -687,10 +711,26 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         />
       )}
 
+      {/* Character Creation Launch Modal */}
+      <CharacterCreationLaunch
+        isOpen={isCreationLaunchOpen}
+        onClose={() => setIsCreationLaunchOpen(false)}
+        onCreateBlank={handleCreateNew}
+        onOpenTemplates={() => {
+          setIsCreationLaunchOpen(false);
+          setIsTemplateModalOpen(true);
+        }}
+        onOpenAIGeneration={() => {
+          setIsCreationLaunchOpen(false);
+          setIsGenerationModalOpen(true);
+        }}
+      />
+
       <CharacterTemplates
         isOpen={isTemplateModalOpen}
         onClose={() => setIsTemplateModalOpen(false)}
         onSelectTemplate={handleSelectTemplate}
+        showSaveOption={true}
       />
     </div>
   );
