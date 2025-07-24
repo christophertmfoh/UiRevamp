@@ -553,10 +553,27 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
+              className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              <Plus className="h-4 w-4 mr-2" />
-              Create Character
+              {/* Animated background shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+              
+              {/* Pulse ring on hover */}
+              <div className="absolute inset-0 rounded-lg bg-accent/30 scale-0 group-hover:scale-110 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+              
+              <div className="relative flex items-center">
+                <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                  <Plus className="h-4 w-4" />
+                </div>
+                <span className="font-semibold tracking-wide">Create Character</span>
+                <div className="ml-2 text-accent-foreground/60 group-hover:text-accent-foreground/80 transition-colors duration-200">
+                  <div className="flex space-x-1">
+                    <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+                    <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                  </div>
+                </div>
+              </div>
             </Button>
           </div>
         </div>
@@ -643,9 +660,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           </div>
           {characters.length === 0 && (
             <div className="flex gap-3 justify-center pt-4">
-              <Button onClick={() => setIsCreationLaunchOpen(true)} className="interactive-warm">
-                <Plus className="h-4 w-4 mr-2" />
-                Create First Character
+              <Button 
+                onClick={() => setIsCreationLaunchOpen(true)} 
+                size="lg"
+                className="relative overflow-hidden bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                {/* Animated background shimmer */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+                
+                {/* Pulse ring on hover */}
+                <div className="absolute inset-0 rounded-lg bg-accent/30 scale-0 group-hover:scale-110 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                
+                <div className="relative flex items-center">
+                  <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                    <Plus className="h-4 w-4" />
+                  </div>
+                  <span className="font-semibold tracking-wide">Create First Character</span>
+                  <div className="ml-2 text-accent-foreground/60 group-hover:text-accent-foreground/80 transition-colors duration-200">
+                    <div className="flex space-x-1">
+                      <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+                      <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                      <div className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </div>
               </Button>
             </div>
           )}
