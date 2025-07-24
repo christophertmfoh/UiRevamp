@@ -206,6 +206,15 @@ export function CharacterPortraitModal({
     }
   };
 
+  const handleModalClose = () => {
+    // If there's a main image in the gallery, make sure it's saved to the character
+    const mainImage = portraitGallery.find(img => img.isMain);
+    if (mainImage && mainImage.url !== character.imageUrl) {
+      onImageGenerated?.(mainImage.url);
+    }
+    onClose();
+  };
+
   const handleTrainModel = () => {
     console.log('Training model with selected images:', selectedImages);
     // TODO: Implement model training
@@ -457,7 +466,7 @@ export function CharacterPortraitModal({
         </Tabs>
 
         <div className="flex justify-end pt-4">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={handleModalClose}>
             Done
           </Button>
         </div>

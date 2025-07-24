@@ -72,7 +72,22 @@ export function CharacterUnifiedView({
   const processDataForSave = (data: Character) => {
     const processedData = { ...data };
     
-    // Convert comma-separated strings back to arrays for array fields
+    // Ensure all array fields are properly formatted
+    const arrayFields = [
+      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+      'languages', 'archetypes', 'tropes', 'tags'
+    ];
+    
+    arrayFields.forEach(field => {
+      const value = (data as any)[field];
+      if (typeof value === 'string') {
+        (processedData as any)[field] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+      } else if (!Array.isArray(value) || value === undefined || value === null) {
+        (processedData as any)[field] = [];
+      }
+    });
+    
+    // Convert comma-separated strings back to arrays for array fields from sections
     CHARACTER_SECTIONS.forEach(section => {
       section.fields.forEach(field => {
         if (field.type === 'array') {
@@ -80,7 +95,6 @@ export function CharacterUnifiedView({
           if (typeof value === 'string') {
             (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
           } else if (!Array.isArray(value)) {
-            // Ensure it's always an array
             (processedData as any)[field.key] = [];
           }
         }
@@ -89,7 +103,7 @@ export function CharacterUnifiedView({
     
     // Remove any undefined values that might cause validation issues
     Object.keys(processedData).forEach(key => {
-      if ((processedData as any)[key] === undefined) {
+      if ((processedData as any)[key] === undefined || (processedData as any)[key] === null) {
         (processedData as any)[key] = '';
       }
     });
