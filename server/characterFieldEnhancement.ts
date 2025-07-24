@@ -30,8 +30,23 @@ Description: ${character.description || 'Unknown'}
 Personality: ${character.personality || character.personalityTraits?.join(', ') || 'Unknown'}
     `.trim();
 
-    // Generate field-specific prompt
-    const prompt = `You are a professional character development expert helping writers create detailed, compelling characters.
+    // Generate field-specific prompts based on field type
+    let prompt = '';
+    
+    if (fieldKey === 'name') {
+      prompt = `Generate a fitting name for this character: ${characterContext}
+      
+      Create a name that matches their role, race/species, and background. Just return the name, nothing else.`;
+    } else if (fieldKey === 'title') {
+      prompt = `Generate an appropriate title for this character: ${characterContext}
+      
+      Examples: "Sir", "Dr.", "Captain", "Lord", "The Wise", "Shadow Walker". Just return the title, nothing else.`;
+    } else if (fieldKey === 'age') {
+      prompt = `Generate an appropriate age for this character: ${characterContext}
+      
+      Consider their role and background. Just return the age (like "25" or "appears to be in their 30s"), nothing else.`;
+    } else {
+      prompt = `You are a professional character development expert helping writers create detailed, compelling characters.
 
 CONTEXT:
 ${characterContext}
@@ -49,6 +64,7 @@ REQUIREMENTS:
 FIELD TO GENERATE: ${fieldLabel}
 
 Generate only the content for this specific field. Do not include labels, explanations, or other text - just the raw content that should go in this field.`;
+    }
 
     console.log(`Generating content for field: ${fieldKey}`);
     

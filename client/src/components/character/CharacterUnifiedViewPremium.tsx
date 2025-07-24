@@ -399,7 +399,7 @@ export function CharacterUnifiedViewPremium({
       {/* Premium Character Details */}
       <div className="max-w-7xl mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-8 bg-muted/20 p-1 rounded-xl">
+          <TabsList className="grid w-full grid-cols-7 bg-muted/20 p-1 rounded-xl">
             <TabsTrigger value="identity" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <User className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Identity</span>
@@ -424,10 +424,6 @@ export function CharacterUnifiedViewPremium({
               <Users className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Relationships</span>
             </TabsTrigger>
-            <TabsTrigger value="arcs" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
-              <BookOpen className="h-4 w-4" />
-              <span className="text-xs font-medium hidden sm:block">Arcs</span>
-            </TabsTrigger>
             <TabsTrigger value="meta" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <PenTool className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Meta</span>
@@ -437,17 +433,22 @@ export function CharacterUnifiedViewPremium({
           <TabsContent value="identity" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
               <h2 className="text-2xl font-bold text-foreground">Identity</h2>
-              <p className="text-muted-foreground mt-1">Basic character information and core identity</p>
+              <p className="text-muted-foreground mt-1">Full name, nicknames, title, aliases, age, race/species, class/profession, story role</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'name', label: 'Name', type: 'text', placeholder: 'Character name' },
-                { key: 'title', label: 'Title', type: 'text', placeholder: 'Character title or nickname' },
-                { key: 'role', label: 'Role in Story', type: 'text', placeholder: 'Protagonist, antagonist, etc.' },
-                { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, elf, etc.' },
-                { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, mage, etc.' },
-                { key: 'age', label: 'Age', type: 'text', placeholder: 'Character age' }
+                { key: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter character name' },
+                { key: 'nicknames', label: 'Nicknames', type: 'text', placeholder: 'Common nicknames or pet names' },
+                { key: 'title', label: 'Title', type: 'text', placeholder: 'Dr., Lord, Captain, etc.' },
+                { key: 'aliases', label: 'Aliases', type: 'text', placeholder: 'Secret identities or false names' },
+                { key: 'age', label: 'Age', type: 'text', placeholder: '25 or "appears to be in their 20s"' },
+                { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, Elf, Dragon, etc.' },
+                { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, Mage, Detective, etc.' },
+                { key: 'role', label: 'Story Role', type: 'select', placeholder: 'Select an option', options: [
+                  'Protagonist', 'Antagonist', 'Supporting Character', 'Mentor', 'Love Interest', 
+                  'Comic Relief', 'Anti-hero', 'Deuteragonist', 'Tritagonist', 'Foil', 'Other'
+                ]}
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -467,12 +468,27 @@ export function CharacterUnifiedViewPremium({
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
-                      <Input
-                        value={(formData as any)[field.key] || ''}
-                        onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
-                        placeholder={field.placeholder}
-                        className="border-accent/20 focus:border-accent focus:ring-accent/20"
-                      />
+                      field.type === 'select' ? (
+                        <select
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          className="w-full p-2 border border-accent/20 rounded-md bg-background text-foreground focus:border-accent focus:ring-accent/20"
+                        >
+                          <option value="">{field.placeholder}</option>
+                          {field.options?.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <Input
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      )
                     ) : (
                       <div className="space-y-2">
                         {(formData as any)[field.key] ? (
@@ -991,84 +1007,73 @@ export function CharacterUnifiedViewPremium({
             </div>
           </TabsContent>
 
-          <TabsContent value="arcs" className="space-y-6">
+          <TabsContent value="meta" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
-              <h2 className="text-2xl font-bold text-foreground">Character Arcs</h2>
-              <p className="text-muted-foreground mt-1">Character development and transformation journey</p>
+              <h2 className="text-2xl font-bold text-foreground">Meta</h2>
+              <p className="text-muted-foreground mt-1">Story function, themes, and creative elements</p>
             </div>
 
-            <div className="space-y-6">
-              {/* Current Manual Arc Content */}
-              <Card className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-semibold text-foreground">Character Arc</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {isEditing ? (
-                    <Textarea
-                      value={formData.arc || ''}
-                      onChange={(e) => setFormData({...formData, arc: e.target.value})}
-                      placeholder="Character development and transformation..."
-                      className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
-                      rows={4}
-                    />
-                  ) : (
-                    <div className="space-y-2">
-                      {formData.arc ? (
-                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {formData.arc}
-                        </p>
-                      ) : (
-                        <div className="text-center py-4">
-                          <p className="text-sm text-muted-foreground italic">
-                            No character arc added yet
-                          </p>
-                          <Button 
-                            onClick={() => setIsEditing(true)}
-                            variant="ghost" 
-                            size="sm" 
-                            className="mt-2 text-accent hover:bg-accent/10"
-                          >
-                            <Plus className="h-3 w-3 mr-1" />
-                            Add Character Arc
-                          </Button>
-                        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[
+                { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'How this character serves the narrative...' },
+                { key: 'themes', label: 'Themes', type: 'textarea', placeholder: 'What themes does this character represent?' },
+                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What does this character symbolize?' },
+                { key: 'arc', label: 'Character Arc', type: 'textarea', placeholder: 'Character development and transformation...' },
+                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, other characters, or concepts that inspired this character' },
+                { key: 'notes', label: 'Creator Notes', type: 'textarea', placeholder: 'Personal notes about this character' }
+              ].map((field) => (
+                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                      {isEditing && (
+                        <FieldAIAssist
+                          character={character}
+                          fieldKey={field.key}
+                          fieldLabel={field.label}
+                          currentValue={(formData as any)[field.key]}
+                          onFieldUpdate={(value) => setFormData({...formData, [field.key]: value})}
+                          disabled={isEnhancing}
+                        />
                       )}
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Coming Soon Dynamic Features */}
-              <Card className="border border-accent/30 bg-gradient-to-br from-accent/5 to-accent/10 hover:shadow-lg transition-all duration-200">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-semibold text-foreground">Dynamic Arc Tracking</CardTitle>
-                    <Badge className="bg-accent/20 text-accent border-accent/30">Coming Soon</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <p className="text-sm text-muted-foreground">
-                      Arc progression will automatically update based on your story outline and manuscript content:
-                    </p>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        Real-time character development tracking
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        AI-powered arc milestone detection
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        Dynamic progression visualization
-                      </li>
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent>
+                    {isEditing ? (
+                      <Textarea
+                        value={(formData as any)[field.key] || ''}
+                        onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                        placeholder={field.placeholder}
+                        className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                        rows={4}
+                      />
+                    ) : (
+                      <div className="space-y-2">
+                        {(formData as any)[field.key] ? (
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                            {(formData as any)[field.key]}
+                          </p>
+                        ) : (
+                          <div className="text-center py-4">
+                            <p className="text-sm text-muted-foreground italic">
+                              No {field.label.toLowerCase()} added yet
+                            </p>
+                            <Button 
+                              onClick={() => setIsEditing(true)}
+                              variant="ghost" 
+                              size="sm" 
+                              className="mt-2 text-accent hover:bg-accent/10"
+                            >
+                              <Plus className="h-3 w-3 mr-1" />
+                              Add {field.label}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </TabsContent>
         </Tabs>
