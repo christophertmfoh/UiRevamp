@@ -413,9 +413,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Location generation endpoint
-  app.post("/api/generate-location", async (req, res) => {
+  app.post("/api/projects/:projectId/locations/generate", async (req, res) => {
     try {
-      const generatedLocation = await generateLocation(req.body);
+      const { projectId } = req.params;
+      const { locationType, scale, significance, customPrompt } = req.body;
+      
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      const [locations, characters] = await Promise.all([
+        storage.getLocations(projectId),
+        storage.getCharacters(projectId)
+      ]);
+      
+      const { generateContextualLocation } = await import('./locationGeneration');
+      
+      const generatedLocation = await generateContextualLocation({
+        project,
+        characters,
+        existingLocations: locations,
+        generationOptions: { locationType, scale, significance, customPrompt }
+      });
+      
       res.json(generatedLocation);
     } catch (error: any) {
       console.error("Error generating location:", error);
@@ -467,6 +488,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error generating location image:", error);
       res.status(500).json({ 
         error: "Failed to generate location image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Faction routes
+  app.get("/api/projects/:projectId/factions", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const factions = await storage.getFactions(projectId);
+      res.json(factions);
+    } catch (error) {
+      console.error("Error fetching factions:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/factions", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const factionData = insertFactionSchema.parse({ ...req.body, projectId });
+      const faction = await storage.createFaction(factionData);
+      res.status(201).json(faction);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error creating faction:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/factions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const factionData = insertFactionSchema.partial().parse(req.body);
+      const faction = await storage.updateFaction(id, factionData);
+      
+      if (!faction) {
+        return res.status(404).json({ error: "Faction not found" });
+      }
+      
+      res.json(faction);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Error updating faction:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.delete("/api/factions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteFaction(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Faction not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting faction:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Faction generation endpoint
+  app.post("/api/projects/:projectId/factions/generate", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { factionType, role, scale, goals, customPrompt } = req.body;
+      
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      const [factions, characters] = await Promise.all([
+        storage.getFactions(projectId),
+        storage.getCharacters(projectId)
+      ]);
+      
+      const { generateContextualFaction } = await import('./factionGeneration');
+      
+      const generatedFaction = await generateContextualFaction({
+        project,
+        characters,
+        existingFactions: factions,
+        generationOptions: { factionType, role, scale, goals, customPrompt }
+      });
+      
+      res.json(generatedFaction);
+    } catch (error: any) {
+      console.error("Error generating faction:", error);
+      res.status(500).json({ 
+        error: "Failed to generate faction", 
         details: error.message 
       });
     }

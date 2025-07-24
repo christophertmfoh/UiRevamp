@@ -1,26 +1,26 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Clock, Star } from 'lucide-react';
+import { Users, Target, Crown } from 'lucide-react';
 
-interface Location {
+interface Faction {
   id: string;
   name: string;
   description: string;
-  history: string;
-  significance: string;
+  goals: string;
+  leadership: string;
   tags: string[];
   imageGallery?: any[];
   displayImageId?: number | null;
 }
 
-interface LocationCardProps {
-  location: Location;
+interface FactionCardProps {
+  faction: Faction;
   onClick: () => void;
 }
 
-export function LocationCard({ location, onClick }: LocationCardProps) {
-  const displayImage = location.imageGallery?.find(img => img.id === location.displayImageId) || location.imageGallery?.[0];
+export function FactionCard({ faction, onClick }: FactionCardProps) {
+  const displayImage = faction.imageGallery?.find(img => img.id === faction.displayImageId) || faction.imageGallery?.[0];
 
   return (
     <Card 
@@ -31,25 +31,25 @@ export function LocationCard({ location, onClick }: LocationCardProps) {
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1 min-w-0">
             <h3 className="font-title text-lg leading-tight group-hover:text-accent transition-colors">
-              {location.name}
+              {faction.name}
             </h3>
-            {location.significance && (
+            {faction.leadership && (
               <div className="flex items-center text-xs text-muted-foreground">
-                <Star className="h-3 w-3 mr-1" />
-                <span className="truncate">{location.significance}</span>
+                <Crown className="h-3 w-3 mr-1" />
+                <span className="truncate">{faction.leadership}</span>
               </div>
             )}
           </div>
           <div className="ml-4 flex-shrink-0">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-blue-200 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg flex items-center justify-center overflow-hidden">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-blue-200 dark:from-purple-900/30 dark:to-blue-900/30 rounded-lg flex items-center justify-center overflow-hidden">
               {displayImage?.url ? (
                 <img 
                   src={displayImage.url} 
-                  alt={location.name}
+                  alt={faction.name}
                   className="w-full h-full object-cover rounded-lg"
                 />
               ) : (
-                <MapPin className="h-6 w-6 text-green-600 dark:text-green-400" />
+                <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               )}
             </div>
           </div>
@@ -59,26 +59,26 @@ export function LocationCard({ location, onClick }: LocationCardProps) {
       <CardContent className="pt-0">
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground line-clamp-2">
-            {location.description || 'A location in your world...'}
+            {faction.description || 'A faction in your world...'}
           </p>
           
-          {location.history && (
+          {faction.goals && (
             <div className="flex items-start text-xs text-muted-foreground">
-              <Clock className="h-3 w-3 mr-1 mt-0.5 flex-shrink-0" />
-              <span className="line-clamp-1">{location.history}</span>
+              <Target className="h-3 w-3 mr-1 mt-0.5 flex-shrink-0" />
+              <span className="line-clamp-1">{faction.goals}</span>
             </div>
           )}
           
-          {location.tags && location.tags.length > 0 && (
+          {faction.tags && faction.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {location.tags.slice(0, 3).map((tag, index) => (
+              {faction.tags.slice(0, 3).map((tag, index) => (
                 <Badge key={index} variant="secondary" className="text-xs px-2 py-0">
                   {tag}
                 </Badge>
               ))}
-              {location.tags.length > 3 && (
+              {faction.tags.length > 3 && (
                 <Badge variant="outline" className="text-xs px-2 py-0">
-                  +{location.tags.length - 3}
+                  +{faction.tags.length - 3}
                 </Badge>
               )}
             </div>
