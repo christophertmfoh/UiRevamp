@@ -36,6 +36,7 @@ Other Details: ${JSON.stringify(character).substring(0, 500)}
     // Check if this is a dropdown field with specific options
     const isDropdownField = fieldOptions && fieldOptions.length > 0;
     
+    // Create field-specific prompts based on the field type
     let prompt;
     if (isDropdownField) {
       prompt = `You are a professional character development expert. Analyze this character and choose the most appropriate option from the dropdown list for "${fieldLabel}".
@@ -56,29 +57,59 @@ INSTRUCTIONS:
 4. For a character named "beans" who is a cat, consider roles like "Comic Relief" or "Supporting Character"
 5. RESPOND WITH ONLY ONE OF THE EXACT OPTIONS FROM THE LIST ABOVE - no explanations`;
     } else {
-      prompt = `You are a professional character development expert. I need you to analyze this character's existing information and generate appropriate content for the "${fieldLabel}" field.
+      // Field-specific prompts for better contextual generation
+      const fieldSpecificPrompts = {
+        race: `Generate the race/species for this character. If the name suggests an animal (like "beans" = cat), use that species. Look for clues in background, description, and personality.`,
+        name: `Generate a fitting name for this character based on their race, background, and role. Consider cultural context and character traits.`,
+        age: `Generate an appropriate age for this character considering their role, background, and species. For cats, use cat years or mention "appears to be X years old".`,
+        nicknames: `Generate nicknames that friends, family, or companions would call this character. Base it on their name, personality, or distinctive traits.`,
+        title: `Generate a title, rank, or honorific for this character based on their class, profession, and social status.`,
+        aliases: `Generate secret identities, false names, or alternate personas this character might use. Consider their background and goals.`,
+        class: `Generate a class or profession that fits this character's role, background, and species. For cats, consider "Familiar", "Scout", "Hunter", etc.`,
+        occupation: `Generate a job or role this character has in society, considering their species, skills, and background.`,
+        height: `Generate height appropriate for this character's race/species. For cats, use measurements like "12 inches at shoulder" or comparative descriptions.`,
+        weight: `Generate weight appropriate for this character's race/species and build. For cats, use appropriate feline weight ranges.`,
+        build: `Generate body type/build description fitting this character's race, age, and lifestyle. For cats, describe their feline physique.`,
+        eyeColor: `Generate eye color that fits this character's race and personality. Consider species-typical colors.`,
+        hairColor: `Generate hair/fur color appropriate for this character's species. For cats, describe fur color and patterns.`,
+        physicalDescription: `Generate a detailed physical description highlighting distinctive features, posture, and overall appearance for this character's species.`,
+        personalityTraits: `Generate 3-5 personality traits that fit this character's role, background, and species. For cats, include feline-typical behaviors.`,
+        goals: `Generate meaningful goals this character wants to achieve, considering their background, role, and personality.`,
+        motivations: `Generate what drives this character forward - their deep desires, needs, or compulsions.`,
+        fears: `Generate realistic fears for this character based on their background, species, and experiences.`,
+        background: `Generate a detailed backstory explaining how this character became who they are today.`,
+        skills: `Generate skills and abilities this character has learned, based on their class, background, and species.`,
+        abilities: `Generate special abilities, powers, or talents this character possesses, considering their species and background.`,
+        talents: `Generate natural talents or gifts this character was born with, separate from learned skills.`,
+        flaws: `Generate character flaws or weaknesses that create internal conflict and story opportunities.`,
+        occupation: `Generate a job or profession this character has, considering their species, skills, and social context.`,
+        family: `Generate information about this character's family members, relationships, and family background.`,
+        relationships: `Generate key relationships this character has with other people, including friends, enemies, and allies.`,
+        secrets: `Generate hidden information, mysteries, or secrets this character keeps from others.`,
+        education: `Generate this character's educational background, training, or learning experiences.`,
+        appearance: `Generate overall appearance and style description for this character.`,
+        distinguishingFeatures: `Generate unique physical features that make this character instantly recognizable.`
+      };
 
-CRITICAL: READ ALL CHARACTER DATA CAREFULLY:
+      const specificPrompt = fieldSpecificPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} content for this character.`;
+
+      prompt = `You are a professional character development expert. ${specificPrompt}
+
+CHARACTER CONTEXT:
 ${characterContext}
 
-TASK: Generate content for "${fieldLabel}" field
 CURRENT VALUE: ${currentValue || 'empty'}
+${currentValue ? 'Improve or replace the current value with something better.' : 'Generate new content.'}
 
 CRITICAL INSTRUCTIONS:
-1. CAREFULLY analyze ALL the character information above
-2. If the character name suggests an animal (like "beans" = cat), use that species
-3. If any description mentions the character is an animal, use that species
-4. If background/description mentions fantasy races (elf, dwarf, etc.), use those
-5. Pay attention to ALL context clues about what this character actually is
-6. DO NOT default to "Human" unless there's clear evidence they are human
-7. Generate content that matches the established character traits
+- Analyze ALL character information carefully
+- Generate content specific to the ${fieldLabel} field
+- Make it contextually relevant to this character's established traits
+- For animal characters, use species-appropriate details
+- Keep responses concise but meaningful
+- RESPOND WITH ONLY THE CONTENT - no explanations or quotes
 
-For Race/Species specifically:
-- Look for animal names, animal descriptions, fantasy race mentions
-- Consider the character's name, description, background for species clues
-- Only use "Human" if explicitly stated or clearly implied
-
-RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quotes, or labels:`;
+Generate ${fieldLabel.toLowerCase()}:`;
     }
 
     console.log(`Generating content for field: ${fieldKey}`);
@@ -129,7 +160,7 @@ RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quote
         const allText = `${name} ${desc} ${background}`.toLowerCase();
         
         if (allText.includes('cat') || allText.includes('funny') || allText.includes('cute')) {
-          fallbackContent = fieldOptions.includes('Comic Relief') ? 'Comic Relief' : 'Supporting Character';
+          fallbackContent = fieldOptions && fieldOptions.includes('Comic Relief') ? 'Comic Relief' : 'Supporting Character';
         } else if (allText.includes('hero') || allText.includes('main')) {
           fallbackContent = 'Protagonist';
         } else if (allText.includes('villain') || allText.includes('evil')) {
@@ -140,6 +171,38 @@ RESPOND WITH ONLY THE ${fieldLabel.toLowerCase()} VALUE - no explanations, quote
           fallbackContent = 'Supporting Character'; // Default for dropdown
         }
       } else {
+        // Enhanced field-specific fallbacks
+        const contextualFallbacks: { [key: string]: string } = {
+          name: character.race === 'Cat' ? 'Whiskers' : (character.race ? `${character.race} Character` : 'Character Name'),
+          title: character.class ? `The ${character.class}` : 'Noble',
+          age: character.race === 'Cat' ? '3 years old' : (character.role === 'mentor' ? '45' : '25'),
+          class: character.race === 'Cat' ? 'Familiar' : (character.role === 'protagonist' ? 'Hero' : 'Adventurer'),
+          nicknames: character.name ? character.name.split(' ')[0] : 'Friend',
+          aliases: 'Shadow Walker',
+          height: character.race === 'Cat' ? '10 inches at shoulder' : '5\'8"',
+          weight: character.race === 'Cat' ? '12 pounds' : '160 lbs',
+          build: character.race === 'Cat' ? 'Sleek and agile feline build' : 'Athletic',
+          eyeColor: character.race === 'Cat' ? 'Golden amber' : 'Brown',
+          hairColor: character.race === 'Cat' ? 'Tabby brown with white patches' : 'Brown',
+          goals: 'To protect those they care about',
+          motivations: 'A deep sense of justice and duty',
+          background: character.race === 'Cat' ? 'A house cat who discovered their magical abilities' : 'Grew up in a small village before discovering their destiny',
+          arc: 'A journey from uncertainty to confidence and mastery',
+          personalityTraits: character.race === 'Cat' ? 'Curious, independent, playful, loyal' : 'Brave, loyal, determined',
+          fears: character.race === 'Cat' ? 'Loud noises, being separated from their human' : 'Losing loved ones',
+          skills: character.race === 'Cat' ? 'Stealth, climbing, keen senses, hunting' : 'Combat, leadership',
+          abilities: character.race === 'Cat' ? 'Night vision, enhanced hearing, supernatural luck' : 'Enhanced strength, combat prowess',
+          talents: character.race === 'Cat' ? 'Always lands on feet, finds hidden paths' : 'Natural leadership, tactical thinking',
+          flaws: character.race === 'Cat' ? 'Easily distracted, stubborn, overly curious' : 'Impulsive, self-doubting',
+          family: character.race === 'Cat' ? 'Comes from a long line of magical familiars' : 'Raised by loving parents in a small town',
+          relationships: character.race === 'Cat' ? 'Bonded to a wizard, friends with other familiars' : 'Close relationships with childhood friends',
+          secrets: character.race === 'Cat' ? 'Can understand all human languages' : 'Harbors a dark secret from their past',
+          education: character.race === 'Cat' ? 'Trained in magical arts by elder familiars' : 'Self-taught through experience and mentorship',
+          appearance: character.race === 'Cat' ? 'Sleek feline with intelligent eyes and elegant movements' : 'Well-groomed with confident bearing',
+          distinguishingFeatures: character.race === 'Cat' ? 'Unusually bright eyes and a distinctive tail marking' : 'A distinctive scar and penetrating gaze'
+        };
+        fallbackContent = contextualFallbacks[fieldKey] || `Generated ${fieldLabel}`;
+      }
         // Other field fallbacks
         const contextualFallbacks: { [key: string]: string } = {
           name: character.race ? `${character.race} Character` : 'Character Name',
