@@ -89,13 +89,22 @@ ENHANCEMENT INSTRUCTIONS:
 
 Return ONLY a complete JSON object with both existing and enhanced character data. Fill every empty field with contextually appropriate content.`;
 
-  // Focus only on identity fields for now
-  const identityFields = ['title', 'aliases', 'race', 'ethnicity', 'nationality', 'class', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status'];
+  // Focus only on identity fields for now - comprehensive list
+  const identityFields = ['title', 'aliases', 'race', 'species', 'ethnicity', 'nationality', 'class', 'profession', 'occupation', 'role', 'age', 'gender', 'sexuality', 'status', 'birthdate', 'zodiacSign'];
   const emptyIdentityFields = emptyFields.filter(field => identityFields.includes(field));
   
-  console.log(`Enhancing ${emptyIdentityFields.length} identity fields: ${emptyIdentityFields.join(', ')}`);
+  // Also check for fields that are null, undefined, or empty strings
+  const additionalEmptyFields = identityFields.filter(field => {
+    const value = currentData[field];
+    return !value || value === '' || value === null || value === undefined;
+  });
   
-  if (emptyIdentityFields.length === 0) {
+  // Combine and deduplicate
+  const allEmptyIdentityFields = [...new Set([...emptyIdentityFields, ...additionalEmptyFields])];
+  
+  console.log(`Enhancing ${allEmptyIdentityFields.length} identity fields: ${allEmptyIdentityFields.join(', ')}`);
+  
+  if (allEmptyIdentityFields.length === 0) {
     console.log('No empty identity fields to enhance');
     return currentData;
   }
@@ -109,7 +118,7 @@ EXISTING CHARACTER DATA:
 - Physical Description: ${currentData.physicalDescription || 'Not provided'}
 - Clothing: ${currentData.clothingStyle || 'Not specified'}
 
-FIELDS TO GENERATE: ${emptyIdentityFields.join(', ')}
+FIELDS TO GENERATE: ${allEmptyIdentityFields.join(', ')}
 
 Generate appropriate values for each empty identity field. Make the character feel authentic and consistent.
 
@@ -119,23 +128,29 @@ Return JSON object with ONLY the specified fields filled with realistic, context
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       config: {
-        systemInstruction: `You are a character development expert. Generate realistic identity details for the specified fields only. 
-        
-For each field:
-- title: A descriptive title/epithet that fits the character (e.g., "The Wanderer", "Street Fighter", "Former Noble")
-- aliases: Alternative names or nicknames (if name suggests them)
-- race: Human or fantasy race (default Human if unclear)
-- ethnicity: Cultural/ethnic background fitting the world
-- nationality: Where they're from (be creative but fitting)
-- class: Social class (Working Class, Middle Class, Noble, etc.)
-- occupation: Specific job/profession
-- role: Story role (Protagonist, Antagonist, Supporting Character, etc.)
-- age: Specific age or age range
-- gender: Gender identity
-- sexuality: Sexual orientation (if relevant)
-- status: Social/legal status
+        systemInstruction: `You are a character development expert. Generate realistic identity details for ALL specified fields. 
 
-Return ONLY a JSON object with the requested fields filled with appropriate, specific values.`,
+CRITICAL: You must provide a value for EVERY field listed in the request. Do not skip any fields.
+
+For each field:
+- title: A descriptive title/epithet that fits the character (e.g., "The Silent Watcher", "Street Fighter", "Former Noble")
+- aliases: Alternative names or nicknames beyond what's already provided
+- race: Human or fantasy race (default Human if unclear)  
+- species: Biological species (usually same as race)
+- ethnicity: Cultural/ethnic background (e.g., "Central European", "Nordic", "Mediterranean")
+- nationality: Where they're from (be creative but fitting)
+- class: Social class (Working Class, Middle Class, Noble, Outcast, etc.)
+- profession: General profession category
+- occupation: Specific job/profession (e.g., "Private Investigator", "Blacksmith", "Scholar")
+- role: Story role (Protagonist, Antagonist, Supporting Character, Anti-hero, etc.)
+- age: Specific age number (e.g., 34, 28, 45)
+- gender: Gender identity (Male, Female, Non-binary, etc.)
+- sexuality: Sexual orientation (Heterosexual, Homosexual, Bisexual, etc.)
+- status: Social/legal status (Citizen, Outlaw, Noble, Exile, etc.)
+- birthdate: Specific birthdate if relevant
+- zodiacSign: Astrological sign if relevant to world
+
+Return a JSON object with ALL requested fields filled. Every field must have a meaningful, specific value.`,
         responseMimeType: "application/json",
       },
       contents: prompt,
