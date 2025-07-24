@@ -42,24 +42,18 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     console.log('Generating Gemini image with prompt:', fullPrompt);
 
     // Use Gemini's image generation model with correct API structure
-    const response = await gemini.generateContent({
+    const model = gemini.getGenerativeModel({ 
       model: "gemini-2.0-flash-preview-image-generation",
-      contents: [{ 
-        role: "user", 
-        parts: [{ text: fullPrompt }] 
-      }],
       generationConfig: {
         responseModalities: ["IMAGE"],
-      },
+      }
     });
+    
+    const response = await model.generateContent(fullPrompt);
 
     console.log('Gemini response structure:', JSON.stringify(response, null, 2));
 
-    if (!response.response) {
-      throw new Error("No response returned from Gemini");
-    }
-
-    const candidates = response.response.candidates;
+    const candidates = response.candidates;
     if (!candidates || candidates.length === 0) {
       throw new Error("No candidates returned from Gemini");
     }
@@ -93,14 +87,7 @@ export async function generateCharacterImage(params: CharacterImageRequest): Pro
       case 'openai':
         return await generateWithOpenAI(params);
       case 'gemini':
-        try {
-          return await generateWithGemini(params);
-        } catch (geminiError: any) {
-          console.log('Gemini failed, falling back to OpenAI:', geminiError.message);
-          // Fallback to OpenAI if Gemini fails
-          const openaiParams = { ...params, aiEngine: 'openai' as const };
-          return await generateWithOpenAI(openaiParams);
-        }
+        return await generateWithGemini(params);
       default:
         // Default to OpenAI if engine not specified or unknown
         return await generateWithOpenAI(params);
