@@ -256,6 +256,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Character generation endpoint
+  app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { characterType, role, customPrompt, personality, archetype } = req.body;
+      
+      // Get project data
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Get related data for context
+      const [characters, locations] = await Promise.all([
+        storage.getCharacters(projectId),
+        storage.getLocations(projectId)
+      ]);
+      
+      // Import the character generation function
+      const { generateContextualCharacter } = await import('./characterGeneration');
+      
+      const generatedCharacter = await generateContextualCharacter({
+        project: {
+          id: project.id,
+          name: project.name,
+          title: project.name,
+          type: project.type,
+          description: project.description,
+          genre: project.genre
+        },
+        locations,
+        existingCharacters: characters,
+        generationOptions: {
+          characterType,
+          role,
+          customPrompt,
+          personality,
+          archetype
+        }
+      });
+      
+      res.json(generatedCharacter);
+    } catch (error: any) {
+      console.error("Error generating character:", error);
+      res.status(500).json({ 
+        error: "Failed to generate character", 
+        details: error.message 
+      });
+    }
+  });
+
   // Character image generation endpoint
   app.post("/api/characters/generate-image", async (req, res) => {
     try {

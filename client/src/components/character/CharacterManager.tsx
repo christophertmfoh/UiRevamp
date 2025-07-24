@@ -118,14 +118,23 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     
     setIsGenerating(true);
     try {
-      console.log('Starting character generation with options:', options);
-      const generatedCharacter = await generateContextualCharacter({
-        project,
-        locations,
-        existingCharacters: characters,
-        generationOptions: options
+      console.log('Starting server-side character generation with options:', options);
+      
+      // Call the server-side generation endpoint
+      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(options)
       });
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || errorData.error || 'Failed to generate character');
+      }
+      
+      const generatedCharacter = await response.json();
       console.log('Generated character data:', generatedCharacter);
       
       // Create the character with generated data and ensure it has the projectId
