@@ -305,40 +305,55 @@ export function CharacterUnifiedView({
         </CardContent>
       </Card>
 
-      {/* Tabbed Editor/Viewer Interface */}
+      {/* Sidebar + Content Layout */}
       <Card className="creative-card">
-        <CardContent className="p-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="overflow-x-auto">
-              <TabsList className="inline-flex h-10 items-center justify-start rounded-md bg-muted p-1 text-muted-foreground w-max">
+        <CardContent className="p-0">
+          <div className="flex min-h-[600px]">
+            {/* Left Sidebar Navigation */}
+            <div className="w-64 border-r bg-muted/20 p-4">
+              <nav className="space-y-1">
                 {CHARACTER_SECTIONS.map(section => {
                   const IconComponent = ICON_COMPONENTS[section.icon as keyof typeof ICON_COMPONENTS] || User;
+                  const isActive = activeTab === section.id;
+                  
                   return (
-                    <TabsTrigger 
-                      key={section.id} 
-                      value={section.id}
-                      className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveTab(section.id)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors ${
+                        isActive 
+                          ? 'bg-background text-foreground shadow-sm border' 
+                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+                      }`}
                     >
-                      <IconComponent className="h-4 w-4 mr-2" />
-                      {section.title}
-                    </TabsTrigger>
+                      <IconComponent className="h-4 w-4 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm">{section.title}</div>
+                        <div className="text-xs text-muted-foreground truncate">{section.description}</div>
+                      </div>
+                    </button>
                   );
                 })}
-              </TabsList>
+              </nav>
             </div>
             
-            {CHARACTER_SECTIONS.map(section => (
-              <TabsContent key={section.id} value={section.id} className="mt-6">
-                <div className="space-y-4">
-                  <div className="border-b pb-2">
-                    <h3 className="text-lg font-semibold">{section.title}</h3>
-                    <p className="text-sm text-muted-foreground">{section.description}</p>
+            {/* Right Content Area */}
+            <div className="flex-1 p-6">
+              {CHARACTER_SECTIONS.map(section => {
+                if (activeTab !== section.id) return null;
+                
+                return (
+                  <div key={section.id} className="space-y-6">
+                    <div className="border-b pb-4">
+                      <h2 className="text-2xl font-semibold">{section.title}</h2>
+                      <p className="text-muted-foreground mt-1">{section.description}</p>
+                    </div>
+                    {renderTabContent(section.id)}
                   </div>
-                  {renderTabContent(section.id)}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+                );
+              })}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
