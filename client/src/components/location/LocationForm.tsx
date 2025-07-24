@@ -31,12 +31,12 @@ export function LocationForm({ projectId, location, onCancel }: LocationFormProp
   const saveMutation = useMutation({
     mutationFn: async (data: any) => {
       const processedData = {
-        name: data.name,
-        description: data.description,
-        significance: data.significance,
-        history: data.history,
-        atmosphere: data.atmosphere,
-        tags: data.tags.split(',').map((s: string) => s.trim()).filter(Boolean),
+        name: data.name || 'Unnamed Location',
+        description: data.description || 'A mysterious location awaiting discovery.',
+        significance: data.significance || '',
+        history: data.history || '',
+        atmosphere: data.atmosphere || '',
+        tags: data.tags ? data.tags.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
       };
 
       if (location) {
@@ -84,14 +84,6 @@ export function LocationForm({ projectId, location, onCancel }: LocationFormProp
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.description) {
-      toast({
-        title: 'Missing Information',
-        description: 'Please fill in the location name and description.',
-        variant: 'destructive',
-      });
-      return;
-    }
     saveMutation.mutate(formData);
   };
 
@@ -205,14 +197,13 @@ export function LocationForm({ projectId, location, onCancel }: LocationFormProp
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="name">Location Name *</Label>
+                      <Label htmlFor="name">Location Name</Label>
                       <Input
                         id="name"
                         value={formData.name}
                         onChange={(e) => updateField('name', e.target.value)}
                         placeholder="Enter location name..."
                         className="creative-input"
-                        required
                       />
                     </div>
                     <div>
@@ -228,7 +219,7 @@ export function LocationForm({ projectId, location, onCancel }: LocationFormProp
                   </div>
                   
                   <div>
-                    <Label htmlFor="description">Description *</Label>
+                    <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="description"
                       value={formData.description}
@@ -236,7 +227,6 @@ export function LocationForm({ projectId, location, onCancel }: LocationFormProp
                       placeholder="Describe this location in detail..."
                       className="creative-input min-h-[120px]"
                       rows={4}
-                      required
                     />
                   </div>
                 </div>
