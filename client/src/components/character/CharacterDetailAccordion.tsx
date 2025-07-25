@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ArrowLeft, Edit, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool } from 'lucide-react';
+import { ArrowLeft, Edit, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Heart, FileText, BookText } from 'lucide-react';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config';
+import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
 
 interface CharacterDetailAccordionProps {
   projectId: string;
@@ -24,6 +24,9 @@ const ICON_MAP = {
   BookOpen,
   Users,
   PenTool,
+  Heart,
+  FileText,
+  BookText,
 };
 
 export function CharacterDetailAccordion({ 
@@ -45,15 +48,15 @@ export function CharacterDetailAccordion({
   };
 
   // Helper function to render array fields as badges
-  const renderArrayField = (label: string, values: string[] | undefined, variant: "default" | "secondary" | "outline" = "outline") => {
-    if (!values?.length || !values.some(v => v?.trim())) return null;
+  const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline") => {
+    if (!values) return null;
     
     // Handle both array and comma-separated string
     let processedValues: string[] = [];
     if (typeof values === 'string') {
-      processedValues = values.split(',').map(v => v.trim()).filter(v => v);
+      processedValues = values.split(',').map((v: string) => v.trim()).filter((v: string) => v);
     } else if (Array.isArray(values)) {
-      processedValues = values.filter(v => v?.trim());
+      processedValues = values.filter((v: string) => v?.trim());
     }
     
     if (processedValues.length === 0) return null;
@@ -74,12 +77,15 @@ export function CharacterDetailAccordion({
 
   // Helper function to check if a section has any content
   const sectionHasContent = (sectionId: string) => {
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
-    if (!section) return false;
+    const fields = getFieldsBySection(sectionId);
+    if (!fields.length) return false;
     
-    return section.fields.some(field => {
+    return fields.some(field => {
       const value = (character as any)[field.key];
       if (field.type === 'array') {
+        if (typeof value === 'string') {
+          return value.trim().length > 0;
+        }
         return Array.isArray(value) && value.length > 0 && value.some(v => v?.trim());
       }
       return value && value.toString().trim().length > 0;
@@ -88,10 +94,10 @@ export function CharacterDetailAccordion({
 
   // Render a section's content dynamically based on configuration
   const renderSectionContent = (sectionId: string) => {
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
-    if (!section) return null;
+    const fields = getFieldsBySection(sectionId);
+    if (!fields.length) return null;
 
-    const content = section.fields.map((field, index) => {
+    const content = fields.map((field) => {
       const value = (character as any)[field.key];
       
       if (field.type === 'array') {
@@ -101,7 +107,21 @@ export function CharacterDetailAccordion({
       }
     }).filter(Boolean);
 
-    if (content.length === 0) return null;
+    if (content.length === 0) {
+      return (
+        <div className="text-center py-8 text-muted-foreground">
+          <div className="text-sm">No {sectionId} added yet</div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="mt-2 text-accent hover:text-accent/80"
+            onClick={() => onEdit(character)}
+          >
+            + Add {CHARACTER_SECTIONS.find(s => s.id === sectionId)?.title}
+          </Button>
+        </div>
+      );
+    }
 
     return (
       <div className="space-y-4">
@@ -212,7 +232,6 @@ export function CharacterDetailAccordion({
         <CardContent className="p-6">
           <Accordion type="multiple" className="w-full">
             {CHARACTER_SECTIONS.map(section => {
-              if (!sectionHasContent(section.id)) return null;
               
               const IconComponent = ICON_MAP[section.icon as keyof typeof ICON_MAP];
               
