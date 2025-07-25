@@ -62,12 +62,29 @@ export function CharacterDetailAccordion({
 
   // Helper function to render array fields as badges
   const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline", showEmptyState: boolean = false) => {
+    // Debug logging for personalityTraits
+    if (label === 'Personality Traits') {
+      console.log('RENDER ARRAY FIELD DEBUG:');
+      console.log('- label:', label);
+      console.log('- values:', values);
+      console.log('- showEmptyState:', showEmptyState);
+      console.log('- !values:', !values);
+      console.log('- Array.isArray(values):', Array.isArray(values));
+      console.log('- values.length:', values?.length);
+    }
+    
     // Handle both array and comma-separated string
     let processedValues: string[] = [];
     
     if (!values || (Array.isArray(values) && values.length === 0)) {
       // Empty array or null/undefined
+      if (label === 'Personality Traits') {
+        console.log('- EMPTY CONDITION MET, showEmptyState:', showEmptyState);
+      }
       if (showEmptyState) {
+        if (label === 'Personality Traits') {
+          console.log('- RETURNING EMPTY STATE JSX');
+        }
         return (
           <div>
             <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
@@ -175,8 +192,23 @@ export function CharacterDetailAccordion({
     const content = fields.map((field, index) => {
       const value = (character as any)[field.key];
       
+      // Debug logging for personalityTraits specifically
+      if (field.key === 'personalityTraits') {
+        console.log('PERSONALITY TRAITS DEBUG:');
+        console.log('- field.key:', field.key);
+        console.log('- field.type:', field.type);
+        console.log('- field.label:', field.label);
+        console.log('- value:', value);
+        console.log('- Array.isArray(value):', Array.isArray(value));
+        console.log('- value length:', value?.length);
+      }
+      
       if (field.type === 'array') {
-        return <div key={index}>{renderArrayField(field.label, value, "outline", true)}</div>;
+        const result = renderArrayField(field.label, value, "outline", true);
+        if (field.key === 'personalityTraits') {
+          console.log('- renderArrayField result:', result);
+        }
+        return <div key={index}>{result}</div>;
       } else {
         // For text fields, show content if available, otherwise show empty state
         const fieldContent = renderField(field.label, value);
