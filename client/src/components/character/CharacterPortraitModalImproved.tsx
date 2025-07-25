@@ -10,7 +10,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 
 interface CharacterPortraitModalProps {
@@ -36,9 +35,6 @@ export function CharacterPortraitModal({
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
   });
-  
-  // Track the current main image dynamically
-  const currentMainImage = portraitGallery.find(img => img.isMain)?.url || character.imageUrl;
 
   // Generate comprehensive AI prompt from character data
   const generateCharacterPrompt = () => {
@@ -100,50 +96,13 @@ export function CharacterPortraitModal({
           onImageGenerated(data.imageUrl);
         }
         
-        // If this is the main image, also update the character's imageUrl
-        if (newPortrait.isMain) {
-          updateCharacterImageUrl(data.imageUrl, updatedGallery);
-        } else {
-          // Just save the portraits array
-          savePortraitsToCharacter(updatedGallery);
-        }
-        
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
         setActiveTab('gallery');
       }
     } catch (error) {
       console.error('Image generation failed:', error);
     } finally {
       setIsGenerating(false);
-    }
-  };
-
-  // Database update functions
-  const updateCharacterImageUrl = async (imageUrl: string, portraitsArray: any[]) => {
-    try {
-      // Only send the fields we want to update, avoid date validation issues
-      const updateData = {
-        imageUrl: imageUrl,
-        portraits: portraitsArray
-      };
-      
-      await apiRequest('PUT', `/api/characters/${character.id}`, updateData);
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
-    } catch (error) {
-      console.error('Failed to update character image:', error);
-    }
-  };
-
-  const savePortraitsToCharacter = async (portraitsArray: any[]) => {
-    try {
-      // Only send the portraits field we want to update
-      const updateData = {
-        portraits: portraitsArray
-      };
-      
-      await apiRequest('PUT', `/api/characters/${character.id}`, updateData);
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
-    } catch (error) {
-      console.error('Failed to save character portraits:', error);
     }
   };
 
@@ -155,21 +114,8 @@ export function CharacterPortraitModal({
     setPortraitGallery(updatedGallery);
     
     const mainImage = updatedGallery.find(img => img.isMain);
-    if (mainImage) {
-      // Update the character's main image in the parent components
-      if (onImageGenerated) {
-        onImageGenerated(mainImage.url);
-      }
-      // Also notify the parent that an image was uploaded to trigger display updates
-      if (onImageUploaded) {
-        onImageUploaded(mainImage.url);
-      }
-      
-      // Update the character's imageUrl field directly in database
-      updateCharacterImageUrl(mainImage.url, updatedGallery);
-    } else {
-      // Save the updated portraits array if no main image found
-      savePortraitsToCharacter(updatedGallery);
+    if (mainImage && onImageGenerated) {
+      onImageGenerated(mainImage.url);
     }
   };
 
@@ -183,54 +129,7 @@ export function CharacterPortraitModal({
       if (onImageGenerated) {
         onImageGenerated(updatedGallery[0].url);
       }
-      // Update database with new main image
-      updateCharacterImageUrl(updatedGallery[0].url, updatedGallery);
-    } else if (updatedGallery.length === 0) {
-      // No images left, clear the main image
-      updateCharacterImageUrl('', updatedGallery);
-    } else {
-      // Just save the updated portraits array
-      savePortraitsToCharacter(updatedGallery);
     }
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
-        handleImageUploaded(imageUrl);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageUploaded = (imageUrl: string) => {
-    // Add to portrait gallery  
-    const newPortrait = {
-      id: Date.now().toString(),
-      url: imageUrl,
-      isMain: portraitGallery.length === 0 // First image becomes main
-    };
-    
-    const updatedGallery = [...portraitGallery, newPortrait];
-    setPortraitGallery(updatedGallery);
-    
-    // Update character with new image and save portraits array
-    if (onImageUploaded) {
-      onImageUploaded(imageUrl);
-    }
-    
-    // If this is the main image, also update the character's imageUrl
-    if (newPortrait.isMain) {
-      updateCharacterImageUrl(imageUrl, updatedGallery);
-    } else {
-      // Just save the portraits array
-      savePortraitsToCharacter(updatedGallery);
-    }
-    
-    setActiveTab('gallery');
   };
 
   return (
@@ -338,9 +237,9 @@ export function CharacterPortraitModal({
                           Current Portrait
                         </h3>
                         <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30">
-                          {currentMainImage ? (
+                          {character.imageUrl ? (
                             <img 
-                              src={currentMainImage} 
+                              src={character.imageUrl} 
                               alt={character.name}
                               className="w-full h-full object-cover rounded-xl"
                             />
@@ -432,34 +331,16 @@ export function CharacterPortraitModal({
               </TabsContent>
 
               <TabsContent value="upload" className="mt-0">
-                <Card className="p-8 text-center border-2 border-dashed border-border/50 hover:border-accent/50 hover:bg-accent/5 transition-colors group">
-                  <Upload className="h-16 w-16 mx-auto mb-4 text-muted-foreground/40 group-hover:text-accent/60 transition-colors" />
+                <Card className="p-8 text-center border-2 border-dashed border-border/50">
+                  <Upload className="h-16 w-16 mx-auto mb-4 text-muted-foreground/40" />
                   <h4 className="font-medium mb-2">Upload Portrait</h4>
                   <p className="text-muted-foreground text-sm mb-4">
-                    Upload your own character portrait images (JPG, PNG, GIF)
+                    Upload your own character portrait images
                   </p>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      id="portrait-upload"
-                    />
-                    <Button 
-                      variant="outline"
-                      className="bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:bg-accent/20 hover:border-accent/50"
-                      asChild
-                    >
-                      <label htmlFor="portrait-upload" className="cursor-pointer">
-                        <Upload className="h-4 w-4 mr-2" />
-                        Choose Image File
-                      </label>
-                    </Button>
-                  </div>
-                  <div className="mt-4 text-xs text-muted-foreground">
-                    Maximum file size: 10MB • Recommended: 512x512 or larger
-                  </div>
+                  <Button variant="outline" disabled>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload Image (Coming Soon)
+                  </Button>
                 </Card>
               </TabsContent>
             </div>

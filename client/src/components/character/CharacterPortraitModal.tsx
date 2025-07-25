@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Sparkles, Image, Brain, X } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 
 interface CharacterPortraitModalProps {
@@ -246,12 +245,19 @@ export function CharacterPortraitModal({
   // Helper function to save portraits to character
   const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
     try {
-      // Use apiRequest instead of fetch to maintain consistency
-      await apiRequest('PUT', `/api/characters/${character.id}`, {
-        portraits: updatedPortraits
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          portraits: updatedPortraits
+        }),
       });
       
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+      if (!response.ok) {
+        console.error('Failed to save portraits to character');
+      }
     } catch (error) {
       console.error('Error saving portraits:', error);
     }
@@ -260,14 +266,23 @@ export function CharacterPortraitModal({
   // Helper function to update character's main imageUrl
   const updateCharacterImageUrl = async (imageUrl: string, updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
     try {
-      // Use apiRequest and only send the fields we want to update
-      await apiRequest('PUT', `/api/characters/${character.id}`, {
-        imageUrl: imageUrl,
-        portraits: updatedPortraits
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: imageUrl,
+          portraits: updatedPortraits
+        }),
       });
       
-      // Invalidate cache to refresh the character list
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+      if (!response.ok) {
+        console.error('Failed to update character imageUrl');
+      } else {
+        // Invalidate cache to refresh the character list
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+      }
     } catch (error) {
       console.error('Error updating character imageUrl:', error);
     }
