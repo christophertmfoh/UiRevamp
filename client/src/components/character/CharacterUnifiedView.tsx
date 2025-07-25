@@ -221,6 +221,17 @@ export function CharacterUnifiedView({
 
   // Helper function to render field based on type - matching organization module
   const renderField = (field: any, value: any) => {
+    // Debug personalityTraits specifically
+    if (field.key === 'personalityTraits') {
+      console.log('=== RENDERFIELD PERSONALITY TRAITS DEBUG ===');
+      console.log('field:', field);
+      console.log('value:', value);
+      console.log('typeof value:', typeof value);
+      console.log('Array.isArray(value):', Array.isArray(value));
+      console.log('value length:', Array.isArray(value) ? value.length : 'not array');
+      console.log('isEditing:', isEditing);
+      console.log('=== END RENDERFIELD DEBUG ===');
+    }
     if (isEditing) {
       switch (field.type) {
         case 'text':
@@ -335,6 +346,16 @@ export function CharacterUnifiedView({
 
     // Get fields for this section from FIELD_DEFINITIONS
     const sectionFields = getFieldsBySection(sectionId);
+    
+    // Debug personality section specifically
+    if (sectionId === 'personality') {
+      console.log('=== PERSONALITY SECTION DEBUG ===');
+      console.log('sectionFields:', sectionFields.map(f => f.key));
+      console.log('formData.personalityTraits:', formData.personalityTraits);
+      console.log('type of personalityTraits:', typeof formData.personalityTraits);
+      console.log('Array.isArray(personalityTraits):', Array.isArray(formData.personalityTraits));
+      console.log('=== END DEBUG ===');
+    }
     
     return sectionFields.map((field) => 
       renderField(field, formData[field.key as keyof Character])
