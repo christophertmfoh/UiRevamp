@@ -8,13 +8,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus, TrendingUp } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { FieldConfigManager, ENTITY_SECTIONS, SECTION_NAMES } from '../../lib/config/baseFieldConfig';
 import { CharacterFormExpanded } from '../character/CharacterFormExpanded';
 import { CharacterUnifiedViewPremium } from '../character/CharacterUnifiedViewPremium';
 import { CharacterGuidedCreation } from '../character/CharacterGuidedCreation';
+import { UniversalImageModal } from './UniversalImageModal';
+import { UniversalAIAssistModal } from './UniversalAIAssistModal';
+import { UniversalRelationshipMapping } from './UniversalRelationshipMapping';
+import { UniversalProgressTracking } from './UniversalProgressTracking';
 
 interface EntityDetailViewProps {
   projectId: string;
@@ -94,6 +98,11 @@ export function EntityDetailView({
     );
   }
 
+  // State for universal features
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+
   // For other entity types, use dynamic rendering
   const entityFields = FieldConfigManager.getFieldsForEntity(entityType);
   const entitySections = ENTITY_SECTIONS[entityType] || ['identity', 'meta'];
@@ -101,6 +110,18 @@ export function EntityDetailView({
   // Get entity type display name
   const getEntityDisplayName = (type: string) => {
     return type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ');
+  };
+
+  // Calculate entity completeness
+  const calculateCompleteness = (entityData: any) => {
+    const importantFields = entityFields.filter(f => f.important !== false);
+    const filledFields = importantFields.filter(field => {
+      const value = entityData[field.key];
+      if (typeof value === 'string') return value.trim() !== '';
+      if (Array.isArray(value)) return value.length > 0;
+      return value != null;
+    });
+    return Math.round((filledFields.length / Math.max(importantFields.length, 1)) * 100);
   };
 
   const saveMutation = useMutation({
@@ -318,10 +339,214 @@ export function EntityDetailView({
             <div className="flex-1 space-y-6">
               <div>
                 <div className="flex items-center gap-4 mb-2">
-                  <h1 className="text-4xl font-bold text-foreground">
-                    {isEditing ? (
-                      <Input
-                        value={formData.name || ''}
+                  {isEditing ? (
+                    <Input
+                      value={formData.name || ''}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      placeholder={`Enter ${entityType} name`}
+                      className="text-4xl font-bold border-none shadow-none p-0 bg-transparent text-foreground focus-visible:ring-0"
+                    />
+                  ) : (
+                    <h1 className="text-4xl font-bold text-foreground">
+                      {formData.name || `Unnamed ${getEntityDisplayName(entityType)}`}
+                    </h1>
+                  )}
+                  <Badge 
+                    variant="outline" 
+                    className="bg-accent/10 text-accent border-accent/30 font-medium px-3 py-1"
+                  >
+                    {getEntityDisplayName(entityType)}
+                  </Badge>
+                </div>
+                
+                {/* Entity Stats */}
+                <div className="flex items-center gap-6 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-accent"></div>
+                    <span className="font-medium text-accent">
+                      {calculateCompleteness(formData)}% Complete
+                    </span>
+                  </div>
+                  <div className="text-muted-foreground">
+                    {isCreating ? 'Creating new entity' : entity?.updatedAt ? `Last updated ${new Date(entity.updatedAt).toLocaleDateString()}` : 'New entity'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Primary Description */}
+              <div className="space-y-3">
+                <Label className="text-base font-semibold text-foreground">Description</Label>
+                {isEditing ? (
+                  <Textarea
+                    value={formData.description || ''}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder={`Describe this ${entityType}...`}
+                    className="min-h-[120px] text-base leading-relaxed"
+                  />
+                ) : (
+                  <p className="text-base text-muted-foreground leading-relaxed min-h-[120px]">
+                    {formData.description || `No description provided for this ${entityType}.`}
+                  </p>
+                )}
+              </div>
+
+              {/* Quick Actions */}
+              <div className="flex items-center gap-3 pt-4">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setIsImageModalOpen(true)}
+                  className="gap-2 hover:bg-accent/10 hover:text-accent hover:border-accent/50"
+                >
+                  <Camera className="h-4 w-4" />
+                  {formData.imageUrl ? 'Change Image' : 'Add Image'}
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setIsAIAssistModalOpen(true)}
+                  disabled={isEnhancing}
+                  className="gap-2 hover:bg-accent/10 hover:text-accent hover:border-accent/50"
+                >
+                  {isEnhancing ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-accent" />
+                  ) : (
+                    <Sparkles className="h-4 w-4" />
+                  )}
+                  AI Enhance
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-6">
+            {entitySections.map((section) => (
+              <TabsTrigger 
+                key={section} 
+                value={section}
+                className="flex items-center gap-2 text-sm"
+              >
+                {SECTION_NAMES[section] || section.charAt(0).toUpperCase() + section.slice(1)}
+              </TabsTrigger>
+            ))}
+            <TabsTrigger value="relationships" className="flex items-center gap-2 text-sm">
+              <Users className="h-4 w-4" />
+              Relations
+            </TabsTrigger>
+            <TabsTrigger value="progress" className="flex items-center gap-2 text-sm">
+              <TrendingUp className="h-4 w-4" />
+              Progress
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Dynamic Field Sections */}
+          {entitySections.map((section) => {
+            const sectionFields = FieldConfigManager.getFieldsBySection(entityType, section);
+            
+            return (
+              <TabsContent key={section} value={section} className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {sectionFields.map((field) => (
+                    <Card key={field.key} className="hover:shadow-md transition-shadow duration-200">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-base font-semibold text-foreground">
+                            {field.label}
+                          </CardTitle>
+                          {!isEditing && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setIsEditing(true)}
+                              className="opacity-60 hover:opacity-100"
+                            >
+                              <Edit className="h-3 w-3" />
+                            </Button>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        {renderField(field)}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            );
+          })}
+
+          {/* Universal Relationship Mapping */}
+          <TabsContent value="relationships" className="space-y-6">
+            <UniversalRelationshipMapping
+              entity={formData}
+              entityType={entityType}
+              projectId={projectId}
+            />
+          </TabsContent>
+
+          {/* Universal Progress Tracking */}
+          <TabsContent value="progress" className="space-y-6">
+            <UniversalProgressTracking
+              entity={formData}
+              entityType={entityType}
+              projectId={projectId}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Universal Modals */}
+      <UniversalImageModal
+        entity={formData}
+        entityType={entityType}
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        onImageGenerated={(imageUrl) => {
+          handleInputChange('imageUrl', imageUrl);
+          setIsImageModalOpen(false);
+        }}
+        onImageUploaded={(imageUrl) => {
+          handleInputChange('imageUrl', imageUrl);
+          setIsImageModalOpen(false);
+        }}
+      />
+
+      <UniversalAIAssistModal
+        entity={formData}
+        entityType={entityType}
+        isOpen={isAIAssistModalOpen}
+        onClose={() => setIsAIAssistModalOpen(false)}
+        onEnhance={handleAIEnhance}
+      />
+    </div>
+  );
+
+  // AI Enhancement Handler
+  async function handleAIEnhance(selectedCategories: string[]) {
+    setIsAIAssistModalOpen(false);
+    setIsEnhancing(true);
+    
+    try {
+      const response = await apiRequest('POST', `/api/${entityType}s/${entity?.id || 'new'}/enhance`, {
+        ...formData,
+        selectedCategories
+      });
+      
+      const enhancedData = await response;
+      setFormData(prev => ({ ...prev, ...enhancedData }));
+      
+    } catch (error) {
+      console.error(`Failed to enhance ${entityType}:`, error);
+    } finally {
+      setIsEnhancing(false);
+    }
+  }
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         placeholder={`${getEntityDisplayName(entityType)} Name`}
                         className="text-4xl font-bold bg-transparent border-none p-0 m-0 h-auto shadow-none focus-visible:ring-0 text-foreground"
