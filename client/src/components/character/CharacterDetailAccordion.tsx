@@ -175,6 +175,18 @@ export function CharacterDetailAccordion({
     const content = fields.map((field, index) => {
       const value = (character as any)[field.key];
       
+      // Debug personalityTraits specifically
+      if (field.key === 'personalityTraits') {
+        console.log('=== PERSONALITY TRAITS DEBUG ===');
+        console.log('field:', field);  
+        console.log('value from character:', value);
+        console.log('field.type:', field.type);
+        console.log('Array.isArray(value):', Array.isArray(value));
+        console.log('value === null:', value === null);
+        console.log('value === undefined:', value === undefined);
+        console.log('=== END DEBUG ===');
+      }
+      
       if (field.type === 'array') {
         const result = renderArrayField(field.label, value, "outline", true);
         return <div key={index}>{result}</div>;
