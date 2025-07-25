@@ -569,10 +569,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         );
 
       case 'characters':
-        return <EntityListView entityType="character" />;
+        return <EntityListView entityType="character" projectId={project.id} />;
 
       case 'locations':
-        return <EntityListView entityType="location" />;
+        return <EntityListView entityType="location" projectId={project.id} />;
 
       default:
         return (

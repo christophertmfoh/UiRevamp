@@ -8,30 +8,23 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
-import type { Character, Project, EntityManagerProps } from '@/lib/types';
-import { CharacterDetailView } from '../character/CharacterDetailView';
-import { 
-  CharacterPortraitModal, 
-  CharacterGenerationModal, 
-  CharacterTemplates, 
-  CharacterCreationLaunch,
-  type CharacterGenerationOptions 
-} from '../character/shared/ComponentIndex';
-import { generateContextualCharacter } from '@/lib/services/characterGeneration';
+import type { Character, Project } from '@/lib/types';
+// Character-specific imports removed for generic entity view
 
 interface EntityListViewProps {
   entityType: string;
+  projectId?: string;
 }
 
 type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
 type ViewMode = 'grid' | 'list';
 
-export function EntityListView({ entityType }: EntityListViewProps) {
+export function EntityListView({ entityType, projectId: propProjectId }: EntityListViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntity, setSelectedEntity] = useState<any | null>(null);
 
-  // Get dynamic project ID from URL or context (placeholder for now)
-  const projectId = "placeholder-project-id"; // This will need to be passed as prop or from context
+  // Get dynamic project ID from props or use placeholder
+  const projectId = propProjectId || "1753290240799"; // Default to first project for now
 
   // Create dynamic titles
   const capitalizedEntityType = entityType.charAt(0).toUpperCase() + entityType.slice(1);
@@ -84,99 +77,95 @@ export function EntityListView({ entityType }: EntityListViewProps) {
     queryKey: ['/api/projects', projectId],
   });
 
-  // Auto-select character if selectedCharacterId is provided
+  // Auto-select entity if selectedEntityId is provided
   useEffect(() => {
-    if (selectedCharacterId && characters.length > 0) {
-      const character = characters.find(c => c.id === selectedCharacterId);
-      if (character) {
-        setSelectedCharacter(character);
-        setIsCreating(false);
-        onClearSelection?.();
-      }
+    if (entities.length > 0) {
+      // Auto-selection logic can be added here if needed
     }
-  }, [selectedCharacterId, characters, onClearSelection]);
+  }, [entities]);
 
   const deleteMutation = useMutation({
-    mutationFn: (characterId: string) => 
-      apiRequest('DELETE', `/api/characters/${characterId}`),
+    mutationFn: (entityId: string) => 
+      apiRequest('DELETE', `/api/${pluralEntityType}/${entityId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      showSuccessToast('Character deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, pluralEntityType] });
+      showSuccessToast(`${capitalizedEntityType} deleted successfully`);
     },
     onError: (error) => {
-      const entityError = handleEntityError(error, 'delete', 'character');
+      const entityError = handleEntityError(error, 'delete', entityType);
       showErrorToast(entityError, 'Delete Failed');
     }
   });
 
-  const updateCharacterMutation = useMutation({
-    mutationFn: (character: Character) => 
-      apiRequest('PUT', `/api/characters/${character.id}`, character),
+  const updateEntityMutation = useMutation({
+    mutationFn: (entity: any) => 
+      apiRequest('PUT', `/api/${pluralEntityType}/${entity.id}`, entity),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      showSuccessToast('Character updated successfully');
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, pluralEntityType] });
+      showSuccessToast(`${capitalizedEntityType} updated successfully`);
     },
     onError: (error) => {
-      const entityError = handleEntityError(error, 'update', 'character');
+      const entityError = handleEntityError(error, 'update', entityType);
       showErrorToast(entityError, 'Update Failed');
     }
   });
 
-  const createCharacterMutation = useMutation({
-    mutationFn: async (character: Partial<Character>) => {
-      console.log('Mutation: Creating character with data:', character);
-      const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, character);
+  const createEntityMutation = useMutation({
+    mutationFn: async (entity: Partial<any>) => {
+      console.log(`Mutation: Creating ${entityType} with data:`, entity);
+      const response = await apiRequest('POST', `/api/projects/${projectId}/${pluralEntityType}`, entity);
       console.log('Mutation: Received response:', response);
       const result = await response.json();
       console.log('Mutation: Parsed JSON:', result);
       return result;
     },
-    onSuccess: (newCharacter: Character) => {
-      console.log('Character created successfully, setting as selected:', newCharacter);
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      setSelectedCharacter(newCharacter);
+    onSuccess: (newEntity: any) => {
+      console.log(`${capitalizedEntityType} created successfully, setting as selected:`, newEntity);
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, pluralEntityType] });
+      setSelectedEntity(newEntity);
       setIsCreating(false);
     },
     onError: (error) => {
-      console.error('Failed to create character:', error);
-      const entityError = handleEntityError(error, 'create', 'character');
+      console.error(`Failed to create ${entityType}:`, error);
+      const entityError = handleEntityError(error, 'create', entityType);
       showErrorToast(entityError, 'Create Failed');
     }
   });
 
-  // Sort and filter characters
-  const sortCharacters = (chars: Character[]): Character[] => {
+  // Sort and filter entities
+  const sortEntities = (ents: any[]): any[] => {
     switch (sortBy) {
       case 'alphabetical':
-        return [...chars].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        return [...ents].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
       case 'recently-added':
-        return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        return [...ents].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       case 'recently-edited':
-        return [...chars].sort((a, b) => new Date((b as any).updatedAt || b.createdAt || 0).getTime() - new Date((a as any).updatedAt || a.createdAt || 0).getTime());
+        return [...ents].sort((a, b) => new Date((b as any).updatedAt || b.createdAt || 0).getTime() - new Date((a as any).updatedAt || a.createdAt || 0).getTime());
       default:
-        return chars;
+        return ents;
     }
   };
 
-  const filteredCharacters = sortCharacters(
-    characters.filter(character => 
-      character.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      character.role?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      character.race?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredEntities = sortEntities(
+    entities.filter(entity => 
+      entity.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entity.role?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entity.race?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entity.description?.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
 
-  const handleEdit = (character: Character) => {
-    setSelectedCharacter(character);
+  const handleEdit = (entity: any) => {
+    setSelectedEntity(entity);
     setIsCreating(false);
     setIsGuidedCreation(false);
   };
 
-  const handleDelete = (character: Character) => {
-    if (confirm(`Are you sure you want to delete ${character.name}?`)) {
-      deleteMutation.mutate(character.id, {
+  const handleDelete = (entity: any) => {
+    if (confirm(`Are you sure you want to delete ${entity.name}?`)) {
+      deleteMutation.mutate(entity.id, {
         onSuccess: () => {
-          setSelectedCharacter(null);
+          setSelectedEntity(null);
           setIsCreating(false);
         }
       });
@@ -187,7 +176,7 @@ export function EntityListView({ entityType }: EntityListViewProps) {
     setIsCreationLaunchOpen(false);
     setIsCreating(true);
     setIsGuidedCreation(true);
-    setSelectedCharacter(null);
+    setSelectedEntity(null);
   };
 
   const handleOpenGenerationModal = () => {
@@ -315,312 +304,120 @@ Generate a complete, detailed character that expands on these template foundatio
   };
 
   const handleBackToList = () => {
-    queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-    setSelectedCharacter(null);
+    queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, pluralEntityType] });
+    setSelectedEntity(null);
     setIsCreating(false);
     setIsGuidedCreation(false);
   };
 
-  const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
+  const handlePortraitClick = (entity: any, event: React.MouseEvent) => {
     event.stopPropagation();
-    setPortraitCharacter(character);
+    setPortraitEntity(entity);
     setIsPortraitModalOpen(true);
   };
 
   const handleImageGenerated = (imageUrl: string) => {
-    if (portraitCharacter) {
-      updateCharacterMutation.mutate({ 
-        ...portraitCharacter, 
+    if (portraitEntity) {
+      updateEntityMutation.mutate({ 
+        ...portraitEntity, 
         imageUrl,
-        portraits: portraitCharacter.portraits || []
+        portraits: portraitEntity.portraits || []
       });
     }
   };
 
   const handleImageUploaded = (imageUrl: string) => {
-    if (portraitCharacter) {
-      updateCharacterMutation.mutate({ 
-        ...portraitCharacter, 
+    if (portraitEntity) {
+      updateEntityMutation.mutate({ 
+        ...portraitEntity, 
         imageUrl,
-        portraits: portraitCharacter.portraits || []
+        portraits: portraitEntity.portraits || []
       });
     }
   };
 
-  // Character detail view
-  if (selectedCharacter || isCreating) {
+  // Entity detail view - simplified for now
+  if (selectedEntity || isCreating) {
     return (
-      <CharacterDetailView
-        projectId={projectId}
-        character={selectedCharacter}
-        isCreating={isCreating}
-        isGuidedCreation={isGuidedCreation}
-        onBack={handleBackToList}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Button onClick={handleBackToList} variant="outline">
+            ← Back to {dynamicTitle}
+          </Button>
+          <h1 className="font-title text-2xl">
+            {isCreating ? `Create New ${capitalizedEntityType}` : selectedEntity?.name || 'Entity Details'}
+          </h1>
+          <div></div>
+        </div>
+        <div className="text-center py-16">
+          <h3 className="font-title text-xl mb-2">Entity Detail View</h3>
+          <p className="text-muted-foreground mb-6">
+            Detailed editing interface for {pluralEntityType} will be implemented here.
+          </p>
+          <Button onClick={handleBackToList} variant="outline">
+            Back to List
+          </Button>
+        </div>
+      </div>
     );
   }
 
-  // Premium Character Card for Grid View
-  const CharacterCard = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5 overflow-hidden relative" 
-          onClick={() => setSelectedCharacter(character)}>
-      <CardContent className="p-0 relative">
-        {/* Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-        
-        {/* Character Image Header */}
-        <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
-          {character.imageUrl ? (
-            <>
-              <img 
-                src={character.imageUrl} 
-                alt={character.name}
-                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
-              />
-              {/* Image Overlay for Better Text Contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-            </>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
-                  <Users className="h-10 w-10 text-accent/60" />
-                </div>
-                <p className="text-sm text-muted-foreground font-medium">Ready for portrait</p>
-              </div>
-            </div>
+  // Simple Entity Card for Grid View
+  const EntityCard = ({ entity }: { entity: any }) => (
+    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl border border-border/30 hover:border-accent/50 bg-background overflow-hidden" 
+          onClick={() => setSelectedEntity(entity)}>
+      <CardContent className="p-4">
+        <div className="space-y-3">
+          <h3 className="font-semibold text-lg group-hover:text-accent transition-colors">
+            {entity.name || 'Unnamed Entity'}
+          </h3>
+          {entity.description && (
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {entity.description}
+            </p>
           )}
-          
-          {/* Clean Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-            {/* Subtle overlay for better readability */}
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
-                {character.description || 'Click to view character details...'}
-              </div>
-            </div>
-          </div>
-
-          {/* Premium Status Badge */}
-          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-            <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
-              {character.role || 'Character'}
-            </Badge>
-          </div>
-        </div>
-
-        {/* Premium Character Info */}
-        <div className="p-6 space-y-4 relative">
-          <div>
-            <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight mb-1">
-              {character.name}
-            </h3>
-            {character.title && (
-              <p className="text-accent/80 text-sm font-medium truncate mb-3">
-                "{character.title}"
-              </p>
-            )}
-            
-            <div className="flex items-center gap-2 mt-3 flex-wrap">
-              {character.race && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  {character.race}
-                </Badge>
-              )}
-              {character.class && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  {character.class}
-                </Badge>
-              )}
-              {character.age && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  Age {character.age}
-                </Badge>
-              )}
-            </div>
-          </div>
-
-          {!character.description && (
-            <div className="text-center py-2">
-              <p className="text-sm text-muted-foreground italic">
-                Click to add character details...
-              </p>
-            </div>
-          )}
-
-          {/* Premium Key Traits */}
-          {character.personalityTraits && character.personalityTraits.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {character.personalityTraits.slice(0, 3).map((trait, index) => (
-                <span key={index} className="text-xs px-3 py-1.5 bg-accent/15 text-accent rounded-full font-semibold border border-accent/20">
-                  {trait}
-                </span>
-              ))}
-              {character.personalityTraits.length > 3 && (
-                <span className="text-xs px-3 py-1.5 bg-muted/40 rounded-full text-muted-foreground font-semibold border border-muted/40">
-                  +{character.personalityTraits.length - 3} more
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Character Completeness Indicator */}
-          <div className="flex items-center gap-2 pt-2 border-t border-border/30">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
-                    style={{
-                      width: `${Math.min(100, ((character.name ? 10 : 0) + 
-                                                (character.description ? 15 : 0) + 
-                                                (character.imageUrl ? 15 : 0) + 
-                                                (character.personalityTraits?.length ? 10 : 0) + 
-                                                (character.race ? 10 : 0) +
-                                                (character.class ? 10 : 0) +
-                                                (character.age ? 5 : 0) +
-                                                (character.background ? 10 : 0) +
-                                                (character.goals ? 10 : 0) +
-                                                (character.relationships ? 5 : 0)))}%`
-                    }}
-                  />
-                </div>
-                <span className="text-xs text-muted-foreground font-medium">
-                  {Math.min(100, ((character.name ? 10 : 0) + 
-                                  (character.description ? 15 : 0) + 
-                                  (character.imageUrl ? 15 : 0) + 
-                                  (character.personalityTraits?.length ? 10 : 0) + 
-                                  (character.race ? 10 : 0) +
-                                  (character.class ? 10 : 0) +
-                                  (character.age ? 5 : 0) +
-                                  (character.background ? 10 : 0) +
-                                  (character.goals ? 10 : 0) +
-                                  (character.relationships ? 5 : 0)))}%
-                </span>
-              </div>
-            </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">
+              {capitalizedEntityType}
+            </span>
+            <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+              <Edit className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </CardContent>
     </Card>
   );
 
-  // Premium List View Item
-  const CharacterListItem = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
-          onClick={() => setSelectedCharacter(character)}>
-      <CardContent className="p-5 relative">
-        {/* Subtle Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-        
-        <div className="flex items-center gap-5 relative">
-          {/* Premium Avatar */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
-            {character.imageUrl ? (
-              <img 
-                src={character.imageUrl} 
-                alt={character.name}
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
-              />
-            ) : (
-              <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
-                <Users className="h-6 w-6 text-accent/70" />
-              </div>
-            )}
+  // Simple List View Item
+  const EntityListItem = ({ entity }: { entity: any }) => (
+    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-lg border border-border/30 hover:border-accent/50 bg-background" 
+          onClick={() => setSelectedEntity(entity)}>
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-lg bg-muted/30 flex items-center justify-center flex-shrink-0">
+            <Users className="h-6 w-6 text-muted-foreground" />
           </div>
 
-          {/* Premium Character Info */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
-                {character.name}
-              </h3>
-              {character.title && (
-                <span className="text-accent/70 text-sm font-medium italic">"{character.title}"</span>
-              )}
-            </div>
-            
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
-                {character.role || 'Character'}
-              </Badge>
-              {character.race && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  {character.race}
-                </Badge>
-              )}
-              {character.class && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  {character.class}
-                </Badge>
-              )}
-              {character.age && (
-                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
-                  Age {character.age}
-                </Badge>
-              )}
-            </div>
-
-            {/* Enhanced Description or Call to Action */}
-            {character.description ? (
-              <p className="text-sm text-muted-foreground line-clamp-1 leading-relaxed font-medium">
-                {character.description}
-              </p>
-            ) : (
-              <p className="text-sm text-accent/60 italic font-medium">
-                Ready to develop • Click to add details and bring them to life
+            <h3 className="font-semibold text-lg group-hover:text-accent transition-colors truncate">
+              {entity.name || 'Unnamed Entity'}
+            </h3>
+            {entity.description && (
+              <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
+                {entity.description}
               </p>
             )}
-
-            {/* Character Completeness Mini-Indicator */}
             <div className="flex items-center gap-2 mt-2">
-              <div className="h-1 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
-                <div 
-                  className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
-                  style={{
-                    width: `${Math.min(100, ((character.name ? 10 : 0) + 
-                                            (character.description ? 15 : 0) + 
-                                            (character.imageUrl ? 15 : 0) + 
-                                            (character.personalityTraits?.length ? 10 : 0) + 
-                                            (character.race ? 10 : 0) +
-                                            (character.class ? 10 : 0) +
-                                            (character.age ? 5 : 0) +
-                                            (character.background ? 10 : 0) +
-                                            (character.goals ? 10 : 0) +
-                                            (character.relationships ? 5 : 0)))}%`
-                  }}
-                />
-              </div>
-              <span className="text-xs text-muted-foreground font-medium">
-                {Math.min(100, ((character.name ? 10 : 0) + 
-                                (character.description ? 15 : 0) + 
-                                (character.imageUrl ? 15 : 0) + 
-                                (character.personalityTraits?.length ? 10 : 0) + 
-                                (character.race ? 10 : 0) +
-                                (character.class ? 10 : 0) +
-                                (character.age ? 5 : 0) +
-                                (character.background ? 10 : 0) +
-                                (character.goals ? 10 : 0) +
-                                (character.relationships ? 5 : 0)))}%
-              </span>
+              <Badge variant="outline" className="text-xs">
+                {capitalizedEntityType}
+              </Badge>
             </div>
           </div>
 
-          {/* Premium Quick Actions */}
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
-                    onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
-              <Eye className="h-4 w-4" />
-            </Button>
-            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
-                    onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
-                    onClick={(e) => handlePortraitClick(character, e)}>
-              <Camera className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -743,21 +540,21 @@ Generate a complete, detailed character that expands on these template foundatio
             <p className="text-muted-foreground">Loading {pluralEntityType}...</p>
           </div>
         </div>
-      ) : filteredCharacters.length === 0 ? (
+      ) : filteredEntities.length === 0 ? (
         <div className="text-center py-12 space-y-4">
           <Users className="h-16 w-16 text-muted-foreground/50 mx-auto" />
           <div>
             <h3 className="text-lg font-semibold mb-2">
-              {characters.length === 0 ? 'No characters yet' : 'No characters match your search'}
+              {entities.length === 0 ? `No ${pluralEntityType} yet` : `No ${pluralEntityType} match your search`}
             </h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              {characters.length === 0 
-                ? 'Create your first character to start building your story world.'
+              {entities.length === 0 
+                ? `Create your first ${entityType} to start building your story world.`
                 : 'Try adjusting your search terms or filters.'
               }
             </p>
           </div>
-          {characters.length === 0 && (
+          {entities.length === 0 && (
             <div className="flex gap-3 justify-center pt-4">
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
@@ -768,7 +565,7 @@ Generate a complete, detailed character that expands on these template foundatio
                   <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                     <Plus className="h-4 w-4" />
                   </div>
-                  <span className="font-semibold tracking-wide">Create First Character</span>
+                  <span className="font-semibold tracking-wide">Create First {capitalizedEntityType}</span>
                 </div>
               </Button>
             </div>
@@ -780,58 +577,35 @@ Generate a complete, detailed character that expands on these template foundatio
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
             : "space-y-3"
         }>
-          {filteredCharacters.map((character) => 
+          {filteredEntities.map((entity) => 
             viewMode === 'grid' ? (
-              <CharacterCard key={character.id} character={character} />
+              <EntityCard key={entity.id} entity={entity} />
             ) : (
-              <CharacterListItem key={character.id} character={character} />
+              <EntityListItem key={entity.id} entity={entity} />
             )
           )}
         </div>
       )}
 
-      {/* Modals */}
-      <CharacterGenerationModal
-        isOpen={isGenerationModalOpen}
-        onClose={() => setIsGenerationModalOpen(false)}
-        onGenerate={handleGenerateCharacter}
-        isGenerating={isGenerating}
-      />
-
-      {portraitCharacter && (
-        <CharacterPortraitModal
-          character={portraitCharacter}
-          isOpen={isPortraitModalOpen}
-          onClose={() => {
-            setIsPortraitModalOpen(false);
-            setPortraitCharacter(null);
-          }}
-          onImageGenerated={handleImageGenerated}
-          onImageUploaded={handleImageUploaded}
-        />
+      {/* Simple Creation Modal - character-specific modals removed for now */}
+      {isCreationLaunchOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-background p-6 rounded-lg max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold mb-4">Create New {capitalizedEntityType}</h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              Entity creation interface will be implemented here.
+            </p>
+            <div className="flex gap-3">
+              <Button onClick={handleCreateNew} className="flex-1">
+                Create Blank {capitalizedEntityType}
+              </Button>
+              <Button variant="outline" onClick={() => setIsCreationLaunchOpen(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
-
-      {/* Character Creation Launch Modal */}
-      <CharacterCreationLaunch
-        isOpen={isCreationLaunchOpen}
-        onClose={() => setIsCreationLaunchOpen(false)}
-        onCreateBlank={handleCreateNew}
-        onOpenTemplates={() => {
-          setIsCreationLaunchOpen(false);
-          setIsTemplateModalOpen(true);
-        }}
-        onOpenAIGeneration={() => {
-          setIsCreationLaunchOpen(false);
-          setIsGenerationModalOpen(true);
-        }}
-      />
-
-      <CharacterTemplates
-        isOpen={isTemplateModalOpen}
-        onClose={() => setIsTemplateModalOpen(false)}
-        onSelectTemplate={handleSelectTemplate}
-        isGenerating={isGenerating}
-      />
     </div>
   );
 }
