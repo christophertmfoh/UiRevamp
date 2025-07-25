@@ -50,9 +50,16 @@ export async function generateContextualCharacter(
 ${projectContext}`;
 
     console.log('Server: Generating character with unified AI service');
-    const text = await generateContentUnified(prompt, { maxOutputTokens: 800 });
+    let text: string;
     
-    console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
+    try {
+      text = await generateContentUnified(prompt, { maxOutputTokens: 800 });
+      console.log('Server: AI response received:', text.substring(0, 200) + '...');
+    } catch (error) {
+      console.log('Server: AI generation failed, creating fallback character');
+      // Create a structured fallback character based on the generation options
+      text = createFallbackCharacterJSON(context.generationOptions);
+    }
     
     // Clean and extract JSON from the response
     let cleanText = text;
