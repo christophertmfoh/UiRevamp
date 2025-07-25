@@ -1,7 +1,3 @@
-/**
- * Configuration Index
- * Central exports for all configuration modules
- */
-
-export * from './experienceModes';
-export * from './fieldConfig';
+// Configuration Module Exports - Centralized exports for better navigation
+export * from './characterFieldsConfig';
+export * from './constants';

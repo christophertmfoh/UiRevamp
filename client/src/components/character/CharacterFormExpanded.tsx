@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS } from '../../lib/config/characterFieldsConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
