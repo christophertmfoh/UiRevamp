@@ -213,10 +213,10 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
   {
     key: 'personalityTraits',
     label: 'Personality Traits',
-    type: 'array',
+    type: 'textarea',
     section: 'personality',
     priority: 'essential',
-    placeholder: 'Key personality traits',
+    placeholder: 'Key personality traits and characteristics',
     aiPrompt: 'List specific personality traits that define how they think and act'
   },
   {
@@ -271,7 +271,7 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
   {
     key: 'abilities',
     label: 'Abilities',
-    type: 'array',
+    type: 'textarea',
     section: 'skills',
     priority: 'essential',
     placeholder: 'Special abilities and powers',
@@ -280,7 +280,7 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
   {
     key: 'talents',
     label: 'Natural Talents',
-    type: 'array',
+    type: 'textarea',
     section: 'skills',
     priority: 'essential',
     placeholder: 'Inborn gifts and talents',
@@ -289,7 +289,7 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
   {
     key: 'skills',
     label: 'Learned Skills',
-    type: 'array',
+    type: 'textarea',
     section: 'skills',
     priority: 'important',
     placeholder: 'Acquired skills and training',
