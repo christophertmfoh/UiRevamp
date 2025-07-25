@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FieldAIAssist } from '../FieldAIAssist';
+// Individual field AI assist removed as requested - bulk AI enhancement still available
 import { getFieldDefinition, type FieldDefinition } from '@/lib/config/fieldConfig';
 import { Star } from 'lucide-react';
 
@@ -69,15 +69,7 @@ export function FieldRenderer({
         {renderPriorityIndicator()}
       </div>
       
-      {onEnhance && fieldDef.type !== 'select' && (
-        <FieldAIAssist
-          fieldKey={fieldKey}
-          fieldLabel={fieldDef.label}
-          onEnhance={onEnhance}
-          isEnhancing={isEnhancing}
-          size="sm"
-        />
-      )}
+      {/* Individual field AI assist removed as requested */}
     </div>
   );
 
