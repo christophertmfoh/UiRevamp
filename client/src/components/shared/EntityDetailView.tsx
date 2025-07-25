@@ -6,17 +6,19 @@ import { CharacterGuidedCreation } from '../character/CharacterGuidedCreation';
 
 interface EntityDetailViewProps {
   projectId: string;
-  character: Character | null;
+  entity: Character | null;
+  entityType?: 'character' | 'creature' | 'location' | 'faction' | 'item';
   isCreating?: boolean;
   isGuidedCreation?: boolean;
   onBack: () => void;
-  onEdit: (character: Character) => void;
-  onDelete: (character: Character) => void;
+  onEdit: (entity: Character) => void;
+  onDelete: (entity: Character) => void;
 }
 
 export function EntityDetailView({ 
   projectId, 
-  character, 
+  entity, 
+  entityType = 'character',
   isCreating = false,
   isGuidedCreation = false,
   onBack, 
@@ -24,6 +26,9 @@ export function EntityDetailView({
   onDelete 
 }: EntityDetailViewProps) {
   const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation);
+  
+  // For now, we only support character entities - later this will be extended for other entity types
+  const character = entity as Character;
   
   // If we're doing guided creation, show the guided flow
   if (isGuidedCreation || (isCreating && !character)) {

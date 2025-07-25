@@ -304,10 +304,19 @@ export function CharacterUnifiedViewPremium({
               <div>
                 <div className="flex items-center gap-4 mb-2">
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground via-accent to-foreground/80 bg-clip-text text-transparent">
-                    {formData.name || 'Unnamed Character'}
+                    {isEditing ? (
+                      <Input
+                        value={formData.name || ''}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        placeholder="Character Name"
+                        className="text-4xl font-bold bg-transparent border-none p-0 m-0 h-auto shadow-none focus-visible:ring-0 bg-gradient-to-r from-foreground via-accent to-foreground/80 bg-clip-text text-transparent"
+                      />
+                    ) : (
+                      formData.name || 'Unnamed Character'
+                    )}
                   </h1>
                   <Badge className="bg-accent/90 text-accent-foreground font-medium text-sm px-3 py-1">
-                    {formData.role || 'Character'}
+                    Character
                   </Badge>
                 </div>
                 
