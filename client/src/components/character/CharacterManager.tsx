@@ -27,8 +27,22 @@ type ViewMode = 'grid' | 'list';
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+
+  // View state with persistence (matching EntityListView)
+  const getStorageKey = () => `storyWeaver_viewMode_character_${projectId}`;
+  
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    // Load saved view preference from localStorage
+    const saved = localStorage.getItem(getStorageKey());
+    return (saved as ViewMode) || 'grid';
+  });
+
+  // Save view preference whenever it changes
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    localStorage.setItem(getStorageKey(), mode);
+  };
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
@@ -662,7 +676,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <Button
                 variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('grid')}
+                onClick={() => handleViewModeChange('grid')}
                 className="h-8 w-8 p-0"
               >
                 <Grid3X3 className="h-4 w-4" />
@@ -670,7 +684,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <Button
                 variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('list')}
+                onClick={() => handleViewModeChange('list')}
                 className="h-8 w-8 p-0"
               >
                 <List className="h-4 w-4" />
