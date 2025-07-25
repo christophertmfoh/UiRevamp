@@ -1,27 +1,18 @@
 /**
  * Character Utilities
- * Consolidated utility functions for character processing
+ * Character-specific utility functions (now using shared utilities)
  */
 
 import type { Character } from '@/lib/types';
-import { FIELD_DEFINITIONS, getFieldDefinition } from '@/lib/config/fieldConfig';
+import { FIELD_DEFINITIONS } from '@/lib/config/fieldConfig';
+import { calculateEntityCompleteness, createEntitySummary } from '../utils/entityUtils';
 
 export function calculateCharacterCompleteness(character: Partial<Character>): {
   total: number;
   filled: number;
   percentage: number;
 } {
-  const totalFields = FIELD_DEFINITIONS.length;
-  const filledFields = FIELD_DEFINITIONS.filter(field => {
-    const value = character[field.key as keyof Character];
-    return value && value !== '' && (!Array.isArray(value) || value.length > 0);
-  }).length;
-  
-  return {
-    total: totalFields,
-    filled: filledFields,
-    percentage: Math.round((filledFields / totalFields) * 100)
-  };
+  return calculateEntityCompleteness(character as any, FIELD_DEFINITIONS);
 }
 
 export function getCharacterReadinessLevel(percentage: number): {
@@ -141,15 +132,6 @@ export function getEmptyFields(character: Partial<Character>): string[] {
     .map(field => field.key);
 }
 
-export function getFieldsBySection(sectionId: string): typeof FIELD_DEFINITIONS {
-  return FIELD_DEFINITIONS.filter(field => field.section === sectionId);
-}
-
 export function createCharacterSummary(character: Partial<Character>): string {
-  const name = character.name || 'Unnamed Character';
-  const race = character.race || 'Unknown';
-  const role = character.role || 'Unknown';
-  const completeness = calculateCharacterCompleteness(character);
-  
-  return `${name} (${race} ${role}) - ${completeness.percentage}% complete`;
+  return createEntitySummary(character as any, 'Character', FIELD_DEFINITIONS);
 }
