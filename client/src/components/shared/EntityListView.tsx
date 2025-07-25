@@ -17,9 +17,7 @@ import {
   CharacterCreationLaunch,
   type CharacterGenerationOptions 
 } from '../character/shared/ComponentIndex';
-import { EntityCreationLaunch } from './EntityCreationLaunch';
-import { EntityGenerationModal } from './EntityGenerationModal';
-import { EntityFormExpanded } from './EntityFormExpanded';
+import { EntityCreationView } from './EntityCreationView';
 import { generateContextualCharacter } from '@/lib/services/characterGeneration';
 
 interface EntityListViewProps {
@@ -375,12 +373,26 @@ Generate a complete, detailed character that expands on these template foundatio
   // Generic entity detail view for non-characters
   if (selectedEntity || isCreating) {
     return (
-      <EntityFormExpanded
-        entityType={entityType}
-        projectId={projectId}
-        entity={selectedEntity}
-        onCancel={handleBackToList}
-      />
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Button onClick={handleBackToList} variant="outline">
+            ← Back to {dynamicTitle}
+          </Button>
+          <h1 className="font-title text-2xl">
+            {isCreating ? `Create New ${capitalizedEntityType}` : selectedEntity?.name || 'Entity Details'}
+          </h1>
+          <div></div>
+        </div>
+        <div className="text-center py-16">
+          <h3 className="font-title text-xl mb-2">Entity Detail View</h3>
+          <p className="text-muted-foreground mb-6">
+            Detailed editing interface for {pluralEntityType} will be implemented here.
+          </p>
+          <Button onClick={handleBackToList} variant="outline">
+            Back to List
+          </Button>
+        </div>
+      </div>
     );
   }
 
@@ -732,21 +744,13 @@ Generate a complete, detailed character that expands on these template foundatio
         </div>
       )}
 
-      {/* Universal Entity Creation Modals */}
-      <EntityCreationLaunch
+      {/* Universal Entity Creation View */}
+      <EntityCreationView
         entityType={entityType}
         isOpen={isCreationLaunchOpen}
         onClose={() => setIsCreationLaunchOpen(false)}
         onCreateBlank={handleCreateNew}
         onOpenTemplates={() => setIsTemplateModalOpen(true)}
-        onOpenAIGeneration={() => setIsGenerationModalOpen(true)}
-      />
-
-      {/* Universal Entity Generation Modal */}
-      <EntityGenerationModal
-        entityType={entityType}
-        isOpen={isGenerationModalOpen}
-        onClose={() => setIsGenerationModalOpen(false)}
         onGenerate={handleGenerateEntity}
         isGenerating={isGenerating}
       />
