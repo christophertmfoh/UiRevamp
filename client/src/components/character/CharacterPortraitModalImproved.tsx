@@ -36,6 +36,9 @@ export function CharacterPortraitModal({
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
   });
+  
+  // Track the current main image dynamically
+  const currentMainImage = portraitGallery.find(img => img.isMain)?.url || character.imageUrl;
 
   // Generate comprehensive AI prompt from character data
   const generateCharacterPrompt = () => {
@@ -335,9 +338,9 @@ export function CharacterPortraitModal({
                           Current Portrait
                         </h3>
                         <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30">
-                          {character.imageUrl ? (
+                          {currentMainImage ? (
                             <img 
-                              src={character.imageUrl} 
+                              src={currentMainImage} 
                               alt={character.name}
                               className="w-full h-full object-cover rounded-xl"
                             />
