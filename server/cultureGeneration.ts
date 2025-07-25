@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateWorldElement } from './services/unifiedAI';
 import type { Project, Culture } from '../shared/schema';
 
 interface CultureGenerationOptions {

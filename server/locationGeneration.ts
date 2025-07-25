@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateWorldElement } from './services/unifiedAI';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
 

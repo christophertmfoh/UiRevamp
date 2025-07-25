@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateContentUnified } from './services/unifiedAI';
 import type { Project, Character } from '../shared/schema';
 
 interface CharacterGenerationOptions {
@@ -16,17 +16,7 @@ interface CharacterGenerationContext {
   generationOptions?: CharacterGenerationOptions;
 }
 
-// Initialize Gemini client
-function getGeminiClient(): GoogleGenerativeAI {
-  const apiKey = process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-  
-  if (!apiKey) {
-    throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
-  }
-  
-  console.log('Server: Initializing Gemini client with API key found');
-  return new GoogleGenerativeAI(apiKey);
-}
+// Optimized character generation using unified AI service
 
 export async function generateContextualCharacter(
   context: CharacterGenerationContext
@@ -35,40 +25,32 @@ export async function generateContextualCharacter(
     // Build context from project data
     const projectContext = buildProjectContext(context);
     
-    const client = getGeminiClient();
-    const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
+    const prompt = `Create a fully-developed character for a story project. Generate valid JSON with these fields:
 
-Your response must be valid JSON in this exact format. Use only regular double quotes, avoid smart quotes or special characters:
 {
   "name": "Character Name",
-  "title": "Character Title or Epithet", 
-  "role": "protagonist/antagonist/supporting/etc",
+  "title": "Character Title", 
+  "role": "protagonist/antagonist/supporting",
   "class": "Character Class or Profession",
   "age": "25",
   "race": "Character Race/Species",
   "oneLine": "One-sentence character description",
-  "description": "Detailed physical description including height, build, distinctive features, clothing style, and any notable characteristics",
-  "personality": "Detailed personality traits, quirks, mannerisms, speech patterns, and behavioral tendencies", 
-  "backstory": "Rich background history explaining how they became who they are today",
-  "motivations": "Deep driving forces and core desires that compel their actions",
-  "goals": "Specific short-term and long-term objectives they want to achieve",
-  "fears": "What terrifies them most, both rational and irrational fears",
-  "flaws": "Character weaknesses, blind spots, and negative traits that create conflict",
-  "secrets": "Hidden aspects, past events, or knowledge they don't want others to discover",
-  "skills": "Specific abilities, talents, training, and areas of expertise",
-  "equipment": "Notable possessions, tools, weapons, or gear they carry or own"
+  "description": "Detailed physical description",
+  "personality": "Personality traits and behaviors", 
+  "backstory": "Background history",
+  "motivations": "Core driving forces",
+  "goals": "Primary objectives",
+  "fears": "Main fears",
+  "flaws": "Character weaknesses",
+  "secrets": "Hidden aspects",
+  "skills": "Abilities and expertise",
+  "equipment": "Notable possessions"
 }
-
-IMPORTANT: Ensure all text within quotes is properly escaped. Avoid using quotes within the character descriptions or use single quotes instead. Make sure the JSON is valid and complete.
 
 ${projectContext}`;
 
-    console.log('Server: Sending prompt to Gemini');
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+    console.log('Server: Generating character with unified AI service');
+    const text = await generateContentUnified(prompt, { maxOutputTokens: 800 });
     
     console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
     

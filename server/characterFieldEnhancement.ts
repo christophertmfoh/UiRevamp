@@ -1,6 +1,6 @@
-import { AIGenerationService, checkRateLimit } from './services/aiGeneration';
+import { generateCharacterField } from './services/unifiedAI';
 import { FallbackGenerator } from './utils/fallbackGenerator';
-import { Storage } from './storage';
+import { storage } from './storage';
 
 // Simple contextual fallback system
 function generateContextualFallback(fieldKey: string, character: any): string {
@@ -20,7 +20,15 @@ function generateContextualFallback(fieldKey: string, character: any): string {
            
     aliases: role.toLowerCase().includes('ceo') ? '"The Executive", "Mr. Corporate"' :
              name.toLowerCase().includes('xander') ? '"The Billionaire", "X-Man"' :
-             '"The Professional", "Shadow"'
+             '"The Professional", "Shadow"',
+             
+    personality: `Confident and ambitious, with strong leadership qualities. ${name} is analytical and strategic in their approach to challenges, but can sometimes be overly focused on goals at the expense of relationships.`,
+    
+    goals: `Primary goal: Achieve professional excellence and build lasting success. Secondary goals: Maintain important relationships and make a positive impact in their field.`,
+    
+    backstory: `${name} grew up in a middle-class family where hard work and determination were valued. Through dedication and strategic thinking, they've built their current position and continue striving for greater achievements.`,
+    
+    skills: `Strategic planning, leadership, problem-solving, communication, and analytical thinking. Experienced in their professional field with strong interpersonal abilities.`
   };
   
   return contextualFallbacks[fieldKey] || `Generated ${fieldKey}`;
@@ -72,13 +80,12 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
       recordFieldRequest();
     }
 
-    // Use consolidated AI generation service
+    // Use unified AI generation service
     try {
-      const enhancedContent = await AIGenerationService.generateCharacterField(
+      const enhancedContent = await generateCharacterField(
         fieldKey,
         fieldLabel,
-        character,
-        currentValue ? `Current value: ${currentValue}` : ''
+        character
       );
       
       console.log(`AI generated content for ${fieldKey}: ${enhancedContent.substring(0, 100)}...`);
