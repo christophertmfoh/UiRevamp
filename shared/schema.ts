@@ -3,6 +3,43 @@ import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Generic Entity Types for Universal Template System
+export type EntityType = 
+  | 'character' 
+  | 'location' 
+  | 'faction' 
+  | 'item' 
+  | 'organization' 
+  | 'magic-system' 
+  | 'creature' 
+  | 'culture' 
+  | 'language' 
+  | 'timeline-event' 
+  | 'prophecy' 
+  | 'theme';
+
+// Base Entity Interface (shared across all entity types)
+export interface BaseEntity {
+  id: string;
+  projectId: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt?: Date | null;
+}
+
+// Generic Entity Field Configuration
+export interface EntityFieldConfig {
+  key: string;
+  label: string;
+  type: 'text' | 'textarea' | 'array' | 'select' | 'number' | 'date' | 'boolean';
+  section: string;
+  required?: boolean;
+  options?: string[];
+  placeholder?: string;
+  aiEnhanceable?: boolean;
+}
+
 // Core project table
 export const projects = pgTable("projects", {
   id: text("id").primaryKey(),
@@ -531,6 +568,98 @@ export const organizations = pgTable("organizations", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Generic Entity Metadata table for Universal Template System
+export const entityMetadata = pgTable("entity_metadata", {
+  id: text("id").primaryKey(),
+  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  entityType: text("entity_type").notNull(), // 'character', 'location', 'faction', etc.
+  entityId: text("entity_id").notNull(), // Reference to the actual entity
+  
+  // Universal metadata fields
+  tags: text("tags").array().default([]),
+  notes: text("notes").default(''),
+  status: text("status").default('active'),
+  priority: text("priority").default('medium'),
+  completionPercentage: integer("completion_percentage").default(0),
+  
+  // AI Enhancement tracking
+  lastAIEnhancement: timestamp("last_ai_enhancement"),
+  aiEnhancementCount: integer("ai_enhancement_count").default(0),
+  
+  // Template system tracking
+  templateSource: text("template_source"), // Which template was used to create this entity
+  templateVersion: text("template_version"), // Version of template system
+  
+  // Generic display preferences
+  displayImageId: integer("display_image_id"),
+  imageUrl: text("image_url").default(''),
+  portraits: json("portraits").default([]),
+  
+  // Custom field overrides (JSON storage for template system flexibility)
+  customFields: json("custom_fields").default({}),
+  fieldVisibility: json("field_visibility").default({}), // Which fields to show/hide
+  fieldOrder: json("field_order").default([]), // Custom field ordering
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Generic Entity Relationships table
+export const entityRelationships = pgTable("entity_relationships", {
+  id: text("id").primaryKey(),
+  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  
+  // Source entity
+  sourceEntityType: text("source_entity_type").notNull(),
+  sourceEntityId: text("source_entity_id").notNull(),
+  
+  // Target entity
+  targetEntityType: text("target_entity_type").notNull(),
+  targetEntityId: text("target_entity_id").notNull(),
+  
+  // Relationship details
+  relationshipType: text("relationship_type").notNull(), // 'friend', 'enemy', 'located_in', 'owns', etc.
+  relationshipStrength: text("relationship_strength").default('medium'), // 'weak', 'medium', 'strong'
+  relationshipStatus: text("relationship_status").default('active'), // 'active', 'inactive', 'past'
+  description: text("description").default(''),
+  notes: text("notes").default(''),
+  
+  // Bidirectional relationship flag
+  isBidirectional: boolean("is_bidirectional").default(false),
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Generic Entity Templates table (for template system)
+export const entityTemplates = pgTable("entity_templates", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").default(''),
+  entityType: text("entity_type").notNull(),
+  
+  // Template configuration
+  fieldConfiguration: json("field_configuration").notNull(), // Complete field setup
+  defaultValues: json("default_values").default({}), // Default field values
+  requiredFields: text("required_fields").array().default([]),
+  sectionConfiguration: json("section_configuration").default({}),
+  
+  // Template metadata
+  category: text("category").default('general'),
+  tags: text("tags").array().default([]),
+  difficulty: text("difficulty").default('beginner'), // 'beginner', 'intermediate', 'advanced'
+  genre: text("genre").array().default([]),
+  
+  // Template system metadata
+  version: text("version").default('1.0'),
+  isSystemTemplate: boolean("is_system_template").default(true), // System vs user templates
+  createdBy: text("created_by").default('system'),
+  usageCount: integer("usage_count").default(0),
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const magicSystems = pgTable("magic_systems", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
@@ -840,3 +969,19 @@ export type ImageAsset = typeof imageAssets.$inferSelect;
 export type InsertImageAsset = z.infer<typeof insertImageAssetSchema>;
 export type ProjectSettings = typeof projectSettings.$inferSelect;
 export type InsertProjectSettings = z.infer<typeof insertProjectSettingsSchema>;
+
+// Generic Entity Template System Schemas & Types
+export const insertEntityMetadataSchema = createInsertSchema(entityMetadata);
+export const insertEntityRelationshipSchema = createInsertSchema(entityRelationships);
+export const insertEntityTemplateSchema = createInsertSchema(entityTemplates);
+
+export type EntityMetadata = typeof entityMetadata.$inferSelect;
+export type InsertEntityMetadata = z.infer<typeof insertEntityMetadataSchema>;
+export type EntityRelationship = typeof entityRelationships.$inferSelect;
+export type InsertEntityRelationship = z.infer<typeof insertEntityRelationshipSchema>;
+export type EntityTemplate = typeof entityTemplates.$inferSelect;
+export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
+
+// Generic Entity Union Type (for Universal Template System)
+export type AnyEntity = Character | Location | Faction | Item | Organization | 
+  MagicSystem | TimelineEvent | Creature | Language | Culture | Prophecy | Theme;
