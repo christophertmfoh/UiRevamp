@@ -9,10 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
-import type { EntityFormProps } from '../../lib/types/entityTypes';
-import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition } from '../../lib/config/fieldConfig';
-import { FieldAIAssist } from './FieldAIAssist';
+import type { Character, EntityFormProps } from '@/lib/types';
+import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition, FieldConfigManager } from '@/lib/config';
+import { FieldAIAssist } from './shared/ComponentIndex';
 
 interface CharacterFormExpandedProps extends Omit<EntityFormProps<Character>, 'entityType' | 'entity' | 'initialData'> {
   character?: Character;

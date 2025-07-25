@@ -17,3 +17,15 @@ export * from './worldBibleTypes';
 
 // Legacy types - maintain compatibility with existing code
 export * from '../types';
+
+// Additional universal entity exports for component compatibility
+export type {
+  EntityManagerProps,
+  EntityDetailViewProps,
+  EntityFormProps,
+  EntityFieldAIAssistProps,
+  EntityTemplate,
+  EntityTemplatesProps,
+  EntityCreationLaunchProps,
+  UniversalFieldRendererProps
+} from './entityTypes';

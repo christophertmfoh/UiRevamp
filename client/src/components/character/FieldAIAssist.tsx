@@ -3,8 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
-import type { EntityFieldAIAssistProps } from '../../lib/types/entityTypes';
+import type { Character, EntityFieldAIAssistProps } from '@/lib/types';
 
 interface FieldAIAssistProps extends EntityFieldAIAssistProps<Character> {
   character: Character;

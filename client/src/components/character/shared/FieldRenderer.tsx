@@ -10,9 +10,8 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FieldAIAssist } from '../FieldAIAssist';
-import { FieldConfigManager, type UniversalFieldDefinition } from '@/lib/config';
+import { FieldConfigManager, type UniversalFieldDefinition, type UniversalFieldRendererProps } from '@/lib/config';
 import { Star } from 'lucide-react';
-import type { UniversalFieldRendererProps } from '../../lib/types/entityTypes';
 
 interface FieldRendererProps extends Omit<UniversalFieldRendererProps, 'fieldDefinition'> {
   // Extends universal props, gets fieldDefinition internally via fieldKey

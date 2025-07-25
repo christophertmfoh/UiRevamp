@@ -10,12 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
-import type { EntityDetailViewProps } from '../../lib/types/entityTypes';
-import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
+import type { Character, EntityDetailViewProps } from '@/lib/types';
 import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';
-import { FieldAIAssist } from './FieldAIAssist';
+import { CharacterPortraitModal, FieldAIAssist } from './shared/ComponentIndex';
 
 interface CharacterUnifiedViewPremiumProps extends Omit<EntityDetailViewProps<Character>, 'entityType' | 'entity'> {
   character: Character;
