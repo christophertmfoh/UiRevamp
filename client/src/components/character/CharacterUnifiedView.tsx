@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
@@ -327,10 +327,10 @@ export function CharacterUnifiedView({
 
   // Render tab content with grid layout matching organization module
   const renderTabContent = (sectionId: string) => {
-    const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
-    if (!section) return null;
+    const fields = getFieldsBySection(sectionId);
+    if (!fields || fields.length === 0) return null;
 
-    return section.fields.map((field) => 
+    return fields.map((field) => 
       renderField(field, formData[field.key as keyof Character])
     );
   };
