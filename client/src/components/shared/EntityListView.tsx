@@ -10,7 +10,6 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { getFieldDefinitionsByEntityType, getSectionsByEntityType } from '@/lib/config/fieldConfig';
 
-
 // Define the possible entity types
 export type EntityType = 'character' | 'location' | 'faction' | 'item';
 
@@ -212,17 +211,6 @@ export function EntityListView({
     setSelectedEntity(entity);
     onSelectEntity?.(entity);
   };
-
-  // Show detail view if entity is selected
-  if (selectedEntity) {
-    return (
-      <div>
-        <h2>Entity Detail View Coming Soon</h2>
-        <p>Selected: {selectedEntity.name}</p>
-        <button onClick={() => setSelectedEntity(null)}>Back to List</button>
-      </div>
-    );
-  }
 
   const handleDelete = (entity: BaseEntity) => {
     if (confirm(`Are you sure you want to delete ${entity.name}?`)) {

@@ -1,17 +1,3 @@
-// Base entity interface for all world bible entities
-export interface BaseEntity {
-  id: string;
-  projectId: string;
-  name?: string;
-  description?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  tags?: string[];
-}
-
-// Entity types for generic components
-export type EntityType = 'character' | 'location' | 'faction' | 'item' | 'organization';
-
 export interface Project {
   id: string;
   name: string;
@@ -43,7 +29,9 @@ export interface OutlineNode {
   children: OutlineNode[];
 }
 
-export interface Character extends BaseEntity {
+export interface Character {
+  id: string;
+  projectId: string;
   
   // Basic Information (Core Identity)
   name?: string;
@@ -269,7 +257,9 @@ export interface Character extends BaseEntity {
   createdAt?: Date;
 }
 
-export interface Location extends BaseEntity {
+export interface Location {
+  id: string;
+  projectId: string;
   name: string;
   description: string;
   history: string;
@@ -283,7 +273,9 @@ export interface Location extends BaseEntity {
   tags: string[];
 }
 
-export interface Faction extends BaseEntity {
+export interface Faction {
+  id: string;
+  projectId: string;
   name: string;
   description: string;
   type: string;
@@ -305,12 +297,15 @@ export interface Faction extends BaseEntity {
   current_operations: string;
   key_figures: string;
   origin_story: string;
+  tags: string[];
   displayImageId?: string;
   imageUrl?: string;
   portraits: string[];
+  createdAt?: Date;
 }
 
-export interface Item extends BaseEntity {
+export interface Item {
+  id: string;
   name: string;
   description: string;
   history: string;
@@ -318,6 +313,7 @@ export interface Item extends BaseEntity {
   significance: string;
   imageGallery: ImageAsset[];
   displayImageId?: number;
+  tags: string[];
 }
 
 export interface CharacterRelationship {
