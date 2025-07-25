@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FieldAIAssist } from '../FieldAIAssist';
-import { getFieldDefinition, type FieldDefinition } from '@/lib/config/fieldConfig';
+import { FieldConfigManager, type UniversalFieldDefinition } from '@/lib/config';
 import { Star } from 'lucide-react';
 import type { UniversalFieldRendererProps } from '../../lib/types/entityTypes';
 
@@ -28,7 +28,7 @@ export function FieldRenderer({
   disabled = false,
   showPriority = false
 }: FieldRendererProps) {
-  const fieldDef = getFieldDefinition(fieldKey);
+  const fieldDef = FieldConfigManager.getField(fieldKey);
   
   if (!fieldDef) {
     console.warn(`No field definition found for: ${fieldKey}`);
