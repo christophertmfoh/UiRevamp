@@ -28,11 +28,19 @@ type ViewMode = 'grid' | 'list';
 
 export function EntityListView({ entityType }: EntityListViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [selectedEntity, setSelectedEntity] = useState<any | null>(null);
+
+  // Get dynamic project ID from URL or context (placeholder for now)
+  const projectId = "placeholder-project-id"; // This will need to be passed as prop or from context
+
+  // Create dynamic titles
+  const capitalizedEntityType = entityType.charAt(0).toUpperCase() + entityType.slice(1);
+  const pluralEntityType = entityType.endsWith('s') ? entityType : `${entityType}s`;
+  const dynamicTitle = capitalizedEntityType + (entityType.endsWith('s') ? '' : 's');
 
   // Storage keys for persistence
-  const getViewStorageKey = () => `storyWeaver_viewMode_characterManager_${projectId}`;
-  const getSortStorageKey = () => `storyWeaver_sortBy_characterManager_${projectId}`;
+  const getViewStorageKey = () => `storyWeaver_viewMode_${entityType}Manager_${projectId}`;
+  const getSortStorageKey = () => `storyWeaver_sortBy_${entityType}Manager_${projectId}`;
 
   // Sort state with persistence
   const [sortBy, setSortBy] = useState<SortOption>(() => {
@@ -58,25 +66,22 @@ export function EntityListView({ entityType }: EntityListViewProps) {
   };
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
-  const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
+  const [portraitEntity, setPortraitEntity] = useState<any | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
-  const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
+  const [newEntityData, setNewEntityData] = useState<Partial<any>>({});
   const queryClient = useQueryClient();
 
-  const { data: characters = [], isLoading } = useQuery<Character[]>({
-    queryKey: ['/api/projects', projectId, 'characters'],
+  // Dynamic data fetching based on entityType
+  const { data: entities = [], isLoading } = useQuery<any[]>({
+    queryKey: ['/api/projects', projectId, pluralEntityType],
   });
 
   const { data: project } = useQuery<Project>({
     queryKey: ['/api/projects', projectId],
-  });
-
-  const { data: locations = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', projectId, 'locations'],
   });
 
   // Auto-select character if selectedCharacterId is provided
@@ -630,15 +635,23 @@ Generate a complete, detailed character that expands on these template foundatio
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-title text-3xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Characters
+              {dynamicTitle}
             </h2>
             <div className="flex items-center gap-4 mt-1">
               <span className="text-muted-foreground">
-                {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
+                {entities.length} {entities.length === 1 ? entityType : pluralEntityType} in your world
               </span>
-              {filteredCharacters.length !== characters.length && (
+              {entities.filter(entity => 
+                entity.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                entity.role?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                entity.race?.toLowerCase().includes(searchQuery.toLowerCase())
+              ).length !== entities.length && (
                 <span className="text-sm text-accent">
-                  ({filteredCharacters.length} visible)
+                  ({entities.filter(entity => 
+                    entity.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    entity.role?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    entity.race?.toLowerCase().includes(searchQuery.toLowerCase())
+                  ).length} visible)
                 </span>
               )}
             </div>
@@ -655,7 +668,7 @@ Generate a complete, detailed character that expands on these template foundatio
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                   <Plus className="h-4 w-4" />
                 </div>
-                <span className="font-semibold tracking-wide">Create Character</span>
+                <span className="font-semibold tracking-wide">Create {capitalizedEntityType}</span>
               </div>
             </Button>
           </div>
@@ -667,7 +680,7 @@ Generate a complete, detailed character that expands on these template foundatio
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search characters by name, role, or race..."
+              placeholder={`Search ${pluralEntityType} by name, role, or race...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 bg-background border-border/50 focus:border-accent/50"
@@ -727,7 +740,7 @@ Generate a complete, detailed character that expands on these template foundatio
         <div className="flex items-center justify-center py-12">
           <div className="text-center space-y-2">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto"></div>
-            <p className="text-muted-foreground">Loading characters...</p>
+            <p className="text-muted-foreground">Loading {pluralEntityType}...</p>
           </div>
         </div>
       ) : filteredCharacters.length === 0 ? (
