@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, Project, EntityManagerProps } from '@/lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { 
@@ -95,7 +96,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       apiRequest('DELETE', `/api/characters/${characterId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      showSuccessToast('Character deleted successfully');
     },
+    onError: (error) => {
+      const entityError = handleEntityError(error, 'delete', 'character');
+      showErrorToast(entityError, 'Delete Failed');
+    }
   });
 
   const updateCharacterMutation = useMutation({
@@ -103,7 +109,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       apiRequest('PUT', `/api/characters/${character.id}`, character),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      showSuccessToast('Character updated successfully');
     },
+    onError: (error) => {
+      const entityError = handleEntityError(error, 'update', 'character');
+      showErrorToast(entityError, 'Update Failed');
+    }
   });
 
   const createCharacterMutation = useMutation({
@@ -123,6 +134,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     },
     onError: (error) => {
       console.error('Failed to create character:', error);
+      const entityError = handleEntityError(error, 'create', 'character');
+      showErrorToast(entityError, 'Create Failed');
     }
   });
 

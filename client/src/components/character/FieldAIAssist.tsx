@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import { handleAIError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, EntityFieldAIAssistProps } from '@/lib/types';
 
 interface FieldAIAssistProps extends EntityFieldAIAssistProps<Character> {

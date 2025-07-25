@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import { handleEntityError, handleFormSubmissionError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, EntityFormProps } from '@/lib/types';
 import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition, FieldConfigManager } from '@/lib/config';
 import { FieldAIAssist } from './shared/ComponentIndex';
@@ -49,7 +50,12 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      showSuccessToast('Character created successfully');
       onCancel();
+    },
+    onError: (error) => {
+      const fieldErrors = handleFormSubmissionError(error, 'character');
+      console.error('Form submission errors:', fieldErrors);
     }
   });
 
@@ -59,7 +65,12 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      showSuccessToast('Character updated successfully');
       onCancel();
+    },
+    onError: (error) => {
+      const fieldErrors = handleFormSubmissionError(error, 'character');
+      console.error('Form submission errors:', fieldErrors);
     }
   });
 
