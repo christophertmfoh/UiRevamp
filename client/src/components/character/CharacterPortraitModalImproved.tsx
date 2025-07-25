@@ -32,6 +32,8 @@ export function CharacterPortraitModal({
   const [stylePrompt, setStylePrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
   const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
@@ -234,6 +236,93 @@ export function CharacterPortraitModal({
     }
 
     setSelectedImagePreview(portraitGallery[nextIndex].url);
+  };
+
+  const handleFileUpload = async (files: FileList | File[]) => {
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    const fileArray = Array.from(files);
+    const validFiles = fileArray.filter(file => file.type.startsWith('image/'));
+    
+    if (validFiles.length === 0) {
+      console.error('No valid image files selected');
+      setIsUploading(false);
+      return;
+    }
+
+    try {
+      const uploadPromises = validFiles.map(async (file) => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const result = e.target?.result as string;
+            resolve(result);
+          };
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+      
+      // Add uploaded images to gallery
+      const newPortraits = uploadedImages.map((imageUrl, index) => ({
+        id: `${Date.now()}-${index}`,
+        url: imageUrl,
+        isMain: portraitGallery.length === 0 && index === 0 // First uploaded image becomes main if no images exist
+      }));
+
+      const updatedGallery = [...portraitGallery, ...newPortraits];
+      setPortraitGallery(updatedGallery);
+
+      // Save to database
+      const mainImage = newPortraits.find(img => img.isMain);
+      if (mainImage) {
+        updateCharacterImageUrl(mainImage.url, updatedGallery);
+        if (onImageUploaded) {
+          onImageUploaded(mainImage.url);
+        }
+      } else {
+        savePortraitsToCharacter(updatedGallery);
+      }
+
+      // Switch to gallery tab to show uploaded images
+      setActiveTab('gallery');
+      
+    } catch (error) {
+      console.error('Upload failed:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    const files = e.dataTransfer.files;
+    handleFileUpload(files);
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      handleFileUpload(files);
+    }
   };
 
   return (
@@ -460,17 +549,116 @@ export function CharacterPortraitModal({
               </TabsContent>
 
               <TabsContent value="upload" className="mt-0">
-                <Card className="p-8 text-center border-2 border-dashed border-border/50">
-                  <Upload className="h-16 w-16 mx-auto mb-4 text-muted-foreground/40" />
-                  <h4 className="font-medium mb-2">Upload Portrait</h4>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Upload your own character portrait images
-                  </p>
-                  <Button variant="outline" disabled>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload Image (Coming Soon)
-                  </Button>
-                </Card>
+                <div className="space-y-6">
+                  {/* Drag & Drop Upload Area */}
+                  <Card 
+                    className={`p-8 text-center border-2 border-dashed transition-all duration-200 ${
+                      dragActive 
+                        ? 'border-accent bg-accent/5 scale-105' 
+                        : 'border-border/50 hover:border-accent/50 hover:bg-accent/5'
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <Upload className={`h-16 w-16 mx-auto transition-all duration-200 ${
+                          dragActive ? 'text-accent scale-110' : 'text-muted-foreground/40'
+                        }`} />
+                        {isUploading && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold mb-2 text-lg">
+                          {dragActive ? 'Drop images here!' : 'Upload Character Portraits'}
+                        </h4>
+                        <p className="text-muted-foreground text-sm mb-4">
+                          {dragActive 
+                            ? 'Release to upload your images' 
+                            : 'Drag & drop images here, or click to browse'
+                          }
+                        </p>
+                        <p className="text-xs text-muted-foreground/80 mb-4">
+                          Supports JPG, PNG, GIF • Multiple files allowed • Max 10MB per file
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <Button 
+                          variant="outline"
+                          onClick={() => document.getElementById('file-upload')?.click()}
+                          disabled={isUploading}
+                          className="bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:bg-accent/20 hover:border-accent/50"
+                        >
+                          {isUploading ? (
+                            <>
+                              <div className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin mr-2" />
+                              Uploading...
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="h-4 w-4 mr-2" />
+                              Browse Files
+                            </>
+                          )}
+                        </Button>
+                        
+                        <Button 
+                          variant="outline"
+                          onClick={() => document.getElementById('batch-upload')?.click()}
+                          disabled={isUploading}
+                          className="bg-gradient-to-r from-blue-500/10 to-blue-500/15 border-blue-500/30 hover:bg-blue-500/20 hover:border-blue-500/50 text-blue-600 dark:text-blue-400"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Batch Upload
+                        </Button>
+                      </div>
+
+                      {/* Hidden file inputs */}
+                      <input
+                        id="file-upload"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleFileInputChange}
+                        className="hidden"
+                      />
+                      <input
+                        id="batch-upload"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleFileInputChange}
+                        className="hidden"
+                      />
+                    </div>
+                  </Card>
+
+                  {/* Upload Tips */}
+                  <Card className="p-6 bg-gradient-to-br from-background to-muted/20">
+                    <h4 className="font-semibold mb-3 flex items-center gap-2">
+                      <Eye className="h-4 w-4 text-accent" />
+                      Upload Tips
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                      <div className="space-y-2">
+                        <p>• <strong>Best Quality:</strong> Use high-resolution images (1024x1024+)</p>
+                        <p>• <strong>Format:</strong> PNG for transparency, JPG for photos</p>
+                        <p>• <strong>Aspect Ratio:</strong> Square images work best for portraits</p>
+                      </div>
+                      <div className="space-y-2">
+                        <p>• <strong>Batch Upload:</strong> Select multiple files at once</p>
+                        <p>• <strong>Auto Main:</strong> First uploaded image becomes main portrait</p>
+                        <p>• <strong>Gallery:</strong> All uploads are saved to your gallery</p>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
               </TabsContent>
             </div>
           </Tabs>
