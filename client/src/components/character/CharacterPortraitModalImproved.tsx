@@ -117,13 +117,13 @@ export function CharacterPortraitModal({
   // Database update functions
   const updateCharacterImageUrl = async (imageUrl: string, portraitsArray: any[]) => {
     try {
-      const updatedCharacter = {
-        ...character,
+      // Only send the fields we want to update, avoid date validation issues
+      const updateData = {
         imageUrl: imageUrl,
         portraits: portraitsArray
       };
       
-      await apiRequest('PUT', `/api/characters/${character.id}`, updatedCharacter);
+      await apiRequest('PUT', `/api/characters/${character.id}`, updateData);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
     } catch (error) {
       console.error('Failed to update character image:', error);
@@ -132,12 +132,12 @@ export function CharacterPortraitModal({
 
   const savePortraitsToCharacter = async (portraitsArray: any[]) => {
     try {
-      const updatedCharacter = {
-        ...character,
+      // Only send the portraits field we want to update
+      const updateData = {
         portraits: portraitsArray
       };
       
-      await apiRequest('PUT', `/api/characters/${character.id}`, updatedCharacter);
+      await apiRequest('PUT', `/api/characters/${character.id}`, updateData);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
     } catch (error) {
       console.error('Failed to save character portraits:', error);
