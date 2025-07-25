@@ -35,6 +35,16 @@ export function CharacterUnifiedViewPremium({
 }: CharacterUnifiedViewPremiumProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Character>(character);
+  
+  // Debug personality traits data flow
+  console.log('=== CHARACTER UNIFIED VIEW PREMIUM DEBUG ===');
+  console.log('character.personalityTraits:', character.personalityTraits);
+  console.log('formData.personalityTraits:', formData.personalityTraits);
+  console.log('typeof character.personalityTraits:', typeof character.personalityTraits);
+  console.log('Array.isArray(character.personalityTraits):', Array.isArray(character.personalityTraits));
+  console.log('typeof formData.personalityTraits:', typeof formData.personalityTraits);
+  console.log('Array.isArray(formData.personalityTraits):', Array.isArray(formData.personalityTraits));
+  console.log('=== END DEBUG ===');
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
