@@ -60,12 +60,15 @@ export class FallbackGenerator {
     const analysis = analyzeCharacter(character);
     const seed = character.name ? character.name.length * 1000 : Date.now();
     
-    // Field-specific intelligent fallbacks
+    // Field-specific intelligent fallbacks based on character context
     const generators: Record<string, () => string> = {
-      // Identity
+      // Identity fields with context-aware generation
       name: () => this.generateName(analysis, seed),
+      nicknames: () => this.generateNicknames(character, analysis),
+      title: () => this.generateTitle(character, analysis),
+      aliases: () => this.generateAliases(character, analysis),
       race: () => this.generateRace(analysis),
-      age: () => analysis.isCat ? '3 years old' : '27',
+      age: () => analysis.isCat ? '3 years old' : this.generateAge(character),
       
       // Physical
       description: () => this.generateDescription(analysis),

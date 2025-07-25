@@ -115,12 +115,9 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  // Helper function to check if field should show AI assist (exclude identity section text fields)
+  // Helper function to check if field should show AI assist
   const shouldShowAIAssist = (field: any, sectionId: string) => {
     if (!character) return false;
-    if (sectionId === 'identity' && field.type === 'text') {
-      return false; // Remove genie icons from identity text fields
-    }
     return AI_ENABLED_FIELD_TYPES.includes(field.type);
   };
 
