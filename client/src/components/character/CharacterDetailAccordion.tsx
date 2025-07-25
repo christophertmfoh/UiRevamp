@@ -37,7 +37,20 @@ export function CharacterDetailAccordion({
 }: CharacterDetailAccordionProps) {
   
   // Helper function to render a field if it has content
-  const renderField = (label: string, value: string | undefined, className = "") => {
+  const renderField = (label: string, value: string | string[] | undefined, className = "") => {
+    // Handle arrays (for legacy data that hasn't been converted yet)
+    if (Array.isArray(value)) {
+      if (value.length === 0 || !value.some(v => v?.trim())) return null;
+      const processedValue = value.filter(v => v?.trim()).join(', ');
+      return (
+        <div className={className}>
+          <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+          <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{processedValue}</p>
+        </div>
+      );
+    }
+    
+    // Handle strings
     if (!value || value.trim().length === 0) return null;
     return (
       <div className={className}>
