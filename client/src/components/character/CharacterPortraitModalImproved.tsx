@@ -340,13 +340,20 @@ export function CharacterPortraitModal({
                           <Eye className="h-4 w-4 text-accent" />
                           Current Portrait
                         </h3>
-                        <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30">
+                        <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30 group cursor-pointer">
                           {character.imageUrl ? (
-                            <img 
-                              src={character.imageUrl} 
-                              alt={character.name}
-                              className="w-full h-full object-cover rounded-xl"
-                            />
+                            <div className="relative w-full h-full rounded-xl overflow-hidden" onClick={() => setSelectedImagePreview(character.imageUrl)}>
+                              <img 
+                                src={character.imageUrl} 
+                                alt={character.name}
+                                className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded-full p-2">
+                                  <Eye className="h-5 w-5 text-black" />
+                                </div>
+                              </div>
+                            </div>
                           ) : (
                             <div className="text-center text-muted-foreground">
                               <Image className="h-12 w-12 mx-auto mb-3 opacity-40" />
