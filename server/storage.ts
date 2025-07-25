@@ -306,7 +306,7 @@ export class DatabaseStorage implements IStorage {
       })
     );
     
-    const [newOrganization] = await db.insert(organizations).values(cleanedData).returning();
+    const [newOrganization] = await db.insert(organizations).values(cleanedData as any).returning();
     
     if (!newOrganization) {
       throw new Error('Failed to create organization - no data returned from database');

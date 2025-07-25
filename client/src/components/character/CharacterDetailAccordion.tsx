@@ -170,6 +170,7 @@ export function CharacterDetailAccordion({
   // Render a section's content dynamically based on configuration
   const renderSectionContent = (sectionId: string) => {
     const fields = getFieldsBySection(sectionId);
+    console.log(`Section ${sectionId} has ${fields.length} fields:`, fields.map(f => f.key));
     if (!fields.length) return null;
 
     const content = fields.map((field, index) => {
