@@ -146,9 +146,10 @@ export function CharacterUnifiedView({
       }
     });
     
-    // Convert comma-separated strings back to arrays for array fields from sections
+    // Convert comma-separated strings back to arrays for array fields from all sections
     CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
+      const sectionFields = getFieldsBySection(section.id);
+      sectionFields.forEach(field => {
         if (field.type === 'array') {
           const value = (data as any)[field.key];
           if (typeof value === 'string') {
