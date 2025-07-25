@@ -423,7 +423,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
           {item.toolId === 'items' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">5</Badge>}
         </Button>
         {hasChildren && (
-          <div className="ml-6 mt-1 space-y-1">
+          <div className="ml-3 mt-1 space-y-1">
             {item.children!.map((child, childIndex) => renderSidebarItem(child, childIndex, path))}
           </div>
         )}
@@ -467,6 +467,51 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
             entityType="item"
             projectId={project.id}
           />
+        );
+      case 'world-bible':
+        return (
+          <div className="flex-1 p-6 overflow-y-auto">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-white mb-4">World Bible</h2>
+                <p className="text-slate-400 mb-8">Explore your story's universe through the sidebar navigation</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="bg-slate-800/50 border-slate-700/50">
+                  <CardContent className="p-6">
+                    <Users className="w-8 h-8 text-indigo-400 mb-4" />
+                    <h3 className="font-semibold text-lg text-white mb-2">Characters</h3>
+                    <p className="text-slate-400">Manage your story's cast and their development</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-slate-800/50 border-slate-700/50">
+                  <CardContent className="p-6">
+                    <MapPin className="w-8 h-8 text-emerald-400 mb-4" />
+                    <h3 className="font-semibold text-lg text-white mb-2">Locations</h3>
+                    <p className="text-slate-400">Build the settings and environments</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-slate-800/50 border-slate-700/50">
+                  <CardContent className="p-6">
+                    <Flag className="w-8 h-8 text-amber-400 mb-4" />
+                    <h3 className="font-semibold text-lg text-white mb-2">Factions</h3>
+                    <p className="text-slate-400">Create organizations and groups</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-slate-800/50 border-slate-700/50">
+                  <CardContent className="p-6">
+                    <Sword className="w-8 h-8 text-red-400 mb-4" />
+                    <h3 className="font-semibold text-lg text-white mb-2">Items</h3>
+                    <p className="text-slate-400">Design artifacts and equipment</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
         );
       default:
         return (
@@ -748,7 +793,19 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
             <div>
               <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">World Bible</h3>
               <div className="space-y-1">
-                {sidebarItems.slice(2, 3).map((item, index) => renderSidebarItem(item, index + 2))}
+                {/* Render World Bible parent */}
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-slate-400 hover:text-white hover:bg-slate-700/50"
+                  onClick={() => setActiveTool('world-bible')}
+                >
+                  <BookOpen className="w-5 h-5 mr-3" />
+                  <span className="flex-grow text-left">Overview</span>
+                </Button>
+                {/* Always show World Bible children */}
+                <div className="ml-3 space-y-1">
+                  {sidebarItems[2].children?.map((child, childIndex) => renderSidebarItem(child, childIndex, 'world-bible'))}
+                </div>
               </div>
             </div>
 
