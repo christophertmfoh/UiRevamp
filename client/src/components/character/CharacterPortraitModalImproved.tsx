@@ -243,7 +243,14 @@ export function CharacterPortraitModal({
     
     setIsUploading(true);
     const fileArray = Array.from(files);
-    const validFiles = fileArray.filter(file => file.type.startsWith('image/'));
+    
+    // Support all common image formats including WebP, AVIF, HEIC, etc.
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.bmp', '.svg', '.tiff', '.heic', '.heif'];
+    const validFiles = fileArray.filter(file => {
+      const isImageMimeType = file.type.startsWith('image/');
+      const hasImageExtension = imageExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+      return isImageMimeType || hasImageExtension;
+    });
     
     if (validFiles.length === 0) {
       console.error('No valid image files selected');
@@ -584,16 +591,17 @@ export function CharacterPortraitModal({
                           }
                         </p>
                         <p className="text-xs text-muted-foreground/80 mb-4">
-                          Supports JPG, PNG, GIF • Multiple files allowed • Max 10MB per file
+                          Supports all image formats: JPG, PNG, GIF, WebP, AVIF, BMP, SVG, TIFF, HEIC • Multiple files allowed
                         </p>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <div className="flex justify-center">
                         <Button 
                           variant="outline"
                           onClick={() => document.getElementById('file-upload')?.click()}
                           disabled={isUploading}
-                          className="bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:bg-accent/20 hover:border-accent/50"
+                          className="bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:bg-accent/20 hover:border-accent/50 px-8"
+                          size="lg"
                         >
                           {isUploading ? (
                             <>
@@ -603,36 +611,18 @@ export function CharacterPortraitModal({
                           ) : (
                             <>
                               <Upload className="h-4 w-4 mr-2" />
-                              Browse Files
+                              Choose Images
                             </>
                           )}
                         </Button>
-                        
-                        <Button 
-                          variant="outline"
-                          onClick={() => document.getElementById('batch-upload')?.click()}
-                          disabled={isUploading}
-                          className="bg-gradient-to-r from-blue-500/10 to-blue-500/15 border-blue-500/30 hover:bg-blue-500/20 hover:border-blue-500/50 text-blue-600 dark:text-blue-400"
-                        >
-                          <Upload className="h-4 w-4 mr-2" />
-                          Batch Upload
-                        </Button>
                       </div>
 
-                      {/* Hidden file inputs */}
+                      {/* Hidden file input */}
                       <input
                         id="file-upload"
                         type="file"
                         multiple
-                        accept="image/*"
-                        onChange={handleFileInputChange}
-                        className="hidden"
-                      />
-                      <input
-                        id="batch-upload"
-                        type="file"
-                        multiple
-                        accept="image/*"
+                        accept="image/*,.heic,.heif,.avif,.webp,.bmp,.tiff"
                         onChange={handleFileInputChange}
                         className="hidden"
                       />
@@ -648,13 +638,13 @@ export function CharacterPortraitModal({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
                       <div className="space-y-2">
                         <p>• <strong>Best Quality:</strong> Use high-resolution images (1024x1024+)</p>
-                        <p>• <strong>Format:</strong> PNG for transparency, JPG for photos</p>
+                        <p>• <strong>All Formats:</strong> Supports JPG, PNG, WebP, HEIC, AVIF, and more</p>
                         <p>• <strong>Aspect Ratio:</strong> Square images work best for portraits</p>
                       </div>
                       <div className="space-y-2">
-                        <p>• <strong>Batch Upload:</strong> Select multiple files at once</p>
+                        <p>• <strong>Multiple Selection:</strong> Hold Ctrl/Cmd to select multiple files</p>
                         <p>• <strong>Auto Main:</strong> First uploaded image becomes main portrait</p>
-                        <p>• <strong>Gallery:</strong> All uploads are saved to your gallery</p>
+                        <p>• <strong>Gallery Integration:</strong> All uploads saved automatically</p>
                       </div>
                     </div>
                   </Card>
