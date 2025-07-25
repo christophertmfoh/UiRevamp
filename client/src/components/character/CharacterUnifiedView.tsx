@@ -306,7 +306,9 @@ export function CharacterUnifiedView({
         <div key={field.key} className="space-y-2">
           <Label className="text-muted-foreground">{field.label}</Label>
           {(!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) ? (
-            <div className="h-5"></div> // Empty space to maintain layout
+            <div className="text-sm text-muted-foreground italic">
+              No {field.label.toLowerCase()} added yet
+            </div>
           ) : Array.isArray(value) ? (
             <div className="flex flex-wrap gap-1">
               {value.map((item: string, index: number) => (

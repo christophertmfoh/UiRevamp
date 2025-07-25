@@ -170,23 +170,10 @@ export function CharacterDetailAccordion({
   // Render a section's content dynamically based on configuration
   const renderSectionContent = (sectionId: string) => {
     const fields = getFieldsBySection(sectionId);
-    console.log(`Section ${sectionId} has ${fields.length} fields:`, fields.map(f => f.key));
     if (!fields.length) return null;
 
     const content = fields.map((field, index) => {
       const value = (character as any)[field.key];
-      
-      // Debug personalityTraits specifically
-      if (field.key === 'personalityTraits') {
-        console.log('=== PERSONALITY TRAITS DEBUG ===');
-        console.log('field:', field);  
-        console.log('value from character:', value);
-        console.log('field.type:', field.type);
-        console.log('Array.isArray(value):', Array.isArray(value));
-        console.log('value === null:', value === null);
-        console.log('value === undefined:', value === undefined);
-        console.log('=== END DEBUG ===');
-      }
       
       if (field.type === 'array') {
         const result = renderArrayField(field.label, value, "outline", true);
