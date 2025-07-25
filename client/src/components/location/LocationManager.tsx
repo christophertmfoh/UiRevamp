@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown } from 'lucide-react';
+import { Plus, MapPin, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Location, Project } from '@/lib/types';
-import { LocationDetailView } from './LocationDetailView';
-import { LocationPortraitModal } from './LocationPortraitModal';
-import { LocationGenerationModal, type LocationGenerationOptions } from './LocationGenerationModal';
-// import { generateContextualLocation } from '../../lib/services/locationGeneration';
 
 interface LocationManagerProps {
   projectId: string;
@@ -20,16 +17,42 @@ interface LocationManagerProps {
 }
 
 type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
+type ViewMode = 'grid' | 'list';
 
 export function LocationManager({ projectId, selectedLocationId, onClearSelection }: LocationManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
+  // Storage keys for persistence
+  const getViewStorageKey = () => `storyWeaver_viewMode_locationManager_${projectId}`;
+  const getSortStorageKey = () => `storyWeaver_sortBy_locationManager_${projectId}`;
+
+  // Sort state with persistence
+  const [sortBy, setSortBy] = useState<SortOption>(() => {
+    const saved = localStorage.getItem(getSortStorageKey());
+    return (saved as SortOption) || 'alphabetical';
+  });
+
+  const handleSortChange = (option: SortOption) => {
+    setSortBy(option);
+    localStorage.setItem(getSortStorageKey(), option);
+  };
+  
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    // Load saved view preference from localStorage
+    const saved = localStorage.getItem(getViewStorageKey());
+    return (saved as ViewMode) || 'grid';
+  });
+
+  // Save view preference whenever it changes
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    localStorage.setItem(getViewStorageKey(), mode);
+  };
+
   const [isCreating, setIsCreating] = useState(false);
-  const [portraitLocation, setPortraitLocation] = useState<Location | null>(null);
-  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
+  const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
+  const [newLocationData, setNewLocationData] = useState<Partial<Location>>({});
   const queryClient = useQueryClient();
 
   const { data: locations = [], isLoading } = useQuery<Location[]>({
@@ -47,7 +70,6 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
       if (location) {
         setSelectedLocation(location);
         setIsCreating(false);
-        // Clear the selection from the parent component
         onClearSelection?.();
       }
     }
@@ -58,369 +80,412 @@ export function LocationManager({ projectId, selectedLocationId, onClearSelectio
       apiRequest('DELETE', `/api/locations/${locationId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
-    },
-  });
-
-  const updateLocationMutation = useMutation({
-    mutationFn: (location: Location) => 
-      apiRequest('PUT', `/api/locations/${location.id}`, location),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
-    },
-  });
-
-  const createLocationMutation = useMutation({
-    mutationFn: async (location: Partial<Location>) => {
-      console.log('Mutation: Creating location with data:', location);
-      const response = await apiRequest('POST', `/api/projects/${projectId}/locations`, {
-        ...location,
-        projectId,
-      });
-      console.log('Mutation: Received response:', response);
-      const result = await response.json();
-      console.log('Mutation: Parsed JSON:', result);
-      return result;
-    },
-    onSuccess: (newLocation: Location) => {
-      console.log('Location created successfully, setting as selected:', newLocation);
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
-      setSelectedLocation(newLocation);
-      setIsCreating(false);
+      showSuccessToast('Location deleted successfully');
     },
     onError: (error) => {
-      console.error('Mutation: Failed to create location:', error);
-    },
+      const entityError = handleEntityError(error, 'delete', 'location');
+      showErrorToast(entityError, 'Delete Failed');
+    }
   });
 
-  // Sort and filter locations
-  const sortLocations = (locs: Location[]): Location[] => {
-    switch (sortBy) {
-      case 'alphabetical':
-        return [...locs].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-      case 'recently-added':
-        return [...locs].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-      case 'recently-edited':
-        return [...locs].sort((a, b) => new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime());
-      default:
-        return locs;
+  const handleDeleteLocation = (locationId: string) => {
+    if (window.confirm('Are you sure you want to delete this location? This action cannot be undone.')) {
+      deleteMutation.mutate(locationId);
+      if (selectedLocation?.id === locationId) {
+        setSelectedLocation(null);
+      }
     }
   };
 
-  const filteredAndSortedLocations = sortLocations(
-    locations.filter((location: Location) =>
-      location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      location.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (location.tags && location.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())))
-    )
+  // Filter and sort locations
+  const filteredLocations = locations.filter(location =>
+    location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    location.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    location.type?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleLocationClick = (location: Location) => {
-    setSelectedLocation(location);
-    setIsCreating(false);
-  };
-
-  const handleCreateNew = () => {
-    setIsCreating(true);
-    setSelectedLocation(null);
-  };
-
-  const handleEditLocation = (location: Location) => {
-    setSelectedLocation(location);
-    setIsCreating(false);
-  };
-
-  const handleDeleteLocation = (location: Location) => {
-    if (window.confirm(`Are you sure you want to delete "${location.name}"?`)) {
-      deleteMutation.mutate(location.id);
+  const sortedLocations = [...filteredLocations].sort((a, b) => {
+    switch (sortBy) {
+      case 'alphabetical':
+        return a.name.localeCompare(b.name);
+      case 'recently-added':
+        // Use ID as fallback for sorting if timestamps not available
+        return b.id!.localeCompare(a.id!);
+      case 'recently-edited':
+        // Use ID as fallback for sorting if timestamps not available  
+        return b.id!.localeCompare(a.id!);
+      default:
+        return 0;
     }
+  });
+
+  // Calculate completion percentage for a location
+  const calculateCompletion = (location: Location) => {
+    const fields = [
+      location.name, location.description, location.type, location.history,
+      location.atmosphere, location.significance
+    ];
+    const filledFields = fields.filter(field => field && field.trim().length > 0).length;
+    return Math.round((filledFields / fields.length) * 100);
   };
 
-  const handleGenerateLocation = async (options: LocationGenerationOptions) => {
-    if (!project) return;
+  const handleCreateLocation = () => {
+    setIsCreationLaunchOpen(true);
+  };
+
+  const handleLocationCreated = (location: Location) => {
+    setSelectedLocation(location);
+    setIsCreating(false);
+    setIsCreationLaunchOpen(false);
+    queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'locations'] });
+  };
+
+  const renderLocationCard = (location: Location) => {
+    const completion = calculateCompletion(location);
     
-    setIsGenerating(true);
-    try {
-      console.log('Generating location with options:', options);
-      
-      // Generate rich location data based on options - only include fields that exist in the Location schema
-      const locationName = options.customPrompt || `${options.locationType || 'Location'} of ${project.name}`;
-      const generatedLocation = {
-        name: locationName,
-        description: `A ${options.scale || 'medium-sized'} ${options.locationType || 'location'} with ${options.atmosphere || 'a mysterious atmosphere'}.`,
-        atmosphere: options.atmosphere || 'A place of mystery and intrigue',
-        significance: `An important ${options.locationType || 'location'} in the world of ${project.name}`,
-        history: `Founded in ancient times, this ${options.locationType || 'location'} has witnessed many important events.`,
-        tags: [options.locationType || 'location', options.scale || 'medium', options.atmosphere || 'mysterious'].filter(Boolean)
-      };
-      
-      console.log('Generated location:', generatedLocation);
-      createLocationMutation.mutate(generatedLocation);
-    } catch (error) {
-      console.error('Failed to generate location:', error);
-    } finally {
-      setIsGenerating(false);
-      setIsGenerationModalOpen(false);
-    }
-  };
-
-  const handleUpdateImageData = async (locationId: string, imageUrl: string) => {
-    const location = locations.find(l => l.id === locationId);
-    if (!location) return;
-
-    const updatedLocation = {
-      ...location,
-      imageUrl,
-    };
-
-    updateLocationMutation.mutate(updatedLocation);
-  };
-
-  // If we're creating or editing a location, show the form
-  if (isCreating || selectedLocation) {
     return (
-      <LocationDetailView
-        projectId={projectId}
-        location={selectedLocation}
-        isCreating={isCreating}
-        onBack={() => {
-          setSelectedLocation(null);
-          setIsCreating(false);
-        }}
-        onEdit={handleEditLocation}
-        onDelete={handleDeleteLocation}
-      />
+      <Card 
+        key={location.id} 
+        className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-accent/5 creative-card"
+        onClick={() => setSelectedLocation(location)}
+      >
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                {location.imageUrl ? (
+                  <img 
+                    src={location.imageUrl} 
+                    alt={location.name}
+                    className="w-full h-full rounded-lg object-cover"
+                  />
+                ) : (
+                  <MapPin className="h-6 w-6 text-white" />
+                )}
+              </div>
+              <div>
+                <CardTitle className="text-lg group-hover:text-accent transition-colors">
+                  {location.name}
+                </CardTitle>
+                {location.type && (
+                  <Badge variant="secondary" className="mt-1 text-xs">
+                    {location.type}
+                  </Badge>
+                )}
+              </div>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <Button variant="ghost" size="sm">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedLocation(location);
+                }}>
+                  <Edit2 className="h-4 w-4 mr-2" />
+                  Edit Details
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteLocation(location.id!);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete Location
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+            {location.description || 'Click to add description and bring this location to life'}
+          </p>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-full bg-muted rounded-full h-2 max-w-[120px]">
+                <div 
+                  className="bg-accent h-2 rounded-full transition-all duration-300" 
+                  style={{ width: `${completion}%` }}
+                />
+              </div>
+              <span className="text-xs text-muted-foreground">{completion}%</span>
+            </div>
+            {completion < 50 && (
+              <Badge variant="outline" className="text-xs">
+                Ready to develop
+              </Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     );
-  }
+  };
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-64">Loading locations...</div>;
+  const renderLocationListItem = (location: Location) => {
+    const completion = calculateCompletion(location);
+    
+    return (
+      <Card 
+        key={location.id} 
+        className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:bg-accent/5 mb-3"
+        onClick={() => setSelectedLocation(location)}
+      >
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4 flex-1">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                {location.imageUrl ? (
+                  <img 
+                    src={location.imageUrl} 
+                    alt={location.name}
+                    className="w-full h-full rounded-lg object-cover"
+                  />
+                ) : (
+                  <MapPin className="h-6 w-6 text-white" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center space-x-2 mb-1">
+                  <h3 className="font-semibold text-lg group-hover:text-accent transition-colors truncate">
+                    {location.name}
+                  </h3>
+                  {location.type && (
+                    <Badge variant="secondary" className="text-xs">
+                      {location.type}
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-sm text-muted-foreground line-clamp-1 mb-2">
+                  {location.description || 'Ready to develop • Click to add details and bring this location to life'}
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-24 bg-muted rounded-full h-2">
+                      <div 
+                        className="bg-accent h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${completion}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground">{completion}%</span>
+                  </div>
+                  {completion < 50 && (
+                    <Badge variant="outline" className="text-xs">
+                      Ready to develop
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <Button variant="ghost" size="sm">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedLocation(location);
+                }}>
+                  <Edit2 className="h-4 w-4 mr-2" />
+                  Edit Details
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteLocation(location.id!);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete Location
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  if (selectedLocation) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center space-x-4">
+          <Button 
+            variant="ghost" 
+            onClick={() => setSelectedLocation(null)}
+            className="flex items-center space-x-2"
+          >
+            <ArrowUpDown className="h-4 w-4 rotate-90" />
+            <span>Back to Locations</span>
+          </Button>
+        </div>
+        {/* TODO: Add LocationDetailView component similar to CharacterDetailView */}
+        <div className="text-center py-12">
+          <MapPin className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+          <h3 className="text-2xl font-bold mb-2">{selectedLocation.name}</h3>
+          <p className="text-muted-foreground mb-6">Location detail view coming soon</p>
+          <Button onClick={() => setSelectedLocation(null)}>
+            Back to Locations
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-title text-2xl">Locations</h2>
+          <h1 className="text-3xl font-bold text-foreground">Locations</h1>
           <p className="text-muted-foreground">
-            {locations.length} {locations.length === 1 ? 'location' : 'locations'} in your world
+            {locations.length} location{locations.length === 1 ? '' : 's'} in your world
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button 
-            onClick={handleCreateNew} 
-            className="interactive-warm"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Location
-          </Button>
-          <Button 
-            onClick={() => setIsGenerationModalOpen(true)} 
-            disabled={!project || isGenerating}
-            variant="outline"
-            className="border-accent/20 hover:bg-accent/10"
-          >
-            <Sparkles className="h-4 w-4 mr-2" />
-            {isGenerating ? 'Generating...' : 'Generate Location'}
-          </Button>
-        </div>
+        <Button 
+          onClick={handleCreateLocation}
+          className="flex items-center space-x-2 bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground font-medium px-6"
+        >
+          <Plus className="h-4 w-4 rotate-0 transition-transform hover:rotate-90" />
+          <span>Create Location</span>
+        </Button>
       </div>
 
-      {/* Search and Sort Bar */}
-      <div className="flex gap-4">
+      {/* Search and Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search locations by name, description, or tags..."
+            placeholder="Search locations by name, type, or description..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 creative-input"
+            className="pl-10"
           />
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="min-w-[140px]">
-              <ArrowUpDown className="h-4 w-4 mr-2" />
-              {sortBy === 'alphabetical' && 'A-Z'}
-              {sortBy === 'recently-added' && 'Recently Added'}
-              {sortBy === 'recently-edited' && 'Recently Edited'}
+        
+        <div className="flex items-center space-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="flex items-center space-x-2">
+                <ArrowUpDown className="h-4 w-4" />
+                <span className="hidden sm:inline">Sort: {
+                  sortBy === 'alphabetical' ? 'A-Z' :
+                  sortBy === 'recently-added' ? 'Recently Added' :
+                  'Recently Edited'
+                }</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleSortChange('alphabetical')}>
+                Alphabetical (A-Z)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSortChange('recently-added')}>
+                Recently Added
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSortChange('recently-edited')}>
+                Recently Edited
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <div className="flex items-center border rounded-lg p-1">
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => handleViewModeChange('grid')}
+              className="p-2"
+            >
+              <Grid3X3 className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
-              Alphabetical (A-Z)
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
-              Recently Added
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
-              Recently Edited
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => handleViewModeChange('list')}
+              className="p-2"
+            >
+              <List className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Locations Grid */}
-      {filteredAndSortedLocations.length === 0 ? (
-        <div className="text-center py-12">
-          <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
-          <h3 className="text-lg font-semibold mb-2">No locations found</h3>
-          <p className="text-muted-foreground mb-4">
-            {searchQuery ? 'Try adjusting your search terms' : 'Create your first location to get started'}
-          </p>
-          {!searchQuery && (
-            <Button onClick={handleCreateNew} className="interactive-warm">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Location
-            </Button>
-          )}
-        </div>
-      ) : (
-        <div className="grid gap-4">
-          {filteredAndSortedLocations.map((location: Location) => (
-            <Card 
-              key={location.id} 
-              className="creative-card cursor-pointer hover:shadow-lg transition-all duration-200 border-yellow-500/30 hover:border-yellow-500/50"
-              onClick={() => handleLocationClick(location)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start gap-4">
-                  {/* Location Image - Clickable */}
-                  <div 
-                    className="w-16 h-16 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity relative group"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setPortraitLocation(location);
-                      setIsPortraitModalOpen(true);
-                    }}
-                  >
-                    {location.imageUrl ? (
-                      <img 
-                        src={location.imageUrl} 
-                        alt={location.name}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    ) : (
-                      <MapPin className="h-8 w-8 text-amber-600 dark:text-amber-400" />
-                    )}
-                    
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <Camera className="h-4 w-4 text-white" />
-                    </div>
+      {/* Content */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i} className="animate-pulse">
+              <CardHeader>
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-muted rounded-lg" />
+                  <div className="space-y-2 flex-1">
+                    <div className="h-4 bg-muted rounded" />
+                    <div className="h-3 bg-muted rounded w-2/3" />
                   </div>
-
-                  {/* Location Details */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg truncate">
-                          {location.name}
-                        </h3>
-                        
-                        {/* Basic Info Row */}
-                        <div className="flex items-center gap-2 mt-1 mb-3">
-                          <Badge variant="secondary" className="text-xs">
-                            Location
-                          </Badge>
-                          {location.tags && location.tags.length > 0 && (
-                            <>
-                              {location.tags.slice(0, 2).map((tag, index) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                  {tag}
-                                </Badge>
-                              ))}
-                              {location.tags.length > 2 && (
-                                <span className="text-xs text-muted-foreground">+{location.tags.length - 2} more</span>
-                              )}
-                            </>
-                          )}
-                        </div>
-
-                        {/* Location Details Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                          {location.description && (
-                            <div>
-                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Description</p>
-                              <p className="line-clamp-2 text-sm">{location.description}</p>
-                            </div>
-                          )}
-                          
-                          {location.atmosphere && (
-                            <div>
-                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Atmosphere</p>
-                              <p className="line-clamp-2 text-sm">{location.atmosphere}</p>
-                            </div>
-                          )}
-
-                          {location.significance && (
-                            <div>
-                              <p className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Significance</p>
-                              <p className="line-clamp-2 text-sm">{location.significance}</p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <DropdownMenu>
-                        <DropdownMenuTrigger 
-                          className="opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <MoreVertical className="h-4 w-4" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditLocation(location);
-                            }}
-                          >
-                            <Edit2 className="h-4 w-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteLocation(location);
-                            }}
-                            className="text-destructive"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="h-3 bg-muted rounded" />
+                  <div className="h-3 bg-muted rounded w-4/5" />
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+      ) : sortedLocations.length === 0 ? (
+        <Card className="creative-card">
+          <CardContent className="text-center py-12">
+            <MapPin className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-2xl font-bold mb-2">No locations yet</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Start building your world by creating your first location. Add places where your story unfolds.
+            </p>
+            <Button onClick={handleCreateLocation} className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70">
+              <Plus className="h-4 w-4 mr-2" />
+              Create Your First Location
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className={viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+          : "space-y-3"
+        }>
+          {sortedLocations.map(location => 
+            viewMode === 'grid' ? renderLocationCard(location) : renderLocationListItem(location)
+          )}
+        </div>
       )}
 
-      {/* Modals */}
-      {isGenerationModalOpen && project && (
-        <LocationGenerationModal
-          project={project}
-          existingLocations={locations}
-          onGenerate={handleGenerateLocation}
-          onClose={() => setIsGenerationModalOpen(false)}
-          isGenerating={isGenerating}
-        />
-      )}
-
-      {isPortraitModalOpen && portraitLocation && (
-        <LocationPortraitModal
-          isOpen={isPortraitModalOpen}
-          location={portraitLocation}
-          onClose={() => {
-            setIsPortraitModalOpen(false);
-            setPortraitLocation(null);
-          }}
-          onImageGenerated={(imageUrl: string) => handleUpdateImageData(portraitLocation?.id || '', imageUrl)}
-        />
+      {/* Creation Launch Modal - TODO: Add LocationCreationLaunch component */}
+      {isCreationLaunchOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-md mx-4">
+            <CardHeader>
+              <CardTitle>Create Location</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">Location creation wizard coming soon</p>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setIsCreationLaunchOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={() => setIsCreationLaunchOpen(false)}>
+                  OK
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
