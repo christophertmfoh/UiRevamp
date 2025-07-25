@@ -499,23 +499,52 @@ Generate a complete, detailed character that expands on these template foundatio
           onClick={() => setSelectedEntity(entity)}>
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-muted/30 flex items-center justify-center flex-shrink-0">
-            <Users className="h-6 w-6 text-muted-foreground" />
+          {/* Character Avatar with Image Support */}
+          <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted/30 flex items-center justify-center flex-shrink-0">
+            {entityType === 'character' && entity.imageUrl ? (
+              <img 
+                src={entity.imageUrl} 
+                alt={entity.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Users className="h-6 w-6 text-muted-foreground" />
+            )}
           </div>
 
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-lg group-hover:text-accent transition-colors truncate">
               {entity.name || 'Unnamed Entity'}
             </h3>
+            {entityType === 'character' && entity.title && (
+              <p className="text-accent/80 text-sm font-medium truncate">
+                "{entity.title}"
+              </p>
+            )}
             {entity.description && (
               <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
                 {entity.description}
               </p>
             )}
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-2 flex-wrap">
               <Badge variant="outline" className="text-xs">
                 {capitalizedEntityType}
               </Badge>
+              {entityType === 'character' && entity.role && (
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80">
+                  {entity.role}
+                </Badge>
+              )}
+              {entityType === 'character' && entity.race && (
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80">
+                  {entity.race}
+                </Badge>
+              )}
+              {entityType === 'character' && entity.class && (
+                <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80">
+                  {entity.class}
+                </Badge>
+              )}
             </div>
           </div>
 
