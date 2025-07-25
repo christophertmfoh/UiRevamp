@@ -9,7 +9,8 @@ import {
     generateLocationImage, fleshOutLocation,
     fleshOutFaction, getAICoachFeedback
 } from '../lib/services';
-import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
+// import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
+import { EntityListView } from '@/components/shared/EntityListView';
 import type { Project, SidebarItem, OutlineNode, Character, Location, Faction, CharacterRelationship, Item, GeneratedCharacter, FleshedOutCharacter, ImageAsset, ProseDocument, AICoachFeedback, AICraftConfig, AICraftPreset } from '../lib/types';
 import { readFileContent } from '../lib/utils';
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ const initialProject: Project = {
   items: [],
   proseDocuments: [],
   settings: {
-    aiCraftConfig: BUILT_IN_CRAFT_KNOWLEDGE
+    aiCraftConfig: {}
   }
 };
 
@@ -380,6 +381,19 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
     secrets: 'Possesses latent magical abilities she\'s afraid to use. Secretly funded by an underground resistance movement. Has a half-brother she believes is dead but who actually serves her enemies.'
   });
 
+  const iconMap: Record<string, React.ComponentType<any>> = {
+    'file-text': FileText,
+    'list': BookOpen,
+    'book-open': BookOpen,
+    'users': Users,
+    'map-pin': MapPin,
+    'flag': Flag,
+    'sword': Sword,
+    'brain': Bot,
+    'sparkles': Sparkles,
+    'lightbulb': Lightbulb
+  };
+
   const renderSidebarItem = (item: SidebarItem, index: number, parentPath = '') => {
     const Icon = iconMap[item.icon] || FileText;
     const path = parentPath ? `${parentPath}-${index}` : index.toString();
@@ -412,6 +426,34 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
   const renderContent = () => {
     switch (activeTool) {
       case 'characters':
+        return (
+          <EntityListView
+            entityType="character"
+            projectId={project.id}
+          />
+        );
+      case 'locations':
+        return (
+          <EntityListView
+            entityType="location"
+            projectId={project.id}
+          />
+        );
+      case 'factions':
+        return (
+          <EntityListView
+            entityType="faction"
+            projectId={project.id}
+          />
+        );
+      case 'items':
+        return (
+          <EntityListView
+            entityType="item"
+            projectId={project.id}
+          />
+        );
+      default:
         return (
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto space-y-8">
