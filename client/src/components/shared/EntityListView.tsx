@@ -98,8 +98,8 @@ export function EntityListView({
   const [selectedEntity, setSelectedEntity] = useState<BaseEntity | null>(null);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
 
-  // View state with persistence
-  const getStorageKey = () => `storyWeaver_viewMode_${entityType}_${projectId}`;
+  // View state with persistence (EntityListView)
+  const getStorageKey = () => `storyWeaver_viewMode_entityList_${entityType}_${projectId}`;
   
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     // Load saved view preference from localStorage

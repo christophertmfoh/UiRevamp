@@ -29,8 +29,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
 
-  // View state with persistence (matching EntityListView)
-  const getStorageKey = () => `storyWeaver_viewMode_character_${projectId}`;
+  // View state with persistence (original CharacterManager)
+  const getStorageKey = () => `storyWeaver_viewMode_characterManager_${projectId}`;
   
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     // Load saved view preference from localStorage
