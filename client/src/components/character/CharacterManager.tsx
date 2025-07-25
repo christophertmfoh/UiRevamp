@@ -133,7 +133,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       case 'recently-added':
         return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       case 'recently-edited':
-        return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        return [...chars].sort((a, b) => new Date(b.updatedAt || b.createdAt || 0).getTime() - new Date(a.updatedAt || a.createdAt || 0).getTime());
       default:
         return chars;
     }
