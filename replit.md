@@ -79,6 +79,7 @@ Story Weaver is an advanced AI-powered creative writing platform that empowers w
 
 ### July 25, 2025 - **DUPLICATE CLOSE BUTTON FIXES - COMPLETED**
 ✓ **AI CHARACTER ASSISTANT FIXED** - Removed duplicate X button from AIAssistModal header
+✓ **IMAGE PREVIEW MODAL FIXED** - Removed duplicate X button from expanded portrait view
 ✓ **MODAL CONSISTENCY VERIFIED** - Checked all generation modals (creature, prophecy, culture) for proper structure
 ✓ **PROPER DIALOG PATTERN** - All modals now use Dialog's built-in onOpenChange with cancel buttons at bottom
 ✓ **USER EXPERIENCE IMPROVED** - Single close button per modal eliminates confusion
