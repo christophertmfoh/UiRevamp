@@ -49,7 +49,11 @@ export function CharacterDetailAccordion({
 
   // Helper function to render array fields as badges
   const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline", showEmptyState: boolean = false) => {
+    // Debug logging
+    console.log(`renderArrayField - ${label}:`, values, typeof values, Array.isArray(values));
+    
     if (!values) {
+      console.log(`${label} - no values, showEmptyState:`, showEmptyState);
       if (showEmptyState) {
         return (
           <div>
@@ -79,7 +83,10 @@ export function CharacterDetailAccordion({
       processedValues = values.filter((v: string) => v?.trim());
     }
     
+    console.log(`${label} - processedValues:`, processedValues, processedValues.length);
+    
     if (processedValues.length === 0) {
+      console.log(`${label} - empty processed values, showEmptyState:`, showEmptyState);
       if (showEmptyState) {
         return (
           <div>
