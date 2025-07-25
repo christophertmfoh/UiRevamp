@@ -95,9 +95,23 @@ export function EntityListView({
 }: EntityListViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [selectedEntity, setSelectedEntity] = useState<BaseEntity | null>(null);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+
+  // View state with persistence
+  const getStorageKey = () => `storyWeaver_viewMode_${entityType}_${projectId}`;
+  
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    // Load saved view preference from localStorage
+    const saved = localStorage.getItem(getStorageKey());
+    return (saved as ViewMode) || 'grid';
+  });
+
+  // Save view preference whenever it changes
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    localStorage.setItem(getStorageKey(), mode);
+  };
   
   const queryClient = useQueryClient();
   const config = ENTITY_CONFIGS[entityType];
@@ -338,7 +352,7 @@ export function EntityListView({
               {/* Premium Key Traits */}
               {character.personalityTraits && character.personalityTraits.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {character.personalityTraits.slice(0, 3).map((trait, index) => (
+                  {character.personalityTraits.slice(0, 3).map((trait: string, index: number) => (
                     <span key={index} className="text-xs px-3 py-1.5 bg-accent/15 text-accent rounded-full font-semibold border border-accent/20">
                       {trait}
                     </span>
@@ -715,7 +729,7 @@ export function EntityListView({
               <Button
                 variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('grid')}
+                onClick={() => handleViewModeChange('grid')}
                 className="h-8 w-8 p-0"
               >
                 <Grid3X3 className="h-4 w-4" />
@@ -723,7 +737,7 @@ export function EntityListView({
               <Button
                 variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('list')}
+                onClick={() => handleViewModeChange('list')}
                 className="h-8 w-8 p-0"
               >
                 <List className="h-4 w-4" />
