@@ -5,6 +5,7 @@ import {
   factions, 
   items, 
   organizations,
+  magicSystems,
   outlines, 
   proseDocuments, 
   characterRelationships, 
@@ -22,6 +23,8 @@ import {
   type InsertItem,
   type Organization,
   type InsertOrganization,
+  type MagicSystem,
+  type InsertMagicSystem,
   type Outline,
   type InsertOutline,
   type ProseDocument,
@@ -78,6 +81,13 @@ export interface IStorage {
   createOrganization(organization: InsertOrganization): Promise<Organization>;
   updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined>;
   deleteOrganization(id: string): Promise<boolean>;
+
+  // Magic System operations
+  getMagicSystems(projectId: string): Promise<MagicSystem[]>;
+  getMagicSystem(id: string): Promise<MagicSystem | undefined>;
+  createMagicSystem(magicSystem: InsertMagicSystem): Promise<MagicSystem>;
+  updateMagicSystem(id: string, magicSystem: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined>;
+  deleteMagicSystem(id: string): Promise<boolean>;
 
   // Outline operations
   getOutlines(projectId: string): Promise<Outline[]>;
@@ -296,11 +306,7 @@ export class DatabaseStorage implements IStorage {
       })
     );
     
-    const [newOrganization] = await db.insert(organizations).values({
-      ...cleanedData,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }).returning();
+    const [newOrganization] = await db.insert(organizations).values(cleanedData).returning();
     
     if (!newOrganization) {
       throw new Error('Failed to create organization - no data returned from database');
@@ -338,6 +344,35 @@ export class DatabaseStorage implements IStorage {
 
   async deleteOrganization(id: string): Promise<boolean> {
     const result = await db.delete(organizations).where(eq(organizations.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Magic System operations
+  async getMagicSystems(projectId: string): Promise<MagicSystem[]> {
+    return await db.select().from(magicSystems).where(eq(magicSystems.projectId, projectId));
+  }
+
+  async getMagicSystem(id: string): Promise<MagicSystem | undefined> {
+    const [magicSystem] = await db.select().from(magicSystems).where(eq(magicSystems.id, id));
+    return magicSystem || undefined;
+  }
+
+  async createMagicSystem(magicSystem: InsertMagicSystem): Promise<MagicSystem> {
+    const [newMagicSystem] = await db.insert(magicSystems).values(magicSystem).returning();
+    return newMagicSystem;
+  }
+
+  async updateMagicSystem(id: string, magicSystem: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined> {
+    const [updatedMagicSystem] = await db
+      .update(magicSystems)
+      .set(magicSystem)
+      .where(eq(magicSystems.id, id))
+      .returning();
+    return updatedMagicSystem || undefined;
+  }
+
+  async deleteMagicSystem(id: string): Promise<boolean> {
+    const result = await db.delete(magicSystems).where(eq(magicSystems.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 

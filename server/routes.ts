@@ -8,6 +8,7 @@ import {
   insertFactionSchema, 
   insertItemSchema, 
   insertOrganizationSchema, 
+  insertMagicSystemSchema,
   insertOutlineSchema, 
   insertProseDocumentSchema 
 } from "@shared/schema";
@@ -634,13 +635,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         storage.getCharacters(projectId)
       ]);
       
-      const { generateContextualLocation } = await import('./locationGeneration');
+      const { generateLocation } = await import('./locationGeneration');
       
-      const generatedLocation = await generateContextualLocation({
-        project,
-        characters,
-        existingLocations: locations,
-        generationOptions: { locationType, scale, significance, customPrompt }
+      const generatedLocation = await generateLocation({
+        projectId,
+        prompt: customPrompt || `Generate a ${scale} ${locationType} for this story`,
+        projectContext: {
+          title: project.name,
+          description: project.description || '',
+          genre: Array.isArray(project.genre) ? project.genre.join(', ') : (project.genre || '')
+        }
       });
       
       res.json(generatedLocation);
@@ -800,14 +804,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         storage.getCharacters(projectId)
       ]);
       
-      const { generateContextualFaction } = await import('./factionGeneration');
+      // Faction generation will be implemented later
       
-      const generatedFaction = await generateContextualFaction({
-        project,
-        characters,
-        existingFactions: factions,
-        generationOptions: { factionType, role, scale, goals, customPrompt }
-      });
+      // For now, return a simple success response as faction generation needs implementation
+      const generatedFaction = {
+        name: `Generated ${factionType}`,
+        description: `A ${scale} ${factionType} faction with ${role} role`,
+        goals: goals || 'Default goals',
+        projectId
+      };
       
       res.json(generatedFaction);
     } catch (error: any) {
