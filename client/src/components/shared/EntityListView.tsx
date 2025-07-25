@@ -245,10 +245,10 @@ Generate a complete, detailed character that expands on these template foundatio
         projectId: projectId
       };
       
-      const createdCharacter = await createCharacterMutation.mutateAsync(characterFromTemplate);
+      const createdCharacter = await createEntityMutation.mutateAsync(characterFromTemplate);
       console.log('Template-based character creation completed:', createdCharacter);
       
-      setSelectedCharacter(createdCharacter);
+      setSelectedEntity(createdCharacter);
       setIsCreating(false);
       setIsTemplateModalOpen(false);
     } catch (error) {
@@ -260,7 +260,7 @@ Generate a complete, detailed character that expands on these template foundatio
         projectId: projectId
       };
       
-      setNewCharacterData(characterFromTemplate);
+      setNewEntityData(characterFromTemplate);
       setIsCreating(true);
       setIsTemplateModalOpen(false);
     } finally {
@@ -299,10 +299,10 @@ Generate a complete, detailed character that expands on these template foundatio
       
       console.log('Creating character with data:', characterToCreate);
       
-      const createdCharacter = await createCharacterMutation.mutateAsync(characterToCreate);
+      const createdCharacter = await createEntityMutation.mutateAsync(characterToCreate);
       console.log('Character creation completed, created character:', createdCharacter);
       
-      setSelectedCharacter(createdCharacter);
+      setSelectedEntity(createdCharacter);
       setIsCreating(false);
       setIsGenerationModalOpen(false);
     } catch (error) {
@@ -724,7 +724,6 @@ Generate a complete, detailed character that expands on these template foundatio
             onClose={() => setIsGenerationModalOpen(false)}
             onGenerate={handleGenerateCharacter}
             isGenerating={isGenerating}
-            project={project}
           />
 
           {/* Character Templates Modal */}
