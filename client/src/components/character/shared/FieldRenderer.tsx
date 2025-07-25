@@ -12,16 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FieldAIAssist } from '../FieldAIAssist';
 import { getFieldDefinition, type FieldDefinition } from '@/lib/config/fieldConfig';
 import { Star } from 'lucide-react';
+import type { UniversalFieldRendererProps } from '../../lib/types/entityTypes';
 
-interface FieldRendererProps {
-  fieldKey: string;
-  value: any;
-  onChange: (value: any) => void;
-  onEnhance?: (fieldKey: string, fieldLabel: string) => void;
-  isEnhancing?: boolean;
-  error?: string;
-  disabled?: boolean;
-  showPriority?: boolean;
+interface FieldRendererProps extends Omit<UniversalFieldRendererProps, 'fieldDefinition'> {
+  // Extends universal props, gets fieldDefinition internally via fieldKey
 }
 
 export function FieldRenderer({

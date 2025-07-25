@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
+import type { EntityManagerProps } from '../../lib/types/entityTypes';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
@@ -15,10 +16,8 @@ import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationLaunch } from './CharacterCreationLaunch';
 import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
-interface CharacterManagerProps {
-  projectId: string;
+interface CharacterManagerProps extends Omit<EntityManagerProps, 'entityType'> {
   selectedCharacterId?: string | null;
-  onClearSelection?: () => void;
 }
 
 type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';

@@ -5,15 +5,12 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles } from 'lucide-react';
+import type { Character } from '../../lib/types';
+import type { EntityTemplate, EntityTemplatesProps } from '../../lib/types/entityTypes';
 
-interface CharacterTemplate {
-  id: string;
-  name: string;
-  description: string;
+interface CharacterTemplate extends EntityTemplate<Character> {
   category: 'fantasy' | 'modern' | 'scifi' | 'romance' | 'thriller' | 'universal';
   icon: React.ComponentType<any>;
-  fields: Partial<any>; // Character fields pre-filled
-  tags: string[];
   popularity: number;
 }
 
@@ -493,9 +490,7 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
   }
 ];
 
-interface CharacterTemplatesProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface CharacterTemplatesProps extends Omit<EntityTemplatesProps<Character>, 'entityType'> {
   onSelectTemplate: (template: CharacterTemplate) => void;
   isGenerating?: boolean;
 }

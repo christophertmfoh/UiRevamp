@@ -4,15 +4,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Sparkles, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
+import type { EntityFieldAIAssistProps } from '../../lib/types/entityTypes';
 
-interface FieldAIAssistProps {
+interface FieldAIAssistProps extends EntityFieldAIAssistProps<Character> {
   character: Character;
-  fieldKey: string;
-  fieldLabel: string;
-  currentValue: any;
-  onFieldUpdate: (value: any) => void;
-  disabled?: boolean;
-  fieldOptions?: string[];
 }
 
 export function FieldAIAssist({ 

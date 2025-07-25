@@ -10,12 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
+import type { EntityFormProps } from '../../lib/types/entityTypes';
 import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition } from '../../lib/config/fieldConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
-interface CharacterFormExpandedProps {
-  projectId: string;
-  onCancel: () => void;
+interface CharacterFormExpandedProps extends Omit<EntityFormProps<Character>, 'entityType' | 'entity' | 'initialData'> {
   character?: Character;
 }
 
