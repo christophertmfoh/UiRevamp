@@ -1,4 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap');
+/* Apple/A24/Neon Studios Inspired Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=SF+Pro+Display:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Helvetica+Neue:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Fallback to system fonts for Apple aesthetic */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: local('-apple-system'), local('BlinkMacSystemFont'), local('San Francisco'), local('Helvetica Neue'), local('Arial');
+  font-weight: 100 900;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -164,46 +173,182 @@ body {
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground;
     background: var(--gradient-warm);
     background-attachment: fixed;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Inter, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1, "liga" 1;
+    font-variant-ligatures: common-ligatures;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     line-height: 1.6;
     font-weight: 400;
   }
   
-  /* Typography hierarchy for modern literary feel */
-  .font-serif {
-    font-family: 'Source Serif 4', 'Georgia', serif;
-  }
-  
-  .font-literary {
-    font-family: 'Source Serif 4', 'Georgia', serif;
+  /* Apple/A24/Neon Studios Typography Scale */
+  .typography-display-large {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
     font-optical-sizing: auto;
   }
   
-  .font-title {
-    font-family: 'Playfair Display', 'Georgia', serif;
-    font-weight: 600;
+  .typography-display-medium {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.2;
     letter-spacing: -0.02em;
+    font-optical-sizing: auto;
+  }
+  
+  .typography-headline-large {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+  
+  .typography-headline-medium {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  
+  .typography-title-large {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+  }
+  
+  .typography-body-large {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+  
+  .typography-body-medium {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  
+  .typography-label-large {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+  
+  .typography-label-medium {
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  
+  /* A24-inspired High Contrast Moments */
+  .typography-contrast-high {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .typography-contrast-thin {
+    font-weight: 200;
+    letter-spacing: 0.02em;
+  }
+  
+  /* Legacy compatibility - keeping for existing components */
+  .font-sans {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+  
+  .font-title {
+    @apply typography-headline-large typography-contrast-high;
   }
   
   .font-display {
-    font-family: 'Playfair Display', 'Georgia', serif;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    @apply typography-display-large typography-contrast-high;
+  }
+}
+
+/* Apple-inspired Spacing System (8pt grid) */
+@layer utilities {
+  .space-apple-xs { @apply space-y-1; }      /* 4px */
+  .space-apple-sm { @apply space-y-2; }      /* 8px */
+  .space-apple-md { @apply space-y-4; }      /* 16px */
+  .space-apple-lg { @apply space-y-6; }      /* 24px */
+  .space-apple-xl { @apply space-y-8; }      /* 32px */
+  .space-apple-2xl { @apply space-y-12; }    /* 48px */
+  .space-apple-3xl { @apply space-y-16; }    /* 64px */
+  
+  .gap-apple-xs { @apply gap-1; }
+  .gap-apple-sm { @apply gap-2; }
+  .gap-apple-md { @apply gap-4; }
+  .gap-apple-lg { @apply gap-6; }
+  .gap-apple-xl { @apply gap-8; }
+  
+  /* Apple-inspired Shadows */
+  .shadow-apple-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
   }
   
-  .font-sans {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  .shadow-apple-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .shadow-apple-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* A24-inspired Refined Borders */
+  .border-a24 {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .border-a24-thick {
+    border: 2px solid rgba(255, 255, 255, 0.12);
+  }
+  
+  /* Neon Studios Bold Moments */
+  .text-neon-bold {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Premium Interactive States */
+  .interactive-apple {
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .interactive-apple:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
   }
 }
 
 @layer components {
-  /* Modern Cozy Creative Components */
+  /* Apple/A24/Neon Inspired Creative Components */
   .creative-card {
-    @apply bg-card border border-border rounded-xl;
+    @apply bg-card border border-border rounded-xl shadow-apple-md interactive-apple;
     background: linear-gradient(135deg, hsl(28, 12%, 11%), hsl(25, 10%, 9%));
     box-shadow: var(--shadow-warm);
     backdrop-filter: blur(8px);
