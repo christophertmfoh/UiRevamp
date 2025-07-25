@@ -21,10 +21,10 @@ export const AI_CONFIG = {
   maxOutputTokens: 200,
   candidateCount: 1,
   safetySettings: [
-    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
+    { category: "HARM_CATEGORY_HARASSMENT" as any, threshold: "BLOCK_ONLY_HIGH" as any },
+    { category: "HARM_CATEGORY_HATE_SPEECH" as any, threshold: "BLOCK_ONLY_HIGH" as any },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT" as any, threshold: "BLOCK_ONLY_HIGH" as any },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT" as any, threshold: "BLOCK_ONLY_HIGH" as any }
   ]
 };
 
@@ -206,5 +206,96 @@ Personality: ${personality}
 Goals: ${goals}
 
 This character context should inform all generated content.`;
+  }
+
+  // ================================
+  // LOCATION FIELD ENHANCEMENT
+  // ================================
+
+  static async enhanceLocationField(
+    location: any,
+    fieldKey: string,
+    fieldLabel: string,
+    context: string = ''
+  ): Promise<string> {
+    const prompt = this.buildLocationFieldPrompt(location, fieldKey, fieldLabel, context);
+    const result = await generateWithRetry(prompt);
+    return result;
+  }
+
+  private static buildLocationFieldPrompt(
+    location: any,
+    fieldKey: string,
+    fieldLabel: string,
+    context: string
+  ): string {
+    const locationContext = this.buildLocationContext(location);
+    
+    const fieldPrompts: Record<string, string> = {
+      // Identity fields
+      name: "Generate a memorable, evocative name that fits the location type and world setting",
+      nicknames: "Create believable nicknames locals would use for this place",
+      locationType: "Determine the most appropriate type classification for this location",
+      description: "Write a vivid, immersive description that captures the essence and atmosphere",
+      
+      // Physical & Geographic fields  
+      physicalDescription: "Create detailed physical appearance with specific visual elements",
+      geography: "Describe geographic features, positioning, and natural characteristics",
+      terrain: "Detail the land features, elevation changes, and ground composition",
+      climate: "Explain weather patterns, seasonal changes, and atmospheric conditions",
+      atmosphere: "Capture the mood, feeling, and emotional impact of being in this place",
+      
+      // Architecture & Infrastructure
+      architecture: "Describe building styles, construction methods, and architectural features",
+      buildings: "Detail specific structures, their purposes, and notable characteristics",
+      layout: "Explain the spatial organization and how areas connect to each other",
+      districts: "Identify different areas or neighborhoods within the location",
+      
+      // Society & Culture
+      population: "Describe the inhabitants, their numbers, and demographic composition",
+      culture: "Detail customs, traditions, and way of life of the people here",
+      governance: "Explain how the location is ruled, organized, and administered",
+      
+      // History & Significance
+      history: "Create a rich backstory explaining how this place came to be",
+      founding: "Tell the origin story of how this location was established",
+      significance: "Explain why this location is important to the story and world",
+      legends: "Generate myths, tales, and folklore associated with this place",
+      
+      // Story Elements
+      narrativeRole: "Define this location's function and purpose in the story structure",
+      mysteries: "Create intriguing secrets or unexplained phenomena hidden here",
+      scenes: "Describe potential dramatic events or encounters that could happen here"
+    };
+    
+    const fieldPrompt = fieldPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} for this location`;
+    
+    return `You are a professional world-building expert. ${fieldPrompt}.
+
+LOCATION CONTEXT:
+${locationContext}
+
+${context}
+
+Generate ${fieldLabel.toLowerCase()}:`;
+  }
+  
+  private static buildLocationContext(location: any): string {
+    const name = location.name || 'Unknown Location';
+    const locationType = location.locationType || 'Unknown';
+    const description = location.description || '';
+    const atmosphere = location.atmosphere || '';
+    const history = location.history || '';
+    const significance = location.significance || '';
+    
+    return `=== LOCATION ANALYSIS ===
+Name: ${name}
+Type: ${locationType}
+Description: ${description}
+Atmosphere: ${atmosphere}
+History: ${history}
+Significance: ${significance}
+
+This location context should inform all generated content.`;
   }
 }
