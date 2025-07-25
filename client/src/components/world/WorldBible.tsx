@@ -29,7 +29,18 @@ import {
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
-import { EntityListView } from '../shared/EntityListView';
+import { LocationManager } from '../location';
+import { FactionManager } from '../faction';
+import { ItemManager } from '../item';
+
+import { OrganizationManager } from '../organization';
+import { MagicSystemManager } from '../magic-system';
+import { TimelineEventManager } from '../timeline-event';
+import { CreatureManager } from '../creature';
+import { LanguageManager } from '../language';
+import { CultureManager } from '../culture';
+import { ProphecyManager } from '../prophecy';
+import { ThemeManager } from '../theme';
 
 interface WorldBibleProps {
   project: Project;
@@ -46,15 +57,72 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [draggedCharacterId, setDraggedCharacterId] = useState<string | null>(null);
   const [dragOverCharacterId, setDragOverCharacterId] = useState<string | null>(null);
 
-  // Fetch character data
+  // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
     queryKey: ['/api/projects', project.id, 'characters'],
   });
 
-  // Search functionality for characters
+  const { data: locations = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'locations'],
+  });
+
+  const { data: factions = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'factions'],
+  });
+
+  const { data: items = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'items'],
+  });
+
+  const { data: organizations = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'organizations'],
+  });
+
+  const { data: magicSystems = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'magic-systems'],
+  });
+
+  const { data: timelineEvents = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'timeline-events'],
+  });
+
+  const { data: creatures = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'creatures'],
+  });
+
+  const { data: languages = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'languages'],
+  });
+
+  const { data: cultures = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'cultures'],
+  });
+
+  const { data: prophecies = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'prophecies'],
+  });
+
+  const { data: themes = [] } = useQuery<any[]>({
+    queryKey: ['/api/projects', project.id, 'themes'],
+  });
+
+  // Global search functionality across all world bible categories
   const allWorldData = useMemo(() => {
-    return characters.map(item => ({ ...item, category: 'characters', categoryLabel: 'Characters', icon: Users }));
-  }, [characters]);
+    return [
+      ...characters.map(item => ({ ...item, category: 'characters', categoryLabel: 'Characters', icon: Users })),
+      ...locations.map(item => ({ ...item, category: 'locations', categoryLabel: 'Locations', icon: MapPin })),
+      ...factions.map(item => ({ ...item, category: 'factions', categoryLabel: 'Factions', icon: Shield })),
+      ...items.map(item => ({ ...item, category: 'items', categoryLabel: 'Items', icon: Package })),
+      ...organizations.map(item => ({ ...item, category: 'organizations', categoryLabel: 'Organizations', icon: Crown })),
+      ...magicSystems.map(item => ({ ...item, category: 'magic-systems', categoryLabel: 'Magic Systems', icon: Sparkles })),
+      ...timelineEvents.map(item => ({ ...item, category: 'timeline-events', categoryLabel: 'Timeline', icon: Clock })),
+      ...creatures.map(item => ({ ...item, category: 'creatures', categoryLabel: 'Creatures', icon: Eye })),
+      ...languages.map(item => ({ ...item, category: 'languages', categoryLabel: 'Languages', icon: Languages })),
+      ...cultures.map(item => ({ ...item, category: 'cultures', categoryLabel: 'Cultures', icon: Heart })),
+      ...prophecies.map(item => ({ ...item, category: 'prophecies', categoryLabel: 'Prophecies', icon: Scroll })),
+      ...themes.map(item => ({ ...item, category: 'themes', categoryLabel: 'Themes', icon: Globe })),
+    ];
+  }, [characters, locations, factions, items, organizations, magicSystems, timelineEvents, creatures, languages, cultures, prophecies, themes]);
 
   // Search results based on query
   const searchResults = useMemo(() => {
@@ -75,12 +143,57 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         if (item.tags.some((tag: string) => tag.toLowerCase().includes(query))) return true;
       }
       
-      // Search in character-specific fields
+      // Search in specific fields based on category
       if (item.category === 'characters') {
         const searchFields = [
           item.race, item.occupation, item.background, item.personality,
-          item.goals, item.fears, item.secrets
+          item.appearance, item.goals, item.fears, item.secrets
         ];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'locations') {
+        const searchFields = [item.history, item.significance, item.atmosphere];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'factions') {
+        const searchFields = [item.goals, item.methods, item.history, item.leadership];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+      }
+      
+      if (item.category === 'magic-systems') {
+        const searchFields = [item.type, item.source, item.limitations, item.corruption];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.practitioners && Array.isArray(item.practitioners)) {
+          if (item.practitioners.some((p: string) => p.toLowerCase().includes(query))) return true;
+        }
+        if (item.effects && Array.isArray(item.effects)) {
+          if (item.effects.some((e: string) => e.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'timeline-events') {
+        const searchFields = [item.era, item.period, item.significance, item.consequences];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.participants && Array.isArray(item.participants)) {
+          if (item.participants.some((p: string) => p.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'creatures') {
+        const searchFields = [
+          item.species, item.classification, item.habitat, item.behavior, 
+          item.threat, item.significance
+        ];
+        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
+        if (item.abilities && Array.isArray(item.abilities)) {
+          if (item.abilities.some((a: string) => a.toLowerCase().includes(query))) return true;
+        }
+      }
+      
+      if (item.category === 'prophecies') {
+        const searchFields = [item.text, item.origin, item.interpretation, item.fulfillment];
         if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
       }
       
@@ -172,13 +285,126 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         "Ontological Horror"
       ]
     },
-    characters: []
+    characters: [],
+    locations: locations,
+    factions: [
+      {
+        name: "The Cultist Group",
+        type: "Apocalyptic Cult",
+        description: "Emerged from despair, believing the Dream Weaver's 'uncontrolled' dreaming is the source of chaos. Aim to harness dream power to impose absolute order.",
+        goals: ["Corrupt the Dream Weaver", "Impose absolute order", "Control reality through dreams"],
+        methods: ["Psychological manipulation", "Dream corruption", "Chaos-pattern injection"],
+        status: "Active/Primary Antagonist",
+        threat: "Directly responsible for triggering the cataclysm"
+      },
+      {
+        name: "The Stone Lords", 
+        type: "Ancient Magical Nobility",
+        description: "Kings and lords who harnessed magic to infuse their essence into colossal stone monuments. Now awakened and rampaging during the championships.",
+        goals: ["Cement legacies", "Demonstrate power", "Relive past glory"],
+        methods: ["Earth manipulation", "Monument animation", "Historical echo projection"],
+        status: "Awakened/Chaotic",
+        threat: "Widespread destruction through ancient power"
+      }
+    ],
+    organizations: [
+      {
+        name: "Great Stone Lord Championships",
+        type: "Ancient Competition",
+        description: "Grand spectacle where Stone Lords demonstrate their power through colossal monument animation and earth manipulation contests.",
+        structure: "Ceremonial hierarchy with ancient protocols",
+        status: "Active during cataclysm",
+        significance: "Backdrop for the apocalyptic events"
+      }
+    ],
+    magic: [
+      {
+        name: "The Flow of Magic",
+        type: "Cosmic Phenomenon",
+        description: "Widespread magic that emerged from the intertwined emanations of The Bloom and Dream Weaver. Enabled diverse magical classes and Stone Lord power.",
+        source: "Essylt (Bloom) + Somnus (Dream Weaver)",
+        effects: ["Enabled magical classes", "Stone Lord essence infusion", "Reality manipulation"],
+        corruption: "Now tainted by Dream Weaver's corruption and Bloom's forced unity"
+      },
+      {
+        name: "Dream Weaving",
+        type: "Cosmic Magic",
+        description: "Somnus's mastered art of manipulating dreams and reality through dreamscape. Now corrupted by cultists to manifest nightmares as Waking Phantoms.",
+        practitioners: ["Somnus (Dream Weaver)", "Cultists (corrupted version)"],
+        effects: ["Reality manipulation", "Dream control", "Nightmare manifestation"],
+        corruption: "Seed nightmares and chaos-patterns injected by cultists"
+      },
+      {
+        name: "Bloom Integration", 
+        type: "Assimilation Magic",
+        description: "Essylt's power to absorb and integrate living beings into the fungal hive mind. Transforms individuals while preserving their essence in collective consciousness.",
+        practitioners: ["Essylt (The Bloom)", "Bloom-assimilated creatures"],
+        effects: ["Consciousness integration", "Physical transformation", "Hive mind expansion"],
+        purpose: "Create unified solace and end individual suffering"
+      }
+    ],
+    timeline: [
+      {
+        era: "Primordial Era",
+        period: "Before Flow of Magic",
+        events: [
+          "Silent Earth: World devoid of widespread magic",
+          "Cosmic Arcana manifestation: Essylt and Somnus bound by absolute magical love",
+          "Rudimentary societies, dormant cosmic energies"
+        ]
+      },
+      {
+        era: "The Separation",
+        period: "Warlock's Journey", 
+        events: [
+          "Somnus embarks on cosmic journey to master dreamweaving",
+          "Essylt consumed by loneliness and longing",
+          "Essylt transforms into The Bloom as testament of love"
+        ]
+      },
+      {
+        era: "Age of Magic",
+        period: "Dream Weaver's Return",
+        events: [
+          "Somnus returns as Dream Weaver, finds Essylt transformed", 
+          "Garden of Expanse becomes cosmic focal point",
+          "Flow of Magic emerges from their combined emanations",
+          "Rise of magical classes and Stone Lords",
+          "Cycles of decline, terror, and meaningless conflict"
+        ]
+      },
+      {
+        era: "The Cataclysm",
+        period: "Present Crisis",
+        events: [
+          "Great Stone Lord Championships begin",
+          "Cultists corrupt Dream Weaver with seed nightmares",
+          "Waking Phantoms manifest across the realm", 
+          "Bloom rapidly expands to engulf realm in protective hive mind",
+          "Stone Lords awaken and rampage",
+          "Heroes unite inadvertently, Chronicler documents"
+        ]
+      }
+    ]
   };
 
   // World Bible categories with drag-and-drop capability (moved after worldData definition)
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: characters.length, locked: false }
+    { id: 'characters', label: 'Characters', icon: Users, count: characters.length, locked: false },
+
+    { id: 'locations', label: 'Locations', icon: MapPin, count: locations.length, locked: false },
+
+    { id: 'factions', label: 'Factions', icon: Shield, count: factions.length, locked: false },
+    { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length, locked: false },
+    { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length, locked: false },
+    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: magicSystems.length, locked: false },
+    { id: 'timeline', label: 'Timeline', icon: Clock, count: timelineEvents.length, locked: false },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length, locked: false },
+    { id: 'languages', label: 'Languages', icon: Languages, count: languages.length, locked: false },
+    { id: 'culture', label: 'Culture', icon: Heart, count: cultures.length, locked: false },
+    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: prophecies.length, locked: false },
+    { id: 'themes', label: 'Themes', icon: Sword, count: themes.length, locked: false }
   ]);
 
   // Update counts dynamically when data changes
@@ -186,10 +412,34 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
     setCategories(prev => prev.map(cat => {
       switch (cat.id) {
         case 'characters': return { ...cat, count: characters.length };
+        case 'locations': return { ...cat, count: locations.length };
+        case 'factions': return { ...cat, count: factions.length };
+        case 'organizations': return { ...cat, count: organizations.length };
+        case 'items': return { ...cat, count: items.length };
+        case 'magic': return { ...cat, count: magicSystems.length };
+        case 'timeline': return { ...cat, count: timelineEvents.length };
+        case 'bestiary': return { ...cat, count: creatures.length };
+        case 'languages': return { ...cat, count: languages.length };
+        case 'culture': return { ...cat, count: cultures.length };
+        case 'prophecies': return { ...cat, count: prophecies.length };
+        case 'themes': return { ...cat, count: themes.length };
         default: return cat;
       }
     }));
-  }, [characters.length]);
+  }, [
+    characters.length, 
+    locations.length, 
+    factions.length, 
+    organizations.length, 
+    items.length, 
+    magicSystems.length, 
+    timelineEvents.length, 
+    creatures.length, 
+    languages.length, 
+    cultures.length, 
+    prophecies.length, 
+    themes.length
+  ]);
 
   // Render search results
   const renderSearchResults = () => {
@@ -548,7 +798,91 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 </CardContent>
               </Card>
 
+              {/* Locations Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <MapPin className="h-5 w-5 mr-2" />
+                      Important Locations
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'locations')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {locations.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <MapPin className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                      <p>No locations created yet</p>
+                    </div>
+                  ) : (
+                    locations.slice(0, 3).map((location, index) => (
+                      <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-green-500/50">
+                        <div className="font-medium">{location.name}</div>
+                        <div className="text-sm text-muted-foreground">{location.description?.substring(0, 80)}...</div>
+                      </div>
+                    ))
+                  )}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('locations')}>
+                    View All Locations →
+                  </Button>
+                </CardContent>
+              </Card>
 
+              {/* Factions Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Shield className="h-5 w-5 mr-2" />
+                      Major Factions
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'factions')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.factions.slice(0, 2).map((faction, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-red-500/50">
+                      <div className="font-medium">{faction.name}</div>
+                      <div className="text-sm text-muted-foreground">{faction.type}</div>
+                      <div className="flex gap-1 mt-1">
+                        <Badge variant="destructive" className="text-xs">{faction.threat}</Badge>
+                        <Badge variant="outline" className="text-xs">{faction.status}</Badge>
+                      </div>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('factions')}>
+                    View All Factions →
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Timeline Section */}
+              <Card className="creative-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <Clock className="h-5 w-5 mr-2" />
+                      Recent Timeline
+                    </span>
+                    <Badge variant="outline">{categories.find(cat => cat.id === 'timeline')?.count || 0}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {worldData.timeline.slice(-2).map((era, index) => (
+                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-blue-500/50">
+                      <div className="font-medium">{era.era}</div>
+                      <div className="text-sm text-muted-foreground">{era.period}</div>
+                      <Badge variant="secondary" className="mt-1 text-xs">
+                        {era.events.length} events
+                      </Badge>
+                    </div>
+                  ))}
+                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('timeline')}>
+                    View Full Timeline →
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Quick Actions */}
@@ -557,10 +891,22 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <Button variant="outline" size="sm" onClick={() => setActiveCategory('characters')}>
                     <Users className="h-4 w-4 mr-2" />
                     Add Character
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('locations')}>
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Add Location
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('magic')}>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Add Magic System
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('timeline')}>
+                    <Clock className="h-4 w-4 mr-2" />
+                    Add Event
                   </Button>
                 </div>
               </CardContent>
@@ -569,10 +915,40 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         );
 
       case 'characters':
-        return <EntityListView entityType="character" projectId={project.id} />;
+        return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
-        return <EntityListView entityType="location" projectId={project.id} />;
+        return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'factions':
+        return <FactionManager projectId={project.id} selectedFactionId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'magic':
+        return <MagicSystemManager projectId={project.id} selectedMagicSystemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'timeline':
+        return <TimelineEventManager projectId={project.id} selectedTimelineEventId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'items':
+        return <ItemManager projectId={project.id} selectedItemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'organizations':
+        return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'bestiary':
+        return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'languages':
+        return <LanguageManager projectId={project.id} selectedLanguageId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'culture':
+        return <CultureManager projectId={project.id} selectedCultureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'prophecies':
+        return <ProphecyManager projectId={project.id} selectedProphecyId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'themes':
+        return <ThemeManager projectId={project.id} selectedThemeId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       default:
         return (

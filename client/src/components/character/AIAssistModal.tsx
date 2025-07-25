@@ -112,6 +112,14 @@ export function AIAssistModal({ isOpen, onClose, onStartAssist, isProcessing }: 
               <DialogTitle className="text-xl font-bold text-foreground">AI Character Assistant</DialogTitle>
               <p className="text-sm text-muted-foreground mt-1">Let AI help develop your character with smart, contextual details</p>
             </div>
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              size="sm"
+              className="ml-auto"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
         </DialogHeader>
 

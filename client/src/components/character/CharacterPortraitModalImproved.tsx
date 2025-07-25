@@ -688,7 +688,15 @@ export function CharacterPortraitModal({
                 </>
               )}
               
-
+              {/* Close button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedImagePreview(null)}
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
               
               {/* Image counter and info */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">

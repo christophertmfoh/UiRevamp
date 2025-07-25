@@ -9,8 +9,7 @@ import {
     generateLocationImage, fleshOutLocation,
     fleshOutFaction, getAICoachFeedback
 } from '../lib/services';
-// import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
-import { EntityListView } from '@/components/shared/EntityListView';
+import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
 import type { Project, SidebarItem, OutlineNode, Character, Location, Faction, CharacterRelationship, Item, GeneratedCharacter, FleshedOutCharacter, ImageAsset, ProseDocument, AICoachFeedback, AICraftConfig, AICraftPreset } from '../lib/types';
 import { readFileContent } from '../lib/utils';
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ const initialProject: Project = {
   items: [],
   proseDocuments: [],
   settings: {
-    aiCraftConfig: {}
+    aiCraftConfig: BUILT_IN_CRAFT_KNOWLEDGE
   }
 };
 
@@ -78,13 +77,6 @@ const initialSidebarItems: SidebarItem[] = [
         label: 'Characters',
         icon: 'users',
         toolId: 'characters',
-        isVisible: true
-      },
-      {
-        id: 'characters-duplicate',
-        label: 'Characters (Copy)',
-        icon: 'users',
-        toolId: 'characters-clone',
         isVisible: true
       },
       {
@@ -388,28 +380,14 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
     secrets: 'Possesses latent magical abilities she\'s afraid to use. Secretly funded by an underground resistance movement. Has a half-brother she believes is dead but who actually serves her enemies.'
   });
 
-  const iconMap: Record<string, React.ComponentType<any>> = {
-    'file-text': FileText,
-    'list': BookOpen,
-    'book-open': BookOpen,
-    'users': Users,
-    'map-pin': MapPin,
-    'flag': Flag,
-    'sword': Sword,
-    'brain': Bot,
-    'sparkles': Sparkles,
-    'lightbulb': Lightbulb
-  };
-
   const renderSidebarItem = (item: SidebarItem, index: number, parentPath = '') => {
     const Icon = iconMap[item.icon] || FileText;
     const path = parentPath ? `${parentPath}-${index}` : index.toString();
     const isActive = activeTool === item.toolId;
     const hasChildren = item.children && item.children.length > 0;
-    const uniqueKey = parentPath ? `${parentPath}-${item.id}` : item.id;
 
     return (
-      <div key={uniqueKey}>
+      <div key={item.id}>
         <Button
           variant={isActive ? "default" : "ghost"}
           className={`w-full justify-start ${isActive ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}
@@ -418,14 +396,13 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
           <Icon className="w-5 h-5 mr-3" />
           <span className="flex-grow text-left">{item.label}</span>
           {item.toolId === 'characters' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">7</Badge>}
-          {item.toolId === 'characters-clone' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">7</Badge>}
           {item.toolId === 'locations' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">12</Badge>}
           {item.toolId === 'factions' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">3</Badge>}
           {item.toolId === 'items' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">5</Badge>}
         </Button>
         {hasChildren && (
-          <div className="ml-3 mt-1 space-y-1">
-            {item.children!.map((child, childIndex) => renderSidebarItem(child, childIndex, `${path}-child`))}
+          <div className="ml-6 mt-1 space-y-1">
+            {item.children!.map((child, childIndex) => renderSidebarItem(child, childIndex, path))}
           </div>
         )}
       </div>
@@ -435,86 +412,6 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
   const renderContent = () => {
     switch (activeTool) {
       case 'characters':
-        return (
-          <EntityListView
-            entityType="character"
-            projectId={project.id}
-          />
-        );
-      case 'characters-clone':
-        return (
-          <EntityListView
-            entityType="character"
-            projectId={project.id}
-          />
-        );
-      case 'locations':
-        return (
-          <EntityListView
-            entityType="location"
-            projectId={project.id}
-          />
-        );
-      case 'factions':
-        return (
-          <EntityListView
-            entityType="faction"
-            projectId={project.id}
-          />
-        );
-      case 'items':
-        return (
-          <EntityListView
-            entityType="item"
-            projectId={project.id}
-          />
-        );
-      case 'world-bible':
-        return (
-          <div className="flex-1 p-6 overflow-y-auto">
-            <div className="max-w-4xl mx-auto space-y-6">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-white mb-4">World Bible</h2>
-                <p className="text-slate-400 mb-8">Explore your story's universe through the sidebar navigation</p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="bg-slate-800/50 border-slate-700/50">
-                  <CardContent className="p-6">
-                    <Users className="w-8 h-8 text-indigo-400 mb-4" />
-                    <h3 className="font-semibold text-lg text-white mb-2">Characters</h3>
-                    <p className="text-slate-400">Manage your story's cast and their development</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-700/50">
-                  <CardContent className="p-6">
-                    <MapPin className="w-8 h-8 text-emerald-400 mb-4" />
-                    <h3 className="font-semibold text-lg text-white mb-2">Locations</h3>
-                    <p className="text-slate-400">Build the settings and environments</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-700/50">
-                  <CardContent className="p-6">
-                    <Flag className="w-8 h-8 text-amber-400 mb-4" />
-                    <h3 className="font-semibold text-lg text-white mb-2">Factions</h3>
-                    <p className="text-slate-400">Create organizations and groups</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="bg-slate-800/50 border-slate-700/50">
-                  <CardContent className="p-6">
-                    <Sword className="w-8 h-8 text-red-400 mb-4" />
-                    <h3 className="font-semibold text-lg text-white mb-2">Items</h3>
-                    <p className="text-slate-400">Design artifacts and equipment</p>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        );
-      default:
         return (
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto space-y-8">
@@ -736,6 +633,19 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
             </div>
           </div>
         );
+
+      default:
+        return (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Settings className="w-8 h-8 text-slate-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Tool Under Development</h3>
+              <p className="text-slate-400">This feature is being built and will be available soon.</p>
+            </div>
+          </div>
+        );
     }
   };
 
@@ -781,22 +691,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
             <div>
               <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">World Bible</h3>
               <div className="space-y-1">
-                {/* Render World Bible parent */}
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-slate-400 hover:text-white hover:bg-slate-700/50"
-                  onClick={() => setActiveTool('world-bible')}
-                >
-                  <BookOpen className="w-5 h-5 mr-3" />
-                  <span className="flex-grow text-left">Overview</span>
-                </Button>
-                {/* Always show World Bible children */}
-                <div className="ml-3 space-y-1">
-                  {sidebarItems[2].children?.map((child, childIndex) => {
-                    console.log('Rendering child:', child.label, child.toolId, 'key:', `world-bible-${child.id}`);
-                    return renderSidebarItem(child, childIndex, 'world-bible');
-                  })}
-                </div>
+                {sidebarItems.slice(2, 3).map((item, index) => renderSidebarItem(item, index + 2))}
               </div>
             </div>
 
