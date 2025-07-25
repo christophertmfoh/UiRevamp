@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition } from '../../lib/config/fieldConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
@@ -27,7 +27,8 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     const initialData: any = {};
     
     CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
+      const fields = getFieldsBySection(section.id);
+      fields.forEach((field: FieldDefinition) => {
         const value = (character as any)?.[field.key];
         if (field.type === 'array') {
           initialData[field.key] = Array.isArray(value) ? value.join(', ') : '';
@@ -46,13 +47,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`/api/projects/${projectId}/characters`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) throw new Error('Failed to create character');
-      return response.json();
+      return await apiRequest('POST', `/api/projects/${projectId}/characters`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
@@ -62,13 +57,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await fetch(`/api/characters/${character?.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) throw new Error('Failed to update character');
-      return response.json();
+      return await apiRequest('PUT', `/api/characters/${character?.id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
@@ -88,7 +77,8 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
     // Process array fields
     CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
+      const fields = getFieldsBySection(section.id);
+      fields.forEach((field: FieldDefinition) => {
         if (field.type === 'array') {
           const value = formData[field.key];
           processedData[field.key] = typeof value === 'string' 
@@ -265,7 +255,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       <p className="text-sm text-muted-foreground">{section.description}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      {section.fields.map(renderField)}
+                      {getFieldsBySection(section.id).map(renderField)}
                     </div>
                   </div>
                 </TabsContent>
