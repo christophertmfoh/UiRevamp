@@ -86,7 +86,7 @@ export function CharacterDetailAccordion({
           console.log('- RETURNING EMPTY STATE JSX');
         }
         return (
-          <div>
+          <div style={{border: '2px solid red', padding: '10px', backgroundColor: 'yellow'}}>
             <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
             <div className="text-center py-4 text-muted-foreground">
               <div className="text-sm">No {label.toLowerCase()} added yet</div>
