@@ -62,9 +62,11 @@ export async function generateContentUnified(
     
     // If response is blocked or empty, try ultra-simple prompt
     console.log('Empty response, trying ultra-simple prompt');
-    const ultraSimplePrompt = prompt.includes('nicknames') ? 'List nicknames' : 
-                             prompt.includes('personality') ? 'Describe personality' :
-                             prompt.includes('goals') ? 'List goals' : 'Generate content';
+    const ultraSimplePrompt = prompt.includes('nicknames') ? 'List 3 nicknames' : 
+                             prompt.includes('personality') ? 'Describe character personality' :
+                             prompt.includes('goals') ? 'List character goals' : 
+                             prompt.includes('Create a fully-developed character') ? 'Create simple character' :
+                             'Generate basic content';
     
     const fallbackResponse = await ai.models.generateContent({
       model: finalConfig.model,
@@ -87,6 +89,7 @@ export async function generateContentUnified(
       return fallbackContent;
     }
     
+    console.log('All AI generation attempts failed, will use fallback');
     throw new Error('Unable to generate content');
     
   } catch (error) {

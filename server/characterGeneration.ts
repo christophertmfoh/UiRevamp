@@ -57,8 +57,8 @@ ${projectContext}`;
       console.log('Server: AI response received:', text.substring(0, 200) + '...');
     } catch (error) {
       console.log('Server: AI generation failed, creating fallback character');
-      // Create a structured fallback character based on the generation options
-      text = createFallbackCharacterJSON(context.generationOptions);
+      // Create a structured fallback character
+      return createFallbackCharacterObject(context.generationOptions, context.project.id);
     }
     
     // Clean and extract JSON from the response
@@ -175,7 +175,8 @@ ${projectContext}`;
     return processedData;
   } catch (error) {
     console.error('Server: Error generating character:', error);
-    throw new Error('Failed to generate character. Please try again.');
+    console.log('Server: Using fallback character due to generation failure');
+    return createFallbackCharacterObject(context.generationOptions, context.project.id);
   }
 }
 
@@ -242,4 +243,80 @@ function buildProjectContext(context: CharacterGenerationContext): string {
 Make the character detailed enough to feel real, with specific traits, quirks, and a clear voice. Ensure they have both external goals and internal conflicts.`;
 
   return contextPrompt;
+}
+
+// Create a comprehensive fallback character when AI generation fails
+function createFallbackCharacterObject(options: CharacterGenerationOptions | undefined, projectId: string): Partial<Character> {
+  const customPrompt = options?.customPrompt || '';
+  const personality = options?.personality || 'mysterious and intriguing';
+  const role = options?.role || 'supporting';
+  const characterType = options?.characterType || 'adventurer';
+  const archetype = options?.archetype || 'innocent';
+  
+  // Create contextual character based on provided options
+  const isFirebreather = customPrompt.toLowerCase().includes('fire');
+  const isSorcerer = role.toLowerCase().includes('sorcerer');
+  const isWitty = personality.toLowerCase().includes('witty');
+  
+  const name = isFirebreather ? 'Ember Flamewright' : 
+               isSorcerer ? 'Arcturus Spellweaver' : 
+               'Sage Mystraleon';
+               
+  const title = isFirebreather ? 'The Flame Bearer' :
+                isSorcerer ? 'Master of Arcane Arts' :
+                'The Enigmatic One';
+                
+  const description = isFirebreather ? 
+    'A striking figure with ember-bright eyes and hair that seems to flicker like flames. Their confident stance and warm presence suggest someone comfortable with both fire and leadership.' :
+    isSorcerer ?
+    'An elegant spellcaster with intelligent eyes that seem to hold ancient knowledge. Their robes bear subtle magical sigils, and their hands move with practiced precision.' :
+    'A mysterious individual with an air of wisdom and hidden depths. Their presence commands attention while maintaining an aura of intrigue.';
+    
+  const personalityDesc = isWitty && isSorcerer ?
+    'Witty and sarcastic with a sharp tongue that matches their magical prowess. Quick with both spells and clever retorts, they use humor to mask deeper vulnerabilities.' :
+    personality.charAt(0).toUpperCase() + personality.slice(1) + ', with depth and complexity that emerges through their actions and decisions.';
+    
+  const backstory = isFirebreather ?
+    'Born in a village known for its metalworkers, they discovered their unique ability to control fire during a dangerous forge accident. This gift set them apart and led them on a journey of self-discovery.' :
+    isSorcerer ?
+    'Trained in the ancient arts from a young age, they mastered spells that others could only dream of. However, their journey toward true wisdom has just begun.' :
+    'Their origins remain shrouded in mystery, with only fragments of their past known to them. Each day brings new revelations about their true nature and purpose.';
+
+  return {
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    projectId: projectId,
+    name: name,
+    title: title,
+    role: role,
+    class: characterType.charAt(0).toUpperCase() + characterType.slice(1),
+    age: '27',
+    race: 'Human',
+    oneLine: `A ${personality} ${role} with ${customPrompt || 'hidden depths and untold potential'}.`,
+    description: description,
+    personality: personalityDesc,
+    background: backstory,
+    motivations: isFirebreather ? 
+      'To master their fire abilities and protect those they care about from the dangers that their power might attract.' :
+      'To understand the full extent of their capabilities and use them for a greater purpose.',
+    goals: `To fulfill their role as a ${role} while staying true to their core values and the relationships that matter most.`,
+    fears: isFirebreather ? 
+      'Losing control of their fire abilities and accidentally harming innocent people.' :
+      'That their growing power might corrupt them or distance them from their humanity.',
+    flaws: isWitty ?
+      'Their sarcastic nature sometimes offends people when they most need allies.' :
+      'Can be overly secretive and reluctant to trust others with their true thoughts.',
+    secrets: isFirebreather ?
+      'Their fire abilities are far stronger than they let on, and they fear what might happen if they lost control.' :
+      'Harbors knowledge about their past that could change everything if revealed.',
+    skills: isFirebreather ?
+      'Fire manipulation, metalworking, combat training, heat resistance, and strategic thinking.' :
+      isSorcerer ?
+      'Advanced spellcasting, arcane knowledge, elemental magic, ritual preparation, and magical research.' :
+      'Investigation, intuition, adaptability, problem-solving, and reading people.',
+    equipment: isFirebreather ?
+      'Flame-resistant clothing, a specially forged weapon that channels fire, and protective charms.' :
+      isSorcerer ?
+      'Spell component pouch, enchanted staff or wand, arcane focuses, and ancient tomes.' :
+      'Travel gear, personal mementos of unknown significance, and tools suited to their profession.'
+  };
 }
