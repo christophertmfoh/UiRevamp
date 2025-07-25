@@ -53,6 +53,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [featuredCharacterOrder, setFeaturedCharacterOrder] = useState<string[]>([]);
+  const [draggedCharacterId, setDraggedCharacterId] = useState<string | null>(null);
+  const [dragOverCharacterId, setDragOverCharacterId] = useState<string | null>(null);
 
   // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
@@ -628,22 +630,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                       <Users className="h-5 w-5 mr-2" />
                       Featured Characters
                     </span>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline">{characters.length}</Badge>
-                      {characters.length > 0 && (
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => {
-                            // Toggle ordering mode or show all characters
-                            setActiveCategory('characters');
-                          }}
-                          className="text-xs hover:bg-accent/10"
-                        >
-                          Manage
-                        </Button>
-                      )}
-                    </div>
+                    <Badge variant="outline">{characters.length}</Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -669,19 +656,39 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                         return featuredChars.slice(0, 4).map((character, index) => (
                           <div 
                             key={character.id} 
-                            className="group p-3 bg-muted/30 rounded-lg border-l-4 border-accent/50 cursor-pointer hover:bg-muted/40 transition-colors flex items-center gap-3"
+                            className={`group p-3 rounded-lg border-l-4 cursor-pointer flex items-center gap-3 transition-all duration-300 ease-out ${
+                              draggedCharacterId === character.id 
+                                ? 'bg-accent/20 border-accent scale-105 shadow-lg z-10' 
+                                : dragOverCharacterId === character.id
+                                ? 'bg-muted/50 border-accent/70 transform translate-y-1'
+                                : 'bg-muted/30 border-accent/50 hover:bg-muted/40 hover:border-accent/70'
+                            }`}
+                            style={{
+                              transform: draggedCharacterId === character.id ? 'rotate(2deg)' : 'rotate(0deg)',
+                            }}
                             onClick={() => {
-                              setSelectedItemId(character.id!);
-                              setActiveCategory('characters');
+                              if (!draggedCharacterId) {
+                                setSelectedItemId(character.id!);
+                                setActiveCategory('characters');
+                              }
                             }}
                             draggable
                             onDragStart={(e) => {
+                              setDraggedCharacterId(character.id!);
                               e.dataTransfer.setData('text/plain', character.id!);
                               e.dataTransfer.effectAllowed = 'move';
                             }}
+                            onDragEnd={() => {
+                              setDraggedCharacterId(null);
+                              setDragOverCharacterId(null);
+                            }}
                             onDragOver={(e) => {
                               e.preventDefault();
+                              setDragOverCharacterId(character.id!);
                               e.dataTransfer.dropEffect = 'move';
+                            }}
+                            onDragLeave={() => {
+                              setDragOverCharacterId(null);
                             }}
                             onDrop={(e) => {
                               e.preventDefault();
@@ -696,6 +703,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                                 newOrder.splice(dropIndex, 0, draggedItem);
                                 setFeaturedCharacterOrder(newOrder);
                               }
+                              
+                              setDraggedCharacterId(null);
+                              setDragOverCharacterId(null);
                             }}
                           >
                             <div className="flex-shrink-0">
@@ -722,8 +732,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                                 </Badge>
                               )}
                             </div>
-                            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab" />
+                            <div className={`flex-shrink-0 transition-all duration-200 ${
+                              draggedCharacterId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                            }`}>
+                              <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab active:cursor-grabbing" />
                             </div>
                           </div>
                         ));
@@ -734,7 +746,13 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                     variant="ghost" 
                     size="sm" 
                     className="w-full mt-3" 
-                    onClick={() => setActiveCategory('characters')}
+                    onClick={() => {
+                      setActiveCategory('characters');
+                      // Scroll to top when navigating to characters page
+                      setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 100);
+                    }}
                   >
                     {characters.length === 0 ? 'Add First Character' : 'View All Characters'} →
                   </Button>
