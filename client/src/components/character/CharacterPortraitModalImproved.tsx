@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye } from 'lucide-react';
+import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye, X } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { Character } from '../../lib/types';
 
@@ -31,6 +31,7 @@ export function CharacterPortraitModal({
   const [activeTab, setActiveTab] = useState('generate');
   const [stylePrompt, setStylePrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
   const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
@@ -368,12 +369,13 @@ export function CharacterPortraitModal({
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                       {portraitGallery.map((portrait) => (
-                        <Card key={portrait.id} className="group overflow-hidden">
+                        <Card key={portrait.id} className="group overflow-hidden cursor-pointer">
                           <div className="relative">
                             <img 
                               src={portrait.url} 
                               alt={`Portrait of ${character.name}`}
-                              className="w-full aspect-square object-cover"
+                              className="w-full aspect-square object-cover transition-transform group-hover:scale-105"
+                              onClick={() => setSelectedImagePreview(portrait.url)}
                             />
                             
                             {/* Main badge */}
@@ -391,7 +393,21 @@ export function CharacterPortraitModal({
                               <Button
                                 size="sm"
                                 variant="secondary"
-                                onClick={() => handleSetMainImage(portrait.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedImagePreview(portrait.url);
+                                }}
+                                className="bg-white/90 hover:bg-white text-black"
+                              >
+                                <Eye className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="secondary"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSetMainImage(portrait.id);
+                                }}
                                 disabled={portrait.isMain}
                                 className="bg-accent/90 hover:bg-accent text-accent-foreground"
                               >
@@ -400,7 +416,10 @@ export function CharacterPortraitModal({
                               <Button
                                 size="sm"
                                 variant="secondary"
-                                onClick={() => handleDeleteImage(portrait.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteImage(portrait.id);
+                                }}
                                 className="bg-red-500/90 hover:bg-red-500 text-white"
                               >
                                 <Trash2 className="h-3 w-3" />
@@ -431,6 +450,37 @@ export function CharacterPortraitModal({
           </Tabs>
         </div>
       </DialogContent>
+
+      {/* Image Preview Modal */}
+      {selectedImagePreview && (
+        <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>
+          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none">
+            <div className="relative bg-black/90 rounded-lg overflow-hidden">
+              <img 
+                src={selectedImagePreview} 
+                alt={`Full size portrait of ${character.name}`}
+                className="w-full h-auto max-h-[80vh] object-contain"
+              />
+              
+              {/* Close button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedImagePreview(null)}
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              
+              {/* Image info */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-white font-semibold text-lg">{character.name}</h3>
+                <p className="text-white/80 text-sm">Character Portrait</p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Dialog>
   );
 }
