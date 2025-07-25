@@ -1,4 +1,4 @@
-import { generateContentUnified } from './services/unifiedAI';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { Project, Character } from '../shared/schema';
 
 interface CharacterGenerationOptions {
@@ -16,7 +16,17 @@ interface CharacterGenerationContext {
   generationOptions?: CharacterGenerationOptions;
 }
 
-// Optimized character generation using unified AI service
+// Initialize Gemini client
+function getGeminiClient(): GoogleGenerativeAI {
+  const apiKey = process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  
+  if (!apiKey) {
+    throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
+  }
+  
+  console.log('Server: Initializing Gemini client with API key found');
+  return new GoogleGenerativeAI(apiKey);
+}
 
 export async function generateContextualCharacter(
   context: CharacterGenerationContext
@@ -25,41 +35,42 @@ export async function generateContextualCharacter(
     // Build context from project data
     const projectContext = buildProjectContext(context);
     
-    const prompt = `Create a fully-developed character for a story project. Generate valid JSON with these fields:
+    const client = getGeminiClient();
+    const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
 
+Your response must be valid JSON in this exact format. Use only regular double quotes, avoid smart quotes or special characters:
 {
   "name": "Character Name",
-  "title": "Character Title", 
-  "role": "protagonist/antagonist/supporting",
+  "title": "Character Title or Epithet", 
+  "role": "protagonist/antagonist/supporting/etc",
   "class": "Character Class or Profession",
   "age": "25",
   "race": "Character Race/Species",
   "oneLine": "One-sentence character description",
-  "description": "Detailed physical description",
-  "personality": "Personality traits and behaviors", 
-  "backstory": "Background history",
-  "motivations": "Core driving forces",
-  "goals": "Primary objectives",
-  "fears": "Main fears",
-  "flaws": "Character weaknesses",
-  "secrets": "Hidden aspects",
-  "skills": "Abilities and expertise",
-  "equipment": "Notable possessions"
+  "description": "Detailed physical description including height, build, distinctive features, clothing style, and any notable characteristics",
+  "personality": "Detailed personality traits, quirks, mannerisms, speech patterns, and behavioral tendencies", 
+  "backstory": "Rich background history explaining how they became who they are today",
+  "motivations": "Deep driving forces and core desires that compel their actions",
+  "goals": "Specific short-term and long-term objectives they want to achieve",
+  "fears": "What terrifies them most, both rational and irrational fears",
+  "flaws": "Character weaknesses, blind spots, and negative traits that create conflict",
+  "secrets": "Hidden aspects, past events, or knowledge they don't want others to discover",
+  "skills": "Specific abilities, talents, training, and areas of expertise",
+  "equipment": "Notable possessions, tools, weapons, or gear they carry or own"
 }
+
+IMPORTANT: Ensure all text within quotes is properly escaped. Avoid using quotes within the character descriptions or use single quotes instead. Make sure the JSON is valid and complete.
 
 ${projectContext}`;
 
-    console.log('Server: Generating character with unified AI service');
-    let text: string;
+    console.log('Server: Sending prompt to Gemini');
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    const text = response.text();
     
-    try {
-      text = await generateContentUnified(prompt, { maxOutputTokens: 800 });
-      console.log('Server: AI response received:', text.substring(0, 200) + '...');
-    } catch (error) {
-      console.log('Server: AI generation failed, creating fallback character');
-      // Create a structured fallback character
-      return createFallbackCharacterObject(context.generationOptions, context.project.id);
-    }
+    console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
     
     // Clean and extract JSON from the response
     let cleanText = text;
@@ -175,8 +186,7 @@ ${projectContext}`;
     return processedData;
   } catch (error) {
     console.error('Server: Error generating character:', error);
-    console.log('Server: Using fallback character due to generation failure');
-    return createFallbackCharacterObject(context.generationOptions, context.project.id);
+    throw new Error('Failed to generate character. Please try again.');
   }
 }
 
@@ -243,80 +253,4 @@ function buildProjectContext(context: CharacterGenerationContext): string {
 Make the character detailed enough to feel real, with specific traits, quirks, and a clear voice. Ensure they have both external goals and internal conflicts.`;
 
   return contextPrompt;
-}
-
-// Create a comprehensive fallback character when AI generation fails
-function createFallbackCharacterObject(options: CharacterGenerationOptions | undefined, projectId: string): Partial<Character> {
-  const customPrompt = options?.customPrompt || '';
-  const personality = options?.personality || 'mysterious and intriguing';
-  const role = options?.role || 'supporting';
-  const characterType = options?.characterType || 'adventurer';
-  const archetype = options?.archetype || 'innocent';
-  
-  // Create contextual character based on provided options
-  const isFirebreather = customPrompt.toLowerCase().includes('fire');
-  const isSorcerer = role.toLowerCase().includes('sorcerer');
-  const isWitty = personality.toLowerCase().includes('witty');
-  
-  const name = isFirebreather ? 'Ember Flamewright' : 
-               isSorcerer ? 'Arcturus Spellweaver' : 
-               'Sage Mystraleon';
-               
-  const title = isFirebreather ? 'The Flame Bearer' :
-                isSorcerer ? 'Master of Arcane Arts' :
-                'The Enigmatic One';
-                
-  const description = isFirebreather ? 
-    'A striking figure with ember-bright eyes and hair that seems to flicker like flames. Their confident stance and warm presence suggest someone comfortable with both fire and leadership.' :
-    isSorcerer ?
-    'An elegant spellcaster with intelligent eyes that seem to hold ancient knowledge. Their robes bear subtle magical sigils, and their hands move with practiced precision.' :
-    'A mysterious individual with an air of wisdom and hidden depths. Their presence commands attention while maintaining an aura of intrigue.';
-    
-  const personalityDesc = isWitty && isSorcerer ?
-    'Witty and sarcastic with a sharp tongue that matches their magical prowess. Quick with both spells and clever retorts, they use humor to mask deeper vulnerabilities.' :
-    personality.charAt(0).toUpperCase() + personality.slice(1) + ', with depth and complexity that emerges through their actions and decisions.';
-    
-  const backstory = isFirebreather ?
-    'Born in a village known for its metalworkers, they discovered their unique ability to control fire during a dangerous forge accident. This gift set them apart and led them on a journey of self-discovery.' :
-    isSorcerer ?
-    'Trained in the ancient arts from a young age, they mastered spells that others could only dream of. However, their journey toward true wisdom has just begun.' :
-    'Their origins remain shrouded in mystery, with only fragments of their past known to them. Each day brings new revelations about their true nature and purpose.';
-
-  return {
-    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-    projectId: projectId,
-    name: name,
-    title: title,
-    role: role,
-    class: characterType.charAt(0).toUpperCase() + characterType.slice(1),
-    age: '27',
-    race: 'Human',
-    oneLine: `A ${personality} ${role} with ${customPrompt || 'hidden depths and untold potential'}.`,
-    description: description,
-    personality: personalityDesc,
-    background: backstory,
-    motivations: isFirebreather ? 
-      'To master their fire abilities and protect those they care about from the dangers that their power might attract.' :
-      'To understand the full extent of their capabilities and use them for a greater purpose.',
-    goals: `To fulfill their role as a ${role} while staying true to their core values and the relationships that matter most.`,
-    fears: isFirebreather ? 
-      'Losing control of their fire abilities and accidentally harming innocent people.' :
-      'That their growing power might corrupt them or distance them from their humanity.',
-    flaws: isWitty ?
-      'Their sarcastic nature sometimes offends people when they most need allies.' :
-      'Can be overly secretive and reluctant to trust others with their true thoughts.',
-    secrets: isFirebreather ?
-      'Their fire abilities are far stronger than they let on, and they fear what might happen if they lost control.' :
-      'Harbors knowledge about their past that could change everything if revealed.',
-    skills: isFirebreather ?
-      'Fire manipulation, metalworking, combat training, heat resistance, and strategic thinking.' :
-      isSorcerer ?
-      'Advanced spellcasting, arcane knowledge, elemental magic, ritual preparation, and magical research.' :
-      'Investigation, intuition, adaptability, problem-solving, and reading people.',
-    equipment: isFirebreather ?
-      'Flame-resistant clothing, a specially forged weapon that channels fire, and protective charms.' :
-      isSorcerer ?
-      'Spell component pouch, enchanted staff or wand, arcane focuses, and ancient tomes.' :
-      'Travel gear, personal mementos of unknown significance, and tools suited to their profession.'
-  };
 }

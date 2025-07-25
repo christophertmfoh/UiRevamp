@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
@@ -27,8 +27,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     const initialData: any = {};
     
     CHARACTER_SECTIONS.forEach(section => {
-      const sectionFields = getFieldsBySection(section.id);
-      sectionFields.forEach(field => {
+      section.fields.forEach(field => {
         const value = (character as any)?.[field.key];
         if (field.type === 'array') {
           initialData[field.key] = Array.isArray(value) ? value.join(', ') : '';
@@ -89,8 +88,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
     // Process array fields
     CHARACTER_SECTIONS.forEach(section => {
-      const sectionFields = getFieldsBySection(section.id);
-      sectionFields.forEach(field => {
+      section.fields.forEach(field => {
         if (field.type === 'array') {
           const value = formData[field.key];
           processedData[field.key] = typeof value === 'string' 
@@ -115,13 +113,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  // Helper function to check if field should show AI assist
-  const shouldShowAIAssist = (field: any, sectionId: string) => {
-    if (!character) return false;
-    return AI_ENABLED_FIELD_TYPES.includes(field.type);
-  };
-
-  const renderField = (field: any, sectionId: string) => {
+  const renderField = (field: any) => {
     const value = formData[field.key] || '';
     
     switch (field.type) {
@@ -130,7 +122,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
-              {shouldShowAIAssist(field, sectionId) && (
+              {character && (
                 <FieldAIAssist
                   character={character}
                   fieldKey={field.key}
@@ -175,7 +167,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key} className="col-span-2">
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
-              {shouldShowAIAssist(field, sectionId) && (
+              {character && (
                 <FieldAIAssist
                   character={character}
                   fieldKey={field.key}
@@ -200,7 +192,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           <div key={field.key}>
             <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
-              {shouldShowAIAssist(field, sectionId) && (
+              {character && (
                 <FieldAIAssist
                   character={character}
                   fieldKey={field.key}
@@ -208,7 +200,6 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                   currentValue={value}
                   onFieldUpdate={(newValue) => updateField(field.key, newValue)}
                   disabled={isEnhancing}
-                  fieldOptions={field.options}
                 />
               )}
             </div>
@@ -274,7 +265,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
                       <p className="text-sm text-muted-foreground">{section.description}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      {getFieldsBySection(section.id).map(field => renderField(field, section.id))}
+                      {section.fields.map(renderField)}
                     </div>
                   </div>
                 </TabsContent>

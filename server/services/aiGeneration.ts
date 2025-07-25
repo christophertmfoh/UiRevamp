@@ -3,24 +3,14 @@
  * Consolidates all AI generation functionality with consistent patterns
  */
 
-import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-// Initialize AI service with multiple fallback API keys
+// Initialize AI service with fallback API keys
 const getAIService = () => {
-  const apiKeys = [
-    process.env.GOOGLE_API_KEY_NEW,
-    process.env.GOOGLE_API_KEY4, 
-    process.env.GOOGLE_API_KEY,
-    process.env.GEMINI_API_KEY
-  ].filter(Boolean);
-  
-  if (apiKeys.length === 0) {
-    throw new Error('No AI API keys available');
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('No AI API key available');
   }
-  
-  // Try keys in order
-  const apiKey = apiKeys[0];
-  console.log(`Using API key: ${apiKey?.substring(0, 10)}...`);
   return new GoogleGenAI({ apiKey });
 };
 
@@ -31,10 +21,10 @@ export const AI_CONFIG = {
   maxOutputTokens: 200,
   candidateCount: 1,
   safetySettings: [
-    { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-    { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-    { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH },
-    { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH }
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
   ]
 };
 
@@ -86,32 +76,20 @@ export async function generateWithRetry(
 
       const content = response.text?.trim() || '';
       
-      // Handle safety filter blocking with ultra-simple prompts
+      // Handle safety filter blocking
       if (response.candidates?.[0]?.finishReason === 'SAFETY') {
-        console.log(`Response blocked by safety filters, trying ultra-simple prompt`);
+        console.log(`Response blocked by safety filters, trying simpler prompt`);
         
-        // Extract just the character name and field type for minimal prompt
-        const charName = prompt.includes('Character:') ? prompt.split('Character:')[1]?.split('(')[0]?.trim() || 'Character' : 'Character';
-        const fieldType = prompt.includes('Task:') ? prompt.split('Task:')[1]?.split('\n')[0]?.toLowerCase().includes('nickname') ? 'nicknames' : 'content' : 'content';
-        
-        const ultraSimplePrompt = fieldType === 'nicknames' ? 
-          `What are good nicknames for someone named ${charName}?` :
-          `Describe ${charName}`;
-          
+        const safePrompt = `Generate appropriate content: ${prompt.substring(0, 100)}`;
         const safeResponse = await ai.models.generateContent({
           model: config.model,
           config: { 
-            temperature: 0.5, 
-            maxOutputTokens: 50,
+            temperature: 0.7, 
+            maxOutputTokens: 100,
             candidateCount: 1,
-            safetySettings: [
-              { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-              { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-              { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-              { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE }
-            ]
+            safetySettings: safetySettings
           },
-          contents: ultraSimplePrompt,
+          contents: safePrompt,
         });
         
         const safeContent = safeResponse.text?.trim() || '';
@@ -172,31 +150,28 @@ export class AIGenerationService {
     // Build contextual character analysis
     const characterContext = this.buildCharacterContext(character);
     
-    // Simple, direct field-specific prompts that work better with safety filters
+    // Field-specific prompting
     const fieldPrompts: Record<string, string> = {
-      nicknames: `Generate 2-3 appropriate nicknames for ${character.name}. Return only the nicknames, separated by commas.`,
-      aliases: `Generate 1-2 suitable aliases or code names for ${character.name}. Return only the aliases, separated by commas.`,
-      title: `Generate an appropriate professional title for ${character.name}. Return only the title.`,
-      personality: "Generate a personality description with specific traits and behavioral patterns",
+      personality: "Generate a rich personality description with specific traits, quirks, and behavioral patterns",
       background: "Create a compelling backstory that explains how this character became who they are",
       goals: "Define clear, specific objectives that drive this character's actions",
       motivations: "Explain the deep emotional or psychological reasons behind their goals",
       talents: "List natural gifts and innate abilities this character was born with",
       skills: "Describe learned abilities and trained competencies",
       strengths: "Identify what this character excels at physically, mentally, and socially",
-      flaws: "Create meaningful character flaws that create internal conflict and growth opportunities"
+      flaws: "Create meaningful character flaws that create internal conflict and growth opportunities",
     };
     
-    const prompt = fieldPrompts[fieldKey] || 
-      `Generate appropriate ${fieldLabel.toLowerCase()} for this character.`;
+    const fieldPrompt = fieldPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} for this character`;
     
-    // Simplified prompt format that avoids safety filter triggers
-    return `Character: ${character.name} (${character.race || 'Human'})
-Role: ${character.role || 'Character'}
+    return `You are a professional character development expert. ${fieldPrompt}.
 
-Task: ${prompt}
+CHARACTER CONTEXT:
+${characterContext}
 
-Response:`;
+${context}
+
+Generate ${fieldLabel.toLowerCase()}:`;
   }
   
   private static buildWorldElementPrompt(

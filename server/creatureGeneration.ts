@@ -1,4 +1,4 @@
-import { generateWorldElement } from './services/unifiedAI';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { Project, Creature } from '../shared/schema';
 
 interface CreatureGenerationOptions {
