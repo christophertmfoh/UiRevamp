@@ -132,71 +132,50 @@ export function CharacterDetailAccordion({
     });
   };
 
+  // Helper function to render empty state for text fields
+  const renderEmptyField = (label: string) => {
+    return (
+      <div>
+        <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+        <div className="text-center py-4 text-muted-foreground">
+          <div className="text-sm">No {label.toLowerCase()} added yet</div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="mt-1 text-accent hover:text-accent/80 text-xs"
+            onClick={() => onEdit(character)}
+          >
+            + Add {label}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   // Render a section's content dynamically based on configuration
   const renderSectionContent = (sectionId: string) => {
     const fields = getFieldsBySection(sectionId);
     if (!fields.length) return null;
 
-    const content = fields.map((field) => {
+    const content = fields.map((field, index) => {
       const value = (character as any)[field.key];
       
       if (field.type === 'array') {
-        return renderArrayField(field.label, value, "outline", true);
+        return <div key={index}>{renderArrayField(field.label, value, "outline", true)}</div>;
       } else {
-        return renderField(field.label, value);
-      }
-    }).filter(Boolean);
-
-    // Now content includes both filled and empty state elements
-    // Only show section-level empty state if no fields have any rendering at all
-    const hasAnyFieldWithContent = fields.some(field => {
-      const value = (character as any)[field.key];
-      if (field.type === 'array') {
-        if (typeof value === 'string') {
-          return value.trim().length > 0;
+        // For text fields, show content if available, otherwise show empty state
+        const fieldContent = renderField(field.label, value);
+        if (fieldContent) {
+          return <div key={index}>{fieldContent}</div>;
+        } else {
+          return <div key={index}>{renderEmptyField(field.label)}</div>;
         }
-        return Array.isArray(value) && value.length > 0 && value.some(v => v?.trim());
       }
-      return value && value.toString().trim().length > 0;
     });
-    
-    // If no fields have content, render individual empty states for each field
-    if (!hasAnyFieldWithContent) {
-      return (
-        <div className="space-y-4">
-          {fields.map((field, index) => {
-            const value = (character as any)[field.key];
-            
-            if (field.type === 'array') {
-              return <div key={index}>{renderArrayField(field.label, value, "outline", true)}</div>;
-            } else {
-              return (
-                <div key={index}>
-                  <h4 className="font-semibold mb-2 text-foreground">{field.label}</h4>
-                  <div className="text-center py-4 text-muted-foreground">
-                    <div className="text-sm">No {field.label.toLowerCase()} added yet</div>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="mt-1 text-accent hover:text-accent/80 text-xs"
-                      onClick={() => onEdit(character)}
-                    >
-                      + Add {field.label}
-                    </Button>
-                  </div>
-                </div>
-              );
-            }
-          })}
-        </div>
-      );
-    }
 
     return (
       <div className="space-y-4">
-        {content.map((item, index) => (
-          <div key={index}>{item}</div>
-        ))}
+        {content}
       </div>
     );
   };
