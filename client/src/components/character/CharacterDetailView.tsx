@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Character } from '../../lib/types';
 import { CharacterFormExpanded } from './CharacterFormExpanded';
-import { CharacterUnifiedView } from './CharacterUnifiedView';
+import { CharacterUnifiedViewPremium } from './CharacterUnifiedViewPremium';
 import { CharacterGuidedCreation } from './CharacterGuidedCreation';
 
 interface CharacterDetailViewProps {
@@ -65,7 +65,7 @@ export function CharacterDetailView({
 
   // Use the premium unified view that combines editor and viewer
   return (
-    <CharacterUnifiedView
+    <CharacterUnifiedViewPremium
       projectId={projectId}
       character={character}
       onBack={onBack}

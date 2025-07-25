@@ -14,7 +14,8 @@ import type { Character } from '../../lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';
-// Individual field AI assist removed as requested - bulk AI enhancement still available
+
+
 
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
