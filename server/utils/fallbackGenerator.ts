@@ -64,11 +64,11 @@ export class FallbackGenerator {
     const generators: Record<string, () => string> = {
       // Identity fields with context-aware generation
       name: () => this.generateName(analysis, seed),
-      nicknames: () => this.generateNicknames(character, analysis),
-      title: () => this.generateTitle(character, analysis),
-      aliases: () => this.generateAliases(character, analysis),
+      nicknames: () => FallbackGenerator.generateNicknames(character, analysis),
+      title: () => FallbackGenerator.generateTitle(character, analysis),
+      aliases: () => FallbackGenerator.generateAliases(character, analysis),
       race: () => this.generateRace(analysis),
-      age: () => analysis.isCat ? '3 years old' : this.generateAge(character),
+      age: () => analysis.isCat ? '3 years old' : FallbackGenerator.generateAge(character),
       
       // Physical
       description: () => this.generateDescription(analysis),

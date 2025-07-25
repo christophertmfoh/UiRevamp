@@ -5,12 +5,22 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Initialize AI service with fallback API keys
+// Initialize AI service with multiple fallback API keys
 const getAIService = () => {
-  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error('No AI API key available');
+  const apiKeys = [
+    process.env.GOOGLE_API_KEY_NEW,
+    process.env.GOOGLE_API_KEY4, 
+    process.env.GOOGLE_API_KEY,
+    process.env.GEMINI_API_KEY
+  ].filter(Boolean);
+  
+  if (apiKeys.length === 0) {
+    throw new Error('No AI API keys available');
   }
+  
+  // Try keys in order
+  const apiKey = apiKeys[0];
+  console.log(`Using API key: ${apiKey?.substring(0, 10)}...`);
   return new GoogleGenAI({ apiKey });
 };
 

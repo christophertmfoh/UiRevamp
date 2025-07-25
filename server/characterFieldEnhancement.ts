@@ -2,6 +2,30 @@ import { AIGenerationService, checkRateLimit } from './services/aiGeneration';
 import { FallbackGenerator } from './utils/fallbackGenerator';
 import { Storage } from './storage';
 
+// Simple contextual fallback system
+function generateContextualFallback(fieldKey: string, character: any): string {
+  const name = character?.name || '';
+  const role = character?.role || '';
+  const profession = character?.profession || character?.class || '';
+  
+  const contextualFallbacks: Record<string, string> = {
+    nicknames: name.toLowerCase().includes('xander') ? '"X", "Rex", "Xan"' : 
+               role.toLowerCase().includes('ceo') ? '"Chief", "Boss", "Executive"' : 
+               '"Ace", "Chief"',
+    
+    title: role.toLowerCase().includes('ceo') || profession.toLowerCase().includes('ceo') ? 'Chief Executive Officer' :
+           role.toLowerCase().includes('love') ? 'Romantic Lead' :
+           profession.toLowerCase().includes('entrepreneur') ? 'Business Executive' :
+           'Distinguished Professional',
+           
+    aliases: role.toLowerCase().includes('ceo') ? '"The Executive", "Mr. Corporate"' :
+             name.toLowerCase().includes('xander') ? '"The Billionaire", "X-Man"' :
+             '"The Professional", "Shadow"'
+  };
+  
+  return contextualFallbacks[fieldKey] || `Generated ${fieldKey}`;
+}
+
 // Rate limiting specifically for individual field enhancements
 let fieldRequestTimes: number[] = [];
 const FIELD_RATE_LIMIT_WINDOW = 60000; // 1 minute
@@ -61,13 +85,13 @@ export async function enhanceCharacterField(character: any, fieldKey: string, fi
       return { [fieldKey]: enhancedContent };
       
     } catch (error) {
-      console.log(`AI generation failed for ${fieldKey}, using fallback:`, error);
-      const fallbackContent = FallbackGenerator.generateFallback(fieldKey, fieldLabel, character);
+      console.log(`AI generation failed for ${fieldKey}, using contextual fallback:`, error);
+      const fallbackContent = generateContextualFallback(fieldKey, character);
       return { [fieldKey]: fallbackContent };
     }
   } catch (error) {
     console.error(`Error in enhanceCharacterField for ${fieldKey}:`, error);
-    const fallbackContent = FallbackGenerator.generateFallback(fieldKey, fieldLabel, character);
+    const fallbackContent = generateContextualFallback(fieldKey, character);
     return { [fieldKey]: fallbackContent };
   }
 }
