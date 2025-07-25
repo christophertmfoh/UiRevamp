@@ -17,6 +17,9 @@ import {
   CharacterCreationLaunch,
   type CharacterGenerationOptions 
 } from '../character/shared/ComponentIndex';
+import { EntityCreationLaunch } from './EntityCreationLaunch';
+import { EntityGenerationModal } from './EntityGenerationModal';
+import { EntityFormExpanded } from './EntityFormExpanded';
 import { generateContextualCharacter } from '@/lib/services/characterGeneration';
 
 interface EntityListViewProps {
@@ -268,14 +271,19 @@ Generate a complete, detailed character that expands on these template foundatio
     }
   };
 
-  const handleGenerateCharacter = async (options: CharacterGenerationOptions) => {
-    if (!project) return;
-    
+  const handleGenerateEntity = async (options: any) => {
+    console.log(`Starting ${entityType} generation process...`);
     setIsGenerating(true);
+    
     try {
-      console.log('Starting server-side character generation with options:', options);
+      console.log(`Starting server-side ${entityType} generation with options:`, options);
       
-      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
+      // Use different endpoints based on entity type
+      const endpoint = entityType === 'character' 
+        ? `/api/projects/${projectId}/characters/generate`
+        : `/api/projects/${projectId}/${pluralEntityType}/generate`;
+      
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -285,33 +293,36 @@ Generate a complete, detailed character that expands on these template foundatio
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.details || errorData.error || 'Failed to generate character');
+        throw new Error(errorData.details || errorData.error || `Failed to generate ${entityType}`);
       }
       
-      const generatedCharacter = await response.json();
-      console.log('Generated character data:', generatedCharacter);
+      const generatedEntity = await response.json();
+      console.log(`Generated ${entityType} data:`, generatedEntity);
       
-      const characterToCreate = {
-        ...generatedCharacter,
+      const entityToCreate = {
+        ...generatedEntity,
         projectId,
-        name: generatedCharacter.name || `Generated ${options.characterType || 'Character'}`
+        name: generatedEntity.name || `Generated ${options.entityType || capitalizedEntityType}`
       };
       
-      console.log('Creating character with data:', characterToCreate);
+      console.log(`Creating ${entityType} with data:`, entityToCreate);
       
-      const createdCharacter = await createEntityMutation.mutateAsync(characterToCreate);
-      console.log('Character creation completed, created character:', createdCharacter);
+      const createdEntity = await createEntityMutation.mutateAsync(entityToCreate);
+      console.log(`${capitalizedEntityType} creation completed, created entity:`, createdEntity);
       
-      setSelectedEntity(createdCharacter);
+      setSelectedEntity(createdEntity);
       setIsCreating(false);
       setIsGenerationModalOpen(false);
     } catch (error) {
-      console.error('Error generating character:', error);
-      alert(`Failed to generate character: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error(`Error generating ${entityType}:`, error);
+      alert(`Failed to generate ${entityType}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsGenerating(false);
     }
   };
+
+  // Keep the old character generation handler for backward compatibility
+  const handleGenerateCharacter = handleGenerateEntity;
 
   const handleBackToList = () => {
     queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, pluralEntityType] });
@@ -364,26 +375,12 @@ Generate a complete, detailed character that expands on these template foundatio
   // Generic entity detail view for non-characters
   if (selectedEntity || isCreating) {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <Button onClick={handleBackToList} variant="outline">
-            ← Back to {dynamicTitle}
-          </Button>
-          <h1 className="font-title text-2xl">
-            {isCreating ? `Create New ${capitalizedEntityType}` : selectedEntity?.name || 'Entity Details'}
-          </h1>
-          <div></div>
-        </div>
-        <div className="text-center py-16">
-          <h3 className="font-title text-xl mb-2">Entity Detail View</h3>
-          <p className="text-muted-foreground mb-6">
-            Detailed editing interface for {pluralEntityType} will be implemented here.
-          </p>
-          <Button onClick={handleBackToList} variant="outline">
-            Back to List
-          </Button>
-        </div>
-      </div>
+      <EntityFormExpanded
+        entityType={entityType}
+        projectId={projectId}
+        entity={selectedEntity}
+        onCancel={handleBackToList}
+      />
     );
   }
 
@@ -735,34 +732,33 @@ Generate a complete, detailed character that expands on these template foundatio
         </div>
       )}
 
-      {/* Character Creation Modals (only for characters) */}
+      {/* Universal Entity Creation Modals */}
+      <EntityCreationLaunch
+        entityType={entityType}
+        isOpen={isCreationLaunchOpen}
+        onClose={() => setIsCreationLaunchOpen(false)}
+        onCreateBlank={handleCreateNew}
+        onOpenTemplates={() => setIsTemplateModalOpen(true)}
+        onOpenAIGeneration={() => setIsGenerationModalOpen(true)}
+      />
+
+      {/* Universal Entity Generation Modal */}
+      <EntityGenerationModal
+        entityType={entityType}
+        isOpen={isGenerationModalOpen}
+        onClose={() => setIsGenerationModalOpen(false)}
+        onGenerate={handleGenerateEntity}
+        isGenerating={isGenerating}
+      />
+
+      {/* Character Templates Modal (only for characters) */}
       {entityType === 'character' && (
-        <>
-          {/* Character Creation Launch Modal */}
-          <CharacterCreationLaunch
-            isOpen={isCreationLaunchOpen}
-            onClose={() => setIsCreationLaunchOpen(false)}
-            onCreateBlank={handleCreateNew}
-            onOpenTemplates={() => setIsTemplateModalOpen(true)}
-            onOpenAIGeneration={() => setIsGenerationModalOpen(true)}
-          />
-
-          {/* Character Generation Modal */}
-          <CharacterGenerationModal
-            isOpen={isGenerationModalOpen}
-            onClose={() => setIsGenerationModalOpen(false)}
-            onGenerate={handleGenerateCharacter}
-            isGenerating={isGenerating}
-          />
-
-          {/* Character Templates Modal */}
-          <CharacterTemplates
-            isOpen={isTemplateModalOpen}
-            onClose={() => setIsTemplateModalOpen(false)}
-            onSelectTemplate={handleSelectTemplate}
-            isGenerating={isGenerating}
-          />
-        </>
+        <CharacterTemplates
+          isOpen={isTemplateModalOpen}
+          onClose={() => setIsTemplateModalOpen(false)}
+          onSelectTemplate={handleSelectTemplate}
+          isGenerating={isGenerating}
+        />
       )}
 
       {/* Simple Creation Modal for non-characters */}
