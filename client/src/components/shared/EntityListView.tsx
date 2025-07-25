@@ -19,14 +19,14 @@ import {
 } from './shared/ComponentIndex';
 import { generateContextualCharacter } from '@/lib/services/characterGeneration';
 
-interface CharacterManagerProps extends Omit<EntityManagerProps, 'entityType'> {
-  selectedCharacterId?: string | null;
+interface EntityListViewProps {
+  entityType: string;
 }
 
 type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
 type ViewMode = 'grid' | 'list';
 
-export function EntityListView({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
+export function EntityListView({ entityType }: EntityListViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
 
