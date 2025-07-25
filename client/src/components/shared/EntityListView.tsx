@@ -94,23 +94,34 @@ export function EntityListView({
   onCreateNew 
 }: EntityListViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
   const [selectedEntity, setSelectedEntity] = useState<BaseEntity | null>(null);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
 
-  // View state with persistence (EntityListView)
-  const getStorageKey = () => `storyWeaver_viewMode_entityList_${entityType}_${projectId}`;
+  // Storage keys for persistence (EntityListView)
+  const getViewStorageKey = () => `storyWeaver_viewMode_entityList_${entityType}_${projectId}`;
+  const getSortStorageKey = () => `storyWeaver_sortBy_entityList_${entityType}_${projectId}`;
+
+  // Sort state with persistence
+  const [sortBy, setSortBy] = useState<SortOption>(() => {
+    const saved = localStorage.getItem(getSortStorageKey());
+    return (saved as SortOption) || 'alphabetical';
+  });
+
+  const handleSortChange = (option: SortOption) => {
+    setSortBy(option);
+    localStorage.setItem(getSortStorageKey(), option);
+  };
   
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     // Load saved view preference from localStorage
-    const saved = localStorage.getItem(getStorageKey());
+    const saved = localStorage.getItem(getViewStorageKey());
     return (saved as ViewMode) || 'grid';
   });
 
   // Save view preference whenever it changes
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
-    localStorage.setItem(getStorageKey(), mode);
+    localStorage.setItem(getViewStorageKey(), mode);
   };
   
   const queryClient = useQueryClient();
@@ -712,13 +723,13 @@ export function EntityListView({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
+                <DropdownMenuItem onClick={() => handleSortChange('alphabetical')}>
                   A-Z Order
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
+                <DropdownMenuItem onClick={() => handleSortChange('recently-added')}>
                   Recently Added
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
+                <DropdownMenuItem onClick={() => handleSortChange('recently-edited')}>
                   Recently Edited
                 </DropdownMenuItem>
               </DropdownMenuContent>
