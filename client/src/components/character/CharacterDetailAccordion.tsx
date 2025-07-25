@@ -48,8 +48,28 @@ export function CharacterDetailAccordion({
   };
 
   // Helper function to render array fields as badges
-  const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline") => {
-    if (!values) return null;
+  const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline", showEmptyState: boolean = false) => {
+    if (!values) {
+      if (showEmptyState) {
+        return (
+          <div>
+            <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+            <div className="text-center py-4 text-muted-foreground">
+              <div className="text-sm">No {label.toLowerCase()} added yet</div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="mt-1 text-accent hover:text-accent/80 text-xs"
+                onClick={() => onEdit(character)}
+              >
+                + Add {label}
+              </Button>
+            </div>
+          </div>
+        );
+      }
+      return null;
+    }
     
     // Handle both array and comma-separated string
     let processedValues: string[] = [];
@@ -59,7 +79,27 @@ export function CharacterDetailAccordion({
       processedValues = values.filter((v: string) => v?.trim());
     }
     
-    if (processedValues.length === 0) return null;
+    if (processedValues.length === 0) {
+      if (showEmptyState) {
+        return (
+          <div>
+            <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
+            <div className="text-center py-4 text-muted-foreground">
+              <div className="text-sm">No {label.toLowerCase()} added yet</div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="mt-1 text-accent hover:text-accent/80 text-xs"
+                onClick={() => onEdit(character)}
+              >
+                + Add {label}
+              </Button>
+            </div>
+          </div>
+        );
+      }
+      return null;
+    }
     
     return (
       <div>
@@ -101,24 +141,53 @@ export function CharacterDetailAccordion({
       const value = (character as any)[field.key];
       
       if (field.type === 'array') {
-        return renderArrayField(field.label, value);
+        return renderArrayField(field.label, value, "outline", true);
       } else {
         return renderField(field.label, value);
       }
     }).filter(Boolean);
 
-    if (content.length === 0) {
+    // Now content includes both filled and empty state elements
+    // Only show section-level empty state if no fields have any rendering at all
+    const hasAnyFieldWithContent = fields.some(field => {
+      const value = (character as any)[field.key];
+      if (field.type === 'array') {
+        if (typeof value === 'string') {
+          return value.trim().length > 0;
+        }
+        return Array.isArray(value) && value.length > 0 && value.some(v => v?.trim());
+      }
+      return value && value.toString().trim().length > 0;
+    });
+    
+    // If no fields have content, render individual empty states for each field
+    if (!hasAnyFieldWithContent) {
       return (
-        <div className="text-center py-8 text-muted-foreground">
-          <div className="text-sm">No {sectionId} added yet</div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="mt-2 text-accent hover:text-accent/80"
-            onClick={() => onEdit(character)}
-          >
-            + Add {CHARACTER_SECTIONS.find(s => s.id === sectionId)?.title}
-          </Button>
+        <div className="space-y-4">
+          {fields.map((field, index) => {
+            const value = (character as any)[field.key];
+            
+            if (field.type === 'array') {
+              return <div key={index}>{renderArrayField(field.label, value, "outline", true)}</div>;
+            } else {
+              return (
+                <div key={index}>
+                  <h4 className="font-semibold mb-2 text-foreground">{field.label}</h4>
+                  <div className="text-center py-4 text-muted-foreground">
+                    <div className="text-sm">No {field.label.toLowerCase()} added yet</div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="mt-1 text-accent hover:text-accent/80 text-xs"
+                      onClick={() => onEdit(character)}
+                    >
+                      + Add {field.label}
+                    </Button>
+                  </div>
+                </div>
+              );
+            }
+          })}
         </div>
       );
     }
