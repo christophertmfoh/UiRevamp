@@ -9,7 +9,7 @@ import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkle
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '../../lib/types';
 import { getFieldDefinitionsByEntityType, getSectionsByEntityType } from '@/lib/config/fieldConfig';
-import { EntityDetailView } from './EntityDetailView';
+
 
 // Define the possible entity types
 export type EntityType = 'character' | 'location' | 'faction' | 'item';
@@ -216,12 +216,11 @@ export function EntityListView({
   // Show detail view if entity is selected
   if (selectedEntity) {
     return (
-      <EntityDetailView
-        entityType={entityType}
-        projectId={projectId}
-        entity={selectedEntity}
-        onBack={() => setSelectedEntity(null)}
-      />
+      <div>
+        <h2>Entity Detail View Coming Soon</h2>
+        <p>Selected: {selectedEntity.name}</p>
+        <button onClick={() => setSelectedEntity(null)}>Back to List</button>
+      </div>
     );
   }
 
