@@ -237,6 +237,15 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
     placeholder: 'Why they pursue their goals',
     aiPrompt: 'Explain the deep motivations behind their goals and actions'
   },
+  {
+    key: 'fears',
+    label: 'Fears',
+    type: 'textarea',
+    section: 'personality',
+    priority: 'essential',
+    placeholder: 'What they fear most',
+    aiPrompt: 'Identify their deepest fears and how they impact their behavior'
+  },
 
   // Background Section
   {
