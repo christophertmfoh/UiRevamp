@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye, X } from 'lucide-react';
+import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { Character } from '../../lib/types';
 
@@ -215,6 +215,25 @@ export function CharacterPortraitModal({
       }
     }
     onClose();
+  };
+
+  const getCurrentImageIndex = () => {
+    if (!selectedImagePreview) return -1;
+    return portraitGallery.findIndex(img => img.url === selectedImagePreview);
+  };
+
+  const navigateToImage = (direction: 'prev' | 'next') => {
+    const currentIndex = getCurrentImageIndex();
+    if (currentIndex === -1) return;
+
+    let nextIndex;
+    if (direction === 'prev') {
+      nextIndex = currentIndex === 0 ? portraitGallery.length - 1 : currentIndex - 1;
+    } else {
+      nextIndex = currentIndex === portraitGallery.length - 1 ? 0 : currentIndex + 1;
+    }
+
+    setSelectedImagePreview(portraitGallery[nextIndex].url);
   };
 
   return (
@@ -462,6 +481,28 @@ export function CharacterPortraitModal({
                 className="w-full h-auto max-h-[80vh] object-contain"
               />
               
+              {/* Navigation arrows - only show if more than 1 image */}
+              {portraitGallery.length > 1 && (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigateToImage('prev')}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigateToImage('next')}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </Button>
+                </>
+              )}
+              
               {/* Close button */}
               <Button
                 variant="ghost"
@@ -472,10 +513,19 @@ export function CharacterPortraitModal({
                 <X className="h-4 w-4" />
               </Button>
               
-              {/* Image info */}
+              {/* Image counter and info */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                <h3 className="text-white font-semibold text-lg">{character.name}</h3>
-                <p className="text-white/80 text-sm">Character Portrait</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-white font-semibold text-lg">{character.name}</h3>
+                    <p className="text-white/80 text-sm">Character Portrait</p>
+                  </div>
+                  {portraitGallery.length > 1 && (
+                    <div className="text-white/80 text-sm">
+                      {getCurrentImageIndex() + 1} of {portraitGallery.length}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </DialogContent>
