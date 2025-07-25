@@ -484,38 +484,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Location field enhancement endpoint
-  app.post("/api/locations/:id/enhance-field", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
-      
-      // Retrieve the location from database
-      const location = await storage.getLocation(id);
-      if (!location) {
-        return res.status(404).json({ error: "Location not found" });
-      }
-      
-      console.log(`Retrieved location for field enhancement:`, { id: location.id, name: location.name, locationType: location.locationType });
-      
-      // Use the unified AI generation service
-      const { AIGenerationService } = await import('./services/aiGeneration');
-      
-      const enhancedContent = await AIGenerationService.enhanceLocationField(location, fieldKey, fieldLabel, currentValue ? `Current value: ${currentValue}` : '');
-      
-      const enhancedField = { [fieldKey]: enhancedContent };
-      console.log(`Enhanced location field ${fieldKey}:`, enhancedField);
-      
-      res.json(enhancedField);
-    } catch (error: any) {
-      console.error(`Error enhancing location field ${req.body.fieldKey}:`, error);
-      res.status(500).json({ 
-        error: "Failed to enhance location field", 
-        details: error.message 
-      });
-    }
-  });
-
   // Faction image generation endpoint
   app.post("/api/factions/generate-image", async (req, res) => {
     try {
