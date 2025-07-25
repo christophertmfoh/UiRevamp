@@ -207,6 +207,8 @@ export function CharacterDetailAccordion({
         const result = renderArrayField(field.label, value, "outline", true);
         if (field.key === 'personalityTraits') {
           console.log('- renderArrayField result:', result);
+          console.log('- typeof result:', typeof result);
+          console.log('- result === null:', result === null);
         }
         return <div key={index}>{result}</div>;
       } else {
@@ -219,6 +221,9 @@ export function CharacterDetailAccordion({
         }
       }
     });
+
+    console.log('FINAL CONTENT ARRAY:', content);
+    console.log('PERSONALITY TRAITS IN CONTENT:', content.find((_, i) => fields[i]?.key === 'personalityTraits'));
 
     return (
       <div className="space-y-4">
