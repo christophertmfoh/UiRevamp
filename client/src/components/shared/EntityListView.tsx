@@ -719,18 +719,21 @@ export function EntityListView({
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowUpDown className="h-4 w-4" />
-                  Sort
+                  Sort: {sortBy === 'alphabetical' ? 'A-Z' : sortBy === 'recently-added' ? 'Recent' : 'Edited'}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => handleSortChange('alphabetical')}>
+                <DropdownMenuItem onClick={() => handleSortChange('alphabetical')} className="flex items-center justify-between">
                   A-Z Order
+                  {sortBy === 'alphabetical' && <span className="text-accent">✓</span>}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleSortChange('recently-added')}>
+                <DropdownMenuItem onClick={() => handleSortChange('recently-added')} className="flex items-center justify-between">
                   Recently Added
+                  {sortBy === 'recently-added' && <span className="text-accent">✓</span>}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleSortChange('recently-edited')}>
+                <DropdownMenuItem onClick={() => handleSortChange('recently-edited')} className="flex items-center justify-between">
                   Recently Edited
+                  {sortBy === 'recently-edited' && <span className="text-accent">✓</span>}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
