@@ -735,19 +735,6 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
             </div>
           </div>
         );
-
-      default:
-        return (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Settings className="w-8 h-8 text-slate-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Tool Under Development</h3>
-              <p className="text-slate-400">This feature is being built and will be available soon.</p>
-            </div>
-          </div>
-        );
     }
   };
 
@@ -804,7 +791,10 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 </Button>
                 {/* Always show World Bible children */}
                 <div className="ml-3 space-y-1">
-                  {sidebarItems[2].children?.map((child, childIndex) => renderSidebarItem(child, childIndex, 'world-bible'))}
+                  {sidebarItems[2].children?.map((child, childIndex) => {
+                    console.log('Rendering child:', child.label, child.toolId);
+                    return renderSidebarItem(child, childIndex, 'world-bible');
+                  })}
                 </div>
               </div>
             </div>
