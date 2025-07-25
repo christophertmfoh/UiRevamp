@@ -37,6 +37,52 @@ export function CharacterPortraitModal({
   });
 
   // Generate comprehensive AI prompt from character data
+  // Helper function to save portraits to character
+  const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+    try {
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          portraits: updatedPortraits
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to save portraits to character');
+      }
+    } catch (error) {
+      console.error('Error saving portraits:', error);
+    }
+  };
+
+  // Helper function to update character's main imageUrl
+  const updateCharacterImageUrl = async (imageUrl: string, updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
+    try {
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: imageUrl,
+          portraits: updatedPortraits
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error('Failed to update character imageUrl');
+      } else {
+        // Invalidate cache to refresh the character list
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+      }
+    } catch (error) {
+      console.error('Error updating character imageUrl:', error);
+    }
+  };
+
   const generateCharacterPrompt = () => {
     const parts = [];
     
@@ -86,17 +132,22 @@ export function CharacterPortraitModal({
         const newPortrait = {
           id: Date.now().toString(),
           url: data.imageUrl,
-          isMain: portraitGallery.length === 0
+          isMain: portraitGallery.length === 0 // First image is automatically main
         };
         
         const updatedGallery = [...portraitGallery, newPortrait];
         setPortraitGallery(updatedGallery);
         
-        if (onImageGenerated) {
-          onImageGenerated(data.imageUrl);
+        // Save to database
+        if (newPortrait.isMain) {
+          updateCharacterImageUrl(data.imageUrl, updatedGallery);
+          if (onImageGenerated) {
+            onImageGenerated(data.imageUrl);
+          }
+        } else {
+          savePortraitsToCharacter(updatedGallery);
         }
         
-        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
         setActiveTab('gallery');
       }
     } catch (error) {
@@ -114,26 +165,59 @@ export function CharacterPortraitModal({
     setPortraitGallery(updatedGallery);
     
     const mainImage = updatedGallery.find(img => img.isMain);
-    if (mainImage && onImageGenerated) {
-      onImageGenerated(mainImage.url);
-    }
-  };
-
-  const handleDeleteImage = (imageId: string) => {
-    const updatedGallery = portraitGallery.filter(img => img.id !== imageId);
-    setPortraitGallery(updatedGallery);
-    
-    // If we deleted the main image, set the first remaining as main
-    if (updatedGallery.length > 0 && !updatedGallery.some(img => img.isMain)) {
-      updatedGallery[0].isMain = true;
+    if (mainImage) {
+      updateCharacterImageUrl(mainImage.url, updatedGallery);
       if (onImageGenerated) {
-        onImageGenerated(updatedGallery[0].url);
+        onImageGenerated(mainImage.url);
       }
     }
   };
 
+  const handleDeleteImage = (imageId: string) => {
+    const deletedImage = portraitGallery.find(img => img.id === imageId);
+    const updatedGallery = portraitGallery.filter(img => img.id !== imageId);
+    
+    // If we deleted the main image, set the first remaining as main
+    let finalUpdated = updatedGallery;
+    if (deletedImage?.isMain && updatedGallery.length > 0) {
+      finalUpdated = updatedGallery.map((img, index) => ({
+        ...img,
+        isMain: index === 0 // Make first image the new main
+      }));
+      updateCharacterImageUrl(finalUpdated[0].url, finalUpdated);
+      if (onImageGenerated) {
+        onImageGenerated(finalUpdated[0].url);
+      }
+    } else if (deletedImage?.isMain && updatedGallery.length === 0) {
+      // No images left, clear the character image
+      updateCharacterImageUrl('', finalUpdated);
+      if (onImageGenerated) {
+        onImageGenerated('');
+      }
+    } else {
+      // Save the updated portraits array
+      savePortraitsToCharacter(finalUpdated);
+    }
+    
+    setPortraitGallery(finalUpdated);
+  };
+
+  const handleModalClose = () => {
+    // Save the current gallery state to the character
+    savePortraitsToCharacter(portraitGallery);
+    
+    // If there's a main image in the gallery, make sure it's saved to the character
+    const mainImage = portraitGallery.find(img => img.isMain);
+    if (mainImage && mainImage.url !== character.imageUrl) {
+      if (onImageGenerated) {
+        onImageGenerated(mainImage.url);
+      }
+    }
+    onClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleModalClose}>
       <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden">
         <DialogHeader className="pb-6 border-b border-border/30 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3 text-xl">
