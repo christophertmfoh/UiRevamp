@@ -743,8 +743,8 @@ Generate a complete, detailed character that expands on these template foundatio
             isOpen={isCreationLaunchOpen}
             onClose={() => setIsCreationLaunchOpen(false)}
             onCreateBlank={handleCreateNew}
-            onUseTemplate={() => setIsTemplateModalOpen(true)}
-            onAIGenerate={() => setIsGenerationModalOpen(true)}
+            onOpenTemplates={() => setIsTemplateModalOpen(true)}
+            onOpenAIGeneration={() => setIsGenerationModalOpen(true)}
           />
 
           {/* Character Generation Modal */}

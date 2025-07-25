@@ -3,10 +3,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Plus, Sparkles, FileText, User, Zap, Wand2, Brain } from 'lucide-react';
-import type { EntityCreationLaunchProps } from '@/lib/types';
 
-interface CharacterCreationLaunchProps extends Omit<EntityCreationLaunchProps, 'entityType'> {
-  // Character-specific creation launch props (extends universal interface)
+interface CharacterCreationLaunchProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateBlank: () => void;
+  onOpenTemplates: () => void;
+  onOpenAIGeneration: () => void;
 }
 
 export function CharacterCreationLaunch({
@@ -45,10 +48,12 @@ export function CharacterCreationLaunch({
     }
   ];
 
-  const handleOptionSelect = (optionId: string, action: () => void) => {
+  const handleOptionSelect = (optionId: string, action?: () => void) => {
     setSelectedOption(optionId);
     setTimeout(() => {
-      action();
+      if (action && typeof action === 'function') {
+        action();
+      }
       onClose();
       setSelectedOption('');
     }, 200);
