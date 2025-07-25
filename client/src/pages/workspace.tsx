@@ -81,8 +81,8 @@ const initialSidebarItems: SidebarItem[] = [
         isVisible: true
       },
       {
-        id: 'characters-clone',
-        label: 'Characters',
+        id: 'characters-duplicate',
+        label: 'Characters (Copy)',
         icon: 'users',
         toolId: 'characters-clone',
         isVisible: true
@@ -406,9 +406,10 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
     const path = parentPath ? `${parentPath}-${index}` : index.toString();
     const isActive = activeTool === item.toolId;
     const hasChildren = item.children && item.children.length > 0;
+    const uniqueKey = parentPath ? `${parentPath}-${item.id}` : item.id;
 
     return (
-      <div key={item.id}>
+      <div key={uniqueKey}>
         <Button
           variant={isActive ? "default" : "ghost"}
           className={`w-full justify-start ${isActive ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'}`}
@@ -424,7 +425,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
         </Button>
         {hasChildren && (
           <div className="ml-3 mt-1 space-y-1">
-            {item.children!.map((child, childIndex) => renderSidebarItem(child, childIndex, path))}
+            {item.children!.map((child, childIndex) => renderSidebarItem(child, childIndex, `${path}-child`))}
           </div>
         )}
       </div>
@@ -792,7 +793,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 {/* Always show World Bible children */}
                 <div className="ml-3 space-y-1">
                   {sidebarItems[2].children?.map((child, childIndex) => {
-                    console.log('Rendering child:', child.label, child.toolId);
+                    console.log('Rendering child:', child.label, child.toolId, 'key:', `world-bible-${child.id}`);
                     return renderSidebarItem(child, childIndex, 'world-bible');
                   })}
                 </div>
