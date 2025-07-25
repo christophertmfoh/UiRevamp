@@ -52,6 +52,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [dragOverItem, setDragOverItem] = useState<string | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [featuredCharacterOrder, setFeaturedCharacterOrder] = useState<string[]>([]);
 
   // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
@@ -619,24 +620,123 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
 
             {/* Featured Content Sections */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Characters Section */}
+              {/* Featured Characters Section */}
               <Card className="creative-card">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     <span className="flex items-center">
                       <Users className="h-5 w-5 mr-2" />
-                      Key Characters
+                      Featured Characters
                     </span>
-                    <Badge variant="outline">{categories.find(cat => cat.id === 'characters')?.count || 0}</Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline">{characters.length}</Badge>
+                      {characters.length > 0 && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => {
+                            // Toggle ordering mode or show all characters
+                            setActiveCategory('characters');
+                          }}
+                          className="text-xs hover:bg-accent/10"
+                        >
+                          Manage
+                        </Button>
+                      )}
+                    </div>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                    <p>No characters created yet</p>
-                  </div>
-                  <Button variant="ghost" size="sm" className="w-full" onClick={() => setActiveCategory('characters')}>
-                    Add First Character →
+                  {characters.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                      <p>No characters created yet</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                      {(() => {
+                        // Get featured characters in custom order, or default to first 4 characters
+                        let featuredChars = characters;
+                        
+                        if (featuredCharacterOrder.length > 0) {
+                          const orderedChars = featuredCharacterOrder
+                            .map(id => characters.find(char => char.id === id))
+                            .filter(Boolean) as Character[];
+                          const remainingChars = characters.filter(char => !featuredCharacterOrder.includes(char.id!));
+                          featuredChars = [...orderedChars, ...remainingChars];
+                        }
+                        
+                        return featuredChars.slice(0, 4).map((character, index) => (
+                          <div 
+                            key={character.id} 
+                            className="group p-3 bg-muted/30 rounded-lg border-l-4 border-accent/50 cursor-pointer hover:bg-muted/40 transition-colors flex items-center gap-3"
+                            onClick={() => {
+                              setSelectedItemId(character.id!);
+                              setActiveCategory('characters');
+                            }}
+                            draggable
+                            onDragStart={(e) => {
+                              e.dataTransfer.setData('text/plain', character.id!);
+                              e.dataTransfer.effectAllowed = 'move';
+                            }}
+                            onDragOver={(e) => {
+                              e.preventDefault();
+                              e.dataTransfer.dropEffect = 'move';
+                            }}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              const draggedId = e.dataTransfer.getData('text/plain');
+                              const currentOrder = featuredCharacterOrder.length > 0 ? featuredCharacterOrder : characters.map(c => c.id!);
+                              const draggedIndex = currentOrder.findIndex(id => id === draggedId);
+                              const dropIndex = index;
+                              
+                              if (draggedIndex !== -1 && draggedIndex !== dropIndex) {
+                                const newOrder = [...currentOrder];
+                                const [draggedItem] = newOrder.splice(draggedIndex, 1);
+                                newOrder.splice(dropIndex, 0, draggedItem);
+                                setFeaturedCharacterOrder(newOrder);
+                              }
+                            }}
+                          >
+                            <div className="flex-shrink-0">
+                              {character.imageUrl ? (
+                                <img 
+                                  src={character.imageUrl} 
+                                  alt={character.name}
+                                  className="w-10 h-10 rounded-full object-cover border-2 border-accent/20"
+                                />
+                              ) : (
+                                <div className="w-10 h-10 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center">
+                                  <Users className="h-5 w-5 text-accent/60" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm truncate">{character.name}</div>
+                              {character.title && (
+                                <div className="text-xs text-muted-foreground truncate">{character.title}</div>
+                              )}
+                              {character.role && (
+                                <Badge variant="outline" className="text-xs mt-1">
+                                  {character.role}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab" />
+                            </div>
+                          </div>
+                        ));
+                      })()}
+                    </div>
+                  )}
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full mt-3" 
+                    onClick={() => setActiveCategory('characters')}
+                  >
+                    {characters.length === 0 ? 'Add First Character' : 'View All Characters'} →
                   </Button>
                 </CardContent>
               </Card>
