@@ -81,6 +81,13 @@ const initialSidebarItems: SidebarItem[] = [
         isVisible: true
       },
       {
+        id: 'characters-clone',
+        label: 'Characters',
+        icon: 'users',
+        toolId: 'characters-clone',
+        isVisible: true
+      },
+      {
         id: 'locations',
         label: 'Locations',
         icon: 'map-pin',
@@ -410,6 +417,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
           <Icon className="w-5 h-5 mr-3" />
           <span className="flex-grow text-left">{item.label}</span>
           {item.toolId === 'characters' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">7</Badge>}
+          {item.toolId === 'characters-clone' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">7</Badge>}
           {item.toolId === 'locations' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">12</Badge>}
           {item.toolId === 'factions' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">3</Badge>}
           {item.toolId === 'items' && <Badge variant="secondary" className="ml-auto bg-slate-600 text-slate-300">5</Badge>}
@@ -426,6 +434,13 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
   const renderContent = () => {
     switch (activeTool) {
       case 'characters':
+        return (
+          <EntityListView
+            entityType="character"
+            projectId={project.id}
+          />
+        );
+      case 'characters-clone':
         return (
           <EntityListView
             entityType="character"
