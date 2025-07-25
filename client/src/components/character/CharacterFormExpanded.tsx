@@ -12,11 +12,14 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
 
+
 interface CharacterFormExpandedProps {
   projectId: string;
   onCancel: () => void;
   character?: Character;
 }
+
+
 
 export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
   // Initialize form data with all fields from CHARACTER_SECTIONS
@@ -38,39 +41,57 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
   };
 
   const [formData, setFormData] = useState(initializeFormData);
+
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('POST', `/api/characters`, { ...data, projectId });
+      const response = await fetch(`/api/projects/${projectId}/characters`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Failed to create character');
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
-    },
+    }
   });
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('PUT', `/api/characters/${character!.id}`, data);
+      const response = await fetch(`/api/characters/${character?.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Failed to update character');
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/characters'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
-    },
+    }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Process form data to handle arrays properly
-    const processedData = { ...formData };
-    
+    const processedData = {
+      projectId,
+      ...formData,
+      isModelTrained: false,
+      imageUrl: '',
+    };
+
+    // Process array fields
     CHARACTER_SECTIONS.forEach(section => {
       section.fields.forEach(field => {
-        if (field.type === 'array' && typeof processedData[field.key] === 'string') {
-          const value = processedData[field.key];
-          processedData[field.key] = value
+        if (field.type === 'array') {
+          const value = formData[field.key];
+          processedData[field.key] = typeof value === 'string' 
             ? value.split(',').map((s: string) => s.trim()).filter(Boolean)
             : [];
         }
@@ -99,7 +120,19 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'textarea':
         return (
           <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
-            <Label htmlFor={field.key}>{field.label}</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
+            </div>
             <Textarea
               id={field.key}
               value={value}
@@ -132,10 +165,21 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'array':
         return (
           <div key={field.key} className="col-span-2">
-            <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
+            </div>
             <Input
               id={field.key}
-              type="text"
               value={value}
               onChange={(e) => updateField(field.key, e.target.value)}
               placeholder={field.placeholder}
@@ -143,13 +187,24 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
           </div>
         );
       
-      default: // 'text'
+      default: // text
         return (
           <div key={field.key}>
-            <Label htmlFor={field.key}>{field.label}</Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label htmlFor={field.key}>{field.label}</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
+            </div>
             <Input
               id={field.key}
-              type="text"
               value={value}
               onChange={(e) => updateField(field.key, e.target.value)}
               placeholder={field.placeholder}
@@ -159,58 +214,66 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     }
   };
 
+  const isLoading = createMutation.isPending || updateMutation.isPending;
+
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={onCancel}>
+      <div className="flex items-center justify-between">
+        <Button variant="ghost" onClick={onCancel} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
+          Back to Characters
         </Button>
-        <h1 className="text-2xl font-bold">
-          {character ? 'Edit Character' : 'Create Character'}
-        </h1>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <Tabs defaultValue={CHARACTER_SECTIONS[0]?.id} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            {CHARACTER_SECTIONS.map((section) => (
-              <TabsTrigger key={section.id} value={section.id} className="text-xs">
-                {section.title}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {CHARACTER_SECTIONS.map((section) => (
-            <TabsContent key={section.id} value={section.id}>
-              <Card className="p-6">
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
-                  <p className="text-muted-foreground">{section.description}</p>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {section.fields.map(renderField)}
-                </div>
-              </Card>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        {/* Footer */}
-        <div className="flex justify-end gap-4 mt-6">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
-          </Button>
+        <div className="flex gap-2">
           <Button 
             type="submit" 
-            disabled={createMutation.isPending || updateMutation.isPending}
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className="interactive-warm gap-2"
           >
-            <Save className="h-4 w-4 mr-2" />
-            {character ? 'Update Character' : 'Create Character'}
+            <Save className="h-4 w-4" />
+            {isLoading ? 'Saving...' : 'Save Character'}
           </Button>
         </div>
-      </form>
+      </div>
+
+      <Card className="creative-card">
+        <div className="p-6">
+          <h1 className="font-title text-3xl mb-6">
+            {character ? 'Edit Character' : 'Create New Character'}
+          </h1>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Tabs defaultValue="identity" className="w-full">
+              <TabsList className="grid w-full grid-cols-8 gap-1 bg-transparent">
+                {CHARACTER_SECTIONS.map(section => (
+                  <TabsTrigger 
+                    key={section.id}
+                    value={section.id}
+                    className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
+                  >
+                    {section.title}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              {CHARACTER_SECTIONS.map(section => (
+                <TabsContent key={section.id} value={section.id} className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="mb-4">
+                      <h3 className="text-lg font-semibold">{section.title}</h3>
+                      <p className="text-sm text-muted-foreground">{section.description}</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      {section.fields.map(renderField)}
+                    </div>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </form>
+        </div>
+      </Card>
     </div>
   );
 }
