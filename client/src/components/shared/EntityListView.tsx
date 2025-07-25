@@ -202,25 +202,30 @@ export function EntityListView({
     onCreateNew?.();
   };
 
-  // Calculate entity completeness based on entity type
+  // Calculate entity completeness based on entity type (matching original character calculation)
   const calculateCompleteness = (entity: BaseEntity): number => {
-    let score = 0;
-    const maxScore = 100;
+    if (entityType === 'character') {
+      const char = entity as any; // Cast to access character-specific fields
+      return Math.min(100, ((char.name ? 10 : 0) + 
+                           (char.description ? 15 : 0) + 
+                           (char.imageUrl ? 15 : 0) + 
+                           (char.personalityTraits?.length ? 10 : 0) + 
+                           (char.race ? 10 : 0) +
+                           (char.class ? 10 : 0) +
+                           (char.age ? 5 : 0) +
+                           (char.background ? 10 : 0) +
+                           (char.goals ? 10 : 0) +
+                           (char.relationships ? 5 : 0)));
+    }
     
-    // Basic fields all entities have
+    // Generic calculation for other entity types
+    let score = 0;
     if (entity.name) score += 20;
     if (entity.description) score += 20;
     if (entity.imageUrl) score += 15;
     if (entity.tags && entity.tags.length > 0) score += 10;
     
-    // Entity-specific scoring
-    if (entityType === 'character') {
-      const char = entity as any; // Cast to access character-specific fields
-      if (char.race) score += 10;
-      if (char.class) score += 10;
-      if (char.personalityTraits && char.personalityTraits.length > 0) score += 10;
-      if (char.background) score += 5;
-    } else if (entityType === 'location') {
+    if (entityType === 'location') {
       const loc = entity as any;
       if (loc.locationType) score += 15;
       if (loc.geography) score += 10;
@@ -236,162 +241,398 @@ export function EntityListView({
       if (item.history) score += 15;
     }
     
-    return Math.min(maxScore, score);
+    return Math.min(100, score);
   };
 
-  // Generic Entity Card for grid view
-  const EntityCard = ({ entity }: { entity: BaseEntity }) => (
-    <Card 
-      className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/95 to-accent/5 relative overflow-hidden h-full" 
-      onClick={() => handleEdit(entity)}
-    >
-      <CardContent className="p-6 relative h-full flex flex-col">
-        {/* Hover Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* Entity Image/Icon */}
-        <div className="relative mb-4">
-          <div className="w-full h-48 rounded-xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center border border-accent/20 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-            {entity.imageUrl ? (
-              <img 
-                src={entity.imageUrl} 
-                alt={entity.name}
-                className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
-              />
-            ) : (
-              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center">
-                <IconComponent className="h-10 w-10 text-accent/70" />
+  // Generic Entity Card for grid view (matches CharacterManager styling for characters)
+  const EntityCard = ({ entity }: { entity: BaseEntity }) => {
+    if (entityType === 'character') {
+      const character = entity as any; // Cast to access character-specific fields
+      return (
+        <Card className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5 overflow-hidden relative" 
+              onClick={() => handleEdit(entity)}>
+          <CardContent className="p-0 relative">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+            
+            {/* Character Image Header */}
+            <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
+              {character.imageUrl ? (
+                <>
+                  <img 
+                    src={character.imageUrl} 
+                    alt={character.name}
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                  />
+                  {/* Image Overlay for Better Text Contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                </>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
+                      <Users className="h-10 w-10 text-accent/60" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-medium">Ready for portrait</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Clean Hover Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                {/* Subtle overlay for better readability */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
+                    {character.description || 'Click to view character details...'}
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-          
-          {/* Quick Actions */}
-          <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <Button size="sm" className="h-8 w-8 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-lg shadow-md"
-                    onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
-              <Edit className="h-3 w-3" />
-            </Button>
-          </div>
-        </div>
 
-        {/* Entity Info */}
-        <div className="space-y-3 flex-1">
-          <div>
-            <h3 className="font-bold text-lg leading-tight group-hover:text-accent transition-colors truncate">
-              {entity.name}
-            </h3>
-            {entity.description && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                {entity.description}
-              </p>
-            )}
-          </div>
+              {/* Premium Status Badge */}
+              <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
+                  {character.role || 'Character'}
+                </Badge>
+              </div>
+            </div>
+
+            {/* Premium Character Info */}
+            <div className="p-6 space-y-4 relative">
+              <div>
+                <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight mb-1">
+                  {character.name}
+                </h3>
+                {character.title && (
+                  <p className="text-accent/80 text-sm font-medium truncate mb-3">
+                    "{character.title}"
+                  </p>
+                )}
+                
+                <div className="flex items-center gap-2 mt-3 flex-wrap">
+                  {character.race && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      {character.race}
+                    </Badge>
+                  )}
+                  {character.class && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      {character.class}
+                    </Badge>
+                  )}
+                  {character.age && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      Age {character.age}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              {!character.description && (
+                <div className="text-center py-2">
+                  <p className="text-sm text-muted-foreground italic">
+                    Click to add character details...
+                  </p>
+                </div>
+              )}
+
+              {/* Premium Key Traits */}
+              {character.personalityTraits && character.personalityTraits.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {character.personalityTraits.slice(0, 3).map((trait, index) => (
+                    <span key={index} className="text-xs px-3 py-1.5 bg-accent/15 text-accent rounded-full font-semibold border border-accent/20">
+                      {trait}
+                    </span>
+                  ))}
+                  {character.personalityTraits.length > 3 && (
+                    <span className="text-xs px-3 py-1.5 bg-muted/40 rounded-full text-muted-foreground font-semibold border border-muted/40">
+                      +{character.personalityTraits.length - 3} more
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Character Completeness Indicator */}
+              <div className="flex items-center gap-2 pt-2 border-t border-border/30">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
+                        style={{ width: `${calculateCompleteness(entity)}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      {calculateCompleteness(entity)}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // Generic entity card for other types  
+    return (
+      <Card 
+        className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/95 to-accent/5 relative overflow-hidden h-full" 
+        onClick={() => handleEdit(entity)}
+      >
+        <CardContent className="p-6 relative h-full flex flex-col">
+          {/* Hover Effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
-          {/* Tags */}
-          {entity.tags && entity.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {entity.tags.slice(0, 3).map((tag, index) => (
-                <span key={index} className="text-xs px-2 py-1 bg-accent/15 text-accent rounded-full font-medium border border-accent/20">
-                  {tag}
-                </span>
-              ))}
-              {entity.tags.length > 3 && (
-                <span className="text-xs px-2 py-1 bg-muted/40 rounded-full text-muted-foreground font-medium">
-                  +{entity.tags.length - 3} more
-                </span>
+          {/* Entity Image/Icon */}
+          <div className="relative mb-4">
+            <div className="w-full h-48 rounded-xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center border border-accent/20 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+              {entity.imageUrl ? (
+                <img 
+                  src={entity.imageUrl} 
+                  alt={entity.name}
+                  className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center">
+                  <IconComponent className="h-10 w-10 text-accent/70" />
+                </div>
               )}
             </div>
-          )}
+            
+            {/* Quick Actions */}
+            <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <Button size="sm" className="h-8 w-8 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-lg shadow-md"
+                      onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+                <Edit className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
 
-          {/* Completeness Indicator */}
-          <div className="flex items-center gap-2 pt-2 border-t border-border/30">
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
+          {/* Entity Info */}
+          <div className="space-y-3 flex-1">
+            <div>
+              <h3 className="font-bold text-lg leading-tight group-hover:text-accent transition-colors truncate">
+                {entity.name}
+              </h3>
+              {entity.description && (
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                  {entity.description}
+                </p>
+              )}
+            </div>
+            
+            {/* Tags */}
+            {entity.tags && entity.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {entity.tags.slice(0, 3).map((tag, index) => (
+                  <span key={index} className="text-xs px-2 py-1 bg-accent/15 text-accent rounded-full font-medium border border-accent/20">
+                    {tag}
+                  </span>
+                ))}
+                {entity.tags.length > 3 && (
+                  <span className="text-xs px-2 py-1 bg-muted/40 rounded-full text-muted-foreground font-medium">
+                    +{entity.tags.length - 3} more
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Completeness Indicator */}
+            <div className="flex items-center gap-2 pt-2 border-t border-border/30">
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
+                      style={{ width: `${calculateCompleteness(entity)}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">
+                    {calculateCompleteness(entity)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Generic Entity List Item for list view (matches CharacterManager styling for characters)
+  const EntityListItem = ({ entity }: { entity: BaseEntity }) => {
+    if (entityType === 'character') {
+      const character = entity as any; // Cast to access character-specific fields
+      return (
+        <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
+              onClick={() => handleEdit(entity)}>
+          <CardContent className="p-5 relative">
+            {/* Subtle Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            
+            <div className="flex items-center gap-5 relative">
+              {/* Premium Avatar */}
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
+                {character.imageUrl ? (
+                  <img 
+                    src={character.imageUrl} 
+                    alt={character.name}
+                    className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                    <Users className="h-6 w-6 text-accent/70" />
+                  </div>
+                )}
+              </div>
+
+              {/* Premium Character Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
+                    {character.name}
+                  </h3>
+                  {character.title && (
+                    <span className="text-accent/70 text-sm font-medium italic">"{character.title}"</span>
+                  )}
+                </div>
+                
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+                    {character.role || 'Character'}
+                  </Badge>
+                  {character.race && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      {character.race}
+                    </Badge>
+                  )}
+                  {character.class && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      {character.class}
+                    </Badge>
+                  )}
+                  {character.age && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
+                      Age {character.age}
+                    </Badge>
+                  )}
+                </div>
+
+                {/* Enhanced Description or Call to Action */}
+                {character.description ? (
+                  <p className="text-sm text-muted-foreground line-clamp-1 leading-relaxed font-medium">
+                    {character.description}
+                  </p>
+                ) : (
+                  <p className="text-sm text-accent/60 italic font-medium">
+                    Ready to develop • Click to add details and bring them to life
+                  </p>
+                )}
+
+                {/* Character Completeness Mini-Indicator */}
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="h-1 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
+                    <div 
+                      className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
+                      style={{ width: `${calculateCompleteness(entity)}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">
+                    {calculateCompleteness(entity)}% complete
+                  </span>
+                </div>
+              </div>
+
+              {/* Premium Quick Actions */}
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
+                <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
+                        onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+                  <Eye className="h-4 w-4" />
+                </Button>
+                <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
+                        onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+                <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
+                        onClick={(e) => { e.stopPropagation(); console.log('Portrait click for', entity.name); }}>
+                  <Camera className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // Generic entity list item for other types
+    return (
+      <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
+            onClick={() => handleEdit(entity)}>
+        <CardContent className="p-5 relative">
+          {/* Hover Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+          
+          <div className="flex items-center gap-5 relative">
+            {/* Entity Avatar */}
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
+              {entity.imageUrl ? (
+                <img 
+                  src={entity.imageUrl} 
+                  alt={entity.name}
+                  className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                  <IconComponent className="h-6 w-6 text-accent/70" />
+                </div>
+              )}
+            </div>
+
+            {/* Entity Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
+                  {entity.name}
+                </h3>
+              </div>
+              
+              {/* Description */}
+              {entity.description ? (
+                <p className="text-sm text-muted-foreground line-clamp-1 leading-relaxed font-medium">
+                  {entity.description}
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">
+                  Ready to develop • Click to add details and bring them to life
+                </p>
+              )}
+
+              {/* Completeness Bar */}
+              <div className="flex items-center gap-2 mt-2">
+                <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
                   <div 
                     className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
                     style={{ width: `${calculateCompleteness(entity)}%` }}
                   />
                 </div>
                 <span className="text-xs text-muted-foreground font-medium">
-                  {calculateCompleteness(entity)}%
+                  {calculateCompleteness(entity)}% complete
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
 
-  // Generic Entity List Item for list view
-  const EntityListItem = ({ entity }: { entity: BaseEntity }) => (
-    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
-          onClick={() => handleEdit(entity)}>
-      <CardContent className="p-5 relative">
-        {/* Hover Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-        
-        <div className="flex items-center gap-5 relative">
-          {/* Entity Avatar */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
-            {entity.imageUrl ? (
-              <img 
-                src={entity.imageUrl} 
-                alt={entity.name}
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
-              />
-            ) : (
-              <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
-                <IconComponent className="h-6 w-6 text-accent/70" />
-              </div>
-            )}
-          </div>
-
-          {/* Entity Info */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
-                {entity.name}
-              </h3>
-            </div>
-            
-            {/* Description */}
-            {entity.description ? (
-              <p className="text-sm text-muted-foreground line-clamp-1 leading-relaxed font-medium">
-                {entity.description}
-              </p>
-            ) : (
-              <p className="text-sm text-muted-foreground italic">
-                Ready to develop • Click to add details and bring them to life
-              </p>
-            )}
-
-            {/* Completeness Bar */}
-            <div className="flex items-center gap-2 mt-2">
-              <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
-                <div 
-                  className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
-                  style={{ width: `${calculateCompleteness(entity)}%` }}
-                />
-              </div>
-              <span className="text-xs text-muted-foreground font-medium">
-                {calculateCompleteness(entity)}% complete
-              </span>
+            {/* Quick Actions */}
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
+                      onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+                <Edit className="h-4 w-4" />
+              </Button>
             </div>
           </div>
-
-          {/* Quick Actions */}
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
-                    onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
-              <Edit className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+        </CardContent>
+      </Card>
+    );
+  };
 
   const capitalizedEntityType = config.singular.charAt(0).toUpperCase() + config.singular.slice(1);
   const capitalizedPlural = config.plural.charAt(0).toUpperCase() + config.plural.slice(1);
