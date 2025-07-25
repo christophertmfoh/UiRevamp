@@ -32,7 +32,7 @@ import { CharacterManager } from '../character';
 import { LocationManager } from '../location';
 import { FactionManager } from '../faction';
 import { ItemManager } from '../item';
-import { EntityListView } from '../shared/EntityListView';
+
 import { OrganizationManager } from '../organization';
 import { MagicSystemManager } from '../magic-system';
 import { TimelineEventManager } from '../timeline-event';
@@ -392,9 +392,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   const [categories, setCategories] = useState([
     { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
     { id: 'characters', label: 'Characters', icon: Users, count: characters.length, locked: false },
-    { id: 'characters-test', label: 'Characters (New)', icon: Users, count: characters.length, locked: false },
+
     { id: 'locations', label: 'Locations', icon: MapPin, count: locations.length, locked: false },
-    { id: 'locations-test', label: 'Locations (New)', icon: MapPin, count: locations.length, locked: false },
+
     { id: 'factions', label: 'Factions', icon: Shield, count: factions.length, locked: false },
     { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length, locked: false },
     { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length, locked: false },
@@ -411,10 +411,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   useEffect(() => {
     setCategories(prev => prev.map(cat => {
       switch (cat.id) {
-        case 'characters': 
-        case 'characters-test': return { ...cat, count: characters.length };
-        case 'locations': 
-        case 'locations-test': return { ...cat, count: locations.length };
+        case 'characters': return { ...cat, count: characters.length };
+        case 'locations': return { ...cat, count: locations.length };
         case 'factions': return { ...cat, count: factions.length };
         case 'organizations': return { ...cat, count: organizations.length };
         case 'items': return { ...cat, count: items.length };
@@ -493,11 +491,12 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
           </Button>
         </div>
 
-        {Object.entries(groupedResults).map(([category, items]: [string, any[]]) => {
+        {Object.entries(groupedResults).map(([category, items]) => {
           const categoryInfo = categories.find(cat => cat.id === category);
           if (!categoryInfo) return null;
           
           const Icon = categoryInfo.icon;
+          const itemList = items as any[];
           
           return (
             <Card key={category} className="creative-card">
@@ -506,13 +505,13 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                   <Icon className="h-5 w-5" />
                   {categoryInfo.label}
                   <Badge variant="secondary" className="text-xs">
-                    {items.length}
+                    {itemList.length}
                   </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="grid gap-3">
-                  {items.map((item: any) => (
+                  {itemList.map((item: any) => (
                     <Card 
                       key={item.id} 
                       className="p-4 border-l-4 border-l-accent cursor-pointer hover:bg-muted/30 transition-colors"
@@ -917,15 +916,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
 
       case 'characters':
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-        
-      case 'characters-test':
-        return <EntityListView entityType="character" projectId={project.id} selectedEntityId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'locations':
         return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-        
-      case 'locations-test':
-        return <EntityListView entityType="location" projectId={project.id} selectedEntityId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'factions':
         return <FactionManager projectId={project.id} selectedFactionId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
