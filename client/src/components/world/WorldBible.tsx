@@ -658,13 +658,17 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                             key={character.id} 
                             className={`group p-3 rounded-lg border-l-4 cursor-pointer flex items-center gap-3 transition-all duration-300 ease-out ${
                               draggedCharacterId === character.id 
-                                ? 'bg-accent/20 border-accent scale-105 shadow-lg z-10' 
+                                ? 'bg-accent/25 border-accent scale-110 shadow-2xl z-20 opacity-90' 
                                 : dragOverCharacterId === character.id
-                                ? 'bg-muted/50 border-accent/70 transform translate-y-1'
-                                : 'bg-muted/30 border-accent/50 hover:bg-muted/40 hover:border-accent/70'
+                                ? 'bg-accent/15 border-accent transform translate-y-2 scale-102 shadow-md'
+                                : 'bg-muted/30 border-accent/50 hover:bg-accent/10 hover:border-accent hover:scale-105 hover:shadow-lg hover:-translate-y-1'
                             }`}
                             style={{
-                              transform: draggedCharacterId === character.id ? 'rotate(2deg)' : 'rotate(0deg)',
+                              transform: draggedCharacterId === character.id 
+                                ? 'rotate(3deg) scale(1.1)' 
+                                : dragOverCharacterId === character.id
+                                ? 'translateY(8px) scale(1.02)'
+                                : 'rotate(0deg) scale(1)',
                             }}
                             onClick={() => {
                               if (!draggedCharacterId) {
@@ -708,34 +712,65 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                               setDragOverCharacterId(null);
                             }}
                           >
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 transition-all duration-300">
                               {character.imageUrl ? (
                                 <img 
                                   src={character.imageUrl} 
                                   alt={character.name}
-                                  className="w-10 h-10 rounded-full object-cover border-2 border-accent/20"
+                                  className={`w-10 h-10 rounded-full object-cover border-2 transition-all duration-300 ${
+                                    draggedCharacterId === character.id
+                                      ? 'border-accent shadow-lg scale-110'
+                                      : 'border-accent/20 group-hover:border-accent/60 group-hover:scale-110 group-hover:shadow-md'
+                                  }`}
                                 />
                               ) : (
-                                <div className="w-10 h-10 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center">
-                                  <Users className="h-5 w-5 text-accent/60" />
+                                <div className={`w-10 h-10 rounded-full bg-accent/10 border-2 flex items-center justify-center transition-all duration-300 ${
+                                  draggedCharacterId === character.id
+                                    ? 'border-accent bg-accent/20 shadow-lg scale-110'
+                                    : 'border-accent/20 group-hover:border-accent/60 group-hover:bg-accent/15 group-hover:scale-110'
+                                }`}>
+                                  <Users className="h-5 w-5 text-accent/60 group-hover:text-accent transition-colors duration-300" />
                                 </div>
                               )}
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm truncate">{character.name}</div>
+                            <div className="flex-1 min-w-0 transition-all duration-300">
+                              <div className={`font-medium text-sm truncate transition-all duration-300 ${
+                                draggedCharacterId === character.id
+                                  ? 'text-accent font-semibold'
+                                  : 'group-hover:text-accent/90 group-hover:font-semibold'
+                              }`}>
+                                {character.name}
+                              </div>
                               {character.title && (
-                                <div className="text-xs text-muted-foreground truncate">{character.title}</div>
+                                <div className="text-xs text-muted-foreground truncate group-hover:text-muted-foreground/80 transition-colors duration-300">
+                                  {character.title}
+                                </div>
                               )}
                               {character.role && (
-                                <Badge variant="outline" className="text-xs mt-1">
+                                <Badge 
+                                  variant="outline" 
+                                  className={`text-xs mt-1 transition-all duration-300 ${
+                                    draggedCharacterId === character.id
+                                      ? 'border-accent/60 text-accent bg-accent/10'
+                                      : 'group-hover:border-accent/50 group-hover:text-accent/80 group-hover:bg-accent/5'
+                                  }`}
+                                >
                                   {character.role}
                                 </Badge>
                               )}
                             </div>
-                            <div className={`flex-shrink-0 transition-all duration-200 ${
-                              draggedCharacterId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                            <div className={`flex-shrink-0 transition-all duration-300 ${
+                              draggedCharacterId === character.id
+                                ? 'opacity-100 scale-125 text-accent'
+                                : draggedCharacterId
+                                ? 'opacity-30'
+                                : 'opacity-0 group-hover:opacity-100 group-hover:scale-110'
                             }`}>
-                              <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab active:cursor-grabbing" />
+                              <GripVertical className={`h-4 w-4 cursor-grab active:cursor-grabbing transition-all duration-300 ${
+                                draggedCharacterId === character.id
+                                  ? 'text-accent animate-pulse'
+                                  : 'text-muted-foreground group-hover:text-accent/70'
+                              }`} />
                             </div>
                           </div>
                         ));
