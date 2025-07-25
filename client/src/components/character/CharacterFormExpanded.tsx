@@ -11,7 +11,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
 import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
-
+import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
   projectId: string;
@@ -19,7 +19,7 @@ interface CharacterFormExpandedProps {
   character?: Character;
 }
 
-
+const AI_ENABLED_FIELD_TYPES = ['text', 'textarea', 'array'];
 
 export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
   // Initialize form data with all fields from CHARACTER_SECTIONS
@@ -41,7 +41,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
   };
 
   const [formData, setFormData] = useState(initializeFormData);
-
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({

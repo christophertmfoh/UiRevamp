@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { FieldRenderer } from './FieldRenderer';
 import { getFieldsBySection, getSectionById } from '@/lib/config/fieldConfig';
 import { QuickProgress } from './CharacterProgress';
@@ -17,7 +17,8 @@ interface FormSectionProps {
   sectionId: string;
   character: any;
   onChange: (fieldKey: string, value: any) => void;
-
+  onEnhanceField?: (fieldKey: string, fieldLabel: string) => void;
+  fieldEnhancements?: Record<string, boolean>;
   validationErrors?: Record<string, string>;
   disabled?: boolean;
   showPriority?: boolean;
@@ -29,7 +30,8 @@ export function FormSection({
   sectionId,
   character,
   onChange,
-
+  onEnhanceField,
+  fieldEnhancements = {},
   validationErrors = {},
   disabled = false,
   showPriority = false,
@@ -53,7 +55,22 @@ export function FormSection({
   
   const completionPercentage = Math.round((filledFields / fields.length) * 100);
 
+  const handleBulkEnhance = () => {
+    if (!onEnhanceField) return;
+    
+    // Enhance all empty fields in this section
+    fields.forEach(field => {
+      const value = character[field.key];
+      if (!value || value === '' || (Array.isArray(value) && value.length === 0)) {
+        onEnhanceField(field.key, field.label);
+      }
+    });
+  };
 
+  const emptyFieldsCount = fields.filter(field => {
+    const value = character[field.key];
+    return !value || value === '' || (Array.isArray(value) && value.length === 0);
+  }).length;
 
   const sectionContent = (
     <div className="space-y-4">
@@ -63,7 +80,8 @@ export function FormSection({
           fieldKey={field.key}
           value={character[field.key]}
           onChange={(value) => onChange(field.key, value)}
-
+          onEnhance={onEnhanceField}
+          isEnhancing={fieldEnhancements[field.key]}
           error={validationErrors[field.key]}
           disabled={disabled}
           showPriority={showPriority}
@@ -83,7 +101,18 @@ export function FormSection({
             </div>
             <div className="flex items-center gap-3">
               <QuickProgress percentage={completionPercentage} />
-
+              {onEnhanceField && emptyFieldsCount > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleBulkEnhance}
+                  disabled={disabled}
+                  className="gap-2"
+                >
+                  <Zap className="h-4 w-4" />
+                  Fill {emptyFieldsCount} Empty
+                </Button>
+              )}
             </div>
           </div>
         </CardHeader>
@@ -116,7 +145,21 @@ export function FormSection({
                   {filledFields}/{fields.length}
                 </Badge>
                 <QuickProgress percentage={completionPercentage} />
-
+                {onEnhanceField && emptyFieldsCount > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBulkEnhance();
+                    }}
+                    disabled={disabled}
+                    className="gap-2"
+                  >
+                    <Zap className="h-4 w-4" />
+                    Fill {emptyFieldsCount}
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>
