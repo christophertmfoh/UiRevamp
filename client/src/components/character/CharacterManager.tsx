@@ -590,11 +590,11 @@ Generate a complete, detailed character that expands on these template foundatio
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="typography-display-large text-a24-bold">
-              CHARACTERS
+            <h2 className="font-title text-3xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Characters
             </h2>
-            <div className="flex items-center gap-a24-md mt-a24-xs">
-              <span className="typography-body-large text-muted-foreground">
+            <div className="flex items-center gap-4 mt-1">
+              <span className="text-muted-foreground">
                 {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
               </span>
               {filteredCharacters.length !== characters.length && (
@@ -610,20 +610,20 @@ Generate a complete, detailed character that expands on these template foundatio
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-accent text-accent-foreground shadow-a24-medium hover:shadow-a24-dramatic interactive-a24 group"
+              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
-              <div className="flex items-center gap-a24-sm">
-                <div className="p-1 bg-accent-foreground/10 rounded-sm group-hover:rotate-90 transition-transform duration-150">
+              <div className="flex items-center">
+                <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                   <Plus className="h-4 w-4" />
                 </div>
-                <span className="typography-label-large text-a24-bold">CREATE CHARACTER</span>
+                <span className="font-semibold tracking-wide">Create Character</span>
               </div>
             </Button>
           </div>
         </div>
 
         {/* Enhanced Controls Bar */}
-        <div className="flex items-center justify-between gap-a24-md p-a24-md bg-muted/30 rounded-lg border-a24 shadow-a24-minimal">
+        <div className="flex items-center justify-between gap-4 p-4 bg-muted/30 rounded-lg border border-border/50">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -631,7 +631,7 @@ Generate a complete, detailed character that expands on these template foundatio
               placeholder="Search characters by name, role, or race..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-background border-a24 focus:border-a24-accent typography-body-large transition-all duration-150"
+              className="pl-10 bg-background border-border/50 focus:border-accent/50"
             />
           </div>
 

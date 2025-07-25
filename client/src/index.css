@@ -1,13 +1,4 @@
-/* Apple/A24/Neon Studios Inspired Typography */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=SF+Pro+Display:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Helvetica+Neue:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-/* Fallback to system fonts for Apple aesthetic */
-@font-face {
-  font-family: 'SF Pro Display';
-  src: local('-apple-system'), local('BlinkMacSystemFont'), local('San Francisco'), local('Helvetica Neue'), local('Arial');
-  font-weight: 100 900;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -96,27 +87,27 @@ body {
 }
 
 :root {
-  /* A24 Authentic Aesthetic - Strict Monochromatic with Strategic Accent */
-  --background: hsl(0, 0%, 6%);                /* True A24 near-black */
-  --foreground: hsl(0, 0%, 95%);               /* Pure white text */
-  --muted: hsl(0, 0%, 12%);                    /* Dark gray elements */
-  --muted-foreground: hsl(0, 0%, 70%);         /* Medium gray text */
-  --popover: hsl(0, 0%, 8%);                   /* Slightly lighter black */
-  --popover-foreground: hsl(0, 0%, 95%);       /* White on dark */
-  --card: hsl(0, 0%, 8%);                      /* Card background */
-  --card-foreground: hsl(0, 0%, 95%);          /* Card text */
-  --border: hsl(0, 0%, 15%);                   /* Minimal gray borders */
-  --input: hsl(0, 0%, 10%);                    /* Input background */
-  --primary: hsl(0, 0%, 95%);                  /* White primary */
-  --primary-foreground: hsl(0, 0%, 6%);        /* Black on white */
-  --secondary: hsl(0, 0%, 14%);                /* Dark secondary */
-  --secondary-foreground: hsl(0, 0%, 95%);     /* White on dark */
-  --accent: hsl(38, 40%, 55%);                 /* Single warm accent */
-  --accent-foreground: hsl(0, 0%, 6%);         /* Black on warm */
-  --destructive: hsl(0, 80%, 60%);             /* Pure red for alerts */
-  --destructive-foreground: hsl(0, 0%, 95%);   /* White on red */
-  --ring: hsl(38, 40%, 55%);                   /* Accent focus ring */
-  --radius: 0.5rem;                            /* Sharp, minimal radius */
+  /* Inspired by cozy writing interface - warmer, richer tones */
+  --background: hsl(25, 12%, 6%);              /* Deep chocolate brown */
+  --foreground: hsl(35, 8%, 88%);              /* Warm cream text */
+  --muted: hsl(28, 10%, 12%);                  /* Rich dark brown */
+  --muted-foreground: hsl(32, 6%, 65%);       /* Muted warm gray */
+  --popover: hsl(28, 12%, 10%);               /* Deep warm brown */
+  --popover-foreground: hsl(35, 8%, 88%);
+  --card: hsl(28, 12%, 10%);                  /* Deep warm brown */
+  --card-foreground: hsl(35, 8%, 88%);
+  --border: hsl(30, 8%, 18%);                 /* Subtle warm border */
+  --input: hsl(28, 10%, 12%);                 /* Input background */
+  --primary: hsl(35, 35%, 45%);               /* Warm caramel */
+  --primary-foreground: hsl(25, 12%, 6%);
+  --secondary: hsl(28, 10%, 16%);             /* Secondary brown */
+  --secondary-foreground: hsl(35, 8%, 88%);
+  --accent: hsl(38, 40%, 55%);                /* Golden honey */
+  --accent-foreground: hsl(25, 12%, 6%);
+  --destructive: hsl(0, 45%, 40%);            /* Muted red */
+  --destructive-foreground: hsl(35, 8%, 88%);
+  --ring: hsl(38, 40%, 55%);                  /* Golden ring */
+  --radius: 0.75rem;
   
   /* Creative palette extensions */
   --paper: hsl(42, 20%, 94%);                 /* Warm paper white */
@@ -135,7 +126,7 @@ body {
   --gradient-ember: linear-gradient(135deg, hsl(18, 55%, 48%), hsl(22, 50%, 38%));
   --gradient-paper: linear-gradient(180deg, hsl(42, 20%, 94%), hsl(40, 18%, 90%));
   --gradient-leather: linear-gradient(135deg, hsl(22, 30%, 32%), hsl(18, 25%, 22%));
-  --gradient-warm: linear-gradient(135deg, hsl(0, 0%, 6%) 0%, hsl(0, 0%, 4%) 100%);
+  --gradient-warm: linear-gradient(135deg, hsl(25, 12%, 8%), hsl(28, 15%, 6%));
   
   /* Texture and atmosphere */
   --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.015'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='25' cy='18' r='0.5'/%3E%3Ccircle cx='45' cy='35' r='1'/%3E%3Ccircle cx='15' cy='45' r='0.5'/%3E%3C/g%3E%3C/svg%3E");
@@ -173,191 +164,48 @@ body {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     background: var(--gradient-warm);
     background-attachment: fixed;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1, "kern" 1, "liga" 1;
-    font-variant-ligatures: common-ligatures;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    line-height: 1.7;
-    font-weight: 400;
-    letter-spacing: -0.005em;
-  }
-  
-  /* A24 Authentic Typography - Art Deco Influenced High Contrast */
-  .typography-display-large {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.0;
-    letter-spacing: -0.04em;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-  }
-  
-  .typography-display-medium {
-    font-family: 'Playfair Display', 'Times New Roman', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  }
-  
-  .typography-headline-large {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-  
-  .typography-headline-medium {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    text-transform: uppercase;
-  }
-  
-  .typography-title-large {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-  }
-  
-  .typography-body-large {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.7;
-    letter-spacing: -0.005em;
-  }
-  
-  .typography-body-medium {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
-    letter-spacing: 0;
+    font-weight: 400;
   }
   
-  .typography-label-large {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+  /* Typography hierarchy for modern literary feel */
+  .font-serif {
+    font-family: 'Source Serif 4', 'Georgia', serif;
   }
   
-  .typography-label-medium {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  
-  /* A24 Signature High Contrast Moments */
-  .typography-contrast-high {
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-  }
-  
-  .typography-contrast-thin {
-    font-weight: 100;
-    letter-spacing: 0.05em;
-  }
-  
-  /* Legacy compatibility - keeping for existing components */
-  .font-sans {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  .font-literary {
+    font-family: 'Source Serif 4', 'Georgia', serif;
+    font-optical-sizing: auto;
   }
   
   .font-title {
-    @apply typography-headline-large typography-contrast-high;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   
   .font-display {
-    @apply typography-display-large typography-contrast-high;
-  }
-}
-
-/* A24 Geometric Spacing System */
-@layer utilities {
-  .space-a24-xs { @apply space-y-2; }      /* 8px - geometric minimal */
-  .space-a24-sm { @apply space-y-3; }      /* 12px - clean increment */
-  .space-a24-md { @apply space-y-6; }      /* 24px - strong hierarchy */
-  .space-a24-lg { @apply space-y-8; }      /* 32px - dramatic spacing */
-  .space-a24-xl { @apply space-y-12; }     /* 48px - monumental */
-  .space-a24-2xl { @apply space-y-16; }    /* 64px - cinematic */
-  .space-a24-3xl { @apply space-y-24; }    /* 96px - architectural */
-  
-  .gap-a24-xs { @apply gap-2; }
-  .gap-a24-sm { @apply gap-3; }
-  .gap-a24-md { @apply gap-6; }
-  .gap-a24-lg { @apply gap-8; }
-  .gap-a24-xl { @apply gap-12; }
-  
-  /* A24 Signature Shadows - Dramatic & Cinematic */
-  .shadow-a24-minimal {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
   }
   
-  .shadow-a24-medium {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
-  
-  .shadow-a24-dramatic {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 4px 8px rgba(0, 0, 0, 0.6);
-  }
-  
-  /* A24 Minimal Borders - Sparingly Used */
-  .border-a24 {
-    border: 1px solid hsl(0, 0%, 15%);
-  }
-  
-  .border-a24-accent {
-    border: 1px solid hsl(38, 40%, 55%);
-  }
-  
-  /* A24 High Contrast Typography */
-  .text-a24-bold {
-    font-weight: 900;
-    letter-spacing: -0.04em;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-    text-transform: uppercase;
-  }
-  
-  .text-a24-thin {
-    font-weight: 100;
-    letter-spacing: 0.1em;
-  }
-  
-  /* A24 Minimalist Interactive States */
-  .interactive-a24 {
-    transition: all 0.15s ease-out;
-  }
-  
-  .interactive-a24:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  .font-sans {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 
 @layer components {
-  /* A24 Authentic Minimalist Components */
+  /* Modern Cozy Creative Components */
   .creative-card {
-    @apply bg-card border-a24 rounded-lg shadow-a24-medium interactive-a24;
+    @apply bg-card border border-border rounded-xl;
+    background: linear-gradient(135deg, hsl(28, 12%, 11%), hsl(25, 10%, 9%));
+    box-shadow: var(--shadow-warm);
     backdrop-filter: blur(8px);
   }
   
