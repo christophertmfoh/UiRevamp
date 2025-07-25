@@ -9,7 +9,15 @@ import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkle
 import { apiRequest } from '@/lib/queryClient';
 import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, Project } from '@/lib/types';
-// Character-specific imports removed for generic entity view
+import { CharacterDetailView } from '../character/CharacterDetailView';
+import { 
+  CharacterPortraitModal, 
+  CharacterGenerationModal, 
+  CharacterTemplates, 
+  CharacterCreationLaunch,
+  type CharacterGenerationOptions 
+} from '../character/shared/ComponentIndex';
+import { generateContextualCharacter } from '@/lib/services/characterGeneration';
 
 interface EntityListViewProps {
   entityType: string;
@@ -183,6 +191,8 @@ export function EntityListView({ entityType, projectId: propProjectId }: EntityL
     setIsGenerationModalOpen(true);
   };
 
+
+
   const handleSelectTemplate = async (template: any) => {
     // Use AI to generate a comprehensive character based on the template
     setIsGenerating(true);
@@ -336,7 +346,22 @@ Generate a complete, detailed character that expands on these template foundatio
     }
   };
 
-  // Entity detail view - simplified for now
+  // Character detail view - only show for characters
+  if ((selectedEntity || isCreating) && entityType === 'character') {
+    return (
+      <CharacterDetailView
+        projectId={projectId}
+        character={selectedEntity}
+        isCreating={isCreating}
+        isGuidedCreation={isGuidedCreation}
+        onBack={handleBackToList}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+    );
+  }
+
+  // Generic entity detail view for non-characters
   if (selectedEntity || isCreating) {
     return (
       <div className="space-y-6">
@@ -362,32 +387,111 @@ Generate a complete, detailed character that expands on these template foundatio
     );
   }
 
-  // Simple Entity Card for Grid View
-  const EntityCard = ({ entity }: { entity: any }) => (
-    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl border border-border/30 hover:border-accent/50 bg-background overflow-hidden" 
-          onClick={() => setSelectedEntity(entity)}>
-      <CardContent className="p-4">
-        <div className="space-y-3">
-          <h3 className="font-semibold text-lg group-hover:text-accent transition-colors">
-            {entity.name || 'Unnamed Entity'}
-          </h3>
-          {entity.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              {entity.description}
-            </p>
-          )}
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">
-              {capitalizedEntityType}
-            </span>
-            <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
-              <Edit className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+  // Character Card Component for Grid View (restored functionality)
+  const EntityCard = ({ entity }: { entity: any }) => {
+    // For characters, show rich card; for others, show simple card
+    if (entityType === 'character') {
+      const character = entity as Character;
+      return (
+        <Card className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5 overflow-hidden relative" 
+              onClick={() => setSelectedEntity(character)}>
+          <CardContent className="p-0 relative">
+            {/* Character Image Header */}
+            <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
+              {character.imageUrl ? (
+                <>
+                  <img 
+                    src={character.imageUrl} 
+                    alt={character.name}
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                </>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
+                      <Users className="h-10 w-10 text-accent/60" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-medium">Ready for portrait</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Status Badge */}
+              <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
+                <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
+                  {character.role || 'Character'}
+                </Badge>
+              </div>
+            </div>
+
+            {/* Character Info */}
+            <div className="p-6 space-y-4 relative">
+              <div>
+                <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight mb-1">
+                  {character.name}
+                </h3>
+                {character.title && (
+                  <p className="text-accent/80 text-sm font-medium truncate mb-3">
+                    "{character.title}"
+                  </p>
+                )}
+                
+                <div className="flex items-center gap-2 mt-3 flex-wrap">
+                  {character.race && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80">
+                      {character.race}
+                    </Badge>
+                  )}
+                  {character.class && (
+                    <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80">
+                      {character.class}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              {!character.description && (
+                <div className="text-center py-2">
+                  <p className="text-sm text-muted-foreground italic">
+                    Click to add character details...
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      );
+    } else {
+      // Simple card for non-characters
+      return (
+        <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl border border-border/30 hover:border-accent/50 bg-background overflow-hidden" 
+              onClick={() => setSelectedEntity(entity)}>
+          <CardContent className="p-4">
+            <div className="space-y-3">
+              <h3 className="font-semibold text-lg group-hover:text-accent transition-colors">
+                {entity.name || 'Unnamed Entity'}
+              </h3>
+              {entity.description && (
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {entity.description}
+                </p>
+              )}
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">
+                  {capitalizedEntityType}
+                </span>
+                <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); handleEdit(entity); }}>
+                  <Edit className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+  };
 
   // Simple List View Item
   const EntityListItem = ({ entity }: { entity: any }) => (
@@ -456,18 +560,33 @@ Generate a complete, detailed character that expands on these template foundatio
           
           {/* Primary Action */}
           <div className="flex gap-3">
-            <Button 
-              onClick={() => setIsCreationLaunchOpen(true)} 
-              size="lg"
-              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
-            >
-              <div className="flex items-center">
-                <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
-                  <Plus className="h-4 w-4" />
+            {entityType === 'character' ? (
+              <Button 
+                onClick={() => setIsCreationLaunchOpen(true)} 
+                size="lg"
+                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="flex items-center">
+                  <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                    <Plus className="h-4 w-4" />
+                  </div>
+                  <span className="font-semibold tracking-wide">Create Character</span>
                 </div>
-                <span className="font-semibold tracking-wide">Create {capitalizedEntityType}</span>
-              </div>
-            </Button>
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleCreateNew} 
+                size="lg"
+                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="flex items-center">
+                  <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                    <Plus className="h-4 w-4" />
+                  </div>
+                  <span className="font-semibold tracking-wide">Create {capitalizedEntityType}</span>
+                </div>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -587,8 +706,39 @@ Generate a complete, detailed character that expands on these template foundatio
         </div>
       )}
 
-      {/* Simple Creation Modal - character-specific modals removed for now */}
-      {isCreationLaunchOpen && (
+      {/* Character Creation Modals (only for characters) */}
+      {entityType === 'character' && (
+        <>
+          {/* Character Creation Launch Modal */}
+          <CharacterCreationLaunch
+            isOpen={isCreationLaunchOpen}
+            onClose={() => setIsCreationLaunchOpen(false)}
+            onCreateBlank={handleCreateNew}
+            onUseTemplate={() => setIsTemplateModalOpen(true)}
+            onAIGenerate={() => setIsGenerationModalOpen(true)}
+          />
+
+          {/* Character Generation Modal */}
+          <CharacterGenerationModal
+            isOpen={isGenerationModalOpen}
+            onClose={() => setIsGenerationModalOpen(false)}
+            onGenerate={handleGenerateCharacter}
+            isGenerating={isGenerating}
+            project={project}
+          />
+
+          {/* Character Templates Modal */}
+          <CharacterTemplates
+            isOpen={isTemplateModalOpen}
+            onClose={() => setIsTemplateModalOpen(false)}
+            onSelectTemplate={handleSelectTemplate}
+            isGenerating={isGenerating}
+          />
+        </>
+      )}
+
+      {/* Simple Creation Modal for non-characters */}
+      {entityType !== 'character' && isCreationLaunchOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background p-6 rounded-lg max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">Create New {capitalizedEntityType}</h3>
