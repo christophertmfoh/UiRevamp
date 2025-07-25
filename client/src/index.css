@@ -96,26 +96,26 @@ body {
 }
 
 :root {
-  /* Inspired by cozy writing interface - warmer, richer tones */
-  --background: hsl(25, 12%, 6%);              /* Deep chocolate brown */
-  --foreground: hsl(35, 8%, 88%);              /* Warm cream text */
-  --muted: hsl(28, 10%, 12%);                  /* Rich dark brown */
-  --muted-foreground: hsl(32, 6%, 65%);       /* Muted warm gray */
-  --popover: hsl(28, 12%, 10%);               /* Deep warm brown */
-  --popover-foreground: hsl(35, 8%, 88%);
-  --card: hsl(28, 12%, 10%);                  /* Deep warm brown */
-  --card-foreground: hsl(35, 8%, 88%);
-  --border: hsl(30, 8%, 18%);                 /* Subtle warm border */
-  --input: hsl(28, 10%, 12%);                 /* Input background */
-  --primary: hsl(35, 35%, 45%);               /* Warm caramel */
-  --primary-foreground: hsl(25, 12%, 6%);
-  --secondary: hsl(28, 10%, 16%);             /* Secondary brown */
-  --secondary-foreground: hsl(35, 8%, 88%);
-  --accent: hsl(38, 40%, 55%);                /* Golden honey */
-  --accent-foreground: hsl(25, 12%, 6%);
-  --destructive: hsl(0, 45%, 40%);            /* Muted red */
-  --destructive-foreground: hsl(35, 8%, 88%);
-  --ring: hsl(38, 40%, 55%);                  /* Golden ring */
+  /* Apple/A24 Minimalist - Cool monochromatic with warm accents */
+  --background: hsl(218, 11%, 8%);             /* Very dark gray-blue */
+  --foreground: hsl(0, 0%, 91%);               /* Off-white (EAEAEA) */
+  --muted: hsl(217, 12%, 14%);                 /* Dark muted gray */
+  --muted-foreground: hsl(0, 0%, 65%);         /* Light gray for secondary */
+  --popover: hsl(218, 11%, 10%);               /* Slightly lighter than bg */
+  --popover-foreground: hsl(0, 0%, 91%);       /* Off-white */
+  --card: hsl(218, 11%, 10%);                  /* Card background */
+  --card-foreground: hsl(0, 0%, 91%);          /* Card text */
+  --border: hsl(217, 10%, 18%);                /* Very subtle borders */
+  --input: hsl(218, 11%, 12%);                 /* Input background */
+  --primary: hsl(38, 40%, 55%);                /* Keeping warm golden */
+  --primary-foreground: hsl(218, 11%, 8%);     /* Dark on warm */
+  --secondary: hsl(217, 12%, 16%);             /* Secondary elements */
+  --secondary-foreground: hsl(0, 0%, 91%);     /* Secondary text */
+  --accent: hsl(38, 40%, 55%);                 /* Warm golden accent */
+  --accent-foreground: hsl(218, 11%, 8%);      /* Dark on warm accent */
+  --destructive: hsl(0, 65%, 55%);             /* Clean bright red */
+  --destructive-foreground: hsl(0, 0%, 91%);   /* Off-white on red */
+  --ring: hsl(38, 40%, 55%);                   /* Golden focus ring */
   --radius: 0.75rem;
   
   /* Creative palette extensions */
