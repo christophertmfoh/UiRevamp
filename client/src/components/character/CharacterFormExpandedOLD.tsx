@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
 // Individual field AI assist removed as requested - bulk AI enhancement still available
 
 interface CharacterFormExpandedProps {
@@ -27,8 +27,7 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     const initialData: any = {};
     
     CHARACTER_SECTIONS.forEach(section => {
-      const fields = getFieldsBySection(section.id);
-      fields.forEach(field => {
+      section.fields.forEach(field => {
         const value = (character as any)?.[field.key];
         if (field.type === 'array') {
           initialData[field.key] = Array.isArray(value) ? value.join(', ') : '';
@@ -45,38 +44,51 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
   const [isEnhancing, setIsEnhancing] = useState(false);
   const queryClient = useQueryClient();
 
-  // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('POST', `/api/projects/${projectId}/characters`, data);
+      const response = await fetch(`/api/projects/${projectId}/characters`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Failed to create character');
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
-    },
+    }
   });
 
-  // Update mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('PUT', `/api/characters/${character?.id}`, data);
+      const response = await fetch(`/api/characters/${character?.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Failed to update character');
+      return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onCancel();
-    },
+    }
   });
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     
-    // Process data to match database schema
-    const processedData: any = { ...formData, projectId };
+    const processedData = {
+      projectId,
+      ...formData,
+      isModelTrained: false,
+      imageUrl: '',
+    };
 
-    // Convert array fields back to arrays
+    // Process array fields
     CHARACTER_SECTIONS.forEach(section => {
-      const fields = getFieldsBySection(section.id);
-      fields.forEach(field => {
+      section.fields.forEach(field => {
         if (field.type === 'array') {
           const value = formData[field.key];
           processedData[field.key] = typeof value === 'string' 
@@ -108,8 +120,18 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'textarea':
         return (
           <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
-            <div className="mb-2">
+            <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Textarea
               id={field.key}
@@ -143,8 +165,18 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       case 'array':
         return (
           <div key={field.key} className="col-span-2">
-            <div className="mb-2">
+            <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Input
               id={field.key}
@@ -158,8 +190,18 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       default: // text
         return (
           <div key={field.key}>
-            <div className="mb-2">
+            <div className="flex items-center justify-between mb-2">
               <Label htmlFor={field.key}>{field.label}</Label>
+              {character && (
+                <FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                />
+              )}
             </div>
             <Input
               id={field.key}
@@ -216,18 +258,16 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
               </TabsList>
 
               {CHARACTER_SECTIONS.map(section => (
-                <TabsContent key={section.id} value={section.id} className="mt-6">
-                  <Card className="creative-card">
-                    <div className="p-6">
-                      <div className="mb-4">
-                        <h2 className="text-xl font-semibold mb-2">{section.title}</h2>
-                        <p className="text-muted-foreground">{section.description}</p>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        {getFieldsBySection(section.id).map(field => renderField(field))}
-                      </div>
+                <TabsContent key={section.id} value={section.id} className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="mb-4">
+                      <h3 className="text-lg font-semibold">{section.title}</h3>
+                      <p className="text-sm text-muted-foreground">{section.description}</p>
                     </div>
-                  </Card>
+                    <div className="grid grid-cols-2 gap-4">
+                      {section.fields.map(renderField)}
+                    </div>
+                  </div>
                 </TabsContent>
               ))}
             </Tabs>
