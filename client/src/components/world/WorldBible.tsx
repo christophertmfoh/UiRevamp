@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
+import { EntityListView } from '../shared/EntityListView';
 
 interface WorldBibleProps {
   project: Project;
@@ -568,7 +569,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
         );
 
       case 'characters':
-        return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+        return <EntityListView entityType="character" />;
+
+      case 'locations':
+        return <EntityListView entityType="location" />;
 
       default:
         return (

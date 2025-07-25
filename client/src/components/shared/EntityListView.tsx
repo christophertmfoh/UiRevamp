@@ -9,14 +9,14 @@ import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkle
 import { apiRequest } from '@/lib/queryClient';
 import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, Project, EntityManagerProps } from '@/lib/types';
-import { CharacterDetailView } from './CharacterDetailView';
+import { CharacterDetailView } from '../character/CharacterDetailView';
 import { 
   CharacterPortraitModal, 
   CharacterGenerationModal, 
   CharacterTemplates, 
   CharacterCreationLaunch,
   type CharacterGenerationOptions 
-} from './shared/ComponentIndex';
+} from '../character/shared/ComponentIndex';
 import { generateContextualCharacter } from '@/lib/services/characterGeneration';
 
 interface EntityListViewProps {
