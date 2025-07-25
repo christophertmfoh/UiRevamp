@@ -1,6 +1,6 @@
 /**
  * Consolidated Field Renderer Component
- * Renders different field types with consistent styling and AI enhancement
+ * Renders different field types with consistent styling
  */
 
 import React from 'react';
@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FieldAIAssist } from '../FieldAIAssist';
+
 import { getFieldDefinition, type FieldDefinition } from '@/lib/config/fieldConfig';
 import { Star } from 'lucide-react';
 
@@ -17,8 +17,7 @@ interface FieldRendererProps {
   fieldKey: string;
   value: any;
   onChange: (value: any) => void;
-  onEnhance?: (fieldKey: string, fieldLabel: string) => void;
-  isEnhancing?: boolean;
+
   error?: string;
   disabled?: boolean;
   showPriority?: boolean;
@@ -28,8 +27,6 @@ export function FieldRenderer({
   fieldKey,
   value,
   onChange,
-  onEnhance,
-  isEnhancing = false,
   error,
   disabled = false,
   showPriority = false
@@ -68,16 +65,6 @@ export function FieldRenderer({
         </Label>
         {renderPriorityIndicator()}
       </div>
-      
-      {onEnhance && fieldDef.type !== 'select' && (
-        <FieldAIAssist
-          fieldKey={fieldKey}
-          fieldLabel={fieldDef.label}
-          onEnhance={onEnhance}
-          isEnhancing={isEnhancing}
-          size="sm"
-        />
-      )}
     </div>
   );
 
