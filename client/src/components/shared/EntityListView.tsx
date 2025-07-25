@@ -212,6 +212,17 @@ export function EntityListView({
     onSelectEntity?.(entity);
   };
 
+  // Show detail view if entity is selected
+  if (selectedEntity) {
+    return (
+      <div>
+        <h2>Entity Detail View Coming Soon</h2>
+        <p>Selected: {selectedEntity.name}</p>
+        <button onClick={() => setSelectedEntity(null)}>Back to List</button>
+      </div>
+    );
+  }
+
   const handleDelete = (entity: BaseEntity) => {
     if (confirm(`Are you sure you want to delete ${entity.name}?`)) {
       deleteMutation.mutate(entity.id, {
