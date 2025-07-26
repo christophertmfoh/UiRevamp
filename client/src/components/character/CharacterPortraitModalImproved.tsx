@@ -658,7 +658,7 @@ export function CharacterPortraitModal({
       {/* Image Preview Modal */}
       {selectedImagePreview && (
         <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>
-          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none" hideCloseButton>
+          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none [&>button]:hidden">
             <div className="relative bg-black/90 rounded-lg overflow-hidden">
               <img 
                 src={selectedImagePreview} 
@@ -688,12 +688,12 @@ export function CharacterPortraitModal({
                 </>
               )}
               
-              {/* Close button */}
+              {/* Custom close button */}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedImagePreview(null)}
-                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0"
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50"
               >
                 <X className="h-4 w-4" />
               </Button>
