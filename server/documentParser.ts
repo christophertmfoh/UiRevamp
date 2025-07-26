@@ -108,10 +108,8 @@ export async function parseDocument(filePath: string, fileName: string): Promise
   try {
     // Extract text based on file type
     if (fileName.toLowerCase().endsWith('.pdf')) {
-      const dataBuffer = fs.readFileSync(filePath);
-      const pdfParse = await import('pdf-parse');
-      const pdfData = await pdfParse.default(dataBuffer);
-      textContent = pdfData.text;
+      // For now, inform user to use text or Word documents for PDF parsing
+      throw new Error('PDF parsing temporarily unavailable. Please convert your PDF to a Word document (.docx) or text file (.txt) and try again.');
     } else if (fileName.toLowerCase().endsWith('.docx')) {
       const result = await mammoth.extractRawText({ path: filePath });
       textContent = result.value;

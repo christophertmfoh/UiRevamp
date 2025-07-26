@@ -25,9 +25,9 @@ export function CharacterDocumentUpload({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const supportedTypes = [
-    { extension: 'PDF', description: 'PDF Documents', color: 'bg-red-100 text-red-800' },  
     { extension: 'DOCX', description: 'Word Documents', color: 'bg-blue-100 text-blue-800' },
-    { extension: 'TXT', description: 'Text Files', color: 'bg-gray-100 text-gray-800' }
+    { extension: 'TXT', description: 'Text Files', color: 'bg-gray-100 text-gray-800' },
+    { extension: 'PDF', description: 'PDF Documents (Limited)', color: 'bg-amber-100 text-amber-800' }
   ];
 
   const isValidFileType = (file: File) => {
@@ -233,12 +233,12 @@ export function CharacterDocumentUpload({
               {isParsing ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Parsing Document...
+                  Importing Character...
                 </>
               ) : (
                 <>
                   <Upload className="h-4 w-4 mr-2" />
-                  Parse Character Sheet
+                  Import Character Sheet
                 </>
               )}
             </Button>
