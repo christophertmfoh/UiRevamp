@@ -43,20 +43,76 @@ export function CharacterUnifiedViewPremium({
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
 
-  // Calculate character completeness
+  // Calculate character completeness based on all editor fields
   const calculateCompleteness = (char: Character) => {
-    return Math.min(100, (
-      (char.name ? 10 : 0) + 
-      (char.description ? 15 : 0) + 
-      (char.imageUrl ? 15 : 0) + 
-      (char.personalityTraits?.length ? 10 : 0) + 
-      (char.race ? 10 : 0) +
-      (char.class ? 10 : 0) +
-      (char.age ? 5 : 0) +
-      (char.background ? 10 : 0) +
-      (char.goals ? 10 : 0) +
-      (char.relationships ? 5 : 0)
-    ));
+    // Define all character fields organized by category (matching the editor tabs)
+    const identityFields = [
+      'name', 'nicknames', 'title', 'aliases', 'race', 'species', 'ethnicity', 
+      'class', 'profession', 'occupation', 'age', 'birthdate', 'zodiacSign', 'role'
+    ];
+    
+    const appearanceFields = [
+      'physicalDescription', 'height', 'weight', 'build', 'bodyType', 'facialFeatures',
+      'eyes', 'eyeColor', 'hair', 'hairColor', 'hairStyle', 'facialHair', 'skin',
+      'skinTone', 'complexion', 'scars', 'tattoos', 'piercings', 'birthmarks',
+      'distinguishingMarks', 'attire', 'clothingStyle', 'accessories', 'posture',
+      'gait', 'gestures', 'mannerisms', 'imageUrl'
+    ];
+    
+    const personalityFields = [
+      'personality', 'personalityTraits', 'temperament', 'disposition', 'worldview',
+      'beliefs', 'values', 'principles', 'morals', 'ethics', 'virtues', 'vices',
+      'habits', 'quirks', 'idiosyncrasies', 'petPeeves', 'likes', 'dislikes',
+      'hobbies', 'interests', 'passions', 'motivations', 'desires', 'needs',
+      'drives', 'ambitions', 'fears', 'phobias', 'anxieties', 'insecurities',
+      'secrets', 'shame', 'guilt', 'regrets', 'trauma', 'wounds', 'copingMechanisms',
+      'defenses', 'vulnerabilities', 'weaknesses', 'blindSpots'
+    ];
+    
+    const abilitiesFields = [
+      'abilities', 'skills', 'talents', 'specialAbilities', 'powers', 'strengths',
+      'training', 'expertise', 'education', 'learningStyle', 'intelligenceType'
+    ];
+    
+    const backgroundFields = [
+      'backstory', 'childhood', 'familyHistory', 'socialClass', 'economicStatus',
+      'formativeEvents', 'spokenLanguages', 'primaryLanguage', 'origin', 'upbringing'
+    ];
+    
+    const relationshipsFields = [
+      'family', 'friends', 'allies', 'enemies', 'rivals', 'mentors', 'relationships', 'socialCircle'
+    ];
+    
+    const metaFields = [
+      'storyFunction', 'personalTheme', 'symbolism', 'inspiration', 'archetypes', 
+      'notes', 'description', 'characterSummary', 'oneLine'
+    ];
+    
+    // Count filled fields in each category
+    const countFilledFields = (fields: string[]) => {
+      return fields.reduce((count, field) => {
+        const value = (char as any)[field];
+        if (value) {
+          if (typeof value === 'string') {
+            return count + (value.trim().length > 0 ? 1 : 0);
+          } else if (Array.isArray(value)) {
+            return count + (value.length > 0 ? 1 : 0);
+          } else {
+            return count + 1;
+          }
+        }
+        return count;
+      }, 0);
+    };
+    
+    const totalFields = identityFields.length + appearanceFields.length + personalityFields.length + 
+                       abilitiesFields.length + backgroundFields.length + relationshipsFields.length + metaFields.length;
+    const totalFilled = countFilledFields(identityFields) + countFilledFields(appearanceFields) + 
+                       countFilledFields(personalityFields) + countFilledFields(abilitiesFields) + 
+                       countFilledFields(backgroundFields) + countFilledFields(relationshipsFields) + 
+                       countFilledFields(metaFields);
+    
+    return Math.round((totalFilled / totalFields) * 100);
   };
 
   const saveMutation = useMutation({
