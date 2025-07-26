@@ -69,7 +69,7 @@ export const CHARACTER_ARRAY_FIELDS = [
  * NUCLEAR OPTION: Aggressive array field cleaning for frontend
  */
 function aggressiveCleanArrayField(value: any): string[] {
-  if (!value || (typeof value === 'object' && Object.keys(value).length === 0)) {
+  if (!value || value === null || value === undefined) {
     return [];
   }
   
@@ -78,35 +78,47 @@ function aggressiveCleanArrayField(value: any): string[] {
   }
   
   if (typeof value === 'object') {
-    return Object.values(value).map(val => {
+    // Handle PostgreSQL {} corruption - extract values and clean them
+    const values = Object.values(value);
+    
+    return values.map(val => {
       if (typeof val !== 'string') return String(val);
       
-      // AGGRESSIVE CLEANING: Remove all JSON corruption patterns
+      // DIRECT PATTERN MATCHING for corruption patterns
       let cleaned = val;
       
-      // Handle double-escaped patterns first
-      if (cleaned.includes('\\"') || cleaned.includes('\\\\')) {
-        cleaned = cleaned.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      // Pattern: '{"item"' - extract item between quotes
+      const simplePattern = cleaned.match(/^\{"([^"]+)"/);
+      if (simplePattern) {
+        return simplePattern[1];
       }
       
-      // Remove all JSON wrapper patterns
-      cleaned = cleaned.replace(/^[{"\s]+/, '').replace(/[}"\s]+$/, '');
-      
-      // Extract content between any remaining quotes
-      const quoteMatch = cleaned.match(/"([^"]+)"/);
-      if (quoteMatch) {
-        cleaned = quoteMatch[1];
+      // Pattern: '{"item"}' - extract item between quotes
+      const completePattern = cleaned.match(/^\{"([^"]+)"\}$/);
+      if (completePattern) {
+        return completePattern[1];
       }
       
-      // Remove any remaining JSON characters
-      cleaned = cleaned.replace(/[{}"\\\s]*:.*$/, ''); // Remove everything after colon
-      cleaned = cleaned.replace(/^[{}"\\\s]+|[{}"\\\s]+$/g, ''); // Trim JSON chars
+      // Pattern: '{"{\\"item\\"}"' - double escaped
+      if (cleaned.includes('\\"')) {
+        cleaned = cleaned.replace(/\\"/g, '"');
+        const doubleEscapedPattern = cleaned.match(/\{"([^"]+)"\}/);
+        if (doubleEscapedPattern) {
+          return doubleEscapedPattern[1];
+        }
+      }
+      
+      // Fallback: remove common JSON wrapper characters
+      cleaned = cleaned.replace(/^[{"\s]+|[}"\s]+$/g, '');
       
       return cleaned.trim();
     }).filter(val => val && val.length > 0 && val !== '{}' && val !== '[]');
   }
   
   if (typeof value === 'string') {
+    if (value === '' || value === '{}' || value === '[]') {
+      return [];
+    }
     return [value];
   }
   

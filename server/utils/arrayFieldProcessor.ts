@@ -35,7 +35,7 @@ export const PROBLEMATIC_ARRAY_FIELDS = [
  * NUCLEAR OPTION: Aggressive string cleaning for corrupted JSON fields
  */
 export function aggressiveCleanArrayField(value: any): string[] {
-  if (!value || (typeof value === 'object' && Object.keys(value).length === 0)) {
+  if (!value || value === null || value === undefined) {
     return [];
   }
   
@@ -44,35 +44,47 @@ export function aggressiveCleanArrayField(value: any): string[] {
   }
   
   if (typeof value === 'object') {
-    return Object.values(value).map(val => {
+    // Handle PostgreSQL {} corruption - extract values and clean them
+    const values = Object.values(value);
+    
+    return values.map(val => {
       if (typeof val !== 'string') return String(val);
       
-      // AGGRESSIVE CLEANING: Remove all JSON corruption patterns
+      // DIRECT PATTERN MATCHING for corruption patterns
       let cleaned = val;
       
-      // Handle double-escaped patterns first
-      if (cleaned.includes('\\"') || cleaned.includes('\\\\')) {
-        cleaned = cleaned.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      // Pattern: '{"item"' - extract item between quotes
+      const simplePattern = cleaned.match(/^\{"([^"]+)"/);
+      if (simplePattern) {
+        return simplePattern[1];
       }
       
-      // Remove all JSON wrapper patterns
-      cleaned = cleaned.replace(/^[{"\s]+/, '').replace(/[}"\s]+$/, '');
-      
-      // Extract content between any remaining quotes
-      const quoteMatch = cleaned.match(/"([^"]+)"/);
-      if (quoteMatch) {
-        cleaned = quoteMatch[1];
+      // Pattern: '{"item"}' - extract item between quotes
+      const completePattern = cleaned.match(/^\{"([^"]+)"\}$/);
+      if (completePattern) {
+        return completePattern[1];
       }
       
-      // Remove any remaining JSON characters
-      cleaned = cleaned.replace(/[{}"\\\s]*:.*$/, ''); // Remove everything after colon
-      cleaned = cleaned.replace(/^[{}"\\\s]+|[{}"\\\s]+$/g, ''); // Trim JSON chars
+      // Pattern: '{"{\\"item\\"}"' - double escaped
+      if (cleaned.includes('\\"')) {
+        cleaned = cleaned.replace(/\\"/g, '"');
+        const doubleEscapedPattern = cleaned.match(/\{"([^"]+)"\}/);
+        if (doubleEscapedPattern) {
+          return doubleEscapedPattern[1];
+        }
+      }
+      
+      // Fallback: remove common JSON wrapper characters
+      cleaned = cleaned.replace(/^[{"\s]+|[}"\s]+$/g, '');
       
       return cleaned.trim();
     }).filter(val => val && val.length > 0 && val !== '{}' && val !== '[]');
   }
   
   if (typeof value === 'string') {
+    if (value === '' || value === '{}' || value === '[]') {
+      return [];
+    }
     return [value];
   }
   
@@ -124,45 +136,8 @@ export function processArrayFieldsFromDatabase(data: any): any {
   const processedData = { ...data };
   
   ARRAY_FIELDS.forEach(field => {
-    const value = processedData[field];
-    
-    if (value === null || value === undefined) {
-      // Null/undefined becomes empty array for frontend
-      processedData[field] = [];
-    } else if (typeof value === 'string') {
-      // String handling
-      if (value === '' || value === '{}' || value === '[]') {
-        processedData[field] = [];
-      } else {
-        try {
-          // Try to parse as JSON first
-          const parsed = JSON.parse(value);
-          if (Array.isArray(parsed)) {
-            processedData[field] = parsed;
-          } else if (typeof parsed === 'object' && parsed !== null) {
-            // Object becomes array of values
-            processedData[field] = Object.values(parsed).filter(val => val && String(val).trim().length > 0);
-          } else {
-            processedData[field] = [String(parsed)];
-          }
-        } catch {
-          // If JSON parsing fails, split by comma
-          processedData[field] = value.split(',').map(item => item.trim()).filter(item => item.length > 0);
-        }
-      }
-    } else if (typeof value === 'object' && !Array.isArray(value)) {
-      // Object that should be array (the main PostgreSQL bug)
-      if (Object.keys(value).length === 0) {
-        processedData[field] = []; // Empty object becomes empty array
-      } else {
-        // Use aggressive cleaning for problematic fields
-        processedData[field] = aggressiveCleanArrayField(value);
-      }
-    } else if (!Array.isArray(value)) {
-      // Any other type becomes single-item array
-      processedData[field] = [String(value)];
-    }
-    // If it's already a proper array, leave it as-is
+    // NUCLEAR OPTION: Use aggressive cleaning for ALL array fields
+    processedData[field] = aggressiveCleanArrayField(processedData[field]);
   });
   
   return processedData;
