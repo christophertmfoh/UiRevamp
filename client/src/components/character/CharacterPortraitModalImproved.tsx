@@ -218,67 +218,110 @@ export function CharacterPortraitModal({
     const controller = new AbortController();
     setAbortController(controller);
     
-    try {
-      const prompt = generateCharacterPrompt();
-      
-      const response = await fetch('/api/generate-character-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt,
-          characterId: character.id,
-          projectId: character.projectId,
-          artStyle,
-          additionalDetails,
-          engineType: 'gemini'
-        }),
-        signal: controller.signal
-      });
-
-      if (!response.ok) throw new Error('Failed to generate image');
-      
-      const data = await response.json();
-      
-      if (data.url) {
-        const newPortrait = {
-          id: Date.now().toString(),
-          url: data.url,
-          isMain: portraitGallery.length === 0 // First image is automatically main
-        };
+    // Wrap the entire operation to prevent unhandled rejections
+    const wrappedGeneration = new Promise<void>(async (resolve, reject) => {
+      try {
+        const prompt = generateCharacterPrompt();
         
-        const updatedGallery = [...portraitGallery, newPortrait];
-        setPortraitGallery(updatedGallery);
-        setNewGeneratedImage(data.url);
-        
-        // Save to database
-        if (newPortrait.isMain) {
-          updateCharacterImageUrl(data.url, updatedGallery);
-          if (onImageGenerated) {
-            onImageGenerated(data.url);
-          }
-        } else {
-          savePortraitsToCharacter(updatedGallery);
+        // Check if already aborted before starting
+        if (controller.signal.aborted) {
+          console.log('Generation cancelled before start');
+          resolve();
+          return;
         }
         
-        // After generation complete, switch to gallery tab and show new image
-        setTimeout(() => {
-          setIsGenerating(false);
-          setAbortController(null);
-          setActiveTab('gallery');
-          setSelectedImagePreview(data.url);
-        }, 500);
+        const response = await fetch('/api/generate-character-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prompt,
+            characterId: character.id,
+            projectId: character.projectId,
+            artStyle,
+            additionalDetails,
+            engineType: 'gemini'
+          }),
+          signal: controller.signal
+        }).catch(fetchError => {
+          // Handle fetch-level abort errors
+          if (fetchError.name === 'AbortError' || controller.signal.aborted) {
+            console.log('Fetch aborted by user');
+            return null; // Return null instead of throwing
+          }
+          throw fetchError;
+        });
+
+        // Check if aborted or fetch failed
+        if (!response || controller.signal.aborted) {
+          console.log('Generation cancelled during fetch');
+          resolve();
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error('Failed to generate image');
+        }
+        
+        const data = await response.json();
+        
+        // Check if aborted after parsing response
+        if (controller.signal.aborted) {
+          console.log('Generation cancelled after response');
+          resolve();
+          return;
+        }
+        
+        if (data.url) {
+          const newPortrait = {
+            id: Date.now().toString(),
+            url: data.url,
+            isMain: portraitGallery.length === 0 // First image is automatically main
+          };
+          
+          const updatedGallery = [...portraitGallery, newPortrait];
+          setPortraitGallery(updatedGallery);
+          setNewGeneratedImage(data.url);
+          
+          // Save to database
+          if (newPortrait.isMain) {
+            updateCharacterImageUrl(data.url, updatedGallery);
+            if (onImageGenerated) {
+              onImageGenerated(data.url);
+            }
+          } else {
+            savePortraitsToCharacter(updatedGallery);
+          }
+          
+          // After generation complete, switch to gallery tab and show new image
+          setTimeout(() => {
+            setIsGenerating(false);
+            setAbortController(null);
+            setActiveTab('gallery');
+            setSelectedImagePreview(data.url);
+          }, 500);
+        }
+        
+        resolve();
+      } catch (error) {
+        if (error instanceof Error && (error.name === 'AbortError' || controller.signal.aborted)) {
+          console.log('Image generation cancelled by user');
+          resolve(); // Resolve instead of reject for cancellations
+        } else if (error instanceof Error && error.message && error.message.includes('cancelled')) {
+          console.log('Image generation cancelled by user');
+          resolve(); // Resolve instead of reject for cancellations
+        } else {
+          console.error('Image generation failed:', error);
+          reject(error); // Only reject for real errors
+        }
       }
+    });
+    
+    try {
+      await wrappedGeneration;
     } catch (error) {
-      if (error instanceof Error && (error.name === 'AbortError' || controller.signal.aborted)) {
-        console.log('Image generation cancelled by user');
-        // Don't treat cancellation as an error - just clean up state silently
-      } else if (error instanceof Error && error.message && error.message.includes('cancelled')) {
-        console.log('Image generation cancelled by user');
-        // Don't treat cancellation as an error - just clean up state silently
-      } else {
-        console.error('Image generation failed:', error);
-        // Only show/log error for actual failures, not cancellations
-      }
+      // This should only catch non-cancellation errors
+      console.error('Unexpected generation error:', error);
+    } finally {
       setIsGenerating(false);
       setAbortController(null);
     }
