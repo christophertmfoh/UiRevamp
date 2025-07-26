@@ -228,7 +228,7 @@ ${projectContext}`;
       }
     }
     
-    console.log('Server: Attempting to parse JSON:', jsonString.substring(0, 200) + '...');
+    console.log('Server: Attempting to parse JSON:', jsonString.substring(0, 500) + '...');
     
     let generatedData;
     
@@ -244,13 +244,36 @@ ${projectContext}`;
         if (attempt < 3) {
           // Progressive cleaning for next attempt
           if (attempt === 1) {
-            // Second attempt: Fix common quote issues more aggressively
-            jsonString = jsonString.replace(/([^\\])"/g, '$1\\"').replace(/^"/, '\\"');
-            jsonString = jsonString.replace(/\\"([^"]*)\\":/g, '"$1":');
+            // Second attempt: Fix escaped quotes in values specifically
+            jsonString = jsonString.replace(/:\s*"([^"]*\\"[^"]*)*"/g, (match, value) => {
+              // Fix escaped quotes within string values
+              const cleanValue = value.replace(/\\"/g, '"');
+              return `: "${cleanValue.replace(/"/g, '\\"')}"`;
+            });
           } else if (attempt === 2) {
-            // Third attempt: Try to fix structural issues
-            jsonString = jsonString.replace(/,(\s*[}\]])/g, '$1');
-            jsonString = jsonString.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+            // Third attempt: More aggressive cleaning - rebuild the JSON structure
+            try {
+              // Extract all key-value pairs using regex
+              const pairs = jsonString.match(/"[^"]+"\s*:\s*"[^"]*(?:\\.[^"]*)*"/g) || [];
+              const simpleObject: any = {};
+              
+              pairs.forEach(pair => {
+                const colonIndex = pair.indexOf(':');
+                if (colonIndex > 0) {
+                  let key = pair.substring(0, colonIndex).replace(/[^\w]/g, '');
+                  let value = pair.substring(colonIndex + 1).replace(/^[\s"]+|[\s"]+$/g, '');
+                  value = value.replace(/\\"/g, '"'); // Unescape quotes
+                  simpleObject[key] = value;
+                }
+              });
+              
+              if (Object.keys(simpleObject).length > 0) {
+                jsonString = JSON.stringify(simpleObject);
+                console.log('Server: Rebuilt JSON structure for attempt 3');
+              }
+            } catch (rebuildError) {
+              console.log('Server: Failed to rebuild JSON structure:', rebuildError);
+            }
           }
         }
       }
