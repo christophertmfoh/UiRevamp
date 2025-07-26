@@ -55,6 +55,9 @@ export function CharacterPortraitModal({
       
       if (!response.ok) {
         console.error('Failed to save portraits to character');
+      } else {
+        // Invalidate caches to refresh character views
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
       }
     } catch (error) {
       console.error('Error saving portraits:', error);
@@ -78,8 +81,10 @@ export function CharacterPortraitModal({
       if (!response.ok) {
         console.error('Failed to update character imageUrl');
       } else {
-        // Invalidate cache to refresh the character list
+        // Invalidate multiple caches to refresh all character views immediately
         queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId, 'characters'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', character.projectId] });
+        queryClient.invalidateQueries({ queryKey: ['/api/characters', character.id] });
       }
     } catch (error) {
       console.error('Error updating character imageUrl:', error);

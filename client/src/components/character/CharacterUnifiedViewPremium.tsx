@@ -109,8 +109,12 @@ export function CharacterUnifiedViewPremium({
   };
 
   const handleImageGenerated = (imageUrl: string) => {
-    if (isEditing) {
-      setFormData({ ...formData, imageUrl });
+    // Always update the local form data to reflect the change immediately
+    setFormData({ ...formData, imageUrl });
+    
+    // If not in editing mode, auto-save the image change
+    if (!isEditing) {
+      saveMutation.mutate({ ...formData, imageUrl });
     }
   };
 
