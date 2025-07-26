@@ -27,8 +27,57 @@ export const ARRAY_FIELDS = [
 export const PROBLEMATIC_ARRAY_FIELDS = [
   'values', 'motivations', 'goals', 'fears', 'desires', 'strengths', 
   'weaknesses', 'formativeEvents', 'family', 'archetypes', 'beliefs',
-  'quirks', 'dislikes', 'habits', 'vices', 'mannerisms'
+  'quirks', 'dislikes', 'habits', 'vices', 'mannerisms', 'enemies',
+  'friends', 'allies', 'rivals', 'mentors'
 ];
+
+/**
+ * NUCLEAR OPTION: Aggressive string cleaning for corrupted JSON fields
+ */
+export function aggressiveCleanArrayField(value: any): string[] {
+  if (!value || (typeof value === 'object' && Object.keys(value).length === 0)) {
+    return [];
+  }
+  
+  if (Array.isArray(value)) {
+    return value.filter(item => item && String(item).trim().length > 0);
+  }
+  
+  if (typeof value === 'object') {
+    return Object.values(value).map(val => {
+      if (typeof val !== 'string') return String(val);
+      
+      // AGGRESSIVE CLEANING: Remove all JSON corruption patterns
+      let cleaned = val;
+      
+      // Handle double-escaped patterns first
+      if (cleaned.includes('\\"') || cleaned.includes('\\\\')) {
+        cleaned = cleaned.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      }
+      
+      // Remove all JSON wrapper patterns
+      cleaned = cleaned.replace(/^[{"\s]+/, '').replace(/[}"\s]+$/, '');
+      
+      // Extract content between any remaining quotes
+      const quoteMatch = cleaned.match(/"([^"]+)"/);
+      if (quoteMatch) {
+        cleaned = quoteMatch[1];
+      }
+      
+      // Remove any remaining JSON characters
+      cleaned = cleaned.replace(/[{}"\\\s]*:.*$/, ''); // Remove everything after colon
+      cleaned = cleaned.replace(/^[{}"\\\s]+|[{}"\\\s]+$/g, ''); // Trim JSON chars
+      
+      return cleaned.trim();
+    }).filter(val => val && val.length > 0 && val !== '{}' && val !== '[]');
+  }
+  
+  if (typeof value === 'string') {
+    return [value];
+  }
+  
+  return [String(value)];
+}
 
 /**
  * Processes data BEFORE saving to database to ensure arrays are handled correctly
@@ -106,45 +155,8 @@ export function processArrayFieldsFromDatabase(data: any): any {
       if (Object.keys(value).length === 0) {
         processedData[field] = []; // Empty object becomes empty array
       } else {
-        // Handle the specific corruption pattern: {"0": '{"item1"', "1": 'item2"}', etc.}
-        const extractedValues = Object.values(value).map(val => {
-          if (typeof val === 'string') {
-            // Handle JSON-stringified objects like '{"Methodical"' or '{"Truth/Knowing"'
-            if (val.startsWith('{"') && !val.endsWith('}')) {
-              // Incomplete JSON string, extract the key
-              try {
-                const keyMatch = val.match(/^\{"([^"]+)"/);
-                return keyMatch ? keyMatch[1] : val;
-              } catch {
-                return val;
-              }
-            } else if (val.startsWith('{"') && val.endsWith('}')) {
-              // Complete JSON object, extract the first key
-              try {
-                const parsed = JSON.parse(val);
-                if (typeof parsed === 'object') {
-                  const keys = Object.keys(parsed);
-                  return keys.length > 0 ? keys[0] : Object.values(parsed)[0] || val;
-                }
-                return parsed;
-              } catch {
-                return val;
-              }
-            } else if (val.startsWith('{') && val.endsWith('}')) {
-              // JSON-like string without quotes
-              try {
-                const content = val.slice(1, -1); // Remove { }
-                return content.split(':')[0].replace(/"/g, '').trim() || content;
-              } catch {
-                return val;
-              }
-            }
-            return val;
-          }
-          return val;
-        }).filter(val => val && String(val).trim().length > 0);
-        
-        processedData[field] = extractedValues;
+        // Use aggressive cleaning for problematic fields
+        processedData[field] = aggressiveCleanArrayField(value);
       }
     } else if (!Array.isArray(value)) {
       // Any other type becomes single-item array

@@ -66,6 +66,54 @@ export const CHARACTER_ARRAY_FIELDS = [
 ];
 
 /**
+ * NUCLEAR OPTION: Aggressive array field cleaning for frontend
+ */
+function aggressiveCleanArrayField(value: any): string[] {
+  if (!value || (typeof value === 'object' && Object.keys(value).length === 0)) {
+    return [];
+  }
+  
+  if (Array.isArray(value)) {
+    return value.filter(item => item && String(item).trim().length > 0);
+  }
+  
+  if (typeof value === 'object') {
+    return Object.values(value).map(val => {
+      if (typeof val !== 'string') return String(val);
+      
+      // AGGRESSIVE CLEANING: Remove all JSON corruption patterns
+      let cleaned = val;
+      
+      // Handle double-escaped patterns first
+      if (cleaned.includes('\\"') || cleaned.includes('\\\\')) {
+        cleaned = cleaned.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+      }
+      
+      // Remove all JSON wrapper patterns
+      cleaned = cleaned.replace(/^[{"\s]+/, '').replace(/[}"\s]+$/, '');
+      
+      // Extract content between any remaining quotes
+      const quoteMatch = cleaned.match(/"([^"]+)"/);
+      if (quoteMatch) {
+        cleaned = quoteMatch[1];
+      }
+      
+      // Remove any remaining JSON characters
+      cleaned = cleaned.replace(/[{}"\\\s]*:.*$/, ''); // Remove everything after colon
+      cleaned = cleaned.replace(/^[{}"\\\s]+|[{}"\\\s]+$/g, ''); // Trim JSON chars
+      
+      return cleaned.trim();
+    }).filter(val => val && val.length > 0 && val !== '{}' && val !== '[]');
+  }
+  
+  if (typeof value === 'string') {
+    return [value];
+  }
+  
+  return [String(value)];
+}
+
+/**
  * Processes array fields from database/server responses to ensure proper frontend display
  * Handles the PostgreSQL {} conversion bug and various data formats
  */
@@ -100,25 +148,8 @@ export function processCharacterArrayFields(character: any): any {
         }
       }
     } else if (typeof value === 'object' && !Array.isArray(value)) {
-      // Object that should be array (the main PostgreSQL bug)
-      if (Object.keys(value).length === 0) {
-        processedCharacter[field] = []; // Empty object becomes empty array
-      } else {
-        // Extract values from object, handling JSON-stringified entries
-        const extractedValues = Object.values(value).map(val => {
-          if (typeof val === 'string' && (val.startsWith('{"') || val.startsWith('['))) {
-            try {
-              const parsed = JSON.parse(val);
-              return typeof parsed === 'object' ? Object.values(parsed).join(' ') : parsed;
-            } catch {
-              return val;
-            }
-          }
-          return val;
-        }).filter(val => val && String(val).trim().length > 0);
-        
-        processedCharacter[field] = extractedValues;
-      }
+      // Use aggressive cleaning for corrupted object data
+      processedCharacter[field] = aggressiveCleanArrayField(value);
     } else if (!Array.isArray(value)) {
       // Any other type becomes single-item array
       processedCharacter[field] = [String(value)];
