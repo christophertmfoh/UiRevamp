@@ -41,6 +41,8 @@ export async function generateContextualCharacter(
 
 🚨 CRITICAL INSTRUCTION: You MUST create a completely UNIQUE character for each request. NEVER reuse names, traits, or characteristics from previous generations. Each character must be distinctly different and reflect the specific user inputs provided.
 
+🎯 NAME CONSISTENCY REQUIREMENT: Once you choose a character's name, use EXACTLY that same name consistently throughout ALL fields. Do NOT use variations, nicknames, or different names in the descriptions. If the character's name is "Jasper", refer to them as "Jasper" in ALL text fields, not "Jack" or any other variation.
+
 MISSION: Generate a complete, publication-ready character that seamlessly integrates into the provided story world with rich internal life, compelling motivations, and realistic contradictions that drive narrative tension.
 
 CHARACTER DEVELOPMENT PRINCIPLES:
@@ -51,7 +53,9 @@ CHARACTER DEVELOPMENT PRINCIPLES:
 - Physical appearance should reflect personality and life experiences
 - Relationships should reveal character depth and create plot potential
 
-Your response must be valid JSON in this exact format. Generate vivid, specific content for EVERY field - no generic placeholders or vague descriptions. Each field should feel authentic to the character's world and circumstances:
+Your response must be valid JSON in this exact format. Generate vivid, specific content for EVERY field - no generic placeholders or vague descriptions. Each field should feel authentic to the character's world and circumstances.
+
+⚠️ CRITICAL: The name you choose in the "name" field MUST be used consistently throughout ALL description fields. Never refer to the character by a different name in any field.
 
 {
   "name": "Distinctive name that fits the world and hints at character essence",
@@ -130,14 +134,15 @@ QUALITY STANDARDS:
 
 CRITICAL REQUIREMENTS:
 1. 🚨 MANDATORY: Create a COMPLETELY UNIQUE character - NO reused names, traits, or details from any previous generation
-2. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)  
-3. NO generic descriptions, placeholder text, or vague statements allowed
-4. Each response should feel like it came from deep character research
-5. Base all content on the user's specific inputs and story context provided below
-6. Ensure all text is properly escaped and JSON is completely valid
-7. Arrays must be properly formatted with quoted strings: ["item1", "item2", "item3"]
-8. No trailing commas, no unescaped quotes, no incomplete fields
-9. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
+2. 🎯 NAME CONSISTENCY: Use the EXACT same name throughout ALL fields - never switch between different names in descriptions
+3. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)  
+4. NO generic descriptions, placeholder text, or vague statements allowed
+5. Each response should feel like it came from deep character research
+6. Base all content on the user's specific inputs and story context provided below
+7. Ensure all text is properly escaped and JSON is completely valid
+8. Arrays must be properly formatted with quoted strings: ["item1", "item2", "item3"]
+9. No trailing commas, no unescaped quotes, no incomplete fields
+10. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
 
 RESPONSE FORMAT: Return ONLY valid JSON with no markdown, no explanations, no additional text - just the complete character object with all 67 fields populated.
 
