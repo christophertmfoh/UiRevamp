@@ -397,11 +397,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return;
       }
 
-      const result = await generateCharacterImage({
-        characterPrompt: finalPrompt,
-        stylePrompt: "", // All styling is now in characterPrompt
-        aiEngine: engineType
-      });
+      let result;
+      try {
+        result = await generateCharacterImage({
+          characterPrompt: finalPrompt,
+          stylePrompt: "", // All styling is now in characterPrompt
+          aiEngine: engineType
+        });
+      } catch (imageError: any) {
+        // Handle image generation specific errors
+        if (imageError.name === 'AbortError' || req.destroyed || req.aborted) {
+          console.log('Image generation was cancelled');
+          return;
+        }
+        throw imageError; // Re-throw non-abort errors
+      }
       
       // Check if request was aborted before sending response
       if (req.destroyed || req.aborted) {

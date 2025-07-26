@@ -5,11 +5,24 @@ import { setupVite, serveStatic, log } from "./vite";
 // Handle unhandled promise rejections globally
 process.on('unhandledRejection', (reason, promise) => {
   console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+  
   // Don't crash the server for image generation cancellations
-  if (reason && typeof reason === 'object' && 'name' in reason && reason.name === 'AbortError') {
-    console.log('Ignoring AbortError from cancelled request');
-    return;
+  if (reason && typeof reason === 'object') {
+    // Check for AbortError
+    if ('name' in reason && reason.name === 'AbortError') {
+      console.log('Ignoring AbortError from cancelled request');
+      return;
+    }
+    // Check for abort signal messages
+    if ('message' in reason && typeof reason.message === 'string' && 
+        reason.message.includes('signal is aborted')) {
+      console.log('Ignoring abort signal rejection from cancelled request');
+      return;
+    }
   }
+  
+  // Log other errors but don't crash
+  console.error('Unhandled promise rejection:', reason);
 });
 
 const app = express();

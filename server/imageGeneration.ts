@@ -70,6 +70,10 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
         config: {
           responseModalities: [Modality.TEXT, Modality.IMAGE],
         },
+      }).catch(error => {
+        // Handle Gemini API errors gracefully
+        console.log('Gemini API error:', error);
+        throw error;
       }),
       new Promise((_, reject) => setTimeout(() => reject(new Error('Image generation timeout')), 30000))
     ]);
