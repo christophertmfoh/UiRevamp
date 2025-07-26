@@ -10,7 +10,8 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   devServer: {
-    port: 5000
+    port: 5000,
+    host: '0.0.0.0'
   },
 
   runtimeConfig: {
