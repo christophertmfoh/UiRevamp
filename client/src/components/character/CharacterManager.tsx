@@ -461,7 +461,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
                 {character.name}
               </h3>
-              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+              <Badge variant="outline" className="text-xs bg-accent/10 border-accent/40 text-accent font-medium shadow-sm">
                 Character
               </Badge>
             </div>
@@ -585,7 +585,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
                 {character.name}
               </h3>
-              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+              <Badge variant="outline" className="text-xs bg-accent/10 border-accent/40 text-accent font-medium shadow-sm">
                 Character
               </Badge>
               {character.title && (

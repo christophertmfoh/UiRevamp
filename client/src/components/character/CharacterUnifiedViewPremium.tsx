@@ -310,10 +310,10 @@ export function CharacterUnifiedViewPremium({
             <div className="flex-1 space-y-6">
               <div>
                 <div className="flex items-center gap-4 mb-2">
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-accent/70 bg-clip-text text-transparent">
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent">
                     {formData.name || 'Unnamed Character'}
                   </h1>
-                  <Badge className="bg-accent/90 text-accent-foreground font-medium text-sm px-3 py-1">
+                  <Badge variant="outline" className="bg-accent/10 border-accent/40 text-accent font-medium text-sm px-3 py-1">
                     Character
                   </Badge>
                 </div>
