@@ -110,6 +110,17 @@ class MemoryStorage implements IStorage {
   }
 
   async updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined> {
+    console.log('Storage updateCharacter - incoming data sample:', {
+      personalityTraits: character.personalityTraits,
+      abilities: character.abilities,
+      skills: character.skills,
+      types: {
+        personalityTraits: typeof character.personalityTraits,
+        abilities: typeof character.abilities,
+        skills: typeof character.skills
+      }
+    });
+    
     const [updatedCharacter] = await db.update(characters).set(character).where(eq(characters.id, id)).returning();
     return updatedCharacter || undefined;
   }
