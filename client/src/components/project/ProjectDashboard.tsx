@@ -162,7 +162,7 @@ export function ProjectDashboard({
               className="interactive-warm"
             >
               <Settings className="h-4 w-4 mr-2" />
-              Settings
+              Project Settings
             </Button>
             <Button 
               variant="outline" 
