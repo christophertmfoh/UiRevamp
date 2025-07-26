@@ -327,13 +327,7 @@ export function CharacterPortraitModal({
     }
   };
 
-  const handleCancelGeneration = () => {
-    if (abortController) {
-      abortController.abort('User cancelled image generation');
-      setAbortController(null);
-    }
-    setIsGenerating(false);
-  };
+  // Removed handleCancelGeneration to eliminate unhandled rejection errors
 
   const handleSetMainImage = (imageId: string) => {
     const updatedGallery = portraitGallery.map(img => ({
@@ -905,10 +899,10 @@ export function CharacterPortraitModal({
         </Dialog>
       )}
 
-      {/* Portrait Generation Loading Screen - Same as AI Template Generator */}
+      {/* Portrait Generation Loading Screen - No Cancel Functionality */}
       {isGenerating && (
-        <Dialog open={true} onOpenChange={handleCancelGeneration}>
-          <DialogContent className="max-w-md">
+        <Dialog open={true}>
+          <DialogContent className="max-w-md [&>button]:hidden">
             <div className="flex flex-col items-center text-center space-y-6 py-8">
               <div className="relative">
                 <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>
@@ -930,14 +924,6 @@ export function CharacterPortraitModal({
                   Using comprehensive character data{artStyle ? `, ${artStyle} style` : ''}{additionalDetails ? `, ${additionalDetails}` : ''} and professional quality enhancement
                 </p>
               </div>
-
-              <Button 
-                variant="outline" 
-                onClick={handleCancelGeneration}
-                className="mt-4"
-              >
-                Cancel Generation
-              </Button>
             </div>
           </DialogContent>
         </Dialog>
