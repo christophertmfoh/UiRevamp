@@ -4,15 +4,6 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
-### July 26, 2025 - **ORIGINAL REACT ECOSYSTEM RESTORED**
-✓ **MIGRATION CONFLICTS RESOLVED** - Removed conflicting Vue/Nuxt dependencies causing framework conflicts
-✓ **REACT APP RESTORED** - Original React frontend properly serving on port 5000 with all features intact
-✓ **ECOSYSTEM CONFLICTS ELIMINATED** - Fixed mixed React/Vue dependency issues that were breaking the app
-✓ **ORIGINAL LANDING PAGE ACTIVE** - Sophisticated React landing page with AI character generation restored
-✓ **EXPRESS BACKEND WORKING** - All AI services, database connections, and API routes functional
-✓ **CHARACTER SYSTEM PRESERVED** - Complete character management and world building tools accessible
-✓ **FRAMEWORK DECISION FINAL** - React chosen as the optimal frontend solution for this application
-
 ### July 26, 2025 - **COMPLETE REBRANDING TO FABLECRAFT - COMPLETED**
 ✓ **APPLICATION NAME UPDATED** - Changed from "Story Weaver" to "Fablecraft" throughout entire application
 ✓ **MAIN TAGLINE REDESIGNED** - Updated from "From Spark to Story" to "Craft Your Fable" 
@@ -151,19 +142,11 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 
 ## Project Architecture
 
-### Technology Stack (MIGRATING)
-**New Target Stack:**
-- **Frontend**: Nuxt 3 with Vue 3, TypeScript, Tailwind CSS, Pinia state management
-- **Backend**: Kotlin with Spring Boot framework, Spring Data JPA
-- **Database**: PostgreSQL (preserved), Flyway for migrations
-- **AI Integration**: Google Gemini AI (preserved), Spring WebClient for async calls
-- **Development**: Gradle build system, Spring Boot DevTools
-
-**Previous Stack (being migrated from):**
+### Technology Stack
 - **Frontend**: React.js with TypeScript, Tailwind CSS, React Query
 - **Backend**: Express.js with TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
-- **AI Integration**: Google Gemini AI for character generation
+- **AI Integration**: Google Gemini AI for character generation, Google Gemini + OpenAI for image generation
 - **Development**: Vite for build system, tsx for TypeScript execution
 
 ### Key Features
