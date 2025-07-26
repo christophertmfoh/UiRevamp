@@ -105,7 +105,7 @@ export function LandingPage({
   }, [isDark]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-rose-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
       {/* Warm texture overlay */}
       <div className="absolute inset-0 opacity-30 bg-repeat bg-center" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
@@ -116,7 +116,7 @@ export function LandingPage({
       
       {/* Ambient lighting */}
       <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-orange-300/20 dark:from-amber-500/10 dark:to-orange-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-rose-200/20 to-pink-300/15 dark:from-rose-500/5 dark:to-pink-600/3 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/20 to-red-300/15 dark:from-orange-500/5 dark:to-red-600/3 rounded-full blur-2xl"></div>
 
       {/* Navigation */}
       <nav className="relative z-10 px-8 py-6">
@@ -161,7 +161,7 @@ export function LandingPage({
           <div className="lg:col-span-7 space-y-10">
             <div className="space-y-8">
               <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50">
-                <div className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-orange-500 dark:bg-orange-400 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium text-amber-800 dark:text-amber-200">AI-Powered Writing Companion</span>
               </div>
               
@@ -276,7 +276,7 @@ export function LandingPage({
           {/* Process Flow */}
           <div className="relative">
             {/* Connection line */}
-            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-amber-200 via-orange-300 to-rose-300 dark:from-amber-600/30 dark:via-orange-600/30 dark:to-rose-600/30 hidden lg:block rounded-full"></div>
+            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-amber-200 via-orange-300 to-red-300 dark:from-amber-600/30 dark:via-orange-600/30 dark:to-red-600/30 hidden lg:block rounded-full"></div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
               {processSteps.map((step, index) => {
@@ -316,7 +316,7 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-700">
+            <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
               Trusted by Writers Worldwide
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
@@ -352,14 +352,14 @@ export function LandingPage({
 
           {/* Key Benefits */}
           <div className="grid md:grid-cols-3 gap-8 pt-16">
-            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-emerald-200/50 dark:border-emerald-600/20 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-green-50/0 dark:from-emerald-900/0 dark:to-green-900/0 group-hover:from-emerald-50/50 group-hover:to-green-50/30 dark:group-hover:from-emerald-900/20 dark:group-hover:to-green-900/10 transition-all duration-700"></div>
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-orange-50/0 dark:from-amber-900/0 dark:to-orange-900/0 group-hover:from-amber-50/50 group-hover:to-orange-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-orange-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 via-green-500 to-teal-500 dark:from-emerald-500 dark:via-green-600 dark:to-teal-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 dark:from-yellow-500 dark:via-amber-600 dark:to-orange-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <CheckCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-emerald-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Proven Results</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Proven Results</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
                   98% of writers report improved productivity and story quality within their first month using our platform.
                 </p>
@@ -380,14 +380,14 @@ export function LandingPage({
               </div>
             </div>
             
-            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-rose-200/50 dark:border-rose-600/20 hover:shadow-2xl hover:shadow-rose-200/20 dark:hover:shadow-rose-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-50/0 to-pink-50/0 dark:from-rose-900/0 dark:to-pink-900/0 group-hover:from-rose-50/50 group-hover:to-pink-50/30 dark:group-hover:from-rose-900/20 dark:group-hover:to-pink-900/10 transition-all duration-700"></div>
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/0 to-red-50/0 dark:from-orange-900/0 dark:to-red-900/0 group-hover:from-orange-50/50 group-hover:to-red-50/30 dark:group-hover:from-orange-900/20 dark:group-hover:to-red-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-rose-400 via-pink-500 to-purple-500 dark:from-rose-500 dark:via-pink-600 dark:to-purple-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <Award className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-rose-50 group-hover:text-rose-700 dark:group-hover:text-rose-300 transition-colors duration-300">Publication Success</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-orange-700 dark:group-hover:text-orange-300 transition-colors duration-300">Publication Success</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
                   Over 2,500 stories created on Fablecraft have been successfully published across all genres and platforms.
                 </p>
@@ -399,7 +399,7 @@ export function LandingPage({
 
       {/* Final CTA */}
       <section className="relative z-10 max-w-5xl mx-auto px-8 py-32">
-        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-amber-50 via-orange-50/80 to-rose-50/60 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 border border-amber-200/50 dark:border-slate-600/50 shadow-2xl">
+        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-amber-50 via-orange-50/80 to-red-50/60 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 border border-amber-200/50 dark:border-slate-600/50 shadow-2xl">
           {/* Background texture */}
           <div className="absolute inset-0 opacity-20 bg-repeat bg-center" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
@@ -407,7 +407,7 @@ export function LandingPage({
           
           {/* Floating elements */}
           <div className="absolute top-8 right-8 w-32 h-32 bg-gradient-to-br from-amber-300/20 to-orange-400/10 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-rose-300/20 to-pink-400/10 rounded-full blur-xl"></div>
+          <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-orange-300/20 to-red-400/10 rounded-full blur-xl"></div>
           
           <div className="relative z-10 text-center space-y-12 p-16">
             <div className="space-y-8">
@@ -467,7 +467,7 @@ export function LandingPage({
           </p>
           <div className="flex items-center justify-center space-x-2 text-sm text-stone-500 dark:text-stone-400">
             <span>Made with</span>
-            <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse"></div>
+            <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-full animate-pulse"></div>
             <span>for storytellers everywhere</span>
           </div>
         </div>
