@@ -131,7 +131,8 @@ const CREATION_STEPS: Step[] = [
       { key: 'education', label: 'Education', type: 'textarea', placeholder: 'Formal and informal learning' },
       { key: 'formativeEvents', label: 'Formative Events', type: 'textarea', placeholder: 'Key life-changing moments' },
       { key: 'socialClass', label: 'Social Class', type: 'select', options: ['Upper Class', 'Upper Middle', 'Middle Class', 'Working Class', 'Lower Class', 'Outcast', 'Noble', 'Commoner'] },
-      { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Current job or profession' }
+      { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Current job or profession' },
+      { key: 'spokenLanguages', label: 'Spoken Languages', type: 'array', placeholder: 'Languages they can speak (separate with commas)' }
     ]
   },
   {

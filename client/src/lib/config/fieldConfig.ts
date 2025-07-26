@@ -266,6 +266,15 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
     placeholder: 'Current job or role',
     aiPrompt: 'Define their current occupation and how it shapes their life'
   },
+  {
+    key: 'spokenLanguages',
+    label: 'Spoken Languages',
+    type: 'array',
+    section: 'background',
+    priority: 'important',
+    placeholder: 'Languages they can speak',
+    aiPrompt: 'List languages they speak based on their background and education'
+  },
 
   // Skills Section
   {
