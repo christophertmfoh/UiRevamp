@@ -327,62 +327,202 @@ ${projectContext}`;
 function buildProjectContext(context: CharacterGenerationContext): string {
   const { project, existingCharacters, generationOptions } = context;
   
-  let contextPrompt = `\n\nSTORY WORLD CONTEXT:\n`;
-  contextPrompt += `Project: "${project.name}" (${project.type || 'Story'})\n`;
+  // Build comprehensive story world foundation similar to template system
+  let contextPrompt = `\n\nCOMPREHENSIVE STORY WORLD FOUNDATION:\n`;
+  contextPrompt += `Project Title: "${project.name}"\n`;
+  contextPrompt += `Manuscript Type: ${(project.type || 'Novel').toUpperCase()}\n`;
   
   if (project.description) {
-    contextPrompt += `World Description: ${project.description}\n`;
+    contextPrompt += `Story World: ${project.description}\n`;
   }
   
   if (project.synopsis) {
-    contextPrompt += `Story Synopsis: ${project.synopsis}\n`;
+    contextPrompt += `Narrative Synopsis: ${project.synopsis}\n`;
   }
   
-  if (project.genres && project.genres.length > 0) {
-    contextPrompt += `Genres: ${project.genres.join(', ')} - ensure character fits these genre conventions and reader expectations\n`;
+  // Enhanced genre context with development guidance
+  if (project.genre) {
+    const genres = Array.isArray(project.genre) ? project.genre.join(', ') : project.genre;
+    contextPrompt += `Story Genres: ${genres}\n`;
+    
+    // Add genre-specific character development context
+    const genreGuidance = getGenreCharacterContext(genres);
+    if (genreGuidance) {
+      contextPrompt += `${genreGuidance}\n`;
+    }
   }
   
+  // Comprehensive character ecosystem context
   if (existingCharacters && existingCharacters.length > 0) {
-    contextPrompt += `\nExisting Cast (create meaningful relationships and avoid redundancy):\n`;
-    existingCharacters.forEach(char => {
+    contextPrompt += `\nESTABLISHED CHARACTER ECOSYSTEM (create unique, complementary character):\n`;
+    existingCharacters.slice(0, 6).forEach(char => {
       contextPrompt += `- ${char.name}`;
+      if (char.title) contextPrompt += ` "${char.title}"`;
       if (char.role) contextPrompt += ` (${char.role})`;
-      if (char.class) contextPrompt += ` [${char.class}]`;
-      if (char.oneLine) contextPrompt += `: ${char.oneLine}`;
-      if (char.personalityTraits && Array.isArray(char.personalityTraits)) {
-        contextPrompt += ` | Traits: ${char.personalityTraits.slice(0, 3).join(', ')}`;
+      if (char.race && char.class) contextPrompt += ` [${char.race} ${char.class}]`;
+      else if (char.race) contextPrompt += ` [${char.race}]`;
+      else if (char.class) contextPrompt += ` [${char.class}]`;
+      
+      // Add personality and goals for context
+      const details = [];
+      if (char.personalityOverview) details.push(`Personality: ${char.personalityOverview.substring(0, 80)}...`);
+      if (char.goals) details.push(`Goals: ${char.goals.substring(0, 60)}...`);
+      if (char.personalityTraits && Array.isArray(char.personalityTraits) && char.personalityTraits.length > 0) {
+        details.push(`Traits: ${char.personalityTraits.slice(0, 3).join(', ')}`);
       }
-      contextPrompt += `\n`;
+      
+      if (details.length > 0) {
+        contextPrompt += `\n  ${details.join(' | ')}\n`;
+      } else {
+        contextPrompt += `\n`;
+      }
     });
+    
+    if (existingCharacters.length > 6) {
+      contextPrompt += `- Plus ${existingCharacters.length - 6} additional established characters\n`;
+    }
   }
   
+  // Enhanced character creation requirements with comprehensive context
   if (generationOptions) {
-    contextPrompt += `\nCHARACTER CREATION REQUIREMENTS:\n`;
-    if (generationOptions.characterType) contextPrompt += `Character Type: ${generationOptions.characterType} - fulfill this role's narrative purpose\n`;
-    if (generationOptions.role) contextPrompt += `Story Role: ${generationOptions.role} - serve this function in the narrative structure\n`;
-    if (generationOptions.personality) contextPrompt += `Personality Foundation: ${generationOptions.personality} - build upon this core personality\n`;
-    if (generationOptions.archetype) contextPrompt += `Archetype: ${generationOptions.archetype} - embody this archetypal pattern with unique twists\n`;
+    contextPrompt += `\nCOMPREHENSIVE CHARACTER DEVELOPMENT BRIEF:\n`;
+    
+    if (generationOptions.characterType) {
+      const typeGuidance = getCharacterTypeGuidance(generationOptions.characterType);
+      contextPrompt += `Character Type: ${generationOptions.characterType.toUpperCase()}`;
+      if (typeGuidance) contextPrompt += ` - ${typeGuidance}`;
+      contextPrompt += `\n`;
+    }
+    
+    if (generationOptions.archetype) {
+      const archetypeGuidance = getArchetypeGuidance(generationOptions.archetype);
+      contextPrompt += `Core Archetype: ${generationOptions.archetype.toUpperCase()}`;
+      if (archetypeGuidance) contextPrompt += ` - ${archetypeGuidance}`;
+      contextPrompt += `\n`;
+    }
+    
+    if (generationOptions.role) {
+      contextPrompt += `Narrative Role: ${generationOptions.role} - serve this specific function in the story structure\n`;
+    }
+    
+    if (generationOptions.personality) {
+      contextPrompt += `Personality Foundation: ${generationOptions.personality} - build comprehensive personality around this core\n`;
+    }
+    
     if (generationOptions.customPrompt) {
       // Check if this is a template-based generation
       if (generationOptions.customPrompt.includes('TEMPLATE-BASED CHARACTER GENERATION')) {
-        contextPrompt += `\n\n${generationOptions.customPrompt}`;
+        contextPrompt += `\n${generationOptions.customPrompt}\n`;
       } else {
-        contextPrompt += `\nAdditional Requirements: ${generationOptions.customPrompt}`;
+        contextPrompt += `Creative Direction & Additional Details: ${generationOptions.customPrompt}\n`;
       }
     }
   }
 
-  contextPrompt += `\n\nGenerate a character that:
-1. Fits naturally into this world and story
-2. Has clear motivations that could drive plot
-3. Has potential for interesting relationships with existing characters
-4. Brings something unique to the story
-5. Has both strengths and flaws that create compelling conflict
-6. Feels authentic to the genre and tone
-7. Has a backstory that explains their current situation and goals
-8. Matches the specified character type, role, and personality traits above
+  // Enhanced character development requirements matching template system quality
+  contextPrompt += `\nCHARACTER DEVELOPMENT INTEGRATION REQUIREMENTS:
+- Build character authentically within "${project.name}" story world using all provided context
+- Ensure character fits naturally into ${(project.type || 'novel').toLowerCase()} narrative structure and pacing
+- Create meaningful potential relationships with existing characters (allies, rivals, mentors, etc.)
+- Develop rich backstory explaining how they arrived at current situation and future trajectory
+- Ground all traits, abilities, and relationships in the established world context and genre conventions
+- Design internal conflicts that create external story opportunities and character growth arcs
+- Ensure physical appearance reflects personality, life experiences, and cultural background
+- Build skills and abilities that serve narrative purposes while creating authentic limitations
+- Create goals and motivations that could drive plot forward and intersect with other characters
+- Develop flaws and secrets that create vulnerability, relatability, and story complications
 
-Make the character detailed enough to feel real, with specific traits, quirks, and a clear voice. Ensure they have both external goals and internal conflicts.`;
+NARRATIVE INTEGRATION MANDATE:
+Generate a character who doesn't just exist in this world, but actively enhances it through their presence, relationships, potential conflicts, and unique perspective. Every trait should contribute to story potential while feeling authentic to the character's individual journey.
+
+Based on all the above comprehensive context - including the story world, existing characters, specific character requirements, and creative direction - generate a complete, publication-ready character with rich internal life and clear narrative purpose.`;
 
   return contextPrompt;
+}
+
+// Enhanced character type guidance for comprehensive prompting
+function getCharacterTypeGuidance(characterType: string): string {
+  const guidance: { [key: string]: string } = {
+    'protagonist': 'Central figure who drives the story forward, faces the main conflict, and undergoes the most significant character development',
+    'antagonist': 'Primary source of conflict, not necessarily evil but opposes the protagonist\'s goals with legitimate motivations',
+    'anti-hero': 'Morally ambiguous protagonist with significant flaws, questionable methods, but ultimately works toward positive outcomes',
+    'supporting': 'Crucial secondary character who influences main plot, provides specific skills/knowledge, and has their own subplot',
+    'mentor': 'Wise guide with experience relevant to protagonist\'s journey, provides wisdom and training before crucial challenges',
+    'love-interest': 'Romantic connection with agency and goals beyond romance, creates emotional stakes and character growth',
+    'villain': 'Actively evil or destructive force, seeks power, revenge, or chaos, represents what protagonist must overcome',
+    'sidekick': 'Loyal companion with complementary skills, provides support, comic relief, and alternative perspective',
+    'comic-relief': 'Provides humor through timing, personality quirks, or situational comedy while serving plot functions',
+    'mysterious-figure': 'Unknown motives and background, reveals information gradually, creates intrigue and uncertainty',
+    'wise-elder': 'Ancient wisdom keeper, has witnessed historical events, provides perspective on long-term consequences',
+    'innocent': 'Pure motivations, naive perspective, represents what others fight to protect or what corruption threatens',
+    'rebel': 'Challenges authority and status quo, catalyst for change, questions established systems and traditions',
+    'guardian': 'Protects specific people, places, or principles, strong sense of duty, willing to sacrifice for others',
+    'trickster': 'Uses cunning over strength, enjoys chaos and clever solutions, challenges others through wit and deception'
+  };
+  
+  return guidance[characterType] || '';
+}
+
+// Enhanced archetype guidance for psychological depth
+function getArchetypeGuidance(archetype: string): string {
+  const guidance: { [key: string]: string } = {
+    'hero': 'Driven by duty and courage, seeks to prove worthiness, faces tests of strength and character',
+    'innocent': 'Maintains optimism despite adversity, trusts others, seeks harmony and simple pleasures',
+    'explorer': 'Values freedom and discovery, restless spirit, seeks new experiences and authentic self',
+    'sage': 'Pursues truth and understanding, shares wisdom, seeks to comprehend the world\'s mysteries',
+    'outlaw': 'Breaks rules for justice, rebels against oppression, seeks to overthrow corrupt systems',
+    'magician': 'Transforms reality through will/knowledge, visionary, seeks to make dreams real',
+    'everyman': 'Relatable and down-to-earth, seeks belonging and acceptance, fears being left out',
+    'lover': 'Driven by passion and connection, seeks romantic fulfillment, fears loneliness and abandonment',
+    'jester': 'Brings joy and humor, lives in the moment, uses wit to reveal truth and cope with pain',
+    'caregiver': 'Protects and nurtures others, self-sacrificing, fears helplessness and ingratitude',
+    'creator': 'Expresses vision through art/innovation, fears having no original vision, seeks lasting legacy',
+    'ruler': 'Takes responsibility and control, creates order, fears chaos and being overthrown'
+  };
+  
+  return guidance[archetype] || '';
+}
+
+// Genre-specific character development context
+function getGenreCharacterContext(genres: string): string {
+  const genreGuidance: { [key: string]: string } = {
+    'fantasy': 'Genre Context: Characters should have clear relationships to magic systems, mythical creatures, and ancient histories. Consider how supernatural elements shape their worldview and abilities.',
+    'science fiction': 'Genre Context: Characters must navigate technological advancement, space travel, AI, or future societies. Ground their backgrounds in how technology affects daily life and social structures.',
+    'mystery': 'Genre Context: Characters need secrets, hidden motives, and complex relationships. Each should have knowledge that could solve or complicate the central mystery.',
+    'romance': 'Genre Context: Characters require clear romantic goals, obstacles to love, and emotional growth arcs. Past relationships and intimacy fears should drive character development.',
+    'thriller': 'Genre Context: Characters need high stakes, dangerous secrets, and survival instincts. Paranoia, trust issues, and pressure responses should define their psychology.',
+    'horror': 'Genre Context: Characters need realistic reactions to supernatural threats, trauma responses, and survival mechanisms. Fear and past experiences should influence all decisions.',
+    'contemporary': 'Genre Context: Characters should reflect modern social issues, technology integration, and current cultural dynamics. Make them relatable to contemporary audiences.',
+    'historical': 'Genre Context: Characters must authentically reflect their time period\'s values, restrictions, and opportunities. Historical context should shape all aspects of their identity.'
+  };
+  
+  const lowerGenres = genres.toLowerCase();
+  for (const [genre, guidance] of Object.entries(genreGuidance)) {
+    if (lowerGenres.includes(genre)) {
+      return guidance;
+    }
+  }
+  
+  return '';
+}
+function getGenreCharacterContext(genres: string): string {
+  const genreGuidance: { [key: string]: string } = {
+    'fantasy': 'Genre Context: Characters should have clear relationships to magic systems, mythical creatures, and ancient histories. Consider how supernatural elements shape their worldview and abilities.',
+    'science fiction': 'Genre Context: Characters must navigate technological advancement, space travel, AI, or future societies. Ground their backgrounds in how technology affects daily life and social structures.',
+    'mystery': 'Genre Context: Characters need secrets, hidden motives, and complex relationships. Each should have knowledge that could solve or complicate the central mystery.',
+    'romance': 'Genre Context: Characters require clear romantic goals, obstacles to love, and emotional growth arcs. Past relationships and intimacy fears should drive character development.',
+    'thriller': 'Genre Context: Characters need high stakes, dangerous secrets, and survival instincts. Paranoia, trust issues, and pressure responses should define their psychology.',
+    'horror': 'Genre Context: Characters need realistic reactions to supernatural threats, trauma responses, and survival mechanisms. Fear and past experiences should influence all decisions.',
+    'contemporary': 'Genre Context: Characters should reflect modern social issues, technology integration, and current cultural dynamics. Make them relatable to contemporary audiences.',
+    'historical': 'Genre Context: Characters must authentically reflect their time period\'s values, restrictions, and opportunities. Historical context should shape all aspects of their identity.'
+  };
+  
+  const lowerGenres = genres.toLowerCase();
+  for (const [genre, guidance] of Object.entries(genreGuidance)) {
+    if (lowerGenres.includes(genre)) {
+      return guidance;
+    }
+  }
+  
+  return '';
 }
