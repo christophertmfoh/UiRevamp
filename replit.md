@@ -1,9 +1,18 @@
-# Story Weaver - AI-Powered Creative Writing Platform
+# Fablecraft - AI-Powered Creative Writing Platform
 
 ## Overview
-Story Weaver is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
+Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 26, 2025 - **COMPLETE REBRANDING TO FABLECRAFT - COMPLETED**
+✓ **APPLICATION NAME UPDATED** - Changed from "Story Weaver" to "Fablecraft" throughout entire application
+✓ **MAIN TAGLINE REDESIGNED** - Updated from "From Spark to Story" to "Craft Your Fable" 
+✓ **HEADER LAYOUT OPTIMIZED** - Removed blue highlighted subtitle, recentered logo and name for clean appearance
+✓ **SECONDARY TAGLINES UPDATED** - Changed "Creative Pipeline" to "Your Creative Journey"
+✓ **COMPREHENSIVE TEXT UPDATES** - All references to old branding replaced across landing page, workspace, and components
+✓ **COHESIVE BRAND IDENTITY** - Consistent "Fablecraft" branding with "craft your fable" theme throughout application
+✓ **CLEAN VISUAL DESIGN** - Simplified header layout focusing on centered logo and name without distracting elements
+
 ### July 24, 2025 - **COMPREHENSIVE CODE REFACTORING & ARCHITECTURE OPTIMIZATION**
 ✓ **UNIFIED AI GENERATION SERVICE** - Consolidated multiple AI generation services into single `server/services/aiGeneration.ts`
 ✓ **INTELLIGENT FALLBACK SYSTEM** - Extracted fallback logic into reusable `server/utils/fallbackGenerator.ts` 
