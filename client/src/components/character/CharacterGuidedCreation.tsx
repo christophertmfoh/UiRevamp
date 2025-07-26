@@ -64,7 +64,14 @@ const CREATION_STEPS: Step[] = [
       { key: 'age', label: 'Age', type: 'text', placeholder: '25 or "appears to be in their 20s"' },
       { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, Elf, Dragon, etc.' },
       { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, Mage, Detective, etc.' },
-      { key: 'role', label: 'Story Role', type: 'select', options: ['Protagonist', 'Antagonist', 'Supporting', 'Minor', 'Cameo'] }
+      { key: 'role', label: 'Story Role', type: 'select', options: [
+        'Protagonist', 'Antagonist', 'Deuteragonist', 'Tritagonist', 'Supporting Character', 
+        'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero', 'Anti-Villain',
+        'Foil Character', 'Catalyst', 'Guardian', 'Threshold Guardian', 'Shapeshifter', 'Shadow',
+        'Herald', 'Trickster', 'Innocent', 'Explorer', 'Sage', 'Hero', 'Outlaw', 'Magician',
+        'Regular Guy/Girl', 'Lover', 'Jester', 'Caregiver', 'Creator', 'Ruler', 'Minor Character',
+        'Background Character', 'Cameo', 'Narrator', 'Confidant', 'Red Herring', 'MacGuffin Guardian'
+      ] }
     ]
   },
   {
@@ -92,7 +99,13 @@ const CREATION_STEPS: Step[] = [
     fields: [
       { key: 'personality', label: 'Personality Overview', type: 'textarea', placeholder: 'Core personality description', required: true },
       { key: 'personalityTraits', label: 'Key Traits', type: 'array', placeholder: 'Brave, cynical, optimistic (separate with commas)' },
-      { key: 'temperament', label: 'Temperament', type: 'select', options: ['Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Mixed'] },
+      { key: 'temperament', label: 'Temperament', type: 'select', options: [
+        'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Sanguine-Choleric', 'Sanguine-Phlegmatic',
+        'Choleric-Sanguine', 'Choleric-Melancholic', 'Melancholic-Choleric', 'Melancholic-Phlegmatic',
+        'Phlegmatic-Sanguine', 'Phlegmatic-Melancholic', 'Optimistic', 'Pessimistic', 'Realistic',
+        'Idealistic', 'Cynical', 'Stoic', 'Emotional', 'Analytical', 'Intuitive', 'Impulsive',
+        'Cautious', 'Adventurous', 'Reserved', 'Outgoing', 'Aggressive', 'Passive', 'Balanced'
+      ] },
       { key: 'worldview', label: 'Worldview', type: 'textarea', placeholder: 'How they see the world and their place in it' },
       { key: 'values', label: 'Core Values', type: 'textarea', placeholder: 'What they believe is most important' },
       { key: 'goals', label: 'Goals', type: 'textarea', placeholder: 'What they want to achieve' },
@@ -158,10 +171,20 @@ const CREATION_STEPS: Step[] = [
     icon: PenTool,
     fields: [
       { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'Their role in advancing the plot' },
-      { key: 'theme', label: 'Associated Themes', type: 'textarea', placeholder: 'Themes they represent or explore' },
+      { key: 'personalTheme', label: 'Associated Themes', type: 'textarea', placeholder: 'Themes they represent or explore' },
       { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What they symbolize in the story' },
       { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, characters, or concepts that inspired them' },
-      { key: 'archetypes', label: 'Archetypes', type: 'array', placeholder: 'Hero, mentor, trickster (separate with commas)' },
+      { key: 'archetypes', label: 'Archetypes', type: 'select', options: [
+        'The Hero', 'The Mentor', 'The Threshold Guardian', 'The Herald', 'The Shapeshifter', 'The Shadow',
+        'The Ally', 'The Trickster', 'The Innocent', 'The Explorer', 'The Sage', 'The Outlaw', 'The Magician',
+        'The Regular Guy/Girl', 'The Lover', 'The Jester', 'The Caregiver', 'The Creator', 'The Ruler',
+        'The Warrior', 'The Orphan', 'The Seeker', 'The Destroyer', 'The Rebel', 'The Fool', 'The Wise Woman/Man',
+        'The Mother', 'The Father', 'The Child', 'The Maiden', 'The Crone', 'The Anima', 'The Animus',
+        'The Self', 'The Persona', 'The Great Mother', 'The Terrible Mother', 'The Wise Old Man',
+        'The Divine Child', 'The Wounded Healer', 'The Scapegoat', 'The Martyr', 'The Savior',
+        'The Temptress', 'The Femme Fatale', 'The Damsel in Distress', 'The Dark Lord', 'The Prophet',
+        'The Shaman', 'The Guide', 'The Guardian', 'The Gatekeeper', 'The Threshold Dweller'
+      ] },
       { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas' }
     ]
   }

@@ -275,6 +275,21 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
     placeholder: 'Languages they can speak',
     aiPrompt: 'List languages they speak based on their background and education'
   },
+  {
+    key: 'temperament',
+    label: 'Temperament',
+    type: 'select',
+    section: 'personality',
+    priority: 'important',
+    options: [
+      'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Sanguine-Choleric', 'Sanguine-Phlegmatic',
+      'Choleric-Sanguine', 'Choleric-Melancholic', 'Melancholic-Choleric', 'Melancholic-Phlegmatic',
+      'Phlegmatic-Sanguine', 'Phlegmatic-Melancholic', 'Optimistic', 'Pessimistic', 'Realistic',
+      'Idealistic', 'Cynical', 'Stoic', 'Emotional', 'Analytical', 'Intuitive', 'Impulsive',
+      'Cautious', 'Adventurous', 'Reserved', 'Outgoing', 'Aggressive', 'Passive', 'Balanced'
+    ],
+    aiPrompt: 'Determine their natural temperament and emotional disposition'
+  },
 
   // Skills Section
   {
@@ -330,7 +345,14 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
     type: 'select',
     section: 'story',
     priority: 'important',
-    options: ['Protagonist', 'Antagonist', 'Supporting Character', 'Comic Relief', 'Mentor', 'Love Interest', 'Villain', 'Anti-Hero'],
+    options: [
+      'Protagonist', 'Antagonist', 'Deuteragonist', 'Tritagonist', 'Supporting Character', 
+      'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero', 'Anti-Villain',
+      'Foil Character', 'Catalyst', 'Guardian', 'Threshold Guardian', 'Shapeshifter', 'Shadow',
+      'Herald', 'Trickster', 'Innocent', 'Explorer', 'Sage', 'Hero', 'Outlaw', 'Magician',
+      'Regular Guy/Girl', 'Lover', 'Jester', 'Caregiver', 'Creator', 'Ruler', 'Minor Character',
+      'Background Character', 'Cameo', 'Narrator', 'Confidant', 'Red Herring', 'MacGuffin Guardian'
+    ],
     aiPrompt: 'Determine their primary role in the story structure'
   }
 ];

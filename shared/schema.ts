@@ -231,7 +231,7 @@ export const characters = pgTable("characters", {
   politicalViews: text("political_views").default(''),
   
   // Meta Information (Writing & Creative Elements)
-  archetypes: text("archetypes").array().default([]),
+  archetypes: text("archetypes").default(''),
   tropes: text("tropes").array().default([]),
   inspiration: text("inspiration").default(''),
   basedOn: text("based_on").default(''),
