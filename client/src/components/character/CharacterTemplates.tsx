@@ -702,7 +702,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                     <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Filling {selectedTemplate?.name} template with detailed character information across all 164+ fields
+                    Filling {selectedTemplate?.name} template with detailed character information across all fields
                   </p>
                 </div>
 

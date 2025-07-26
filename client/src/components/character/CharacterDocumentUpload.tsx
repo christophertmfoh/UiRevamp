@@ -250,7 +250,7 @@ export function CharacterDocumentUpload({
               <div className="text-center space-y-2">
                 <div className="text-sm font-medium text-accent">AI Reading Document</div>
                 <div className="text-xs text-muted-foreground max-w-md mx-auto">
-                  Our AI is reading your document and extracting character information to populate all 164+ character fields. This may take a moment...
+                  Our AI is reading your document and extracting character information to populate all character fields. This may take a moment...
                 </div>
               </div>
             </div>

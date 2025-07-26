@@ -54,7 +54,7 @@ export function CharacterCreationLaunch({
       description: 'Upload existing character documents and let AI parse them',
       icon: Upload,
       action: onOpenDocumentUpload,
-      features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all 164+ fields']
+      features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all character fields']
     }
   ];
 

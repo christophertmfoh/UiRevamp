@@ -391,7 +391,7 @@ export function CharacterGenerationModal({
                 <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
               </div>
               <p className="text-xs text-muted-foreground">
-                AI is crafting your {characterType || 'character'} with comprehensive details across all 164+ character fields
+                AI is crafting your {characterType || 'character'} with comprehensive details across all character fields
               </p>
             </div>
           </div>
