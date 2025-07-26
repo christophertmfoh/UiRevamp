@@ -512,12 +512,7 @@ Generate a complete, detailed character that expands on these template foundatio
             </div>
           </div>
 
-          {/* Premium Status Badge */}
-          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-            <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
-              {character.role || 'Character'}
-            </Badge>
-          </div>
+
         </div>
 
         {/* Premium Character Info */}
@@ -527,9 +522,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
                 {character.name}
               </h3>
-              <Badge className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 text-accent-foreground font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
-                Character
-              </Badge>
+
             </div>
             {character.title && (
               <p className="text-accent/80 text-sm font-medium truncate mb-3">
