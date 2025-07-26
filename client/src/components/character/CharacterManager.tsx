@@ -42,6 +42,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
   const [isDocumentUploadOpen, setIsDocumentUploadOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
+  const [selectedCharacterIds, setSelectedCharacterIds] = useState<Set<string>>(new Set());
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -78,6 +80,19 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       apiRequest('DELETE', `/api/characters/${characterId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+    },
+  });
+
+  const bulkDeleteMutation = useMutation({
+    mutationFn: async (characterIds: string[]) => {
+      await Promise.all(
+        characterIds.map(id => apiRequest('DELETE', `/api/characters/${id}`))
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      setSelectedCharacterIds(new Set());
+      setIsSelectionMode(false);
     },
   });
 
@@ -295,6 +310,50 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           setIsCreating(false);
         }
       });
+    }
+  };
+
+  const handleBulkDelete = () => {
+    const count = selectedCharacterIds.size;
+    if (count === 0) return;
+    
+    const characterNames = Array.from(selectedCharacterIds)
+      .map(id => characters.find(c => c.id === id)?.name)
+      .filter(Boolean)
+      .slice(0, 3)
+      .join(', ');
+    
+    const displayText = count > 3 
+      ? `${characterNames} and ${count - 3} others`
+      : characterNames;
+    
+    if (window.confirm(`Are you sure you want to delete ${count} character${count > 1 ? 's' : ''}?\n\n${displayText}`)) {
+      bulkDeleteMutation.mutate(Array.from(selectedCharacterIds));
+    }
+  };
+
+  const handleSelectCharacter = (characterId: string, selected: boolean) => {
+    const newSelected = new Set(selectedCharacterIds);
+    if (selected) {
+      newSelected.add(characterId);
+    } else {
+      newSelected.delete(characterId);
+    }
+    setSelectedCharacterIds(newSelected);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedCharacterIds.size === filteredCharacters.length) {
+      setSelectedCharacterIds(new Set());
+    } else {
+      setSelectedCharacterIds(new Set(filteredCharacters.map(c => c.id)));
+    }
+  };
+
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      setSelectedCharacterIds(new Set());
     }
   };
 
@@ -529,9 +588,38 @@ CRITICAL EXECUTION REQUIREMENTS:
 
   // Premium Character Card for Grid View
   const CharacterCard = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5 overflow-hidden relative" 
-          onClick={() => setSelectedCharacter(character)}>
+    <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border overflow-hidden relative ${
+      isSelectionMode 
+        ? selectedCharacterIds.has(character.id)
+          ? 'border-accent bg-accent/5 shadow-lg' 
+          : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
+        : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
+    }`} 
+          onClick={() => {
+            if (isSelectionMode) {
+              handleSelectCharacter(character.id, !selectedCharacterIds.has(character.id));
+            } else {
+              setSelectedCharacter(character);
+            }
+          }}>
       <CardContent className="p-0 relative">
+        {/* Selection Checkbox */}
+        {isSelectionMode && (
+          <div className="absolute top-3 left-3 z-10">
+            <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
+              selectedCharacterIds.has(character.id)
+                ? 'bg-accent border-accent text-accent-foreground'
+                : 'bg-background/80 border-border hover:border-accent'
+            }`}>
+              {selectedCharacterIds.has(character.id) && (
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+          </div>
+        )}
+        
         {/* Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
         
@@ -560,15 +648,17 @@ CRITICAL EXECUTION REQUIREMENTS:
           
 
           
-          {/* Clean Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-            {/* Subtle overlay for better readability */}
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
-                {character.description || 'Click to view character details...'}
+          {/* Clean Hover Overlay - Hidden in selection mode */}
+          {!isSelectionMode && (
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+              {/* Subtle overlay for better readability */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
+                  {character.description || 'Click to view character details...'}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
 
         </div>
@@ -658,13 +748,39 @@ CRITICAL EXECUTION REQUIREMENTS:
 
   // Premium List View Item
   const CharacterListItem = ({ character }: { character: Character }) => (
-    <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5 relative overflow-hidden" 
-          onClick={() => setSelectedCharacter(character)}>
+    <Card className={`group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border relative overflow-hidden ${
+      isSelectionMode 
+        ? selectedCharacterIds.has(character.id)
+          ? 'border-accent bg-accent/5 shadow-lg'
+          : 'border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5'
+        : 'border-border/30 hover:border-accent/50 bg-gradient-to-r from-background via-background/95 to-accent/5'
+    }`}
+          onClick={() => {
+            if (isSelectionMode) {
+              handleSelectCharacter(character.id, !selectedCharacterIds.has(character.id));
+            } else {
+              setSelectedCharacter(character);
+            }
+          }}>
       <CardContent className="p-5 relative">
         {/* Subtle Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         
         <div className="flex items-center gap-5 relative">
+          {/* Selection Checkbox */}
+          {isSelectionMode && (
+            <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
+              selectedCharacterIds.has(character.id)
+                ? 'bg-accent border-accent text-accent-foreground'
+                : 'bg-background border-border hover:border-accent'
+            }`}>
+              {selectedCharacterIds.has(character.id) && (
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+          )}
           {/* Premium Avatar */}
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
             {character.imageUrl ? (
@@ -739,21 +855,23 @@ CRITICAL EXECUTION REQUIREMENTS:
             </div>
           </div>
 
-          {/* Premium Quick Actions */}
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
-                    onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
-              <Eye className="h-4 w-4" />
-            </Button>
-            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
-                    onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
-                    onClick={(e) => handlePortraitClick(character, e)}>
-              <Camera className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* Premium Quick Actions - Hidden in selection mode */}
+          {!isSelectionMode && (
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
+                      onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
+                <Eye className="h-4 w-4" />
+              </Button>
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
+                      onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
+                      onClick={(e) => handlePortraitClick(character, e)}>
+                <Camera className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -811,6 +929,41 @@ CRITICAL EXECUTION REQUIREMENTS:
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Selection Mode Toggle */}
+            <Button
+              variant={isSelectionMode ? "default" : "outline"}
+              size="sm"
+              onClick={toggleSelectionMode}
+              className="h-9"
+            >
+              {isSelectionMode ? 'Cancel Select' : 'Select'}
+            </Button>
+
+            {/* Bulk Actions - Only show in selection mode */}
+            {isSelectionMode && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSelectAll}
+                  className="h-9"
+                  disabled={filteredCharacters.length === 0}
+                >
+                  {selectedCharacterIds.size === filteredCharacters.length ? 'Deselect All' : `Select All (${filteredCharacters.length})`}
+                </Button>
+                
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleBulkDelete}
+                  disabled={selectedCharacterIds.size === 0 || bulkDeleteMutation.isPending}
+                  className="h-9"
+                >
+                  {bulkDeleteMutation.isPending ? 'Deleting...' : `Delete Selected (${selectedCharacterIds.size})`}
+                </Button>
+              </>
+            )}
+
             {/* Sort Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
