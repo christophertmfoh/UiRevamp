@@ -35,6 +35,8 @@ export function CharacterPortraitModal({
   const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [newGeneratedImage, setNewGeneratedImage] = useState<string | null>(null);
+  const [showFullScreenGallery, setShowFullScreenGallery] = useState(false);
   const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
@@ -209,6 +211,8 @@ export function CharacterPortraitModal({
 
   const handleGenerateImage = async () => {
     setIsGenerating(true);
+    setNewGeneratedImage(null);
+    
     try {
       const prompt = generateCharacterPrompt();
       
@@ -238,6 +242,7 @@ export function CharacterPortraitModal({
         
         const updatedGallery = [...portraitGallery, newPortrait];
         setPortraitGallery(updatedGallery);
+        setNewGeneratedImage(data.url);
         
         // Save to database
         if (newPortrait.isMain) {
@@ -249,11 +254,15 @@ export function CharacterPortraitModal({
           savePortraitsToCharacter(updatedGallery);
         }
         
-        setActiveTab('gallery');
+        // After generation complete, show full screen gallery with new image
+        setTimeout(() => {
+          setIsGenerating(false);
+          setShowFullScreenGallery(true);
+          setSelectedImagePreview(data.url);
+        }, 500);
       }
     } catch (error) {
       console.error('Image generation failed:', error);
-    } finally {
       setIsGenerating(false);
     }
   };
@@ -821,6 +830,152 @@ export function CharacterPortraitModal({
                       {getCurrentImageIndex() + 1} of {portraitGallery.length}
                     </div>
                   )}
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Portrait Generation Loading Screen - Same as AI Template Generator */}
+      {isGenerating && (
+        <Dialog open={true} onOpenChange={() => {}}>
+          <DialogContent className="max-w-md">
+            <div className="flex flex-col items-center text-center space-y-6 py-8">
+              <div className="relative">
+                <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>
+                <Sparkles className="w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-accent">Generating Portrait</h3>
+                <p className="text-muted-foreground">
+                  Creating a high-quality portrait of {character.name} with AI...
+                </p>
+              </div>
+
+              <div className="w-full space-y-2">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Using comprehensive character data{artStyle ? `, ${artStyle} style` : ''}{additionalDetails ? `, ${additionalDetails}` : ''} and professional quality enhancement
+                </p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Full Screen Gallery View */}
+      {showFullScreenGallery && selectedImagePreview && (
+        <Dialog open={true} onOpenChange={() => setShowFullScreenGallery(false)}>
+          <DialogContent className="max-w-6xl w-full h-[90vh] p-0 overflow-hidden">
+            <div className="relative h-full flex flex-col">
+              {/* Header */}
+              <div className="absolute top-0 left-0 right-0 z-10 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-accent-foreground" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">New Portrait Generated</h3>
+                    <p className="text-white/70 text-sm">{character.name}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  {newGeneratedImage && (
+                    <Badge className="bg-accent/90 text-accent-foreground">
+                      <Star className="h-3 w-3 mr-1" />
+                      Latest
+                    </Badge>
+                  )}
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="bg-white/10 hover:bg-white/20 text-white border-white/20"
+                    onClick={() => setShowFullScreenGallery(false)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Main Image */}
+              <div className="flex-1 flex items-center justify-center bg-black/50 pt-20 pb-16">
+                <img 
+                  src={selectedImagePreview} 
+                  alt={`Portrait of ${character.name}`} 
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+              
+              {/* Navigation */}
+              {portraitGallery.length > 1 && (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="absolute top-1/2 left-6 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 w-12 h-12 rounded-full"
+                    onClick={() => {
+                      const currentIndex = portraitGallery.findIndex(p => p.url === selectedImagePreview);
+                      const prevIndex = currentIndex > 0 ? currentIndex - 1 : portraitGallery.length - 1;
+                      setSelectedImagePreview(portraitGallery[prevIndex].url);
+                    }}
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </Button>
+                  
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="absolute top-1/2 right-6 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 w-12 h-12 rounded-full"
+                    onClick={() => {
+                      const currentIndex = portraitGallery.findIndex(p => p.url === selectedImagePreview);
+                      const nextIndex = currentIndex < portraitGallery.length - 1 ? currentIndex + 1 : 0;
+                      setSelectedImagePreview(portraitGallery[nextIndex].url);
+                    }}
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </Button>
+                </>
+              )}
+              
+              {/* Bottom Gallery Thumbnails */}
+              <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-4">
+                <div className="flex items-center justify-center gap-3 overflow-x-auto">
+                  {portraitGallery.map((portrait, index) => (
+                    <div
+                      key={portrait.id}
+                      className={`relative cursor-pointer transition-all duration-200 ${
+                        portrait.url === selectedImagePreview 
+                          ? 'ring-2 ring-accent scale-110' 
+                          : 'opacity-70 hover:opacity-100'
+                      }`}
+                      onClick={() => setSelectedImagePreview(portrait.url)}
+                    >
+                      <img 
+                        src={portrait.url} 
+                        alt={`Portrait ${index + 1}`} 
+                        className="w-16 h-16 object-cover rounded-lg"
+                      />
+                      {portrait.url === newGeneratedImage && (
+                        <div className="absolute -top-1 -right-1">
+                          <div className="w-4 h-4 bg-accent rounded-full flex items-center justify-center">
+                            <Sparkles className="w-2 h-2 text-accent-foreground" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Image counter */}
+                <div className="text-center mt-2">
+                  <span className="text-white/70 text-sm">
+                    {portraitGallery.findIndex(p => p.url === selectedImagePreview) + 1} / {portraitGallery.length}
+                  </span>
                 </div>
               </div>
             </div>
