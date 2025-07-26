@@ -165,13 +165,6 @@ definePageMeta({
 const { $fetch } = useNuxtApp()
 
 // State
-const activeView = ref('projects')
-const characterView = ref('grid')
-const showCreateProject = ref(false)
-const showCreateCharacter = ref(false)
-const showCreateWorld = ref(false)
-
-// State
 const showProjects = ref(false)
 const showCreateProject = ref(false)
 const loading = ref(false)
@@ -355,7 +348,6 @@ const createProject = () => {
 
 .hero-container {
   text-align: center;
-  max-width: 4rem;
   max-width: 56rem;
   animation: fadeIn 1s ease-out;
 }
