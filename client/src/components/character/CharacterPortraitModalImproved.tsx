@@ -37,6 +37,7 @@ export function CharacterPortraitModal({
   const [dragActive, setDragActive] = useState(false);
   const [newGeneratedImage, setNewGeneratedImage] = useState<string | null>(null);
   const [showFullScreenGallery, setShowFullScreenGallery] = useState(false);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [portraitGallery, setPortraitGallery] = useState<Array<{id: string, url: string, isMain: boolean}>>(() => {
     const existingPortraits = character.portraits || [];
     return Array.isArray(existingPortraits) ? existingPortraits : [];
@@ -213,6 +214,10 @@ export function CharacterPortraitModal({
     setIsGenerating(true);
     setNewGeneratedImage(null);
     
+    // Create abort controller for cancellation
+    const controller = new AbortController();
+    setAbortController(controller);
+    
     try {
       const prompt = generateCharacterPrompt();
       
@@ -226,7 +231,8 @@ export function CharacterPortraitModal({
           artStyle,
           additionalDetails,
           engineType: 'gemini'
-        })
+        }),
+        signal: controller.signal
       });
 
       if (!response.ok) throw new Error('Failed to generate image');
@@ -257,14 +263,28 @@ export function CharacterPortraitModal({
         // After generation complete, switch to gallery tab and show new image
         setTimeout(() => {
           setIsGenerating(false);
+          setAbortController(null);
           setActiveTab('gallery');
           setSelectedImagePreview(data.url);
         }, 500);
       }
     } catch (error) {
-      console.error('Image generation failed:', error);
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.log('Image generation cancelled by user');
+      } else {
+        console.error('Image generation failed:', error);
+      }
       setIsGenerating(false);
+      setAbortController(null);
     }
+  };
+
+  const handleCancelGeneration = () => {
+    if (abortController) {
+      abortController.abort();
+      setAbortController(null);
+    }
+    setIsGenerating(false);
   };
 
   const handleSetMainImage = (imageId: string) => {
@@ -839,7 +859,7 @@ export function CharacterPortraitModal({
 
       {/* Portrait Generation Loading Screen - Same as AI Template Generator */}
       {isGenerating && (
-        <Dialog open={true} onOpenChange={() => {}}>
+        <Dialog open={true} onOpenChange={handleCancelGeneration}>
           <DialogContent className="max-w-md">
             <div className="flex flex-col items-center text-center space-y-6 py-8">
               <div className="relative">
@@ -862,6 +882,14 @@ export function CharacterPortraitModal({
                   Using comprehensive character data{artStyle ? `, ${artStyle} style` : ''}{additionalDetails ? `, ${additionalDetails}` : ''} and professional quality enhancement
                 </p>
               </div>
+
+              <Button 
+                variant="outline" 
+                onClick={handleCancelGeneration}
+                className="mt-4"
+              >
+                Cancel Generation
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
