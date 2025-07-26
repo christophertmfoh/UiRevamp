@@ -633,7 +633,7 @@ Generate a complete, detailed character that expands on these template foundatio
             
             <div className="flex items-center gap-2 mb-2 flex-wrap">
               <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
-                {character.role || 'Character'}
+                Character
               </Badge>
               {character.race && (
                 <Badge variant="outline" className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium">
