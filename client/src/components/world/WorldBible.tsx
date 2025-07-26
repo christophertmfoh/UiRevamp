@@ -213,45 +213,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
               })}
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Sword className="h-5 w-5 mr-2 text-accent" />
-                    Story Themes
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {worldData.overview.coreThemes.map((theme, index) => (
-                      <div key={index} className="flex items-center">
-                        <div className="w-2 h-2 bg-accent rounded-full mr-3"></div>
-                        <span className="text-sm">{theme}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
 
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Shield className="h-5 w-5 mr-2 text-accent" />
-                    Major Conflicts
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {worldData.overview.majorConflicts.map((conflict, index) => (
-                      <div key={index} className="flex items-center">
-                        <div className="w-2 h-2 bg-accent rounded-full mr-3"></div>
-                        <span className="text-sm">{conflict}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
             <Card className="creative-card">
               <CardHeader>
