@@ -254,10 +254,10 @@ export function CharacterPortraitModal({
           savePortraitsToCharacter(updatedGallery);
         }
         
-        // After generation complete, show full screen gallery with new image
+        // After generation complete, switch to gallery tab and show new image
         setTimeout(() => {
           setIsGenerating(false);
-          setShowFullScreenGallery(true);
+          setActiveTab('gallery');
           setSelectedImagePreview(data.url);
         }, 500);
       }
@@ -867,115 +867,61 @@ export function CharacterPortraitModal({
         </Dialog>
       )}
 
-      {/* Full Screen Gallery View */}
-      {showFullScreenGallery && selectedImagePreview && (
-        <Dialog open={true} onOpenChange={() => setShowFullScreenGallery(false)}>
-          <DialogContent className="max-w-6xl w-full h-[90vh] p-0 overflow-hidden">
-            <div className="relative h-full flex flex-col">
-              {/* Header */}
-              <div className="absolute top-0 left-0 right-0 z-10 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold">New Portrait Generated</h3>
-                    <p className="text-white/70 text-sm">{character.name}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  {newGeneratedImage && (
-                    <Badge className="bg-accent/90 text-accent-foreground">
-                      <Star className="h-3 w-3 mr-1" />
-                      Latest
-                    </Badge>
-                  )}
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="bg-white/10 hover:bg-white/20 text-white border-white/20"
-                    onClick={() => setShowFullScreenGallery(false)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+      {/* Image Preview Modal */}
+      {selectedImagePreview && (
+        <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>
+          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none [&>button]:hidden">
+            <div className="relative bg-black/90 rounded-lg overflow-hidden">
+              <img 
+                src={selectedImagePreview} 
+                alt={`Full size portrait of ${character.name}`}
+                className="w-full h-auto max-h-[80vh] object-contain"
+              />
               
-              {/* Main Image */}
-              <div className="flex-1 flex items-center justify-center bg-black/50 pt-20 pb-16">
-                <img 
-                  src={selectedImagePreview} 
-                  alt={`Portrait of ${character.name}`} 
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
-              
-              {/* Navigation */}
+              {/* Navigation arrows - only show if more than 1 image */}
               {portraitGallery.length > 1 && (
                 <>
                   <Button
-                    variant="secondary"
-                    size="lg"
-                    className="absolute top-1/2 left-6 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 w-12 h-12 rounded-full"
-                    onClick={() => {
-                      const currentIndex = portraitGallery.findIndex(p => p.url === selectedImagePreview);
-                      const prevIndex = currentIndex > 0 ? currentIndex - 1 : portraitGallery.length - 1;
-                      setSelectedImagePreview(portraitGallery[prevIndex].url);
-                    }}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigateToImage('prev')}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </Button>
-                  
                   <Button
-                    variant="secondary"
-                    size="lg"
-                    className="absolute top-1/2 right-6 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 w-12 h-12 rounded-full"
-                    onClick={() => {
-                      const currentIndex = portraitGallery.findIndex(p => p.url === selectedImagePreview);
-                      const nextIndex = currentIndex < portraitGallery.length - 1 ? currentIndex + 1 : 0;
-                      setSelectedImagePreview(portraitGallery[nextIndex].url);
-                    }}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigateToImage('next')}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </Button>
                 </>
               )}
               
-              {/* Bottom Gallery Thumbnails */}
-              <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-4">
-                <div className="flex items-center justify-center gap-3 overflow-x-auto">
-                  {portraitGallery.map((portrait, index) => (
-                    <div
-                      key={portrait.id}
-                      className={`relative cursor-pointer transition-all duration-200 ${
-                        portrait.url === selectedImagePreview 
-                          ? 'ring-2 ring-accent scale-110' 
-                          : 'opacity-70 hover:opacity-100'
-                      }`}
-                      onClick={() => setSelectedImagePreview(portrait.url)}
-                    >
-                      <img 
-                        src={portrait.url} 
-                        alt={`Portrait ${index + 1}`} 
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
-                      {portrait.url === newGeneratedImage && (
-                        <div className="absolute -top-1 -right-1">
-                          <div className="w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-                            <Sparkles className="w-2 h-2 text-accent-foreground" />
-                          </div>
-                        </div>
-                      )}
+              {/* Custom close button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedImagePreview(null)}
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              
+              {/* Image counter and info */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-white font-semibold text-lg">{character.name}</h3>
+                    <p className="text-white/80 text-sm">Character Portrait</p>
+                  </div>
+                  {portraitGallery.length > 1 && (
+                    <div className="text-white/80 text-sm">
+                      {getCurrentImageIndex() + 1} of {portraitGallery.length}
                     </div>
-                  ))}
-                </div>
-                
-                {/* Image counter */}
-                <div className="text-center mt-2">
-                  <span className="text-white/70 text-sm">
-                    {portraitGallery.findIndex(p => p.url === selectedImagePreview) + 1} / {portraitGallery.length}
-                  </span>
+                  )}
                 </div>
               </div>
             </div>
