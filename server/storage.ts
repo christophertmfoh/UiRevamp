@@ -121,7 +121,33 @@ class MemoryStorage implements IStorage {
       }
     });
     
-    const [updatedCharacter] = await db.update(characters).set(character).where(eq(characters.id, id)).returning();
+    // Filter out undefined and empty array fields to prevent PostgreSQL array errors
+    const cleanedCharacter: any = {};
+    const arrayFields = ['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'archetypes', 'tropes', 'tags'];
+    
+    Object.keys(character).forEach(key => {
+      const value = (character as any)[key];
+      
+      if (arrayFields.includes(key)) {
+        // Only include array fields if they have actual content
+        if (Array.isArray(value) && value.length > 0) {
+          cleanedCharacter[key] = value;
+        }
+        // Skip empty arrays to avoid PostgreSQL issues
+      } else if (value !== undefined && value !== null) {
+        cleanedCharacter[key] = value;
+      }
+    });
+    
+    console.log('Cleaned character data for update:', {
+      originalKeys: Object.keys(character),
+      cleanedKeys: Object.keys(cleanedCharacter),
+      skippedArrays: arrayFields.filter(field => 
+        Array.isArray((character as any)[field]) && (character as any)[field].length === 0
+      )
+    });
+    
+    const [updatedCharacter] = await db.update(characters).set(cleanedCharacter).where(eq(characters.id, id)).returning();
     return updatedCharacter || undefined;
   }
 
