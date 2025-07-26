@@ -306,18 +306,32 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setIsGenerating(true);
     
     try {
-      // Create a comprehensive prompt using all template information
-      const templatePrompt = `Create a detailed character based on the ${template.name} archetype. 
-      
-Template Details:
-- Category: ${template.category}
-- Description: ${template.description}
-- Tags: ${template.tags.join(', ')}
+      // Create a comprehensive template-specific prompt
+      const templatePrompt = `TEMPLATE-BASED CHARACTER GENERATION:
 
-Base Template Fields:
-${Object.entries(template.fields).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`).join('\n')}
+Template: ${template.name}
+Category: ${template.category.toUpperCase()}
+Description: ${template.description}
 
-Generate a complete, detailed character that expands on these template foundations while maintaining the core archetype essence.`;
+CORE TEMPLATE FOUNDATION:
+${Object.entries(template.fields)
+  .map(([key, value]) => {
+    if (Array.isArray(value)) {
+      return `${key}: ${value.join(', ')}`;
+    }
+    return `${key}: ${value}`;
+  })
+  .join('\n')}
+
+TEMPLATE ARCHETYPE TAGS: ${template.tags.join(', ')}
+
+SPECIFIC GENERATION REQUIREMENTS:
+- Build upon these template foundations while adding rich detail
+- Maintain the core ${template.name} archetype throughout all character aspects
+- Create a unique individual within this archetype framework
+- Ensure all 164+ character fields are populated with template-appropriate content
+- Generate name, appearance, and backstory that embody the ${template.category} genre
+- Make relationships and motivations consistent with the ${template.name} role`;
 
       const generationOptions = {
         characterType: template.category,

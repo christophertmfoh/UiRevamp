@@ -57,7 +57,13 @@ Your response must be valid JSON in this exact format. Use only regular double q
   "flaws": "Character weaknesses, blind spots, and negative traits that create conflict",
   "secrets": "Hidden aspects, past events, or knowledge they don't want others to discover",
   "skills": "Specific abilities, talents, training, and areas of expertise",
-  "equipment": "Notable possessions, tools, weapons, or gear they carry or own"
+  "equipment": "Notable possessions, tools, weapons, or gear they carry or own",
+  "personalityTraits": "Array of 3-5 core personality traits that define this character",
+  "strengths": "Character's key strengths and positive abilities",
+  "weaknesses": "Character's vulnerabilities and areas of struggle",
+  "physicalDescription": "Complete physical appearance details",
+  "values": "Core beliefs and principles that guide their decisions",
+  "habits": "Daily routines, mannerisms, and behavioral patterns"
 }
 
 IMPORTANT: Ensure all text within quotes is properly escaped. Avoid using quotes within the character descriptions or use single quotes instead. Make sure the JSON is valid and complete.
@@ -169,12 +175,17 @@ ${projectContext}`;
       goals: generatedData.goals || '',
       fears: generatedData.fears || '',
       flaws: generatedData.flaws || '',
-      weaknesses: generatedData.flaws || '', // Also map to weaknesses field
+      weaknesses: generatedData.weaknesses || generatedData.flaws || '', // Use dedicated weaknesses or fallback to flaws
       secrets: generatedData.secrets || '',
       skills: generatedData.skills ? generatedData.skills.split(',').map((s: string) => s.trim()) : [], // Convert string to array
       equipment: generatedData.equipment || '',
-      // Physical appearance fields from description
-      physicalDescription: generatedData.description || '',
+      // Enhanced fields for template-based generation
+      personalityTraits: generatedData.personalityTraits ? 
+        (Array.isArray(generatedData.personalityTraits) ? generatedData.personalityTraits : generatedData.personalityTraits.split(',').map((s: string) => s.trim())) : [],
+      strengths: generatedData.strengths || '',
+      physicalDescription: generatedData.physicalDescription || generatedData.description || '',
+      values: generatedData.values || '',
+      habits: generatedData.habits || '',
       // Ensure required fields are present
       imageUrl: null,
       relationships: '', // String field, not array
@@ -228,7 +239,12 @@ function buildProjectContext(context: CharacterGenerationContext): string {
       contextPrompt += `\nPersonality Traits: ${generationOptions.personality}`;
     }
     if (generationOptions.customPrompt) {
-      contextPrompt += `\nAdditional Requirements: ${generationOptions.customPrompt}`;
+      // Check if this is a template-based generation
+      if (generationOptions.customPrompt.includes('TEMPLATE-BASED CHARACTER GENERATION')) {
+        contextPrompt += `\n\n${generationOptions.customPrompt}`;
+      } else {
+        contextPrompt += `\nAdditional Requirements: ${generationOptions.customPrompt}`;
+      }
     }
   }
 
