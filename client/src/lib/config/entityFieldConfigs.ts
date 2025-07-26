@@ -1,6 +1,6 @@
 /**
  * Entity-Specific Field Configurations
- * Field definitions for all world bible entity types (excluding locations as per user request)
+ * Field definitions for all world bible entity types
  */
 
 import { FieldConfigManager, type UniversalFieldDefinition } from './baseFieldConfig';
@@ -328,7 +328,7 @@ export const ORGANIZATION_FIELDS: UniversalFieldDefinition[] = [
   }
 ];
 
-// COMBINED FIELD EXPORTS (excluding LOCATION_FIELDS as per user request)
+// COMBINED FIELD EXPORTS
 export const ALL_ENTITY_FIELDS: UniversalFieldDefinition[] = [
   ...CHARACTER_FIELDS,
   ...FACTION_FIELDS,

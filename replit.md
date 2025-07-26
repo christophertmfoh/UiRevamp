@@ -204,6 +204,7 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 - Focus on functionality and reliability over verbose explanations
 - Prefers working solutions with proper error handling and fallbacks
 - Does not have OpenAI subscription - use only free/available services
+- Prefers clean code without unnecessary explanatory comments that could complicate future development
 - **DESIGN INSPIRATION NOTED**: Interested in Apple/A24/Neon Studios aesthetic (clean minimalism, sophisticated color palettes, bold typography) while maintaining cozy feel and current colors - implement after character system completion
 
 ## API Keys Configuration
