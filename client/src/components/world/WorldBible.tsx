@@ -96,10 +96,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   // Project update mutation
   const updateProjectMutation = useMutation({
     mutationFn: async (updatedProject: Partial<Project>) => {
-      return apiRequest(`/api/projects/${project.id}`, {
-        method: 'PUT',
-        body: updatedProject,
-      });
+      return apiRequest(`/api/projects/${project.id}`, 'PUT', updatedProject);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', project.id] });

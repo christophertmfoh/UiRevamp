@@ -4,6 +4,7 @@ export interface Project {
   title?: string;
   type: 'novel' | 'screenplay' | 'comic';
   description?: string;
+  synopsis?: string;
   genre?: string | string[];
   tone?: string;
   createdAt: Date;
