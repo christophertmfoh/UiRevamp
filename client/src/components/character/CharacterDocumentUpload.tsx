@@ -247,10 +247,18 @@ export function CharacterDocumentUpload({
           {/* Processing Info */}
           {isParsing && (
             <div className="bg-accent/5 rounded-lg p-4 border border-accent/20">
-              <div className="text-center space-y-2">
-                <div className="text-sm font-medium text-accent">AI Reading Document</div>
+              <div className="text-center space-y-3">
+                <div className="text-sm font-medium text-accent">AI Reading Document & Generating Portrait</div>
                 <div className="text-xs text-muted-foreground max-w-md mx-auto">
-                  Our AI is reading your document and extracting character information to populate all character fields. This may take a moment...
+                  Our AI is reading your document, extracting character information to populate all character fields, and automatically generating a character portrait. This may take a moment...
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 max-w-sm mx-auto">
+                  <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                    <div>• Reading document</div>
+                    <div>• Extracting traits</div>
+                    <div>• Mapping fields</div>
+                    <div>• Creating portrait</div>
+                  </div>
                 </div>
               </div>
             </div>

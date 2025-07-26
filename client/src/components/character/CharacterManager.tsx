@@ -14,6 +14,7 @@ import { CharacterGenerationModal, type CharacterGenerationOptions } from './Cha
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationLaunch } from './CharacterCreationLaunch';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
+import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
 interface CharacterManagerProps {
   projectId: string;
@@ -364,16 +365,19 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
   };
 
-  const handleDocumentParseComplete = async (characterData: any) => {
+  const handleDocumentParseComplete = async (file: File) => {
     try {
-      // Create character from parsed document data
-      const characterFromDocument = {
-        ...characterData,
-        projectId: projectId
-      };
+      setIsGenerating(true);
+      console.log('Starting document import with automatic portrait generation');
       
-      const createdCharacter = await createCharacterMutation.mutateAsync(characterFromDocument);
-      console.log('Document-based character creation completed:', createdCharacter);
+      // Use the comprehensive service for document import with automatic portrait generation
+      const createdCharacter = await CharacterCreationService.completeCharacterCreation(
+        projectId,
+        'document',
+        file
+      );
+      
+      console.log('Document-based character creation completed with portrait:', createdCharacter);
       
       // Navigate to the new character
       setSelectedCharacter(createdCharacter);
@@ -382,6 +386,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       
     } catch (error) {
       console.error('Failed to create character from document:', error);
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -390,142 +396,47 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   };
 
   const handleSelectTemplate = async (template: any) => {
-    // Use AI to generate a comprehensive character based on the template
     setIsGenerating(true);
     
     try {
-      // Create optimized template-specific prompt with hierarchical structure
-      const templatePrompt = `PROFESSIONAL ARCHETYPE DEVELOPMENT - ${template.name.toUpperCase()}
-
-TEMPLATE FOUNDATION (Essential Character DNA):
-Template: ${template.name} | Genre: ${template.category.toUpperCase()} | Archetype Tags: ${template.tags.join(', ')}
-Core Description: ${template.description}
-
-ESTABLISHED TEMPLATE ATTRIBUTES:
-${Object.entries(template.fields)
-  .map(([key, value]) => {
-    if (Array.isArray(value)) {
-      return `• ${key}: ${value.join(', ')}`;
-    }
-    return `• ${key}: ${value}`;
-  })
-  .join('\n')}
-
-COMPREHENSIVE CHARACTER DEVELOPMENT REQUIREMENTS:
-
-NARRATIVE INTEGRATION PRIORITIES:
-1. Core Identity Development - Name, age, background that authentically embodies the ${template.name} archetype
-2. Physical Manifestation - Appearance details that visually represent their life experience and archetype essence  
-3. Psychological Depth - Complex personality with realistic contradictions inherent to ${template.category} genre characters
-4. Skillset & Abilities - Competencies that logically support their archetype role and create story opportunities
-5. Relational Dynamics - Family, allies, enemies that create compelling narrative tension and character growth potential
-6. Story Function Integration - How this ${template.name} serves the broader narrative through conflict, growth, and plot advancement
-
-QUALITY STANDARDS FOR TEMPLATE EXPANSION:
-• Every field must reflect deep understanding of ${template.category} genre conventions
-• Physical traits should tell the story of their life experiences and archetypal journey
-• Personality complexities must create internal conflicts that drive external plot development
-• All relationships should have specific history and emotional stakes relevant to the archetype
-• Background elements must logically connect to present-day motivations and capabilities
-• Name and appearance should immediately convey the ${template.name} essence to readers
-
-CRITICAL EXECUTION REQUIREMENTS:
-- Populate all 164+ character fields with archetype-appropriate, publication-quality content
-- Maintain ${template.name} core identity while adding unique individual characteristics
-- Ensure genre authenticity for ${template.category} reader expectations
-- Create compelling internal contradictions that generate story conflict
-- Build comprehensive backstory that explains current skills, fears, and motivations`;
-
-      const generationOptions = {
-        characterType: template.category,
-        role: template.fields.role || 'Character',
-        customPrompt: templatePrompt,
-        personality: Array.isArray(template.fields.personalityTraits) ? template.fields.personalityTraits.join(', ') : template.fields.personalityTraits || '',
-        archetype: template.fields.archetype || template.name.toLowerCase().replace(/\s+/g, '-')
-      };
-
-      console.log('Generating character from template with options:', generationOptions);
+      console.log('Starting template-based character creation with automatic portrait generation');
       
-      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(generationOptions)
-      });
+      // Use the comprehensive service for template-based creation with automatic portrait generation
+      const createdCharacter = await CharacterCreationService.completeCharacterCreation(
+        projectId,
+        'template',
+        template
+      );
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.details || errorData.error || 'Failed to generate character');
-      }
+      console.log('Template-based character creation completed with portrait:', createdCharacter);
       
-      const generatedCharacter = await response.json();
-      console.log('Generated character from template:', generatedCharacter);
-
-      // Merge template fields with generated character for comprehensive result
-      const characterFromTemplate = {
-        ...generatedCharacter,
-        ...template.fields, // Keep template structure as foundation
-        name: generatedCharacter.name || `New ${template.name}`,
-        projectId: projectId
-      };
-      
-      const createdCharacter = await createCharacterMutation.mutateAsync(characterFromTemplate);
-      console.log('Template-based character creation completed:', createdCharacter);
-      
+      // Navigate to the new character
       setSelectedCharacter(createdCharacter);
       setIsCreating(false);
       setIsTemplateModalOpen(false);
-    } catch (error) {
-      console.error('Failed to generate character from template:', error);
-      // Fallback to basic template creation
-      const characterFromTemplate = {
-        name: `New ${template.name}`,
-        ...template.fields,
-        projectId: projectId
-      };
       
-      setNewCharacterData(characterFromTemplate);
-      setIsCreating(true);
-      setIsTemplateModalOpen(false);
+    } catch (error) {
+      console.error('Failed to create character from template:', error);
+      alert(`Failed to generate template character: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsGenerating(false);
     }
   };
 
-  const handleGenerateCharacter = async (options: CharacterGenerationOptions) => {
-    if (!project) return;
-    
+  const handleGenerate = async (generationOptions: CharacterGenerationOptions) => {
     setIsGenerating(true);
+    
     try {
-      console.log('Starting server-side character generation with options:', options);
+      console.log('Starting custom AI character generation with automatic portrait generation');
       
-      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(options)
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.details || errorData.error || 'Failed to generate character');
-      }
-      
-      const generatedCharacter = await response.json();
-      console.log('Generated character data:', generatedCharacter);
-      
-      const characterToCreate = {
-        ...generatedCharacter,
+      // Use the comprehensive service for custom AI generation with automatic portrait generation
+      const createdCharacter = await CharacterCreationService.completeCharacterCreation(
         projectId,
-        name: generatedCharacter.name || `Generated ${options.characterType || 'Character'}`
-      };
+        'custom',
+        generationOptions
+      );
       
-      console.log('Creating character with data:', characterToCreate);
-      
-      const createdCharacter = await createCharacterMutation.mutateAsync(characterToCreate);
-      console.log('Character creation completed, created character:', createdCharacter);
+      console.log('Custom AI character creation completed with portrait:', createdCharacter);
       
       setSelectedCharacter(createdCharacter);
       setIsCreating(false);

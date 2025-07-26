@@ -693,7 +693,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold text-accent">Generating Character</h3>
                   <p className="text-muted-foreground">
-                    Creating a comprehensive {selectedTemplate?.name} with AI...
+                    Creating comprehensive {selectedTemplate?.name} with automatic portrait
                   </p>
                 </div>
 
@@ -702,12 +702,12 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                     <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Filling {selectedTemplate?.name} template with detailed character information across all fields
+                    Filling {selectedTemplate?.name} template with detailed information and generating portrait automatically
                   </p>
                 </div>
 
                 <div className="bg-muted/50 rounded-lg p-4 w-full">
-                  <h4 className="font-semibold text-sm mb-2">AI is generating:</h4>
+                  <h4 className="font-semibold text-sm mb-2">AI is creating:</h4>
                   <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
                     <div>• Identity details</div>
                     <div>• Physical appearance</div>
@@ -716,7 +716,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                     <div>• Backstory & history</div>
                     <div>• Relationships</div>
                     <div>• Story integration</div>
-                    <div>• Unique characteristics</div>
+                    <div>• Character portrait</div>
                   </div>
                 </div>
               </div>

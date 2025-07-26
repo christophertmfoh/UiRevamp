@@ -382,7 +382,7 @@ export function CharacterGenerationModal({
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-accent">AI Character Generator</h3>
               <p className="text-muted-foreground">
-                Creating a detailed character with artificial intelligence
+                Creating detailed character with automatic portrait generation
               </p>
             </div>
 
@@ -391,8 +391,22 @@ export function CharacterGenerationModal({
                 <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
               </div>
               <p className="text-xs text-muted-foreground">
-                AI is crafting your {characterType || 'character'} with comprehensive details across all character fields
+                AI is crafting your {characterType || 'character'} with comprehensive details and generating a portrait automatically
               </p>
+            </div>
+
+            <div className="bg-muted/50 rounded-lg p-4 w-full">
+              <h4 className="font-semibold text-sm mb-2">AI is creating:</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                <div>• Character identity</div>
+                <div>• Physical appearance</div>
+                <div>• Personality & traits</div>
+                <div>• Character abilities</div>
+                <div>• Background story</div>
+                <div>• Relationships</div>
+                <div>• Story integration</div>
+                <div>• Character portrait</div>
+              </div>
             </div>
           </div>
         </DialogContent>

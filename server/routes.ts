@@ -309,11 +309,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character generation endpoint
+  // Enhanced character generation endpoint with automatic portrait generation
   app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
     try {
       const { projectId } = req.params;
       const { characterType, role, customPrompt, personality, archetype } = req.body;
+      
+      console.log('Starting character generation with automatic portrait creation');
       
       // Get project data
       const project = await storage.getProject(projectId);
@@ -338,6 +340,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
           archetype
         }
       });
+
+      // Generate automatic portrait in background
+      try {
+        console.log('Generating automatic portrait for generated character');
+        const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+        const portraitUrl = await generateCharacterPortrait(generatedCharacter);
+        
+        if (portraitUrl) {
+          console.log('Portrait generated successfully, adding to character data');
+          generatedCharacter.imageUrl = portraitUrl;
+          generatedCharacter.portraits = [{
+            id: `portrait_${Date.now()}`,
+            url: portraitUrl,
+            isMain: true
+          }];
+        } else {
+          console.log('Portrait generation failed, continuing without portrait');
+        }
+      } catch (portraitError) {
+        console.error('Portrait generation failed, but continuing with character creation:', portraitError);
+      }
       
       res.json(generatedCharacter);
     } catch (error: any) {
@@ -349,10 +372,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character data extraction endpoint for importing character sheets
+  // Enhanced character document import endpoint with automatic portrait generation
   app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
     try {
-      console.log('Character extraction request received');
+      console.log('Character extraction request received with automatic portrait generation');
       
       if (!req.file) {
         return res.status(400).json({ error: "No document uploaded" });
@@ -374,9 +397,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Import the document using AI
       const characterData = await importCharacterDocument(req.file.path, req.file.originalname);
       
-      console.log('Document imported successfully:', characterData);
+      console.log('Document imported successfully, now generating portrait');
+
+      // Generate automatic portrait for imported character
+      try {
+        const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+        const portraitUrl = await generateCharacterPortrait(characterData);
+        
+        if (portraitUrl) {
+          console.log('Portrait generated successfully for imported character');
+          characterData.imageUrl = portraitUrl;
+          characterData.portraits = [{
+            id: `portrait_${Date.now()}`,
+            url: portraitUrl,
+            isMain: true
+          }];
+        } else {
+          console.log('Portrait generation failed for imported character');
+        }
+      } catch (portraitError) {
+        console.error('Portrait generation failed for imported character:', portraitError);
+      }
       
-      // Return the extracted character data for frontend to create character
+      // Return the extracted character data with portrait for frontend
       res.json({
         ...characterData,
         projectId: projectId
@@ -386,6 +429,140 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error importing document:", error);
       res.status(500).json({ 
         error: "Failed to import document", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Enhanced template-based character generation endpoint with automatic portrait
+  app.post("/api/projects/:projectId/characters/generate-from-template", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { templateData } = req.body;
+      
+      console.log('Starting template-based character generation with automatic portrait');
+      
+      // Get project data for context
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Get existing characters for context
+      const characters = await storage.getCharacters(projectId);
+      
+      // Generate full character from template using AI enhancement
+      const { generateContextualCharacter } = await import('./characterGeneration');
+      
+      // Create context for AI generation based on template
+      const templatePrompt = `Generate a complete character based on this template: ${templateData.name}. 
+      Template description: ${templateData.description}. 
+      Key traits: ${templateData.traits?.join(', ') || ''}. 
+      Background elements: ${templateData.background || ''}. 
+      Fill out all character fields with rich, detailed content that matches this archetype.`;
+
+      const generatedCharacter = await generateContextualCharacter({
+        project,
+        existingCharacters: characters,
+        generationOptions: {
+          characterType: templateData.category || 'character',
+          role: templateData.role || '',
+          customPrompt: templatePrompt,
+          personality: templateData.traits?.join(', ') || '',
+          archetype: templateData.name || ''
+        }
+      });
+
+      // Merge template data with generated data
+      const enhancedCharacter = {
+        ...generatedCharacter,
+        // Ensure template-specific fields are preserved
+        class: templateData.class || generatedCharacter.class,
+        role: templateData.role || generatedCharacter.role,
+        // Merge personality traits
+        personalityTraits: [
+          ...(templateData.traits || []),
+          ...(generatedCharacter.personalityTraits || [])
+        ].slice(0, 10), // Limit to avoid too many traits
+      };
+
+      // Generate automatic portrait for template character
+      try {
+        console.log('Generating automatic portrait for template character');
+        const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+        const portraitUrl = await generateCharacterPortrait(enhancedCharacter);
+        
+        if (portraitUrl) {
+          console.log('Portrait generated successfully for template character');
+          enhancedCharacter.imageUrl = portraitUrl;
+          enhancedCharacter.portraits = [{
+            id: `portrait_${Date.now()}`,
+            url: portraitUrl,
+            isMain: true
+          }];
+        } else {
+          console.log('Portrait generation failed for template character');
+        }
+      } catch (portraitError) {
+        console.error('Portrait generation failed for template character:', portraitError);
+      }
+      
+      res.json(enhancedCharacter);
+    } catch (error: any) {
+      console.error("Error generating template character:", error);
+      res.status(500).json({ 
+        error: "Failed to generate template character", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Enhanced manual character creation endpoint with automatic portrait generation
+  app.post("/api/projects/:projectId/characters/create-manual", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const characterData = req.body;
+      
+      console.log('Creating manual character with automatic portrait generation');
+      
+      // Validate project exists
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+
+      // Add project ID to character data
+      const characterWithProject = {
+        ...characterData,
+        projectId
+      };
+
+      // Generate automatic portrait for manual character if they have enough data
+      if (characterData.name || characterData.physicalDescription) {
+        try {
+          console.log('Generating automatic portrait for manual character');
+          const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+          const portraitUrl = await generateCharacterPortrait(characterWithProject);
+          
+          if (portraitUrl) {
+            console.log('Portrait generated successfully for manual character');
+            characterWithProject.imageUrl = portraitUrl;
+            characterWithProject.portraits = [{
+              id: `portrait_${Date.now()}`,
+              url: portraitUrl,
+              isMain: true
+            }];
+          }
+        } catch (portraitError) {
+          console.error('Portrait generation failed for manual character:', portraitError);
+        }
+      }
+      
+      res.json(characterWithProject);
+    } catch (error: any) {
+      console.error("Error creating manual character:", error);
+      res.status(500).json({ 
+        error: "Failed to create manual character", 
         details: error.message 
       });
     }
