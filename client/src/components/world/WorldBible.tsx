@@ -26,7 +26,13 @@ import {
   Globe,
   Castle,
   Sword,
-  X
+  X,
+  SortAsc,
+  SortDesc,
+  Filter,
+  Settings,
+  MoreHorizontal,
+  ArrowUpDown
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character/CharacterManager';
@@ -47,6 +53,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const [dragOverCharacterId, setDragOverCharacterId] = useState<string | null>(null);
   const [isEditingSynopsis, setIsEditingSynopsis] = useState(false);
   const [synopsisText, setSynopsisText] = useState(project.synopsis || '');
+  const [featuredSortBy, setFeaturedSortBy] = useState<'name' | 'role' | 'completion' | 'custom'>('custom');
+  const [featuredDisplayMode, setFeaturedDisplayMode] = useState<'grid' | 'list'>('grid');
+  const [maxFeaturedCharacters, setMaxFeaturedCharacters] = useState(6);
   
   const queryClient = useQueryClient();
 
@@ -55,16 +64,45 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
     queryKey: ['/api/projects', project.id, 'characters'],
   });
 
-  // Filter featured characters based on the order
+  // Calculate character completion percentage
+  const calculateCompletion = (character: Character) => {
+    const fields = [
+      character.name, character.role, character.physicalDescription, character.backstory,
+      character.goals, character.motivations, character.fears, character.strengths,
+      character.weaknesses, character.class, character.occupation
+    ];
+    const filledFields = fields.filter(field => field && field.trim().length > 0).length;
+    return Math.round((filledFields / fields.length) * 100);
+  };
+
+  // Filter and sort featured characters
   const featuredCharacters = useMemo(() => {
-    if (featuredCharacterOrder.length === 0) {
-      return characters.slice(0, 6);
+    let sortedChars = [...characters];
+    
+    // Apply sorting
+    switch (featuredSortBy) {
+      case 'name':
+        sortedChars.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+        break;
+      case 'role':
+        sortedChars.sort((a, b) => (a.role || '').localeCompare(b.role || ''));
+        break;
+      case 'completion':
+        sortedChars.sort((a, b) => calculateCompletion(b) - calculateCompletion(a));
+        break;
+      case 'custom':
+        if (featuredCharacterOrder.length > 0) {
+          const orderedChars = featuredCharacterOrder
+            .map(id => characters.find(char => char.id === id))
+            .filter((char): char is Character => char !== undefined);
+          const remainingChars = characters.filter(char => !featuredCharacterOrder.includes(char.id));
+          sortedChars = [...orderedChars, ...remainingChars];
+        }
+        break;
     }
-    return featuredCharacterOrder
-      .map(id => characters.find(char => char.id === id))
-      .filter(Boolean)
-      .slice(0, 6);
-  }, [characters, featuredCharacterOrder]);
+    
+    return sortedChars.slice(0, maxFeaturedCharacters);
+  }, [characters, featuredCharacterOrder, featuredSortBy, maxFeaturedCharacters]);
 
   // Categories for navigation
   const categories = [
@@ -285,84 +323,164 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
             
 
 
-            <Card className="creative-card">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-accent" />
-                  Featured Characters
-                </CardTitle>
-                <CardDescription>
-                  Key characters in your story (drag to reorder)
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {featuredCharacters.map((character) => (
-                    character && <div
-                      key={character.id}
-                      draggable
-                      onDragStart={(e) => handleCharacterDragStart(e, character.id)}
-                      onDragOver={(e) => handleCharacterDragOver(e, character.id)}
-                      onDragLeave={handleCharacterDragLeave}
-                      onDrop={(e) => handleCharacterDrop(e, character.id)}
-                      className={`creative-card p-4 cursor-move transition-all duration-200 ${
-                        draggedCharacterId === character.id 
-                          ? 'scale-105 rotate-3 shadow-lg opacity-80' 
-                          : dragOverCharacterId === character.id 
-                            ? 'scale-102 shadow-md bg-accent/5' 
-                            : 'hover:scale-102 hover:shadow-lg'
-                      }`}
+            <Card className="creative-card h-96">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Users className="h-4 w-4 mr-2 text-accent" />
+                    <CardTitle className="text-base">Featured Characters</CardTitle>
+                    <Badge variant="outline" className="ml-2 text-xs">
+                      {featuredCharacters.length}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setFeaturedSortBy(featuredSortBy === 'name' ? 'custom' : 'name')}
+                      className="h-7 px-2"
                     >
-                      <div className="flex items-center mb-3">
-                        <GripVertical className={`h-4 w-4 mr-2 transition-all duration-200 ${
-                          draggedCharacterId === character.id ? 'text-accent scale-125' : 'text-muted-foreground'
-                        }`} />
-                        <div className="flex-1">
-                          <h4 className={`font-semibold text-sm transition-all duration-200 ${
-                            draggedCharacterId === character.id ? 'text-accent font-bold' : ''
+                      <ArrowUpDown className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setFeaturedDisplayMode(featuredDisplayMode === 'grid' ? 'list' : 'grid')}
+                      className="h-7 px-2"
+                    >
+                      <Settings className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <div className="flex items-center space-x-2">
+                    <span>Sort by:</span>
+                    <select 
+                      value={featuredSortBy} 
+                      onChange={(e) => setFeaturedSortBy(e.target.value as any)}
+                      className="bg-transparent border-none text-xs cursor-pointer"
+                    >
+                      <option value="custom">Custom Order</option>
+                      <option value="name">Name</option>
+                      <option value="role">Role</option>
+                      <option value="completion">Completion</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span>Show:</span>
+                    <select 
+                      value={maxFeaturedCharacters} 
+                      onChange={(e) => setMaxFeaturedCharacters(Number(e.target.value))}
+                      className="bg-transparent border-none text-xs cursor-pointer"
+                    >
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={6}>6</option>
+                      <option value={8}>8</option>
+                    </select>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0 h-full">
+                <ScrollArea className="h-64">
+                  <div className={featuredDisplayMode === 'grid' ? 
+                    "grid grid-cols-2 gap-3" : 
+                    "space-y-2"
+                  }>
+                    {featuredCharacters.map((character) => (
+                      <div
+                        key={character.id}
+                        draggable={featuredSortBy === 'custom'}
+                        onDragStart={(e) => handleCharacterDragStart(e, character.id)}
+                        onDragOver={(e) => handleCharacterDragOver(e, character.id)}
+                        onDragLeave={handleCharacterDragLeave}
+                        onDrop={(e) => handleCharacterDrop(e, character.id)}
+                        onClick={() => setActiveCategory('characters')}
+                        className={`creative-card p-3 transition-all duration-200 ${
+                          featuredDisplayMode === 'list' ? 'flex items-center space-x-3' : ''
+                        } ${
+                          draggedCharacterId === character.id 
+                            ? 'scale-105 shadow-lg opacity-80' 
+                            : dragOverCharacterId === character.id 
+                              ? 'scale-102 shadow-md bg-accent/5' 
+                              : featuredSortBy === 'custom' 
+                                ? 'cursor-move hover:scale-102 hover:shadow-lg'
+                                : 'cursor-pointer hover:scale-102 hover:shadow-md'
+                        }`}
+                      >
+                        {featuredSortBy === 'custom' && (
+                          <GripVertical className={`h-3 w-3 ${
+                            featuredDisplayMode === 'list' ? 'mr-2' : 'mb-2'
+                          } transition-all duration-200 ${
+                            draggedCharacterId === character.id ? 'text-accent scale-125' : 'text-muted-foreground'
+                          }`} />
+                        )}
+                        
+                        {character.displayImageId && (
+                          <div className={`bg-muted rounded-md overflow-hidden ${
+                            featuredDisplayMode === 'list' ? 'w-10 h-10 flex-shrink-0' : 'w-full h-16 mb-2'
                           }`}>
-                            {character.name}
-                          </h4>
+                            <img 
+                              src={String(character.displayImageId)} 
+                              alt={character.name || ''}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        
+                        <div className={featuredDisplayMode === 'list' ? 'flex-1 min-w-0' : ''}>
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium text-sm truncate">
+                              {character.name}
+                            </h4>
+                            <div className="text-xs text-accent font-medium">
+                              {calculateCompletion(character)}%
+                            </div>
+                          </div>
+                          
                           {character.role && (
-                            <p className={`text-xs transition-all duration-200 ${
-                              draggedCharacterId === character.id ? 'text-accent/80' : 'text-muted-foreground'
-                            }`}>
+                            <p className="text-xs text-muted-foreground truncate">
                               {character.role}
+                            </p>
+                          )}
+                          
+                          {featuredDisplayMode === 'grid' && character.physicalDescription && (
+                            <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                              {character.physicalDescription.slice(0, 60)}...
                             </p>
                           )}
                         </div>
                       </div>
-                      {character.displayImageId && (
-                        <div className={`w-full h-24 bg-muted rounded-md mb-2 overflow-hidden transition-all duration-200 ${
-                          draggedCharacterId === character.id ? 'ring-2 ring-accent glow-accent' : ''
-                        }`}>
-                          <img 
-                            src={String(character.displayImageId)} 
-                            alt={character.name || ''}
-                            className={`w-full h-full object-cover transition-all duration-200 ${
-                              draggedCharacterId === character.id ? 'scale-110' : 'hover:scale-105'
-                            }`}
-                          />
-                        </div>
-                      )}
-                      {character.physicalDescription && (
-                        <p className="text-xs text-muted-foreground line-clamp-2">
-                          {character.physicalDescription}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+                
                 {featuredCharacters.length === 0 && (
                   <div className="text-center py-8">
-                    <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground mb-4">No characters created yet</p>
-                    <Button onClick={() => setActiveCategory('characters')} className="interactive-warm">
-                      <Plus className="h-4 w-4 mr-2" />
+                    <Users className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
+                    <p className="text-xs text-muted-foreground mb-3">No characters created yet</p>
+                    <Button 
+                      onClick={() => setActiveCategory('characters')} 
+                      size="sm"
+                      className="interactive-warm"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
                       Create Characters
                     </Button>
                   </div>
                 )}
+                
+                <div className="mt-3 pt-3 border-t">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setActiveCategory('characters')}
+                    className="w-full text-xs"
+                  >
+                    <MoreHorizontal className="h-3 w-3 mr-1" />
+                    Manage All Characters
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
