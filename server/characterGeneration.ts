@@ -315,8 +315,17 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     contextPrompt += `\n\nProject Description: ${project.description}`;
   }
   
+  if (project.synopsis) {
+    contextPrompt += `\nProject Synopsis: ${project.synopsis}`;
+  }
+  
   if (project.genre) {
     contextPrompt += `\nGenre: ${project.genre}`;
+  }
+  
+  if (project.genres && project.genres.length > 0) {
+    contextPrompt += `\nGenres: ${project.genres.join(', ')}`;
+    contextPrompt += `\nIMPORTANT: Ensure the character fits naturally within ${project.genres.join(' and ')} genre conventions while maintaining originality and depth.`;
   }
   
   if (project.type) {
