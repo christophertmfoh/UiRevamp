@@ -32,13 +32,13 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
           <h1 className="text-2xl font-bold">Characters</h1>
         </div>
         <Button 
-          className="interactive-warm hover:scale-105 hover:shadow-lg transition-all duration-300 hover:bg-accent hover:text-accent-foreground"
+          className="interactive-warm hover:scale-105 hover:shadow-lg transition-all duration-300 hover:bg-accent hover:text-accent-foreground group"
           onClick={() => {
             // TODO: Add character creation modal
             console.log('Create character clicked');
           }}
         >
-          <Plus className="h-4 w-4 mr-2 transition-transform group-hover:rotate-90" />
+          <Plus className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:rotate-180" />
           Create Character
         </Button>
       </div>
