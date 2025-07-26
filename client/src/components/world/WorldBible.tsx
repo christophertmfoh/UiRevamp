@@ -30,17 +30,7 @@ import {
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
 
-import { FactionManager } from '../faction';
-import { ItemManager } from '../item';
-
-import { OrganizationManager } from '../organization';
-import { MagicSystemManager } from '../magic-system';
-import { TimelineEventManager } from '../timeline-event';
 import { CreatureManager } from '../creature';
-import { LanguageManager } from '../language';
-import { CultureManager } from '../culture';
-import { ProphecyManager } from '../prophecy';
-import { ThemeManager } from '../theme';
 
 interface WorldBibleProps {
   project: Project;
@@ -62,44 +52,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
     queryKey: ['/api/projects', project.id, 'characters'],
   });
 
-  const { data: factions = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'factions'],
-  });
-
-  const { data: items = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'items'],
-  });
-
-  const { data: organizations = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'organizations'],
-  });
-
-  const { data: magicSystems = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'magic-systems'],
-  });
-
-  const { data: timelineEvents = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'timeline-events'],
-  });
-
   const { data: creatures = [] } = useQuery<any[]>({
     queryKey: ['/api/projects', project.id, 'creatures'],
-  });
-
-  const { data: languages = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'languages'],
-  });
-
-  const { data: cultures = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'cultures'],
-  });
-
-  const { data: prophecies = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'prophecies'],
-  });
-
-  const { data: themes = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'themes'],
   });
 
   // Filter featured characters based on the order
@@ -117,16 +71,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const categories = [
     { id: 'overview', label: 'Overview', icon: Globe, count: 0 },
     { id: 'characters', label: 'Characters', icon: Users, count: characters.length },
-    { id: 'factions', label: 'Factions', icon: Shield, count: factions.length },
-    { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length },
-    { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length },
-    { id: 'magic-systems', label: 'Magic Systems', icon: Sparkles, count: magicSystems.length },
-    { id: 'timeline', label: 'Timeline Events', icon: Clock, count: timelineEvents.length },
     { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length },
-    { id: 'languages', label: 'Languages', icon: Languages, count: languages.length },
-    { id: 'culture', label: 'Cultures', icon: Heart, count: cultures.length },
-    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: prophecies.length },
-    { id: 'themes', label: 'Themes', icon: Sword, count: themes.length }
+
   ];
 
   // Search across all data
@@ -145,24 +91,16 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
       }
     });
 
-    // Search factions
-    factions.forEach(faction => {
-      if (faction.name?.toLowerCase().includes(query) || 
-          faction.description?.toLowerCase().includes(query)) {
-        results.push({ type: 'faction', item: faction });
-      }
-    });
-
-    // Search items
-    items.forEach(item => {
-      if (item.name?.toLowerCase().includes(query) || 
-          item.description?.toLowerCase().includes(query)) {
-        results.push({ type: 'item', item: item });
+    // Search creatures
+    creatures.forEach(creature => {
+      if (creature.name?.toLowerCase().includes(query) || 
+          creature.description?.toLowerCase().includes(query)) {
+        results.push({ type: 'creature', item: creature });
       }
     });
 
     return results;
-  }, [searchQuery, characters, factions, items]);
+  }, [searchQuery, characters, creatures]);
 
   // World overview data
   const worldData = {
@@ -416,35 +354,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
       case 'characters':
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
-      case 'factions':
-        return <FactionManager projectId={project.id} selectedFactionId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'organizations':
-        return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'items':
-        return <ItemManager projectId={project.id} selectedItemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'magic-systems':
-        return <MagicSystemManager projectId={project.id} selectedMagicSystemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'timeline':
-        return <TimelineEventManager projectId={project.id} selectedTimelineEventId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
       case 'bestiary':
         return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'languages':
-        return <LanguageManager projectId={project.id} selectedLanguageId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'culture':
-        return <CultureManager projectId={project.id} selectedCultureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'prophecies':
-        return <ProphecyManager projectId={project.id} selectedProphecyId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'themes':
-        return <ThemeManager projectId={project.id} selectedThemeId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       default:
         return (

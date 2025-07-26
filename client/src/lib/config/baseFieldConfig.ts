@@ -149,16 +149,7 @@ export const DEVELOPMENT_FIELDS: UniversalFieldDefinition[] = [
 // Field sections configuration for different entity types
 export const ENTITY_SECTIONS: Record<string, string[]> = {
   characters: ['identity', 'physical', 'personality', 'background', 'abilities', 'story', 'relationships', 'development', 'meta'],
-  factions: ['identity', 'background', 'story', 'relationships', 'development', 'meta'],
-  items: ['identity', 'physical', 'background', 'story', 'meta'],
   creatures: ['identity', 'physical', 'background', 'abilities', 'story', 'meta'],
-  organizations: ['identity', 'background', 'story', 'relationships', 'development', 'meta'],
-  'magic-systems': ['identity', 'background', 'story', 'meta'],
-  'timeline-events': ['identity', 'background', 'story', 'meta'],
-  languages: ['identity', 'background', 'story', 'meta'],
-  cultures: ['identity', 'background', 'story', 'meta'],
-  prophecies: ['identity', 'background', 'story', 'meta'],
-  themes: ['identity', 'story', 'meta']
 };
 
 // Section display names

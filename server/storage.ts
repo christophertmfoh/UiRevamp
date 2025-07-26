@@ -1,10 +1,7 @@
 import { 
   projects, 
   characters, 
-  factions, 
-  items, 
-  organizations,
-  magicSystems,
+  creatures,
   outlines, 
   proseDocuments, 
   characterRelationships, 
@@ -14,14 +11,8 @@ import {
   type InsertProject,
   type Character,
   type InsertCharacter,
-  type Faction,
-  type InsertFaction,
-  type Item,
-  type InsertItem,
-  type Organization,
-  type InsertOrganization,
-  type MagicSystem,
-  type InsertMagicSystem,
+  type Creature,
+  type InsertCreature,
   type Outline,
   type InsertOutline,
   type ProseDocument,
@@ -51,33 +42,14 @@ export interface IStorage {
   updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined>;
   deleteCharacter(id: string): Promise<boolean>;
 
-  // Faction operations
-  getFactions(projectId: string): Promise<Faction[]>;
-  getFaction(id: string): Promise<Faction | undefined>;
-  createFaction(faction: InsertFaction): Promise<Faction>;
-  updateFaction(id: string, faction: Partial<InsertFaction>): Promise<Faction | undefined>;
-  deleteFaction(id: string): Promise<boolean>;
+  // Creature operations
+  getCreatures(projectId: string): Promise<Creature[]>;
+  getCreature(id: string): Promise<Creature | undefined>;
+  createCreature(creature: InsertCreature): Promise<Creature>;
+  updateCreature(id: string, creature: Partial<InsertCreature>): Promise<Creature | undefined>;
+  deleteCreature(id: string): Promise<boolean>;
 
-  // Item operations
-  getItems(projectId: string): Promise<Item[]>;
-  getItem(id: string): Promise<Item | undefined>;
-  createItem(item: InsertItem): Promise<Item>;
-  updateItem(id: string, item: Partial<InsertItem>): Promise<Item | undefined>;
-  deleteItem(id: string): Promise<boolean>;
 
-  // Organization operations
-  getOrganizations(projectId: string): Promise<Organization[]>;
-  getOrganization(id: string): Promise<Organization | undefined>;
-  createOrganization(organization: InsertOrganization): Promise<Organization>;
-  updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined>;
-  deleteOrganization(id: string): Promise<boolean>;
-
-  // Magic System operations
-  getMagicSystems(projectId: string): Promise<MagicSystem[]>;
-  getMagicSystem(id: string): Promise<MagicSystem | undefined>;
-  createMagicSystem(magicSystem: InsertMagicSystem): Promise<MagicSystem>;
-  updateMagicSystem(id: string, magicSystem: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined>;
-  deleteMagicSystem(id: string): Promise<boolean>;
 
   // Outline operations
   getOutlines(projectId: string): Promise<Outline[]>;
@@ -159,105 +131,32 @@ class MemoryStorage implements IStorage {
     return result.rowCount !== null && result.rowCount > 0;
   }
 
-  // Faction operations
-  async getFactions(projectId: string): Promise<Faction[]> {
-    return await db.select().from(factions).where(eq(factions.projectId, projectId));
+  // Creature operations
+  async getCreatures(projectId: string): Promise<Creature[]> {
+    return await db.select().from(creatures).where(eq(creatures.projectId, projectId));
   }
 
-  async getFaction(id: string): Promise<Faction | undefined> {
-    const [faction] = await db.select().from(factions).where(eq(factions.id, id));
-    return faction || undefined;
+  async getCreature(id: string): Promise<Creature | undefined> {
+    const [creature] = await db.select().from(creatures).where(eq(creatures.id, id));
+    return creature || undefined;
   }
 
-  async createFaction(faction: InsertFaction): Promise<Faction> {
-    const [newFaction] = await db.insert(factions).values(faction).returning();
-    return newFaction;
+  async createCreature(creature: InsertCreature): Promise<Creature> {
+    const [newCreature] = await db.insert(creatures).values(creature).returning();
+    return newCreature;
   }
 
-  async updateFaction(id: string, faction: Partial<InsertFaction>): Promise<Faction | undefined> {
-    const [updatedFaction] = await db.update(factions).set(faction).where(eq(factions.id, id)).returning();
-    return updatedFaction || undefined;
+  async updateCreature(id: string, creature: Partial<InsertCreature>): Promise<Creature | undefined> {
+    const [updatedCreature] = await db.update(creatures).set(creature).where(eq(creatures.id, id)).returning();
+    return updatedCreature || undefined;
   }
 
-  async deleteFaction(id: string): Promise<boolean> {
-    const result = await db.delete(factions).where(eq(factions.id, id));
+  async deleteCreature(id: string): Promise<boolean> {
+    const result = await db.delete(creatures).where(eq(creatures.id, id));
     return result.rowCount !== null && result.rowCount > 0;
   }
 
-  // Item operations
-  async getItems(projectId: string): Promise<Item[]> {
-    return await db.select().from(items).where(eq(items.projectId, projectId));
-  }
 
-  async getItem(id: string): Promise<Item | undefined> {
-    const [item] = await db.select().from(items).where(eq(items.id, id));
-    return item || undefined;
-  }
-
-  async createItem(item: InsertItem): Promise<Item> {
-    const [newItem] = await db.insert(items).values(item).returning();
-    return newItem;
-  }
-
-  async updateItem(id: string, item: Partial<InsertItem>): Promise<Item | undefined> {
-    const [updatedItem] = await db.update(items).set(item).where(eq(items.id, id)).returning();
-    return updatedItem || undefined;
-  }
-
-  async deleteItem(id: string): Promise<boolean> {
-    const result = await db.delete(items).where(eq(items.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
-  }
-
-  // Organization operations
-  async getOrganizations(projectId: string): Promise<Organization[]> {
-    return await db.select().from(organizations).where(eq(organizations.projectId, projectId));
-  }
-
-  async getOrganization(id: string): Promise<Organization | undefined> {
-    const [organization] = await db.select().from(organizations).where(eq(organizations.id, id));
-    return organization || undefined;
-  }
-
-  async createOrganization(organization: InsertOrganization): Promise<Organization> {
-    const [newOrganization] = await db.insert(organizations).values(organization).returning();
-    return newOrganization;
-  }
-
-  async updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined> {
-    const [updatedOrganization] = await db.update(organizations).set(organization).where(eq(organizations.id, id)).returning();
-    return updatedOrganization || undefined;
-  }
-
-  async deleteOrganization(id: string): Promise<boolean> {
-    const result = await db.delete(organizations).where(eq(organizations.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
-  }
-
-  // Magic System operations
-  async getMagicSystems(projectId: string): Promise<MagicSystem[]> {
-    return await db.select().from(magicSystems).where(eq(magicSystems.projectId, projectId));
-  }
-
-  async getMagicSystem(id: string): Promise<MagicSystem | undefined> {
-    const [magicSystem] = await db.select().from(magicSystems).where(eq(magicSystems.id, id));
-    return magicSystem || undefined;
-  }
-
-  async createMagicSystem(magicSystem: InsertMagicSystem): Promise<MagicSystem> {
-    const [newMagicSystem] = await db.insert(magicSystems).values(magicSystem).returning();
-    return newMagicSystem;
-  }
-
-  async updateMagicSystem(id: string, magicSystem: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined> {
-    const [updatedMagicSystem] = await db.update(magicSystems).set(magicSystem).where(eq(magicSystems.id, id)).returning();
-    return updatedMagicSystem || undefined;
-  }
-
-  async deleteMagicSystem(id: string): Promise<boolean> {
-    const result = await db.delete(magicSystems).where(eq(magicSystems.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
-  }
 
   // Outline operations
   async getOutlines(projectId: string): Promise<Outline[]> {

@@ -375,21 +375,7 @@ export const entityTemplates = pgTable("entity_templates", {
 
 
 
-export const timelineEvents = pgTable("timeline_events", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  era: text("era").notNull(),
-  period: text("period").default(''),
-  title: text("title").notNull(),
-  description: text("description").default(''),
-  significance: text("significance").default(''),
-  participants: text("participants").array().default([]),
 
-  consequences: text("consequences").default(''),
-  order: integer("order").notNull(),
-  tags: text("tags").array().default([]),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
 
 export const creatures = pgTable("creatures", {
   id: text("id").primaryKey(),
@@ -409,67 +395,13 @@ export const creatures = pgTable("creatures", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const languages = pgTable("languages", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  name: text("name").notNull(),
-  family: text("family").default(''),
-  speakers: text("speakers").array().default([]),
-  description: text("description").default(''),
-  script: text("script").default(''),
-  grammar: text("grammar").default(''),
-  vocabulary: text("vocabulary").default(''),
-  culturalSignificance: text("cultural_significance").default(''),
-  examples: text("examples").default(''),
-  tags: text("tags").array().default([]),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
 
-export const cultures = pgTable("cultures", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  name: text("name").notNull(),
-  description: text("description").default(''),
-  values: text("values").array().default([]),
-  traditions: text("traditions").default(''),
-  customs: text("customs").default(''),
-  religion: text("religion").default(''),
-  government: text("government").default(''),
-  economy: text("economy").default(''),
-  technology: text("technology").default(''),
-  conflicts: text("conflicts").default(''),
-  tags: text("tags").array().default([]),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
 
-export const prophecies = pgTable("prophecies", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  name: text("name").notNull(),
-  text: text("text").notNull(),
-  origin: text("origin").default(''),
-  interpretation: text("interpretation").default(''),
-  fulfillment: text("fulfillment").default(''),
-  significance: text("significance").default(''),
-  relatedEvents: text("related_events").array().default([]),
-  relatedCharacters: text("related_characters").array().default([]),
-  status: text("status").default(''),
-  tags: text("tags").array().default([]),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
 
-export const themes = pgTable("themes", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  name: text("name").notNull(),
-  description: text("description").default(''),
-  manifestation: text("manifestation").default(''),
-  symbolism: text("symbolism").array().default([]),
-  examples: text("examples").array().default([]),
-  significance: text("significance").default(''),
-  tags: text("tags").array().default([]),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+
+
+
+
 
 export const outlines = pgTable("outlines", {
   id: text("id").primaryKey(),
@@ -504,7 +436,7 @@ export const characterRelationships = pgTable("character_relationships", {
 export const imageAssets = pgTable("image_assets", {
   id: serial("id").primaryKey(),
   url: text("url").notNull(),
-  entityType: text("entity_type", { enum: ['character', 'item'] }).notNull(),
+  entityType: text("entity_type", { enum: ['character'] }).notNull(),
   entityId: text("entity_id").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -520,16 +452,7 @@ export const projectSettings = pgTable("project_settings", {
 // Relations
 export const projectsRelations = relations(projects, ({ many, one }) => ({
   characters: many(characters),
-  factions: many(factions),
-  items: many(items),
-  organizations: many(organizations),
-  magicSystems: many(magicSystems),
-  timelineEvents: many(timelineEvents),
   creatures: many(creatures),
-  languages: many(languages),
-  cultures: many(cultures),
-  prophecies: many(prophecies),
-  themes: many(themes),
   outlines: many(outlines),
   proseDocuments: many(proseDocuments),
   settings: one(projectSettings),
@@ -546,20 +469,7 @@ export const charactersRelations = relations(characters, ({ one, many }) => ({
 
 
 
-export const factionsRelations = relations(factions, ({ one }) => ({
-  project: one(projects, {
-    fields: [factions.projectId],
-    references: [projects.id],
-  }),
-}));
 
-export const itemsRelations = relations(items, ({ one, many }) => ({
-  project: one(projects, {
-    fields: [items.projectId],
-    references: [projects.id],
-  }),
-  imageAssets: many(imageAssets),
-}));
 
 export const outlinesRelations = relations(outlines, ({ one }) => ({
   project: one(projects, {
@@ -587,10 +497,6 @@ export const imageAssetsRelations = relations(imageAssets, ({ one }) => ({
     fields: [imageAssets.entityId],
     references: [characters.id],
   }),
-  item: one(items, {
-    fields: [imageAssets.entityId],
-    references: [items.id],
-  }),
 }));
 
 export const projectSettingsRelations = relations(projectSettings, ({ one }) => ({
@@ -603,16 +509,7 @@ export const projectSettingsRelations = relations(projectSettings, ({ one }) => 
 // Insert schemas
 export const insertProjectSchema = createInsertSchema(projects);
 export const insertCharacterSchema = createInsertSchema(characters);
-export const insertFactionSchema = createInsertSchema(factions);
-export const insertItemSchema = createInsertSchema(items);
-export const insertOrganizationSchema = createInsertSchema(organizations);
-export const insertMagicSystemSchema = createInsertSchema(magicSystems);
-export const insertTimelineEventSchema = createInsertSchema(timelineEvents);
 export const insertCreatureSchema = createInsertSchema(creatures);
-export const insertLanguageSchema = createInsertSchema(languages);
-export const insertCultureSchema = createInsertSchema(cultures);
-export const insertProphecySchema = createInsertSchema(prophecies);
-export const insertThemeSchema = createInsertSchema(themes);
 export const insertOutlineSchema = createInsertSchema(outlines);
 export const insertProseDocumentSchema = createInsertSchema(proseDocuments);
 export const insertCharacterRelationshipSchema = createInsertSchema(characterRelationships);
@@ -624,26 +521,8 @@ export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Character = typeof characters.$inferSelect;
 export type InsertCharacter = z.infer<typeof insertCharacterSchema>;
-export type Faction = typeof factions.$inferSelect;
-export type InsertFaction = z.infer<typeof insertFactionSchema>;
-export type Item = typeof items.$inferSelect;
-export type InsertItem = z.infer<typeof insertItemSchema>;
-export type Organization = typeof organizations.$inferSelect;
-export type InsertOrganization = z.infer<typeof insertOrganizationSchema>;
-export type MagicSystem = typeof magicSystems.$inferSelect;
-export type InsertMagicSystem = z.infer<typeof insertMagicSystemSchema>;
-export type TimelineEvent = typeof timelineEvents.$inferSelect;
-export type InsertTimelineEvent = z.infer<typeof insertTimelineEventSchema>;
 export type Creature = typeof creatures.$inferSelect;
 export type InsertCreature = z.infer<typeof insertCreatureSchema>;
-export type Language = typeof languages.$inferSelect;
-export type InsertLanguage = z.infer<typeof insertLanguageSchema>;
-export type Culture = typeof cultures.$inferSelect;
-export type InsertCulture = z.infer<typeof insertCultureSchema>;
-export type Prophecy = typeof prophecies.$inferSelect;
-export type InsertProphecy = z.infer<typeof insertProphecySchema>;
-export type Theme = typeof themes.$inferSelect;
-export type InsertTheme = z.infer<typeof insertThemeSchema>;
 export type Outline = typeof outlines.$inferSelect;
 export type InsertOutline = z.infer<typeof insertOutlineSchema>;
 export type ProseDocument = typeof proseDocuments.$inferSelect;
@@ -668,5 +547,4 @@ export type EntityTemplate = typeof entityTemplates.$inferSelect;
 export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
 
 // Generic Entity Union Type (for Universal Template System)
-export type AnyEntity = Character | Faction | Item | Organization | 
-  MagicSystem | TimelineEvent | Creature | Language | Culture | Prophecy | Theme;
+export type AnyEntity = Character | Creature;

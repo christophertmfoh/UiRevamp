@@ -4,10 +4,7 @@ import { z } from "zod";
 import { 
   insertProjectSchema, 
   insertCharacterSchema, 
-  insertFactionSchema, 
-  insertItemSchema, 
-  insertOrganizationSchema, 
-  insertMagicSystemSchema,
+  insertCreatureSchema,
   insertOutlineSchema, 
   insertProseDocumentSchema 
 } from "@shared/schema";
@@ -36,10 +33,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Fetch related data
-      const [characters, factions, items, outlines, proseDocuments] = await Promise.all([
+      const [characters, creatures, outlines, proseDocuments] = await Promise.all([
         storage.getCharacters(id),
-        storage.getFactions(id),
-        storage.getItems(id),
+        storage.getCreatures(id),
         storage.getOutlines(id),
         storage.getProseDocuments(id)
       ]);
@@ -82,28 +78,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
           isModelTrained: c.isModelTrained || false,
           tags: c.tags || []
         })),
-        factions: factions.map(f => ({
-          id: f.id,
-          name: f.name,
-          description: f.description || '',
-          goals: f.goals || '',
-          methods: f.methods || '',
-          history: f.history || '',
-          leadership: f.leadership || '',
-          resources: f.resources || '',
-          relationships: f.relationships || '',
-          tags: f.tags || []
-        })),
-        items: items.map(i => ({
-          id: i.id,
-          name: i.name,
-          description: i.description || '',
-          history: i.history || '',
-          powers: i.powers || '',
-          significance: i.significance || '',
-          imageGallery: [], // TODO: Fetch images
-          displayImageId: i.displayImageId,
-          tags: i.tags || []
+        creatures: creatures.map(c => ({
+          id: c.id,
+          name: c.name,
+          description: c.description || '',
+          species: c.species || '',
+          habitat: c.habitat || '',
+          behavior: c.behavior || '',
+          abilities: c.abilities || [],
+          tags: c.tags || []
         })),
         proseDocuments: proseDocuments.map(p => ({
           id: p.id,
@@ -380,299 +363,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Faction image generation endpoint
-  app.post("/api/factions/generate-image", async (req, res) => {
-    try {
-      const { factionPrompt, stylePrompt = "heraldic emblem, clean design, symbol logo", aiEngine = "gemini" } = req.body;
-      
-      if (!factionPrompt) {
-        return res.status(400).json({ error: "Faction prompt is required" });
-      }
 
-      const result = await generateCharacterImage({
-        characterPrompt: factionPrompt,
-        stylePrompt,
-        aiEngine
-      });
-      
-      res.json(result);
-    } catch (error: any) {
-      console.error("Error generating faction image:", error);
-      res.status(500).json({ 
-        error: "Failed to generate image", 
-        details: error.message 
-      });
-    }
-  });
 
-  // Faction routes
-  app.get("/api/projects/:projectId/factions", async (req, res) => {
+
+
+  // Creature routes
+  app.get("/api/projects/:projectId/creatures", async (req, res) => {
     try {
       const { projectId } = req.params;
-      const factions = await storage.getFactions(projectId);
-      res.json(factions);
+      const creatures = await storage.getCreatures(projectId);
+      res.json(creatures);
     } catch (error) {
-      console.error("Error fetching factions:", error);
+      console.error("Error fetching creatures:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
 
-  app.post("/api/projects/:projectId/factions", async (req, res) => {
+  app.post("/api/projects/:projectId/creatures", async (req, res) => {
     try {
       const { projectId } = req.params;
-      const factionData = insertFactionSchema.parse({ 
+      const creatureData = insertCreatureSchema.parse({ 
         ...req.body, 
         projectId,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
       });
 
-      const faction = await storage.createFaction(factionData);
-      res.status(201).json(faction);
+      const creature = await storage.createCreature(creatureData);
+      res.status(201).json(creature);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ error: error.errors });
       }
-      console.error("Error creating faction:", error);
+      console.error("Error creating creature:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
 
-  app.put("/api/factions/:id", async (req, res) => {
+  app.put("/api/creatures/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const factionData = insertFactionSchema.partial().parse(req.body);
-      const faction = await storage.updateFaction(id, factionData);
+      const creatureData = insertCreatureSchema.partial().parse(req.body);
+      const creature = await storage.updateCreature(id, creatureData);
 
-      if (!faction) {
-        return res.status(404).json({ error: "Faction not found" });
+      if (!creature) {
+        return res.status(404).json({ error: "Creature not found" });
       }
 
-      res.json(faction);
+      res.json(creature);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ error: error.errors });
       }
-      console.error("Error updating faction:", error);
+      console.error("Error updating creature:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
 
-  app.delete("/api/factions/:id", async (req, res) => {
+  app.delete("/api/creatures/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const success = await storage.deleteFaction(id);
+      const success = await storage.deleteCreature(id);
 
       if (!success) {
-        return res.status(404).json({ error: "Faction not found" });
+        return res.status(404).json({ error: "Creature not found" });
       }
 
       res.status(204).send();
     } catch (error) {
-      console.error("Error deleting faction:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // Item routes  
-  app.get("/api/projects/:projectId/items", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const items = await storage.getItems(projectId);
-      res.json(items);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/projects/:projectId/items", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const itemData = insertItemSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
-      const item = await storage.createItem(itemData);
-      res.status(201).json(item);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error creating item:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.put("/api/items/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const itemData = insertItemSchema.partial().parse(req.body);
-      const item = await storage.updateItem(id, itemData);
-
-      if (!item) {
-        return res.status(404).json({ error: "Item not found" });
-      }
-
-      res.json(item);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error updating item:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.delete("/api/items/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const success = await storage.deleteItem(id);
-
-      if (!success) {
-        return res.status(404).json({ error: "Item not found" });
-      }
-
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error deleting item:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // Organization routes
-  app.get("/api/projects/:projectId/organizations", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const organizations = await storage.getOrganizations(projectId);
-      res.json(organizations);
-    } catch (error) {
-      console.error("Error fetching organizations:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/projects/:projectId/organizations", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const organizationData = insertOrganizationSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
-      const organization = await storage.createOrganization(organizationData);
-      res.status(201).json(organization);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error creating organization:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.put("/api/organizations/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const organizationData = insertOrganizationSchema.partial().parse(req.body);
-      const organization = await storage.updateOrganization(id, organizationData);
-
-      if (!organization) {
-        return res.status(404).json({ error: "Organization not found" });
-      }
-
-      res.json(organization);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error updating organization:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.delete("/api/organizations/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const success = await storage.deleteOrganization(id);
-
-      if (!success) {
-        return res.status(404).json({ error: "Organization not found" });
-      }
-
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error deleting organization:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // Magic System routes
-  app.get("/api/projects/:projectId/magic-systems", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const magicSystems = await storage.getMagicSystems(projectId);
-      res.json(magicSystems);
-    } catch (error) {
-      console.error("Error fetching magic systems:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/projects/:projectId/magic-systems", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const magicSystemData = insertMagicSystemSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
-      const magicSystem = await storage.createMagicSystem(magicSystemData);
-      res.status(201).json(magicSystem);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error creating magic system:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.put("/api/magic-systems/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const magicSystemData = insertMagicSystemSchema.partial().parse(req.body);
-      const magicSystem = await storage.updateMagicSystem(id, magicSystemData);
-
-      if (!magicSystem) {
-        return res.status(404).json({ error: "Magic system not found" });
-      }
-
-      res.json(magicSystem);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error updating magic system:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.delete("/api/magic-systems/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const success = await storage.deleteMagicSystem(id);
-
-      if (!success) {
-        return res.status(404).json({ error: "Magic system not found" });
-      }
-
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error deleting magic system:", error);
+      console.error("Error deleting creature:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });

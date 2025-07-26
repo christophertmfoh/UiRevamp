@@ -5,12 +5,10 @@ import {
 import { useDebouncedSave } from '../lib/useDebouncedSave';
 import { 
     generateNewCharacter, fleshOutCharacter, generateCharacterImage, 
-    fleshOutItem, generateItemImage, 
-
-    fleshOutFaction, getAICoachFeedback
+    getAICoachFeedback
 } from '../lib/services';
 import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
-import type { Project, SidebarItem, OutlineNode, Character, Faction, CharacterRelationship, Item, GeneratedCharacter, FleshedOutCharacter, ImageAsset, ProseDocument, AICoachFeedback, AICraftConfig, AICraftPreset } from '../lib/types';
+import type { Project, SidebarItem, OutlineNode, Character, CharacterRelationship, GeneratedCharacter, FleshedOutCharacter, ImageAsset, ProseDocument, AICoachFeedback, AICraftConfig, AICraftPreset } from '../lib/types';
 import { readFileContent } from '../lib/utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,8 +39,6 @@ const initialProject: Project = {
   },
   outline: [],
   characters: [],
-  factions: [],
-  items: [],
   proseDocuments: [],
   settings: {
     aiCraftConfig: BUILT_IN_CRAFT_KNOWLEDGE
@@ -76,25 +72,6 @@ const initialSidebarItems: SidebarItem[] = [
         label: 'Characters',
         icon: 'users',
         toolId: 'characters',
-        isVisible: true
-      },
-      {
-
-        icon: 'map-pin',
-        isVisible: true
-      },
-      {
-        id: 'factions',
-        label: 'Factions',
-        icon: 'flag',
-        toolId: 'factions',
-        isVisible: true
-      },
-      {
-        id: 'items',
-        label: 'Items',
-        icon: 'sword',
-        toolId: 'items',
         isVisible: true
       }
     ]
