@@ -20,7 +20,7 @@ interface CharacterManagerProps {
   onClearSelection?: () => void;
 }
 
-type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-completion' | 'by-role' | 'by-race' | 'by-class' | 'protagonists-first' | 'antagonists-first';
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-completion' | 'by-role' | 'by-race' | 'protagonists-first' | 'antagonists-first' | 'by-development-level' | 'by-relationship-count' | 'by-trait-complexity' | 'by-narrative-importance';
 type ViewMode = 'grid' | 'list';
 
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
@@ -134,8 +134,46 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         return [...chars].sort((a, b) => (a.role || 'Character').localeCompare(b.role || 'Character'));
       case 'by-race':
         return [...chars].sort((a, b) => (a.race || 'Unknown').localeCompare(b.race || 'Unknown'));
-      case 'by-class':
-        return [...chars].sort((a, b) => (a.class || 'None').localeCompare(b.class || 'None'));
+      case 'by-development-level':
+        return [...chars].sort((a, b) => {
+          const getDevLevel = (char: Character) => {
+            let score = 0;
+            if (char.background) score += 25;
+            if (char.goals) score += 20;
+            if (char.motivations) score += 20;
+            if (char.personalityTraits?.length) score += 15;
+            if (char.relationships) score += 10;
+            if (char.description) score += 10;
+            return score;
+          };
+          return getDevLevel(b) - getDevLevel(a);
+        });
+      case 'by-relationship-count':
+        return [...chars].sort((a, b) => {
+          const relationshipA = (a.relationships?.split(',').length || 0) + (a.family?.split(',').length || 0);
+          const relationshipB = (b.relationships?.split(',').length || 0) + (b.family?.split(',').length || 0);
+          return relationshipB - relationshipA;
+        });
+      case 'by-trait-complexity':
+        return [...chars].sort((a, b) => {
+          const complexityA = (a.personalityTraits?.length || 0) + (a.abilities?.length || 0) + (a.skills?.length || 0);
+          const complexityB = (b.personalityTraits?.length || 0) + (b.abilities?.length || 0) + (b.skills?.length || 0);
+          return complexityB - complexityA;
+        });
+      case 'by-narrative-importance':
+        return [...chars].sort((a, b) => {
+          const getImportance = (char: Character) => {
+            const role = char.role?.toLowerCase() || '';
+            if (role.includes('protagonist') || role.includes('main')) return 100;
+            if (role.includes('antagonist') || role.includes('villain')) return 90;
+            if (role.includes('deuteragonist') || role.includes('secondary')) return 80;
+            if (role.includes('supporting') || role.includes('ally')) return 70;
+            if (role.includes('mentor') || role.includes('guide')) return 60;
+            if (role.includes('minor') || role.includes('background')) return 30;
+            return 50; // Default for unspecified roles
+          };
+          return getImportance(b) - getImportance(a);
+        });
       case 'by-completion':
         return [...chars].sort((a, b) => getCompletionPercentage(b) - getCompletionPercentage(a)); // Most complete first
       case 'protagonists-first':
@@ -713,10 +751,19 @@ Generate a complete, detailed character that expands on these template foundatio
                 <DropdownMenuItem onClick={() => setSortBy('by-race')}>
                   Race/Species
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('by-class')}>
-                  Class/Profession
+                <DropdownMenuItem onClick={() => setSortBy('by-development-level')}>
+                  Character Development
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-trait-complexity')}>
+                  Trait Complexity
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-relationship-count')}>
+                  Relationship Depth
                 </DropdownMenuItem>
                 <hr className="my-1" />
+                <DropdownMenuItem onClick={() => setSortBy('by-narrative-importance')}>
+                  Narrative Importance
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('protagonists-first')}>
                   Protagonists First
                 </DropdownMenuItem>
