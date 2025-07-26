@@ -103,7 +103,8 @@ export function CharacterGenerationModal({
   const isComplete = characterType && (role || archetype || personality || customPrompt);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
         <DialogHeader className="pb-4 border-b border-border/50 flex-shrink-0">
           <DialogTitle className="flex items-center gap-3">
@@ -367,5 +368,36 @@ export function CharacterGenerationModal({
         </div>
       </DialogContent>
     </Dialog>
+
+    {/* AI Generation Loading Overlay - Same as AI-Enhanced Templates */}
+    {isGenerating && (
+      <Dialog open={true} onOpenChange={() => {}}>
+        <DialogContent className="max-w-md">
+          <div className="flex flex-col items-center text-center space-y-6 py-8">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>
+              <Sparkles className="w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-accent">AI Character Generator</h3>
+              <p className="text-muted-foreground">
+                Creating a detailed character with artificial intelligence
+              </p>
+            </div>
+
+            <div className="w-full space-y-2">
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                AI is crafting your {characterType || 'character'} with comprehensive details across all 164+ character fields
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )}
+    </>
   );
 }

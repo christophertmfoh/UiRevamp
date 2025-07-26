@@ -4,6 +4,15 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 26, 2025 - **CUSTOM AI CHARACTER GENERATION ENHANCED & LOADING SCREEN ADDED**
+✓ **MATCHING FIELD COVERAGE** - Custom AI generation now populates ALL 164+ character fields like AI-Enhanced Templates
+✓ **EXPLICIT FIELD REQUIREMENTS** - Added "ALL 67 character fields" requirement to custom generation prompts
+✓ **ENHANCED JSON PARSING** - 3-attempt progressive cleaning with special handling for Gemini's array formatting
+✓ **PROFESSIONAL LOADING SCREEN** - Added same AI generation loading overlay as AI-Enhanced Templates
+✓ **IMPROVED ERROR HANDLING** - Better debugging messages and structured error recovery
+✓ **JSON RESPONSE OPTIMIZATION** - Using responseMimeType: "application/json" for better structured output
+✓ **UNIFIED USER EXPERIENCE** - Custom and template generation now have identical visual feedback during creation
+
 ### July 26, 2025 - **COMPREHENSIVE CHARACTER DOCUMENT IMPORT SYSTEM COMPLETED**
 ✓ **ADVANCED AI EXTRACTION** - Gemini AI with comprehensive 50+ field mapping across all character categories  
 ✓ **INTELLIGENT FIELD COVERAGE** - Identity (14), Appearance (28), Personality (35), Abilities (11), Background (10), Relationships (8), Meta (9) fields
