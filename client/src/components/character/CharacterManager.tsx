@@ -668,7 +668,7 @@ Generate a complete, detailed character that expands on these template foundatio
                     onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
               <Edit className="h-4 w-4" />
             </Button>
-            <Button size="sm" className="h-10 w-10 p-0 bg-accent/90 hover:bg-accent text-accent-foreground transition-colors rounded-xl shadow-md"
+            <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-accent/10 hover:text-accent transition-colors rounded-xl"
                     onClick={(e) => handlePortraitClick(character, e)}>
               <Camera className="h-4 w-4" />
             </Button>
