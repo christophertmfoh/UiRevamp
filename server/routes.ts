@@ -1080,5 +1080,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  
+  // Set up Vite for React frontend
+  if (process.env.NODE_ENV === "development") {
+    const { setupVite } = await import("./vite.ts");
+    await setupVite(app, httpServer);
+  } else {
+    const { serveStatic } = await import("./vite.ts");
+    serveStatic(app);
+  }
+
+  // Start the server
+  const port = parseInt(process.env.PORT || "5000", 10);
+  httpServer.listen(port, "0.0.0.0", () => {
+    console.log(`🚀 Server running on port ${port}`);
+    console.log(`📱 React Frontend: http://localhost:${port}`);
+    console.log(`🔌 API Endpoints: http://localhost:${port}/api`);
+  });
+  
   return httpServer;
 }
