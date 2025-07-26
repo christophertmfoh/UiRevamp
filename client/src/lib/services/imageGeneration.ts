@@ -28,16 +28,26 @@ export async function generateCharacterPortrait(
   try {
     const prompt = `${stylePrompt}, character: ${characterData.name || 'character'}, ${characterData.physicalDescription || characterData.description || 'detailed character'}`;
     
-    const client = getOpenAIClient();
-    const response = await client.images.generate({
-      model: "dall-e-3",
-      prompt: prompt,
-      n: 1,
-      size: "1024x1024",
-      quality: "standard",
+    console.log('Calling server API for image generation');
+    
+    const response = await fetch('/api/generate-character-image', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        engineType: 'gemini'
+      }),
     });
 
-    return response.data?.[0]?.url || '';
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.details || errorData.error || 'Failed to generate image');
+    }
+
+    const result = await response.json();
+    return result.url || '';
   } catch (error) {
     console.error('Error generating character portrait:', error);
     throw new Error('Failed to generate character portrait');

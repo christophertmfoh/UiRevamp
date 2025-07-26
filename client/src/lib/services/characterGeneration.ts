@@ -49,62 +49,29 @@ interface CharacterGenerationContext {
 }
 
 export async function generateContextualCharacter(
-  context: CharacterGenerationContext
+  projectId: string,
+  generationOptions: CharacterGenerationOptions
 ): Promise<Partial<Character>> {
   try {
-    // Build context from project data
-    const projectContext = buildProjectContext(context);
+    console.log('Calling server API for character generation');
     
-    const client = getGeminiClient();
-    const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
-    
-    const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
+    const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(generationOptions),
+    });
 
-Your response must be valid JSON in this exact format:
-{
-  "name": "Character Name",
-  "role": "protagonist/antagonist/supporting/etc",
-  "race": "human/elf/dwarf/etc",
-  "age": "age or age range",
-  "occupation": "their job or role in society",
-  "physicalDescription": "detailed physical appearance",
-  "personality": "personality traits and quirks",
-  "backstory": "rich background that explains who they are",
-  "motivations": "what drives them",
-  "fears": "what they're afraid of",
-  "secrets": "hidden aspects of their character",
-  "relationships": "connections to other characters or groups",
-  "goals": "what they want to achieve",
-  "flaws": "character weaknesses that create conflict",
-  "skills": "abilities and talents",
-  "equipment": "items they carry or own",
-  "notes": "additional character details"
-}
-
-${projectContext}`;
-
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-    
-    console.log('Gemini response:', text);
-    
-    // Extract JSON from the response (in case there's extra text)
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error('No JSON found in response:', text);
-      throw new Error('No valid JSON found in response');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.details || errorData.error || 'Failed to generate character');
     }
-    
-    const generatedData = JSON.parse(jsonMatch[0]);
-    console.log('Parsed character data:', generatedData);
-    
-    return {
-      ...generatedData,
-      imageUrl: '', // Will be generated separately if needed
-      portraits: []
-    };
 
+    const generatedCharacter = await response.json();
+    console.log('Generated character from server:', generatedCharacter);
+    
+    return generatedCharacter;
   } catch (error) {
     console.error('Error generating contextual character:', error);
     throw new Error('Failed to generate character. Please try again.');

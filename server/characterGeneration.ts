@@ -206,9 +206,6 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     contextPrompt += `\nType: ${project.type}`;
   }
   
-    });
-  }
-  
   if (existingCharacters && existingCharacters.length > 0) {
     contextPrompt += `\n\nExisting Characters in this story:`;
     existingCharacters.slice(0, 5).forEach(character => {

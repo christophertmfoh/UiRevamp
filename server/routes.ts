@@ -159,21 +159,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character image generation
-  app.post("/api/characters/:id/generate-image", async (req, res) => {
+  // Character generation endpoint
+  app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { characterType, role, customPrompt, personality, archetype } = req.body;
+      
+      // Get project data
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Get related data for context
+      const characters = await storage.getCharacters(projectId);
+      
+      // Import the character generation function
+      const { generateContextualCharacter } = await import('./characterGeneration');
+      
+      const generatedCharacter = await generateContextualCharacter({
+        project,
+        existingCharacters: characters,
+        generationOptions: {
+          characterType,
+          role,
+          customPrompt,
+          personality,
+          archetype
+        }
+      });
+      
+      res.json(generatedCharacter);
+    } catch (error: any) {
+      console.error("Error generating character:", error);
+      res.status(500).json({ 
+        error: "Failed to generate character", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Character image generation endpoint
+  app.post("/api/generate-character-image", async (req, res) => {
+    console.log('=== CHARACTER IMAGE GENERATION REQUEST RECEIVED ===');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    
+    try {
+      const { prompt, characterId, engineType = "gemini" } = req.body;
+      
+      if (!prompt) {
+        console.log('Error: No prompt provided');
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+
+      console.log('Generating character image with prompt:', prompt);
+      console.log('Engine type:', engineType);
+
+      const result = await generateCharacterImage({
+        characterPrompt: prompt,
+        stylePrompt: "portrait, high quality, detailed",
+        aiEngine: engineType
+      });
+      
+      console.log('Image generation successful, returning result');
+      
+      // Return result in expected format
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating character image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message || 'Unknown error'
+      });
+    }
+  });
+
+  // Character field enhancement endpoint
+  app.post("/api/characters/:id/enhance-field", async (req, res) => {
     try {
       const { id } = req.params;
-      const character = await storage.getCharacter(id);
+      const { fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
       
+      console.log(`Enhancing field ${fieldKey} for character ${id}`);
+      
+      const character = await storage.getCharacter(id);
       if (!character) {
         return res.status(404).json({ error: "Character not found" });
       }
 
-      const imageUrl = await generateCharacterImage(character);
-      res.json({ imageUrl });
-    } catch (error) {
-      console.error("Error generating character image:", error);
-      res.status(500).json({ error: "Failed to generate image" });
+      console.log(`Retrieved character for field enhancement:`, { id: character.id, name: character.name, race: character.race });
+
+      const { enhanceCharacterField } = await import('./services/aiGeneration');
+      
+      const enhancedField = await enhanceCharacterField(character, fieldKey, fieldLabel, currentValue, fieldOptions);
+      
+      console.log(`Enhanced field result:`, enhancedField);
+      res.json({ enhancedValue: enhancedField });
+    } catch (error: any) {
+      console.error("Error enhancing character field:", error);
+      res.status(500).json({ 
+        error: "Failed to enhance character field", 
+        details: error.message 
+      });
     }
   });
 

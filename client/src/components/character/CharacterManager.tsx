@@ -13,7 +13,6 @@ import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationLaunch } from './CharacterCreationLaunch';
-import { generateContextualCharacter } from '../../lib/services/characterGeneration';
 
 interface CharacterManagerProps {
   projectId: string;
