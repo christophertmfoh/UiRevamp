@@ -36,7 +36,6 @@ import { ItemManager } from '../item';
 import { OrganizationManager } from '../organization';
 import { MagicSystemManager } from '../magic-system';
 import { TimelineEventManager } from '../timeline-event';
-import { CreatureManager } from '../creature';
 import { LanguageManager } from '../language';
 import { CultureManager } from '../culture';
 import { ProphecyManager } from '../prophecy';
@@ -82,7 +81,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
     queryKey: ['/api/projects', project.id, 'timeline-events'],
   });
 
-  const { data: creatures = [] } = useQuery<any[]>({
     queryKey: ['/api/projects', project.id, 'creatures'],
   });
 
@@ -887,7 +885,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
         return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'bestiary':
-        return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'languages':
         return <LanguageManager projectId={project.id} selectedLanguageId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;

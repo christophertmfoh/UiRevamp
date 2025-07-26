@@ -17,7 +17,6 @@ import {
   Crown,
   Languages,
   Heart,
-  Eye,
   Search,
   Plus,
   GripVertical,
@@ -65,8 +64,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const categories = [
     { id: 'overview', label: 'Overview', icon: Globe, count: 0 },
     { id: 'characters', label: 'Characters', icon: Users, count: characters.length },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 0 },
-
   ];
 
   // Search across all data
@@ -341,13 +338,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
 
       case 'characters':
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'bestiary':
-        return (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground">Bestiary functionality has been removed from this character-focused application.</p>
-          </div>
-        );
 
       default:
         return (

@@ -1,7 +1,6 @@
 import { 
   projects, 
   characters, 
-  creatures,
   outlines, 
   proseDocuments, 
   characterRelationships, 
@@ -11,8 +10,6 @@ import {
   type InsertProject,
   type Character,
   type InsertCharacter,
-  type Creature,
-  type InsertCreature,
   type Outline,
   type InsertOutline,
   type ProseDocument,
@@ -41,15 +38,6 @@ export interface IStorage {
   createCharacter(character: InsertCharacter): Promise<Character>;
   updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined>;
   deleteCharacter(id: string): Promise<boolean>;
-
-  // Creature operations
-  getCreatures(projectId: string): Promise<Creature[]>;
-  getCreature(id: string): Promise<Creature | undefined>;
-  createCreature(creature: InsertCreature): Promise<Creature>;
-  updateCreature(id: string, creature: Partial<InsertCreature>): Promise<Creature | undefined>;
-  deleteCreature(id: string): Promise<boolean>;
-
-
 
   // Outline operations
   getOutlines(projectId: string): Promise<Outline[]>;
@@ -130,33 +118,6 @@ class MemoryStorage implements IStorage {
     const result = await db.delete(characters).where(eq(characters.id, id));
     return result.rowCount !== null && result.rowCount > 0;
   }
-
-  // Creature operations
-  async getCreatures(projectId: string): Promise<Creature[]> {
-    return await db.select().from(creatures).where(eq(creatures.projectId, projectId));
-  }
-
-  async getCreature(id: string): Promise<Creature | undefined> {
-    const [creature] = await db.select().from(creatures).where(eq(creatures.id, id));
-    return creature || undefined;
-  }
-
-  async createCreature(creature: InsertCreature): Promise<Creature> {
-    const [newCreature] = await db.insert(creatures).values(creature).returning();
-    return newCreature;
-  }
-
-  async updateCreature(id: string, creature: Partial<InsertCreature>): Promise<Creature | undefined> {
-    const [updatedCreature] = await db.update(creatures).set(creature).where(eq(creatures.id, id)).returning();
-    return updatedCreature || undefined;
-  }
-
-  async deleteCreature(id: string): Promise<boolean> {
-    const result = await db.delete(creatures).where(eq(creatures.id, id));
-    return result.rowCount !== null && result.rowCount > 0;
-  }
-
-
 
   // Outline operations
   async getOutlines(projectId: string): Promise<Outline[]> {

@@ -5,8 +5,7 @@ import { z } from "zod";
 
 // Generic Entity Types for Universal Template System
 export type EntityType = 
-  | 'character' 
-  | 'creature';
+  | 'character';
 
 // Base Entity Interface (shared across all entity types)
 export interface BaseEntity {
@@ -377,23 +376,6 @@ export const entityTemplates = pgTable("entity_templates", {
 
 
 
-export const creatures = pgTable("creatures", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  name: text("name").notNull(),
-  species: text("species").default(''),
-  classification: text("classification").default(''),
-  description: text("description").default(''),
-  habitat: text("habitat").default(''),
-  behavior: text("behavior").default(''),
-  abilities: text("abilities").array().default([]),
-  weaknesses: text("weaknesses").array().default([]),
-  threat: text("threat").default(''),
-  significance: text("significance").default(''),
-  tags: text("tags").array().default([]),
-  displayImageId: integer("display_image_id"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
 
 
 
@@ -452,7 +434,6 @@ export const projectSettings = pgTable("project_settings", {
 // Relations
 export const projectsRelations = relations(projects, ({ many, one }) => ({
   characters: many(characters),
-  creatures: many(creatures),
   outlines: many(outlines),
   proseDocuments: many(proseDocuments),
   settings: one(projectSettings),
@@ -512,7 +493,6 @@ export const insertProjectSchema = createInsertSchema(projects).omit({
   lastModified: true,
 });
 export const insertCharacterSchema = createInsertSchema(characters);
-export const insertCreatureSchema = createInsertSchema(creatures);
 export const insertOutlineSchema = createInsertSchema(outlines);
 export const insertProseDocumentSchema = createInsertSchema(proseDocuments);
 export const insertCharacterRelationshipSchema = createInsertSchema(characterRelationships);
@@ -524,8 +504,6 @@ export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Character = typeof characters.$inferSelect;
 export type InsertCharacter = z.infer<typeof insertCharacterSchema>;
-export type Creature = typeof creatures.$inferSelect;
-export type InsertCreature = z.infer<typeof insertCreatureSchema>;
 export type Outline = typeof outlines.$inferSelect;
 export type InsertOutline = z.infer<typeof insertOutlineSchema>;
 export type ProseDocument = typeof proseDocuments.$inferSelect;
@@ -550,4 +528,3 @@ export type EntityTemplate = typeof entityTemplates.$inferSelect;
 export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
 
 // Generic Entity Union Type (for Universal Template System)
-export type AnyEntity = Character | Creature;
