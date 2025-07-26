@@ -1,0 +1,317 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import { GoogleGenAI } from '@google/genai';
+import mammoth from 'mammoth';
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+
+export interface ParsedCharacterData {
+  // Identity fields
+  name?: string;
+  nicknames?: string[];
+  title?: string;
+  aliases?: string[];
+  age?: string;
+  race?: string;
+  class?: string;
+  profession?: string;
+  role?: string;
+  
+  // Appearance fields
+  physicalDescription?: string;
+  height?: string;
+  build?: string;
+  eyeColor?: string;
+  hairColor?: string;
+  hairStyle?: string;
+  skinTone?: string;
+  distinguishingMarks?: string[];
+  clothingStyle?: string;
+  posture?: string;
+  mannerisms?: string[];
+  voiceDescription?: string;
+  facialFeatures?: string;
+  bodyLanguage?: string;
+  scars?: string[];
+  tattoos?: string[];
+  accessories?: string[];
+  style?: string;
+  
+  // Personality fields
+  personalityOverview?: string;
+  personalityTraits?: string[];
+  temperament?: string;
+  worldview?: string;
+  values?: string[];
+  goals?: string[];
+  motivations?: string[];
+  fears?: string[];
+  desires?: string[];
+  quirks?: string[];
+  habits?: string[];
+  likes?: string[];
+  dislikes?: string[];
+  beliefs?: string[];
+  vices?: string[];
+  
+  // Abilities fields
+  coreAbilities?: string;
+  abilities?: string[];
+  skills?: string[];
+  talents?: string[];
+  specialAbilities?: string[];
+  powers?: string[];
+  strengths?: string[];
+  weaknesses?: string[];
+  training?: string[];
+  
+  // Background fields
+  backstory?: string;
+  childhood?: string;
+  familyHistory?: string;
+  education?: string;
+  formativeEvents?: string[];
+  socialClass?: string;
+  occupation?: string;
+  spokenLanguages?: string[];
+  primaryLanguage?: string;
+  
+  // Relationships fields
+  family?: string[];
+  friends?: string[];
+  allies?: string[];
+  enemies?: string[];
+  rivals?: string[];
+  mentors?: string[];
+  relationships?: string[];
+  socialCircle?: string;
+  
+  // Meta fields
+  storyFunction?: string;
+  personalTheme?: string;
+  symbolism?: string;
+  inspiration?: string;
+  archetypes?: string[];
+  notes?: string;
+  
+  // Other common fields
+  description?: string;
+  background?: string;
+  secrets?: string[];
+  flaws?: string[];
+  characterArc?: string;
+}
+
+export async function parseDocument(filePath: string, fileName: string): Promise<ParsedCharacterData> {
+  let textContent = '';
+  
+  try {
+    // Extract text based on file type
+    if (fileName.toLowerCase().endsWith('.pdf')) {
+      const dataBuffer = fs.readFileSync(filePath);
+      const pdfParse = await import('pdf-parse');
+      const pdfData = await pdfParse.default(dataBuffer);
+      textContent = pdfData.text;
+    } else if (fileName.toLowerCase().endsWith('.docx')) {
+      const result = await mammoth.extractRawText({ path: filePath });
+      textContent = result.value;
+    } else if (fileName.toLowerCase().endsWith('.txt')) {
+      textContent = fs.readFileSync(filePath, 'utf8');
+    } else {
+      throw new Error('Unsupported file type');
+    }
+
+    if (!textContent.trim()) {
+      throw new Error('No text content found in document');
+    }
+
+    console.log('Extracted text content (first 500 chars):', textContent.substring(0, 500));
+
+    // Use AI to parse the character data
+    const characterData = await parseCharacterWithAI(textContent);
+    
+    // Clean up temporary file
+    try {
+      fs.unlinkSync(filePath);
+    } catch (cleanupError) {
+      console.error('Failed to cleanup temp file:', cleanupError);
+    }
+    
+    return characterData;
+    
+  } catch (error) {
+    // Clean up temp file on error
+    try {
+      fs.unlinkSync(filePath);
+    } catch (cleanupError) {
+      console.error('Failed to cleanup temp file on error:', cleanupError);
+    }
+    
+    throw error;
+  }
+}
+
+async function parseCharacterWithAI(textContent: string): Promise<ParsedCharacterData> {
+  const systemPrompt = `You are an expert character analysis AI. Your task is to extract character information from the provided document and organize it into comprehensive character fields.
+
+DOCUMENT ANALYSIS REQUIREMENTS:
+- Read the entire document carefully to identify ALL character information
+- Extract details about the character's identity, appearance, personality, abilities, background, relationships, and story function
+- Convert narrative descriptions into structured field data
+- If information is missing, leave those fields empty (don't invent details)
+- Maintain authenticity to the source material
+- Split complex information appropriately (e.g., personality traits as separate items)
+
+FIELD ORGANIZATION GUIDELINES:
+- Identity: Basic character information (name, age, race, class, profession, role)
+- Appearance: Physical description details (height, build, colors, distinguishing features)
+- Personality: Traits, temperament, values, goals, motivations, fears, quirks, habits
+- Abilities: Skills, talents, powers, strengths, weaknesses, training
+- Background: Backstory, childhood, family history, education, occupation, languages
+- Relationships: Family, friends, allies, enemies, mentors, social connections
+- Meta: Story function, themes, symbolism, archetypes, notes
+
+CRITICAL PARSING INSTRUCTIONS:
+- Arrays should contain individual items, not comma-separated strings
+- Keep descriptions concise but informative
+- Preserve original terminology and names from the document
+- Extract both explicit and implied character information
+- Maintain character voice and authenticity from source
+
+Respond with a comprehensive JSON object containing all extracted character information.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-pro',
+      config: {
+        systemInstruction: systemPrompt,
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'object',
+          properties: {
+            // Identity
+            name: { type: 'string' },
+            nicknames: { type: 'array', items: { type: 'string' } },
+            title: { type: 'string' },
+            aliases: { type: 'array', items: { type: 'string' } },
+            age: { type: 'string' },
+            race: { type: 'string' },
+            class: { type: 'string' },
+            profession: { type: 'string' },
+            role: { type: 'string' },
+            
+            // Appearance
+            physicalDescription: { type: 'string' },
+            height: { type: 'string' },
+            build: { type: 'string' },
+            eyeColor: { type: 'string' },
+            hairColor: { type: 'string' },
+            hairStyle: { type: 'string' },
+            skinTone: { type: 'string' },
+            distinguishingMarks: { type: 'array', items: { type: 'string' } },
+            clothingStyle: { type: 'string' },
+            posture: { type: 'string' },
+            mannerisms: { type: 'array', items: { type: 'string' } },
+            voiceDescription: { type: 'string' },
+            facialFeatures: { type: 'string' },
+            bodyLanguage: { type: 'string' },
+            scars: { type: 'array', items: { type: 'string' } },
+            tattoos: { type: 'array', items: { type: 'string' } },
+            accessories: { type: 'array', items: { type: 'string' } },
+            style: { type: 'string' },
+            
+            // Personality
+            personalityOverview: { type: 'string' },
+            personalityTraits: { type: 'array', items: { type: 'string' } },
+            temperament: { type: 'string' },
+            worldview: { type: 'string' },
+            values: { type: 'array', items: { type: 'string' } },
+            goals: { type: 'array', items: { type: 'string' } },
+            motivations: { type: 'array', items: { type: 'string' } },
+            fears: { type: 'array', items: { type: 'string' } },
+            desires: { type: 'array', items: { type: 'string' } },
+            quirks: { type: 'array', items: { type: 'string' } },
+            habits: { type: 'array', items: { type: 'string' } },
+            likes: { type: 'array', items: { type: 'string' } },
+            dislikes: { type: 'array', items: { type: 'string' } },
+            beliefs: { type: 'array', items: { type: 'string' } },
+            vices: { type: 'array', items: { type: 'string' } },
+            
+            // Abilities
+            coreAbilities: { type: 'string' },
+            abilities: { type: 'array', items: { type: 'string' } },
+            skills: { type: 'array', items: { type: 'string' } },
+            talents: { type: 'array', items: { type: 'string' } },
+            specialAbilities: { type: 'array', items: { type: 'string' } },
+            powers: { type: 'array', items: { type: 'string' } },
+            strengths: { type: 'array', items: { type: 'string' } },
+            weaknesses: { type: 'array', items: { type: 'string' } },
+            training: { type: 'array', items: { type: 'string' } },
+            
+            // Background
+            backstory: { type: 'string' },
+            childhood: { type: 'string' },
+            familyHistory: { type: 'string' },
+            education: { type: 'string' },
+            formativeEvents: { type: 'array', items: { type: 'string' } },
+            socialClass: { type: 'string' },
+            occupation: { type: 'string' },
+            spokenLanguages: { type: 'array', items: { type: 'string' } },
+            primaryLanguage: { type: 'string' },
+            
+            // Relationships
+            family: { type: 'array', items: { type: 'string' } },
+            friends: { type: 'array', items: { type: 'string' } },
+            allies: { type: 'array', items: { type: 'string' } },
+            enemies: { type: 'array', items: { type: 'string' } },
+            rivals: { type: 'array', items: { type: 'string' } },
+            mentors: { type: 'array', items: { type: 'string' } },
+            relationships: { type: 'array', items: { type: 'string' } },
+            socialCircle: { type: 'string' },
+            
+            // Meta
+            storyFunction: { type: 'string' },
+            personalTheme: { type: 'string' },
+            symbolism: { type: 'string' },
+            inspiration: { type: 'string' },
+            archetypes: { type: 'array', items: { type: 'string' } },
+            notes: { type: 'string' },
+            
+            // Legacy fields
+            description: { type: 'string' },
+            background: { type: 'string' },
+            secrets: { type: 'array', items: { type: 'string' } },
+            flaws: { type: 'array', items: { type: 'string' } },
+            characterArc: { type: 'string' }
+          }
+        }
+      },
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: `Please analyze this character document and extract all character information into structured fields:\n\n${textContent}`
+            }
+          ]
+        }
+      ]
+    });
+
+    const rawJson = response.text;
+    console.log('AI parsing response (first 1000 chars):', rawJson?.substring(0, 1000));
+
+    if (!rawJson) {
+      throw new Error('Empty response from AI parser');
+    }
+
+    const characterData: ParsedCharacterData = JSON.parse(rawJson);
+    console.log('Parsed character data:', characterData);
+    
+    return characterData;
+    
+  } catch (error) {
+    console.error('AI parsing error:', error);
+    throw new Error(`Failed to parse character data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}

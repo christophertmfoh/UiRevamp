@@ -13,6 +13,7 @@ import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationLaunch } from './CharacterCreationLaunch';
+import { CharacterDocumentUpload } from './CharacterDocumentUpload';
 
 interface CharacterManagerProps {
   projectId: string;
@@ -39,6 +40,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
   const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
+  const [isDocumentUploadOpen, setIsDocumentUploadOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
   const queryClient = useQueryClient();
 
@@ -301,6 +303,27 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setIsCreating(true);
     setIsGuidedCreation(true);
     setSelectedCharacter(null);
+  };
+
+  const handleDocumentParseComplete = async (characterData: any) => {
+    try {
+      // Create character from parsed document data
+      const characterFromDocument = {
+        ...characterData,
+        projectId: projectId
+      };
+      
+      const createdCharacter = await createCharacterMutation.mutateAsync(characterFromDocument);
+      console.log('Document-based character creation completed:', createdCharacter);
+      
+      // Navigate to the new character
+      setSelectedCharacter(createdCharacter);
+      setIsCreating(false);
+      setIsDocumentUploadOpen(false);
+      
+    } catch (error) {
+      console.error('Failed to create character from document:', error);
+    }
   };
 
   const handleOpenGenerationModal = () => {
@@ -950,6 +973,17 @@ CRITICAL EXECUTION REQUIREMENTS:
           setIsCreationLaunchOpen(false);
           setIsGenerationModalOpen(true);
         }}
+        onOpenDocumentUpload={() => {
+          setIsCreationLaunchOpen(false);
+          setIsDocumentUploadOpen(true);
+        }}
+      />
+
+      <CharacterDocumentUpload
+        isOpen={isDocumentUploadOpen}
+        onClose={() => setIsDocumentUploadOpen(false)}
+        onParseComplete={handleDocumentParseComplete}
+        projectId={projectId}
       />
 
       <CharacterTemplates

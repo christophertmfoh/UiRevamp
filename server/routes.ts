@@ -9,6 +9,31 @@ import {
 } from "@shared/schema";
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
+import { parseDocument } from "./documentParser";
+import multer from "multer";
+import path from "path";
+import { fileTypeFromBuffer } from "file-type";
+
+// Configure multer for file uploads
+const upload = multer({
+  dest: 'uploads/', // Temporary upload directory
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ];
+    
+    if (allowedTypes.includes(file.mimetype) || file.originalname.toLowerCase().endsWith('.txt')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF, DOCX, and TXT files are allowed'));
+    }
+  }
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Project routes
@@ -319,6 +344,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error generating character:", error);
       res.status(500).json({ 
         error: "Failed to generate character", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Document parsing endpoint for character sheet import
+  app.post("/api/characters/parse-document", upload.single('document'), async (req, res) => {
+    try {
+      console.log('Document parsing request received');
+      
+      if (!req.file) {
+        return res.status(400).json({ error: "No document uploaded" });
+      }
+
+      const { projectId } = req.body;
+      if (!projectId) {
+        return res.status(400).json({ error: "Project ID is required" });
+      }
+
+      console.log('Parsing document:', {
+        filename: req.file.originalname,
+        size: req.file.size,
+        mimetype: req.file.mimetype,
+        path: req.file.path,
+        projectId
+      });
+
+      // Parse the document using AI
+      const characterData = await parseDocument(req.file.path, req.file.originalname);
+      
+      console.log('Document parsed successfully:', characterData);
+      
+      // Return the parsed character data for frontend to create character
+      res.json({
+        ...characterData,
+        projectId: projectId
+      });
+      
+    } catch (error: any) {
+      console.error("Error parsing document:", error);
+      res.status(500).json({ 
+        error: "Failed to parse document", 
         details: error.message 
       });
     }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Plus, Sparkles, FileText, User, Zap, Wand2, Brain } from 'lucide-react';
+import { Plus, Sparkles, FileText, User, Zap, Wand2, Brain, Upload } from 'lucide-react';
 
 interface CharacterCreationLaunchProps {
   isOpen: boolean;
@@ -10,6 +10,7 @@ interface CharacterCreationLaunchProps {
   onCreateBlank: () => void;
   onOpenTemplates: () => void;
   onOpenAIGeneration: () => void;
+  onOpenDocumentUpload: () => void;
 }
 
 export function CharacterCreationLaunch({
@@ -17,7 +18,8 @@ export function CharacterCreationLaunch({
   onClose,
   onCreateBlank,
   onOpenTemplates,
-  onOpenAIGeneration
+  onOpenAIGeneration,
+  onOpenDocumentUpload
 }: CharacterCreationLaunchProps) {
   const [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -45,6 +47,14 @@ export function CharacterCreationLaunch({
       icon: Sparkles,
       action: onOpenAIGeneration,
       features: ['Custom prompts and parameters', 'Story-context awareness', 'Portrait generation included']
+    },
+    {
+      id: 'document',
+      title: 'Import Character Sheet',
+      description: 'Upload existing character documents and let AI parse them',
+      icon: Upload,
+      action: onOpenDocumentUpload,
+      features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all 164+ fields']
     }
   ];
 
@@ -75,7 +85,7 @@ export function CharacterCreationLaunch({
         </DialogHeader>
 
         <div className="py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
             {creationOptions.map((option) => {
               const Icon = option.icon;
               const isSelected = selectedOption === option.id;
