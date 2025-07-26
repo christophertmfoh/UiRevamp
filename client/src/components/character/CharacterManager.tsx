@@ -436,12 +436,7 @@ Generate a complete, detailed character that expands on these template foundatio
             </div>
           )}
           
-          {/* Character Type Badge - Top Right Corner */}
-          <div className="absolute top-3 right-3">
-            <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-xs px-3 py-1.5 shadow-lg border-0 rounded-full">
-              Character
-            </Badge>
-          </div>
+
           
           {/* Clean Hover Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -468,6 +463,9 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
                 {character.name}
               </h3>
+              <Badge className="bg-gradient-to-r from-amber-600 to-amber-500 text-white font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
+                Character
+              </Badge>
             </div>
             {character.title && (
               <p className="text-accent/80 text-sm font-medium truncate mb-3">
@@ -566,13 +564,6 @@ Generate a complete, detailed character that expands on these template foundatio
       <CardContent className="p-5 relative">
         {/* Subtle Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-        
-        {/* Character Type Badge - Top Right Corner */}
-        <div className="absolute top-3 right-3">
-          <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-xs px-3 py-1.5 shadow-lg border-0 rounded-full">
-            Character
-          </Badge>
-        </div>
         
         <div className="flex items-center gap-5 relative">
           {/* Premium Avatar */}
