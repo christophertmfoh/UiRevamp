@@ -119,11 +119,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/projects/:projectId/characters", async (req, res) => {
     try {
       const { projectId } = req.params;
-      const validatedData = insertCharacterSchema.parse(req.body);
-      const character = await storage.createCharacter(projectId, validatedData);
+      const characterData = {
+        id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        projectId,
+        name: req.body.name || 'Unnamed Character',
+        ...req.body
+      };
+      console.log('Creating character with data:', characterData);
+      const validatedData = insertCharacterSchema.parse(characterData);
+      const character = await storage.createCharacter(validatedData);
       res.status(201).json(character);
     } catch (error) {
       console.error("Error creating character:", error);
+      console.error("Validation details:", error.issues || error.message);
       res.status(500).json({ error: "Internal server error" });
     }
   });

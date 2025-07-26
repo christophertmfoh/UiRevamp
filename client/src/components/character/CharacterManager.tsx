@@ -31,8 +31,14 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
           <Users className="h-6 w-6 text-accent" />
           <h1 className="text-2xl font-bold">Characters</h1>
         </div>
-        <Button className="interactive-warm">
-          <Plus className="h-4 w-4 mr-2" />
+        <Button 
+          className="interactive-warm hover:scale-105 hover:shadow-lg transition-all duration-300 hover:bg-accent hover:text-accent-foreground"
+          onClick={() => {
+            // TODO: Add character creation modal
+            console.log('Create character clicked');
+          }}
+        >
+          <Plus className="h-4 w-4 mr-2 transition-transform group-hover:rotate-90" />
           Create Character
         </Button>
       </div>
@@ -54,14 +60,14 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredCharacters.map((character) => (
-              <Card key={character.id} className="creative-card hover:shadow-lg transition-shadow">
+              <Card key={character.id} className="creative-card hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-accent/50 cursor-pointer group">
                 <CardContent className="p-4">
-                  <h3 className="font-semibold text-lg mb-2">{character.name || 'Unnamed Character'}</h3>
+                  <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">{character.name || 'Unnamed Character'}</h3>
                   {character.role && (
-                    <p className="text-sm text-muted-foreground mb-2">{character.role}</p>
+                    <p className="text-sm text-muted-foreground mb-2 group-hover:text-accent/80 transition-colors">{character.role}</p>
                   )}
                   {character.physicalDescription && (
-                    <p className="text-xs text-muted-foreground line-clamp-3">
+                    <p className="text-xs text-muted-foreground line-clamp-3 group-hover:text-muted-foreground/90 transition-colors">
                       {character.physicalDescription}
                     </p>
                   )}

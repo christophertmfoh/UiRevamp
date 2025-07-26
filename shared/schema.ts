@@ -487,7 +487,10 @@ export const insertProjectSchema = createInsertSchema(projects).omit({
   createdAt: true,
   lastModified: true,
 });
-export const insertCharacterSchema = createInsertSchema(characters);
+export const insertCharacterSchema = createInsertSchema(characters).omit({
+  createdAt: true,
+  updatedAt: true,
+});
 export const insertOutlineSchema = createInsertSchema(outlines);
 export const insertProseDocumentSchema = createInsertSchema(proseDocuments);
 export const insertCharacterRelationshipSchema = createInsertSchema(characterRelationships);
