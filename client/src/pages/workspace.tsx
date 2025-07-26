@@ -139,7 +139,7 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
           <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
             <PenTool className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold gradient-text">Mythos Weaver</span>
+          <span className="text-xl font-bold gradient-text">Fablecraft</span>
         </div>
       </nav>
 
@@ -154,8 +154,8 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
-            <span className="gradient-text">Weave Worlds</span><br />
-            <span className="text-slate-100">with Words</span>
+            <span className="gradient-text">Craft Your</span><br />
+            <span className="text-slate-100">Fable</span>
           </h1>
           
           {/* Subtitle */}
