@@ -1,19 +1,34 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Plus, Users, Search } from 'lucide-react';
+import { Plus, Users, Search, Grid, List, Eye, Edit, Trash2 } from 'lucide-react';
 import type { Character } from '@/lib/types';
+import { CharacterCreationLaunch } from './CharacterCreationLaunch';
+import { CharacterTemplates } from './CharacterTemplates';
+import { CharacterGenerationModal } from './CharacterGenerationModal';
+import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
+import { apiRequest } from '@/lib/queryClient';
 
 interface CharacterManagerProps {
   projectId: string;
   selectedCharacterId?: string | null;
   onClearSelection: () => void;
+  onSelectCharacter?: (character: Character) => void;
 }
 
-export function CharacterManager({ projectId }: CharacterManagerProps) {
+export function CharacterManager({ projectId, onSelectCharacter }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
+  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
+  const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  
+  const queryClient = useQueryClient();
 
   const { data: characters = [] } = useQuery<Character[]>({
     queryKey: ['/api/projects', projectId, 'characters'],
@@ -24,6 +39,52 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
     character.role?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Character creation handlers
+  const handleCreateNew = async () => {
+    try {
+      const characterData = {
+        name: 'New Character',
+        role: '',
+        description: ''
+      };
+      
+      const newCharacter = await apiRequest('POST', `/api/projects/${projectId}/characters`, characterData);
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      
+      if (onSelectCharacter) {
+        onSelectCharacter(newCharacter);
+      }
+    } catch (error) {
+      console.error('Error creating character:', error);
+    }
+  };
+
+  const handleGenerateCharacter = async (prompt: string) => {
+    setIsGenerating(true);
+    try {
+      // TODO: Implement AI character generation
+      await handleCreateNew();
+    } catch (error) {
+      console.error('Error generating character:', error);
+    } finally {
+      setIsGenerating(false);
+      setIsGenerationModalOpen(false);
+    }
+  };
+
+  const handleSelectTemplate = async (template: any) => {
+    setIsGenerating(true);
+    try {
+      // TODO: Implement template-based character creation
+      await handleCreateNew();
+    } catch (error) {
+      console.error('Error creating character from template:', error);
+    } finally {
+      setIsGenerating(false);
+      setIsTemplateModalOpen(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -33,10 +94,7 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
         </div>
         <Button 
           className="interactive-warm hover:scale-105 hover:shadow-lg transition-all duration-300 hover:bg-accent hover:text-accent-foreground group"
-          onClick={() => {
-            // TODO: Add character creation modal
-            console.log('Create character clicked');
-          }}
+          onClick={() => setIsCreationLaunchOpen(true)}
         >
           <Plus className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:rotate-180" />
           Create Character
@@ -76,13 +134,70 @@ export function CharacterManager({ projectId }: CharacterManagerProps) {
             ))}
           </div>
           {filteredCharacters.length === 0 && (
-            <div className="text-center py-8">
-              <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No characters found</p>
+            <div className="text-center py-12">
+              <Users className="h-16 w-16 mx-auto text-muted-foreground mb-6" />
+              <h3 className="text-lg font-semibold mb-2">No characters yet</h3>
+              <p className="text-muted-foreground mb-6">Start building your character roster</p>
+              <Button 
+                onClick={() => setIsCreationLaunchOpen(true)}
+                className="interactive-warm"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Create Your First Character
+              </Button>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Modals */}
+      <CharacterCreationLaunch
+        isOpen={isCreationLaunchOpen}
+        onClose={() => setIsCreationLaunchOpen(false)}
+        onCreateBlank={() => {
+          setIsCreationLaunchOpen(false);
+          handleCreateNew();
+        }}
+        onOpenTemplates={() => {
+          setIsCreationLaunchOpen(false);
+          setIsTemplateModalOpen(true);
+        }}
+        onOpenAIGeneration={() => {
+          setIsCreationLaunchOpen(false);
+          setIsGenerationModalOpen(true);
+        }}
+      />
+
+      <CharacterTemplates
+        isOpen={isTemplateModalOpen}
+        onClose={() => setIsTemplateModalOpen(false)}
+        onSelectTemplate={handleSelectTemplate}
+        isGenerating={isGenerating}
+      />
+
+      <CharacterGenerationModal
+        isOpen={isGenerationModalOpen}
+        onClose={() => setIsGenerationModalOpen(false)}
+        onGenerate={handleGenerateCharacter}
+        isGenerating={isGenerating}
+      />
+
+      {portraitCharacter && (
+        <CharacterPortraitModal
+          character={portraitCharacter}
+          isOpen={isPortraitModalOpen}
+          onClose={() => {
+            setIsPortraitModalOpen(false);
+            setPortraitCharacter(null);
+          }}
+          onImageGenerated={() => {
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+          }}
+          onImageUploaded={() => {
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+          }}
+        />
+      )}
     </div>
   );
 }
