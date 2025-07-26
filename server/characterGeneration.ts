@@ -126,18 +126,40 @@ QUALITY STANDARDS:
 - All relationships should have specific history and emotional stakes
 - Goals and fears should create clear story potential and character arcs
 
-CRITICAL: Generate publication-quality, specific content for EVERY field above. No generic descriptions, placeholder text, or vague statements. Each response should feel like it came from deep character research. Base all content on template requirements and story context. Ensure all text is properly escaped and JSON is valid.
+CRITICAL REQUIREMENTS:
+1. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)
+2. NO generic descriptions, placeholder text, or vague statements allowed
+3. Each response should feel like it came from deep character research
+4. Base all content on template requirements and story context
+5. Ensure all text is properly escaped and JSON is completely valid
+6. Arrays must be properly formatted with quoted strings: ["item1", "item2", "item3"]
+7. No trailing commas, no unescaped quotes, no incomplete fields
+8. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
+
+RESPONSE FORMAT: Return ONLY valid JSON with no markdown, no explanations, no additional text - just the complete character object with all 67 fields populated.
 
 ${projectContext}`;
 
-    console.log('Server: Sending prompt to Gemini');
-    const result = await model.generateContent(prompt);
+    console.log('Server: Sending prompt to Gemini with enhanced JSON configuration');
+    
+    // Enhanced model configuration for better JSON output
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.7, // Lower temperature for more consistent structure
+        topK: 40,
+        topP: 0.8,
+        maxOutputTokens: 4096, // Increased for full character data
+        responseMimeType: "application/json" // Request JSON format
+      }
+    });
+    
     const response = result.response;
     const text = response.text();
     
     console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
     
-    // Clean and extract JSON from the response
+    // Enhanced JSON cleaning and extraction
     let cleanText = text;
     
     // Remove markdown code blocks if present
@@ -152,10 +174,34 @@ ${projectContext}`;
     
     let jsonString = jsonMatch[0];
     
-    // Fix common JSON issues
+    // Enhanced JSON cleaning for robust parsing
     // Replace smart quotes with regular quotes
     jsonString = jsonString.replace(/[""]/g, '"');
     jsonString = jsonString.replace(/['']/g, "'");
+    
+    // Fix array formatting issues - ensure arrays are properly formatted
+    jsonString = jsonString.replace(/:\s*\[([^\]]*)\]/g, (match, content) => {
+      // Clean up array content
+      const cleanContent = content.replace(/["""]/g, '"').trim();
+      if (cleanContent && !cleanContent.startsWith('"')) {
+        // Split by comma and wrap items in quotes if they aren't already
+        const items = cleanContent.split(',').map(item => {
+          const trimmed = item.trim();
+          if (trimmed && !trimmed.startsWith('"')) {
+            return `"${trimmed.replace(/"/g, '').trim()}"`;
+          }
+          return trimmed;
+        }).filter(item => item);
+        return `: [${items.join(', ')}]`;
+      }
+      return match;
+    });
+    
+    // Fix object key-value formatting issues
+    jsonString = jsonString.replace(/([{,]\s*)([^"}\s][^":]*?)(\s*:)/g, '$1"$2"$3');
+    
+    // Remove trailing commas before closing braces/brackets  
+    jsonString = jsonString.replace(/,\s*([}\]])/g, '$1');
     
     // Fix incomplete JSON by ensuring it ends properly
     if (!jsonString.trim().endsWith('}')) {
@@ -174,10 +220,32 @@ ${projectContext}`;
     console.log('Server: Attempting to parse JSON:', jsonString.substring(0, 200) + '...');
     
     let generatedData;
-    try {
-      generatedData = JSON.parse(jsonString);
-      console.log('Server: Parsed character data successfully');
-    } catch (parseError) {
+    
+    // Multiple parsing attempts with progressive cleaning
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        generatedData = JSON.parse(jsonString);
+        console.log(`Server: Parsed character data successfully on attempt ${attempt}`);
+        break;
+      } catch (parseError) {
+        console.log(`Server: JSON parse attempt ${attempt} failed:`, parseError.message);
+        
+        if (attempt < 3) {
+          // Progressive cleaning for next attempt
+          if (attempt === 1) {
+            // Second attempt: Fix common quote issues more aggressively
+            jsonString = jsonString.replace(/([^\\])"/g, '$1\\"').replace(/^"/, '\\"');
+            jsonString = jsonString.replace(/\\"([^"]*)\\":/g, '"$1":');
+          } else if (attempt === 2) {
+            // Third attempt: Try to fix structural issues
+            jsonString = jsonString.replace(/,(\s*[}\]])/g, '$1');
+            jsonString = jsonString.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+          }
+        }
+      }
+    }
+    
+    if (!generatedData) {
       console.error('Server: JSON parse error:', parseError);
       console.error('Server: Problematic JSON (first 500 chars):', jsonString.substring(0, 500));
       console.error('Server: Problematic JSON (last 500 chars):', jsonString.substring(Math.max(0, jsonString.length - 500)));
