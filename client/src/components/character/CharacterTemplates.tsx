@@ -680,10 +680,10 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
           </Dialog>
         )}
 
-        {/* AI Generation Loading Overlay */}
+        {/* AI Generation Loading Overlay - No X Button */}
         {isGenerating && (
           <Dialog open={true} onOpenChange={() => {}}>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md [&>button]:hidden">
               <div className="flex flex-col items-center text-center space-y-6 py-8">
                 <div className="relative">
                   <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>

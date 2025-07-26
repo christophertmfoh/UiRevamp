@@ -13,7 +13,7 @@ interface LoadingModalProps {
 export function LoadingModal({ isOpen, title = "AI is thinking...", message = "Analyzing your character data and generating contextual details.", onAbort }: LoadingModalProps) {
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md [&>button]:hidden">
         {onAbort && (
           <Button
             variant="ghost"
