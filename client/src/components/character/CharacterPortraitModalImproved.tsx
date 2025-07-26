@@ -283,7 +283,7 @@ export function CharacterPortraitModal({
 
   const handleCancelGeneration = () => {
     if (abortController) {
-      abortController.abort();
+      abortController.abort('User cancelled image generation');
       setAbortController(null);
     }
     setIsGenerating(false);

@@ -71,7 +71,11 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
           responseModalities: [Modality.TEXT, Modality.IMAGE],
         },
       }).catch(error => {
-        // Handle Gemini API errors gracefully
+        // Handle Gemini API errors gracefully - suppress abort errors
+        if (error.name === 'AbortError' || (error.message && error.message.includes('aborted'))) {
+          console.log('Gemini API call aborted by user');
+          throw new Error('Request cancelled by user');
+        }
         console.log('Gemini API error:', error);
         throw error;
       }),
