@@ -124,6 +124,7 @@ class MemoryStorage implements IStorage {
     // Filter out undefined and empty array fields to prevent PostgreSQL array errors
     const cleanedCharacter: any = {};
     const arrayFields = ['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'tropes', 'tags', 'spokenLanguages'];
+    const timestampFields = ['createdAt', 'updatedAt'];
     
     Object.keys(character).forEach(key => {
       const value = (character as any)[key];
@@ -134,6 +135,11 @@ class MemoryStorage implements IStorage {
           cleanedCharacter[key] = value;
         }
         // Skip empty arrays to avoid PostgreSQL issues
+      } else if (timestampFields.includes(key)) {
+        // Convert timestamp strings/numbers to Date objects
+        if (value !== undefined && value !== null) {
+          cleanedCharacter[key] = new Date(value);
+        }
       } else if (value !== undefined && value !== null) {
         cleanedCharacter[key] = value;
       }

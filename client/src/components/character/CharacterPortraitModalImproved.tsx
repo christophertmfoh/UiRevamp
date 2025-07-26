@@ -397,7 +397,7 @@ export function CharacterPortraitModal({
                               onChange={(e) => setStylePrompt(e.target.value)}
                               placeholder="e.g., fantasy art style, medieval clothing, dramatic lighting, portrait painting..."
                               rows={3}
-                              className="mt-2 bg-background/50"
+                              className="mt-2 bg-background/50 text-foreground"
                             />
                           </div>
 
