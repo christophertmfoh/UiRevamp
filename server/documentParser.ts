@@ -108,10 +108,8 @@ export async function importCharacterDocument(filePath: string, fileName: string
   try {
     // Extract text based on file type
     if (fileName.toLowerCase().endsWith('.pdf')) {
-      const dataBuffer = fs.readFileSync(filePath);
-      const pdfParse = await import('pdf-parse');
-      const pdfData = await pdfParse.default(dataBuffer);
-      textContent = pdfData.text;
+      // For now, inform user that PDF extraction needs to be converted first
+      throw new Error('PDF text extraction requires conversion. Please save your PDF as a Word document (.docx) or copy the text to a .txt file for import.');
     } else if (fileName.toLowerCase().endsWith('.docx')) {
       const result = await mammoth.extractRawText({ path: filePath });
       textContent = result.value;
