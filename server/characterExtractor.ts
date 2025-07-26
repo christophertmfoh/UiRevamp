@@ -110,10 +110,20 @@ export async function importCharacterDocument(filePath: string, fileName: string
     if (fileName.toLowerCase().endsWith('.pdf')) {
       try {
         const dataBuffer = fs.readFileSync(filePath);
-        const pdf = await import('pdf-parse');
-        const pdfData = await pdf.default(dataBuffer);
-        textContent = pdfData.text;
-        console.log('PDF extraction successful. Pages:', pdfData.numpages, 'Text length:', textContent.length);
+        const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js');
+        
+        const doc = await pdfjsLib.getDocument(dataBuffer).promise;
+        let fullText = '';
+        
+        for (let i = 1; i <= doc.numPages; i++) {
+          const page = await doc.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items.map((item: any) => item.str).join(' ');
+          fullText += pageText + '\n';
+        }
+        
+        textContent = fullText.trim();
+        console.log('PDF extraction successful. Pages:', doc.numPages, 'Text length:', textContent.length);
       } catch (pdfError) {
         console.error('PDF extraction failed:', pdfError);
         throw new Error('Failed to extract text from PDF. The file may be corrupted, password-protected, or contain only images. Please try converting to Word (.docx) or text (.txt) format.');
