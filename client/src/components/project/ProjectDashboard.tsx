@@ -137,20 +137,13 @@ export function ProjectDashboard({
             </Button>
           </div>
           
-          {/* Cinematic Project Title - Centered */}
+          {/* Fablecraft Logo - Centered */}
           <div className="text-center flex-1">
-            <h1 className="font-title text-4xl text-foreground mb-2 tracking-wide">
-              {project.name}
-            </h1>
             <div className="flex items-center justify-center space-x-3">
-              <Badge variant="outline" className="text-accent border-accent text-sm px-3 py-1">
-                {project.type}
-              </Badge>
-              {project.genre.map((genre: string) => (
-                <Badge key={genre} variant="secondary" className="text-sm px-3 py-1">
-                  {genre}
-                </Badge>
-              ))}
+              <Feather className="h-8 w-8 text-accent" />
+              <h1 className="font-title text-4xl text-foreground tracking-wide">
+                Fablecraft
+              </h1>
             </div>
           </div>
 
