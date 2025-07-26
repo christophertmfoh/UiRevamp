@@ -324,36 +324,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character image generation endpoint
+  // Enhanced character image generation endpoint
   app.post("/api/generate-character-image", async (req, res) => {
-    console.log('=== CHARACTER IMAGE GENERATION REQUEST RECEIVED ===');
+    console.log('=== ENHANCED CHARACTER IMAGE GENERATION REQUEST RECEIVED ===');
     console.log('Request body:', JSON.stringify(req.body, null, 2));
     
     try {
-      const { prompt, characterId, engineType = "gemini" } = req.body;
+      const { prompt, characterId, engineType = "gemini", artStyle, additionalDetails, projectId } = req.body;
       
       if (!prompt) {
         console.log('Error: No prompt provided');
-        return res.status(400).json({ error: "Prompt is required" });
+        return res.status(400).json({ error: "Enhanced prompt is required" });
       }
 
-      console.log('Generating character image with prompt:', prompt);
+      console.log('Generating character image with enhanced prompt system');
+      console.log('Full prompt:', prompt);
+      console.log('Art style:', artStyle);
+      console.log('Additional details:', additionalDetails);
       console.log('Engine type:', engineType);
+
+      // Build enhanced style prompt from components
+      let enhancedStylePrompt = "high quality portrait, detailed artwork, professional illustration";
+      
+      if (artStyle && artStyle.trim()) {
+        enhancedStylePrompt = `${artStyle.trim()}, ${enhancedStylePrompt}`;
+      }
+      
+      if (additionalDetails && additionalDetails.trim()) {
+        enhancedStylePrompt = `${enhancedStylePrompt}, ${additionalDetails.trim()}`;
+      }
+
+      // Add quality enhancement tags
+      enhancedStylePrompt += ", masterpiece, best quality, highly detailed, sharp focus, cinematic lighting, expressive eyes, realistic proportions";
+
+      console.log('Enhanced style prompt:', enhancedStylePrompt);
 
       const result = await generateCharacterImage({
         characterPrompt: prompt,
-        stylePrompt: "portrait, high quality, detailed",
+        stylePrompt: enhancedStylePrompt,
         aiEngine: engineType
       });
       
-      console.log('Image generation successful, returning result');
+      console.log('Enhanced image generation successful, returning result');
       
       // Return result in expected format
       res.json(result);
     } catch (error: any) {
-      console.error("Error generating character image:", error);
+      console.error("Error generating enhanced character image:", error);
       res.status(500).json({ 
-        error: "Failed to generate image", 
+        error: "Failed to generate enhanced image", 
         details: error.message || 'Unknown error'
       });
     }

@@ -29,7 +29,8 @@ export function CharacterPortraitModal({
 }: CharacterPortraitModalProps) {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('generate');
-  const [stylePrompt, setStylePrompt] = useState('');
+  const [artStyle, setArtStyle] = useState('');
+  const [additionalDetails, setAdditionalDetails] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -39,7 +40,68 @@ export function CharacterPortraitModal({
     return Array.isArray(existingPortraits) ? existingPortraits : [];
   });
 
-  // Generate comprehensive AI prompt from character data
+  // Get project context for enhanced prompting
+  const getProjectContext = async () => {
+    try {
+      const response = await fetch(`/api/projects/${character.projectId}`);
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (error) {
+      console.error('Failed to fetch project context:', error);
+    }
+    return null;
+  };
+
+  // Generate enhanced AI prompt from character data, art style, additional details, and project context
+  const generateCharacterPrompt = () => {
+    const characterParts = [];
+    const visualParts = [];
+    
+    // Character Identity & Basic Info
+    if (character.name) characterParts.push(`Character named ${character.name}`);
+    if (character.race) characterParts.push(character.race);
+    if (character.class) characterParts.push(character.class);
+    if (character.age) characterParts.push(`${character.age} years old`);
+    if (character.role) characterParts.push(`story role: ${character.role}`);
+    
+    // Physical Appearance Details
+    if (character.physicalDescription) visualParts.push(character.physicalDescription);
+    if (character.height) visualParts.push(`${character.height} tall`);
+    if (character.build) visualParts.push(`${character.build} build`);
+    if (character.eyeColor) visualParts.push(`${character.eyeColor} eyes`);
+    if (character.hairColor || character.hairStyle) {
+      const hairDesc = [character.hairColor, character.hairStyle].filter(Boolean).join(' ');
+      visualParts.push(`${hairDesc} hair`);
+    }
+    if (character.skinTone) visualParts.push(`${character.skinTone} skin`);
+    if (character.distinguishingMarks) visualParts.push(`distinguishing marks: ${character.distinguishingMarks}`);
+    if (character.clothingStyle) visualParts.push(`clothing style: ${character.clothingStyle}`);
+    if (character.posture) visualParts.push(`posture: ${character.posture}`);
+    
+    // Personality influence on appearance
+    if (character.temperament) visualParts.push(`${character.temperament} temperament`);
+    if (character.personalityTraits && Array.isArray(character.personalityTraits) && character.personalityTraits.length > 0) {
+      visualParts.push(`personality: ${character.personalityTraits.slice(0, 3).join(', ')}`);
+    }
+    
+    // Build comprehensive prompt structure
+    const promptParts = [];
+    
+    // Character description
+    if (characterParts.length > 0) {
+      promptParts.push(characterParts.join(', '));
+    }
+    
+    // Visual details
+    if (visualParts.length > 0) {
+      promptParts.push(visualParts.join(', '));
+    }
+    
+    // The prompt will be enhanced server-side with art style, additional details, and quality tags
+    return promptParts.join('. ');
+  };
+
   // Helper function to save portraits to character
   const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
     try {
@@ -91,31 +153,7 @@ export function CharacterPortraitModal({
     }
   };
 
-  const generateCharacterPrompt = () => {
-    const parts = [];
-    
-    if (character.name) parts.push(`Character named ${character.name}`);
-    if (character.age) parts.push(`${character.age} years old`);
-    if (character.race) parts.push(character.race);
-    if (character.ethnicity) parts.push(character.ethnicity);
-    if (character.build) parts.push(`${character.build} build`);
-    if (character.bodyType) parts.push(`${character.bodyType} body type`);
-    if (character.height) parts.push(`${character.height} tall`);
-    if (character.facialFeatures) parts.push(character.facialFeatures);
-    if (character.eyeColor) parts.push(`${character.eyeColor} eyes`);
-    if (character.hairColor || character.hairStyle) {
-      const hairDesc = [character.hairColor, character.hairStyle].filter(Boolean).join(' ');
-      parts.push(`${hairDesc} hair`);
-    }
-    if (character.skinTone) parts.push(`${character.skinTone} skin`);
-    if (character.attire) parts.push(`wearing ${character.attire}`);
-    if (character.physicalDescription) parts.push(character.physicalDescription);
 
-    const basePrompt = parts.length > 0 ? parts.join(', ') : `Character named ${character.name || 'Character'}`;
-    const styleAddition = stylePrompt ? `, ${stylePrompt}` : '';
-    
-    return `${basePrompt}${styleAddition}, high quality portrait, detailed, professional artwork`;
-  };
 
   const handleGenerateImage = async () => {
     setIsGenerating(true);
@@ -128,6 +166,9 @@ export function CharacterPortraitModal({
         body: JSON.stringify({
           prompt,
           characterId: character.id,
+          projectId: character.projectId,
+          artStyle,
+          additionalDetails,
           engineType: 'gemini'
         })
       });
@@ -388,14 +429,27 @@ export function CharacterPortraitModal({
 
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="style-prompt" className="text-sm font-medium">
-                              Style & Additional Details (Optional)
+                            <Label htmlFor="art-style" className="text-sm font-medium">
+                              Art Style
+                            </Label>
+                            <Input
+                              id="art-style"
+                              value={artStyle}
+                              onChange={(e) => setArtStyle(e.target.value)}
+                              placeholder="e.g., digital art, oil painting, anime style, photorealistic, watercolor..."
+                              className="mt-2 bg-background/50 text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <Label htmlFor="additional-details" className="text-sm font-medium">
+                              Additional Details (Optional)
                             </Label>
                             <Textarea
-                              id="style-prompt"
-                              value={stylePrompt}
-                              onChange={(e) => setStylePrompt(e.target.value)}
-                              placeholder="e.g., fantasy art style, medieval clothing, dramatic lighting, portrait painting..."
+                              id="additional-details"
+                              value={additionalDetails}
+                              onChange={(e) => setAdditionalDetails(e.target.value)}
+                              placeholder="e.g., medieval clothing, dramatic lighting, specific pose, background details..."
                               rows={3}
                               className="mt-2 bg-background/50 text-black dark:text-white"
                             />
@@ -405,9 +459,9 @@ export function CharacterPortraitModal({
                             <Label className="text-xs font-medium text-muted-foreground mb-2 block">
                               Generated Prompt Preview:
                             </Label>
-                            <p className="text-sm font-mono bg-background/60 p-3 rounded border text-muted-foreground leading-relaxed">
+                            <div className="text-sm font-mono bg-background/60 p-3 rounded border text-muted-foreground leading-relaxed max-h-32 overflow-y-auto scrollbar-thin scrollbar-track-muted/20 scrollbar-thumb-accent/60">
                               {generateCharacterPrompt()}
-                            </p>
+                            </div>
                           </div>
 
                           <Button 
