@@ -17,7 +17,8 @@ import {
   Sparkles,
   Globe,
   Target,
-  Palette
+  Palette,
+  PenTool
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -96,7 +97,7 @@ export function LandingPage({
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/50">
       {/* Header */}
       <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
@@ -106,10 +107,10 @@ export function LandingPage({
             
             {/* Center - Brand */}
             <div className="flex items-center justify-center space-x-3">
-              <div className="w-10 h-10 candlelight-glow rounded-xl flex items-center justify-center">
-                <BookOpen className="h-6 w-6" />
+              <div className="w-10 h-10 bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl flex items-center justify-center border border-accent/20">
+                <BookOpen className="h-6 w-6 text-accent" />
               </div>
-              <h1 className="font-display text-3xl text-foreground leading-none">Fablecraft</h1>
+              <h1 className="font-display text-3xl text-foreground leading-none tracking-tight">Fablecraft</h1>
             </div>
             
             {/* Right side - Projects button */}
@@ -117,7 +118,7 @@ export function LandingPage({
               <Button 
                 variant="outline" 
                 onClick={() => onNavigate('projects')}
-                className="creative-card hover:candlelight-glow transition-all duration-300"
+                className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300"
               >
                 Your Projects
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -128,33 +129,83 @@ export function LandingPage({
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="max-w-5xl mx-auto text-center space-y-12">
-          <div className="space-y-8">
-            <div className="flex items-center justify-center space-x-4 mb-8">
-              <div className="w-12 h-12 candlelight-glow rounded-2xl flex items-center justify-center">
-                <Zap className="h-6 w-6" />
+      <section className="container mx-auto px-6 py-32">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center space-y-12">
+            {/* Main Hero */}
+            <div className="space-y-8">
+              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
+                <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-accent">AI-Powered Creative Writing Studio</span>
               </div>
-              <span className="font-display text-2xl text-accent">Craft Your Fable</span>
+              
+              <h1 className="font-display text-6xl md:text-7xl lg:text-8xl text-foreground leading-[0.9] tracking-tight">
+                Craft Stories That
+                <span className="block bg-gradient-to-r from-accent via-accent/80 to-accent/60 bg-clip-text text-transparent">
+                  Captivate Worlds
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
+                Transform fleeting ideas into rich, immersive narratives. Build characters, craft worlds, 
+                and weave tales with AI-powered tools designed for storytellers.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+                <Button 
+                  size="lg"
+                  onClick={() => onNewProject()}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 text-lg font-medium"
+                >
+                  Start Creating
+                  <Sparkles className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="lg"
+                  onClick={() => onNavigate('projects')}
+                  className="text-muted-foreground hover:text-foreground px-8 py-4 text-lg"
+                >
+                  View Examples
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
             </div>
-            
-            <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foreground leading-tight">
-              The Complete
-              <span className="block text-accent">Your Creative Journey</span>
-            </h2>
-            
-            <p className="font-literary text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Transform fleeting ideas into rich, immersive worlds. From initial brainstorming to final production, 
-              Fablecraft guides you through every step of the creative journey with AI-powered tools and 
-              professional storytelling frameworks.
-            </p>
-          </div>
-          
-          {/* Visual Guide Arrows */}
-          <div className="flex justify-center">
-            <div className="flex flex-col items-center space-y-1 animate-bounce">
-              <div className="w-1 h-6 bg-gradient-to-b from-accent to-transparent rounded-full"></div>
-              <div className="w-3 h-3 bg-accent rounded-full"></div>
+
+            {/* Feature Preview Cards */}
+            <div className="grid md:grid-cols-3 gap-8 pt-20">
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-xl flex items-center justify-center mb-6">
+                  <Users className="h-6 w-6 text-blue-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">AI Character Creation</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Generate detailed, nuanced characters with AI assistance. From personality traits to backstories, 
+                  craft memorable personas that drive your narrative.
+                </p>
+              </div>
+
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-xl flex items-center justify-center mb-6">
+                  <Globe className="h-6 w-6 text-purple-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">World Building</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Design immersive worlds with interconnected locations, cultures, and histories. 
+                  Build the foundation for epic adventures.
+                </p>
+              </div>
+
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl flex items-center justify-center mb-6">
+                  <PenTool className="h-6 w-6 text-green-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Story Organization</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Keep your creative vision organized with project-based workflows. 
+                  Track character arcs, plot threads, and world details seamlessly.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -173,36 +224,29 @@ export function LandingPage({
                   <div className="w-16 h-16 candlelight-glow rounded-2xl flex items-center justify-center mx-auto">
                     <Sparkles className="h-8 w-8" />
                   </div>
-                  <h3 className="font-display text-3xl text-foreground">Generate Your Story Idea</h3>
+                  <h3 className="font-display text-3xl text-foreground">Ready to Start Writing?</h3>
                   <p className="text-muted-foreground font-literary text-lg max-w-2xl mx-auto">
-                    Jump-start your creative journey with an AI-generated story concept tailored to your vision
+                    Begin your creative journey with a new project or continue working on existing stories
                   </p>
                 </div>
                 
-                <div className="space-y-6">
-                  <Input
-                    placeholder="Describe your story idea, genre, or theme..."
-                    value={storyIdea}
-                    onChange={(e) => setStoryIdea(e.target.value)}
-                    className="creative-card text-lg py-4 px-6 text-center"
-                  />
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
-                    onClick={handleGenerateStoryIdea}
-                    disabled={!storyIdea.trim() || isGenerating}
+                    onClick={() => onNewProject()}
                     size="lg"
-                    className="candlelight-glow text-xl py-4 px-12"
+                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 text-lg font-medium"
                   >
-                    {isGenerating ? (
-                      <>
-                        <Sparkles className="mr-3 h-6 w-6 animate-spin" />
-                        Weaving Your Story...
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="mr-3 h-6 w-6" />
-                        Generate Story Idea
-                      </>
-                    )}
+                    Create New Project
+                    <Sparkles className="ml-3 h-5 w-5" />
+                  </Button>
+                  <Button 
+                    onClick={() => onNavigate('projects')}
+                    variant="outline"
+                    size="lg"
+                    className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 px-8 py-4 text-lg"
+                  >
+                    View Projects
+                    <ArrowRight className="ml-3 h-5 w-5" />
                   </Button>
                 </div>
               </div>
