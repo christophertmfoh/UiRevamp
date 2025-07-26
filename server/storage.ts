@@ -123,7 +123,14 @@ class MemoryStorage implements IStorage {
     
     // Filter out undefined and empty array fields to prevent PostgreSQL array errors
     const cleanedCharacter: any = {};
-    const arrayFields = ['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'tropes', 'tags', 'spokenLanguages'];
+    const arrayFields = [
+      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'tropes', 'tags', 
+      'spokenLanguages', 'nicknames', 'aliases', 'distinguishingMarks', 'coreAbilities', 
+      'specialAbilities', 'strengths', 'weaknesses', 'values', 'beliefs', 'goals', 
+      'motivations', 'fears', 'desires', 'quirks', 'likes', 'dislikes', 'habits', 
+      'vices', 'mannerisms', 'formativeEvents', 'family', 'friends', 'allies', 
+      'enemies', 'rivals', 'mentors'
+    ];
     const timestampFields = ['createdAt', 'updatedAt'];
     
     Object.keys(character).forEach(key => {

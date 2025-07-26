@@ -109,7 +109,12 @@ export function CharacterUnifiedView({
     // Define all fields that should be arrays according to schema
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
+      'languages', 'archetypes', 'tropes', 'tags', 'nicknames', 'aliases',
+      'distinguishingMarks', 'coreAbilities', 'specialAbilities', 'strengths', 
+      'weaknesses', 'values', 'beliefs', 'goals', 'motivations', 'fears', 
+      'desires', 'quirks', 'likes', 'dislikes', 'habits', 'vices', 'mannerisms',
+      'formativeEvents', 'family', 'friends', 'allies', 'enemies', 'rivals', 
+      'mentors', 'spokenLanguages'
     ];
     
     // Define all fields that should be strings according to schema  

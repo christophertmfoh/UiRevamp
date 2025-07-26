@@ -55,7 +55,14 @@ export function convertArrayFieldsToStrings(character: any): any {
   const convertedCharacter = { ...character };
   
   // List of fields that should be arrays but might come as strings from AI
-  const arrayFields = ['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 'archetypes', 'tropes', 'tags'];
+  const arrayFields = [
+    'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 
+    'archetypes', 'tropes', 'tags', 'nicknames', 'aliases', 'distinguishingMarks', 
+    'coreAbilities', 'specialAbilities', 'strengths', 'weaknesses', 'values', 
+    'beliefs', 'goals', 'motivations', 'fears', 'desires', 'quirks', 'likes', 
+    'dislikes', 'habits', 'vices', 'mannerisms', 'formativeEvents', 'family', 
+    'friends', 'allies', 'enemies', 'rivals', 'mentors', 'spokenLanguages'
+  ];
   
   arrayFields.forEach(field => {
     if (convertedCharacter[field]) {
