@@ -9,6 +9,7 @@ import { CharacterCreationLaunch } from './CharacterCreationLaunch';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterGenerationModal } from './CharacterGenerationModal';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
+import { CharacterDetailView } from './CharacterDetailView';
 import { apiRequest } from '@/lib/queryClient';
 
 interface CharacterManagerProps {
@@ -27,6 +28,9 @@ export function CharacterManager({ projectId, onSelectCharacter }: CharacterMana
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [isDetailViewOpen, setIsDetailViewOpen] = useState(false);
+  const [isGuidedCreation, setIsGuidedCreation] = useState(false);
   
   const queryClient = useQueryClient();
 
@@ -40,23 +44,10 @@ export function CharacterManager({ projectId, onSelectCharacter }: CharacterMana
   );
 
   // Character creation handlers
-  const handleCreateNew = async () => {
-    try {
-      const characterData = {
-        name: 'New Character',
-        role: '',
-        description: ''
-      };
-      
-      const newCharacter = await apiRequest('POST', `/api/projects/${projectId}/characters`, characterData);
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      
-      if (onSelectCharacter) {
-        onSelectCharacter(newCharacter);
-      }
-    } catch (error) {
-      console.error('Error creating character:', error);
-    }
+  const handleCreateNew = () => {
+    setIsGuidedCreation(true);
+    setSelectedCharacter(null);
+    setIsDetailViewOpen(true);
   };
 
   const handleGenerateCharacter = async (prompt: string) => {
@@ -118,7 +109,15 @@ export function CharacterManager({ projectId, onSelectCharacter }: CharacterMana
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredCharacters.map((character) => (
-              <Card key={character.id} className="creative-card hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-accent/50 cursor-pointer group">
+              <Card 
+                key={character.id} 
+                className="creative-card hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-accent/50 cursor-pointer group"
+                onClick={() => {
+                  setSelectedCharacter(character);
+                  setIsGuidedCreation(false);
+                  setIsDetailViewOpen(true);
+                }}
+              >
                 <CardContent className="p-4">
                   <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">{character.name || 'Unnamed Character'}</h3>
                   {character.role && (
@@ -194,6 +193,31 @@ export function CharacterManager({ projectId, onSelectCharacter }: CharacterMana
             queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
           }}
           onImageUploaded={() => {
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+          }}
+        />
+      )}
+
+      {/* Character Detail View */}
+      {isDetailViewOpen && (
+        <CharacterDetailView
+          projectId={projectId}
+          character={selectedCharacter}
+          isCreating={!selectedCharacter}
+          isGuidedCreation={isGuidedCreation}
+          onBack={() => {
+            setIsDetailViewOpen(false);
+            setSelectedCharacter(null);
+            setIsGuidedCreation(false);
+          }}
+          onEdit={(updatedCharacter) => {
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+            setSelectedCharacter(updatedCharacter);
+          }}
+          onDelete={(character) => {
+            // TODO: Implement delete functionality
+            setIsDetailViewOpen(false);
+            setSelectedCharacter(null);
             queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
           }}
         />

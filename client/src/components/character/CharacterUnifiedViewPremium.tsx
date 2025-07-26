@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,12 +10,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character, EntityDetailViewProps } from '@/lib/types';
+import type { Character } from '../../lib/types';
+import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';
+import { FieldAIAssist } from './FieldAIAssist';
 
-interface CharacterUnifiedViewPremiumProps extends Omit<EntityDetailViewProps<Character>, 'entityType' | 'entity'> {
+interface CharacterUnifiedViewPremiumProps {
+  projectId: string;
   character: Character;
+  onBack: () => void;
+  onDelete: (character: Character) => void;
 }
 
 const ICON_COMPONENTS = {
@@ -72,7 +77,7 @@ export function CharacterUnifiedViewPremium({
     const processedData = { ...data };
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'archetypes', 'tropes', 'tags'
+      'languages', 'archetypes', 'tropes', 'tags'
     ];
     
     arrayFields.forEach(field => {
@@ -304,7 +309,7 @@ export function CharacterUnifiedViewPremium({
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground via-accent to-foreground/80 bg-clip-text text-transparent">
                     {formData.name || 'Unnamed Character'}
                   </h1>
-                  <Badge className="bg-accent text-accent-foreground font-medium text-sm px-3 py-1 shadow-lg border-0">
+                  <Badge className="bg-accent/90 text-accent-foreground font-medium text-sm px-3 py-1">
                     {formData.role || 'Character'}
                   </Badge>
                 </div>
@@ -454,6 +459,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -537,6 +543,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -615,6 +622,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -729,6 +737,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -807,6 +816,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -927,6 +937,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -1028,6 +1039,7 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
+                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}

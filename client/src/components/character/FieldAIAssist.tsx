@@ -3,10 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import type { Character } from '../../lib/types';
 
+interface FieldAIAssistProps {
   character: Character;
+  fieldKey: string;
+  fieldLabel: string;
+  currentValue: any;
+  onFieldUpdate: (value: any) => void;
+  disabled?: boolean;
+  fieldOptions?: string[];
 }
 
+export function FieldAIAssist({ 
   character, 
   fieldKey, 
   fieldLabel, 
@@ -14,6 +23,7 @@ import { apiRequest } from '@/lib/queryClient';
   onFieldUpdate, 
   disabled = false,
   fieldOptions
+}: FieldAIAssistProps) {
   const [isEnhancing, setIsEnhancing] = useState(false);
 
   const handleFieldEnhance = async () => {

@@ -9,11 +9,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FieldConfigManager, type UniversalFieldDefinition, type UniversalFieldRendererProps } from '@/lib/config';
+import { FieldAIAssist } from '../FieldAIAssist';
+import { getFieldDefinition, type FieldDefinition } from '@/lib/config/fieldConfig';
 import { Star } from 'lucide-react';
 
-interface FieldRendererProps extends Omit<UniversalFieldRendererProps, 'fieldDefinition'> {
-  // Extends universal props, gets fieldDefinition internally via fieldKey
+interface FieldRendererProps {
+  fieldKey: string;
+  value: any;
+  onChange: (value: any) => void;
+  onEnhance?: (fieldKey: string, fieldLabel: string) => void;
+  isEnhancing?: boolean;
+  error?: string;
+  disabled?: boolean;
+  showPriority?: boolean;
 }
 
 export function FieldRenderer({
@@ -26,7 +34,7 @@ export function FieldRenderer({
   disabled = false,
   showPriority = false
 }: FieldRendererProps) {
-  const fieldDef = FieldConfigManager.getField(fieldKey);
+  const fieldDef = getFieldDefinition(fieldKey);
   
   if (!fieldDef) {
     console.warn(`No field definition found for: ${fieldKey}`);
@@ -62,6 +70,7 @@ export function FieldRenderer({
       </div>
       
       {onEnhance && fieldDef.type !== 'select' && (
+        <FieldAIAssist
           fieldKey={fieldKey}
           fieldLabel={fieldDef.label}
           onEnhance={onEnhance}

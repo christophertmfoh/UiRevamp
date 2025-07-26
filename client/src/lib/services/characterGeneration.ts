@@ -43,7 +43,7 @@ interface CharacterGenerationOptions {
 
 interface CharacterGenerationContext {
   project: Project;
-  
+  locations: any[];
   existingCharacters: Character[];
   generationOptions?: CharacterGenerationOptions;
 }
@@ -112,7 +112,7 @@ ${projectContext}`;
 }
 
 function buildProjectContext(context: CharacterGenerationContext): string {
-  const { project, 
+  const { project, locations, existingCharacters, generationOptions } = context;
   
   let contextPrompt = `Create a character for the story project: "${project.title || project.name}"`;
   
@@ -129,9 +129,10 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     contextPrompt += `\nProject Description: ${project.description}`;
   }
   
-  if (
-    
-      contextPrompt += `\n- ${
+  if (locations.length > 0) {
+    contextPrompt += `\n\nKey Locations in this world:`;
+    locations.slice(0, 5).forEach(location => {
+      contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location in the story'}`;
     });
   }
   

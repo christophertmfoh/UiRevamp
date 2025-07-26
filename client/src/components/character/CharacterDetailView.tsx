@@ -3,6 +3,7 @@ import type { Character } from '../../lib/types';
 import { CharacterUnifiedViewPremium } from './CharacterUnifiedViewPremium';
 import { CharacterGuidedCreation } from './CharacterGuidedCreation';
 
+interface CharacterDetailViewProps {
   projectId: string;
   character: Character | null;
   isCreating?: boolean;
@@ -12,13 +13,15 @@ import { CharacterGuidedCreation } from './CharacterGuidedCreation';
   onDelete: (character: Character) => void;
 }
 
+export function CharacterDetailView({
   projectId, 
   character, 
   isCreating = false,
   isGuidedCreation = false,
   onBack, 
   onEdit, 
-  onDelete 
+  onDelete
+}: CharacterDetailViewProps) { 
   const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation);
   
   // If we're doing guided creation, show the guided flow
@@ -37,22 +40,26 @@ import { CharacterGuidedCreation } from './CharacterGuidedCreation';
     );
   }
 
-  // If we're creating with existing data, show the form
+  // If we're creating with existing data, show the unified view
   if (isCreating || !character) {
     return (
+      <CharacterUnifiedViewPremium
         projectId={projectId}
-        character={character || undefined}
-        onCancel={onBack}
+        character={null}
+        onBack={onBack}
+        onDelete={() => {}}
       />
     );
   }
 
-  // If we're editing an existing character, show the form
+  // If we're editing an existing character, show the unified view
   if (isEditing) {
     return (
+      <CharacterUnifiedViewPremium
         projectId={projectId}
         character={character}
-        onCancel={() => setIsEditing(false)}
+        onBack={() => setIsEditing(false)}
+        onDelete={onDelete}
       />
     );
   }
