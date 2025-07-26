@@ -23,6 +23,13 @@ export const ARRAY_FIELDS = [
   'mentors', 'archetypes'
 ];
 
+// Fields that commonly get corrupted with JSON-stringified objects
+export const PROBLEMATIC_ARRAY_FIELDS = [
+  'values', 'motivations', 'goals', 'fears', 'desires', 'strengths', 
+  'weaknesses', 'formativeEvents', 'family', 'archetypes', 'beliefs',
+  'quirks', 'dislikes', 'habits', 'vices', 'mannerisms'
+];
+
 /**
  * Processes data BEFORE saving to database to ensure arrays are handled correctly
  */
