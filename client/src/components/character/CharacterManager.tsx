@@ -109,54 +109,50 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
 
   // Calculate character completion percentage based on all editor fields
   const getCompletionPercentage = (character: Character): number => {
-    // Define all character fields organized by category (matching the editor tabs)
+    if (!character) return 0;
+    
+    // Define all character fields organized by category (matching the actual character schema)
     const identityFields = [
-      'name', 'nicknames', 'title', 'aliases', 'race', 'species', 'ethnicity', 
-      'class', 'profession', 'occupation', 'age', 'birthdate', 'zodiacSign', 'role'
+      'name', 'nicknames', 'title', 'aliases', 'race', 'class', 'age', 'role',
+      'gender', 'profession', 'occupation', 'birthdate', 'zodiacSign'
     ];
     
     const appearanceFields = [
-      'physicalDescription', 'height', 'weight', 'build', 'bodyType', 'facialFeatures',
-      'eyes', 'eyeColor', 'hair', 'hairColor', 'hairStyle', 'facialHair', 'skin',
-      'skinTone', 'complexion', 'scars', 'tattoos', 'piercings', 'birthmarks',
-      'distinguishingMarks', 'attire', 'clothingStyle', 'accessories', 'posture',
+      'physicalDescription', 'height', 'weight', 'build', 'eyeColor', 'hairColor', 
+      'hairStyle', 'skinTone', 'distinguishingMarks', 'clothingStyle', 'posture',
       'gait', 'gestures', 'mannerisms', 'imageUrl'
     ];
     
     const personalityFields = [
-      'personality', 'personalityTraits', 'temperament', 'disposition', 'worldview',
-      'beliefs', 'values', 'principles', 'morals', 'ethics', 'virtues', 'vices',
-      'habits', 'quirks', 'idiosyncrasies', 'petPeeves', 'likes', 'dislikes',
-      'hobbies', 'interests', 'passions', 'motivations', 'desires', 'needs',
-      'drives', 'ambitions', 'fears', 'phobias', 'anxieties', 'insecurities',
-      'secrets', 'shame', 'guilt', 'regrets', 'trauma', 'wounds', 'copingMechanisms',
-      'defenses', 'vulnerabilities', 'weaknesses', 'blindSpots'
+      'personalityOverview', 'personality', 'personalityTraits', 'temperament', 'worldview',
+      'values', 'goals', 'motivations', 'fears', 'desires', 'vices', 'habits', 'quirks'
     ];
     
     const abilitiesFields = [
-      'abilities', 'skills', 'talents', 'specialAbilities', 'powers', 'strengths',
-      'training', 'expertise', 'education', 'learningStyle', 'intelligenceType'
+      'coreAbilities', 'skills', 'talents', 'specialAbilities', 'powers', 'strengths',
+      'weaknesses', 'training'
     ];
     
     const backgroundFields = [
-      'backstory', 'childhood', 'familyHistory', 'socialClass', 'economicStatus',
-      'formativeEvents', 'spokenLanguages', 'primaryLanguage', 'origin', 'upbringing'
+      'backstory', 'background', 'childhood', 'familyHistory', 'education', 
+      'formativeEvents', 'socialClass', 'spokenLanguages'
     ];
     
     const relationshipsFields = [
-      'family', 'friends', 'allies', 'enemies', 'rivals', 'mentors', 'relationships', 'socialCircle'
+      'family', 'friends', 'allies', 'enemies', 'rivals', 'mentors', 
+      'relationships', 'socialCircle'
     ];
     
     const metaFields = [
       'storyFunction', 'personalTheme', 'symbolism', 'inspiration', 'archetypes', 
-      'notes', 'description', 'characterSummary', 'oneLine'
+      'notes', 'description', 'oneLine'
     ];
     
     // Count filled fields in each category
     const countFilledFields = (fields: string[]) => {
       return fields.reduce((count, field) => {
         const value = (character as any)[field];
-        if (value) {
+        if (value !== undefined && value !== null && value !== '') {
           if (typeof value === 'string') {
             return count + (value.trim().length > 0 ? 1 : 0);
           } else if (Array.isArray(value)) {
@@ -182,7 +178,17 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     const totalFilled = identityCount + appearanceCount + personalityCount + abilitiesCount + 
                        backgroundCount + relationshipsCount + metaCount;
     
-    return Math.round((totalFilled / totalFields) * 100);
+    // Debug logging for the new character
+    if (character.name === 'Borin Stonehand') {
+      console.log('Progress calculation for Borin Stonehand:', {
+        identityCount, appearanceCount, personalityCount, abilitiesCount,
+        backgroundCount, relationshipsCount, metaCount,
+        totalFields, totalFilled,
+        percentage: Math.round((totalFilled / totalFields) * 100)
+      });
+    }
+    
+    return Math.max(1, Math.round((totalFilled / totalFields) * 100));
   };
 
   // Sort and filter characters
