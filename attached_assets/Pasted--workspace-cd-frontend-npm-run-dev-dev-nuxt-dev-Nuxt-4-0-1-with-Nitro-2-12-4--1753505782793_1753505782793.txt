@@ -1,0 +1,47 @@
+~/workspace$ cd frontend && npm run dev
+
+> dev
+> nuxt dev
+
+Nuxt 4.0.1 with Nitro 2.12.4                                                                                                            nuxi 4:55:16 AM
+[get-port] Unable to find an available port (tried 5000 on any host). Using alternative port 3000.                                           4:55:16 AM
+                                                                                                                                             4:55:16 AM
+  ➜ Local:    http://localhost:3000/
+  ➜ Network:  use --host to expose
+
+
+ WARN  We recommend adding compatibilityDate: '2025-07-26' to your nuxt.config file.                                                         4:55:17 AM
+Using 2025-07-15 as fallback. More info at: https://nitro.build/deploy#compatibility-date
+
+ℹ Using default Tailwind CSS file                                                                                          nuxt:tailwindcss 4:55:17 AM
+  ➜ DevTools: press Shift + Alt + D in the browser (v2.6.2)                                                                                  4:55:18 AM
+
+
+ ERROR  Cannot start nuxt:  Cannot find module 'vue-tsc/package.json'                                                                        4:55:19 AM
+Require stack:
+- /home/runner/workspace/node_modules/vite-plugin-checker/dist/checkers/vueTsc/prepareVueTsc.js
+
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1212:15)
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at /home/runner/workspace/node_modules/vite-plugin-checker/dist/checkers/vueTsc/prepareVueTsc.js:8:36
+    at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+    at async createCheckers (/home/runner/workspace/node_modules/vite-plugin-checker/dist/main.js:30:37)
+    at async BasicMinimalPluginContext.config (/home/runner/workspace/node_modules/vite-plugin-checker/dist/main.js:64:18)
+    at async runConfigHook (/home/runner/workspace/node_modules/@nuxt/vite-builder/node_modules/vite/dist/node/chunks/dep-BHkUv4Z8.js:36517:15)
+    at async resolveConfig (/home/runner/workspace/node_modules/@nuxt/vite-builder/node_modules/vite/dist/node/chunks/dep-BHkUv4Z8.js:36022:13)
+    at async _createServer (/home/runner/workspace/node_modules/@nuxt/vite-builder/node_modules/vite/dist/node/chunks/dep-BHkUv4Z8.js:28345:67)
+    at async buildClient (/home/runner/workspace/node_modules/@nuxt/vite-builder/dist/index.mjs:921:24)
+    at async withLogs (/home/runner/workspace/node_modules/@nuxt/vite-builder/dist/index.mjs:1768:3)
+    at async bundle (/home/runner/workspace/node_modules/@nuxt/vite-builder/dist/index.mjs:1760:3)
+    at async bundle (/home/runner/workspace/node_modules/nuxt/dist/index.mjs:7265:5)
+    at async build (/home/runner/workspace/node_modules/nuxt/dist/index.mjs:7125:3)
+    at async Promise.all (index 1)
+    at async NuxtDevServer._load (/home/runner/workspace/node_modules/@nuxt/cli/dist/chunks/index.mjs:244:5)
+    at async NuxtDevServer.load (/home/runner/workspace/node_modules/@nuxt/cli/dist/chunks/index.mjs:139:7)
+    at async NuxtDevServer.init (/home/runner/workspace/node_modules/@nuxt/cli/dist/chunks/index.mjs:130:5)
+    at async initialize (/home/runner/workspace/node_modules/@nuxt/cli/dist/chunks/index.mjs:428:3)
+    at async Object.run (/home/runner/workspace/node_modules/@nuxt/cli/dist/chunks/dev.mjs:135:43)
+    at async runCommand (/home/runner/workspace/node_modules/citty/dist/index.mjs:316:16)
+    at async runCommand (/home/runner/workspace/node_modules/citty/dist/index.mjs:307:11)
+    at async runMain (/home/runner/workspace/node_modules/citty/dist/index.mjs:445:7)
