@@ -9,7 +9,7 @@ import {
 } from "@shared/schema";
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
-import { importCharacterDocument } from "./documentParser";
+import { importCharacterDocument } from "./characterExtractor";
 import multer from "multer";
 import path from "path";
 import { fileTypeFromBuffer } from "file-type";
@@ -349,10 +349,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Document import endpoint for character sheet import
+  // Character data extraction endpoint for importing character sheets
   app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
     try {
-      console.log('Document import request received');
+      console.log('Character extraction request received');
       
       if (!req.file) {
         return res.status(400).json({ error: "No document uploaded" });
@@ -363,7 +363,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Project ID is required" });
       }
 
-      console.log('Importing document:', {
+      console.log('Extracting character from:', {
         filename: req.file.originalname,
         size: req.file.size,
         mimetype: req.file.mimetype,

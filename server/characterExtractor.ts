@@ -108,8 +108,16 @@ export async function importCharacterDocument(filePath: string, fileName: string
   try {
     // Extract text based on file type
     if (fileName.toLowerCase().endsWith('.pdf')) {
-      // For now, inform user that PDF extraction needs to be converted first
-      throw new Error('PDF text extraction requires conversion. Please save your PDF as a Word document (.docx) or copy the text to a .txt file for import.');
+      try {
+        const dataBuffer = fs.readFileSync(filePath);
+        const pdf = await import('pdf-parse');
+        const pdfData = await pdf.default(dataBuffer);
+        textContent = pdfData.text;
+        console.log('PDF extraction successful. Pages:', pdfData.numpages, 'Text length:', textContent.length);
+      } catch (pdfError) {
+        console.error('PDF extraction failed:', pdfError);
+        throw new Error('Failed to extract text from PDF. The file may be corrupted, password-protected, or contain only images. Please try converting to Word (.docx) or text (.txt) format.');
+      }
     } else if (fileName.toLowerCase().endsWith('.docx')) {
       const result = await mammoth.extractRawText({ path: filePath });
       textContent = result.value;

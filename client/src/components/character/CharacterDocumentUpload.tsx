@@ -25,9 +25,9 @@ export function CharacterDocumentUpload({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const supportedTypes = [
+    { extension: 'PDF', description: 'PDF Documents', color: 'bg-red-100 text-red-800' },
     { extension: 'DOCX', description: 'Word Documents', color: 'bg-blue-100 text-blue-800' },
-    { extension: 'TXT', description: 'Text Files', color: 'bg-gray-100 text-gray-800' },
-    { extension: 'PDF', description: 'PDF (Convert First)', color: 'bg-amber-100 text-amber-800' }
+    { extension: 'TXT', description: 'Text Files', color: 'bg-gray-100 text-gray-800' }
   ];
 
   const isValidFileType = (file: File) => {
