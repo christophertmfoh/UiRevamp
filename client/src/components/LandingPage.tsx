@@ -105,14 +105,11 @@ export function LandingPage({
             <div className="w-40"></div>
             
             {/* Center - Brand */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center space-x-3">
               <div className="w-10 h-10 candlelight-glow rounded-xl flex items-center justify-center">
                 <BookOpen className="h-6 w-6" />
               </div>
-              <div className="text-center">
-                <h1 className="font-display text-3xl text-foreground leading-none">Fablecraft</h1>
-                <p className="text-muted-foreground font-literary italic text-sm">craft your fable</p>
-              </div>
+              <h1 className="font-display text-3xl text-foreground leading-none">Fablecraft</h1>
             </div>
             
             {/* Right side - Projects button */}
