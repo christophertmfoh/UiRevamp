@@ -75,7 +75,17 @@ export function ProjectModal({
       // Invalidate and refetch projects list
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
       
-      if (!projectToEdit) {
+      if (projectToEdit) {
+        // For project updates, also invalidate the specific project
+        queryClient.invalidateQueries({ queryKey: ['/api/projects', projectToEdit.id] });
+        // Update the local project object immediately
+        Object.assign(projectToEdit, {
+          name: name.trim(),
+          description: description.trim(),
+          type,
+          genre: genres,
+        });
+      } else {
         // For new projects, fetch the full project data and navigate to it
         try {
           const response = await apiRequest('GET', `/api/projects/${(await result.json()).id}`);
@@ -89,7 +99,7 @@ export function ProjectModal({
       }
       
       toast({
-        title: projectToEdit ? "Project Updated" : "Project Created",
+        title: projectToEdit ? "Project Settings Updated" : "Project Created",
         description: `${name} has been ${projectToEdit ? 'updated' : 'created'} successfully.`,
       });
       
@@ -126,7 +136,7 @@ export function ProjectModal({
       <DialogContent className="creative-card max-w-2xl">
         <DialogHeader>
           <DialogTitle className="font-title text-xl">
-            {projectToEdit ? (isRenameOnly ? 'Rename Project' : 'Edit Project') : 'Create New Project'}
+            {projectToEdit ? (isRenameOnly ? 'Rename Project' : 'Project Settings') : 'Create New Project'}
           </DialogTitle>
           <DialogDescription className="font-literary">
             {projectToEdit 
