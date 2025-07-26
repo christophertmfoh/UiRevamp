@@ -100,9 +100,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
       return response.json();
     },
     onSuccess: (updatedProject) => {
-      // Update the project object locally
-      Object.assign(project, updatedProject);
-      // Invalidate queries to refresh data
+      // Update local project state immediately
+      if (updatedProject.synopsis !== undefined) {
+        project.synopsis = updatedProject.synopsis;
+      }
+      // Force refresh the project data
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
       queryClient.invalidateQueries({ queryKey: ['/api/projects', project.id] });
     },
@@ -122,11 +124,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   };
 
   const handleSynopsisSubmit = () => {
-    if (synopsisText.trim()) {
-      updateProjectMutation.mutate({ synopsis: synopsisText.trim() });
-    } else {
-      updateProjectMutation.mutate({ synopsis: '' });
-    }
+    const newSynopsis = synopsisText.trim();
+    updateProjectMutation.mutate({ synopsis: newSynopsis });
+    // Update local state immediately for instant UI feedback
+    project.synopsis = newSynopsis;
     setIsEditingSynopsis(false);
   };
 
