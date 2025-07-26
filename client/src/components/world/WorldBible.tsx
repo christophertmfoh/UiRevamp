@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { apiRequest } from '@/lib/queryClient';
 import { 
   Users, 
   MapPin, 
@@ -43,6 +45,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const [featuredCharacterOrder, setFeaturedCharacterOrder] = useState<string[]>([]);
   const [draggedCharacterId, setDraggedCharacterId] = useState<string | null>(null);
   const [dragOverCharacterId, setDragOverCharacterId] = useState<string | null>(null);
+  const [isEditingSynopsis, setIsEditingSynopsis] = useState(false);
+  const [synopsisText, setSynopsisText] = useState(project.synopsis || '');
+  
+  const queryClient = useQueryClient();
 
   // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
@@ -87,16 +93,35 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
     return results;
   }, [searchQuery, characters]);
 
+  // Project update mutation
+  const updateProjectMutation = useMutation({
+    mutationFn: async (updatedProject: Partial<Project>) => {
+      return apiRequest(`/api/projects/${project.id}`, {
+        method: 'PUT',
+        body: updatedProject,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', project.id] });
+    },
+  });
+
   // World overview data
   const worldData = {
     overview: {
       title: project.name || 'Untitled Project',
-      subtitle: `${project.type || 'Story'} ${project.genre ? `- ${project.genre}` : ''}`,
+      subtitle: project.type || 'Story',
+      genres: Array.isArray(project.genre) ? project.genre : (project.genre ? [project.genre] : []),
       description: project.synopsis || project.description || 'Add a synopsis to describe your project...',
       coreThemes: ['Destiny vs. Free Will', 'Power and Corruption', 'Sacrifice and Redemption', 'Unity in Diversity'],
       majorConflicts: ['The Ancient Prophecy', 'War of the Five Kingdoms', 'The Dark Lord\'s Return'],
       keyMysteries: ['The Lost Bloodline', 'The Sealed Temple', 'The Forgotten Alliance']
     }
+  };
+
+  const handleSynopsisSubmit = () => {
+    updateProjectMutation.mutate({ synopsis: synopsisText });
+    setIsEditingSynopsis(false);
   };
 
   // Handle character drag and drop
@@ -194,8 +219,46 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
           <div className="space-y-8">
             <div>
               <h2 className="font-title text-3xl mb-2">{worldData.overview.title}</h2>
-              <h3 className="text-xl text-muted-foreground mb-4">{worldData.overview.subtitle}</h3>
-              <p className="text-lg leading-relaxed">{worldData.overview.description}</p>
+              <div className="flex items-center gap-2 mb-4">
+                <Badge className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 text-accent-foreground font-medium text-sm px-3 py-1.5 shadow-md border-0 rounded-full">
+                  {worldData.overview.subtitle}
+                </Badge>
+                {worldData.overview.genres.map((genre, index) => (
+                  <Badge key={index} className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 text-accent-foreground font-medium text-sm px-3 py-1.5 shadow-md border-0 rounded-full">
+                    {genre}
+                  </Badge>
+                ))}
+              </div>
+              {isEditingSynopsis ? (
+                <div className="space-y-2">
+                  <Textarea 
+                    value={synopsisText}
+                    onChange={(e) => setSynopsisText(e.target.value)}
+                    placeholder="Enter a synopsis for your project..."
+                    className="text-lg leading-relaxed min-h-24"
+                  />
+                  <div className="flex gap-2">
+                    <Button onClick={handleSynopsisSubmit} size="sm" disabled={updateProjectMutation.isPending}>
+                      {updateProjectMutation.isPending ? 'Saving...' : 'Save'}
+                    </Button>
+                    <Button onClick={() => {
+                      setIsEditingSynopsis(false);
+                      setSynopsisText(project.synopsis || '');
+                    }} variant="outline" size="sm">
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <p 
+                  className={`text-lg leading-relaxed cursor-pointer hover:bg-muted/20 rounded p-2 transition-colors ${
+                    !project.synopsis ? 'text-muted-foreground italic' : ''
+                  }`}
+                  onClick={() => setIsEditingSynopsis(true)}
+                >
+                  {worldData.overview.description}
+                </p>
+              )}
             </div>
 
             {/* World Statistics Grid */}
