@@ -20,7 +20,7 @@ interface CharacterManagerProps {
   onClearSelection?: () => void;
 }
 
-type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-role' | 'by-race' | 'by-age' | 'by-completion' | 'by-class' | 'protagonists-first' | 'villains-first' | 'by-species';
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-completion' | 'by-role' | 'by-race' | 'by-class' | 'protagonists-first' | 'antagonists-first';
 type ViewMode = 'grid' | 'list';
 
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
@@ -134,16 +134,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         return [...chars].sort((a, b) => (a.role || 'Character').localeCompare(b.role || 'Character'));
       case 'by-race':
         return [...chars].sort((a, b) => (a.race || 'Unknown').localeCompare(b.race || 'Unknown'));
-      case 'by-species':
-        return [...chars].sort((a, b) => (a.race || 'Unknown').localeCompare(b.race || 'Unknown'));
       case 'by-class':
         return [...chars].sort((a, b) => (a.class || 'None').localeCompare(b.class || 'None'));
-      case 'by-age':
-        return [...chars].sort((a, b) => {
-          const ageA = parseInt(a.age?.toString() || '0') || 0;
-          const ageB = parseInt(b.age?.toString() || '0') || 0;
-          return ageA - ageB; // Youngest first
-        });
       case 'by-completion':
         return [...chars].sort((a, b) => getCompletionPercentage(b) - getCompletionPercentage(a)); // Most complete first
       case 'protagonists-first':
@@ -156,14 +148,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           if (!isProtagonistA && isProtagonistB) return 1;
           return (a.name || '').localeCompare(b.name || '');
         });
-      case 'villains-first':
+      case 'antagonists-first':
         return [...chars].sort((a, b) => {
           const roleA = a.role?.toLowerCase() || '';
           const roleB = b.role?.toLowerCase() || '';
-          const isVillainA = roleA.includes('villain') || roleA.includes('antagonist') || roleA.includes('enemy');
-          const isVillainB = roleB.includes('villain') || roleB.includes('antagonist') || roleB.includes('enemy');
-          if (isVillainA && !isVillainB) return -1;
-          if (!isVillainA && isVillainB) return 1;
+          const isAntagonistA = roleA.includes('villain') || roleA.includes('antagonist') || roleA.includes('enemy');
+          const isAntagonistB = roleB.includes('villain') || roleB.includes('antagonist') || roleB.includes('enemy');
+          if (isAntagonistA && !isAntagonistB) return -1;
+          if (!isAntagonistA && isAntagonistB) return 1;
           return (a.name || '').localeCompare(b.name || '');
         });
       default:
@@ -702,42 +694,34 @@ Generate a complete, detailed character that expands on these template foundatio
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                {/* Basic Sort Options */}
                 <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
-                  📝 A-Z Order
+                  Alphabetical Order
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
-                  🕒 Recently Added
+                  Recently Added
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
-                  ✏️ Recently Edited
+                  Recently Edited
                 </DropdownMenuItem>
-                
-                {/* Character Detail Sorts */}
-                <hr className="my-2" />
+                <hr className="my-1" />
                 <DropdownMenuItem onClick={() => setSortBy('by-completion')}>
-                  📊 By Completion Level
+                  Completion Level
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('by-role')}>
-                  🎭 By Story Role
+                  Story Role
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('by-race')}>
-                  🧬 By Race/Species
+                  Race/Species
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('by-class')}>
-                  ⚔️ By Class/Profession
+                  Class/Profession
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('by-age')}>
-                  🎂 By Age (Youngest First)
-                </DropdownMenuItem>
-                
-                {/* Story-Based Sorts */}
-                <hr className="my-2" />
+                <hr className="my-1" />
                 <DropdownMenuItem onClick={() => setSortBy('protagonists-first')}>
-                  🌟 Protagonists First
+                  Protagonists First
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('villains-first')}>
-                  😈 Villains First
+                <DropdownMenuItem onClick={() => setSortBy('antagonists-first')}>
+                  Antagonists First
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

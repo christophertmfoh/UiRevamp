@@ -251,6 +251,8 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 - Does not have OpenAI subscription - use only free/available services
 - Prefers clean code without unnecessary explanatory comments that could complicate future development
 - **DESIGN INSPIRATION NOTED**: Interested in Apple/A24/Neon Studios aesthetic (clean minimalism, sophisticated color palettes, bold typography) while maintaining cozy feel and current colors - implement after character system completion
+- **PROFESSIONAL UI STANDARDS**: No emojis in interface elements - prefers serious, professional interface design
+- **CONTEXTUAL SORTING**: Values meaningful sort options based on character attributes (completion, role, race, class) rather than superficial categories
 
 ## API Keys Configuration
 - ✅ GOOGLE_API_KEY_1: Primary Gemini API key for AI services
