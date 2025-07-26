@@ -329,6 +329,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     console.log('=== COMPREHENSIVE CHARACTER IMAGE GENERATION REQUEST RECEIVED ===');
     console.log('Request body:', JSON.stringify(req.body, null, 2));
     
+    // Check if request was aborted before we start
+    if (req.destroyed || req.aborted) {
+      console.log('Request already aborted before processing');
+      return;
+    }
+    
     try {
       const { prompt, characterId, engineType = "gemini", artStyle, additionalDetails, projectId } = req.body;
       
@@ -385,11 +391,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log('Final comprehensive prompt:', finalPrompt);
 
+      // Check if request was aborted before calling image generation
+      if (req.destroyed || req.aborted) {
+        console.log('Request aborted before image generation');
+        return;
+      }
+
       const result = await generateCharacterImage({
         characterPrompt: finalPrompt,
         stylePrompt: "", // All styling is now in characterPrompt
         aiEngine: engineType
       });
+      
+      // Check if request was aborted before sending response
+      if (req.destroyed || req.aborted) {
+        console.log('Request aborted after image generation');
+        return;
+      }
       
       console.log('Comprehensive image generation successful, returning result');
       

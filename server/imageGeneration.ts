@@ -59,16 +59,20 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
     }
     
+    console.log(`Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.`);
     const ai = new GoogleGenAI({ apiKey });
     
-    // Use the image generation model
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-preview-image-generation",
-      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-      config: {
-        responseModalities: [Modality.TEXT, Modality.IMAGE],
-      },
-    });
+    // Use the image generation model with timeout to prevent hanging requests
+    const response = await Promise.race([
+      ai.models.generateContent({
+        model: "gemini-2.0-flash-preview-image-generation",
+        contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+        config: {
+          responseModalities: [Modality.TEXT, Modality.IMAGE],
+        },
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Image generation timeout')), 30000))
+    ]);
 
     const candidates = response.candidates;
     if (!candidates || candidates.length === 0) {

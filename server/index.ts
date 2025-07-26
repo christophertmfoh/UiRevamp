@@ -2,6 +2,16 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Handle unhandled promise rejections globally
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't crash the server for image generation cancellations
+  if (reason && typeof reason === 'object' && 'name' in reason && reason.name === 'AbortError') {
+    console.log('Ignoring AbortError from cancelled request');
+    return;
+  }
+});
+
 const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
