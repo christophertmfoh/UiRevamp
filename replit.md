@@ -4,6 +4,12 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 26, 2025 - **COMPLETE ENTITY CLEANUP & DATABASE SCHEMA FIXED - COMPLETED**
+✓ **DATABASE SCHEMA MISMATCH RESOLVED** - Fixed `languages` to `spoken_languages` column rename issue
+✓ **PROJECT ACCESS RESTORED** - User can now open projects without database errors
+✓ **COLUMN MIGRATION COMPLETED** - Successfully renamed `languages` to `spoken_languages` and `native_language` to `primary_language`
+✓ **APPLICATION FULLY OPERATIONAL** - All endpoints working correctly with updated schema
+
 ### July 26, 2025 - **COMPLETE ENTITY CLEANUP & PROJECT CREATION FIXED - COMPLETED**
 ✓ **ENTITY BRUTE FORCE REMOVAL COMPLETED** - All world-building entity types completely eliminated from codebase
 ✓ **ZERO REMAINING TRACES** - Systematic removal of 400+ entity references achieved successfully

@@ -204,6 +204,7 @@ export const characters = pgTable("characters", {
   
   // Language & Communication (Voice & Expression)
   spokenLanguages: text("spoken_languages").default(''),
+  primaryLanguage: text("primary_language").default(''),
   accent: text("accent").default(''),
   dialect: text("dialect").default(''),
   voiceDescription: text("voice_description").default(''),
