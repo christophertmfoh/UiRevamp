@@ -389,21 +389,21 @@ Generate a complete, detailed character that expands on these template foundatio
             </div>
           )}
           
+          {/* Premium Status Badge - Always Visible */}
+          <div className="absolute top-4 right-4 z-20">
+            <Badge className="bg-accent text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium px-3 py-1">
+              {character.role || 'Character'}
+            </Badge>
+          </div>
+
           {/* Clean Hover Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
             {/* Subtle overlay for better readability */}
             <div className="absolute bottom-4 left-4 right-4">
               <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
                 {character.description || 'Click to view character details...'}
               </div>
             </div>
-          </div>
-
-          {/* Premium Status Badge */}
-          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10">
-            <Badge className="bg-accent text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium px-3 py-1">
-              {character.role || 'Character'}
-            </Badge>
           </div>
         </div>
 
