@@ -102,11 +102,49 @@ export function processArrayFieldsFromDatabase(data: any): any {
         }
       }
     } else if (typeof value === 'object' && !Array.isArray(value)) {
-      // Object that should be array (the main bug)
+      // Object that should be array (the main PostgreSQL bug)
       if (Object.keys(value).length === 0) {
         processedData[field] = []; // Empty object becomes empty array
       } else {
-        processedData[field] = Object.values(value).filter(val => val && String(val).trim().length > 0);
+        // Handle the specific corruption pattern: {"0": '{"item1"', "1": 'item2"}', etc.}
+        const extractedValues = Object.values(value).map(val => {
+          if (typeof val === 'string') {
+            // Handle JSON-stringified objects like '{"Methodical"' or '{"Truth/Knowing"'
+            if (val.startsWith('{"') && !val.endsWith('}')) {
+              // Incomplete JSON string, extract the key
+              try {
+                const keyMatch = val.match(/^\{"([^"]+)"/);
+                return keyMatch ? keyMatch[1] : val;
+              } catch {
+                return val;
+              }
+            } else if (val.startsWith('{"') && val.endsWith('}')) {
+              // Complete JSON object, extract the first key
+              try {
+                const parsed = JSON.parse(val);
+                if (typeof parsed === 'object') {
+                  const keys = Object.keys(parsed);
+                  return keys.length > 0 ? keys[0] : Object.values(parsed)[0] || val;
+                }
+                return parsed;
+              } catch {
+                return val;
+              }
+            } else if (val.startsWith('{') && val.endsWith('}')) {
+              // JSON-like string without quotes
+              try {
+                const content = val.slice(1, -1); // Remove { }
+                return content.split(':')[0].replace(/"/g, '').trim() || content;
+              } catch {
+                return val;
+              }
+            }
+            return val;
+          }
+          return val;
+        }).filter(val => val && String(val).trim().length > 0);
+        
+        processedData[field] = extractedValues;
       }
     } else if (!Array.isArray(value)) {
       // Any other type becomes single-item array
