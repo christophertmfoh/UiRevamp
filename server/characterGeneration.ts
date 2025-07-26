@@ -39,6 +39,8 @@ export async function generateContextualCharacter(
     
     const prompt = `You are an expert character development specialist and creative writing consultant. Your expertise lies in creating psychologically complex, narratively compelling characters that feel authentic and three-dimensional.
 
+🚨 CRITICAL INSTRUCTION: You MUST create a completely UNIQUE character for each request. NEVER reuse names, traits, or characteristics from previous generations. Each character must be distinctly different and reflect the specific user inputs provided.
+
 MISSION: Generate a complete, publication-ready character that seamlessly integrates into the provided story world with rich internal life, compelling motivations, and realistic contradictions that drive narrative tension.
 
 CHARACTER DEVELOPMENT PRINCIPLES:
@@ -127,14 +129,15 @@ QUALITY STANDARDS:
 - Goals and fears should create clear story potential and character arcs
 
 CRITICAL REQUIREMENTS:
-1. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)
-2. NO generic descriptions, placeholder text, or vague statements allowed
-3. Each response should feel like it came from deep character research
-4. Base all content on template requirements and story context
-5. Ensure all text is properly escaped and JSON is completely valid
-6. Arrays must be properly formatted with quoted strings: ["item1", "item2", "item3"]
-7. No trailing commas, no unescaped quotes, no incomplete fields
-8. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
+1. 🚨 MANDATORY: Create a COMPLETELY UNIQUE character - NO reused names, traits, or details from any previous generation
+2. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)  
+3. NO generic descriptions, placeholder text, or vague statements allowed
+4. Each response should feel like it came from deep character research
+5. Base all content on the user's specific inputs and story context provided below
+6. Ensure all text is properly escaped and JSON is completely valid
+7. Arrays must be properly formatted with quoted strings: ["item1", "item2", "item3"]
+8. No trailing commas, no unescaped quotes, no incomplete fields
+9. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
 
 RESPONSE FORMAT: Return ONLY valid JSON with no markdown, no explanations, no additional text - just the complete character object with all 67 fields populated.
 
@@ -507,11 +510,11 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     }
     
     if (generationOptions.role) {
-      contextPrompt += `Narrative Role: ${generationOptions.role} - serve this specific function in the story structure\n`;
+      contextPrompt += `🎭 REQUIRED ROLE: ${generationOptions.role} - serve this specific function in the story structure\n`;
     }
     
     if (generationOptions.personality) {
-      contextPrompt += `Personality Foundation: ${generationOptions.personality} - build comprehensive personality around this core\n`;
+      contextPrompt += `🧠 REQUIRED PERSONALITY: ${generationOptions.personality} - build comprehensive personality around this core\n`;
     }
     
     if (generationOptions.customPrompt) {
@@ -519,10 +522,14 @@ function buildProjectContext(context: CharacterGenerationContext): string {
       if (generationOptions.customPrompt.includes('TEMPLATE-BASED CHARACTER GENERATION')) {
         contextPrompt += `\n${generationOptions.customPrompt}\n`;
       } else {
-        contextPrompt += `Creative Direction & Additional Details: ${generationOptions.customPrompt}\n`;
+        contextPrompt += `\n🎯 PRIMARY CREATIVE DIRECTION: ${generationOptions.customPrompt}\n`;
+        contextPrompt += `\n⚠️ MANDATORY: Use the above creative direction as the PRIMARY FOUNDATION for this character. Do NOT ignore or override these user specifications.\n`;
         
         // Add enhanced requirements for custom generation to match template quality
         contextPrompt += `\nCRITICAL CUSTOM CHARACTER REQUIREMENTS:
+• The character MUST reflect the user's creative direction and specific details above
+• Generate a completely UNIQUE character based on the user's specifications
+• NEVER reuse names, traits, or details from previous generations
 • Generate publication-quality content for ALL 67 character fields listed in the JSON format
 • Every single field must contain meaningful, specific, contextual content
 • NO generic placeholders, empty fields, or vague descriptions
