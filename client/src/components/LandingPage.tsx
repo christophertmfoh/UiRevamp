@@ -135,14 +135,17 @@ export function LandingPage({
               variant="ghost"
               size="sm"
               onClick={() => setIsDark(!isDark)}
-              className="text-stone-600 dark:text-stone-300 hover:bg-amber-100/50 dark:hover:bg-slate-700"
+              className="w-10 h-10 p-0 rounded-xl text-stone-600 dark:text-amber-200 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
             >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {isDark ? (
+                <Sun className="h-5 w-5 text-amber-600 dark:text-amber-300" />
+              ) : (
+                <Moon className="h-5 w-5 text-stone-600" />
+              )}
             </Button>
             <Button 
-              variant="outline" 
               onClick={() => onNavigate('projects')}
-              className="border-amber-200 dark:border-amber-600/30 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 px-6 py-2"
+              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-400 px-6 py-2 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               Your Projects
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -174,23 +177,28 @@ export function LandingPage({
                 From initial spark to published masterpiece, we guide your creative journey.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-6 pt-6">
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
-                  className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 dark:from-amber-400 dark:to-orange-500 dark:hover:from-amber-500 dark:hover:to-orange-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
-                  Begin Your Story
-                  <Sparkles className="ml-2 h-5 w-5" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center">
+                    Begin Your Story
+                    <Sparkles className="ml-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                  </span>
                 </Button>
                 <Button 
                   variant="outline"
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 px-8 py-4 text-lg"
+                  className="group border-2 border-stone-300 dark:border-amber-500/40 text-stone-700 dark:text-amber-200 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-400 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
                 >
-                  See Examples
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <span className="flex items-center">
+                    See Examples
+                    <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
                 </Button>
               </div>
             </div>
@@ -198,14 +206,17 @@ export function LandingPage({
 
           {/* Process Preview */}
           <div className="lg:col-span-5">
-            <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-3xl p-8 border border-amber-200/50 dark:border-slate-700/50">
-              <div className="text-center space-y-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
-                  <Brain className="w-8 h-8 text-white" />
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-8 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
+              {/* Subtle gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-transparent to-orange-50/30 dark:from-amber-900/10 dark:via-transparent dark:to-orange-900/5 rounded-3xl"></div>
+              
+              <div className="relative z-10 text-center space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
+                  <Brain className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100">Your Writing Journey</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
                 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   {processSteps.map((step, index) => {
                     const IconComponent = step.icon;
                     const isActive = index === currentStep;
@@ -213,22 +224,26 @@ export function LandingPage({
                     return (
                       <div
                         key={index}
-                        className={`p-4 rounded-xl border transition-all duration-500 ${
+                        className={`p-5 rounded-2xl border transition-all duration-700 cursor-pointer group ${
                           isActive 
-                            ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-700 scale-105 shadow-lg' 
-                            : 'bg-white/50 dark:bg-slate-700/30 border-stone-200 dark:border-slate-600 hover:bg-amber-50/50 dark:hover:bg-amber-900/10'
+                            ? 'bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/30 dark:to-orange-900/20 border-amber-300 dark:border-amber-600 scale-110 shadow-xl shadow-amber-200/50 dark:shadow-amber-900/20 -translate-y-1' 
+                            : 'bg-white/60 dark:bg-slate-700/40 border-stone-200/60 dark:border-slate-600/40 hover:bg-gradient-to-br hover:from-amber-50/50 hover:to-orange-50/30 dark:hover:from-amber-900/20 dark:hover:to-orange-900/10 hover:border-amber-200 dark:hover:border-amber-700/50 hover:scale-105 hover:shadow-lg'
                         }`}
                       >
-                        <IconComponent className={`w-5 h-5 mb-2 transition-colors duration-300 ${
-                          isActive ? 'text-amber-600 dark:text-amber-400' : 'text-stone-500 dark:text-stone-400'
+                        <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
+                          isActive 
+                            ? 'text-amber-600 dark:text-amber-400 scale-110' 
+                            : 'text-stone-500 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 group-hover:scale-110'
                         }`} />
-                        <h4 className={`font-medium text-sm transition-colors duration-300 ${
-                          isActive ? 'text-stone-800 dark:text-stone-100' : 'text-stone-600 dark:text-stone-300'
+                        <h4 className={`font-semibold text-sm transition-all duration-300 ${
+                          isActive 
+                            ? 'text-stone-800 dark:text-amber-50' 
+                            : 'text-stone-600 dark:text-stone-300 group-hover:text-stone-800 dark:group-hover:text-stone-100'
                         }`}>
                           {step.title}
                         </h4>
                         {isActive && (
-                          <p className="text-xs text-stone-600 dark:text-stone-300 mt-1">
+                          <p className="text-xs text-stone-600 dark:text-amber-200/80 mt-2 animate-in fade-in duration-500">
                             {step.description}
                           </p>
                         )}
@@ -269,18 +284,19 @@ export function LandingPage({
                 return (
                   <div key={index} className="text-center space-y-4 relative group">
                     {/* Step number */}
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 rounded-full flex items-center justify-center text-xs font-bold text-white lg:block hidden z-10">
+                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-full flex items-center justify-center text-sm font-bold text-white lg:block hidden z-20 shadow-lg group-hover:scale-110 transition-transform duration-300">
                       {index + 1}
                     </div>
                     
-                    <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto shadow-lg border border-amber-200/50 dark:border-slate-700 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300 cursor-pointer relative z-10">
-                      <IconComponent className="w-8 h-8 text-amber-600 dark:text-amber-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300" />
+                    <div className="w-28 h-28 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto shadow-xl border border-amber-200/60 dark:border-slate-600/50 group-hover:shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer relative z-10 group-hover:rotate-3">
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-orange-50/30 dark:from-amber-900/20 dark:to-orange-900/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <IconComponent className="w-10 h-10 text-amber-600 dark:text-amber-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-all duration-500 relative z-10 group-hover:scale-110" />
                     </div>
                     
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-stone-800 dark:text-stone-100">{step.title}</h4>
-                      <p className="text-sm text-stone-600 dark:text-stone-300">{step.description}</p>
-                      <p className="text-xs text-stone-500 dark:text-stone-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
+                      <h4 className="font-bold text-lg text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">{step.title}</h4>
+                      <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{step.description}</p>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-medium">
                         {step.detail}
                       </p>
                     </div>
@@ -316,14 +332,17 @@ export function LandingPage({
             {trustIndicators.map((indicator, index) => {
               const IconComponent = indicator.icon;
               return (
-                <Card key={index} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-amber-200/50 dark:border-slate-700 hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-8 text-center space-y-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 rounded-xl flex items-center justify-center mx-auto">
-                      <IconComponent className="w-6 h-6 text-white" />
+                <Card key={index} className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border-amber-200/60 dark:border-slate-600/50 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-orange-50/0 to-rose-50/0 dark:from-amber-900/0 dark:via-orange-900/0 dark:to-rose-900/0 group-hover:from-amber-50/50 group-hover:via-orange-50/30 group-hover:to-rose-50/20 dark:group-hover:from-amber-900/20 dark:group-hover:via-orange-900/10 dark:group-hover:to-rose-900/5 transition-all duration-700"></div>
+                  
+                  <CardContent className="relative z-10 p-8 text-center space-y-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                      <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                    <div className="space-y-1">
-                      <div className="text-3xl font-bold text-stone-800 dark:text-stone-100">{indicator.number}</div>
-                      <div className="text-stone-600 dark:text-stone-300 font-medium">{indicator.label}</div>
+                    <div className="space-y-2">
+                      <div className="text-4xl font-bold bg-gradient-to-r from-stone-800 to-stone-600 dark:from-amber-200 dark:to-amber-400 bg-clip-text text-transparent group-hover:from-amber-600 group-hover:to-orange-600 dark:group-hover:from-amber-100 dark:group-hover:to-orange-200 transition-all duration-500">{indicator.number}</div>
+                      <div className="text-stone-600 dark:text-stone-300 font-semibold group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{indicator.label}</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -332,90 +351,125 @@ export function LandingPage({
           </div>
 
           {/* Key Benefits */}
-          <div className="grid md:grid-cols-3 gap-8 pt-8">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-green-500 dark:from-emerald-500 dark:to-green-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
-                <CheckCircle className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-3 gap-8 pt-16">
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-emerald-200/50 dark:border-emerald-600/20 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/0 to-green-50/0 dark:from-emerald-900/0 dark:to-green-900/0 group-hover:from-emerald-50/50 group-hover:to-green-50/30 dark:group-hover:from-emerald-900/20 dark:group-hover:to-green-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 via-green-500 to-teal-500 dark:from-emerald-500 dark:via-green-600 dark:to-teal-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <CheckCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-emerald-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Proven Results</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  98% of writers report improved productivity and story quality within their first month using our platform.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100">Proven Results</h3>
-              <p className="text-stone-600 dark:text-stone-300">
-                98% of writers report improved productivity and story quality within their first month.
-              </p>
             </div>
             
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
-                <TrendingUp className="w-8 h-8 text-white" />
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-orange-50/0 dark:from-amber-900/0 dark:to-orange-900/0 group-hover:from-amber-50/50 group-hover:to-orange-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-orange-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <TrendingUp className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Accelerated Growth</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  Writers complete projects 3x faster with our AI-assisted workflow and structured creative approach.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100">Accelerated Growth</h3>
-              <p className="text-stone-600 dark:text-stone-300">
-                Writers complete projects 3x faster with our AI-assisted workflow and structured approach.
-              </p>
             </div>
             
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-rose-400 to-pink-500 dark:from-rose-500 dark:to-pink-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
-                <Award className="w-8 h-8 text-white" />
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-rose-200/50 dark:border-rose-600/20 hover:shadow-2xl hover:shadow-rose-200/20 dark:hover:shadow-rose-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-rose-50/0 to-pink-50/0 dark:from-rose-900/0 dark:to-pink-900/0 group-hover:from-rose-50/50 group-hover:to-pink-50/30 dark:group-hover:from-rose-900/20 dark:group-hover:to-pink-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-rose-400 via-pink-500 to-purple-500 dark:from-rose-500 dark:via-pink-600 dark:to-purple-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <Award className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-rose-50 group-hover:text-rose-700 dark:group-hover:text-rose-300 transition-colors duration-300">Publication Success</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  Over 2,500 stories created on Fablecraft have been successfully published across all genres and platforms.
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 dark:text-stone-100">Publication Success</h3>
-              <p className="text-stone-600 dark:text-stone-300">
-                Over 2,500 stories created on Fablecraft have been successfully published across all genres.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="relative z-10 max-w-4xl mx-auto px-8 py-32">
-        <div className="text-center space-y-12">
-          <div className="space-y-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl">
-              <Zap className="w-10 h-10 text-white" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
-              Your Story Starts Now
-            </h2>
-            <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl mx-auto leading-relaxed">
-              Join the creative revolution. Transform your ideas into captivating stories 
-              with the most advanced AI writing platform available today.
-            </p>
-          </div>
+      <section className="relative z-10 max-w-5xl mx-auto px-8 py-32">
+        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-amber-50 via-orange-50/80 to-rose-50/60 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 border border-amber-200/50 dark:border-slate-600/50 shadow-2xl">
+          {/* Background texture */}
+          <div className="absolute inset-0 opacity-20 bg-repeat bg-center" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}></div>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button 
-              onClick={() => onNewProject()}
-              size="lg"
-              className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 dark:from-amber-400 dark:to-orange-500 dark:hover:from-amber-500 dark:hover:to-orange-600 text-white px-12 py-4 text-lg font-medium shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-            >
-              Create Your First Project
-              <Sparkles className="ml-3 h-5 w-5" />
-            </Button>
-            <Button 
-              onClick={() => onNavigate('projects')}
-              variant="outline"
-              size="lg"
-              className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800 px-12 py-4 text-lg hover:scale-105 transition-all duration-300"
-            >
-              Explore Examples
-              <ArrowRight className="ml-3 h-5 w-5" />
-            </Button>
+          {/* Floating elements */}
+          <div className="absolute top-8 right-8 w-32 h-32 bg-gradient-to-br from-amber-300/20 to-orange-400/10 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-rose-300/20 to-pink-400/10 rounded-full blur-xl"></div>
+          
+          <div className="relative z-10 text-center space-y-12 p-16">
+            <div className="space-y-8">
+              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-full flex items-center justify-center mx-auto shadow-2xl hover:shadow-3xl hover:scale-110 hover:rotate-6 transition-all duration-500 cursor-pointer">
+                <Zap className="w-12 h-12 text-white" />
+              </div>
+              <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-700 dark:from-amber-200 dark:via-orange-300 dark:to-red-300 bg-clip-text text-transparent leading-tight">
+                Your Story Starts Now
+              </h2>
+              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto leading-relaxed">
+                Join the creative revolution. Transform your ideas into captivating stories 
+                with the most advanced AI writing platform available today.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-8 justify-center">
+              <Button 
+                onClick={() => onNewProject()}
+                size="lg"
+                className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-16 py-6 text-xl font-bold shadow-2xl hover:shadow-3xl hover:scale-110 hover:-translate-y-2 transition-all duration-500 rounded-2xl relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  Create Your First Project
+                  <Sparkles className="ml-4 h-6 w-6 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" />
+                </span>
+              </Button>
+              <Button 
+                onClick={() => onNavigate('projects')}
+                variant="outline"
+                size="lg"
+                className="group border-2 border-stone-400 dark:border-amber-500/60 text-stone-700 dark:text-amber-200 hover:bg-white dark:hover:bg-amber-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-500 rounded-2xl backdrop-blur-sm bg-white/50 dark:bg-slate-800/50"
+              >
+                <span className="flex items-center">
+                  Explore Examples
+                  <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+                </span>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-stone-200 dark:border-slate-700 py-16 px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 dark:from-amber-400 dark:to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-5 h-5 text-white" />
+      <footer className="relative z-10 border-t border-amber-200/50 dark:border-slate-700/50 py-20 px-8 bg-gradient-to-t from-amber-50/30 to-transparent dark:from-slate-900/50 dark:to-transparent">
+        <div className="max-w-7xl mx-auto text-center space-y-8">
+          <div className="flex items-center justify-center space-x-4 group cursor-pointer">
+            <div className="w-14 h-14 bg-gradient-to-br from-amber-500 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-500 dark:to-red-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+              <Feather className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
             </div>
-            <span className="text-2xl font-bold text-stone-800 dark:text-stone-100">Fablecraft</span>
+            <span className="text-3xl font-bold bg-gradient-to-r from-stone-800 to-amber-700 dark:from-amber-200 dark:to-orange-300 bg-clip-text text-transparent group-hover:from-amber-600 group-hover:to-orange-600 dark:group-hover:from-amber-100 dark:group-hover:to-orange-200 transition-all duration-300">
+              Fablecraft
+            </span>
           </div>
-          <p className="text-stone-600 dark:text-stone-300 text-lg">
+          <p className="text-xl text-stone-600 dark:text-stone-300 font-medium">
             Where every story finds its voice
           </p>
+          <div className="flex items-center justify-center space-x-2 text-sm text-stone-500 dark:text-stone-400">
+            <span>Made with</span>
+            <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse"></div>
+            <span>for storytellers everywhere</span>
+          </div>
         </div>
       </footer>
     </div>
