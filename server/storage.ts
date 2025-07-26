@@ -31,7 +31,7 @@ export interface IStorage {
   // Project operations
   getProjects(): Promise<Project[]>;
   getProject(id: string): Promise<Project | undefined>;
-  createProject(project: InsertProject): Promise<Project>;
+  createProject(project: any): Promise<Project>;
   updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: string): Promise<boolean>;
 
@@ -91,7 +91,7 @@ class MemoryStorage implements IStorage {
     return project || undefined;
   }
 
-  async createProject(project: InsertProject): Promise<Project> {
+  async createProject(project: any): Promise<Project> {
     const [newProject] = await db.insert(projects).values(project).returning();
     return newProject;
   }

@@ -507,7 +507,10 @@ export const projectSettingsRelations = relations(projectSettings, ({ one }) => 
 }));
 
 // Insert schemas
-export const insertProjectSchema = createInsertSchema(projects);
+export const insertProjectSchema = createInsertSchema(projects).omit({
+  createdAt: true,
+  lastModified: true,
+});
 export const insertCharacterSchema = createInsertSchema(characters);
 export const insertCreatureSchema = createInsertSchema(creatures);
 export const insertOutlineSchema = createInsertSchema(outlines);

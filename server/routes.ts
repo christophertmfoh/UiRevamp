@@ -114,19 +114,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/projects", async (req, res) => {
     try {
-      const projectData = insertProjectSchema.parse({
-        ...req.body,
+      const projectData = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
-        createdAt: new Date().toISOString(),
-        lastModified: new Date().toISOString()
-      });
+        name: req.body.name || 'Untitled Project',
+        type: req.body.type || 'novel',
+        genre: req.body.genre || [],
+        description: req.body.description || '',
+        manuscriptNovel: '',
+        manuscriptScreenplay: ''
+      };
 
       const project = await storage.createProject(projectData);
       res.status(201).json(project);
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
       console.error("Error creating project:", error);
       res.status(500).json({ error: "Internal server error" });
     }
