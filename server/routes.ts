@@ -405,8 +405,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           aiEngine: engineType
         });
       } catch (imageError: any) {
-        // Handle image generation specific errors
-        if (imageError.name === 'AbortError' || req.destroyed || req.aborted) {
+        // Handle image generation specific errors including Gemini SDK abort issues
+        if (imageError.name === 'AbortError' || 
+            req.destroyed || 
+            req.aborted ||
+            (imageError.message && (imageError.message.includes('CANCELLED') || imageError.message.includes('cancelled')))) {
           console.log('Image generation was cancelled');
           return;
         }

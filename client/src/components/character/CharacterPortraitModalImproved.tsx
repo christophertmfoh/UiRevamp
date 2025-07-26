@@ -269,12 +269,15 @@ export function CharacterPortraitModal({
         }, 500);
       }
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
+      if (error instanceof Error && (error.name === 'AbortError' || controller.signal.aborted)) {
         console.log('Image generation cancelled by user');
-        // Don't treat cancellation as an error - just clean up state
+        // Don't treat cancellation as an error - just clean up state silently
+      } else if (error instanceof Error && error.message && error.message.includes('cancelled')) {
+        console.log('Image generation cancelled by user');
+        // Don't treat cancellation as an error - just clean up state silently
       } else {
         console.error('Image generation failed:', error);
-        // Only show error for actual failures, not cancellations
+        // Only show/log error for actual failures, not cancellations
       }
       setIsGenerating(false);
       setAbortController(null);

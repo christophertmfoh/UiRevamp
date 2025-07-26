@@ -3,33 +3,46 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 // Handle unhandled promise rejections globally
+// This is needed for known Gemini SDK bug where AbortErrors can't be caught normally
 process.on('unhandledRejection', (reason, promise) => {
-  // Silently ignore image generation cancellation errors
+  // Comprehensive filtering for all cancellation-related rejections
   if (reason && typeof reason === 'object') {
-    // Check for AbortError
+    // Check for direct AbortError
     if ('name' in reason && reason.name === 'AbortError') {
-      console.log('Ignoring AbortError from cancelled request');
+      console.log('Suppressed AbortError from cancelled request');
       return;
     }
-    // Check for abort signal messages
+    
+    // Check for abort/cancellation messages
     if ('message' in reason && typeof reason.message === 'string') {
-      if (reason.message.includes('signal is aborted') || 
-          reason.message.includes('User cancelled') ||
-          reason.message.includes('cancelled')) {
-        console.log('Ignoring cancellation-related rejection');
+      const message = reason.message.toLowerCase();
+      if (message.includes('signal is aborted') || 
+          message.includes('user cancelled') ||
+          message.includes('cancelled') ||
+          message.includes('request cancelled') ||
+          message.includes('operation was aborted') ||
+          message.includes('aborted without reason')) {
+        console.log('Suppressed cancellation-related rejection:', reason.message);
         return;
       }
     }
-    // Check for cancelled fetch requests
+    
+    // Check for nested AbortError in cause chain
     if ('cause' in reason && reason.cause && typeof reason.cause === 'object' &&
         'name' in reason.cause && reason.cause.name === 'AbortError') {
-      console.log('Ignoring nested AbortError');
+      console.log('Suppressed nested AbortError');
       return;
     }
   }
   
-  // Log other genuine errors but don't crash
-  console.error('Unhandled promise rejection:', reason);
+  // Check string reasons for abort messages
+  if (typeof reason === 'string' && reason.toLowerCase().includes('abort')) {
+    console.log('Suppressed string abort reason:', reason);
+    return;
+  }
+  
+  // Log other genuine errors but don't crash the server
+  console.error('Unhandled promise rejection (not cancellation-related):', reason);
 });
 
 const app = express();
