@@ -661,7 +661,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 <PenTool className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h2 className="font-bold text-lg gradient-text">Mythos Weaver</h2>
+                <h2 className="font-bold text-lg gradient-text">Fablecraft</h2>
                 <p className="text-slate-400 text-sm">{project.name}</p>
               </div>
             </div>

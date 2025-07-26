@@ -110,8 +110,8 @@ export function LandingPage({
                 <BookOpen className="h-6 w-6" />
               </div>
               <div className="text-center">
-                <h1 className="font-display text-3xl text-foreground leading-none">Story Weaver</h1>
-                <p className="text-muted-foreground font-literary italic text-sm">weave your worlds</p>
+                <h1 className="font-display text-3xl text-foreground leading-none">Fablecraft</h1>
+                <p className="text-muted-foreground font-literary italic text-sm">craft your fable</p>
               </div>
             </div>
             
@@ -138,17 +138,17 @@ export function LandingPage({
               <div className="w-12 h-12 candlelight-glow rounded-2xl flex items-center justify-center">
                 <Zap className="h-6 w-6" />
               </div>
-              <span className="font-display text-2xl text-accent">From Spark to Story</span>
+              <span className="font-display text-2xl text-accent">Craft Your Fable</span>
             </div>
             
             <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foreground leading-tight">
               The Complete
-              <span className="block text-accent">Creative Pipeline</span>
+              <span className="block text-accent">Your Creative Journey</span>
             </h2>
             
             <p className="font-literary text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
               Transform fleeting ideas into rich, immersive worlds. From initial brainstorming to final production, 
-              Story Weaver guides you through every step of the creative journey with AI-powered tools and 
+              Fablecraft guides you through every step of the creative journey with AI-powered tools and 
               professional storytelling frameworks.
             </p>
           </div>
