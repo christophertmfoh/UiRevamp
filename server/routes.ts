@@ -127,19 +127,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       // Transform array fields to comma-separated strings for database compatibility
+      // Fields that are stored as TEXT (strings) in database but might come as arrays from frontend
       const arrayToStringFields = [
-        'spokenLanguages', 'personalityTraits', 'skills', 'hobbies', 'interests',
-        'habits', 'mannerisms', 'abilities', 'talents', 'strengths', 'weaknesses',
-        'fears', 'phobias', 'values', 'beliefs', 'goals', 'motivations', 'secrets',
-        'flaws', 'quirks', 'equipment', 'possessions', 'relationships', 'allies',
-        'enemies', 'rivals', 'familyMembers', 'friends', 'acquaintances', 'children',
-        'parents', 'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students',
-        'archetypes', 'themes', 'symbolism', 'inspiration', 'portraits'
+        'spokenLanguages', 'hobbies', 'interests', 'habits', 'mannerisms', 
+        'strengths', 'weaknesses', 'fears', 'phobias', 'values', 'beliefs', 
+        'goals', 'motivations', 'secrets', 'flaws', 'quirks', 'equipment', 
+        'possessions', 'relationships', 'allies', 'enemies', 'rivals', 
+        'familyMembers', 'friends', 'acquaintances', 'children', 'parents', 
+        'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students', 
+        'themes', 'symbolism', 'inspiration'
+      ];
+      
+      // Fields that should remain as arrays (defined with .array() in schema)
+      const keepAsArrayFields = [
+        'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+        'archetypes', 'tropes', 'tags', 'portraits'
       ];
       
       arrayToStringFields.forEach(field => {
         if (Array.isArray(characterData[field])) {
           characterData[field] = characterData[field].join(', ');
+        }
+      });
+      
+      // Ensure array fields stay as arrays
+      keepAsArrayFields.forEach(field => {
+        if (typeof characterData[field] === 'string' && characterData[field]) {
+          characterData[field] = characterData[field].split(', ').map(s => s.trim()).filter(s => s);
+        } else if (!Array.isArray(characterData[field])) {
+          characterData[field] = [];
         }
       });
       
@@ -161,20 +177,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Transform array fields to comma-separated strings for database compatibility
       const transformedData = { ...req.body };
       
-      // List of fields that might be arrays but need to be strings in database
+      // Fields that are stored as TEXT (strings) in database but might come as arrays from frontend
       const arrayToStringFields = [
-        'spokenLanguages', 'personalityTraits', 'skills', 'hobbies', 'interests',
-        'habits', 'mannerisms', 'abilities', 'talents', 'strengths', 'weaknesses',
-        'fears', 'phobias', 'values', 'beliefs', 'goals', 'motivations', 'secrets',
-        'flaws', 'quirks', 'equipment', 'possessions', 'relationships', 'allies',
-        'enemies', 'rivals', 'familyMembers', 'friends', 'acquaintances', 'children',
-        'parents', 'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students',
-        'archetypes', 'themes', 'symbolism', 'inspiration', 'portraits'
+        'spokenLanguages', 'hobbies', 'interests', 'habits', 'mannerisms', 
+        'strengths', 'weaknesses', 'fears', 'phobias', 'values', 'beliefs', 
+        'goals', 'motivations', 'secrets', 'flaws', 'quirks', 'equipment', 
+        'possessions', 'relationships', 'allies', 'enemies', 'rivals', 
+        'familyMembers', 'friends', 'acquaintances', 'children', 'parents', 
+        'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students', 
+        'themes', 'symbolism', 'inspiration'
+      ];
+      
+      // Fields that should remain as arrays (defined with .array() in schema)
+      const keepAsArrayFields = [
+        'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+        'archetypes', 'tropes', 'tags', 'portraits'
       ];
       
       arrayToStringFields.forEach(field => {
         if (Array.isArray(transformedData[field])) {
           transformedData[field] = transformedData[field].join(', ');
+        }
+      });
+      
+      // Ensure array fields stay as arrays
+      keepAsArrayFields.forEach(field => {
+        if (typeof transformedData[field] === 'string' && transformedData[field]) {
+          transformedData[field] = transformedData[field].split(', ').map(s => s.trim()).filter(s => s);
+        } else if (!Array.isArray(transformedData[field])) {
+          transformedData[field] = [];
         }
       });
       
