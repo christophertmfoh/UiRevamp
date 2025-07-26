@@ -7,15 +7,15 @@
 /* FORCE CUSTOM SCROLLBAR - NUCLEAR OPTION */
 /* Remove default scrollbars and force custom ones */
 
-/* Document level - absolute override */
-html, body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+/* Document level - smooth scrolling and proper overflow */
+html {
+  scroll-behavior: smooth;
   overflow-y: auto;
 }
 
-html::-webkit-scrollbar, body::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+body {
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 /* Force visible custom scrollbars with highest specificity */
@@ -33,7 +33,6 @@ body::-webkit-scrollbar,
   width: var(--scrollbar-width) !important;
   height: var(--scrollbar-width) !important;
   background: var(--scrollbar-track) !important;
-  display: block !important;
 }
 
 html::-webkit-scrollbar-track,
@@ -67,10 +66,33 @@ body::-webkit-scrollbar-corner,
   background: var(--scrollbar-track) !important;
 }
 
-/* Firefox fallback */
+/* Firefox fallback with smooth scrolling */
 html, body, * {
   scrollbar-width: thin !important;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track) !important;
+}
+
+/* Additional smooth scrolling for all elements */  
+* {
+  scroll-behavior: smooth;
+}
+
+/* Smooth momentum scrolling for webkit browsers */
+html, body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Landing page specific smooth scrolling improvements */
+.landing-container {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0); /* Hardware acceleration for smoother scrolling */
+}
+
+/* Ensure all interactive elements don't interfere with scrolling */
+.landing-container * {
+  will-change: auto;
+  backface-visibility: hidden;
 }
 
 /* Force scrollbar visibility for main document */
