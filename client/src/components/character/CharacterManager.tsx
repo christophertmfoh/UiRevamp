@@ -312,32 +312,47 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setIsGenerating(true);
     
     try {
-      // Create a comprehensive template-specific prompt
-      const templatePrompt = `TEMPLATE-BASED CHARACTER GENERATION:
+      // Create optimized template-specific prompt with hierarchical structure
+      const templatePrompt = `PROFESSIONAL ARCHETYPE DEVELOPMENT - ${template.name.toUpperCase()}
 
-Template: ${template.name}
-Category: ${template.category.toUpperCase()}
-Description: ${template.description}
+TEMPLATE FOUNDATION (Essential Character DNA):
+Template: ${template.name} | Genre: ${template.category.toUpperCase()} | Archetype Tags: ${template.tags.join(', ')}
+Core Description: ${template.description}
 
-CORE TEMPLATE FOUNDATION:
+ESTABLISHED TEMPLATE ATTRIBUTES:
 ${Object.entries(template.fields)
   .map(([key, value]) => {
     if (Array.isArray(value)) {
-      return `${key}: ${value.join(', ')}`;
+      return `• ${key}: ${value.join(', ')}`;
     }
-    return `${key}: ${value}`;
+    return `• ${key}: ${value}`;
   })
   .join('\n')}
 
-TEMPLATE ARCHETYPE TAGS: ${template.tags.join(', ')}
+COMPREHENSIVE CHARACTER DEVELOPMENT REQUIREMENTS:
 
-SPECIFIC GENERATION REQUIREMENTS:
-- Build upon these template foundations while adding rich detail
-- Maintain the core ${template.name} archetype throughout all character aspects
-- Create a unique individual within this archetype framework
-- Ensure all 164+ character fields are populated with template-appropriate content
-- Generate name, appearance, and backstory that embody the ${template.category} genre
-- Make relationships and motivations consistent with the ${template.name} role`;
+NARRATIVE INTEGRATION PRIORITIES:
+1. Core Identity Development - Name, age, background that authentically embodies the ${template.name} archetype
+2. Physical Manifestation - Appearance details that visually represent their life experience and archetype essence  
+3. Psychological Depth - Complex personality with realistic contradictions inherent to ${template.category} genre characters
+4. Skillset & Abilities - Competencies that logically support their archetype role and create story opportunities
+5. Relational Dynamics - Family, allies, enemies that create compelling narrative tension and character growth potential
+6. Story Function Integration - How this ${template.name} serves the broader narrative through conflict, growth, and plot advancement
+
+QUALITY STANDARDS FOR TEMPLATE EXPANSION:
+• Every field must reflect deep understanding of ${template.category} genre conventions
+• Physical traits should tell the story of their life experiences and archetypal journey
+• Personality complexities must create internal conflicts that drive external plot development
+• All relationships should have specific history and emotional stakes relevant to the archetype
+• Background elements must logically connect to present-day motivations and capabilities
+• Name and appearance should immediately convey the ${template.name} essence to readers
+
+CRITICAL EXECUTION REQUIREMENTS:
+- Populate all 164+ character fields with archetype-appropriate, publication-quality content
+- Maintain ${template.name} core identity while adding unique individual characteristics
+- Ensure genre authenticity for ${template.category} reader expectations
+- Create compelling internal contradictions that generate story conflict
+- Build comprehensive backstory that explains current skills, fears, and motivations`;
 
       const generationOptions = {
         characterType: template.category,
