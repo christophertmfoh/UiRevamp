@@ -17,6 +17,7 @@ import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
 import { CharacterInsights } from './CharacterInsights';
 import { LoadingModal } from '../ui/loading-modal';
+import { processCharacterArrayFields } from '../../lib/utils/characterUtils';
 
 interface CharacterUnifiedViewProps {
   projectId: string;
@@ -43,7 +44,8 @@ export function CharacterUnifiedView({
   onDelete 
 }: CharacterUnifiedViewProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(character);
+  // Process array fields on component mount to handle PostgreSQL conversion issues
+  const [formData, setFormData] = useState(() => processCharacterArrayFields(character));
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
@@ -75,7 +77,7 @@ export function CharacterUnifiedView({
   };
 
   const handleCancel = () => {
-    setFormData(character); // Reset form data
+    setFormData(processCharacterArrayFields(character)); // Reset form data with processed arrays
     setIsEditing(false);
   };
 
@@ -218,7 +220,7 @@ export function CharacterUnifiedView({
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
-    setFormData(prev => ({
+    setFormData((prev: Character) => ({
       ...prev,
       [field]: value
     }));
@@ -609,7 +611,7 @@ export function CharacterUnifiedView({
                   <CharacterArcTracker
                     characterName={character.name || 'Character'}
                     onUpdateArcs={(arcs) => {
-                      setFormData(prev => ({ ...prev, arc: JSON.stringify(arcs) }));
+                      setFormData((prev: Character) => ({ ...prev, arc: JSON.stringify(arcs) }));
                     }}
                   />
                 </div>

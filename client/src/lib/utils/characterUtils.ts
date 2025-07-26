@@ -51,20 +51,90 @@ export function getCharacterReadinessLevel(percentage: number): {
   };
 }
 
+/**
+ * Complete list of all array fields in the character schema
+ * This must match the backend ARRAY_FIELDS list for consistency
+ */
+export const CHARACTER_ARRAY_FIELDS = [
+  'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+  'tropes', 'tags', 'spokenLanguages', 'nicknames', 'aliases', 
+  'distinguishingMarks', 'coreAbilities', 'specialAbilities', 'strengths', 
+  'weaknesses', 'values', 'beliefs', 'goals', 'motivations', 'fears', 
+  'desires', 'quirks', 'likes', 'dislikes', 'habits', 'vices', 'mannerisms',
+  'formativeEvents', 'family', 'friends', 'allies', 'enemies', 'rivals', 
+  'mentors', 'archetypes'
+];
+
+/**
+ * Processes array fields from database/server responses to ensure proper frontend display
+ * Handles the PostgreSQL {} conversion bug and various data formats
+ */
+export function processCharacterArrayFields(character: any): any {
+  const processedCharacter = { ...character };
+  
+  CHARACTER_ARRAY_FIELDS.forEach(field => {
+    const value = processedCharacter[field];
+    
+    if (value === null || value === undefined) {
+      // Null/undefined becomes empty array
+      processedCharacter[field] = [];
+    } else if (typeof value === 'string') {
+      // String handling
+      if (value === '' || value === '{}' || value === '[]') {
+        processedCharacter[field] = [];
+      } else {
+        try {
+          // Try to parse as JSON first (handles objects from database)
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) {
+            processedCharacter[field] = parsed.filter(item => item && String(item).trim().length > 0);
+          } else if (typeof parsed === 'object' && parsed !== null) {
+            // Object becomes array of values
+            processedCharacter[field] = Object.values(parsed).filter(val => val && String(val).trim().length > 0);
+          } else {
+            processedCharacter[field] = [String(parsed)];
+          }
+        } catch {
+          // If JSON parsing fails, split by comma
+          processedCharacter[field] = value.split(',').map(item => item.trim()).filter(item => item.length > 0);
+        }
+      }
+    } else if (typeof value === 'object' && !Array.isArray(value)) {
+      // Object that should be array (the main PostgreSQL bug)
+      if (Object.keys(value).length === 0) {
+        processedCharacter[field] = []; // Empty object becomes empty array
+      } else {
+        // Extract values from object, handling JSON-stringified entries
+        const extractedValues = Object.values(value).map(val => {
+          if (typeof val === 'string' && (val.startsWith('{"') || val.startsWith('['))) {
+            try {
+              const parsed = JSON.parse(val);
+              return typeof parsed === 'object' ? Object.values(parsed).join(' ') : parsed;
+            } catch {
+              return val;
+            }
+          }
+          return val;
+        }).filter(val => val && String(val).trim().length > 0);
+        
+        processedCharacter[field] = extractedValues;
+      }
+    } else if (!Array.isArray(value)) {
+      // Any other type becomes single-item array
+      processedCharacter[field] = [String(value)];
+    } else {
+      // Already proper array, just filter out empty items
+      processedCharacter[field] = value.filter(item => item && String(item).trim().length > 0);
+    }
+  });
+  
+  return processedCharacter;
+}
+
 export function convertArrayFieldsToStrings(character: any): any {
   const convertedCharacter = { ...character };
   
-  // List of fields that should be arrays but might come as strings from AI
-  const arrayFields = [
-    'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'languages', 
-    'archetypes', 'tropes', 'tags', 'nicknames', 'aliases', 'distinguishingMarks', 
-    'coreAbilities', 'specialAbilities', 'strengths', 'weaknesses', 'values', 
-    'beliefs', 'goals', 'motivations', 'fears', 'desires', 'quirks', 'likes', 
-    'dislikes', 'habits', 'vices', 'mannerisms', 'formativeEvents', 'family', 
-    'friends', 'allies', 'enemies', 'rivals', 'mentors', 'spokenLanguages'
-  ];
-  
-  arrayFields.forEach(field => {
+  CHARACTER_ARRAY_FIELDS.forEach(field => {
     if (convertedCharacter[field]) {
       if (typeof convertedCharacter[field] === 'string') {
         // Convert string to array by splitting on common delimiters
