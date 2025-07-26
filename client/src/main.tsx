@@ -24,7 +24,8 @@ window.addEventListener('unhandledrejection', (event) => {
           message.includes('cancelled') ||
           message.includes('request cancelled') ||
           message.includes('operation was aborted') ||
-          message.includes('aborted without reason')) {
+          message.includes('aborted without reason') ||
+          message.includes('user cancelled image generation')) {
         console.log('Suppressed client-side cancellation-related rejection:', reason.message);
         event.preventDefault(); // Prevent the error from showing in console
         return;
@@ -32,11 +33,16 @@ window.addEventListener('unhandledrejection', (event) => {
     }
   }
   
-  // Check string reasons for abort messages
-  if (typeof reason === 'string' && reason.toLowerCase().includes('abort')) {
-    console.log('Suppressed client-side string abort reason:', reason);
-    event.preventDefault();
-    return;
+  // Check string reasons for abort/cancellation messages
+  if (typeof reason === 'string') {
+    const lowerReason = reason.toLowerCase();
+    if (lowerReason.includes('abort') || 
+        lowerReason.includes('cancelled') || 
+        lowerReason.includes('user cancelled image generation')) {
+      console.log('Suppressed client-side string cancellation reason:', reason);
+      event.preventDefault();
+      return;
+    }
   }
   
   // Let other genuine errors show normally
