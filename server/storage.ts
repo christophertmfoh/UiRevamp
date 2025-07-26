@@ -23,7 +23,6 @@ import {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
-import { processArrayFieldsForDatabase, processArrayFieldsFromDatabase, debugArrayFields } from "./utils/arrayFieldProcessor";
 
 export interface IStorage {
   // Project operations
@@ -97,44 +96,65 @@ class MemoryStorage implements IStorage {
 
   // Character operations
   async getCharacters(projectId: string): Promise<Character[]> {
-    const characterList = await db.select().from(characters).where(eq(characters.projectId, projectId));
-    return characterList.map(char => processArrayFieldsFromDatabase(char));
+    return await db.select().from(characters).where(eq(characters.projectId, projectId));
   }
 
   async getCharacter(id: string): Promise<Character | undefined> {
     const [character] = await db.select().from(characters).where(eq(characters.id, id));
-    return character ? processArrayFieldsFromDatabase(character) : undefined;
+    return character || undefined;
   }
 
   async createCharacter(character: InsertCharacter): Promise<Character> {
-    // Process array fields to handle PostgreSQL conversion issues
-    const processedCharacter = processArrayFieldsForDatabase(character);
-    debugArrayFields(processedCharacter, 'before_db');
-    
-    const [newCharacter] = await db.insert(characters).values(processedCharacter).returning();
-    
-    // Process array fields on retrieval
-    const finalCharacter = processArrayFieldsFromDatabase(newCharacter);
-    debugArrayFields(finalCharacter, 'after_db');
-    
-    return finalCharacter;
+    const [newCharacter] = await db.insert(characters).values(character).returning();
+    return newCharacter;
   }
 
   async updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined> {
-    // Process array fields to handle PostgreSQL conversion issues
-    const processedCharacter = processArrayFieldsForDatabase(character);
-    debugArrayFields(processedCharacter, 'before_db');
+    console.log('Storage updateCharacter - incoming data sample:', {
+      personalityTraits: character.personalityTraits,
+      abilities: character.abilities,
+      skills: character.skills,
+      types: {
+        personalityTraits: typeof character.personalityTraits,
+        abilities: typeof character.abilities,
+        skills: typeof character.skills
+      }
+    });
     
-    const [updatedCharacter] = await db.update(characters).set(processedCharacter).where(eq(characters.id, id)).returning();
+    // Filter out undefined and empty array fields to prevent PostgreSQL array errors
+    const cleanedCharacter: any = {};
+    const arrayFields = ['personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 'tropes', 'tags', 'spokenLanguages'];
+    const timestampFields = ['createdAt', 'updatedAt'];
     
-    if (updatedCharacter) {
-      // Process array fields on retrieval
-      const finalCharacter = processArrayFieldsFromDatabase(updatedCharacter);
-      debugArrayFields(finalCharacter, 'after_db');
-      return finalCharacter;
-    }
+    Object.keys(character).forEach(key => {
+      const value = (character as any)[key];
+      
+      if (arrayFields.includes(key)) {
+        // Only include array fields if they have actual content
+        if (Array.isArray(value) && value.length > 0) {
+          cleanedCharacter[key] = value;
+        }
+        // Skip empty arrays to avoid PostgreSQL issues
+      } else if (timestampFields.includes(key)) {
+        // Convert timestamp strings/numbers to Date objects
+        if (value !== undefined && value !== null) {
+          cleanedCharacter[key] = new Date(value);
+        }
+      } else if (value !== undefined && value !== null) {
+        cleanedCharacter[key] = value;
+      }
+    });
     
-    return undefined;
+    console.log('Cleaned character data for update:', {
+      originalKeys: Object.keys(character),
+      cleanedKeys: Object.keys(cleanedCharacter),
+      skippedArrays: arrayFields.filter(field => 
+        Array.isArray((character as any)[field]) && (character as any)[field].length === 0
+      )
+    });
+    
+    const [updatedCharacter] = await db.update(characters).set(cleanedCharacter).where(eq(characters.id, id)).returning();
+    return updatedCharacter || undefined;
   }
 
   async deleteCharacter(id: string): Promise<boolean> {

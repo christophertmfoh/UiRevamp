@@ -60,56 +60,13 @@ export function CharacterDetailAccordion({
     );
   };
 
-    // Helper function to render array fields as badges with comprehensive PostgreSQL bug handling
-  const renderArrayField = (label: string, values: string[] | string | undefined | any, variant: "default" | "secondary" | "outline" = "outline", showEmptyState: boolean = false) => {
-    // Handle both array and comma-separated string plus PostgreSQL {} conversion bug
+  // Helper function to render array fields as badges
+  const renderArrayField = (label: string, values: string[] | string | undefined, variant: "default" | "secondary" | "outline" = "outline", showEmptyState: boolean = false) => {
+    // Handle both array and comma-separated string
     let processedValues: string[] = [];
     
-    if (values === null || values === undefined) {
-      processedValues = [];
-    } else if (Array.isArray(values)) {
-      processedValues = values.filter((v: string) => v?.trim());
-    } else if (typeof values === 'string') {
-      if (values === '' || values === '{}' || values === '[]') {
-        processedValues = [];
-      } else {
-        try {
-          // Try to parse as JSON first (handles objects from database)
-          const parsed = JSON.parse(values);
-          if (Array.isArray(parsed)) {
-            processedValues = parsed.filter(item => item && String(item).trim().length > 0);
-          } else if (typeof parsed === 'object' && parsed !== null) {
-            // Object becomes array of values (handles PostgreSQL {} bug)
-            processedValues = Object.values(parsed).filter(val => val && String(val).trim().length > 0).map(String);
-          } else {
-            processedValues = [String(parsed)];
-          }
-        } catch {
-          // If JSON parsing fails, split by comma
-          processedValues = values.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-        }
-      }
-    } else if (typeof values === 'object' && values !== null) {
-      // Object that should be array (the main PostgreSQL bug)
-      if (Object.keys(values).length === 0) {
-        processedValues = [];
-      } else {
-        // Extract values from object, handling JSON-stringified entries
-        processedValues = Object.values(values).map(val => {
-          if (typeof val === 'string' && (val.startsWith('{"') || val.startsWith('['))) {
-            try {
-              const parsed = JSON.parse(val);
-              return typeof parsed === 'object' ? Object.values(parsed).join(' ') : parsed;
-            } catch {
-              return val;
-            }
-          }
-          return val;
-        }).filter(val => val && String(val).trim().length > 0).map(String);
-      }
-    }
-    
-    if (processedValues.length === 0) {
+    if (!values || (Array.isArray(values) && values.length === 0)) {
+      // Empty array or null/undefined
       if (showEmptyState) {
         return (
           <div>
@@ -130,6 +87,18 @@ export function CharacterDetailAccordion({
       }
       return null;
     }
+    
+    if (typeof values === 'string') {
+      processedValues = values.split(',').map((v: string) => v.trim()).filter((v: string) => v);
+    } else if (Array.isArray(values)) {
+      processedValues = values.filter((v: string) => v?.trim());
+    }
+    
+    if (processedValues.length === 0) {
+      if (showEmptyState) {
+        return (
+          <div>
+            <h4 className="font-semibold mb-2 text-foreground">{label}</h4>
             <div className="text-center py-4 text-muted-foreground">
               <div className="text-sm">No {label.toLowerCase()} added yet</div>
               <Button 

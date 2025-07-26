@@ -14,7 +14,6 @@ import { CharacterGenerationModal, type CharacterGenerationOptions } from './Cha
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationLaunch } from './CharacterCreationLaunch';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
-import { processCharacterArrayFields } from '../../lib/utils/characterUtils';
 
 interface CharacterManagerProps {
   projectId: string;
@@ -45,12 +44,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
   const queryClient = useQueryClient();
 
-  const { data: rawCharacters = [], isLoading } = useQuery<Character[]>({
+  const { data: characters = [], isLoading } = useQuery<Character[]>({
     queryKey: ['/api/projects', projectId, 'characters'],
   });
-
-  // Process characters to handle PostgreSQL array field conversion issues
-  const characters = rawCharacters.map(char => processCharacterArrayFields(char));
 
   const { data: project } = useQuery<Project>({
     queryKey: ['/api/projects', projectId],

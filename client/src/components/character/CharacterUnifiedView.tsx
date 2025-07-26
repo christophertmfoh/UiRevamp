@@ -17,7 +17,6 @@ import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
 import { CharacterInsights } from './CharacterInsights';
 import { LoadingModal } from '../ui/loading-modal';
-import { processCharacterArrayFields } from '../../lib/utils/characterUtils';
 
 interface CharacterUnifiedViewProps {
   projectId: string;
@@ -44,8 +43,7 @@ export function CharacterUnifiedView({
   onDelete 
 }: CharacterUnifiedViewProps) {
   const [isEditing, setIsEditing] = useState(false);
-  // Process array fields on component mount to handle PostgreSQL conversion issues
-  const [formData, setFormData] = useState(() => processCharacterArrayFields(character));
+  const [formData, setFormData] = useState(character);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
@@ -77,7 +75,7 @@ export function CharacterUnifiedView({
   };
 
   const handleCancel = () => {
-    setFormData(processCharacterArrayFields(character)); // Reset form data with processed arrays
+    setFormData(character); // Reset form data
     setIsEditing(false);
   };
 
@@ -111,12 +109,7 @@ export function CharacterUnifiedView({
     // Define all fields that should be arrays according to schema
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags', 'nicknames', 'aliases',
-      'distinguishingMarks', 'coreAbilities', 'specialAbilities', 'strengths', 
-      'weaknesses', 'values', 'beliefs', 'goals', 'motivations', 'fears', 
-      'desires', 'quirks', 'likes', 'dislikes', 'habits', 'vices', 'mannerisms',
-      'formativeEvents', 'family', 'friends', 'allies', 'enemies', 'rivals', 
-      'mentors', 'spokenLanguages'
+      'languages', 'archetypes', 'tropes', 'tags'
     ];
     
     // Define all fields that should be strings according to schema  
@@ -220,7 +213,7 @@ export function CharacterUnifiedView({
   };
 
   const handleInputChange = (field: string, value: string | string[]) => {
-    setFormData((prev: Character) => ({
+    setFormData(prev => ({
       ...prev,
       [field]: value
     }));
@@ -611,7 +604,7 @@ export function CharacterUnifiedView({
                   <CharacterArcTracker
                     characterName={character.name || 'Character'}
                     onUpdateArcs={(arcs) => {
-                      setFormData((prev: Character) => ({ ...prev, arc: JSON.stringify(arcs) }));
+                      setFormData(prev => ({ ...prev, arc: JSON.stringify(arcs) }));
                     }}
                   />
                 </div>

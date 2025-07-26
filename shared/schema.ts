@@ -50,9 +50,9 @@ export const characters = pgTable("characters", {
   
   // Basic Information (Core Identity)
   name: text("name").default(''),
-  nicknames: text("nicknames").array().default([]),
+  nicknames: text("nicknames").default(''),
   title: text("title").default(''),
-  aliases: text("aliases").array().default([]),
+  aliases: text("aliases").default(''),
   race: text("race").default(''),
   species: text("species").default(''),
   ethnicity: text("ethnicity").default(''),
@@ -84,7 +84,7 @@ export const characters = pgTable("characters", {
   tattoos: text("tattoos").default(''),
   piercings: text("piercings").default(''),
   birthmarks: text("birthmarks").default(''),
-  distinguishingMarks: text("distinguishing_marks").array().default([]),
+  distinguishingMarks: text("distinguishing_marks").default(''),
   attire: text("attire").default(''),
   clothingStyle: text("clothing_style").default(''),
   accessories: text("accessories").default(''),
