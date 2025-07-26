@@ -39,7 +39,6 @@ function buildProjectContext(context: CultureGenerationContext): string {
     contextPrompt += `\nGenre: ${project.genre}`;
   }
   
-      contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location'}`;
     });
   }
   

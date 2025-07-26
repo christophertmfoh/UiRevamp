@@ -87,7 +87,7 @@ Your response must be valid JSON in this exact format:
   "causes": "What led to this event happening",
   "consequences": "The long-term effects and results of this event",
   "key_figures": "Important people involved in this event",
-  "locations": "Where this event took place",
+
   "tags": ["tag1", "tag2", "tag3"]
 }
 

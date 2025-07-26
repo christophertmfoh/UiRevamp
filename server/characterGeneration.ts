@@ -206,7 +206,6 @@ function buildProjectContext(context: CharacterGenerationContext): string {
     contextPrompt += `\nType: ${project.type}`;
   }
   
-      contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location in the story'}`;
     });
   }
   

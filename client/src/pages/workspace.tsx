@@ -6,7 +6,7 @@ import { useDebouncedSave } from '../lib/useDebouncedSave';
 import { 
     generateNewCharacter, fleshOutCharacter, generateCharacterImage, 
     fleshOutItem, generateItemImage, 
-    generateLocationImage, fleshOutLocation,
+
     fleshOutFaction, getAICoachFeedback
 } from '../lib/services';
 import { iconMap, AI_CONFIGURABLE_TOOLS, characterArchetypes, BUILT_IN_CRAFT_KNOWLEDGE, ALL_ON_AI_CRAFT_CONFIG, ALL_OFF_AI_CRAFT_CONFIG } from '../lib/config';
@@ -79,7 +79,7 @@ const initialSidebarItems: SidebarItem[] = [
         isVisible: true
       },
       {
-        label: 'Locations',
+
         icon: 'map-pin',
         isVisible: true
       },

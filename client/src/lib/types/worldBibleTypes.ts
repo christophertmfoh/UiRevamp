@@ -1,6 +1,6 @@
 /**
  * World Bible Entity Type Definitions  
- * Consolidated types for Locations, Factions, Items, and other world elements
+ * Consolidated types for Factions, Items, and other world elements
  */
 
 import type { EnhancedEntityFields, BaseTemplate } from './baseTypes';
@@ -203,7 +203,7 @@ export interface Theme extends WorldBibleEntity {
 
 // Union type for all world bible entities
 export type AnyWorldBibleEntity = 
-  | Location 
+ 
   | Faction 
   | Item 
   | Creature 
