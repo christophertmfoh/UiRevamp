@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles } from 'lucide-react';
+import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles, Loader2 } from 'lucide-react';
 
 interface CharacterTemplate {
   id: string;
@@ -673,6 +673,50 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                       </>
                     )}
                   </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+
+        {/* AI Generation Loading Overlay */}
+        {isGenerating && (
+          <Dialog open={true} onOpenChange={() => {}}>
+            <DialogContent className="max-w-md">
+              <div className="flex flex-col items-center text-center space-y-6 py-8">
+                <div className="relative">
+                  <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>
+                  <Sparkles className="w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                </div>
+                
+                <div className="space-y-2">
+                  <h3 className="text-xl font-bold text-accent">Generating Character</h3>
+                  <p className="text-muted-foreground">
+                    Creating a comprehensive {selectedTemplate?.name} with AI...
+                  </p>
+                </div>
+
+                <div className="w-full space-y-2">
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse"></div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Filling {selectedTemplate?.name} template with detailed character information across all 164+ fields
+                  </p>
+                </div>
+
+                <div className="bg-muted/50 rounded-lg p-4 w-full">
+                  <h4 className="font-semibold text-sm mb-2">AI is generating:</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                    <div>• Identity details</div>
+                    <div>• Physical appearance</div>
+                    <div>• Personality traits</div>
+                    <div>• Character abilities</div>
+                    <div>• Backstory & history</div>
+                    <div>• Relationships</div>
+                    <div>• Story integration</div>
+                    <div>• Unique characteristics</div>
+                  </div>
                 </div>
               </div>
             </DialogContent>
