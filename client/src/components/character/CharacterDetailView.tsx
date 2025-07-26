@@ -59,6 +59,10 @@ export function CharacterDetailView({
         projectId={projectId}
         character={character}
         onCancel={() => setIsEditing(false)}
+        onSave={(savedCharacter) => {
+          setIsEditing(false);
+          onEdit(savedCharacter); // Update the character in parent component
+        }}
       />
     );
   }

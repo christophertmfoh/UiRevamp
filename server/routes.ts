@@ -150,10 +150,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       });
       
-      // Ensure array fields stay as arrays
+      // Ensure array fields stay as arrays and handle empty strings
       keepAsArrayFields.forEach(field => {
-        if (typeof characterData[field] === 'string' && characterData[field]) {
-          characterData[field] = characterData[field].split(', ').map(s => s.trim()).filter(s => s);
+        if (typeof characterData[field] === 'string') {
+          if (characterData[field] === '' || !characterData[field]) {
+            characterData[field] = [];
+          } else {
+            characterData[field] = characterData[field].split(',').map(s => s.trim()).filter(s => s);
+          }
         } else if (!Array.isArray(characterData[field])) {
           characterData[field] = [];
         }
@@ -200,16 +204,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       });
       
-      // Ensure array fields stay as arrays
+      // Ensure array fields stay as arrays and handle empty strings
       keepAsArrayFields.forEach(field => {
-        if (typeof transformedData[field] === 'string' && transformedData[field]) {
-          transformedData[field] = transformedData[field].split(', ').map(s => s.trim()).filter(s => s);
+        if (typeof transformedData[field] === 'string') {
+          if (transformedData[field] === '' || !transformedData[field]) {
+            transformedData[field] = [];
+          } else {
+            transformedData[field] = transformedData[field].split(',').map(s => s.trim()).filter(s => s);
+          }
         } else if (!Array.isArray(transformedData[field])) {
           transformedData[field] = [];
         }
       });
       
-      console.log('Transforming character data for update:', { id, originalArrays: req.body.spokenLanguages, transformed: transformedData.spokenLanguages });
+      console.log('Transforming character data for update:', { 
+        id, 
+        personalityTraits: { original: req.body.personalityTraits, transformed: transformedData.personalityTraits },
+        abilities: { original: req.body.abilities, transformed: transformedData.abilities },
+        skills: { original: req.body.skills, transformed: transformedData.skills }
+      });
       
       const validatedData = insertCharacterSchema.parse(transformedData);
       const character = await storage.updateCharacter(id, validatedData);

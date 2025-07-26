@@ -16,12 +16,13 @@ import { FieldAIAssist } from './FieldAIAssist';
 interface CharacterFormExpandedProps {
   projectId: string;
   onCancel: () => void;
+  onSave?: (character: Character) => void;
   character?: Character;
 }
 
 const AI_ENABLED_FIELD_TYPES = ['text', 'textarea', 'array'];
 
-export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
+export function CharacterFormExpanded({ projectId, onCancel, onSave, character }: CharacterFormExpandedProps) {
   // Initialize form data with all fields from CHARACTER_SECTIONS
   const initializeFormData = () => {
     const initialData: any = {};
@@ -54,9 +55,13 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       if (!response.ok) throw new Error('Failed to create character');
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (savedCharacter) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      onCancel();
+      if (onSave) {
+        onSave(savedCharacter);
+      } else {
+        onCancel();
+      }
     }
   });
 
@@ -70,9 +75,13 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
       if (!response.ok) throw new Error('Failed to update character');
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (savedCharacter) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      onCancel();
+      if (onSave) {
+        onSave(savedCharacter);
+      } else {
+        onCancel();
+      }
     }
   });
 
