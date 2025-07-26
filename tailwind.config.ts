@@ -2,7 +2,14 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./frontend/components/**/*.{js,vue,ts}",
+    "./frontend/layouts/**/*.vue",
+    "./frontend/pages/**/*.vue",
+    "./frontend/plugins/**/*.{js,ts}",
+    "./frontend/app.vue",
+    "./frontend/error.vue"
+  ],
   theme: {
     extend: {
       borderRadius: {
