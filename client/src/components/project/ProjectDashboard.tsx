@@ -66,27 +66,27 @@ export function ProjectDashboard({
       label: 'World Bible', 
       icon: Globe, 
       description: 'Build your universe - characters, factions, lore',
-      status: project.characters.length > 0 || project.factions.length > 0 ? 'active' : 'pending',
-      count: project.characters.length + project.factions.length + project.items.length,
-      progress: Math.min(100, (project.characters.length + project.factions.length + project.items.length) * 10)
+      status: project.characters?.length > 0 ? 'active' : 'pending',
+      count: project.characters?.length || 0,
+      progress: Math.min(100, (project.characters?.length || 0) * 10)
     },
     { 
       id: 'outline', 
       label: 'Outline', 
       icon: ScrollText, 
       description: 'Structure your story with detailed plotting',
-      status: project.outline.length > 0 ? 'active' : 'pending',
-      count: project.outline.length,
-      progress: Math.min(100, project.outline.length * 20)
+      status: project.outline?.length > 0 ? 'active' : 'pending',
+      count: project.outline?.length || 0,
+      progress: Math.min(100, (project.outline?.length || 0) * 20)
     },
     { 
       id: 'manuscript', 
       label: 'Manuscript', 
       icon: Feather, 
       description: 'Write your story in novel, script, or graphic formats',
-      status: project.manuscript.novel || project.manuscript.screenplay ? 'active' : 'pending',
-      count: Math.floor((project.manuscript.novel || project.manuscript.screenplay || '').split(' ').length / 100) || 0,
-      progress: Math.min(100, ((project.manuscript.novel || project.manuscript.screenplay || '').split(' ').length / 500))
+      status: project.manuscript?.novel || project.manuscript?.screenplay ? 'active' : 'pending',
+      count: Math.floor((project.manuscript?.novel || project.manuscript?.screenplay || '').split(' ').length / 100) || 0,
+      progress: Math.min(100, ((project.manuscript?.novel || project.manuscript?.screenplay || '').split(' ').length / 500))
     },
     { 
       id: 'storyboard', 

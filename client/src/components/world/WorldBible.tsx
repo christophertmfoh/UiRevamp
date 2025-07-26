@@ -88,7 +88,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
 
 
     return results;
-  }, [searchQuery, characters, creatures]);
+  }, [searchQuery, characters]);
 
   // World overview data
   const worldData = {
