@@ -179,22 +179,27 @@ ${projectContext}`;
     jsonString = jsonString.replace(/[""]/g, '"');
     jsonString = jsonString.replace(/['']/g, "'");
     
-    // Fix array formatting issues - ensure arrays are properly formatted
+    // Fix array formatting issues - handle complex array structures
     jsonString = jsonString.replace(/:\s*\[([^\]]*)\]/g, (match, content) => {
-      // Clean up array content
-      const cleanContent = content.replace(/["""]/g, '"').trim();
+      // Clean up array content and fix colon issues in arrays
+      let cleanContent = content.replace(/["""]/g, '"').trim();
+      
+      // Fix cases where colons appear instead of commas in arrays (e.g., "item1" : "description", "item2")
+      cleanContent = cleanContent.replace(/"\s*:\s*"[^"]*",?\s*"/g, (colonMatch: string) => {
+        // Extract just the key part before the colon
+        const keyMatch = colonMatch.match(/^"([^"]*?)"/);
+        return keyMatch ? `"${keyMatch[1]}"` : colonMatch;
+      });
+      
       if (cleanContent && !cleanContent.startsWith('"')) {
         // Split by comma and wrap items in quotes if they aren't already
-        const items = cleanContent.split(',').map(item => {
-          const trimmed = item.trim();
-          if (trimmed && !trimmed.startsWith('"')) {
-            return `"${trimmed.replace(/"/g, '').trim()}"`;
-          }
-          return trimmed;
-        }).filter(item => item);
+        const items = cleanContent.split(',').map((item: string) => {
+          const trimmed = item.trim().replace(/^"(.*)"$/, '$1'); // Remove existing quotes
+          return trimmed ? `"${trimmed}"` : '';
+        }).filter((item: string) => item);
         return `: [${items.join(', ')}]`;
       }
-      return match;
+      return `: [${cleanContent}]`;
     });
     
     // Fix object key-value formatting issues
@@ -227,7 +232,7 @@ ${projectContext}`;
         generatedData = JSON.parse(jsonString);
         console.log(`Server: Parsed character data successfully on attempt ${attempt}`);
         break;
-      } catch (parseError) {
+      } catch (parseError: any) {
         console.log(`Server: JSON parse attempt ${attempt} failed:`, parseError.message);
         
         if (attempt < 3) {
@@ -246,7 +251,7 @@ ${projectContext}`;
     }
     
     if (!generatedData) {
-      console.error('Server: JSON parse error:', parseError);
+      console.error('Server: All JSON parsing attempts failed');
       console.error('Server: Problematic JSON (first 500 chars):', jsonString.substring(0, 500));
       console.error('Server: Problematic JSON (last 500 chars):', jsonString.substring(Math.max(0, jsonString.length - 500)));
       
