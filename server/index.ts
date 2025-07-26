@@ -1,64 +1,37 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import { spawn } from 'child_process';
+import { join } from 'path';
 
-const app = express();
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+console.log('🚀 FORCING NUXT 3 FRONTEND ON PORT 5000');
+console.log('=====================================');
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+const frontendPath = join(process.cwd(), 'frontend');
 
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
+// Kill any existing processes on port 5000
+spawn('pkill', ['-f', 'port 5000'], { stdio: 'ignore' });
 
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
-  });
-
-  next();
+// Start Nuxt with explicit port binding
+const nuxt = spawn('npm', ['run', 'dev'], {
+  cwd: frontendPath,
+  stdio: ['inherit', 'inherit', 'inherit'],
+  env: { 
+    ...process.env, 
+    PORT: '5000',
+    NUXT_PORT: '5000',
+    NUXT_HOST: '0.0.0.0'
+  }
 });
 
-(async () => {
-  const server = await registerRoutes(app);
+nuxt.on('error', (error) => {
+  console.error('Nuxt startup error:', error);
+  process.exit(1);
+});
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+nuxt.on('close', (code) => {
+  process.exit(code || 0);
+});
 
-    res.status(status).json({ message });
-    throw err;
-  });
+process.on('SIGINT', () => {
+  nuxt.kill('SIGINT');
+});
 
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
-})();
+console.log('✅ Nuxt 3 taking over port 5000...');
