@@ -131,10 +131,10 @@ export function CharacterPortraitModal({
       
       const data = await response.json();
       
-      if (data.imageUrl) {
+      if (data.url) {
         const newPortrait = {
           id: Date.now().toString(),
-          url: data.imageUrl,
+          url: data.url,
           isMain: portraitGallery.length === 0 // First image is automatically main
         };
         
@@ -143,9 +143,9 @@ export function CharacterPortraitModal({
         
         // Save to database
         if (newPortrait.isMain) {
-          updateCharacterImageUrl(data.imageUrl, updatedGallery);
+          updateCharacterImageUrl(data.url, updatedGallery);
           if (onImageGenerated) {
-            onImageGenerated(data.imageUrl);
+            onImageGenerated(data.url);
           }
         } else {
           savePortraitsToCharacter(updatedGallery);
@@ -438,7 +438,7 @@ export function CharacterPortraitModal({
                         </h3>
                         <div className="aspect-square w-full max-w-sm mx-auto bg-gradient-to-br from-muted/50 to-muted/30 rounded-xl flex items-center justify-center border border-border/30 group cursor-pointer">
                           {character.imageUrl ? (
-                            <div className="relative w-full h-full rounded-xl overflow-hidden" onClick={() => setSelectedImagePreview(character.imageUrl)}>
+                            <div className="relative w-full h-full rounded-xl overflow-hidden" onClick={() => setSelectedImagePreview(character.imageUrl || null)}>
                               <img 
                                 src={character.imageUrl} 
                                 alt={character.name}
