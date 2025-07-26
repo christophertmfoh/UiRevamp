@@ -1,207 +1,129 @@
+
+
 <template>
-  <div class="fablecraft-app">
-    <!-- Migration Success Banner -->
-    <div class="migration-banner">
-      <div class="banner-content">
-        <div class="success-icon">✅</div>
-        <div class="banner-text">
-          <h3>Migration Complete!</h3>
-          <p>Fablecraft is now running on modern Nuxt 3 + Vue 3 + Kotlin Spring Boot</p>
+  <div class="landing-page">
+    <!-- Background Pattern -->
+    <div class="background-pattern"></div>
+    <div class="radial-gradient"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav-header">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
         </div>
-        <div class="performance-stats">
-          <span class="stat">2-3x Faster</span>
-          <span class="stat">100% Type Safe</span>
-          <span class="stat">Enterprise Ready</span>
+        <span class="brand-text">Fablecraft</span>
+        <span class="brand-tagline">Craft Your Fable</span>
+      </div>
+      
+      <div class="nav-actions">
+        <button @click="showProjects = true" class="projects-btn">
+          Your Projects
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="hero-container">
+        <!-- Hero Badge -->
+        <div class="hero-badge">
+          <div class="badge-pulse"></div>
+          <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+          <span class="badge-text">AI-Powered Creative Writing Studio</span>
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="hero-heading">
+          The Complete
+          <span class="hero-highlight">Your Creative Journey</span>
+        </h1>
+
+        <!-- Description -->
+        <p class="hero-description">
+          Transform fleeting ideas into rich, immersive worlds. From initial brainstorming to
+          final production, Fablecraft guides you through every step of the creative journey
+          with AI-powered tools and professional storytelling frameworks.
+        </p>
+
+        <!-- Loading Animation -->
+        <div class="loading-section">
+          <div class="loading-bar">
+            <div class="loading-fill"></div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button @click="createNewProject" class="btn-primary">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Start Your Story
+          </button>
+          
+          <button @click="showProjects = true" class="btn-secondary">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+            Browse Projects
+          </button>
+        </div>
+
+        <!-- Feature Tags -->
+        <div class="feature-tags">
+          <span class="feature-tag">Character Development</span>
+          <span class="feature-tag">World Building</span>
+          <span class="feature-tag">AI Assistance</span>
+          <span class="feature-tag">Story Structure</span>
         </div>
       </div>
     </div>
 
-    <!-- Main Header -->
-    <header class="main-header">
-      <div class="container">
-        <div class="header-content">
-          <div class="logo-section">
-            <h1 class="app-title">Fablecraft</h1>
-            <p class="app-tagline">Craft Your Fable</p>
-          </div>
-          <nav class="main-nav">
-            <button @click="activeView = 'projects'" :class="{ active: activeView === 'projects' }">
-              Projects
-            </button>
-            <button @click="activeView = 'characters'" :class="{ active: activeView === 'characters' }">
-              Characters
-            </button>
-            <button @click="activeView = 'world'" :class="{ active: activeView === 'world' }">
-              World Bible
-            </button>
-          </nav>
+    <!-- Projects Modal -->
+    <div v-if="showProjects" class="modal-overlay" @click="showProjects = false">
+      <div class="modal-content projects-modal" @click.stop>
+        <div class="modal-header">
+          <h3>Your Creative Projects</h3>
+          <button class="close-btn" @click="showProjects = false">×</button>
         </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="container">
-        <!-- Projects View -->
-        <div v-if="activeView === 'projects'" class="view-section">
-          <div class="section-header">
-            <h2>Your Creative Projects</h2>
-            <button class="create-btn" @click="showCreateProject = true">
-              <span class="plus-icon rotating">+</span>
-              Create Project
-            </button>
-          </div>
-          
+        
+        <div class="projects-content">
           <div class="projects-grid">
             <div v-for="project in projects" :key="project.id" class="project-card">
-              <div class="project-header">
-                <h3>{{ project.name }}</h3>
-                <span class="project-type">{{ project.type }}</span>
-              </div>
-              <p class="project-description">{{ project.description }}</p>
-              <div class="project-stats">
-                <span class="stat">{{ project.characters || 0 }} Characters</span>
-                <span class="stat">{{ project.locations || 0 }} Locations</span>
-              </div>
-              <div class="project-actions">
-                <button class="btn-primary" @click="openProject(project)">Open Project</button>
-              </div>
+              <div class="project-icon">📚</div>
+              <h4>{{ project.name }}</h4>
+              <p>{{ project.description }}</p>
+              <span class="project-type">{{ project.type }}</span>
+              <button @click="openProject(project)" class="open-project-btn">Open</button>
             </div>
             
-            <!-- Empty State -->
-            <div v-if="projects.length === 0" class="empty-state">
-              <div class="empty-icon">📚</div>
-              <h3>No Projects Yet</h3>
-              <p>Create your first project to start crafting amazing stories</p>
-              <button class="btn-primary" @click="showCreateProject = true">Create Your First Project</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Characters View -->
-        <div v-if="activeView === 'characters'" class="view-section">
-          <div class="section-header">
-            <h2>Character Directory</h2>
-            <div class="header-controls">
-              <div class="view-toggle">
-                <button @click="characterView = 'grid'" :class="{ active: characterView === 'grid' }" class="view-btn">
-                  <span class="icon">⊞</span>
-                </button>
-                <button @click="characterView = 'list'" :class="{ active: characterView === 'list' }" class="view-btn">
-                  <span class="icon">☰</span>
-                </button>
-              </div>
-              <button class="create-btn" @click="showCreateCharacter = true">
-                <span class="plus-icon rotating">+</span>
-                Create Character
-              </button>
-            </div>
-          </div>
-          
-          <!-- Grid View -->
-          <div v-if="characterView === 'grid'" class="characters-grid">
-            <div v-for="character in characters" :key="character.id" class="character-card premium-card">
-              <div class="character-image">
-                <img :src="character.image || '/api/placeholder/200/250'" :alt="character.name">
-                <div class="character-overlay">
-                  <button class="overlay-btn" @click="editCharacter(character)">Edit</button>
-                  <button class="overlay-btn" @click="viewCharacter(character)">View</button>
-                </div>
-              </div>
-              <div class="character-info">
-                <h3>{{ character.name }}</h3>
-                <p class="character-role">{{ character.role || character.profession }}</p>
-                <div class="character-tags">
-                  <span v-if="character.race" class="tag">{{ character.race }}</span>
-                  <span v-if="character.age" class="tag">{{ character.age }} years</span>
-                </div>
-                <div class="progress-section">
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: character.completeness + '%' }"></div>
-                  </div>
-                  <span class="progress-text">{{ character.completeness }}% Complete</span>
-                </div>
-                <div class="completion-status" :class="getCompletionClass(character.completeness)">
-                  {{ getCompletionText(character.completeness) }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- List View -->
-          <div v-if="characterView === 'list'" class="characters-list">
-            <div v-for="character in characters" :key="character.id" class="character-list-item">
-              <div class="character-avatar">
-                <img :src="character.image || '/api/placeholder/80/80'" :alt="character.name">
-              </div>
-              <div class="character-details">
-                <div class="character-name-section">
-                  <h3>{{ character.name }}</h3>
-                  <span class="character-role">{{ character.role || character.profession }}</span>
-                </div>
-                <div class="character-meta">
-                  <span v-if="character.race" class="meta-item">{{ character.race }}</span>
-                  <span v-if="character.age" class="meta-item">{{ character.age }} years old</span>
-                </div>
-                <div class="progress-section">
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: character.completeness + '%' }"></div>
-                  </div>
-                  <span class="progress-percentage">{{ character.completeness }}%</span>
-                </div>
-              </div>
-              <div class="character-actions">
-                <button class="btn-secondary" @click="viewCharacter(character)">View</button>
-                <button class="btn-primary" @click="editCharacter(character)">Edit</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Empty State -->
-          <div v-if="characters.length === 0" class="empty-state">
-            <div class="empty-icon">👥</div>
-            <h3>No Characters Yet</h3>
-            <p>Create your first character to populate your story world</p>
-            <button class="btn-primary" @click="showCreateCharacter = true">Create Your First Character</button>
-          </div>
-        </div>
-
-        <!-- World Bible View -->
-        <div v-if="activeView === 'world'" class="view-section">
-          <div class="section-header">
-            <h2>World Bible</h2>
-            <button class="create-btn" @click="showCreateWorld = true">
-              <span class="plus-icon rotating">+</span>
-              Add Element
-            </button>
-          </div>
-          
-          <div class="world-categories">
-            <div class="category-card" v-for="category in worldCategories" :key="category.key">
-              <div class="category-icon">{{ category.icon }}</div>
-              <h3>{{ category.name }}</h3>
-              <p>{{ category.count }} {{ category.name.toLowerCase() }}</p>
-              <div class="category-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" :style="{ width: category.progress + '%' }"></div>
-                </div>
-                <span class="progress-text">{{ category.progress }}% Developed</span>
-              </div>
-              <button class="btn-secondary" @click="openCategory(category)">Manage {{ category.name }}</button>
+            <div class="create-project-card" @click="showCreateProject = true">
+              <div class="create-icon">+</div>
+              <h4>Create New Project</h4>
+              <p>Start a fresh creative project</p>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
 
     <!-- Create Project Modal -->
     <div v-if="showCreateProject" class="modal-overlay" @click="showCreateProject = false">
-      <div class="modal-content create-project-modal" @click.stop>
+      <div class="modal-content create-modal" @click.stop>
         <div class="modal-header">
           <h3>Create New Project</h3>
           <button class="close-btn" @click="showCreateProject = false">×</button>
         </div>
-        <form @submit.prevent="createProject" class="project-form">
+        
+        <form @submit.prevent="createProject" class="create-form">
           <div class="form-group">
             <label>Project Name</label>
             <input v-model="newProject.name" type="text" required placeholder="Enter your project name">
@@ -215,48 +137,17 @@
               <option value="comic">Comic/Graphic Novel</option>
               <option value="short-story">Short Story</option>
               <option value="game">Game Story</option>
-              <option value="other">Other</option>
             </select>
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea v-model="newProject.description" rows="4" placeholder="Describe your project..."></textarea>
+            <textarea v-model="newProject.description" rows="3" placeholder="Describe your project..."></textarea>
           </div>
           <div class="form-actions">
-            <button type="button" @click="showCreateProject = false" class="btn-secondary">Cancel</button>
-            <button type="submit" class="btn-primary">Create Project</button>
+            <button type="button" @click="showCreateProject = false" class="btn-cancel">Cancel</button>
+            <button type="submit" class="btn-create">Create Project</button>
           </div>
         </form>
-      </div>
-    </div>
-
-    <!-- Character Creation Launch Modal -->
-    <div v-if="showCreateCharacter" class="modal-overlay" @click="showCreateCharacter = false">
-      <div class="modal-content character-creation-modal" @click.stop>
-        <div class="modal-header">
-          <h3>Create Character</h3>
-          <button class="close-btn" @click="showCreateCharacter = false">×</button>
-        </div>
-        <div class="creation-options">
-          <div class="creation-option" @click="createCharacterBlank">
-            <div class="option-icon">✏️</div>
-            <h4>Start from Scratch</h4>
-            <p>Create a completely custom character with all fields empty</p>
-            <button class="option-btn">Create Blank Character</button>
-          </div>
-          <div class="creation-option" @click="selectTemplate">
-            <div class="option-icon">📋</div>
-            <h4>Use Template</h4>
-            <p>Choose from 20+ professional character archetypes</p>
-            <button class="option-btn">Browse Templates</button>
-          </div>
-          <div class="creation-option" @click="generateWithAI">
-            <div class="option-icon">🤖</div>
-            <h4>AI Generate</h4>
-            <p>Let AI create a detailed character based on your prompts</p>
-            <button class="option-btn">Generate with AI</button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -280,16 +171,17 @@ const showCreateProject = ref(false)
 const showCreateCharacter = ref(false)
 const showCreateWorld = ref(false)
 
-// Loading states
+// State
+const showProjects = ref(false)
+const showCreateProject = ref(false)
 const loading = ref(false)
-const error = ref(null)
 
-// Sample data (will be replaced with API calls)
+// Sample projects data
 const projects = ref([
   {
     id: 1,
     name: "The Last Guardian",
-    type: "novel",
+    type: "Novel",
     description: "A fantasy epic about ancient magic and forgotten realms",
     characters: 12,
     locations: 8,
@@ -297,55 +189,22 @@ const projects = ref([
   },
   {
     id: 2,
-    name: "Neon Dreams",
-    type: "screenplay",
+    name: "Neon Dreams", 
+    type: "Screenplay",
     description: "Cyberpunk thriller set in 2087 Neo-Tokyo",
     characters: 6,
     locations: 15,
     createdAt: "2025-01-20"
-  }
-])
-
-const characters = ref([
-  {
-    id: 1,
-    name: "Aria Shadowmend",
-    role: "Protagonist",
-    race: "Elf",
-    age: 127,
-    profession: "Mage",
-    completeness: 85,
-    image: null
-  },
-  {
-    id: 2,
-    name: "Marcus Steel",
-    role: "Deuteragonist", 
-    race: "Human",
-    age: 34,
-    profession: "Detective",
-    completeness: 92,
-    image: null
   },
   {
     id: 3,
-    name: "Luna Nightwhisper",
-    role: "Antagonist",
-    race: "Dark Elf",
-    age: 89,
-    profession: "Shadow Assassin",
-    completeness: 67,
-    image: null
+    name: "Mystic Chronicles",
+    type: "Comic",
+    description: "Visual storytelling with supernatural elements",
+    characters: 8,
+    locations: 12,
+    createdAt: "2025-01-22"
   }
-])
-
-const worldCategories = ref([
-  { key: 'locations', name: 'Locations', icon: '🏰', count: 8, progress: 75 },
-  { key: 'factions', name: 'Factions', icon: '⚔️', count: 4, progress: 60 },
-  { key: 'items', name: 'Items', icon: '🗡️', count: 15, progress: 40 },
-  { key: 'events', name: 'Events', icon: '📜', count: 6, progress: 50 },
-  { key: 'lore', name: 'Lore', icon: '📚', count: 12, progress: 85 },
-  { key: 'magic', name: 'Magic System', icon: '✨', count: 3, progress: 90 }
 ])
 
 // Form data
@@ -355,45 +214,25 @@ const newProject = reactive({
   description: ''
 })
 
-// Computed properties
-const getCompletionClass = computed(() => (completeness) => {
-  if (completeness >= 80) return 'high-completion'
-  if (completeness >= 50) return 'medium-completion'
-  return 'low-completion'
-})
-
-const getCompletionText = computed(() => (completeness) => {
-  if (completeness >= 80) return 'Ready to develop'
-  if (completeness >= 50) return 'In development'
-  return 'Needs attention'
-})
-
 // Methods
+const createNewProject = () => {
+  showCreateProject.value = true
+}
+
 const openProject = (project) => {
   console.log('Opening project:', project.name)
+  showProjects.value = false
   // Navigate to project workspace
 }
 
-const editCharacter = (character) => {
-  console.log('Editing character:', character.name)
-  // Navigate to character editor
-}
-
-const viewCharacter = (character) => {
-  console.log('Viewing character:', character.name)
-  // Navigate to character detail view
-}
-
-const openCategory = (category) => {
-  console.log('Opening category:', category.name)
-  // Navigate to category management
-}
-
 const createProject = () => {
-  // Add project creation logic
+  if (!newProject.name.trim() || !newProject.type) return
+  
   const project = {
     id: Date.now(),
-    ...newProject,
+    name: newProject.name,
+    type: newProject.type,
+    description: newProject.description || 'New creative project',
     characters: 0,
     locations: 0,
     createdAt: new Date().toISOString().split('T')[0]
@@ -404,141 +243,574 @@ const createProject = () => {
   // Reset form
   Object.assign(newProject, { name: '', type: '', description: '' })
   showCreateProject.value = false
-}
-
-const createCharacterBlank = () => {
-  showCreateCharacter.value = false
-  console.log('Creating blank character')
-  // Navigate to character creation form
-}
-
-const selectTemplate = () => {
-  showCreateCharacter.value = false
-  console.log('Selecting character template')
-  // Navigate to template selection
-}
-
-const generateWithAI = () => {
-  showCreateCharacter.value = false
-  console.log('Generating character with AI')
-  // Navigate to AI generation
+  showProjects.value = false
+  
+  console.log('Created project:', project.name)
 }
 </script>
 
 <style scoped>
-.fablecraft-app {
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+.landing-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #faf8f5 0%, #f3e8d0 100%);
+  position: relative;
+  overflow: hidden;
   font-family: 'Inter', sans-serif;
+  color: #e5e7eb;
 }
 
-/* Migration Banner */
-.migration-banner {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* Background */
+.background-pattern {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 100%);
+  z-index: -2;
 }
 
-.banner-content {
-  max-width: 1200px;
-  margin: 0 auto;
+.radial-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15) 0%, transparent 50%);
+  z-index: -1;
+}
+
+/* Navigation */
+.nav-header {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0 1rem;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
 }
 
-.success-icon {
-  font-size: 2rem;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.banner-text h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+.brand-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
-.banner-text p {
-  margin: 0.25rem 0 0 0;
-  opacity: 0.9;
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  font-family: 'Playfair Display', serif;
+}
+
+.brand-tagline {
   font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin-left: 0.5rem;
 }
 
-.performance-stats {
-  margin-left: auto;
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.projects-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: rgba(79, 70, 229, 0.1);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  border-radius: 0.5rem;
+  color: #a5b4fc;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.projects-btn:hover {
+  background: rgba(79, 70, 229, 0.2);
+  border-color: rgba(79, 70, 229, 0.5);
+  color: #c7d2fe;
+  transform: translateY(-1px);
+}
+
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+  padding: 2rem;
+}
+
+.hero-container {
+  text-align: center;
+  max-width: 4rem;
+  max-width: 56rem;
+  animation: fadeIn 1s ease-out;
+}
+
+/* Hero Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(79, 70, 229, 0.1);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  animation: pulseGlow 2s infinite;
+}
+
+.badge-pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #6366f1;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.badge-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #a5b4fc;
+}
+
+/* Hero Heading */
+.hero-heading {
+  font-size: 3.75rem;
+  font-weight: 800;
+  line-height: 0.9;
+  color: #f1f5f9;
+  margin-bottom: 2rem;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.025em;
+}
+
+.hero-highlight {
+  display: block;
+  background: linear-gradient(135deg, #d4af37 0%, #f1c40f 50%, #d4af37 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Hero Description */
+.hero-description {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  max-width: 48rem;
+  margin: 0 auto 3rem auto;
+  font-weight: 300;
+}
+
+/* Loading Section */
+.loading-section {
+  margin-bottom: 3rem;
+}
+
+.loading-bar {
+  width: 100%;
+  max-width: 20rem;
+  height: 0.25rem;
+  background: rgba(79, 70, 229, 0.2);
+  border-radius: 0.125rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.loading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
+  border-radius: 0.125rem;
+  animation: loadingProgress 3s ease-in-out infinite;
+}
+
+/* Action Buttons */
+.action-buttons {
   display: flex;
   gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
 }
 
-.stat {
-  background: rgba(255,255,255,0.2);
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
+.btn-primary, .btn-secondary {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(79, 70, 229, 0.1);
+  color: #a5b4fc;
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(79, 70, 229, 0.2);
+  color: #c7d2fe;
+  transform: translateY(-2px);
+}
+
+/* Feature Tags */
+.feature-tags {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.feature-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 0.5rem;
   font-size: 0.875rem;
+  color: #94a3b8;
   font-weight: 500;
 }
 
-/* Header */
-.main-header {
-  background: white;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 1.5rem 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.modal-content {
+  background: #1e293b;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-.header-content {
+.modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
 }
 
-.app-title {
+.modal-header h3 {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #6b5b47;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1f5f9;
 }
 
-.app-tagline {
-  margin: 0.25rem 0 0 0;
-  color: #8b7355;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.main-nav {
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
 }
 
-.main-nav button {
-  padding: 0.75rem 1.5rem;
-  border: 1px solid #e5e5e5;
-  background: white;
-  color: #6b5b47;
+.close-btn:hover {
+  background: rgba(79, 70, 229, 0.1);
+  color: #c7d2fe;
+}
+
+/* Projects Modal */
+.projects-content {
+  padding: 2rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card, .create-project-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.project-card:hover, .create-project-card:hover {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(79, 70, 229, 0.4);
+  transform: translateY(-4px);
+}
+
+.project-icon, .create-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.create-icon {
+  font-size: 3rem;
+  color: #6366f1;
+  font-weight: 300;
+}
+
+.project-card h4, .create-project-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.project-card p, .create-project-card p {
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.project-type {
+  display: inline-block;
+  background: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.open-project-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.main-nav button:hover {
-  background: #f8f6f3;
-  border-color: #d4c4a8;
+.open-project-btn:hover {
+  background: #5856eb;
   transform: translateY(-1px);
 }
 
-.main-nav button.active {
-  background: #6b5b47;
+/* Create Project Form */
+.create-form {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #f1f5f9;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  border-radius: 0.5rem;
+  color: #f1f5f9;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group input::placeholder, .form-group textarea::placeholder {
+  color: #64748b;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn-cancel, .btn-create {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-cancel {
+  background: rgba(79, 70, 229, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.btn-cancel:hover {
+  background: rgba(79, 70, 229, 0.2);
+  color: #c7d2fe;
+}
+
+.btn-create {
+  background: #6366f1;
   color: white;
-  border-color: #6b5b47;
+}
+
+.btn-create:hover {
+  background: #5856eb;
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  }
+}
+
+@keyframes loadingProgress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .hero-heading {
+    font-size: 2.5rem;
+  }
+  
+  .hero-description {
+    font-size: 1.125rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .feature-tags {
+    justify-content: center;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-container {
+    padding: 0 1rem;
+  }
+  
+  .hero-heading {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .brand-tagline {
+    display: none;
+  }
 }
 
 /* Main Content */
