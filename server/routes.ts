@@ -141,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Fields that should remain as arrays (defined with .array() in schema)
       const keepAsArrayFields = [
         'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-        'archetypes', 'tropes', 'tags', 'portraits'
+        'archetypes', 'tropes', 'tags', 'spokenLanguages'
       ];
       
       arrayToStringFields.forEach(field => {
@@ -196,7 +196,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Fields that should remain as arrays (defined with .array() in schema)
       const keepAsArrayFields = [
         'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-        'archetypes', 'tropes', 'tags', 'portraits'
+        'archetypes', 'tropes', 'tags', 'spokenLanguages'
       ];
       
       arrayToStringFields.forEach(field => {
