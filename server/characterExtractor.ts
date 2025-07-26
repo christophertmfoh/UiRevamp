@@ -147,8 +147,8 @@ export async function importCharacterDocument(filePath: string, fileName: string
 
     console.log('Extracted text content (first 500 chars):', textContent.substring(0, 500));
 
-    // Extract character data using intelligent field mapping
-    const { extractCharacterFromText } = await import('./fieldMapper');
+    // Extract character data using AI with pattern fallback
+    const { extractCharacterFromText } = await import('./aiExtractor');
     const characterData = await extractCharacterFromText(textContent);
     
     // Clean up temporary file
