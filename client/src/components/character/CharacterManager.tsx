@@ -1007,7 +1007,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       <CharacterGenerationModal
         isOpen={isGenerationModalOpen}
         onClose={() => setIsGenerationModalOpen(false)}
-        onGenerate={handleGenerateCharacter}
+        onGenerate={handleGenerate}
         isGenerating={isGenerating}
       />
 
