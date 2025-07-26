@@ -37,40 +37,50 @@ export async function generateContextualCharacter(
     const client = getGeminiClient();
     const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
     
-    const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
+    const prompt = `You are an expert character development specialist and creative writing consultant. Your expertise lies in creating psychologically complex, narratively compelling characters that feel authentic and three-dimensional.
 
-Your response must be valid JSON in this exact format. Fill EVERY field with detailed, template-appropriate content. Use only regular double quotes, avoid smart quotes or special characters:
+MISSION: Generate a complete, publication-ready character that seamlessly integrates into the provided story world with rich internal life, compelling motivations, and realistic contradictions that drive narrative tension.
+
+CHARACTER DEVELOPMENT PRINCIPLES:
+- Every trait must serve a narrative purpose
+- Internal conflicts should create external story opportunities  
+- Strengths and flaws must be interconnected and create compelling drama
+- Background details should directly inform present-day behaviors and goals
+- Physical appearance should reflect personality and life experiences
+- Relationships should reveal character depth and create plot potential
+
+Your response must be valid JSON in this exact format. Generate vivid, specific content for EVERY field - no generic placeholders or vague descriptions. Each field should feel authentic to the character's world and circumstances:
 
 {
-  "name": "Character Name",
-  "nicknames": "Common nicknames or pet names",
-  "title": "Character Title, Epithet, or Professional Title", 
-  "aliases": "Other names they might use or be known by",
-  "role": "protagonist/antagonist/supporting/etc",
-  "class": "Character Class, Profession, or Job",
-  "age": "25",
-  "race": "Character Race/Species",
-  "gender": "Character's gender identity",
-  "oneLine": "One-sentence character description",
-  "physicalDescription": "Complete detailed physical appearance including height, weight, build, posture, distinctive features",
-  "height": "Character's height (e.g., 5'8\", 175cm)",
-  "build": "Body type (slim, athletic, stocky, etc.)",
-  "eyeColor": "Eye color and any distinctive features",
-  "hairColor": "Hair color and style",
-  "hairStyle": "Detailed hair style description",
-  "skinTone": "Skin tone and any distinctive markings",
-  "distinguishingMarks": "Scars, tattoos, birthmarks, unique features",
-  "clothingStyle": "Fashion sense and typical attire",
-  "personalityOverview": "Comprehensive personality summary",
-  "temperament": "Core temperament (calm, fiery, melancholic, etc.)",
-  "personalityTraits": ["trait1", "trait2", "trait3", "trait4", "trait5"],
-  "worldview": "How they see the world and their place in it",
-  "values": "Core beliefs and principles that guide decisions",
-  "goals": "Specific short-term and long-term objectives",
-  "motivations": "Deep driving forces and core desires",
-  "fears": "What terrifies them most, both rational and irrational",
-  "desires": "What they want most in life",
-  "vices": "Bad habits, addictions, or moral failings",
+  "name": "Distinctive name that fits the world and hints at character essence",
+  "nicknames": "Meaningful nicknames earned through actions or relationships - include origin stories",
+  "title": "Earned titles, ranks, or epithets that reflect achievements or reputation", 
+  "aliases": "False identities or alternate personas with specific purposes",
+  "role": "Narrative function (protagonist/antagonist/mentor/catalyst/etc) with clear story purpose",
+  "class": "Profession or role that defines their skills, social position, and daily life",
+  "age": "Specific age that explains their capabilities, experience level, and life stage",
+  "race": "Species/ethnicity with cultural implications for worldview and background",
+  "gender": "Gender identity that may influence their experiences and perspectives",
+  "oneLine": "Compelling elevator pitch that captures their essence and main conflict",
+  "physicalDescription": "Vivid head-to-toe description showing how their body tells their life story - scars from battles, calluses from work, posture from confidence/trauma, etc.",
+  "height": "Specific height with implications for their presence and capabilities",
+  "build": "Body type that reflects their lifestyle, genetics, and life experiences",
+  "eyeColor": "Eye color with emotional or supernatural significance if relevant",
+  "hairColor": "Hair color and any changes due to stress, magic, or deliberate styling",
+  "hairStyle": "Specific hairstyle that reflects personality, culture, or practical needs",
+  "skinTone": "Skin appearance affected by environment, genetics, lifestyle, or magical influences",
+  "distinguishingMarks": "Specific scars, tattoos, birthmarks with stories behind each mark",
+  "clothingStyle": "Fashion choices that reveal class, personality, practical needs, and cultural background",
+  "personalityOverview": "Rich psychological profile revealing the core contradictions and complexities that make them human",
+  "temperament": "Fundamental emotional baseline with triggers that change their behavior dramatically",
+  "personalityTraits": ["specific behavioral patterns", "emotional tendencies", "social behaviors", "moral inclinations", "unique quirks"],
+  "worldview": "Philosophy shaped by formative experiences - how trauma, success, or revelations changed their perspective",
+  "values": "Non-negotiable principles they'll die for versus convenient beliefs they'll abandon under pressure",
+  "goals": "Specific, measurable objectives with deadlines and personal stakes - what happens if they fail?",
+  "motivations": "Deep psychological drivers rooted in childhood, trauma, love, or existential needs",
+  "fears": "Primal terrors that paralyze them and rational concerns that drive smart decisions",
+  "desires": "Secret longings they might never admit - what they'd sacrifice everything to achieve",
+  "vices": "Specific addictions, compulsions, or moral compromises that create vulnerability and conflict",
   "coreAbilities": "Primary abilities and talents",
   "skills": ["skill1", "skill2", "skill3", "skill4"],
   "talents": ["talent1", "talent2", "talent3"],
@@ -108,7 +118,15 @@ Your response must be valid JSON in this exact format. Fill EVERY field with det
   "quirks": "Unique behavioral traits and eccentricities"
 }
 
-CRITICAL: Generate detailed, specific content for EVERY field above. Do not leave any field empty or use placeholder text. Base all content on the template requirements provided. Ensure all text is properly escaped and JSON is valid.
+QUALITY STANDARDS:
+- Every detail must feel researched and authentic to the world
+- Contradictions should create internal tension (kind but ruthless, brave but insecure)
+- Backstory elements should connect to create a cohesive life story
+- Physical traits should reflect their life experiences and personality
+- All relationships should have specific history and emotional stakes
+- Goals and fears should create clear story potential and character arcs
+
+CRITICAL: Generate publication-quality, specific content for EVERY field above. No generic descriptions, placeholder text, or vague statements. Each response should feel like it came from deep character research. Base all content on template requirements and story context. Ensure all text is properly escaped and JSON is valid.
 
 ${projectContext}`;
 
@@ -309,50 +327,41 @@ ${projectContext}`;
 function buildProjectContext(context: CharacterGenerationContext): string {
   const { project, existingCharacters, generationOptions } = context;
   
-  let contextPrompt = `Create a character for the story project: "${project.name}"`;
+  let contextPrompt = `\n\nSTORY WORLD CONTEXT:\n`;
+  contextPrompt += `Project: "${project.name}" (${project.type || 'Story'})\n`;
   
   if (project.description) {
-    contextPrompt += `\n\nProject Description: ${project.description}`;
+    contextPrompt += `World Description: ${project.description}\n`;
   }
   
   if (project.synopsis) {
-    contextPrompt += `\nProject Synopsis: ${project.synopsis}`;
-  }
-  
-  if (project.genre) {
-    contextPrompt += `\nGenre: ${project.genre}`;
+    contextPrompt += `Story Synopsis: ${project.synopsis}\n`;
   }
   
   if (project.genres && project.genres.length > 0) {
-    contextPrompt += `\nGenres: ${project.genres.join(', ')}`;
-    contextPrompt += `\nIMPORTANT: Ensure the character fits naturally within ${project.genres.join(' and ')} genre conventions while maintaining originality and depth.`;
-  }
-  
-  if (project.type) {
-    contextPrompt += `\nType: ${project.type}`;
+    contextPrompt += `Genres: ${project.genres.join(', ')} - ensure character fits these genre conventions and reader expectations\n`;
   }
   
   if (existingCharacters && existingCharacters.length > 0) {
-    contextPrompt += `\n\nExisting Characters in this story:`;
-    existingCharacters.slice(0, 5).forEach(character => {
-      contextPrompt += `\n- ${character.name} (${character.role || 'character'}): ${character.personality || character.backstory || 'An important character in the story'}`;
+    contextPrompt += `\nExisting Cast (create meaningful relationships and avoid redundancy):\n`;
+    existingCharacters.forEach(char => {
+      contextPrompt += `- ${char.name}`;
+      if (char.role) contextPrompt += ` (${char.role})`;
+      if (char.class) contextPrompt += ` [${char.class}]`;
+      if (char.oneLine) contextPrompt += `: ${char.oneLine}`;
+      if (char.personalityTraits && Array.isArray(char.personalityTraits)) {
+        contextPrompt += ` | Traits: ${char.personalityTraits.slice(0, 3).join(', ')}`;
+      }
+      contextPrompt += `\n`;
     });
   }
   
-  // Add user-specified generation options
   if (generationOptions) {
-    if (generationOptions.characterType) {
-      contextPrompt += `\n\nCharacter Type: ${generationOptions.characterType}`;
-    }
-    if (generationOptions.role) {
-      contextPrompt += `\nRole: ${generationOptions.role}`;
-    }
-    if (generationOptions.archetype) {
-      contextPrompt += `\nArchetype: ${generationOptions.archetype}`;
-    }
-    if (generationOptions.personality) {
-      contextPrompt += `\nPersonality Traits: ${generationOptions.personality}`;
-    }
+    contextPrompt += `\nCHARACTER CREATION REQUIREMENTS:\n`;
+    if (generationOptions.characterType) contextPrompt += `Character Type: ${generationOptions.characterType} - fulfill this role's narrative purpose\n`;
+    if (generationOptions.role) contextPrompt += `Story Role: ${generationOptions.role} - serve this function in the narrative structure\n`;
+    if (generationOptions.personality) contextPrompt += `Personality Foundation: ${generationOptions.personality} - build upon this core personality\n`;
+    if (generationOptions.archetype) contextPrompt += `Archetype: ${generationOptions.archetype} - embody this archetypal pattern with unique twists\n`;
     if (generationOptions.customPrompt) {
       // Check if this is a template-based generation
       if (generationOptions.customPrompt.includes('TEMPLATE-BASED CHARACTER GENERATION')) {
