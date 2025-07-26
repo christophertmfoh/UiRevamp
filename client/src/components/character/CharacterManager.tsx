@@ -400,8 +400,8 @@ Generate a complete, detailed character that expands on these template foundatio
           </div>
 
           {/* Premium Status Badge */}
-          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
-            <Badge className="bg-accent/90 text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium">
+          <div className="absolute bottom-4 left-4 opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10">
+            <Badge className="bg-accent text-accent-foreground backdrop-blur-sm border-0 shadow-lg font-medium px-3 py-1">
               {character.role || 'Character'}
             </Badge>
           </div>
@@ -539,7 +539,7 @@ Generate a complete, detailed character that expands on these template foundatio
             </div>
             
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+              <Badge className="text-xs bg-accent text-accent-foreground font-medium shadow-sm px-3 py-1">
                 {character.role || 'Character'}
               </Badge>
               {character.race && (
