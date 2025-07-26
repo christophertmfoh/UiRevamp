@@ -313,7 +313,7 @@ export function CharacterUnifiedViewPremium({
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent">
                     {formData.name || 'Unnamed Character'}
                   </h1>
-                  <Badge className="bg-gradient-to-r from-amber-600 to-amber-500 text-white font-medium text-sm px-3 py-1.5 shadow-md border-0 rounded-full">
+                  <Badge className="bg-gradient-to-r from-amber-700 to-amber-600 text-white font-medium text-sm px-3 py-1.5 shadow-md border-0 rounded-full">
                     Character
                   </Badge>
                 </div>

@@ -463,7 +463,7 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
                 {character.name}
               </h3>
-              <Badge className="bg-gradient-to-r from-amber-600 to-amber-500 text-white font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
+              <Badge className="bg-gradient-to-r from-amber-700 to-amber-600 text-white font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
                 Character
               </Badge>
             </div>
