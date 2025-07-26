@@ -278,6 +278,7 @@ export function getCharacterFieldsBySection(sectionId: string): FieldDefinition[
 // Legacy aliases for backwards compatibility
 export const getFieldsBySection = getCharacterFieldsBySection;
 export const getSectionById = getCharacterSectionById;
+export const getFieldDefinition = getCharacterFieldDefinition;
 
 export function getCharacterSectionById(id: string) {
   return CHARACTER_SECTIONS.find(section => section.id === id);
