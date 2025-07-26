@@ -658,7 +658,7 @@ export function CharacterPortraitModal({
       {/* Image Preview Modal */}
       {selectedImagePreview && (
         <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>
-          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none">
+          <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none" hideCloseButton>
             <div className="relative bg-black/90 rounded-lg overflow-hidden">
               <img 
                 src={selectedImagePreview} 
