@@ -150,8 +150,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         });
       case 'by-relationship-count':
         return [...chars].sort((a, b) => {
-          const relationshipA = (a.relationships?.split(',').length || 0) + (a.family?.split(',').length || 0);
-          const relationshipB = (b.relationships?.split(',').length || 0) + (b.family?.split(',').length || 0);
+          const relationshipA = (Array.isArray(a.relationships) ? a.relationships.length : 0) + (Array.isArray(a.family) ? a.family.length : 0);
+          const relationshipB = (Array.isArray(b.relationships) ? b.relationships.length : 0) + (Array.isArray(b.family) ? b.family.length : 0);
           return relationshipB - relationshipA;
         });
       case 'by-trait-complexity':
