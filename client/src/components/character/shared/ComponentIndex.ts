@@ -6,12 +6,9 @@
 // Main character components
 export { CharacterManager } from '../CharacterManager';
 export { CharacterUnifiedViewPremium } from '../CharacterUnifiedViewPremium';
-export { CharacterFormExpanded } from '../CharacterFormExpanded';
 export { CharacterTemplates } from '../CharacterTemplates';
-export { CharacterCreationLaunch } from '../CharacterCreationLaunch';
 
 // Utility components
-export { FieldAIAssist } from '../FieldAIAssist';
 export { CharacterPortraitModal } from '../CharacterPortraitModalImproved';
 export { CharacterGenerationModal } from '../CharacterGenerationModal';
 

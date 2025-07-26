@@ -28,9 +28,7 @@ import {
   X
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
-import { CharacterManager } from '../character';
-
-import { CreatureManager } from '../creature';
+import { CharacterManager } from '../character/CharacterManager';
 
 interface WorldBibleProps {
   project: Project;
@@ -52,10 +50,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
     queryKey: ['/api/projects', project.id, 'characters'],
   });
 
-  const { data: creatures = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'creatures'],
-  });
-
   // Filter featured characters based on the order
   const featuredCharacters = useMemo(() => {
     if (featuredCharacterOrder.length === 0) {
@@ -71,7 +65,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const categories = [
     { id: 'overview', label: 'Overview', icon: Globe, count: 0 },
     { id: 'characters', label: 'Characters', icon: Users, count: characters.length },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: 0 },
 
   ];
 
@@ -91,13 +85,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
       }
     });
 
-    // Search creatures
-    creatures.forEach(creature => {
-      if (creature.name?.toLowerCase().includes(query) || 
-          creature.description?.toLowerCase().includes(query)) {
-        results.push({ type: 'creature', item: creature });
-      }
-    });
+
 
     return results;
   }, [searchQuery, characters, creatures]);
@@ -281,7 +269,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {featuredCharacters.map((character) => (
-                    <div
+                    character && <div
                       key={character.id}
                       draggable
                       onDragStart={(e) => handleCharacterDragStart(e, character.id)}
@@ -320,8 +308,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
                           draggedCharacterId === character.id ? 'ring-2 ring-accent glow-accent' : ''
                         }`}>
                           <img 
-                            src={character.displayImageId} 
-                            alt={character.name}
+                            src={String(character.displayImageId)} 
+                            alt={character.name || ''}
                             className={`w-full h-full object-cover transition-all duration-200 ${
                               draggedCharacterId === character.id ? 'scale-110' : 'hover:scale-105'
                             }`}
@@ -355,7 +343,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'bestiary':
-        return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+        return (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground">Bestiary functionality has been removed from this character-focused application.</p>
+          </div>
+        );
 
       default:
         return (
@@ -371,7 +363,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
               {categories.find(cat => cat.id === activeCategory)?.label}
             </h3>
             <p className="text-muted-foreground mb-6">
-              This section will contain detailed information about {activeCategory.replace('-', ' ')} from your BloomWeaver world.
+              This section will contain detailed information about {activeCategory.replace('-', ' ')} from your world.
             </p>
             <Button variant="outline" className="interactive-warm">
               <Plus className="h-4 w-4 mr-2" />
@@ -461,11 +453,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
                         <Icon className="h-4 w-4" />
                         <span className="text-sm font-medium">{category.label}</span>
                       </div>
-                      {!category.locked && (
-                        <Badge variant="outline" className="text-xs">
-                          {category.count}
-                        </Badge>
-                      )}
+                      <Badge variant="outline" className="text-xs">
+                        {category.count}
+                      </Badge>
                     </div>
                   );
                 })}

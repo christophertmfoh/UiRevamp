@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS, getCharacterFieldsBySection } from '../../lib/config/fieldConfig';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
@@ -148,7 +148,7 @@ export function CharacterUnifiedView({
     
     // Convert comma-separated strings back to arrays for array fields from all sections
     CHARACTER_SECTIONS.forEach(section => {
-      const sectionFields = getFieldsBySection(section.id);
+      const sectionFields = getCharacterFieldsBySection(section.id);
       sectionFields.forEach(field => {
         if (field.type === 'array') {
           const value = (data as any)[field.key];
@@ -345,7 +345,7 @@ export function CharacterUnifiedView({
     if (!section) return null;
 
     // Get fields for this section from FIELD_DEFINITIONS
-    const sectionFields = getFieldsBySection(sectionId);
+    const sectionFields = getCharacterFieldsBySection(sectionId);
     
     // Debug personality section specifically
     if (sectionId === 'personality') {

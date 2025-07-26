@@ -14,9 +14,6 @@ export interface Project {
   };
   outline: OutlineNode[];
   characters: Character[];
-
-  factions: Faction[];
-  items: Item[];
   proseDocuments: ProseDocument[];
   settings: ProjectSettings;
 }
@@ -257,64 +254,7 @@ export interface Character {
   createdAt?: Date;
 }
 
-export interface Faction {
-  id: string;
-  projectId: string;
-  name: string;
-  description: string;
-  history: string;
-  significance: string;
-  atmosphere: string;
-  type?: string;
-  scale?: string;
-  imageGallery: ImageAsset[];
-  displayImageId?: number;
-  imageUrl?: string;
-  tags: string[];
-}
 
-export interface Faction {
-  id: string;
-  projectId: string;
-  name: string;
-  description: string;
-  type: string;
-  goals: string;
-  methods: string;
-  history: string;
-  leadership: string;
-  structure: string;
-  resources: string;
-  relationships: string;
-  status: string;
-  ideology: string;
-  methods_detailed: string;
-  corruption_techniques: string;
-  recruitment: string;
-  strongholds: string;
-  weaknesses: string;
-  threat_level: string;
-  current_operations: string;
-  key_figures: string;
-  origin_story: string;
-  tags: string[];
-  displayImageId?: string;
-  imageUrl?: string;
-  portraits: string[];
-  createdAt?: Date;
-}
-
-export interface Item {
-  id: string;
-  name: string;
-  description: string;
-  history: string;
-  powers: string;
-  significance: string;
-  imageGallery: ImageAsset[];
-  displayImageId?: number;
-  tags: string[];
-}
 
 export interface CharacterRelationship {
   characterId: string;

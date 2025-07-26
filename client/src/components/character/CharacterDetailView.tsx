@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import type { Character } from '../../lib/types';
-import { CharacterFormExpanded } from './CharacterFormExpanded';
 import { CharacterUnifiedViewPremium } from './CharacterUnifiedViewPremium';
 import { CharacterGuidedCreation } from './CharacterGuidedCreation';
 
-interface CharacterDetailViewProps {
   projectId: string;
   character: Character | null;
   isCreating?: boolean;
@@ -14,7 +12,6 @@ interface CharacterDetailViewProps {
   onDelete: (character: Character) => void;
 }
 
-export function CharacterDetailView({ 
   projectId, 
   character, 
   isCreating = false,
@@ -22,7 +19,6 @@ export function CharacterDetailView({
   onBack, 
   onEdit, 
   onDelete 
-}: CharacterDetailViewProps) {
   const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation);
   
   // If we're doing guided creation, show the guided flow
@@ -44,7 +40,6 @@ export function CharacterDetailView({
   // If we're creating with existing data, show the form
   if (isCreating || !character) {
     return (
-      <CharacterFormExpanded
         projectId={projectId}
         character={character || undefined}
         onCancel={onBack}
@@ -55,7 +50,6 @@ export function CharacterDetailView({
   // If we're editing an existing character, show the form
   if (isEditing) {
     return (
-      <CharacterFormExpanded
         projectId={projectId}
         character={character}
         onCancel={() => setIsEditing(false)}

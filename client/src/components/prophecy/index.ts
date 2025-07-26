@@ -1,1 +1,0 @@
-export { ProphecyManager } from './ProphecyManager';

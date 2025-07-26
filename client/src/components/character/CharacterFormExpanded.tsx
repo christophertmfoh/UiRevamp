@@ -5,43 +5,26 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import { handleEntityError, handleFormSubmissionError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
-import type { Character, EntityFormProps } from '@/lib/types';
-import { CHARACTER_SECTIONS, getFieldsBySection, type FieldDefinition, FieldConfigManager } from '@/lib/config';
-import { FieldAIAssist } from './shared/ComponentIndex';
+import type { Character } from '@/lib/types';
 
-interface CharacterFormExpandedProps extends Omit<EntityFormProps<Character>, 'entityType' | 'entity' | 'initialData'> {
+interface CharacterFormExpandedProps {
+  projectId: string;
+  onCancel: () => void;
   character?: Character;
 }
 
-const AI_ENABLED_FIELD_TYPES = ['text', 'textarea', 'array'];
-
 export function CharacterFormExpanded({ projectId, onCancel, character }: CharacterFormExpandedProps) {
-  // Initialize form data with all fields from CHARACTER_SECTIONS
-  const initializeFormData = () => {
-    const initialData: any = {};
-    
-    CHARACTER_SECTIONS.forEach(section => {
-      const fields = getFieldsBySection(section.id);
-      fields.forEach((field: FieldDefinition) => {
-        const value = (character as any)?.[field.key];
-        if (field.type === 'array') {
-          initialData[field.key] = Array.isArray(value) ? value.join(', ') : '';
-        } else {
-          initialData[field.key] = value || '';
-        }
-      });
-    });
-    
-    return initialData;
-  };
+  const [formData, setFormData] = useState({
+    name: character?.name || '',
+    role: character?.role || '',
+    age: character?.age || '',
+    physicalDescription: character?.physicalDescription || '',
+    personality: character?.personality || '',
+    backstory: character?.backstory || '',
+  });
 
-  const [formData, setFormData] = useState(initializeFormData);
-  const [isEnhancing, setIsEnhancing] = useState(false);
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
@@ -50,166 +33,26 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      showSuccessToast('Character created successfully');
       onCancel();
     },
-    onError: (error) => {
-      const fieldErrors = handleFormSubmissionError(error, 'character');
-      console.error('Form submission errors:', fieldErrors);
-    }
   });
 
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest('PUT', `/api/characters/${character?.id}`, data);
+      return await apiRequest('PUT', `/api/projects/${projectId}/characters/${character?.id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      showSuccessToast('Character updated successfully');
       onCancel();
     },
-    onError: (error) => {
-      const fieldErrors = handleFormSubmissionError(error, 'character');
-      console.error('Form submission errors:', fieldErrors);
-    }
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const processedData = {
-      projectId,
-      ...formData,
-      isModelTrained: false,
-      imageUrl: '',
-    };
-
-    // Process array fields
-    CHARACTER_SECTIONS.forEach(section => {
-      const fields = getFieldsBySection(section.id);
-      fields.forEach((field: FieldDefinition) => {
-        if (field.type === 'array') {
-          const value = formData[field.key];
-          processedData[field.key] = typeof value === 'string' 
-            ? value.split(',').map((s: string) => s.trim()).filter(Boolean)
-            : [];
-        }
-      });
-    });
-
-    if (character) {
-      updateMutation.mutate(processedData);
+    if (character?.id) {
+      updateMutation.mutate(formData);
     } else {
-      const newCharacterData = {
-        ...processedData,
-        id: Date.now().toString(),
-      };
-      createMutation.mutate(newCharacterData);
-    }
-  };
-
-  const updateField = (field: string, value: string) => {
-    setFormData((prev: any) => ({ ...prev, [field]: value }));
-  };
-
-  const renderField = (field: any) => {
-    const value = formData[field.key] || '';
-    
-    switch (field.type) {
-      case 'textarea':
-        return (
-          <div key={field.key} className={field.rows && field.rows > 3 ? 'col-span-2' : ''}>
-            <div className="flex items-center justify-between mb-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              {character && (
-                <FieldAIAssist
-                  character={character}
-                  fieldKey={field.key}
-                  fieldLabel={field.label}
-                  currentValue={value}
-                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                  disabled={isEnhancing}
-                />
-              )}
-            </div>
-            <Textarea
-              id={field.key}
-              value={value}
-              onChange={(e) => updateField(field.key, e.target.value)}
-              placeholder={field.placeholder}
-              rows={field.rows || 3}
-            />
-          </div>
-        );
-      
-      case 'select':
-        return (
-          <div key={field.key}>
-            <Label htmlFor={field.key}>{field.label}</Label>
-            <Select value={value} onValueChange={(val) => updateField(field.key, val)}>
-              <SelectTrigger>
-                <SelectValue placeholder={field.placeholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {field.options?.map((option: string) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        );
-      
-      case 'array':
-        return (
-          <div key={field.key} className="col-span-2">
-            <div className="flex items-center justify-between mb-2">
-              <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>
-              {character && (
-                <FieldAIAssist
-                  character={character}
-                  fieldKey={field.key}
-                  fieldLabel={field.label}
-                  currentValue={value}
-                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                  disabled={isEnhancing}
-                />
-              )}
-            </div>
-            <Input
-              id={field.key}
-              value={value}
-              onChange={(e) => updateField(field.key, e.target.value)}
-              placeholder={field.placeholder}
-            />
-          </div>
-        );
-      
-      default: // text
-        return (
-          <div key={field.key}>
-            <div className="flex items-center justify-between mb-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              {character && (
-                <FieldAIAssist
-                  character={character}
-                  fieldKey={field.key}
-                  fieldLabel={field.label}
-                  currentValue={value}
-                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}
-                  disabled={isEnhancing}
-                />
-              )}
-            </div>
-            <Input
-              id={field.key}
-              value={value}
-              onChange={(e) => updateField(field.key, e.target.value)}
-              placeholder={field.placeholder}
-            />
-          </div>
-        );
+      createMutation.mutate(formData);
     }
   };
 
@@ -217,61 +60,94 @@ export function CharacterFormExpanded({ projectId, onCancel, character }: Charac
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" onClick={onCancel} className="gap-2">
-          <ArrowLeft className="h-4 w-4" />
-          Back to Characters
+      <div className="flex items-center space-x-4">
+        <Button variant="ghost" size="sm" onClick={onCancel}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
         </Button>
-        <div className="flex gap-2">
-          <Button 
-            type="submit" 
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className="interactive-warm gap-2"
-          >
-            <Save className="h-4 w-4" />
-            {isLoading ? 'Saving...' : 'Save Character'}
-          </Button>
-        </div>
+        <h1 className="text-2xl font-bold">
+          {character ? 'Edit Character' : 'Create Character'}
+        </h1>
       </div>
 
-      <Card className="creative-card">
-        <div className="p-6">
-          <h1 className="font-title text-3xl mb-6">
-            {character ? 'Edit Character' : 'Create New Character'}
-          </h1>
+      <Card>
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="name">Character Name</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Enter character name"
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="role">Story Role</Label>
+              <Input
+                id="role"
+                value={formData.role}
+                onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+                placeholder="e.g., Protagonist, Antagonist, Supporting"
+              />
+            </div>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <Tabs defaultValue="identity" className="w-full">
-              <TabsList className="grid w-full grid-cols-8 gap-1 bg-transparent">
-                {CHARACTER_SECTIONS.map(section => (
-                  <TabsTrigger 
-                    key={section.id}
-                    value={section.id}
-                    className="rounded-lg border border-border/50 px-3 py-2 text-sm font-medium transition-all hover:border-border data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary shadow-sm"
-                  >
-                    {section.title}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+          <div className="space-y-2">
+            <Label htmlFor="age">Age</Label>
+            <Input
+              id="age"
+              value={formData.age}
+              onChange={(e) => setFormData(prev => ({ ...prev, age: e.target.value }))}
+              placeholder="Character age or age range"
+            />
+          </div>
 
-              {CHARACTER_SECTIONS.map(section => (
-                <TabsContent key={section.id} value={section.id} className="space-y-6">
-                  <div className="space-y-4">
-                    <div className="mb-4">
-                      <h3 className="text-lg font-semibold">{section.title}</h3>
-                      <p className="text-sm text-muted-foreground">{section.description}</p>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      {getFieldsBySection(section.id).map(renderField)}
-                    </div>
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
-          </form>
-        </div>
+          <div className="space-y-2">
+            <Label htmlFor="physicalDescription">Physical Description</Label>
+            <Textarea
+              id="physicalDescription"
+              value={formData.physicalDescription}
+              onChange={(e) => setFormData(prev => ({ ...prev, physicalDescription: e.target.value }))}
+              placeholder="Describe the character's appearance"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="personality">Personality</Label>
+            <Textarea
+              id="personality"
+              value={formData.personality}
+              onChange={(e) => setFormData(prev => ({ ...prev, personality: e.target.value }))}
+              placeholder="Describe the character's personality traits"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="backstory">Backstory</Label>
+            <Textarea
+              id="backstory"
+              value={formData.backstory}
+              onChange={(e) => setFormData(prev => ({ ...prev, backstory: e.target.value }))}
+              placeholder="Character's background and history"
+              rows={3}
+            />
+          </div>
+
+          <div className="flex justify-end space-x-2">
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading}>
+              <Save className="h-4 w-4 mr-2" />
+              {isLoading ? 'Saving...' : character ? 'Update Character' : 'Create Character'}
+            </Button>
+          </div>
+        </form>
       </Card>
     </div>
   );

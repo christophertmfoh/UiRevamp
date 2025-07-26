@@ -10,11 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import { handleEntityError, handleAIError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
 import type { Character, EntityDetailViewProps } from '@/lib/types';
 import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';
-import { CharacterPortraitModal, FieldAIAssist } from './shared/ComponentIndex';
 
 interface CharacterUnifiedViewPremiumProps extends Omit<EntityDetailViewProps<Character>, 'entityType' | 'entity'> {
   character: Character;
@@ -456,7 +454,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -540,7 +537,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -619,7 +615,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -734,7 +729,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -813,7 +807,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -934,7 +927,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}
@@ -1036,7 +1028,6 @@ export function CharacterUnifiedViewPremium({
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
                       {isEditing && (
-                        <FieldAIAssist
                           character={character}
                           fieldKey={field.key}
                           fieldLabel={field.label}

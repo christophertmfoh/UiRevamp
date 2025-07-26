@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { FieldRenderer } from './FieldRenderer';
-import { getFieldsBySection, getSectionById } from '@/lib/config/fieldConfig';
+import { getCharacterFieldsBySection, getCharacterSectionById } from '@/lib/config/fieldConfig';
 import { QuickProgress } from './CharacterProgress';
 
 interface FormSectionProps {
@@ -40,8 +40,8 @@ export function FormSection({
 }: FormSectionProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   
-  const section = getSectionById(sectionId);
-  const fields = getFieldsBySection(sectionId);
+  const section = getCharacterSectionById(sectionId);
+  const fields = getCharacterFieldsBySection(sectionId);
   
   if (!section || fields.length === 0) {
     return null;

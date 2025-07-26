@@ -1,1 +1,0 @@
-export { CreatureManager } from './CreatureManager';

@@ -9,7 +9,6 @@ import type {
   EntityArc,
   EntityRelationship,
   EntityInsights
-} from './baseTypes';
 
 // Legacy Character import for backward compatibility
 type LegacyCharacter = import('../types').Character;

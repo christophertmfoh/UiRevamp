@@ -28,7 +28,7 @@ export interface APIError {
 /**
  * Standard error handler for entity operations
  */
-export function handleEntityError(error: unknown, operation: string, entityType: string = 'entity'): EntityError {
+export function console.error(error: unknown, operation: string, entityType: string = 'entity'): EntityError {
   const entityError: EntityError = {
     message: `Failed to ${operation} ${entityType}`,
     context: { operation, entityType }
@@ -100,7 +100,7 @@ export function handleValidationError(field: string, value: any, rule: string): 
 /**
  * Display error toast with consistent styling
  */
-export function showErrorToast(error: EntityError | APIError | ValidationError | string, title?: string) {
+export function console.error(error: EntityError | APIError | ValidationError | string, title?: string) {
   const message = typeof error === 'string' ? error : error.message;
   const toastTitle = title || 'Error';
 
@@ -114,7 +114,7 @@ export function showErrorToast(error: EntityError | APIError | ValidationError |
 /**
  * Display success toast with consistent styling
  */
-export function showSuccessToast(message: string, title: string = 'Success') {
+export function console.log(message: string, title: string = 'Success') {
   toast({
     variant: 'default',
     title,
@@ -126,7 +126,7 @@ export function showSuccessToast(message: string, title: string = 'Success') {
  * Enhanced error handler for AI operations
  */
 export function handleAIError(error: unknown, operation: string, fieldKey?: string): EntityError {
-  const aiError = handleEntityError(error, operation, 'AI enhancement');
+  const aiError = console.error(error, operation, 'AI enhancement');
   
   // Add specific AI error context
   if (fieldKey) {
@@ -153,7 +153,7 @@ export function handleAIError(error: unknown, operation: string, fieldKey?: stri
  * Enhanced error handler for image operations
  */
 export function handleImageError(error: unknown, operation: string): EntityError {
-  const imageError = handleEntityError(error, operation, 'image');
+  const imageError = console.error(error, operation, 'image');
   
   // Add specific image error context
   if (imageError.message.includes('format')) {
@@ -176,9 +176,9 @@ export function handleImageError(error: unknown, operation: string): EntityError
 export function createErrorBoundary(componentName: string) {
   return {
     componentDidCatch(error: Error, errorInfo: any) {
-      const boundaryError = handleEntityError(error, 'render', componentName);
+      const boundaryError = console.error(error, 'render', componentName);
       console.error(`Error boundary caught error in ${componentName}:`, boundaryError);
-      showErrorToast(boundaryError, `${componentName} Error`);
+      console.error(boundaryError, `${componentName} Error`);
     }
   };
 }
@@ -194,12 +194,12 @@ export async function safeAsync<T>(
   try {
     return await operation();
   } catch (error) {
-    const entityError = handleEntityError(error, 'execute', entityType);
+    const entityError = console.error(error, 'execute', entityType);
     
     if (errorHandler) {
       errorHandler(entityError);
     } else {
-      showErrorToast(entityError);
+      console.error(entityError);
     }
     
     return null;
@@ -209,8 +209,7 @@ export async function safeAsync<T>(
 /**
  * Form submission error handler
  */
-export function handleFormSubmissionError(error: unknown, entityType: string): Record<string, string> {
-  const submissionError = handleEntityError(error, 'save', entityType);
+  const submissionError = console.error(error, 'save', entityType);
   const fieldErrors: Record<string, string> = {};
 
   // Extract field-specific errors if available
@@ -224,7 +223,7 @@ export function handleFormSubmissionError(error: unknown, entityType: string): R
   }
 
   // Show general error toast
-  showErrorToast(submissionError, `Failed to Save ${entityType}`);
+  console.error(submissionError, `Failed to Save ${entityType}`);
   
   return fieldErrors;
 }
