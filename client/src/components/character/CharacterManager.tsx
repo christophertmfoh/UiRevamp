@@ -436,6 +436,13 @@ Generate a complete, detailed character that expands on these template foundatio
             </div>
           )}
           
+          {/* Character Type Badge - Top Right Corner */}
+          <div className="absolute top-3 right-3">
+            <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-xs px-3 py-1.5 shadow-lg border-0 rounded-full">
+              Character
+            </Badge>
+          </div>
+          
           {/* Clean Hover Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
             {/* Subtle overlay for better readability */}
@@ -461,9 +468,6 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
                 {character.name}
               </h3>
-              <Badge className="text-xs bg-accent/80 text-accent-foreground font-medium shadow-sm border-0">
-                Character
-              </Badge>
             </div>
             {character.title && (
               <p className="text-accent/80 text-sm font-medium truncate mb-3">
@@ -563,6 +567,13 @@ Generate a complete, detailed character that expands on these template foundatio
         {/* Subtle Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         
+        {/* Character Type Badge - Top Right Corner */}
+        <div className="absolute top-3 right-3">
+          <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white font-bold text-xs px-3 py-1.5 shadow-lg border-0 rounded-full">
+            Character
+          </Badge>
+        </div>
+        
         <div className="flex items-center gap-5 relative">
           {/* Premium Avatar */}
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
@@ -585,9 +596,6 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
                 {character.name}
               </h3>
-              <Badge className="text-xs bg-accent/80 text-accent-foreground font-medium shadow-sm border-0">
-                Character
-              </Badge>
               {character.title && (
                 <span className="text-accent/70 text-sm font-medium italic">"{character.title}"</span>
               )}
