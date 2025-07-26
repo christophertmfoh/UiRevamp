@@ -11,7 +11,6 @@ interface MagicSystemGenerationOptions {
 
 interface MagicSystemGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingMagicSystems?: any[];
   generationOptions?: MagicSystemGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: MagicSystemGenerationContext): string {
-  const { project, locations, existingCharacters, existingMagicSystems, generationOptions } = context;
+  const { project, existingCharacters, existingMagicSystems, generationOptions } = context;
   
   let contextPrompt = `Create a magic system for the story project: "${project.name}"`;
   
@@ -40,9 +39,6 @@ function buildProjectContext(context: MagicSystemGenerationContext): string {
     contextPrompt += `\nGenre: ${project.genre}`;
   }
   
-  if (locations && locations.length > 0) {
-    contextPrompt += `\n\nKey Locations:`;
-    locations.slice(0, 5).forEach(location => {
       contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location'}`;
     });
   }

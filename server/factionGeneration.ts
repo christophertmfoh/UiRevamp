@@ -11,7 +11,6 @@ interface FactionGenerationOptions {
 
 interface FactionGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingFactions?: any[];
   generationOptions?: FactionGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: FactionGenerationContext): string {
-  const { project, locations, existingCharacters, existingFactions, generationOptions } = context;
+  const { project, existingCharacters, existingFactions, generationOptions } = context;
   
   let contextPrompt = `Create a faction for the story project: "${project.name}"`;
   
@@ -44,9 +43,6 @@ function buildProjectContext(context: FactionGenerationContext): string {
     contextPrompt += `\nType: ${project.type}`;
   }
   
-  if (locations && locations.length > 0) {
-    contextPrompt += `\n\nKey Locations in this world:`;
-    locations.slice(0, 5).forEach(location => {
       contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location in the story'}`;
     });
   }

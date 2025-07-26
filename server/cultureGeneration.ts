@@ -11,7 +11,6 @@ interface CultureGenerationOptions {
 
 interface CultureGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingCultures?: any[];
   generationOptions?: CultureGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: CultureGenerationContext): string {
-  const { project, locations, existingCharacters, existingCultures, generationOptions } = context;
+  const { project, existingCharacters, existingCultures, generationOptions } = context;
   
   let contextPrompt = `Create a culture for the story project: "${project.name}"`;
   
@@ -40,9 +39,6 @@ function buildProjectContext(context: CultureGenerationContext): string {
     contextPrompt += `\nGenre: ${project.genre}`;
   }
   
-  if (locations && locations.length > 0) {
-    contextPrompt += `\n\nKey Locations:`;
-    locations.slice(0, 5).forEach(location => {
       contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location'}`;
     });
   }

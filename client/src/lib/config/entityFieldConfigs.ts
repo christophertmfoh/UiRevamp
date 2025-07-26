@@ -1,326 +1,381 @@
 /**
  * Entity-Specific Field Configurations
- * Field definitions for all world bible entity types
+ * Field definitions for all world bible entity types (excluding locations as per user request)
  */
 
 import { FieldConfigManager, type UniversalFieldDefinition } from './baseFieldConfig';
 
-export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
+// CHARACTER FIELDS - Complete character field definitions
+export const CHARACTER_FIELDS: UniversalFieldDefinition[] = [
+  // Identity Section
   {
-    key: 'type',
-    type: 'select',
+    key: 'name',
+    label: 'Name',
+    type: 'text',
     section: 'identity',
     category: 'identity',
     priority: 'essential',
-    options: ['City', 'Town', 'Village', 'Building', 'Landmark', 'Natural Feature', 'Realm', 'Other'],
+    required: true,
+    placeholder: 'Character name',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
+    aiPromptTemplate: 'Generate a fitting name for this character'
   },
   {
-    key: 'geography',
-    label: 'Geography',
-    type: 'textarea',
-    section: 'physical',
-    category: 'physical',
-    priority: 'essential',
-    placeholder: 'Physical layout and geographical features',
+    key: 'nickname',
+    label: 'Nickname',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'optional',
+    placeholder: 'Nicknames or aliases',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Describe the geography and physical layout of {name}'
+    aiPromptTemplate: 'Suggest appropriate nicknames for {name}'
   },
-  {
-    key: 'history',
-    label: 'History',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
-    priority: 'important',
-    placeholder: 'Historical background and significant events',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Create a rich history for {name} including significant events'
-  },
-  {
-    key: 'significance',
-    label: 'Significance',
-    type: 'textarea',
-    section: 'story',
-    category: 'story',
-    priority: 'essential',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Explain the story significance and importance of {name}'
-  },
-  {
-    key: 'atmosphere',
-    label: 'Atmosphere',
-    type: 'textarea',
-    section: 'physical',
-    category: 'physical',
-    priority: 'important',
-    placeholder: 'Mood, feeling, and ambiance',
-    aiEnhanceable: true,
-    searchable: false,
-    exportable: true,
-    aiPromptTemplate: 'Capture the atmosphere and mood of {name}'
-  }
+  // Add more character fields as needed
 ];
 
-// Faction-specific fields
+// FACTION FIELDS
 export const FACTION_FIELDS: UniversalFieldDefinition[] = [
   {
-    key: 'type',
-    label: 'Faction Type',
-    type: 'select',
+    key: 'name',
+    label: 'Name',
+    type: 'text',
     section: 'identity',
     category: 'identity',
     priority: 'essential',
-    entityTypes: ['factions'],
-    options: ['Government', 'Military', 'Religious', 'Criminal', 'Merchant', 'Academic', 'Secret Society', 'Other'],
+    required: true,
+    placeholder: 'Faction name',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Classify the type of faction that {name} represents'
   },
   {
-    key: 'goals',
-    label: 'Goals',
-    type: 'textarea',
-    section: 'story',
-    category: 'story',
-    priority: 'essential',
-    entityTypes: ['factions'],
-    placeholder: 'What the faction wants to achieve',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Define the primary goals and objectives of {name}'
-  },
-  {
-    key: 'methods',
-    label: 'Methods',
-    type: 'textarea',
-    section: 'story',
-    category: 'story',
+    key: 'type',
+    label: 'Type',
+    type: 'select',
+    section: 'identity',
+    category: 'identity',
     priority: 'important',
-    entityTypes: ['factions'],
-    placeholder: 'How they operate and pursue their goals',
+    options: ['Political', 'Military', 'Religious', 'Economic', 'Social', 'Criminal', 'Academic', 'Other'],
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Describe the methods and tactics used by {name}'
-  },
-  {
-    key: 'leadership',
-    label: 'Leadership',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
-    priority: 'important',
-    entityTypes: ['factions'],
-    placeholder: 'Who leads and how leadership is structured',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Design the leadership structure and key figures of {name}'
-  },
-  {
-    key: 'resources',
-    label: 'Resources',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
-    priority: 'important',
-    entityTypes: ['factions'],
-    placeholder: 'Wealth, weapons, knowledge, connections',
-    aiEnhanceable: true,
-    searchable: false,
-    exportable: true,
-    aiPromptTemplate: 'Detail the resources and assets available to {name}'
   }
 ];
 
-// Item-specific fields
+// ITEM FIELDS  
 export const ITEM_FIELDS: UniversalFieldDefinition[] = [
   {
-    key: 'type',
-    label: 'Item Type',
-    type: 'select',
+    key: 'name',
+    label: 'Name',
+    type: 'text',
     section: 'identity',
     category: 'identity',
     priority: 'essential',
-    entityTypes: ['items'],
-    options: ['Weapon', 'Armor', 'Tool', 'Artifact', 'Consumable', 'Treasure', 'Document', 'Other'],
+    required: true,
+    placeholder: 'Item name',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Classify what type of item {name} is'
   },
   {
-    key: 'powers',
-    label: 'Powers/Properties',
-    type: 'textarea',
-    section: 'abilities',
-    category: 'abilities',
+    key: 'type',
+    label: 'Type',
+    type: 'select',
+    section: 'identity',
+    category: 'identity',
     priority: 'important',
-    entityTypes: ['items'],
-    placeholder: 'Magical or special properties',
+    options: ['Weapon', 'Armor', 'Tool', 'Artifact', 'Consumable', 'Vehicle', 'Document', 'Other'],
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Design unique powers and properties for {name}'
-  },
-  {
-    key: 'history',
-    label: 'History',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
-    priority: 'important',
-    entityTypes: ['items'],
-    placeholder: 'Origin story and past owners',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Create an intriguing history for {name} including its origins'
-  },
-  {
-    key: 'significance',
-    label: 'Story Significance',
-    type: 'textarea',
-    section: 'story',
-    category: 'story',
-    priority: 'essential',
-    entityTypes: ['items'],
-    placeholder: 'Why this item matters to the plot',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Explain why {name} is important to the story'
   }
 ];
 
-// Creature-specific fields
+// CREATURE FIELDS
 export const CREATURE_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Creature name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
   {
     key: 'species',
     label: 'Species',
     type: 'text',
     section: 'identity',
     category: 'identity',
-    priority: 'essential',
-    entityTypes: ['creatures'],
-    placeholder: 'Scientific or common species name',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Name the species that {name} belongs to'
-  },
-  {
-    key: 'habitat',
-    label: 'Habitat',
-    type: 'array',
-    section: 'background',
-    category: 'background',
     priority: 'important',
-    entityTypes: ['creatures'],
-    placeholder: 'Where they live and thrive',
+    placeholder: 'Species or creature type',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Describe the natural habitats where {name} can be found'
-  },
-  {
-    key: 'behavior',
-    label: 'Behavior',
-    type: 'textarea',
-    section: 'personality',
-    category: 'personality',
-    priority: 'important',
-    entityTypes: ['creatures'],
-    placeholder: 'Behavioral patterns and temperament',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'Detail the typical behavior patterns of {name}'
-  },
-  {
-    key: 'abilities',
-    label: 'Natural Abilities',
-    type: 'array',
-    section: 'abilities',
-    category: 'abilities',
-    priority: 'important',
-    entityTypes: ['creatures'],
-    placeholder: 'Special abilities and traits',
-    aiEnhanceable: true,
-    searchable: true,
-    exportable: true,
-    aiPromptTemplate: 'List the natural abilities and special traits of {name}'
   }
 ];
 
-// Organization-specific fields
+// CULTURE FIELDS
+export const CULTURE_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Culture name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'origin',
+    label: 'Origin',
+    type: 'textarea',
+    section: 'background',
+    category: 'background',
+    priority: 'important',
+    placeholder: 'Cultural origins and history',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// LANGUAGE FIELDS
+export const LANGUAGE_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Language name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'family',
+    label: 'Language Family',
+    type: 'text',
+    section: 'structure',
+    category: 'linguistic',
+    priority: 'important',
+    placeholder: 'Language family or group',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// THEME FIELDS
+export const THEME_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Theme name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'description',
+    label: 'Description',
+    type: 'textarea',
+    section: 'details',
+    category: 'narrative',
+    priority: 'important',
+    placeholder: 'Theme description and meaning',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// PROPHECY FIELDS
+export const PROPHECY_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Prophecy name or title',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'text',
+    label: 'Prophecy Text',
+    type: 'textarea',
+    section: 'content',
+    category: 'narrative',
+    priority: 'essential',
+    placeholder: 'The actual prophecy text',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// TIMELINE EVENT FIELDS
+export const TIMELINE_EVENT_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Event name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'date',
+    label: 'Date',
+    type: 'text',
+    section: 'timing',
+    category: 'temporal',
+    priority: 'important',
+    placeholder: 'Event date or time period',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// MAGIC SYSTEM FIELDS
+export const MAGIC_SYSTEM_FIELDS: UniversalFieldDefinition[] = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
+    priority: 'essential',
+    required: true,
+    placeholder: 'Magic system name',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  },
+  {
+    key: 'source',
+    label: 'Source of Power',
+    type: 'textarea',
+    section: 'mechanics',
+    category: 'magical',
+    priority: 'important',
+    placeholder: 'Where magical power comes from',
+    aiEnhanceable: true,
+    searchable: true,
+    exportable: true,
+  }
+];
+
+// ORGANIZATION FIELDS
 export const ORGANIZATION_FIELDS: UniversalFieldDefinition[] = [
   {
-    key: 'purpose',
-    label: 'Purpose',
-    type: 'textarea',
-    section: 'story',
-    category: 'story',
+    key: 'name',
+    label: 'Name',
+    type: 'text',
+    section: 'identity',
+    category: 'identity',
     priority: 'essential',
-    entityTypes: ['organizations'],
-    placeholder: 'Why the organization exists',
+    required: true,
+    placeholder: 'Organization name',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Define the core purpose and mission of {name}'
   },
   {
-    key: 'structure',
-    label: 'Structure',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
+    key: 'type',
+    label: 'Type',
+    type: 'select',
+    section: 'identity',
+    category: 'identity',
     priority: 'important',
-    entityTypes: ['organizations'],
-    placeholder: 'Organizational hierarchy and roles',
+    options: ['Corporation', 'Government', 'Non-Profit', 'Educational', 'Religious', 'Military', 'Criminal', 'Other'],
     aiEnhanceable: true,
-    searchable: false,
+    searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Design the organizational structure and hierarchy of {name}'
-  },
-  {
-    key: 'membership',
-    label: 'Membership',
-    type: 'textarea',
-    section: 'background',
-    category: 'background',
-    priority: 'important',
-    entityTypes: ['organizations'],
-    placeholder: 'Who can join and how',
-    aiEnhanceable: true,
-    searchable: false,
-    exportable: true,
-    aiPromptTemplate: 'Detail the membership requirements and process for {name}'
   }
 ];
 
-// Register all entity field configurations
-FieldConfigManager.registerFields([
-  ...LOCATION_FIELDS,
+// COMBINED FIELD EXPORTS (excluding LOCATION_FIELDS as per user request)
+export const ALL_ENTITY_FIELDS: UniversalFieldDefinition[] = [
+  ...CHARACTER_FIELDS,
   ...FACTION_FIELDS,
   ...ITEM_FIELDS,
   ...CREATURE_FIELDS,
-  ...ORGANIZATION_FIELDS
-]);
+  ...CULTURE_FIELDS,
+  ...LANGUAGE_FIELDS,
+  ...THEME_FIELDS,
+  ...PROPHECY_FIELDS,
+  ...TIMELINE_EVENT_FIELDS,
+  ...MAGIC_SYSTEM_FIELDS,
+  ...ORGANIZATION_FIELDS,
+];
 
-// Export entity-specific field getters
-export const getFactionFields = () => FieldConfigManager.getFieldsForEntity('factions');
-export const getItemFields = () => FieldConfigManager.getFieldsForEntity('items');
-export const getCreatureFields = () => FieldConfigManager.getFieldsForEntity('creatures');
-export const getOrganizationFields = () => FieldConfigManager.getFieldsForEntity('organizations');
+// Entity type to fields mapping
+export const ENTITY_FIELD_MAP = {
+  character: CHARACTER_FIELDS,
+  faction: FACTION_FIELDS,
+  item: ITEM_FIELDS,
+  creature: CREATURE_FIELDS,
+  culture: CULTURE_FIELDS,
+  language: LANGUAGE_FIELDS,
+  theme: THEME_FIELDS,
+  prophecy: PROPHECY_FIELDS,
+  'timeline-event': TIMELINE_EVENT_FIELDS,
+  'magic-system': MAGIC_SYSTEM_FIELDS,
+  organization: ORGANIZATION_FIELDS,
+};
+
+// Initialize field configurations
+export const fieldConfigManager = new FieldConfigManager();
+
+// Register all field configurations
+try {
+  FieldConfigManager.registerFields([
+    ...CHARACTER_FIELDS,
+    ...FACTION_FIELDS,
+    ...ITEM_FIELDS,
+    ...CREATURE_FIELDS,
+    ...CULTURE_FIELDS,
+    ...LANGUAGE_FIELDS,
+    ...THEME_FIELDS,
+    ...PROPHECY_FIELDS,
+    ...TIMELINE_EVENT_FIELDS,
+    ...MAGIC_SYSTEM_FIELDS,
+    ...ORGANIZATION_FIELDS,
+  ]);
+} catch (error) {
+  console.warn('Field registration warning:', error);
+}

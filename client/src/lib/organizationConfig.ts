@@ -39,7 +39,7 @@ export const ORGANIZATION_SECTIONS = [
     title: "Operations",
     fields: [
       { name: "resources", label: "Resources & Assets", type: "textarea" },
-      { name: "venues", label: "Facilities & Locations", type: "textarea" },
+      { name: "venues", label: "Facilities Facilities & Locations Venues", type: "textarea" },
       { name: "budget", label: "Funding & Budget", type: "textarea" },
       { name: "funding_sources", label: "Funding Sources", type: "textarea" },
       { name: "equipment", label: "Equipment & Technology", type: "textarea" },

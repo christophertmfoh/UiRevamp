@@ -11,7 +11,6 @@ interface CreatureGenerationOptions {
 
 interface CreatureGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];  
   existingCreatures?: any[];
   generationOptions?: CreatureGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: CreatureGenerationContext): string {
-  const { project, locations, existingCharacters, existingCreatures, generationOptions } = context;
+  const { project, existingCharacters, existingCreatures, generationOptions } = context;
   
   let contextPrompt = `Create a creature for the story project: "${project.name}"`;
   
@@ -40,9 +39,6 @@ function buildProjectContext(context: CreatureGenerationContext): string {
     contextPrompt += `\nGenre: ${project.genre}`;
   }
   
-  if (locations && locations.length > 0) {
-    contextPrompt += `\n\nKey Locations:`;
-    locations.slice(0, 5).forEach(location => {
       contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location'}`;
     });
   }

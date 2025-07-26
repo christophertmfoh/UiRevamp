@@ -11,7 +11,6 @@ interface ProphecyGenerationOptions {
 
 interface ProphecyGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingProphecies?: any[];
   generationOptions?: ProphecyGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: ProphecyGenerationContext): string {
-  const { project, locations, existingCharacters, existingProphecies, generationOptions } = context;
+  const { project, existingCharacters, existingProphecies, generationOptions } = context;
   
   let contextPrompt = `Create a prophecy for the story project: "${project.name}"`;
   

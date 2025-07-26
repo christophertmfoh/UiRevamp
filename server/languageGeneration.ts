@@ -11,7 +11,6 @@ interface LanguageGenerationOptions {
 
 interface LanguageGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingLanguages?: any[];
   generationOptions?: LanguageGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: LanguageGenerationContext): string {
-  const { project, locations, existingCharacters, existingLanguages, generationOptions } = context;
+  const { project, existingCharacters, existingLanguages, generationOptions } = context;
   
   let contextPrompt = `Create a language for the story project: "${project.name}"`;
   

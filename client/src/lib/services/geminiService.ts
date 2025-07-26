@@ -106,7 +106,7 @@ export async function generateItemImage(
 
   project: Project, 
   toolId: string
-): Promise<Location> {
+): Promise<any> {
   await new Promise(resolve => setTimeout(resolve, 1200));
   
   return {

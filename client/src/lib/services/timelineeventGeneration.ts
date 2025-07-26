@@ -34,7 +34,6 @@ export async function generateContextualTimelineEvent(
 
   const contextInfo = options.existingContext ? `
     Existing Characters: ${options.existingContext.characters?.map(c => `${c.name} (${c.role})`).join(', ') || 'None'}
-    Existing Locations: ${options.existingContext.
   ` : '';
 
   const prompt = `You are a creative writing assistant specializing in world-building. Create a detailed, original timelineevent for the project "${projectName}".

@@ -11,7 +11,6 @@ interface ThemeGenerationOptions {
 
 interface ThemeGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingThemes?: any[];
   generationOptions?: ThemeGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: ThemeGenerationContext): string {
-  const { project, locations, existingCharacters, existingThemes, generationOptions } = context;
+  const { project, existingCharacters, existingThemes, generationOptions } = context;
   
   let contextPrompt = `Create a theme for the story project: "${project.name}"`;
   

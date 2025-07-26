@@ -11,7 +11,6 @@ interface TimelineEventGenerationOptions {
 
 interface TimelineEventGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingTimelineEvents?: any[];
   generationOptions?: TimelineEventGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: TimelineEventGenerationContext): string {
-  const { project, locations, existingCharacters, existingTimelineEvents, generationOptions } = context;
+  const { project, existingCharacters, existingTimelineEvents, generationOptions } = context;
   
   let contextPrompt = `Create a timeline event for the story project: "${project.name}"`;
   
@@ -119,7 +118,6 @@ ${projectContext}`;
         description: eventData.description || 'A significant event that shaped the world.',
         significance: eventData.impact || '',
         participants: Array.isArray(eventData.key_figures) ? eventData.key_figures : eventData.key_figures ? [eventData.key_figures] : [],
-        locations: Array.isArray(eventData.locations) ? eventData.locations : eventData.locations ? [eventData.locations] : [],
         consequences: eventData.consequences || '',
         order: Date.now(),
         tags: Array.isArray(eventData.tags) ? eventData.tags : [],
@@ -137,7 +135,6 @@ ${projectContext}`;
         description: 'A pivotal moment that changed the course of history.',
         significance: 'This event had far-reaching consequences across the realm.',
         participants: ['Unknown figures'],
-        locations: ['Multiple locations'],
         consequences: 'The world was forever altered by these events.',
         order: Date.now(),
         tags: ['historical', 'pivotal', 'world-changing'],

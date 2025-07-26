@@ -11,7 +11,6 @@ interface ItemGenerationOptions {
 
 interface ItemGenerationContext {
   project: Project;
-  locations?: any[];
   existingCharacters?: any[];
   existingItems?: any[];
   generationOptions?: ItemGenerationOptions;
@@ -28,7 +27,7 @@ function getGeminiClient() {
 }
 
 function buildProjectContext(context: ItemGenerationContext): string {
-  const { project, locations, existingCharacters, existingItems, generationOptions } = context;
+  const { project, existingCharacters, existingItems, generationOptions } = context;
   
   let contextPrompt = `Create an item for the story project: "${project.name}"`;
   
@@ -40,9 +39,6 @@ function buildProjectContext(context: ItemGenerationContext): string {
     contextPrompt += `\nGenre: ${project.genre}`;
   }
   
-  if (locations && locations.length > 0) {
-    contextPrompt += `\n\nKey Locations in this world:`;
-    locations.slice(0, 5).forEach(location => {
       contextPrompt += `\n- ${location.name}: ${location.description || 'A significant location'}`;
     });
   }
