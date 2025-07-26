@@ -489,6 +489,28 @@ export function CharacterUnifiedViewPremium({
                             </option>
                           ))}
                         </select>
+                      ) : field.type === 'array' ? (
+                        <Input
+                          value={Array.isArray((formData as any)[field.key]) 
+                            ? ((formData as any)[field.key] as string[]).join(', ')
+                            : (formData as any)[field.key] || ''
+                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const arrayValue = value.trim() ? value.split(',').map(s => s.trim()) : [];
+                            setFormData({...formData, [field.key]: arrayValue});
+                          }}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      ) : field.type === 'textarea' ? (
+                        <Textarea
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                          rows={4}
+                        />
                       ) : (
                         <Input
                           value={(formData as any)[field.key] || ''}
@@ -499,11 +521,39 @@ export function CharacterUnifiedViewPremium({
                       )
                     ) : (
                       <div className="space-y-2">
-                        {(formData as any)[field.key] ? (
-                          <p className="text-sm text-foreground leading-relaxed">
+                        {(field.type === 'array' && Array.isArray((formData as any)[field.key])) ? (
+                          // Handle array fields (like spokenLanguages)
+                          ((formData as any)[field.key] as string[]).length > 0 ? (
+                            <div className="flex flex-wrap gap-1">
+                              {((formData as any)[field.key] as string[]).map((item: string, index: number) => (
+                                <Badge key={index} className="text-xs bg-accent/15 text-accent border border-accent/20">
+                                  {item}
+                                </Badge>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center py-4">
+                              <p className="text-sm text-muted-foreground italic">
+                                No {field.label.toLowerCase()} added yet
+                              </p>
+                              <Button 
+                                onClick={() => setIsEditing(true)}
+                                variant="ghost" 
+                                size="sm" 
+                                className="mt-2 text-accent hover:bg-accent/10"
+                              >
+                                <Plus className="h-3 w-3 mr-1" />
+                                Add {field.label}
+                              </Button>
+                            </div>
+                          )
+                        ) : (formData as any)[field.key] ? (
+                          // Handle non-array fields
+                          <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
                             {(formData as any)[field.key]}
                           </p>
                         ) : (
+                          // Handle empty non-array fields
                           <div className="text-center py-4">
                             <p className="text-sm text-muted-foreground italic">
                               No {field.label.toLowerCase()} added yet
@@ -533,18 +583,72 @@ export function CharacterUnifiedViewPremium({
               <p className="text-muted-foreground mt-1">Physical characteristics and how they present themselves</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
-                { key: 'physicalDescription', label: 'Overall Description', type: 'textarea', placeholder: 'General physical appearance overview' },
-                { key: 'height', label: 'Height', type: 'text', placeholder: '5\'8" or 173cm' },
-                { key: 'build', label: 'Build', type: 'select', options: ['Slim', 'Athletic', 'Stocky', 'Muscular', 'Heavy', 'Petite', 'Tall', 'Average'] },
-                { key: 'eyeColor', label: 'Eye Color', type: 'text', placeholder: 'Blue, brown, heterochromia, etc.' },
-                { key: 'hairColor', label: 'Hair Color', type: 'text', placeholder: 'Natural and current color' },
-                { key: 'hairStyle', label: 'Hair Style', type: 'text', placeholder: 'Length, cut, styling' },
-                { key: 'skinTone', label: 'Skin Tone', type: 'text', placeholder: 'Complexion and tone' },
-                { key: 'distinguishingMarks', label: 'Distinguishing Marks', type: 'textarea', placeholder: 'Scars, tattoos, birthmarks, etc.' },
-                { key: 'clothingStyle', label: 'Clothing Style', type: 'textarea', placeholder: 'How they typically dress' }
-              ].map((field) => (
+            <div className="space-y-6">
+              {/* Full-width Overall Description */}
+              <Card className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-semibold text-foreground">Overall Description</CardTitle>
+                    {isEditing && (
+                      <FieldAIAssist
+                        character={character}
+                        fieldKey="physicalDescription"
+                        fieldLabel="Overall Description"
+                        currentValue={formData.physicalDescription}
+                        onFieldUpdate={(value) => setFormData({...formData, physicalDescription: value})}
+                        disabled={isEnhancing}
+                      />
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {isEditing ? (
+                    <Textarea
+                      value={formData.physicalDescription || ''}
+                      onChange={(e) => setFormData({...formData, physicalDescription: e.target.value})}
+                      placeholder="General physical appearance overview"
+                      className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                      rows={4}
+                    />
+                  ) : (
+                    <div className="space-y-2">
+                      {formData.physicalDescription ? (
+                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                          {formData.physicalDescription}
+                        </p>
+                      ) : (
+                        <div className="text-center py-4">
+                          <p className="text-sm text-muted-foreground italic">
+                            No overall description added yet
+                          </p>
+                          <Button 
+                            onClick={() => setIsEditing(true)}
+                            variant="ghost" 
+                            size="sm" 
+                            className="mt-2 text-accent hover:bg-accent/10"
+                          >
+                            <Plus className="h-3 w-3 mr-1" />
+                            Add Overall Description
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Other appearance fields in grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {[
+                  { key: 'height', label: 'Height', type: 'text', placeholder: '5\'8" or 173cm' },
+                  { key: 'build', label: 'Build', type: 'select', options: ['Slim', 'Athletic', 'Stocky', 'Muscular', 'Heavy', 'Petite', 'Tall', 'Average'] },
+                  { key: 'eyeColor', label: 'Eye Color', type: 'text', placeholder: 'Blue, brown, heterochromia, etc.' },
+                  { key: 'hairColor', label: 'Hair Color', type: 'text', placeholder: 'Natural and current color' },
+                  { key: 'hairStyle', label: 'Hair Style', type: 'text', placeholder: 'Length, cut, styling' },
+                  { key: 'skinTone', label: 'Skin Tone', type: 'text', placeholder: 'Complexion and tone' },
+                  { key: 'distinguishingMarks', label: 'Distinguishing Marks', type: 'textarea', placeholder: 'Scars, tattoos, birthmarks, etc.' },
+                  { key: 'clothingStyle', label: 'Clothing Style', type: 'textarea', placeholder: 'How they typically dress' }
+                ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
@@ -606,6 +710,7 @@ export function CharacterUnifiedViewPremium({
                   </CardContent>
                 </Card>
               ))}
+              </div>
             </div>
           </TabsContent>
 
@@ -731,7 +836,7 @@ export function CharacterUnifiedViewPremium({
                   </CardContent>
                 </Card>
               ))}
-            </div>
+              </div>
           </TabsContent>
 
           <TabsContent value="background" className="space-y-6">
@@ -740,18 +845,71 @@ export function CharacterUnifiedViewPremium({
               <p className="text-muted-foreground mt-1">History, upbringing, and formative experiences</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
-                { key: 'background', label: 'Background Overview', type: 'textarea', placeholder: 'General background and history' },
-                { key: 'backstory', label: 'Detailed Backstory', type: 'textarea', placeholder: 'Comprehensive life story' },
-                { key: 'childhood', label: 'Childhood', type: 'textarea', placeholder: 'Early years and upbringing' },
-                { key: 'familyHistory', label: 'Family History', type: 'textarea', placeholder: 'Family background and lineage' },
-                { key: 'education', label: 'Education', type: 'textarea', placeholder: 'Formal and informal learning' },
-                { key: 'formativeEvents', label: 'Formative Events', type: 'textarea', placeholder: 'Key life-changing moments' },
-                { key: 'socialClass', label: 'Social Class', type: 'select', options: ['Upper Class', 'Upper Middle', 'Middle Class', 'Working Class', 'Lower Class', 'Outcast', 'Noble', 'Commoner'] },
-                { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Current job or profession' },
-                { key: 'spokenLanguages', label: 'Spoken Languages', type: 'array', placeholder: 'Languages they can speak (separate with commas)' }
-              ].map((field) => (
+              {/* Full-width Background Overview */}
+              <Card className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-semibold text-foreground">Background Overview</CardTitle>
+                    {isEditing && (
+                      <FieldAIAssist
+                        character={character}
+                        fieldKey="background"
+                        fieldLabel="Background Overview"
+                        currentValue={formData.background}
+                        onFieldUpdate={(value) => setFormData({...formData, background: value})}
+                        disabled={isEnhancing}
+                      />
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {isEditing ? (
+                    <Textarea
+                      value={formData.background || ''}
+                      onChange={(e) => setFormData({...formData, background: e.target.value})}
+                      placeholder="General background and history"
+                      className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
+                      rows={4}
+                    />
+                  ) : (
+                    <div className="space-y-2">
+                      {formData.background ? (
+                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                          {formData.background}
+                        </p>
+                      ) : (
+                        <div className="text-center py-4">
+                          <p className="text-sm text-muted-foreground italic">
+                            No background overview added yet
+                          </p>
+                          <Button 
+                            onClick={() => setIsEditing(true)}
+                            variant="ghost" 
+                            size="sm" 
+                            className="mt-2 text-accent hover:bg-accent/10"
+                          >
+                            <Plus className="h-3 w-3 mr-1" />
+                            Add Background Overview
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Other background fields in grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {[
+                  { key: 'backstory', label: 'Detailed Backstory', type: 'textarea', placeholder: 'Comprehensive life story' },
+                  { key: 'childhood', label: 'Childhood', type: 'textarea', placeholder: 'Early years and upbringing' },
+                  { key: 'familyHistory', label: 'Family History', type: 'textarea', placeholder: 'Family background and lineage' },
+                  { key: 'education', label: 'Education', type: 'textarea', placeholder: 'Formal and informal learning' },
+                  { key: 'formativeEvents', label: 'Formative Events', type: 'textarea', placeholder: 'Key life-changing moments' },
+                  { key: 'socialClass', label: 'Social Class', type: 'select', options: ['Upper Class', 'Upper Middle', 'Middle Class', 'Working Class', 'Lower Class', 'Outcast', 'Noble', 'Commoner'] },
+                  { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Current job or profession' },
+                  { key: 'spokenLanguages', label: 'Spoken Languages', type: 'array', placeholder: 'Languages they can speak (separate with commas)' }
+                ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
@@ -934,7 +1092,7 @@ export function CharacterUnifiedViewPremium({
                   </CardContent>
                 </Card>
               ))}
-            </div>
+              </div>
           </TabsContent>
 
           <TabsContent value="relationships" className="space-y-6">
