@@ -312,8 +312,7 @@ ${projectContext}`;
       personality: generatedData.personalityOverview || generatedData.personality || '',
       
       // System fields
-      imageUrl: null,
-      projectId: null // Will be set by calling function
+      imageUrl: null
     };
     
     console.log('Server: Processed character data:', processedData);
@@ -365,7 +364,7 @@ function buildProjectContext(context: CharacterGenerationContext): string {
       
       // Add personality and goals for context
       const details = [];
-      if (char.personalityOverview) details.push(`Personality: ${char.personalityOverview.substring(0, 80)}...`);
+      if (char.personality) details.push(`Personality: ${char.personality.substring(0, 80)}...`);
       if (char.goals) details.push(`Goals: ${char.goals.substring(0, 60)}...`);
       if (char.personalityTraits && Array.isArray(char.personalityTraits) && char.personalityTraits.length > 0) {
         details.push(`Traits: ${char.personalityTraits.slice(0, 3).join(', ')}`);
@@ -484,27 +483,6 @@ function getArchetypeGuidance(archetype: string): string {
 }
 
 // Genre-specific character development context
-function getGenreCharacterContext(genres: string): string {
-  const genreGuidance: { [key: string]: string } = {
-    'fantasy': 'Genre Context: Characters should have clear relationships to magic systems, mythical creatures, and ancient histories. Consider how supernatural elements shape their worldview and abilities.',
-    'science fiction': 'Genre Context: Characters must navigate technological advancement, space travel, AI, or future societies. Ground their backgrounds in how technology affects daily life and social structures.',
-    'mystery': 'Genre Context: Characters need secrets, hidden motives, and complex relationships. Each should have knowledge that could solve or complicate the central mystery.',
-    'romance': 'Genre Context: Characters require clear romantic goals, obstacles to love, and emotional growth arcs. Past relationships and intimacy fears should drive character development.',
-    'thriller': 'Genre Context: Characters need high stakes, dangerous secrets, and survival instincts. Paranoia, trust issues, and pressure responses should define their psychology.',
-    'horror': 'Genre Context: Characters need realistic reactions to supernatural threats, trauma responses, and survival mechanisms. Fear and past experiences should influence all decisions.',
-    'contemporary': 'Genre Context: Characters should reflect modern social issues, technology integration, and current cultural dynamics. Make them relatable to contemporary audiences.',
-    'historical': 'Genre Context: Characters must authentically reflect their time period\'s values, restrictions, and opportunities. Historical context should shape all aspects of their identity.'
-  };
-  
-  const lowerGenres = genres.toLowerCase();
-  for (const [genre, guidance] of Object.entries(genreGuidance)) {
-    if (lowerGenres.includes(genre)) {
-      return guidance;
-    }
-  }
-  
-  return '';
-}
 function getGenreCharacterContext(genres: string): string {
   const genreGuidance: { [key: string]: string } = {
     'fantasy': 'Genre Context: Characters should have clear relationships to magic systems, mythical creatures, and ancient histories. Consider how supernatural elements shape their worldview and abilities.',
