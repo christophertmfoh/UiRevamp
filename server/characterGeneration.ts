@@ -39,34 +39,76 @@ export async function generateContextualCharacter(
     
     const prompt = `You are a creative writing assistant specializing in character creation. Generate a fully-developed character that fits naturally into the provided story world. The character should feel authentic and integral to the story.
 
-Your response must be valid JSON in this exact format. Use only regular double quotes, avoid smart quotes or special characters:
+Your response must be valid JSON in this exact format. Fill EVERY field with detailed, template-appropriate content. Use only regular double quotes, avoid smart quotes or special characters:
+
 {
   "name": "Character Name",
-  "title": "Character Title or Epithet", 
+  "nicknames": "Common nicknames or pet names",
+  "title": "Character Title, Epithet, or Professional Title", 
+  "aliases": "Other names they might use or be known by",
   "role": "protagonist/antagonist/supporting/etc",
-  "class": "Character Class or Profession",
+  "class": "Character Class, Profession, or Job",
   "age": "25",
   "race": "Character Race/Species",
+  "gender": "Character's gender identity",
   "oneLine": "One-sentence character description",
-  "description": "Detailed physical description including height, build, distinctive features, clothing style, and any notable characteristics",
-  "personality": "Detailed personality traits, quirks, mannerisms, speech patterns, and behavioral tendencies", 
-  "backstory": "Rich background history explaining how they became who they are today",
-  "motivations": "Deep driving forces and core desires that compel their actions",
-  "goals": "Specific short-term and long-term objectives they want to achieve",
-  "fears": "What terrifies them most, both rational and irrational fears",
-  "flaws": "Character weaknesses, blind spots, and negative traits that create conflict",
-  "secrets": "Hidden aspects, past events, or knowledge they don't want others to discover",
-  "skills": "Specific abilities, talents, training, and areas of expertise",
-  "equipment": "Notable possessions, tools, weapons, or gear they carry or own",
-  "personalityTraits": "Array of 3-5 core personality traits that define this character",
-  "strengths": "Character's key strengths and positive abilities",
-  "weaknesses": "Character's vulnerabilities and areas of struggle",
-  "physicalDescription": "Complete physical appearance details",
-  "values": "Core beliefs and principles that guide their decisions",
-  "habits": "Daily routines, mannerisms, and behavioral patterns"
+  "physicalDescription": "Complete detailed physical appearance including height, weight, build, posture, distinctive features",
+  "height": "Character's height (e.g., 5'8\", 175cm)",
+  "build": "Body type (slim, athletic, stocky, etc.)",
+  "eyeColor": "Eye color and any distinctive features",
+  "hairColor": "Hair color and style",
+  "hairStyle": "Detailed hair style description",
+  "skinTone": "Skin tone and any distinctive markings",
+  "distinguishingMarks": "Scars, tattoos, birthmarks, unique features",
+  "clothingStyle": "Fashion sense and typical attire",
+  "personalityOverview": "Comprehensive personality summary",
+  "temperament": "Core temperament (calm, fiery, melancholic, etc.)",
+  "personalityTraits": ["trait1", "trait2", "trait3", "trait4", "trait5"],
+  "worldview": "How they see the world and their place in it",
+  "values": "Core beliefs and principles that guide decisions",
+  "goals": "Specific short-term and long-term objectives",
+  "motivations": "Deep driving forces and core desires",
+  "fears": "What terrifies them most, both rational and irrational",
+  "desires": "What they want most in life",
+  "vices": "Bad habits, addictions, or moral failings",
+  "coreAbilities": "Primary abilities and talents",
+  "skills": ["skill1", "skill2", "skill3", "skill4"],
+  "talents": ["talent1", "talent2", "talent3"],
+  "specialAbilities": "Unique or supernatural abilities",
+  "powers": "Special powers or magical abilities",
+  "strengths": "Character's key strengths and positive traits",
+  "weaknesses": "Vulnerabilities and areas of struggle",
+  "training": "Formal education, apprenticeships, or training",
+  "backstory": "Rich background history explaining how they became who they are",
+  "childhood": "Early life experiences and upbringing",
+  "familyHistory": "Family background and lineage",
+  "education": "Formal and informal learning experiences",
+  "formativeEvents": "Key events that shaped their character",
+  "socialClass": "Economic and social standing",
+  "occupation": "Current job or primary activity",
+  "spokenLanguages": ["language1", "language2"],
+  "family": "Family members and relationships",
+  "friends": "Close friendships and bonds",
+  "allies": "Political or strategic alliances",
+  "enemies": "Adversaries and opponents",
+  "rivals": "Competitive relationships",
+  "mentors": "Teachers and guides",
+  "relationships": "Romantic and significant relationships",
+  "socialCircle": "Broader social connections",
+  "storyFunction": "Role this character serves in the narrative",
+  "personalTheme": "Central theme this character represents",
+  "symbolism": "What this character symbolizes in the story",
+  "inspiration": "Real-world or fictional inspirations",
+  "archetypes": ["archetype1", "archetype2"],
+  "notes": "Additional writer notes and development ideas",
+  "flaws": "Character weaknesses and negative traits that create conflict",
+  "secrets": "Hidden aspects, past events, or knowledge they conceal",
+  "equipment": "Notable possessions, tools, weapons, or gear",
+  "habits": "Daily routines, mannerisms, and behavioral patterns",
+  "quirks": "Unique behavioral traits and eccentricities"
 }
 
-IMPORTANT: Ensure all text within quotes is properly escaped. Avoid using quotes within the character descriptions or use single quotes instead. Make sure the JSON is valid and complete.
+CRITICAL: Generate detailed, specific content for EVERY field above. Do not leave any field empty or use placeholder text. Base all content on the template requirements provided. Ensure all text is properly escaped and JSON is valid.
 
 ${projectContext}`;
 
@@ -158,38 +200,102 @@ ${projectContext}`;
       }
     }
     
-    // Ensure the data matches our schema expectations
+    // Map ALL generated fields to character schema - comprehensive field mapping
     const processedData = {
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // Generate unique ID
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      // Identity fields
       name: generatedData.name || 'Generated Character',
+      nicknames: generatedData.nicknames || '',
       title: generatedData.title || '',
-      role: generatedData.role || 'supporting',
-      class: generatedData.class || '',
+      aliases: generatedData.aliases || '',
       age: generatedData.age ? String(generatedData.age) : '',
       race: generatedData.race || '',
-      oneLine: generatedData.oneLine || '',
-      description: generatedData.description || '',
-      personality: generatedData.personality || '',
-      background: generatedData.backstory || '', // Map backstory to background field
-      motivations: generatedData.motivations || '',
-      goals: generatedData.goals || '',
-      fears: generatedData.fears || '',
-      flaws: generatedData.flaws || '',
-      weaknesses: generatedData.weaknesses || generatedData.flaws || '', // Use dedicated weaknesses or fallback to flaws
-      secrets: generatedData.secrets || '',
-      skills: generatedData.skills ? generatedData.skills.split(',').map((s: string) => s.trim()) : [], // Convert string to array
-      equipment: generatedData.equipment || '',
-      // Enhanced fields for template-based generation
-      personalityTraits: generatedData.personalityTraits ? 
-        (Array.isArray(generatedData.personalityTraits) ? generatedData.personalityTraits : generatedData.personalityTraits.split(',').map((s: string) => s.trim())) : [],
-      strengths: generatedData.strengths || '',
+      class: generatedData.class || '',
+      role: generatedData.role || 'supporting',
+      gender: generatedData.gender || '',
+      
+      // Appearance fields
       physicalDescription: generatedData.physicalDescription || generatedData.description || '',
+      height: generatedData.height || '',
+      build: generatedData.build || '',
+      eyeColor: generatedData.eyeColor || '',
+      hairColor: generatedData.hairColor || '',
+      hairStyle: generatedData.hairStyle || '',
+      skinTone: generatedData.skinTone || '',
+      distinguishingMarks: generatedData.distinguishingMarks || '',
+      clothingStyle: generatedData.clothingStyle || '',
+      
+      // Personality fields
+      personalityOverview: generatedData.personalityOverview || generatedData.personality || '',
+      temperament: generatedData.temperament || '',
+      personalityTraits: Array.isArray(generatedData.personalityTraits) ? generatedData.personalityTraits : 
+        (generatedData.personalityTraits ? generatedData.personalityTraits.split(',').map((s: string) => s.trim()) : []),
+      worldview: generatedData.worldview || '',
       values: generatedData.values || '',
+      goals: generatedData.goals || '',
+      motivations: generatedData.motivations || '',
+      fears: generatedData.fears || '',
+      desires: generatedData.desires || '',
+      vices: generatedData.vices || '',
+      
+      // Abilities fields
+      coreAbilities: generatedData.coreAbilities || '',
+      skills: Array.isArray(generatedData.skills) ? generatedData.skills : 
+        (generatedData.skills ? generatedData.skills.split(',').map((s: string) => s.trim()) : []),
+      talents: Array.isArray(generatedData.talents) ? generatedData.talents :
+        (generatedData.talents ? generatedData.talents.split(',').map((s: string) => s.trim()) : []),
+      specialAbilities: generatedData.specialAbilities || '',
+      powers: generatedData.powers || '',
+      strengths: generatedData.strengths || '',
+      weaknesses: generatedData.weaknesses || '',
+      training: generatedData.training || '',
+      
+      // Background fields
+      backstory: generatedData.backstory || '',
+      background: generatedData.backstory || '', // Duplicate mapping for compatibility
+      childhood: generatedData.childhood || '',
+      familyHistory: generatedData.familyHistory || '',
+      education: generatedData.education || '',
+      formativeEvents: generatedData.formativeEvents || '',
+      socialClass: generatedData.socialClass || '',
+      occupation: generatedData.occupation || '',
+      spokenLanguages: Array.isArray(generatedData.spokenLanguages) ? generatedData.spokenLanguages :
+        (generatedData.spokenLanguages ? generatedData.spokenLanguages.split(',').map((s: string) => s.trim()) : []),
+      
+      // Relationships fields
+      family: generatedData.family || '',
+      friends: generatedData.friends || '',
+      allies: generatedData.allies || '',
+      enemies: generatedData.enemies || '',
+      rivals: generatedData.rivals || '',
+      mentors: generatedData.mentors || '',
+      relationships: generatedData.relationships || '',
+      socialCircle: generatedData.socialCircle || '',
+      
+      // Meta fields
+      storyFunction: generatedData.storyFunction || '',
+      personalTheme: generatedData.personalTheme || '',
+      symbolism: generatedData.symbolism || '',
+      inspiration: generatedData.inspiration || '',
+      archetypes: Array.isArray(generatedData.archetypes) ? generatedData.archetypes :
+        (generatedData.archetypes ? generatedData.archetypes.split(',').map((s: string) => s.trim()) : []),
+      notes: generatedData.notes || '',
+      
+      // Additional character fields
+      flaws: generatedData.flaws || '',
+      secrets: generatedData.secrets || '',
+      equipment: generatedData.equipment || '',
       habits: generatedData.habits || '',
-      // Ensure required fields are present
+      quirks: generatedData.quirks || '',
+      
+      // Legacy compatibility fields
+      oneLine: generatedData.oneLine || '',
+      description: generatedData.physicalDescription || generatedData.description || '',
+      personality: generatedData.personalityOverview || generatedData.personality || '',
+      
+      // System fields
       imageUrl: null,
-      relationships: '', // String field, not array
-      notes: ''
+      projectId: null // Will be set by calling function
     };
     
     console.log('Server: Processed character data:', processedData);
