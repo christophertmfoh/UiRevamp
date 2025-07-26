@@ -20,7 +20,10 @@ import {
   Compass,
   Palette,
   Moon,
-  Sun
+  Sun,
+  Lightbulb,
+  FileText,
+  Image
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -37,46 +40,46 @@ const processSteps = [
   { 
     icon: Sparkles, 
     title: "Ideate", 
-    description: "Generate story concepts with AI assistance",
-    detail: "Transform a single spark into rich narrative possibilities"
+    description: "Start with your creative vision",
+    detail: "AI transforms initial concepts into comprehensive project foundations"
   },
   { 
     icon: Users, 
-    title: "Characters", 
-    description: "Create compelling, multi-dimensional characters",
-    detail: "Build personas that drive authentic storytelling"
+    title: "World Bible", 
+    description: "Build intelligent story worlds",
+    detail: "Characters, locations, cultures, factions, items - all interconnected with AI"
   },
   { 
     icon: Globe, 
-    title: "World Build", 
-    description: "Design immersive settings and environments",
-    detail: "Craft worlds that feel lived-in and believable"
+    title: "Document AI", 
+    description: "Import existing creative work",
+    detail: "Upload character sheets, extract 50+ attributes automatically"
   },
   { 
     icon: Compass, 
-    title: "Structure", 
-    description: "Organize plot points and narrative arcs",
-    detail: "Map your story's journey from beginning to end"
+    title: "Smart Outlining", 
+    description: "AI-assisted story structure",
+    detail: "Intelligent narrative planning drawing from your world bible"
   },
   { 
     icon: Edit3, 
-    title: "Draft", 
-    description: "Write with AI-powered assistance and feedback",
-    detail: "Transform your vision into polished prose"
+    title: "Context Writing", 
+    description: "Write with world bible integration",
+    detail: "Manuscript creation with AI assistance and bi-directional sync"
   },
   { 
-    icon: Target, 
-    title: "Refine", 
-    description: "Polish and perfect your final manuscript",
-    detail: "Elevate your work to publication-ready quality"
+    icon: Palette, 
+    title: "Visual Production", 
+    description: "Generate multimedia content",
+    detail: "Consistent visuals, storyboards, audio for novels, screenplays, comics"
   }
 ];
 
 const trustIndicators = [
-  { number: "50,000+", label: "Characters Created", icon: Users },
-  { number: "12,000+", label: "Stories in Progress", icon: BookOpen },
-  { number: "2,500+", label: "Published Works", icon: Award },
-  { number: "98%", label: "Writer Satisfaction", icon: Star }
+  { number: "15+", label: "Tools Replaced", icon: Target },
+  { number: "50+", label: "AI-Extracted Attributes", icon: Brain },
+  { number: "3", label: "Media Formats", icon: Palette },
+  { number: "100%", label: "Workflow Integration", icon: CheckCircle }
 ];
 
 export function LandingPage({ 
@@ -162,19 +165,19 @@ export function LandingPage({
             <div className="space-y-8">
               <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50">
                 <div className="w-2 h-2 bg-orange-500 dark:bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-amber-800 dark:text-amber-200">AI-Powered Writing Companion</span>
+                <span className="text-sm font-medium text-amber-800 dark:text-amber-200">End-to-End Creative Production Suite</span>
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-stone-800 dark:text-amber-50 leading-[0.95] tracking-tight">
-                Craft Stories That
+                AI-Powered Creative Suite
                 <span className="block bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 bg-clip-text text-transparent">
-                  Captivate Worlds
+                  Idea to Final Media
                 </span>
               </h1>
               
               <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed">
-                The complete storytelling platform trusted by thousands of writers. 
-                From initial spark to published masterpiece, we guide your creative journey.
+                Transform any creative idea into complete multimedia production - novels, screenplays, 
+                graphic novels with generated visuals, audio, and video. One platform. One workflow.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 pt-6">
@@ -262,14 +265,14 @@ export function LandingPage({
         <div className="text-center space-y-16">
           <div className="space-y-6">
             <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
-              Your Complete Writing Pipeline
+              End-to-End Creative Production
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
-              From Spark to Masterpiece
+              From Idea to Final Media
             </h2>
             <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
-              Our proven 6-step process guides you through every stage of storytelling, 
-              with AI assistance that adapts to your unique creative style.
+              Our intelligent 6-stage pipeline replaces 15+ scattered tools. Create novels, screenplays, 
+              graphic novels with generated visuals, audio, and video - all in one unified workflow.
             </p>
           </div>
 
@@ -317,14 +320,14 @@ export function LandingPage({
         <div className="text-center space-y-16">
           <div className="space-y-6">
             <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
-              Trusted by Writers Worldwide
+              Revolutionary Creative Technology
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
-              Join Thousands of Successful Writers
+              The Creative Industry's First True End-to-End Suite
             </h2>
             <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
-              Writers choose Fablecraft because it delivers results. Our platform has powered 
-              countless success stories from first-time authors to bestselling novelists.
+              Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
+              platform that understands your entire creative process from world-building to visual production.
             </p>
           </div>
 
@@ -359,9 +362,9 @@ export function LandingPage({
                 <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 dark:from-yellow-500 dark:via-amber-600 dark:to-orange-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <CheckCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Proven Results</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">World Bible Intelligence</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
-                  98% of writers report improved productivity and story quality within their first month using our platform.
+                  Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe.
                 </p>
               </div>
             </div>
@@ -373,9 +376,9 @@ export function LandingPage({
                 <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <TrendingUp className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Accelerated Growth</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Document AI Extraction</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
-                  Writers complete projects 3x faster with our AI-assisted workflow and structured creative approach.
+                  Upload character sheets and documents - our AI extracts 50+ attributes automatically with intelligent field mapping.
                 </p>
               </div>
             </div>
@@ -387,9 +390,9 @@ export function LandingPage({
                 <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <Award className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-orange-700 dark:group-hover:text-orange-300 transition-colors duration-300">Publication Success</h3>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-orange-700 dark:group-hover:text-orange-300 transition-colors duration-300">Visual Production Ready</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
-                  Over 2,500 stories created on Fablecraft have been successfully published across all genres and platforms.
+                  Generate consistent character visuals, storyboards, and multimedia content for novels, screenplays, and graphic novels.
                 </p>
               </div>
             </div>
@@ -415,11 +418,11 @@ export function LandingPage({
                 <Zap className="w-12 h-12 text-white" />
               </div>
               <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-700 dark:from-amber-200 dark:via-orange-300 dark:to-red-300 bg-clip-text text-transparent leading-tight">
-                Your Story Starts Now
+                Start Your Creative Revolution
               </h2>
               <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto leading-relaxed">
-                Join the creative revolution. Transform your ideas into captivating stories 
-                with the most advanced AI writing platform available today.
+                Ready to transform any creative idea into complete multimedia production? 
+                Join the first true end-to-end AI creative suite that replaces 15+ scattered tools.
               </p>
             </div>
             
