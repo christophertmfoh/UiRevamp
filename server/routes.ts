@@ -125,7 +125,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: req.body.name || 'Unnamed Character',
         ...req.body
       };
-      console.log('Creating character with data:', characterData);
+      
+      // Transform array fields to comma-separated strings for database compatibility
+      const arrayToStringFields = [
+        'spokenLanguages', 'personalityTraits', 'skills', 'hobbies', 'interests',
+        'habits', 'mannerisms', 'abilities', 'talents', 'strengths', 'weaknesses',
+        'fears', 'phobias', 'values', 'beliefs', 'goals', 'motivations', 'secrets',
+        'flaws', 'quirks', 'equipment', 'possessions', 'relationships', 'allies',
+        'enemies', 'rivals', 'familyMembers', 'friends', 'acquaintances', 'children',
+        'parents', 'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students',
+        'archetypes', 'themes', 'symbolism', 'inspiration', 'portraits'
+      ];
+      
+      arrayToStringFields.forEach(field => {
+        if (Array.isArray(characterData[field])) {
+          characterData[field] = characterData[field].join(', ');
+        }
+      });
+      
+      console.log('Creating character with transformed data:', characterData);
       const validatedData = insertCharacterSchema.parse(characterData);
       const character = await storage.createCharacter(validatedData);
       res.status(201).json(character);
@@ -139,11 +157,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/characters/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const validatedData = insertCharacterSchema.parse(req.body);
+      
+      // Transform array fields to comma-separated strings for database compatibility
+      const transformedData = { ...req.body };
+      
+      // List of fields that might be arrays but need to be strings in database
+      const arrayToStringFields = [
+        'spokenLanguages', 'personalityTraits', 'skills', 'hobbies', 'interests',
+        'habits', 'mannerisms', 'abilities', 'talents', 'strengths', 'weaknesses',
+        'fears', 'phobias', 'values', 'beliefs', 'goals', 'motivations', 'secrets',
+        'flaws', 'quirks', 'equipment', 'possessions', 'relationships', 'allies',
+        'enemies', 'rivals', 'familyMembers', 'friends', 'acquaintances', 'children',
+        'parents', 'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students',
+        'archetypes', 'themes', 'symbolism', 'inspiration', 'portraits'
+      ];
+      
+      arrayToStringFields.forEach(field => {
+        if (Array.isArray(transformedData[field])) {
+          transformedData[field] = transformedData[field].join(', ');
+        }
+      });
+      
+      console.log('Transforming character data for update:', { id, originalArrays: req.body.spokenLanguages, transformed: transformedData.spokenLanguages });
+      
+      const validatedData = insertCharacterSchema.parse(transformedData);
       const character = await storage.updateCharacter(id, validatedData);
       res.json(character);
     } catch (error) {
       console.error("Error updating character:", error);
+      console.error("Validation error details:", error.issues || error.message);
       res.status(500).json({ error: "Internal server error" });
     }
   });
