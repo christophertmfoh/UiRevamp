@@ -36,7 +36,7 @@ export class CharacterCreationService {
     console.log('Creating custom character with automatic portrait');
     
     try {
-      const response = await apiRequest(`/api/projects/${projectId}/characters/generate`, {
+      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
         method: 'POST',
         body: JSON.stringify(options),
         headers: {
@@ -68,7 +68,7 @@ export class CharacterCreationService {
     console.log('Creating template character with automatic portrait');
     
     try {
-      const response = await apiRequest(`/api/projects/${projectId}/characters/generate-from-template`, {
+      const response = await fetch(`/api/projects/${projectId}/characters/generate-from-template`, {
         method: 'POST',
         body: JSON.stringify({ templateData }),
         headers: {
@@ -133,7 +133,7 @@ export class CharacterCreationService {
     console.log('Creating manual character with automatic portrait');
     
     try {
-      const response = await apiRequest(`/api/projects/${projectId}/characters/create-manual`, {
+      const response = await fetch(`/api/projects/${projectId}/characters/create-manual`, {
         method: 'POST',
         body: JSON.stringify(characterData),
         headers: {
@@ -165,7 +165,7 @@ export class CharacterCreationService {
     console.log('Saving character to database');
     
     try {
-      const response = await apiRequest('/api/characters', {
+      const response = await fetch('/api/characters', {
         method: 'POST',
         body: JSON.stringify({
           ...characterData,
