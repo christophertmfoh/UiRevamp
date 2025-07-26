@@ -9,7 +9,7 @@ import {
 } from "@shared/schema";
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
-import { parseDocument } from "./documentParser";
+import { importCharacterDocument } from "./documentParser";
 import multer from "multer";
 import path from "path";
 import { fileTypeFromBuffer } from "file-type";
@@ -349,10 +349,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Document parsing endpoint for character sheet import
-  app.post("/api/characters/parse-document", upload.single('document'), async (req, res) => {
+  // Document import endpoint for character sheet import
+  app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
     try {
-      console.log('Document parsing request received');
+      console.log('Document import request received');
       
       if (!req.file) {
         return res.status(400).json({ error: "No document uploaded" });
@@ -363,7 +363,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Project ID is required" });
       }
 
-      console.log('Parsing document:', {
+      console.log('Importing document:', {
         filename: req.file.originalname,
         size: req.file.size,
         mimetype: req.file.mimetype,
@@ -371,10 +371,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         projectId
       });
 
-      // Parse the document using AI
-      const characterData = await parseDocument(req.file.path, req.file.originalname);
+      // Import the document using AI
+      const characterData = await importCharacterDocument(req.file.path, req.file.originalname);
       
-      console.log('Document parsed successfully:', characterData);
+      console.log('Document imported successfully:', characterData);
       
       // Return the parsed character data for frontend to create character
       res.json({
@@ -383,9 +383,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
     } catch (error: any) {
-      console.error("Error parsing document:", error);
+      console.error("Error importing document:", error);
       res.status(500).json({ 
-        error: "Failed to parse document", 
+        error: "Failed to import document", 
         details: error.message 
       });
     }

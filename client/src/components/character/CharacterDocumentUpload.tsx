@@ -66,7 +66,7 @@ export function CharacterDocumentUpload({
     }
   };
 
-  const parseDocument = async () => {
+  const importDocument = async () => {
     if (!selectedFile) return;
     
     setIsParsing(true);
@@ -77,25 +77,25 @@ export function CharacterDocumentUpload({
       formData.append('document', selectedFile);
       formData.append('projectId', projectId);
       
-      const response = await fetch('/api/characters/parse-document', {
+      const response = await fetch('/api/characters/import-document', {
         method: 'POST',
         body: formData
       });
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to parse document');
+        throw new Error(errorData.error || 'Failed to import document');
       }
       
       const characterData = await response.json();
-      console.log('Document parsed successfully:', characterData);
+      console.log('Document imported successfully:', characterData);
       
       onParseComplete(characterData);
       onClose();
       
     } catch (error) {
-      console.error('Document parsing error:', error);
-      setParseError(error instanceof Error ? error.message : 'Failed to parse document');
+      console.error('Document import error:', error);
+      setParseError(error instanceof Error ? error.message : 'Failed to import document');
     } finally {
       setIsParsing(false);
     }
@@ -226,7 +226,7 @@ export function CharacterDocumentUpload({
               Cancel
             </Button>
             <Button 
-              onClick={parseDocument} 
+              onClick={importDocument} 
               disabled={!selectedFile || isParsing}
               className="bg-accent hover:bg-accent/90"
             >
@@ -248,7 +248,7 @@ export function CharacterDocumentUpload({
           {isParsing && (
             <div className="bg-accent/5 rounded-lg p-4 border border-accent/20">
               <div className="text-center space-y-2">
-                <div className="text-sm font-medium text-accent">AI Processing Document</div>
+                <div className="text-sm font-medium text-accent">AI Reading Document</div>
                 <div className="text-xs text-muted-foreground max-w-md mx-auto">
                   Our AI is reading your document and extracting character information to populate all 164+ character fields. This may take a moment...
                 </div>

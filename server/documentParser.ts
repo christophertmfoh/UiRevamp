@@ -102,14 +102,14 @@ export interface ParsedCharacterData {
   characterArc?: string;
 }
 
-export async function parseDocument(filePath: string, fileName: string): Promise<ParsedCharacterData> {
+export async function importCharacterDocument(filePath: string, fileName: string): Promise<ParsedCharacterData> {
   let textContent = '';
   
   try {
     // Extract text based on file type
     if (fileName.toLowerCase().endsWith('.pdf')) {
-      // For now, inform user to use text or Word documents for PDF parsing
-      throw new Error('PDF parsing temporarily unavailable. Please convert your PDF to a Word document (.docx) or text file (.txt) and try again.');
+      // For now, inform user to use text or Word documents for PDF import
+      throw new Error('PDF import temporarily unavailable. Please convert your PDF to a Word document (.docx) or text file (.txt) and try again.');
     } else if (fileName.toLowerCase().endsWith('.docx')) {
       const result = await mammoth.extractRawText({ path: filePath });
       textContent = result.value;
@@ -310,6 +310,6 @@ Respond with a comprehensive JSON object containing all extracted character info
     
   } catch (error) {
     console.error('AI parsing error:', error);
-    throw new Error(`Failed to parse character data: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to extract character data: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
