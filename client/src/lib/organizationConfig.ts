@@ -39,7 +39,7 @@ export const ORGANIZATION_SECTIONS = [
     title: "Operations",
     fields: [
       { name: "resources", label: "Resources & Assets", type: "textarea" },
-      { name: "locations", label: "Facilities & Locations", type: "textarea" },
+      { name: "venues", label: "Facilities & Locations", type: "textarea" },
       { name: "budget", label: "Funding & Budget", type: "textarea" },
       { name: "funding_sources", label: "Funding Sources", type: "textarea" },
       { name: "equipment", label: "Equipment & Technology", type: "textarea" },
@@ -111,7 +111,7 @@ export const ORGANIZATION_TYPES = {
       structure: "Director/Administrator, Department Heads, Civil Servants",
       target_audience: "Citizens and public stakeholders",
       governance_model: "Public administration with legislative oversight",
-      funding_sources: "Government budget allocations and taxpayer funds"
+      funding_sources: "Government budget alvenues and taxpayer funds"
     }
   },
   "Non-Profit": {

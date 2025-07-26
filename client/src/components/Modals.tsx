@@ -637,7 +637,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
       // - Extract world building elements from manuscripts
       // - Parse world bible structure and populate world elements
       // - Generate outline from story structure
-      // - Identify characters, locations, factions automatically
+      // - Identify characters, factions, items automatically
 
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
 
@@ -820,7 +820,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
                     <div className="text-xs text-muted-foreground space-y-1">
                       <div>• {documentType === 'auto' ? 'Auto-detect document type and structure' : `Process as ${documentType}`}</div>
                       <div>• Extract and populate {documentType === 'worldbible' ? 'world building elements' : 'story content'}</div>
-                      <div>• Generate {documentType === 'worldbible' ? 'character profiles and locations' : 'outline and character list'}</div>
+                      <div>• Generate {documentType === 'worldbible' ? 'character profiles and factions' : 'outline and character list'}</div>
                       <div>• Intelligent content organization and tagging</div>
                     </div>
                   </div>

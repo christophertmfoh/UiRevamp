@@ -82,9 +82,9 @@ export function ProjectsView({
       completedSections += 1;
     }
 
-    // Check locations
+    // Check factions
     totalSections += 1;
-    if (project.locations && project.locations.length > 0) {
+    if (project.factions && project.factions.length > 0) {
       completedSections += 1;
     }
 
@@ -331,10 +331,10 @@ export function ProjectsView({
                       </div>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-accent mb-1">
-                          {project.locations?.length || 0}
+                          {project.factions?.length || 0}
                         </div>
                         <div className="text-xs text-muted-foreground uppercase tracking-wide">
-                          Locations
+                          Factions
                         </div>
                       </div>
                     </div>

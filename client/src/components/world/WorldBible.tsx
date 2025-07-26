@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import type { Project, Character } from '../../lib/types';
 import { CharacterManager } from '../character';
-import { LocationManager } from '../location';
+
 import { FactionManager } from '../faction';
 import { ItemManager } from '../item';
 
@@ -47,7 +47,7 @@ interface WorldBibleProps {
   onBack: () => void;
 }
 
-export function WorldBible({ project, onBack }: WorldBibleProps) {
+export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Element {
   const [activeCategory, setActiveCategory] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
@@ -60,10 +60,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
   // Fetch all world bible data for search
   const { data: characters = [] } = useQuery<Character[]>({
     queryKey: ['/api/projects', project.id, 'characters'],
-  });
-
-  const { data: locations = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', project.id, 'locations'],
   });
 
   const { data: factions = [] } = useQuery<any[]>({
@@ -106,459 +102,167 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
     queryKey: ['/api/projects', project.id, 'themes'],
   });
 
-  // Global search functionality across all world bible categories
-  const allWorldData = useMemo(() => {
-    return [
-      ...characters.map(item => ({ ...item, category: 'characters', categoryLabel: 'Characters', icon: Users })),
-      ...locations.map(item => ({ ...item, category: 'locations', categoryLabel: 'Locations', icon: MapPin })),
-      ...factions.map(item => ({ ...item, category: 'factions', categoryLabel: 'Factions', icon: Shield })),
-      ...items.map(item => ({ ...item, category: 'items', categoryLabel: 'Items', icon: Package })),
-      ...organizations.map(item => ({ ...item, category: 'organizations', categoryLabel: 'Organizations', icon: Crown })),
-      ...magicSystems.map(item => ({ ...item, category: 'magic-systems', categoryLabel: 'Magic Systems', icon: Sparkles })),
-      ...timelineEvents.map(item => ({ ...item, category: 'timeline-events', categoryLabel: 'Timeline', icon: Clock })),
-      ...creatures.map(item => ({ ...item, category: 'creatures', categoryLabel: 'Creatures', icon: Eye })),
-      ...languages.map(item => ({ ...item, category: 'languages', categoryLabel: 'Languages', icon: Languages })),
-      ...cultures.map(item => ({ ...item, category: 'cultures', categoryLabel: 'Cultures', icon: Heart })),
-      ...prophecies.map(item => ({ ...item, category: 'prophecies', categoryLabel: 'Prophecies', icon: Scroll })),
-      ...themes.map(item => ({ ...item, category: 'themes', categoryLabel: 'Themes', icon: Globe })),
-    ];
-  }, [characters, locations, factions, items, organizations, magicSystems, timelineEvents, creatures, languages, cultures, prophecies, themes]);
+  // Filter featured characters based on the order
+  const featuredCharacters = useMemo(() => {
+    if (featuredCharacterOrder.length === 0) {
+      return characters.slice(0, 6);
+    }
+    return featuredCharacterOrder
+      .map(id => characters.find(char => char.id === id))
+      .filter(Boolean)
+      .slice(0, 6);
+  }, [characters, featuredCharacterOrder]);
 
-  // Search results based on query
+  // Categories for navigation
+  const categories = [
+    { id: 'overview', label: 'Overview', icon: Globe, count: 0 },
+    { id: 'characters', label: 'Characters', icon: Users, count: characters.length },
+    { id: 'factions', label: 'Factions', icon: Shield, count: factions.length },
+    { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length },
+    { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length },
+    { id: 'magic-systems', label: 'Magic Systems', icon: Sparkles, count: magicSystems.length },
+    { id: 'timeline', label: 'Timeline Events', icon: Clock, count: timelineEvents.length },
+    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length },
+    { id: 'languages', label: 'Languages', icon: Languages, count: languages.length },
+    { id: 'culture', label: 'Cultures', icon: Heart, count: cultures.length },
+    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: prophecies.length },
+    { id: 'themes', label: 'Themes', icon: Sword, count: themes.length }
+  ];
+
+  // Search across all data
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     
-    const query = searchQuery.toLowerCase().trim();
-    
-    return allWorldData.filter(item => {
-      // Search in name/title
-      if (item.name?.toLowerCase().includes(query)) return true;
-      if (item.title?.toLowerCase().includes(query)) return true;
-      
-      // Search in description
-      if (item.description?.toLowerCase().includes(query)) return true;
-      
-      // Search in tags
-      if (item.tags && Array.isArray(item.tags)) {
-        if (item.tags.some((tag: string) => tag.toLowerCase().includes(query))) return true;
-      }
-      
-      // Search in specific fields based on category
-      if (item.category === 'characters') {
-        const searchFields = [
-          item.race, item.occupation, item.background, item.personality,
-          item.appearance, item.goals, item.fears, item.secrets
-        ];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-      }
-      
-      if (item.category === 'locations') {
-        const searchFields = [item.history, item.significance, item.atmosphere];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-      }
-      
-      if (item.category === 'factions') {
-        const searchFields = [item.goals, item.methods, item.history, item.leadership];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-      }
-      
-      if (item.category === 'magic-systems') {
-        const searchFields = [item.type, item.source, item.limitations, item.corruption];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-        if (item.practitioners && Array.isArray(item.practitioners)) {
-          if (item.practitioners.some((p: string) => p.toLowerCase().includes(query))) return true;
-        }
-        if (item.effects && Array.isArray(item.effects)) {
-          if (item.effects.some((e: string) => e.toLowerCase().includes(query))) return true;
-        }
-      }
-      
-      if (item.category === 'timeline-events') {
-        const searchFields = [item.era, item.period, item.significance, item.consequences];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-        if (item.participants && Array.isArray(item.participants)) {
-          if (item.participants.some((p: string) => p.toLowerCase().includes(query))) return true;
-        }
-      }
-      
-      if (item.category === 'creatures') {
-        const searchFields = [
-          item.species, item.classification, item.habitat, item.behavior, 
-          item.threat, item.significance
-        ];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-        if (item.abilities && Array.isArray(item.abilities)) {
-          if (item.abilities.some((a: string) => a.toLowerCase().includes(query))) return true;
-        }
-      }
-      
-      if (item.category === 'prophecies') {
-        const searchFields = [item.text, item.origin, item.interpretation, item.fulfillment];
-        if (searchFields.some(field => field?.toLowerCase().includes(query))) return true;
-      }
-      
-      return false;
-    });
-  }, [allWorldData, searchQuery]);
+    const query = searchQuery.toLowerCase();
+    const results: Array<{ type: string; item: any }> = [];
 
-  // Drag and drop handlers
-  const handleDragStart = (e: React.DragEvent, categoryId: string) => {
-    const category = categories.find(cat => cat.id === categoryId);
-    if (category?.locked) {
-      e.preventDefault();
-      return;
+    // Search characters
+    characters.forEach(char => {
+      if (char.name?.toLowerCase().includes(query) || 
+          char.description?.toLowerCase().includes(query) ||
+          char.role?.toLowerCase().includes(query)) {
+        results.push({ type: 'character', item: char });
+      }
+    });
+
+    // Search factions
+    factions.forEach(faction => {
+      if (faction.name?.toLowerCase().includes(query) || 
+          faction.description?.toLowerCase().includes(query)) {
+        results.push({ type: 'faction', item: faction });
+      }
+    });
+
+    // Search items
+    items.forEach(item => {
+      if (item.name?.toLowerCase().includes(query) || 
+          item.description?.toLowerCase().includes(query)) {
+        results.push({ type: 'item', item: item });
+      }
+    });
+
+    return results;
+  }, [searchQuery, characters, factions, items]);
+
+  // World overview data
+  const worldData = {
+    overview: {
+      title: project.title || 'The BloomWeaver\'s Lament',
+      subtitle: 'A Tale of Magic and Destiny',
+      description: project.description || 'In a world where magic flows through ancient bloodlines and destiny is written in the stars, follow the journey of heroes who must confront the darkness that threatens to consume everything they hold dear.',
+      coreThemes: ['Destiny vs. Free Will', 'Power and Corruption', 'Sacrifice and Redemption', 'Unity in Diversity'],
+      majorConflicts: ['The Ancient Prophecy', 'War of the Five Kingdoms', 'The Dark Lord\'s Return'],
+      keyMysteries: ['The Lost Bloodline', 'The Sealed Temple', 'The Forgotten Alliance']
     }
-    setDraggedItem(categoryId);
+  };
+
+  // Handle character drag and drop
+  const handleCharacterDragStart = (e: React.DragEvent, characterId: string) => {
+    setDraggedCharacterId(characterId);
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragOver = (e: React.DragEvent, categoryId: string) => {
+  const handleCharacterDragOver = (e: React.DragEvent, characterId: string) => {
     e.preventDefault();
-    const category = categories.find(cat => cat.id === categoryId);
-    if (category?.locked) return;
-    
-    setDragOverItem(categoryId);
-    e.dataTransfer.dropEffect = 'move';
+    setDragOverCharacterId(characterId);
   };
 
-  const handleDragLeave = () => {
-    setDragOverItem(null);
+  const handleCharacterDragLeave = () => {
+    setDragOverCharacterId(null);
   };
 
-  const handleDrop = (e: React.DragEvent, targetCategoryId: string) => {
+  const handleCharacterDrop = (e: React.DragEvent, targetCharacterId: string) => {
     e.preventDefault();
-    
-    if (!draggedItem || draggedItem === targetCategoryId) {
-      setDraggedItem(null);
-      setDragOverItem(null);
-      return;
+    if (draggedCharacterId && draggedCharacterId !== targetCharacterId) {
+      const currentOrder = featuredCharacterOrder.length > 0 ? 
+        featuredCharacterOrder : 
+        characters.slice(0, 6).map(char => char.id);
+      
+      const draggedIndex = currentOrder.indexOf(draggedCharacterId);
+      const targetIndex = currentOrder.indexOf(targetCharacterId);
+      
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        const newOrder = [...currentOrder];
+        const [draggedItem] = newOrder.splice(draggedIndex, 1);
+        newOrder.splice(targetIndex, 0, draggedItem);
+        setFeaturedCharacterOrder(newOrder);
+      }
     }
-
-    const targetCategory = categories.find(cat => cat.id === targetCategoryId);
-    if (targetCategory?.locked) {
-      setDraggedItem(null);
-      setDragOverItem(null);
-      return;
-    }
-
-    const newCategories = [...categories];
-    const draggedIndex = newCategories.findIndex(cat => cat.id === draggedItem);
-    const targetIndex = newCategories.findIndex(cat => cat.id === targetCategoryId);
-
-    // Don't allow moving before or after the locked overview
-    if (targetIndex === 0 || (draggedIndex === 0)) {
-      setDraggedItem(null);
-      setDragOverItem(null);
-      return;
-    }
-
-    // Remove dragged item and insert at target position
-    const [draggedCategory] = newCategories.splice(draggedIndex, 1);
-    newCategories.splice(targetIndex, 0, draggedCategory);
-
-    setCategories(newCategories);
-    setDraggedItem(null);
-    setDragOverItem(null);
+    setDraggedCharacterId(null);
+    setDragOverCharacterId(null);
   };
 
-  const handleDragEnd = () => {
-    setDraggedItem(null);
-    setDragOverItem(null);
-  };
-
-  // BloomWeaver World Data
-  const worldData = {
-    overview: {
-      title: "Umbra Floris",
-      subtitle: "The Realm of the BloomWeaver's Lament",
-      description: "A world born from cosmic love gone wrong, where the Witch Essylt transformed herself into The Bloom out of unbearable longing for the Warlock Somnus, plunging the realm into a three-pronged apocalypse of sentient flora, corrupted dreams, and ancient Stone Lords.",
-      coreThemes: [
-        "Monstrousness of Misguided Love",
-        "Individuality vs. Unity", 
-        "Fragility of Reality",
-        "Burden of History & Remembrance"
-      ],
-      horrorTypes: [
-        "Cosmic Horror",
-        "Body Horror", 
-        "Psychological Horror",
-        "Ontological Horror"
-      ]
-    },
-    characters: [],
-    locations: locations,
-    factions: [
-      {
-        name: "The Cultist Group",
-        type: "Apocalyptic Cult",
-        description: "Emerged from despair, believing the Dream Weaver's 'uncontrolled' dreaming is the source of chaos. Aim to harness dream power to impose absolute order.",
-        goals: ["Corrupt the Dream Weaver", "Impose absolute order", "Control reality through dreams"],
-        methods: ["Psychological manipulation", "Dream corruption", "Chaos-pattern injection"],
-        status: "Active/Primary Antagonist",
-        threat: "Directly responsible for triggering the cataclysm"
-      },
-      {
-        name: "The Stone Lords", 
-        type: "Ancient Magical Nobility",
-        description: "Kings and lords who harnessed magic to infuse their essence into colossal stone monuments. Now awakened and rampaging during the championships.",
-        goals: ["Cement legacies", "Demonstrate power", "Relive past glory"],
-        methods: ["Earth manipulation", "Monument animation", "Historical echo projection"],
-        status: "Awakened/Chaotic",
-        threat: "Widespread destruction through ancient power"
-      }
-    ],
-    organizations: [
-      {
-        name: "Great Stone Lord Championships",
-        type: "Ancient Competition",
-        description: "Grand spectacle where Stone Lords demonstrate their power through colossal monument animation and earth manipulation contests.",
-        structure: "Ceremonial hierarchy with ancient protocols",
-        status: "Active during cataclysm",
-        significance: "Backdrop for the apocalyptic events"
-      }
-    ],
-    magic: [
-      {
-        name: "The Flow of Magic",
-        type: "Cosmic Phenomenon",
-        description: "Widespread magic that emerged from the intertwined emanations of The Bloom and Dream Weaver. Enabled diverse magical classes and Stone Lord power.",
-        source: "Essylt (Bloom) + Somnus (Dream Weaver)",
-        effects: ["Enabled magical classes", "Stone Lord essence infusion", "Reality manipulation"],
-        corruption: "Now tainted by Dream Weaver's corruption and Bloom's forced unity"
-      },
-      {
-        name: "Dream Weaving",
-        type: "Cosmic Magic",
-        description: "Somnus's mastered art of manipulating dreams and reality through dreamscape. Now corrupted by cultists to manifest nightmares as Waking Phantoms.",
-        practitioners: ["Somnus (Dream Weaver)", "Cultists (corrupted version)"],
-        effects: ["Reality manipulation", "Dream control", "Nightmare manifestation"],
-        corruption: "Seed nightmares and chaos-patterns injected by cultists"
-      },
-      {
-        name: "Bloom Integration", 
-        type: "Assimilation Magic",
-        description: "Essylt's power to absorb and integrate living beings into the fungal hive mind. Transforms individuals while preserving their essence in collective consciousness.",
-        practitioners: ["Essylt (The Bloom)", "Bloom-assimilated creatures"],
-        effects: ["Consciousness integration", "Physical transformation", "Hive mind expansion"],
-        purpose: "Create unified solace and end individual suffering"
-      }
-    ],
-    timeline: [
-      {
-        era: "Primordial Era",
-        period: "Before Flow of Magic",
-        events: [
-          "Silent Earth: World devoid of widespread magic",
-          "Cosmic Arcana manifestation: Essylt and Somnus bound by absolute magical love",
-          "Rudimentary societies, dormant cosmic energies"
-        ]
-      },
-      {
-        era: "The Separation",
-        period: "Warlock's Journey", 
-        events: [
-          "Somnus embarks on cosmic journey to master dreamweaving",
-          "Essylt consumed by loneliness and longing",
-          "Essylt transforms into The Bloom as testament of love"
-        ]
-      },
-      {
-        era: "Age of Magic",
-        period: "Dream Weaver's Return",
-        events: [
-          "Somnus returns as Dream Weaver, finds Essylt transformed", 
-          "Garden of Expanse becomes cosmic focal point",
-          "Flow of Magic emerges from their combined emanations",
-          "Rise of magical classes and Stone Lords",
-          "Cycles of decline, terror, and meaningless conflict"
-        ]
-      },
-      {
-        era: "The Cataclysm",
-        period: "Present Crisis",
-        events: [
-          "Great Stone Lord Championships begin",
-          "Cultists corrupt Dream Weaver with seed nightmares",
-          "Waking Phantoms manifest across the realm", 
-          "Bloom rapidly expands to engulf realm in protective hive mind",
-          "Stone Lords awaken and rampage",
-          "Heroes unite inadvertently, Chronicler documents"
-        ]
-      }
-    ]
-  };
-
-  // World Bible categories with drag-and-drop capability (moved after worldData definition)
-  const [categories, setCategories] = useState([
-    { id: 'overview', label: 'World Overview', icon: Globe, count: 1, locked: true },
-    { id: 'characters', label: 'Characters', icon: Users, count: characters.length, locked: false },
-
-    { id: 'locations', label: 'Locations', icon: MapPin, count: locations.length, locked: false },
-
-    { id: 'factions', label: 'Factions', icon: Shield, count: factions.length, locked: false },
-    { id: 'organizations', label: 'Organizations', icon: Crown, count: organizations.length, locked: false },
-    { id: 'items', label: 'Items & Artifacts', icon: Package, count: items.length, locked: false },
-    { id: 'magic', label: 'Magic & Lore', icon: Sparkles, count: magicSystems.length, locked: false },
-    { id: 'timeline', label: 'Timeline', icon: Clock, count: timelineEvents.length, locked: false },
-    { id: 'bestiary', label: 'Bestiary', icon: Eye, count: creatures.length, locked: false },
-    { id: 'languages', label: 'Languages', icon: Languages, count: languages.length, locked: false },
-    { id: 'culture', label: 'Culture', icon: Heart, count: cultures.length, locked: false },
-    { id: 'prophecies', label: 'Prophecies', icon: Scroll, count: prophecies.length, locked: false },
-    { id: 'themes', label: 'Themes', icon: Sword, count: themes.length, locked: false }
-  ]);
-
-  // Update counts dynamically when data changes
-  useEffect(() => {
-    setCategories(prev => prev.map(cat => {
-      switch (cat.id) {
-        case 'characters': return { ...cat, count: characters.length };
-        case 'locations': return { ...cat, count: locations.length };
-        case 'factions': return { ...cat, count: factions.length };
-        case 'organizations': return { ...cat, count: organizations.length };
-        case 'items': return { ...cat, count: items.length };
-        case 'magic': return { ...cat, count: magicSystems.length };
-        case 'timeline': return { ...cat, count: timelineEvents.length };
-        case 'bestiary': return { ...cat, count: creatures.length };
-        case 'languages': return { ...cat, count: languages.length };
-        case 'culture': return { ...cat, count: cultures.length };
-        case 'prophecies': return { ...cat, count: prophecies.length };
-        case 'themes': return { ...cat, count: themes.length };
-        default: return cat;
-      }
-    }));
-  }, [
-    characters.length, 
-    locations.length, 
-    factions.length, 
-    organizations.length, 
-    items.length, 
-    magicSystems.length, 
-    timelineEvents.length, 
-    creatures.length, 
-    languages.length, 
-    cultures.length, 
-    prophecies.length, 
-    themes.length
-  ]);
-
-  // Render search results
   const renderSearchResults = () => {
-    if (searchResults.length === 0) {
-      return (
-        <div className="text-center py-12">
-          <Search className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h3 className="font-title text-xl mb-2">No Results Found</h3>
-          <p className="text-muted-foreground mb-4">
-            No items found for "{searchQuery}" in your world bible.
-          </p>
-          <Button 
-            variant="outline" 
-            onClick={() => setSearchQuery('')}
-            className="interactive-warm"
-          >
-            Clear Search
-          </Button>
-        </div>
-      );
-    }
-
-    // Group results by category
-    const groupedResults = searchResults.reduce((acc, item) => {
-      if (!acc[item.category]) {
-        acc[item.category] = [];
-      }
-      acc[item.category].push(item);
-      return acc;
-    }, {} as Record<string, any[]>);
-
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-title text-2xl">Search Results</h2>
-            <p className="text-muted-foreground">
-              Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "{searchQuery}"
-            </p>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={() => setSearchQuery('')}
-            className="interactive-warm"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Clear Search
-          </Button>
+          <h2 className="font-title text-2xl">Search Results</h2>
+          <Badge variant="secondary">{searchResults.length} results</Badge>
         </div>
-
-        {Object.entries(groupedResults).map(([category, items]) => {
-          const categoryInfo = categories.find(cat => cat.id === category);
-          if (!categoryInfo) return null;
-          
-          const Icon = categoryInfo.icon;
-          const itemList = items as any[];
-          
+        
+        {searchResults.map((result, index) => {
+          const Icon = categories.find(cat => cat.id === result.type)?.icon || Package;
           return (
-            <Card key={category} className="creative-card">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-3">
-                  <Icon className="h-5 w-5" />
-                  {categoryInfo.label}
-                  <Badge variant="secondary" className="text-xs">
-                    {itemList.length}
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="grid gap-3">
-                  {itemList.map((item: any) => (
-                    <Card 
-                      key={item.id} 
-                      className="p-4 border-l-4 border-l-accent cursor-pointer hover:bg-muted/30 transition-colors"
-                      onClick={() => {
-                        // Set the selected item and navigate to its category
-                        setSelectedItemId(item.id);
-                        setActiveCategory(category);
-                        setSearchQuery('');
-                      }}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm mb-1">
-                            {item.name || item.title}
-                          </h4>
-                          {item.description && (
-                            <p className="text-muted-foreground text-xs line-clamp-2 mb-2">
-                              {item.description}
-                            </p>
-                          )}
-                          {item.tags && item.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1">
-                              {item.tags.slice(0, 3).map((tag: string, index: number) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                  {tag}
-                                </Badge>
-                              ))}
-                              {item.tags.length > 3 && (
-                                <Badge variant="outline" className="text-xs">
-                                  +{item.tags.length - 3} more
-                                </Badge>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
+            <Card key={`${result.type}-${result.item.id}-${index}`} className="creative-card cursor-pointer hover:bg-muted/20 transition-colors">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center mb-2">
+                      <Icon className="h-4 w-4 mr-2 text-accent" />
+                      <Badge variant="outline" className="text-xs mr-2">
+                        {result.type}
+                      </Badge>
+                      <h4 className="font-semibold text-sm">{result.item.name}</h4>
+                    </div>
+                    {result.item.description && (
+                      <p className="text-muted-foreground text-xs line-clamp-2 mb-2">
+                        {result.item.description}
+                      </p>
+                    )}
+                    {result.item.tags && result.item.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {result.item.tags.slice(0, 3).map((tag: string, index: number) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                        {result.item.tags.length > 3 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{result.item.tags.length - 3} more
+                          </Badge>
+                        )}
                       </div>
-                    </Card>
-                  ))}
+                    )}
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground ml-2" />
                 </div>
               </CardContent>
             </Card>
           );
         })}
-      </div>
-    );
-  };
+        </div>
+      );
+    };
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
@@ -597,9 +301,10 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 <CardContent>
                   <div className="space-y-2">
                     {worldData.overview.coreThemes.map((theme, index) => (
-                      <Badge key={index} variant="outline" className="mr-2 mb-2">
-                        {theme}
-                      </Badge>
+                      <div key={index} className="flex items-center">
+                        <div className="w-2 h-2 bg-accent rounded-full mr-3"></div>
+                        <span className="text-sm">{theme}</span>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
@@ -608,307 +313,101 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
               <Card className="creative-card">
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Eye className="h-5 w-5 mr-2 text-accent" />
-                    Horror Types
+                    <Shield className="h-5 w-5 mr-2 text-accent" />
+                    Major Conflicts
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {worldData.overview.horrorTypes.map((type, index) => (
-                      <Badge key={index} variant="secondary" className="mr-2 mb-2">
-                        {type}
-                      </Badge>
+                    {worldData.overview.majorConflicts.map((conflict, index) => (
+                      <div key={index} className="flex items-center">
+                        <div className="w-2 h-2 bg-accent rounded-full mr-3"></div>
+                        <span className="text-sm">{conflict}</span>
+                      </div>
                     ))}
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Featured Content Sections */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Featured Characters Section */}
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center">
-                      <Users className="h-5 w-5 mr-2" />
-                      Featured Characters
-                    </span>
-                    <Badge variant="outline">{characters.length}</Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {characters.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                      <p>No characters created yet</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-3 max-h-64 overflow-y-auto">
-                      {(() => {
-                        // Get featured characters in custom order, or default to first 4 characters
-                        let featuredChars = characters;
-                        
-                        if (featuredCharacterOrder.length > 0) {
-                          const orderedChars = featuredCharacterOrder
-                            .map(id => characters.find(char => char.id === id))
-                            .filter(Boolean) as Character[];
-                          const remainingChars = characters.filter(char => !featuredCharacterOrder.includes(char.id!));
-                          featuredChars = [...orderedChars, ...remainingChars];
-                        }
-                        
-                        return featuredChars.slice(0, 4).map((character, index) => (
-                          <div 
-                            key={character.id} 
-                            className={`group p-3 rounded-lg border-l-4 cursor-pointer flex items-center gap-3 transition-all duration-300 ease-out ${
-                              draggedCharacterId === character.id 
-                                ? 'bg-accent/25 border-accent scale-110 shadow-2xl z-20 opacity-90' 
-                                : dragOverCharacterId === character.id
-                                ? 'bg-accent/15 border-accent transform translate-y-2 scale-102 shadow-md'
-                                : 'bg-muted/30 border-accent/50 hover:bg-accent/10 hover:border-accent hover:scale-105 hover:shadow-lg hover:-translate-y-1'
-                            }`}
-                            style={{
-                              transform: draggedCharacterId === character.id 
-                                ? 'rotate(3deg) scale(1.1)' 
-                                : dragOverCharacterId === character.id
-                                ? 'translateY(8px) scale(1.02)'
-                                : 'rotate(0deg) scale(1)',
-                            }}
-                            onClick={() => {
-                              if (!draggedCharacterId) {
-                                setSelectedItemId(character.id!);
-                                setActiveCategory('characters');
-                              }
-                            }}
-                            draggable
-                            onDragStart={(e) => {
-                              setDraggedCharacterId(character.id!);
-                              e.dataTransfer.setData('text/plain', character.id!);
-                              e.dataTransfer.effectAllowed = 'move';
-                            }}
-                            onDragEnd={() => {
-                              setDraggedCharacterId(null);
-                              setDragOverCharacterId(null);
-                            }}
-                            onDragOver={(e) => {
-                              e.preventDefault();
-                              setDragOverCharacterId(character.id!);
-                              e.dataTransfer.dropEffect = 'move';
-                            }}
-                            onDragLeave={() => {
-                              setDragOverCharacterId(null);
-                            }}
-                            onDrop={(e) => {
-                              e.preventDefault();
-                              const draggedId = e.dataTransfer.getData('text/plain');
-                              const currentOrder = featuredCharacterOrder.length > 0 ? featuredCharacterOrder : characters.map(c => c.id!);
-                              const draggedIndex = currentOrder.findIndex(id => id === draggedId);
-                              const dropIndex = index;
-                              
-                              if (draggedIndex !== -1 && draggedIndex !== dropIndex) {
-                                const newOrder = [...currentOrder];
-                                const [draggedItem] = newOrder.splice(draggedIndex, 1);
-                                newOrder.splice(dropIndex, 0, draggedItem);
-                                setFeaturedCharacterOrder(newOrder);
-                              }
-                              
-                              setDraggedCharacterId(null);
-                              setDragOverCharacterId(null);
-                            }}
-                          >
-                            <div className="flex-shrink-0 transition-all duration-300">
-                              {character.imageUrl ? (
-                                <img 
-                                  src={character.imageUrl} 
-                                  alt={character.name}
-                                  className={`w-10 h-10 rounded-full object-cover border-2 transition-all duration-300 ${
-                                    draggedCharacterId === character.id
-                                      ? 'border-accent shadow-lg scale-110'
-                                      : 'border-accent/20 group-hover:border-accent/60 group-hover:scale-110 group-hover:shadow-md'
-                                  }`}
-                                />
-                              ) : (
-                                <div className={`w-10 h-10 rounded-full bg-accent/10 border-2 flex items-center justify-center transition-all duration-300 ${
-                                  draggedCharacterId === character.id
-                                    ? 'border-accent bg-accent/20 shadow-lg scale-110'
-                                    : 'border-accent/20 group-hover:border-accent/60 group-hover:bg-accent/15 group-hover:scale-110'
-                                }`}>
-                                  <Users className="h-5 w-5 text-accent/60 group-hover:text-accent transition-colors duration-300" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0 transition-all duration-300">
-                              <div className={`font-medium text-sm truncate transition-all duration-300 ${
-                                draggedCharacterId === character.id
-                                  ? 'text-accent font-semibold'
-                                  : 'group-hover:text-accent/90 group-hover:font-semibold'
-                              }`}>
-                                {character.name}
-                              </div>
-                              {character.title && (
-                                <div className="text-xs text-muted-foreground truncate group-hover:text-muted-foreground/80 transition-colors duration-300">
-                                  {character.title}
-                                </div>
-                              )}
-                              {character.role && (
-                                <Badge 
-                                  variant="outline" 
-                                  className={`text-xs mt-1 transition-all duration-300 ${
-                                    draggedCharacterId === character.id
-                                      ? 'border-accent/60 text-accent bg-accent/10'
-                                      : 'group-hover:border-accent/50 group-hover:text-accent/80 group-hover:bg-accent/5'
-                                  }`}
-                                >
-                                  {character.role}
-                                </Badge>
-                              )}
-                            </div>
-                            <div className={`flex-shrink-0 transition-all duration-300 ${
-                              draggedCharacterId === character.id
-                                ? 'opacity-100 scale-125 text-accent'
-                                : draggedCharacterId
-                                ? 'opacity-30'
-                                : 'opacity-0 group-hover:opacity-100 group-hover:scale-110'
-                            }`}>
-                              <GripVertical className={`h-4 w-4 cursor-grab active:cursor-grabbing transition-all duration-300 ${
-                                draggedCharacterId === character.id
-                                  ? 'text-accent animate-pulse'
-                                  : 'text-muted-foreground group-hover:text-accent/70'
-                              }`} />
-                            </div>
-                          </div>
-                        ));
-                      })()}
-                    </div>
-                  )}
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full mt-3" 
-                    onClick={() => {
-                      setActiveCategory('characters');
-                      // Scroll to top when navigating to characters page
-                      setTimeout(() => {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }, 100);
-                    }}
-                  >
-                    {characters.length === 0 ? 'Add First Character' : 'View All Characters'} →
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Locations Section */}
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center">
-                      <MapPin className="h-5 w-5 mr-2" />
-                      Important Locations
-                    </span>
-                    <Badge variant="outline">{categories.find(cat => cat.id === 'locations')?.count || 0}</Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {locations.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <MapPin className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                      <p>No locations created yet</p>
-                    </div>
-                  ) : (
-                    locations.slice(0, 3).map((location, index) => (
-                      <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-green-500/50">
-                        <div className="font-medium">{location.name}</div>
-                        <div className="text-sm text-muted-foreground">{location.description?.substring(0, 80)}...</div>
-                      </div>
-                    ))
-                  )}
-                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('locations')}>
-                    View All Locations →
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Factions Section */}
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center">
-                      <Shield className="h-5 w-5 mr-2" />
-                      Major Factions
-                    </span>
-                    <Badge variant="outline">{categories.find(cat => cat.id === 'factions')?.count || 0}</Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {worldData.factions.slice(0, 2).map((faction, index) => (
-                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-red-500/50">
-                      <div className="font-medium">{faction.name}</div>
-                      <div className="text-sm text-muted-foreground">{faction.type}</div>
-                      <div className="flex gap-1 mt-1">
-                        <Badge variant="destructive" className="text-xs">{faction.threat}</Badge>
-                        <Badge variant="outline" className="text-xs">{faction.status}</Badge>
-                      </div>
-                    </div>
-                  ))}
-                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('factions')}>
-                    View All Factions →
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Timeline Section */}
-              <Card className="creative-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center">
-                      <Clock className="h-5 w-5 mr-2" />
-                      Recent Timeline
-                    </span>
-                    <Badge variant="outline">{categories.find(cat => cat.id === 'timeline')?.count || 0}</Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {worldData.timeline.slice(-2).map((era, index) => (
-                    <div key={index} className="p-3 bg-muted/30 rounded-lg border-l-4 border-blue-500/50">
-                      <div className="font-medium">{era.era}</div>
-                      <div className="text-sm text-muted-foreground">{era.period}</div>
-                      <Badge variant="secondary" className="mt-1 text-xs">
-                        {era.events.length} events
-                      </Badge>
-                    </div>
-                  ))}
-                  <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveCategory('timeline')}>
-                    View Full Timeline →
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Quick Actions */}
             <Card className="creative-card">
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle className="flex items-center">
+                  <Users className="h-5 w-5 mr-2 text-accent" />
+                  Featured Characters
+                </CardTitle>
+                <CardDescription>
+                  Key characters in your story (drag to reorder)
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('characters')}>
-                    <Users className="h-4 w-4 mr-2" />
-                    Add Character
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('locations')}>
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Add Location
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('magic')}>
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Add Magic System
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setActiveCategory('timeline')}>
-                    <Clock className="h-4 w-4 mr-2" />
-                    Add Event
-                  </Button>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {featuredCharacters.map((character) => (
+                    <div
+                      key={character.id}
+                      draggable
+                      onDragStart={(e) => handleCharacterDragStart(e, character.id)}
+                      onDragOver={(e) => handleCharacterDragOver(e, character.id)}
+                      onDragLeave={handleCharacterDragLeave}
+                      onDrop={(e) => handleCharacterDrop(e, character.id)}
+                      className={`creative-card p-4 cursor-move transition-all duration-200 ${
+                        draggedCharacterId === character.id 
+                          ? 'scale-105 rotate-3 shadow-lg opacity-80' 
+                          : dragOverCharacterId === character.id 
+                            ? 'scale-102 shadow-md bg-accent/5' 
+                            : 'hover:scale-102 hover:shadow-lg'
+                      }`}
+                    >
+                      <div className="flex items-center mb-3">
+                        <GripVertical className={`h-4 w-4 mr-2 transition-all duration-200 ${
+                          draggedCharacterId === character.id ? 'text-accent scale-125' : 'text-muted-foreground'
+                        }`} />
+                        <div className="flex-1">
+                          <h4 className={`font-semibold text-sm transition-all duration-200 ${
+                            draggedCharacterId === character.id ? 'text-accent font-bold' : ''
+                          }`}>
+                            {character.name}
+                          </h4>
+                          {character.role && (
+                            <p className={`text-xs transition-all duration-200 ${
+                              draggedCharacterId === character.id ? 'text-accent/80' : 'text-muted-foreground'
+                            }`}>
+                              {character.role}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      {character.displayImageId && (
+                        <div className={`w-full h-24 bg-muted rounded-md mb-2 overflow-hidden transition-all duration-200 ${
+                          draggedCharacterId === character.id ? 'ring-2 ring-accent glow-accent' : ''
+                        }`}>
+                          <img 
+                            src={character.displayImageId} 
+                            alt={character.name}
+                            className={`w-full h-full object-cover transition-all duration-200 ${
+                              draggedCharacterId === character.id ? 'scale-110' : 'hover:scale-105'
+                            }`}
+                          />
+                        </div>
+                      )}
+                      {character.physicalDescription && (
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {character.physicalDescription}
+                        </p>
+                      )}
+                    </div>
+                  ))}
                 </div>
+                {featuredCharacters.length === 0 && (
+                  <div className="text-center py-8">
+                    <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground mb-4">No characters created yet</p>
+                    <Button onClick={() => setActiveCategory('characters')} className="interactive-warm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create Characters
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -917,23 +416,20 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
       case 'characters':
         return <CharacterManager projectId={project.id} selectedCharacterId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
-      case 'locations':
-        return <LocationManager projectId={project.id} selectedLocationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
       case 'factions':
         return <FactionManager projectId={project.id} selectedFactionId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
-      case 'magic':
-        return <MagicSystemManager projectId={project.id} selectedMagicSystemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
-
-      case 'timeline':
-        return <TimelineEventManager projectId={project.id} selectedTimelineEventId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+      case 'organizations':
+        return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'items':
         return <ItemManager projectId={project.id} selectedItemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
-      case 'organizations':
-        return <OrganizationManager projectId={project.id} selectedOrganizationId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+      case 'magic-systems':
+        return <MagicSystemManager projectId={project.id} selectedMagicSystemId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
+
+      case 'timeline':
+        return <TimelineEventManager projectId={project.id} selectedTimelineEventId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
 
       case 'bestiary':
         return <CreatureManager projectId={project.id} selectedCreatureId={selectedItemId} onClearSelection={() => setSelectedItemId(null)} />;
@@ -1006,92 +502,74 @@ export function WorldBible({ project, onBack }: WorldBibleProps) {
                 </Button>
               )}
             </div>
-            <Button 
-              size="sm" 
-              variant="outline"
-              className={searchQuery ? "bg-accent/20" : ""}
-            >
-              <Search className="h-4 w-4" />
-              {searchResults.length > 0 && (
-                <Badge variant="secondary" className="ml-2 px-1 py-0 text-xs">
-                  {searchResults.length}
-                </Badge>
-              )}
+            <Button size="sm" variant="outline" className="interactive-warm">
+              <Search className="h-4 w-4 mr-2" />
+              Filter
             </Button>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar - Categories */}
-          <div className="lg:col-span-1">
-            <Card className="creative-card">
-              <CardContent className="p-4">
-                <div className="space-y-1">
-                    {categories.map((category) => {
-                      const Icon = category.icon;
-                      const isDragging = draggedItem === category.id;
-                      const isDragOver = dragOverItem === category.id;
-                      
-                      return (
-                        <div
-                          key={category.id}
-                          draggable={!category.locked}
-                          onDragStart={(e) => handleDragStart(e, category.id)}
-                          onDragOver={(e) => handleDragOver(e, category.id)}
-                          onDragLeave={handleDragLeave}
-                          onDrop={(e) => handleDrop(e, category.id)}
-                          onDragEnd={handleDragEnd}
-                          className={`flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
-                            activeCategory === category.id
-                              ? 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30'
+      <div className="grid lg:grid-cols-4 gap-8">
+        {/* Sidebar */}
+        <div className="lg:col-span-1">
+          <Card className="creative-card">
+            <CardHeader>
+              <CardTitle>Categories</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="space-y-1">
+                {categories.map(category => {
+                  const Icon = category.icon;
+                  const isActive = activeCategory === category.id;
+                  const isDragging = draggedItem === category.id;
+                  const isDragOver = dragOverItem === category.id;
+                  
+                  return (
+                    <div
+                      key={category.id}
+                      onClick={() => setActiveCategory(category.id)}
+                      className={`flex items-center justify-between p-3 cursor-pointer transition-all duration-200 mx-3 my-1 rounded-lg ${
+                        isActive 
+                          ? 'bg-accent text-accent-foreground shadow-md' 
+                          : isDragging 
+                            ? 'bg-accent/20 scale-105 shadow-lg' 
+                            : isDragOver 
+                              ? 'bg-accent/10 scale-102' 
                               : 'hover:bg-muted/50'
-                          } ${
-                            category.locked 
-                              ? 'cursor-default' 
-                              : 'cursor-pointer'
-                          } ${
-                            isDragging 
-                              ? 'opacity-50 scale-95 transform rotate-2' 
-                              : ''
-                          } ${
-                            isDragOver && !category.locked 
-                              ? 'border-2 border-accent border-dashed bg-accent/5' 
-                              : ''
-                          }`}
-                          onClick={() => setActiveCategory(category.id)}
-                        >
-                          <div className="flex items-center space-x-3">
-                            {!category.locked && (
-                              <GripVertical 
-                                className="h-4 w-4 text-muted-foreground hover:text-accent"
-                              />
-                            )}
-                            <Icon className="h-4 w-4" />
-                            <span className="text-sm font-medium">{category.label}</span>
-                          </div>
-                          {!category.locked && (
-                            <Badge variant="outline" className="text-xs">
-                              {category.count}
-                            </Badge>
-                          )}
-                        </div>
-                      );
-                    })}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                      }`}
+                    >
+                      <div className="flex items-center">
+                        {category.id !== 'overview' && (
+                          <GripVertical 
+                            className={`h-3 w-3 mr-2 transition-all duration-200 ${
+                              isDragging ? 'text-accent scale-125' : 'text-muted-foreground/50'
+                            }`}
+                          />
+                        )}
+                        <Icon className="h-4 w-4" />
+                        <span className="text-sm font-medium">{category.label}</span>
+                      </div>
+                      {!category.locked && (
+                        <Badge variant="outline" className="text-xs">
+                          {category.count}
+                        </Badge>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <Card className="creative-card">
-              <CardContent className="p-6">
-                {searchQuery ? renderSearchResults() : renderCategoryContent()}
-              </CardContent>
-            </Card>
-          </div>
+        {/* Main Content */}
+        <div className="lg:col-span-3">
+          <Card className="creative-card">
+            <CardContent className="p-6">
+              {searchQuery ? renderSearchResults() : renderCategoryContent()}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { 
   insertProjectSchema, 
   insertCharacterSchema, 
+ 
   insertFactionSchema, 
   insertItemSchema, 
   insertOrganizationSchema, 
@@ -13,6 +14,7 @@ import {
 } from "@shared/schema";
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
+
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Project routes
@@ -131,13 +133,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/projects", async (req, res) => {
     try {
-      const projectData = insertProjectSchema.parse({
-        ...req.body,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
-        createdAt: new Date().toISOString(),
-        lastModified: new Date().toISOString()
-      });
-
+      const projectData = insertProjectSchema.parse(req.body);
       const project = await storage.createProject(projectData);
       res.status(201).json(project);
     } catch (error) {
@@ -152,29 +148,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/projects/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("Updating project with data:", req.body);
-
-      // Clean up the request body to remove any undefined values
-      const cleanedData = Object.fromEntries(
-        Object.entries(req.body).filter(([key, value]) => {
-          return value !== undefined && value !== null && value !== '';
-        })
-      );
-
-      const projectData = insertProjectSchema.partial().parse(cleanedData);
-
-      // Add updatedAt timestamp to track when the project was last modified
-      const projectDataWithTimestamp = {
-        ...projectData,
-        lastModified: new Date().toISOString()
-      };
-
-      const project = await storage.updateProject(id, projectDataWithTimestamp);
-
+      const projectData = insertProjectSchema.partial().parse(req.body);
+      const project = await storage.updateProject(id, projectData);
+      
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-
+      
       res.json(project);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -189,11 +169,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const success = await storage.deleteProject(id);
-
+      
       if (!success) {
         return res.status(404).json({ error: "Project not found" });
       }
-
+      
       res.status(204).send();
     } catch (error) {
       console.error("Error deleting project:", error);
@@ -216,16 +196,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/projects/:projectId/characters", async (req, res) => {
     try {
       const { projectId } = req.params;
-      const characterData = insertCharacterSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
+      console.log('Creating character with request body:', JSON.stringify(req.body, null, 2));
+      const characterData = insertCharacterSchema.parse({ ...req.body, projectId, id: Date.now().toString() + Math.random().toString(36).substr(2, 5) });
+      console.log('Parsed character data for insertion:', JSON.stringify(characterData, null, 2));
       const character = await storage.createCharacter(characterData);
-      res.status(201).json(character);
+      console.log('Character created in database:', JSON.stringify(character, null, 2));
+      
+      // Check if character is properly returned from database
+      if (!character) {
+        console.error('No character returned from database');
+        return res.status(500).json({ error: 'Failed to create character - no data returned' });
+      }
+      
+      console.log('Raw character from database:', character);
+      console.log('Character keys:', Object.keys(character));
+      
+      // Ensure we return a clean character object without any undefined values that might cause serialization issues
+      const cleanCharacter = {
+        ...character,
+        // Convert any undefined values to null for proper JSON serialization
+        imageUrl: character.imageUrl || null,
+        portraits: character.portraits || [],
+        relationships: character.relationships || '',
+      };
+      
+      console.log('Sending character response:', JSON.stringify(cleanCharacter, null, 2));
+      res.status(201).json(cleanCharacter);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("Character validation errors:", error.errors);
         return res.status(400).json({ error: error.errors });
       }
       console.error("Error creating character:", error);
@@ -236,32 +235,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/characters/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("Updating character with data:", req.body);
-
-      // Clean up the request body to remove any undefined values
-      const cleanedData = Object.fromEntries(
-        Object.entries(req.body).filter(([key, value]) => {
-          return value !== undefined && value !== null && value !== '';
-        })
-      );
-
-      const characterData = insertCharacterSchema.partial().parse(cleanedData);
-
+      console.log('Updating character with data:', JSON.stringify(req.body, null, 2));
+      
+      // Handle displayImageId type conversion - convert string to number if needed
+      const processedData = { ...req.body };
+      if (processedData.displayImageId !== undefined) {
+        if (typeof processedData.displayImageId === 'string') {
+          const numericId = parseInt(processedData.displayImageId, 10);
+          processedData.displayImageId = isNaN(numericId) ? null : numericId;
+        }
+        // If it's already null or undefined, keep it as is
+        if (processedData.displayImageId === null) {
+          delete processedData.displayImageId; // Remove null values to prevent validation issues
+        }
+      }
+      
+      const characterData = insertCharacterSchema.partial().parse(processedData);
+      
       // Add updatedAt timestamp to track when the character was last modified
       const characterDataWithTimestamp = {
         ...characterData,
-        lastModified: new Date().toISOString()
+        updatedAt: new Date()
       };
-
+      
+      console.log('Parsed character data with timestamp:', JSON.stringify(characterDataWithTimestamp, null, 2));
       const character = await storage.updateCharacter(id, characterDataWithTimestamp);
-
+      
       if (!character) {
         return res.status(404).json({ error: "Character not found" });
       }
-
+      
       res.json(character);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("Validation errors:", error.errors);
         return res.status(400).json({ error: error.errors });
       }
       console.error("Error updating character:", error);
@@ -336,45 +343,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { prompt, characterId, engineType = "gemini" } = req.body;
       
       if (!prompt) {
+        console.log('Error: No prompt provided');
         return res.status(400).json({ error: "Prompt is required" });
       }
 
+      console.log('Generating character image with prompt:', prompt);
+      console.log('Engine type:', engineType);
+
       const result = await generateCharacterImage({
         characterPrompt: prompt,
-        stylePrompt: "character portrait, fantasy art, digital painting",
+        stylePrompt: "portrait, high quality, detailed",
         aiEngine: engineType
       });
       
-      console.log('=== IMAGE GENERATION RESULT ===');
-      console.log('Result:', JSON.stringify(result, null, 2));
+      console.log('Image generation successful, returning result');
       
-      if (characterId && result.success && result.imageUrl) {
-        // Get the current character and update its image gallery
-        const character = await storage.getCharacter(characterId);
-        if (character) {
-          const imageGallery = Array.isArray(character.imageGallery) ? character.imageGallery : [];
-          
-          // Add new image to gallery
-          const newImage = {
-            id: Date.now().toString(),
-            url: result.imageUrl,
-            prompt: prompt,
-            createdAt: new Date().toISOString()
-          };
-          
-          await storage.updateCharacter(characterId, {
-            ...character,
-            imageGallery: [...imageGallery, newImage],
-            displayImageId: character.displayImageId || newImage.id
-          });
-        }
+      // Return result in expected format
+      res.json({ imageUrl: result.url });
+    } catch (error: any) {
+      console.error("Error generating character image:", error);
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Legacy character image generation endpoint
+  app.post("/api/characters/generate-image", async (req, res) => {
+    try {
+      const { characterPrompt, stylePrompt = "digital art, fantasy", aiEngine = "openai" } = req.body;
+      
+      if (!characterPrompt) {
+        return res.status(400).json({ error: "Character prompt is required" });
       }
+
+      const result = await generateCharacterImage({
+        characterPrompt,
+        stylePrompt,
+        aiEngine
+      });
       
       res.json(result);
     } catch (error: any) {
       console.error("Error generating character image:", error);
       res.status(500).json({ 
-        error: "Failed to generate character image", 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Character enhancement endpoint
+  app.post("/api/characters/:id/enhance", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const currentData = req.body;
+      
+      // Get the character from database to get project context
+      const character = await storage.getCharacter(id);
+      if (!character) {
+        return res.status(404).json({ error: "Character not found" });
+      }
+      
+      // Get project data for context
+      const project = await storage.getProject(character.projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Import the enhancement function
+      const { enhanceCharacterWithAI } = await import('./characterEnhancement');
+      
+      const enhancedData = await enhanceCharacterWithAI({
+        currentData,
+        project,
+        character
+      });
+      
+      console.log('Server: About to send enhanced data to frontend, keys:', Object.keys(enhancedData));
+      console.log('Server: Sample enhanced fields:', {
+        name: enhancedData.name,
+        title: enhancedData.title,
+        age: enhancedData.age,
+        occupation: enhancedData.occupation
+      });
+      
+      res.json(enhancedData);
+    } catch (error: any) {
+      console.error("Error enhancing character:", error);
+      res.status(500).json({ 
+        error: "Failed to enhance character", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Individual field enhancement endpoint
+  app.post("/api/characters/:id/enhance-field", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { fieldKey, fieldLabel, currentValue, fieldOptions } = req.body;
+      
+      // Retrieve the character from database
+      const character = await storage.getCharacter(id);
+      if (!character) {
+        return res.status(404).json({ error: "Character not found" });
+      }
+      
+      console.log(`Retrieved character for field enhancement:`, { id: character.id, name: character.name, race: character.race });
+      
+      // Import the field enhancement function
+      const { enhanceCharacterField } = await import('./characterFieldEnhancement');
+      
+      const enhancedField = await enhanceCharacterField(character, fieldKey, fieldLabel, currentValue, fieldOptions);
+      
+      console.log(`Enhanced field ${fieldKey}:`, enhancedField);
+      
+      res.json(enhancedField);
+    } catch (error: any) {
+      console.error(`Error enhancing field ${req.body.fieldKey}:`, error);
+      res.status(500).json({ 
+        error: "Failed to enhance field", 
         details: error.message 
       });
     }
@@ -405,6 +495,153 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Location image generation endpoint
+    try {
+      
+        return res.status(400).json({ error: "Location prompt is required" });
+      }
+
+      const result = await generateCharacterImage({
+        stylePrompt,
+        aiEngine
+      });
+      
+      res.json(result);
+    } catch (error: any) {
+      res.status(500).json({ 
+        error: "Failed to generate image", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Location routes
+    try {
+      const { projectId } = req.params;
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+    try {
+      const { projectId } = req.params;
+        ...req.body, 
+        projectId,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+    try {
+      const { id } = req.params;
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      
+        updatedAt: new Date()
+      };
+      
+      
+        return res.status(404).json({ error: "Location not found" });
+      }
+      
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteLocation(id);
+      
+      if (!success) {
+        return res.status(404).json({ error: "Location not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Location generation endpoint
+    try {
+      const { projectId } = req.params;
+      
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+        storage.getLocations(projectId),
+        storage.getCharacters(projectId)
+      ]);
+      
+      
+      const generatedLocation = await generateLocation({
+        projectId,
+        projectContext: {
+          title: project.name,
+          description: project.description || '',
+          genre: Array.isArray(project.genre) ? project.genre.join(', ') : (project.genre || '')
+        }
+      });
+      
+      res.json(generatedLocation);
+    } catch (error: any) {
+      res.status(500).json({ 
+        details: error.message 
+      });
+    }
+  });
+
+  // Location image generation endpoint
+    try {
+      
+        return res.status(400).json({ error: "Location ID and name are required" });
+      }
+
+      const result = await generateCharacterImage({
+        stylePrompt: "fantasy landscape, detailed, cinematic, epic",
+        aiEngine: "gemini"
+      });
+      
+      if (result.url) {
+          const newImage = {
+            id: Date.now().toString(),
+            url: result.url,
+            createdAt: new Date().toISOString()
+          };
+          
+          const updatedImageGallery = [...imageGallery, newImage];
+            imageGallery: updatedImageGallery,
+          });
+        }
+      }
+      
+      res.json(result);
+    } catch (error: any) {
+      res.status(500).json({ 
+        details: error.message 
+      });
+    }
+  });
+
   // Faction routes
   app.get("/api/projects/:projectId/factions", async (req, res) => {
     try {
@@ -425,7 +662,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         projectId,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
       });
-
       const faction = await storage.createFaction(factionData);
       res.status(201).json(faction);
     } catch (error) {
@@ -440,13 +676,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/factions/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const factionData = insertFactionSchema.partial().parse(req.body);
-      const faction = await storage.updateFaction(id, factionData);
-
+      console.log("Updating faction with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const factionData = insertFactionSchema.partial().parse(cleanedData);
+      
+      // Add updatedAt timestamp to track when the faction was last modified
+      const factionDataWithTimestamp = {
+        ...factionData,
+        updatedAt: new Date()
+      };
+      
+      const faction = await storage.updateFaction(id, factionDataWithTimestamp);
+      
       if (!faction) {
         return res.status(404).json({ error: "Faction not found" });
       }
-
+      
       res.json(faction);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -461,11 +715,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const success = await storage.deleteFaction(id);
-
+      
       if (!success) {
         return res.status(404).json({ error: "Faction not found" });
       }
-
+      
       res.status(204).send();
     } catch (error) {
       console.error("Error deleting faction:", error);
@@ -473,7 +727,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Item routes  
+  // Faction generation endpoint
+  app.post("/api/projects/:projectId/factions/generate", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { factionType, role, scale, goals, customPrompt } = req.body;
+      
+      const project = await storage.getProject(projectId);
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      const [factions, characters] = await Promise.all([
+        storage.getFactions(projectId),
+        storage.getCharacters(projectId)
+      ]);
+      
+      // Faction generation will be implemented later
+      
+      // For now, return a simple success response as faction generation needs implementation
+      const generatedFaction = {
+        name: `Generated ${factionType}`,
+        description: `A ${scale} ${factionType} faction with ${role} role`,
+        goals: goals || 'Default goals',
+        projectId
+      };
+      
+      res.json(generatedFaction);
+    } catch (error: any) {
+      console.error("Error generating faction:", error);
+      res.status(500).json({ 
+        error: "Failed to generate faction", 
+        details: error.message 
+      });
+    }
+  });
+
+  // Item routes
   app.get("/api/projects/:projectId/items", async (req, res) => {
     try {
       const { projectId } = req.params;
@@ -493,7 +783,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         projectId,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
       });
-
       const item = await storage.createItem(itemData);
       res.status(201).json(item);
     } catch (error) {
@@ -508,13 +797,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/items/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const itemData = insertItemSchema.partial().parse(req.body);
-      const item = await storage.updateItem(id, itemData);
-
+      console.log("Updating item with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const itemData = insertItemSchema.partial().parse(cleanedData);
+      
+      // Add updatedAt timestamp to track when the item was last modified
+      const itemDataWithTimestamp = {
+        ...itemData,
+        updatedAt: new Date()
+      };
+      
+      const item = await storage.updateItem(id, itemDataWithTimestamp);
+      
       if (!item) {
         return res.status(404).json({ error: "Item not found" });
       }
-
+      
       res.json(item);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -529,11 +836,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const success = await storage.deleteItem(id);
-
+      
       if (!success) {
         return res.status(404).json({ error: "Item not found" });
       }
-
+      
       res.status(204).send();
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -561,7 +868,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         projectId,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
       });
-
       const organization = await storage.createOrganization(organizationData);
       res.status(201).json(organization);
     } catch (error) {
@@ -576,13 +882,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/organizations/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const organizationData = insertOrganizationSchema.partial().parse(req.body);
-      const organization = await storage.updateOrganization(id, organizationData);
-
+      console.log("Updating organization with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const organizationData = insertOrganizationSchema.partial().parse(cleanedData);
+      
+      // Add updatedAt timestamp to track when the organization was last modified
+      const organizationDataWithTimestamp = {
+        ...organizationData,
+        updatedAt: new Date()
+      };
+      
+      const organization = await storage.updateOrganization(id, organizationDataWithTimestamp);
+      
       if (!organization) {
         return res.status(404).json({ error: "Organization not found" });
       }
-
+      
       res.json(organization);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -597,11 +921,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const success = await storage.deleteOrganization(id);
-
+      
       if (!success) {
         return res.status(404).json({ error: "Organization not found" });
       }
-
+      
       res.status(204).send();
     } catch (error) {
       console.error("Error deleting organization:", error);
@@ -629,7 +953,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         projectId,
         id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
       });
-
       const magicSystem = await storage.createMagicSystem(magicSystemData);
       res.status(201).json(magicSystem);
     } catch (error) {
@@ -644,13 +967,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/magic-systems/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const magicSystemData = insertMagicSystemSchema.partial().parse(req.body);
-      const magicSystem = await storage.updateMagicSystem(id, magicSystemData);
-
+      console.log("Updating magic system with data:", req.body);
+      
+      // Filter out empty strings and undefined values
+      const cleanedData = Object.fromEntries(
+        Object.entries(req.body).filter(([_, value]) => value !== '' && value !== undefined && value !== null)
+      );
+      
+      if (Object.keys(cleanedData).length === 0) {
+        return res.status(400).json({ error: "No valid data provided for update" });
+      }
+      
+      const magicSystemData = insertMagicSystemSchema.partial().parse(cleanedData);
+      
+      // Add updatedAt timestamp to track when the magic system was last modified
+      const magicSystemDataWithTimestamp = {
+        ...magicSystemData,
+        updatedAt: new Date()
+      };
+      
+      const magicSystem = await storage.updateMagicSystem(id, magicSystemDataWithTimestamp);
+      
       if (!magicSystem) {
         return res.status(404).json({ error: "Magic system not found" });
       }
-
+      
       res.json(magicSystem);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -665,11 +1006,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const success = await storage.deleteMagicSystem(id);
-
+      
       if (!success) {
         return res.status(404).json({ error: "Magic system not found" });
       }
-
+      
       res.status(204).send();
     } catch (error) {
       console.error("Error deleting magic system:", error);
@@ -677,142 +1018,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Outline routes
-  app.get("/api/projects/:projectId/outlines", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const outlines = await storage.getOutlines(projectId);
-      res.json(outlines);
-    } catch (error) {
-      console.error("Error fetching outlines:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/projects/:projectId/outlines", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const outlineData = insertOutlineSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
-      const outline = await storage.createOutline(outlineData);
-      res.status(201).json(outline);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error creating outline:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.put("/api/outlines/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const outlineData = insertOutlineSchema.partial().parse(req.body);
-      const outline = await storage.updateOutline(id, outlineData);
-
-      if (!outline) {
-        return res.status(404).json({ error: "Outline not found" });
-      }
-
-      res.json(outline);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error updating outline:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.delete("/api/outlines/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const success = await storage.deleteOutline(id);
-
-      if (!success) {
-        return res.status(404).json({ error: "Outline not found" });
-      }
-
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error deleting outline:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // Prose Document routes
-  app.get("/api/projects/:projectId/prose-documents", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const proseDocuments = await storage.getProseDocuments(projectId);
-      res.json(proseDocuments);
-    } catch (error) {
-      console.error("Error fetching prose documents:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/projects/:projectId/prose-documents", async (req, res) => {
-    try {
-      const { projectId } = req.params;
-      const proseDocumentData = insertProseDocumentSchema.parse({ 
-        ...req.body, 
-        projectId,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 5)
-      });
-
-      const proseDocument = await storage.createProseDocument(proseDocumentData);
-      res.status(201).json(proseDocument);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error creating prose document:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.put("/api/prose-documents/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const proseDocumentData = insertProseDocumentSchema.partial().parse(req.body);
-      const proseDocument = await storage.updateProseDocument(id, proseDocumentData);
-
-      if (!proseDocument) {
-        return res.status(404).json({ error: "Prose document not found" });
-      }
-
-      res.json(proseDocument);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
-      }
-      console.error("Error updating prose document:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.delete("/api/prose-documents/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const success = await storage.deleteProseDocument(id);
-
-      if (!success) {
-        return res.status(404).json({ error: "Prose document not found" });
-      }
-
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error deleting prose document:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  const server = createServer(app);
-  return server;
+  const httpServer = createServer(app);
+  return httpServer;
 }

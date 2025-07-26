@@ -23,7 +23,7 @@ import { generateContextualEntity } from '../../../lib/services/entityGeneration
 
 interface UniversalEntityManagerProps {
   projectId: string;
-  entityType: string; // 'locations' | 'factions' | 'items' | etc.
+  entityType: string; // 'factions' | 'items' | 'organizations' | etc.
   selectedEntityId?: string | null;
   onClearSelection?: () => void;
 }

@@ -6,7 +6,7 @@ import { z } from "zod";
 // Generic Entity Types for Universal Template System
 export type EntityType = 
   | 'character' 
-  | 'location' 
+
   | 'faction' 
   | 'item' 
   | 'organization' 
@@ -283,135 +283,7 @@ export const characters = pgTable("characters", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const locations = pgTable("locations", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  
-  // Identity & Basics
-  name: text("name").notNull(),
-  nicknames: text("nicknames").default(''),
-  aliases: text("aliases").default(''),
-  locationType: text("location_type").default(''),
-  classification: text("classification").default(''),
-  size: text("size").default(''),
-  status: text("status").default(''),
-  
-  // Core Fields (backward compatibility)
-  description: text("description").default(''),
-  history: text("history").default(''),
-  significance: text("significance").default(''),
-  atmosphere: text("atmosphere").default(''),
-  
-  // Geographic & Physical
-  physicalDescription: text("physical_description").default(''),
-  geography: text("geography").default(''),
-  terrain: text("terrain").default(''),
-  climate: text("climate").default(''),
-  weather: text("weather").default(''),
-  seasons: text("seasons").default(''),
-  naturalFeatures: text("natural_features").default(''),
-  landmarks: text("landmarks").default(''),
-  boundaries: text("boundaries").default(''),
-  coordinates: text("coordinates").default(''),
-  elevation: text("elevation").default(''),
-  area: text("area").default(''),
-  
-  // Atmosphere & Environment
-  mood: text("mood").default(''),
-  ambiance: text("ambiance").default(''),
-  sounds: text("sounds").default(''),
-  smells: text("smells").default(''),
-  lighting: text("lighting").default(''),
-  colors: text("colors").default(''),
-  temperature: text("temperature").default(''),
-  airQuality: text("air_quality").default(''),
-  visibility: text("visibility").default(''),
-  
-  // Architecture & Structures
-  architecture: text("architecture").default(''),
-  buildings: text("buildings").default(''),
-  structures: text("structures").default(''),
-  materials: text("materials").default(''),
-  construction: text("construction").default(''),
-  layout: text("layout").default(''),
-  districts: text("districts").default(''),
-  neighborhoods: text("neighborhoods").default(''),
-  infrastructure: text("infrastructure").default(''),
-  fortifications: text("fortifications").default(''),
-  defenses: text("defenses").default(''),
-  
-  // Society & Culture
-  population: text("population").default(''),
-  demographics: text("demographics").default(''),
-  inhabitants: text("inhabitants").default(''),
-  culture: text("culture").default(''),
-  customs: text("customs").default(''),
-  traditions: text("traditions").default(''),
-  languages: text("languages").array().default([]),
-  religion: text("religion").default(''),
-  beliefs: text("beliefs").default(''),
-  festivals: text("festivals").default(''),
-  celebrations: text("celebrations").default(''),
-  socialStructure: text("social_structure").default(''),
-  governance: text("governance").default(''),
-  leadership: text("leadership").default(''),
-  laws: text("laws").default(''),
-  justice: text("justice").default(''),
-  
-  // Politics & Power
-  politicalStatus: text("political_status").default(''),
-  allegiances: text("allegiances").default(''),
-  conflicts: text("conflicts").default(''),
-  tensions: text("tensions").default(''),
-  alliances: text("alliances").default(''),
-  enemies: text("enemies").default(''),
-  threats: text("threats").default(''),
-  
-  // Economy & Resources
-  economy: text("economy").default(''),
-  trade: text("trade").default(''),
-  commerce: text("commerce").default(''),
-  industry: text("industry").default(''),
-  resources: text("resources").default(''),
-  exports: text("exports").default(''),
-  imports: text("imports").default(''),
-  currency: text("currency").default(''),
-  wealth: text("wealth").default(''),
-  
-  // History & Lore (expanded)
-  origin: text("origin").default(''),
-  founding: text("founding").default(''),
-  pastEvents: text("past_events").default(''),
-  historicalFigures: text("historical_figures").default(''),
-  legends: text("legends").default(''),
-  myths: text("myths").default(''),
-  folklore: text("folklore").default(''),
-  
-  // Story & Narrative
-  narrativeRole: text("narrative_role").default(''),
-  storyImportance: text("story_importance").default(''),
-  plotRelevance: text("plot_relevance").default(''),
-  scenes: text("scenes").default(''),
-  events: text("events").default(''),
-  encounters: text("encounters").default(''),
-  mysteries: text("mysteries").default(''),
-  secrets: text("secrets").default(''),
-  
-  // Development & Notes
-  tags: text("tags").array().default([]),
-  notes: text("notes").default(''),
-  development: text("development").default(''),
-  inspiration: text("inspiration").default(''),
-  references: text("references").default(''),
-  
-  // Technical (Images & Display)
-  imageUrl: text("image_url").default(''),
-  imageGallery: json("image_gallery").default([]),
-  displayImageId: text("display_image_id"),
-  
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+
 
 export const factions = pgTable("factions", {
   id: text("id").primaryKey(),
@@ -487,7 +359,7 @@ export const organizations = pgTable("organizations", {
   
   // Resources & Operations
   resources: text("resources").default(''),
-  locations: text("locations").default(''),
+
   facilities: text("facilities").default(''),
   budget: text("budget").default(''),
   funding_sources: text("funding_sources").default(''),
@@ -572,7 +444,7 @@ export const organizations = pgTable("organizations", {
 export const entityMetadata = pgTable("entity_metadata", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  entityType: text("entity_type").notNull(), // 'character', 'location', 'faction', etc.
+  entityType: text("entity_type").notNull(), // 'character', 'faction', etc.
   entityId: text("entity_id").notNull(), // Reference to the actual entity
   
   // Universal metadata fields
@@ -685,7 +557,7 @@ export const timelineEvents = pgTable("timeline_events", {
   description: text("description").default(''),
   significance: text("significance").default(''),
   participants: text("participants").array().default([]),
-  locations: text("locations").array().default([]),
+
   consequences: text("consequences").default(''),
   order: integer("order").notNull(),
   tags: text("tags").array().default([]),
@@ -805,7 +677,7 @@ export const characterRelationships = pgTable("character_relationships", {
 export const imageAssets = pgTable("image_assets", {
   id: serial("id").primaryKey(),
   url: text("url").notNull(),
-  entityType: text("entity_type", { enum: ['character', 'location', 'item'] }).notNull(),
+  entityType: text("entity_type", { enum: ['character', 'item'] }).notNull(),
   entityId: text("entity_id").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -821,7 +693,6 @@ export const projectSettings = pgTable("project_settings", {
 // Relations
 export const projectsRelations = relations(projects, ({ many, one }) => ({
   characters: many(characters),
-  locations: many(locations),
   factions: many(factions),
   items: many(items),
   organizations: many(organizations),
@@ -846,13 +717,7 @@ export const charactersRelations = relations(characters, ({ one, many }) => ({
   imageAssets: many(imageAssets),
 }));
 
-export const locationsRelations = relations(locations, ({ one, many }) => ({
-  project: one(projects, {
-    fields: [locations.projectId],
-    references: [projects.id],
-  }),
-  imageAssets: many(imageAssets),
-}));
+
 
 export const factionsRelations = relations(factions, ({ one }) => ({
   project: one(projects, {
@@ -895,10 +760,6 @@ export const imageAssetsRelations = relations(imageAssets, ({ one }) => ({
     fields: [imageAssets.entityId],
     references: [characters.id],
   }),
-  location: one(locations, {
-    fields: [imageAssets.entityId],
-    references: [locations.id],
-  }),
   item: one(items, {
     fields: [imageAssets.entityId],
     references: [items.id],
@@ -915,7 +776,6 @@ export const projectSettingsRelations = relations(projectSettings, ({ one }) => 
 // Insert schemas
 export const insertProjectSchema = createInsertSchema(projects);
 export const insertCharacterSchema = createInsertSchema(characters);
-export const insertLocationSchema = createInsertSchema(locations);
 export const insertFactionSchema = createInsertSchema(factions);
 export const insertItemSchema = createInsertSchema(items);
 export const insertOrganizationSchema = createInsertSchema(organizations);
@@ -937,8 +797,6 @@ export type Project = typeof projects.$inferSelect;
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Character = typeof characters.$inferSelect;
 export type InsertCharacter = z.infer<typeof insertCharacterSchema>;
-export type Location = typeof locations.$inferSelect;
-export type InsertLocation = z.infer<typeof insertLocationSchema>;
 export type Faction = typeof factions.$inferSelect;
 export type InsertFaction = z.infer<typeof insertFactionSchema>;
 export type Item = typeof items.$inferSelect;
@@ -983,5 +841,5 @@ export type EntityTemplate = typeof entityTemplates.$inferSelect;
 export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
 
 // Generic Entity Union Type (for Universal Template System)
-export type AnyEntity = Character | Location | Faction | Item | Organization | 
+export type AnyEntity = Character | Faction | Item | Organization | 
   MagicSystem | TimelineEvent | Creature | Language | Culture | Prophecy | Theme;

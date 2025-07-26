@@ -107,7 +107,6 @@ export const RELATIONSHIP_FIELDS: UniversalFieldDefinition[] = [
     section: 'relationships',
     category: 'relationships',
     priority: 'important',
-    entityTypes: ['characters', 'locations', 'factions', 'organizations'],
     helpText: 'Connections with other entities in your world',
     aiEnhanceable: true,
     searchable: false,
@@ -150,7 +149,6 @@ export const DEVELOPMENT_FIELDS: UniversalFieldDefinition[] = [
 // Field sections configuration for different entity types
 export const ENTITY_SECTIONS: Record<string, string[]> = {
   characters: ['identity', 'physical', 'personality', 'background', 'abilities', 'story', 'relationships', 'development', 'meta'],
-  locations: ['identity', 'physical', 'background', 'story', 'relationships', 'meta'],
   factions: ['identity', 'background', 'story', 'relationships', 'development', 'meta'],
   items: ['identity', 'physical', 'background', 'story', 'meta'],
   creatures: ['identity', 'physical', 'background', 'abilities', 'story', 'meta'],

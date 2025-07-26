@@ -76,10 +76,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     queryKey: ['/api/projects', projectId],
   });
 
-  const { data: locations = [] } = useQuery<any[]>({
-    queryKey: ['/api/projects', projectId, 'locations'],
-  });
-
   // Auto-select character if selectedCharacterId is provided
   useEffect(() => {
     if (selectedCharacterId && characters.length > 0) {

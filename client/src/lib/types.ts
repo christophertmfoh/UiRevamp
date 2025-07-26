@@ -14,7 +14,7 @@ export interface Project {
   };
   outline: OutlineNode[];
   characters: Character[];
-  locations: Location[];
+
   factions: Faction[];
   items: Item[];
   proseDocuments: ProseDocument[];
@@ -257,7 +257,7 @@ export interface Character {
   createdAt?: Date;
 }
 
-export interface Location {
+export interface Faction {
   id: string;
   projectId: string;
   name: string;

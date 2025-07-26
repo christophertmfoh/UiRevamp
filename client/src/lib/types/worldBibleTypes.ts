@@ -15,9 +15,9 @@ export interface WorldBibleEntity extends EnhancedEntityFields {
   atmosphere?: string;
 }
 
-// Location entity
-export interface Location extends WorldBibleEntity {
-  // Location-specific fields
+// Faction entity
+export interface Faction extends WorldBibleEntity {
+  // Faction-specific fields
   geography?: string;
   climate?: string;
   population?: string;
@@ -92,7 +92,6 @@ export interface Organization extends WorldBibleEntity {
   membership?: string;
   requirements?: string;
   benefits?: string;
-  location?: string;
   activities?: string[];
   influence?: string;
   reputation?: string;
@@ -124,7 +123,6 @@ export interface TimelineEvent extends WorldBibleEntity {
   date?: string;
   era?: string;
   duration?: string;
-  location?: string;
   participants?: string[];
   causes?: string[];
   effects?: string[];
@@ -199,7 +197,6 @@ export interface Theme extends WorldBibleEntity {
   conflicts?: string[];
   resolution?: string;
   characters?: string[];
-  locations?: string[];
   events?: string[];
   messages?: string[];
 }
@@ -220,7 +217,6 @@ export type AnyWorldBibleEntity =
 
 // Entity type mappings
 export const WORLD_BIBLE_ENTITY_TYPES = {
-  locations: 'Location',
   factions: 'Faction', 
   items: 'Item',
   creatures: 'Creature',
@@ -236,10 +232,6 @@ export const WORLD_BIBLE_ENTITY_TYPES = {
 export type WorldBibleEntityType = keyof typeof WORLD_BIBLE_ENTITY_TYPES;
 
 // Templates for world bible entities
-export interface LocationTemplate extends BaseTemplate<Location> {
-  category: 'city' | 'wilderness' | 'structure' | 'realm' | 'landmark';
-}
-
 export interface FactionTemplate extends BaseTemplate<Faction> {
   category: 'government' | 'military' | 'religious' | 'criminal' | 'merchant' | 'academic';
 }
@@ -254,7 +246,6 @@ export interface CreatureTemplate extends BaseTemplate<Creature> {
 
 // Export all templates as union
 export type AnyWorldBibleTemplate = 
-  | LocationTemplate 
   | FactionTemplate 
   | ItemTemplate 
   | CreatureTemplate;

@@ -45,7 +45,7 @@ export function OrganizationFormExpanded({ projectId, onCancel, organization }: 
     
     // Operations
     resources: organization?.resources || '',
-    locations: organization?.locations || '',
+    territories: organization?.territories || '',
     budget: organization?.budget || '',
     funding_sources: organization?.funding_sources || '',
     equipment: organization?.equipment || '',

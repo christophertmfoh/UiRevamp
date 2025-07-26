@@ -347,12 +347,10 @@ export function getSectionById(id: string) {
 // LOCATION FIELD CONFIGURATIONS
 // ================================
 
-// Location sections with consistent organization
 export const LOCATION_SECTIONS = [
   {
     id: 'identity',
     title: 'Identity',
-    description: 'Basic location identification and classification',
     icon: 'MapPin',
     order: 1
   },
@@ -407,18 +405,14 @@ export const LOCATION_SECTIONS = [
   }
 ] as const;
 
-// Location field definitions
 export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
   // Identity Section
   {
     key: 'name',
-    label: 'Location Name',
     type: 'text',
     section: 'identity',
     required: true,
     priority: 'essential',
-    placeholder: 'Name of the location',
-    aiPrompt: 'Generate a memorable location name that fits the world and setting'
   },
   {
     key: 'nicknames',
@@ -430,13 +424,10 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     aiPrompt: 'Create believable nicknames locals might use for this place'
   },
   {
-    key: 'locationType',
-    label: 'Location Type',
     type: 'select',
     section: 'identity',
     priority: 'essential',
     options: ['City', 'Town', 'Village', 'Castle', 'Forest', 'Mountain', 'Desert', 'Ocean', 'Cave', 'Ruins', 'Temple', 'Tower', 'Other'],
-    aiPrompt: 'Determine the most appropriate location type'
   },
   {
     key: 'classification',
@@ -445,7 +436,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'identity',
     priority: 'important',
     placeholder: 'Specific classification or subtype',
-    aiPrompt: 'Provide more specific classification within the location type'
   },
   {
     key: 'size',
@@ -454,7 +444,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'identity',
     priority: 'important',
     placeholder: 'Size description or measurements',
-    aiPrompt: 'Describe the size and scale of this location'
   },
   {
     key: 'description',
@@ -462,7 +451,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     type: 'textarea',
     section: 'identity',
     priority: 'essential',
-    placeholder: 'Overall description of the location',
     aiPrompt: 'Write a compelling overview that captures the essence of this place'
   },
 
@@ -501,7 +489,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'physical',
     priority: 'important',
     placeholder: 'Climate patterns and typical weather',
-    aiPrompt: 'Describe the climate and weather patterns that affect this location'
   },
   {
     key: 'naturalFeatures',
@@ -519,7 +506,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'physical',
     priority: 'important',
     placeholder: 'Prominent landmarks and notable points',
-    aiPrompt: 'Identify key landmarks that define this location'
   },
 
   // Atmosphere Section
@@ -557,7 +543,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'atmosphere',
     priority: 'important',
     placeholder: 'Notable scents and aromas',
-    aiPrompt: 'Detail the scents and smells that characterize this location'
   },
   {
     key: 'lighting',
@@ -604,7 +589,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'architecture',
     priority: 'important',
     placeholder: 'Spatial organization and layout',
-    aiPrompt: 'Describe how the location is organized and laid out'
   },
 
   // Society Section
@@ -624,7 +608,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'society',
     priority: 'important',
     placeholder: 'Who lives here and their characteristics',
-    aiPrompt: 'Describe the people who live in this location'
   },
   {
     key: 'culture',
@@ -641,7 +624,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     type: 'textarea',
     section: 'society',
     priority: 'important',
-    placeholder: 'How the location is governed',
     aiPrompt: 'Describe the governance structure and leadership'
   },
   {
@@ -680,7 +662,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'economy',
     priority: 'important',
     placeholder: 'Available resources and materials',
-    aiPrompt: 'List the resources available to this location'
   },
   {
     key: 'currency',
@@ -709,7 +690,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'history',
     priority: 'important',
     placeholder: 'Origin story and founding',
-    aiPrompt: 'Tell the story of how this location was founded or discovered'
   },
   {
     key: 'pastEvents',
@@ -718,7 +698,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'history',
     priority: 'important',
     placeholder: 'Significant historical events',
-    aiPrompt: 'Detail important events that shaped this location\'s development'
   },
   {
     key: 'legends',
@@ -727,7 +706,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'history',
     priority: 'optional',
     placeholder: 'Local legends and mythical stories',
-    aiPrompt: 'Create legends and myths associated with this location'
   },
 
   // Story Section
@@ -738,7 +716,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'story',
     priority: 'important',
     placeholder: 'Importance to the story',
-    aiPrompt: 'Explain why this location is important to the narrative'
   },
   {
     key: 'narrativeRole',
@@ -747,7 +724,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'story',
     priority: 'important',
     placeholder: 'Role in the story structure',
-    aiPrompt: 'Define this location\'s function in the story'
   },
   {
     key: 'scenes',
@@ -756,7 +732,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'story',
     priority: 'optional',
     placeholder: 'Scenes that take place here',
-    aiPrompt: 'Describe key scenes or events that happen at this location'
   },
   {
     key: 'mysteries',
@@ -765,7 +740,6 @@ export const LOCATION_FIELD_DEFINITIONS: FieldDefinition[] = [
     section: 'story',
     priority: 'optional',
     placeholder: 'Hidden secrets and mysteries',
-    aiPrompt: 'Create intriguing mysteries or secrets hidden in this location'
   }
 ];
 
@@ -1153,16 +1127,12 @@ export const ITEM_FIELD_DEFINITIONS: FieldDefinition[] = [
 // HELPER FUNCTIONS FOR ALL ENTITIES
 // ================================
 
-// Helper functions for locations
-export function getLocationFieldDefinition(key: string): FieldDefinition | undefined {
   return LOCATION_FIELD_DEFINITIONS.find(field => field.key === key);
 }
 
-export function getLocationFieldsBySection(sectionId: string): FieldDefinition[] {
   return LOCATION_FIELD_DEFINITIONS.filter(field => field.section === sectionId);
 }
 
-export function getLocationSectionById(id: string) {
   return LOCATION_SECTIONS.find(section => section.id === id);
 }
 
@@ -1193,11 +1163,9 @@ export function getItemSectionById(id: string) {
 }
 
 // Generic helper function to get field definitions by entity type
-export function getFieldDefinitionsByEntityType(entityType: 'character' | 'location' | 'faction' | 'item'): FieldDefinition[] {
   switch (entityType) {
     case 'character':
       return FIELD_DEFINITIONS;
-    case 'location':
       return LOCATION_FIELD_DEFINITIONS;
     case 'faction':
       return FACTION_FIELD_DEFINITIONS;
@@ -1209,11 +1177,9 @@ export function getFieldDefinitionsByEntityType(entityType: 'character' | 'locat
 }
 
 // Generic helper function to get sections by entity type
-export function getSectionsByEntityType(entityType: 'character' | 'location' | 'faction' | 'item') {
   switch (entityType) {
     case 'character':
       return CHARACTER_SECTIONS;
-    case 'location':
       return LOCATION_SECTIONS;
     case 'faction':
       return FACTION_SECTIONS;

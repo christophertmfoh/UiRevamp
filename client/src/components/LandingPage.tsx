@@ -39,7 +39,7 @@ const features = [
   {
     icon: Globe,
     title: "World Bible",
-    description: "Build comprehensive universes with characters, locations, factions, items, and deep lore systems.",
+    description: "Build comprehensive universes with characters, factions, items, and deep lore systems.",
     color: "ember-accent"
   },
   {
@@ -191,7 +191,7 @@ export function LandingPage({
                 </div>
                 <h3 className="text-xl font-semibold mb-3">World Building</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Design immersive worlds with interconnected locations, cultures, and histories. 
+                  Design immersive worlds with interconnected cultures and histories. 
                   Build the foundation for epic adventures.
                 </p>
               </div>

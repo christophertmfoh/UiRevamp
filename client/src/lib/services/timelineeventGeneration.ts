@@ -7,7 +7,7 @@ export interface TimelineEventGenerationOptions {
   setting?: string;
   existingContext?: {
     characters?: any[];
-    locations?: any[];
+    
     [key: string]: any[];
   };
 }
@@ -34,7 +34,7 @@ export async function generateContextualTimelineEvent(
 
   const contextInfo = options.existingContext ? `
     Existing Characters: ${options.existingContext.characters?.map(c => `${c.name} (${c.role})`).join(', ') || 'None'}
-    Existing Locations: ${options.existingContext.locations?.map(l => l.name).join(', ') || 'None'}
+    Existing Locations: ${options.existingContext.
   ` : '';
 
   const prompt = `You are a creative writing assistant specializing in world-building. Create a detailed, original timelineevent for the project "${projectName}".

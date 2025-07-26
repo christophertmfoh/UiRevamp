@@ -97,25 +97,19 @@ export async function generateItemImage(
   return `https://picsum.photos/400/400?random=${item.id}`;
 }
 
-export async function generateLocationImage(
-  location: Location, 
   stylePrompt: string, 
   engine: 'gemini' | 'midjourney' | 'openai'
 ): Promise<string> {
   await new Promise(resolve => setTimeout(resolve, 2500));
   
-  return `https://picsum.photos/600/400?random=${location.id}`;
 }
 
-export async function fleshOutLocation(
-  location: Location, 
   project: Project, 
   toolId: string
 ): Promise<Location> {
   await new Promise(resolve => setTimeout(resolve, 1200));
   
   return {
-    ...location,
     history: "Rich historical background",
     significance: "Important role in the story",
     atmosphere: "Vivid sensory details"

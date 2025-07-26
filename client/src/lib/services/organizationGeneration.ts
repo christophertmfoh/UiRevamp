@@ -7,7 +7,7 @@ export interface OrganizationGenerationOptions {
   setting?: string;
   existingContext?: {
     characters?: any[];
-    locations?: any[];
+    
     [key: string]: any[];
   };
 }
@@ -34,7 +34,6 @@ export async function generateContextualOrganization(
 
   const contextInfo = options.existingContext ? `
     Existing Characters: ${options.existingContext.characters?.map(c => `${c.name} (${c.role})`).join(', ') || 'None'}
-    Existing Locations: ${options.existingContext.locations?.map(l => l.name).join(', ') || 'None'}
   ` : '';
 
   const prompt = `You are a creative writing assistant specializing in world-building. Create a detailed, original organization for the project "${projectName}".

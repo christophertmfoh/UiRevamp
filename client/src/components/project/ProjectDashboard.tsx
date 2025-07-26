@@ -65,10 +65,10 @@ export function ProjectDashboard({
       id: 'world-bible', 
       label: 'World Bible', 
       icon: Globe, 
-      description: 'Build your universe - characters, locations, lore',
-      status: project.characters.length > 0 || project.locations.length > 0 ? 'active' : 'pending',
-      count: project.characters.length + project.locations.length + project.factions.length + project.items.length,
-      progress: Math.min(100, (project.characters.length + project.locations.length + project.factions.length + project.items.length) * 10)
+      description: 'Build your universe - characters, factions, lore',
+      status: project.characters.length > 0 || project.factions.length > 0 ? 'active' : 'pending',
+      count: project.characters.length + project.factions.length + project.items.length,
+      progress: Math.min(100, (project.characters.length + project.factions.length + project.items.length) * 10)
     },
     { 
       id: 'outline', 
@@ -121,7 +121,7 @@ export function ProjectDashboard({
   const recentActivity = [
     { action: 'Created character', item: 'Elena Marchetti', time: '2 hours ago', type: 'character' },
     { action: 'Updated manuscript', item: 'Chapter 3', time: '4 hours ago', type: 'manuscript' },
-    { action: 'Added location', item: 'The Crimson Library', time: '1 day ago', type: 'location' },
+    { action: 'Added faction', item: 'The Crimson Order', time: '1 day ago', type: 'faction' },
     { action: 'Edited outline', item: 'Act II Structure', time: '2 days ago', type: 'outline' }
   ];
 
@@ -272,7 +272,7 @@ export function ProjectDashboard({
                         <div className={`h-2 w-2 rounded-full ${
                           activity.type === 'character' ? 'bg-blue-500' :
                           activity.type === 'manuscript' ? 'bg-green-500' :
-                          activity.type === 'location' ? 'bg-purple-500' :
+                          activity.type === 'faction' ? 'bg-purple-500' :
                           'bg-orange-500'
                         }`} />
                         <div>

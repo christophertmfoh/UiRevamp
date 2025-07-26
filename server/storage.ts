@@ -1,7 +1,6 @@
 import { 
   projects, 
   characters, 
-  locations, 
   factions, 
   items, 
   organizations,
@@ -15,8 +14,6 @@ import {
   type InsertProject,
   type Character,
   type InsertCharacter,
-  type Location,
-  type InsertLocation,
   type Faction,
   type InsertFaction,
   type Item,
@@ -54,13 +51,6 @@ export interface IStorage {
   updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined>;
   deleteCharacter(id: string): Promise<boolean>;
 
-  // Location operations
-  getLocations(projectId: string): Promise<Location[]>;
-  getLocation(id: string): Promise<Location | undefined>;
-  createLocation(location: InsertLocation): Promise<Location>;
-  updateLocation(id: string, location: Partial<InsertLocation>): Promise<Location | undefined>;
-  deleteLocation(id: string): Promise<boolean>;
-
   // Faction operations
   getFactions(projectId: string): Promise<Faction[]>;
   getFaction(id: string): Promise<Faction | undefined>;
@@ -96,18 +86,32 @@ export interface IStorage {
   updateOutline(id: string, outline: Partial<InsertOutline>): Promise<Outline | undefined>;
   deleteOutline(id: string): Promise<boolean>;
 
-  // Prose document operations
+  // Prose Document operations
   getProseDocuments(projectId: string): Promise<ProseDocument[]>;
   getProseDocument(id: string): Promise<ProseDocument | undefined>;
-  createProseDocument(document: InsertProseDocument): Promise<ProseDocument>;
-  updateProseDocument(id: string, document: Partial<InsertProseDocument>): Promise<ProseDocument | undefined>;
+  createProseDocument(proseDocument: InsertProseDocument): Promise<ProseDocument>;
+  updateProseDocument(id: string, proseDocument: Partial<InsertProseDocument>): Promise<ProseDocument | undefined>;
   deleteProseDocument(id: string): Promise<boolean>;
+
+  // Character Relationship operations
+  getCharacterRelationships(characterId: string): Promise<CharacterRelationship[]>;
+  createCharacterRelationship(relationship: InsertCharacterRelationship): Promise<CharacterRelationship>;
+  updateCharacterRelationship(id: string, relationship: Partial<InsertCharacterRelationship>): Promise<CharacterRelationship | undefined>;
+  deleteCharacterRelationship(id: string): Promise<boolean>;
+
+  // Image Asset operations
+  createImageAsset(imageAsset: InsertImageAsset): Promise<ImageAsset>;
+  getImageAssets(entityType: string, entityId: string): Promise<ImageAsset[]>;
+
+  // Project Settings operations
+  getProjectSettings(projectId: string): Promise<ProjectSettings | undefined>;
+  updateProjectSettings(projectId: string, settings: Partial<InsertProjectSettings>): Promise<ProjectSettings>;
 }
 
-export class DatabaseStorage implements IStorage {
+class MemoryStorage implements IStorage {
   // Project operations
   async getProjects(): Promise<Project[]> {
-    return await db.select().from(projects).orderBy(desc(projects.lastModified));
+    return await db.select().from(projects).orderBy(desc(projects.createdAt));
   }
 
   async getProject(id: string): Promise<Project | undefined> {
@@ -117,33 +121,17 @@ export class DatabaseStorage implements IStorage {
 
   async createProject(project: InsertProject): Promise<Project> {
     const [newProject] = await db.insert(projects).values(project).returning();
-    
-    // Create default project settings
-    await db.insert(projectSettings).values({
-      id: `${project.id}-settings`,
-      projectId: project.id,
-      aiCraftConfig: {
-        'story-structure': true,
-        'character-development': true,
-        'world-building': true
-      }
-    });
-    
     return newProject;
   }
 
   async updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined> {
-    const [updatedProject] = await db
-      .update(projects)
-      .set({ ...project, lastModified: new Date() })
-      .where(eq(projects.id, id))
-      .returning();
+    const [updatedProject] = await db.update(projects).set(project).where(eq(projects.id, id)).returning();
     return updatedProject || undefined;
   }
 
   async deleteProject(id: string): Promise<boolean> {
     const result = await db.delete(projects).where(eq(projects.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Character operations
@@ -157,74 +145,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCharacter(character: InsertCharacter): Promise<Character> {
-    console.log('Storage: Inserting character into database:', JSON.stringify(character, null, 2));
     const [newCharacter] = await db.insert(characters).values(character).returning();
-    console.log('Storage: Character returned from database:', JSON.stringify(newCharacter, null, 2));
-    
-    if (!newCharacter) {
-      throw new Error('Failed to create character - no data returned from database');
-    }
-    
     return newCharacter;
   }
 
   async updateCharacter(id: string, character: Partial<InsertCharacter>): Promise<Character | undefined> {
-    const [updatedCharacter] = await db
-      .update(characters)
-      .set(character)
-      .where(eq(characters.id, id))
-      .returning();
+    const [updatedCharacter] = await db.update(characters).set(character).where(eq(characters.id, id)).returning();
     return updatedCharacter || undefined;
   }
 
   async deleteCharacter(id: string): Promise<boolean> {
     const result = await db.delete(characters).where(eq(characters.id, id));
-    return (result.rowCount ?? 0) > 0;
-  }
-
-  // Location operations
-  async getLocations(projectId: string): Promise<Location[]> {
-    return await db.select().from(locations).where(eq(locations.projectId, projectId));
-  }
-
-  async getLocation(id: string): Promise<Location | undefined> {
-    const [location] = await db.select().from(locations).where(eq(locations.id, id));
-    return location || undefined;
-  }
-
-  async createLocation(location: InsertLocation): Promise<Location> {
-    const [newLocation] = await db.insert(locations).values(location).returning();
-    return newLocation;
-  }
-
-  async updateLocation(id: string, location: Partial<InsertLocation>): Promise<Location | undefined> {
-    // Filter out undefined/null values and empty arrays to prevent "No values to set" error
-    const cleanedLocation = Object.fromEntries(
-      Object.entries(location).filter(([key, value]) => {
-        if (value === undefined || value === null) return false;
-        if (Array.isArray(value) && value.length === 0) return false;
-        if (typeof value === 'string' && value.trim() === '') return false;
-        return true;
-      })
-    );
-
-    // If no valid values to update, return current location
-    if (Object.keys(cleanedLocation).length === 0) {
-      const [currentLocation] = await db.select().from(locations).where(eq(locations.id, id));
-      return currentLocation || undefined;
-    }
-
-    const [updatedLocation] = await db
-      .update(locations)
-      .set(cleanedLocation)
-      .where(eq(locations.id, id))
-      .returning();
-    return updatedLocation || undefined;
-  }
-
-  async deleteLocation(id: string): Promise<boolean> {
-    const result = await db.delete(locations).where(eq(locations.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Faction operations
@@ -243,17 +175,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateFaction(id: string, faction: Partial<InsertFaction>): Promise<Faction | undefined> {
-    const [updatedFaction] = await db
-      .update(factions)
-      .set(faction)
-      .where(eq(factions.id, id))
-      .returning();
+    const [updatedFaction] = await db.update(factions).set(faction).where(eq(factions.id, id)).returning();
     return updatedFaction || undefined;
   }
 
   async deleteFaction(id: string): Promise<boolean> {
     const result = await db.delete(factions).where(eq(factions.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Item operations
@@ -272,17 +200,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateItem(id: string, item: Partial<InsertItem>): Promise<Item | undefined> {
-    const [updatedItem] = await db
-      .update(items)
-      .set(item)
-      .where(eq(items.id, id))
-      .returning();
+    const [updatedItem] = await db.update(items).set(item).where(eq(items.id, id)).returning();
     return updatedItem || undefined;
   }
 
   async deleteItem(id: string): Promise<boolean> {
     const result = await db.delete(items).where(eq(items.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Organization operations
@@ -296,55 +220,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createOrganization(organization: InsertOrganization): Promise<Organization> {
-    // Clean data before inserting, exclude updatedAt (server handles this)
-    const cleanedData = Object.fromEntries(
-      Object.entries(organization).filter(([key, value]) => {
-        if (key === 'updatedAt') return false; // Server handles this automatically
-        if (value === '' || value === undefined || value === null) return false;
-        if (Array.isArray(value) && value.length === 0) return false;
-        return true;
-      })
-    );
-    
-    const [newOrganization] = await db.insert(organizations).values(cleanedData as any).returning();
-    
-    if (!newOrganization) {
-      throw new Error('Failed to create organization - no data returned from database');
-    }
-    
+    const [newOrganization] = await db.insert(organizations).values(organization).returning();
     return newOrganization;
   }
 
   async updateOrganization(id: string, organization: Partial<InsertOrganization>): Promise<Organization | undefined> {
-    // Filter out empty strings, undefined values, and exclude updatedAt (server handles this)
-    const cleanedData = Object.fromEntries(
-      Object.entries(organization).filter(([key, value]) => {
-        if (key === 'updatedAt') return false; // Server handles this automatically
-        if (value === '' || value === undefined || value === null) return false;
-        if (Array.isArray(value) && value.length === 0) return false;
-        return true;
-      })
-    );
-    
-    if (Object.keys(cleanedData).length === 0) {
-      return this.getOrganization(id);
-    }
-    
-    const [updatedOrganization] = await db
-      .update(organizations)
-      .set({
-        ...cleanedData,
-        updatedAt: new Date() // Server-side timestamp
-      })
-      .where(eq(organizations.id, id))
-      .returning();
-    
+    const [updatedOrganization] = await db.update(organizations).set(organization).where(eq(organizations.id, id)).returning();
     return updatedOrganization || undefined;
   }
 
   async deleteOrganization(id: string): Promise<boolean> {
     const result = await db.delete(organizations).where(eq(organizations.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Magic System operations
@@ -363,17 +250,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateMagicSystem(id: string, magicSystem: Partial<InsertMagicSystem>): Promise<MagicSystem | undefined> {
-    const [updatedMagicSystem] = await db
-      .update(magicSystems)
-      .set(magicSystem)
-      .where(eq(magicSystems.id, id))
-      .returning();
+    const [updatedMagicSystem] = await db.update(magicSystems).set(magicSystem).where(eq(magicSystems.id, id)).returning();
     return updatedMagicSystem || undefined;
   }
 
   async deleteMagicSystem(id: string): Promise<boolean> {
     const result = await db.delete(magicSystems).where(eq(magicSystems.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   // Outline operations
@@ -392,47 +275,97 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateOutline(id: string, outline: Partial<InsertOutline>): Promise<Outline | undefined> {
-    const [updatedOutline] = await db
-      .update(outlines)
-      .set(outline)
-      .where(eq(outlines.id, id))
-      .returning();
+    const [updatedOutline] = await db.update(outlines).set(outline).where(eq(outlines.id, id)).returning();
     return updatedOutline || undefined;
   }
 
   async deleteOutline(id: string): Promise<boolean> {
     const result = await db.delete(outlines).where(eq(outlines.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
-  // Prose document operations
+  // Prose Document operations
   async getProseDocuments(projectId: string): Promise<ProseDocument[]> {
     return await db.select().from(proseDocuments).where(eq(proseDocuments.projectId, projectId));
   }
 
   async getProseDocument(id: string): Promise<ProseDocument | undefined> {
-    const [document] = await db.select().from(proseDocuments).where(eq(proseDocuments.id, id));
-    return document || undefined;
+    const [proseDocument] = await db.select().from(proseDocuments).where(eq(proseDocuments.id, id));
+    return proseDocument || undefined;
   }
 
-  async createProseDocument(document: InsertProseDocument): Promise<ProseDocument> {
-    const [newDocument] = await db.insert(proseDocuments).values(document).returning();
-    return newDocument;
+  async createProseDocument(proseDocument: InsertProseDocument): Promise<ProseDocument> {
+    const [newProseDocument] = await db.insert(proseDocuments).values(proseDocument).returning();
+    return newProseDocument;
   }
 
-  async updateProseDocument(id: string, document: Partial<InsertProseDocument>): Promise<ProseDocument | undefined> {
-    const [updatedDocument] = await db
-      .update(proseDocuments)
-      .set({ ...document, lastModified: new Date() })
-      .where(eq(proseDocuments.id, id))
-      .returning();
-    return updatedDocument || undefined;
+  async updateProseDocument(id: string, proseDocument: Partial<InsertProseDocument>): Promise<ProseDocument | undefined> {
+    const [updatedProseDocument] = await db.update(proseDocuments).set(proseDocument).where(eq(proseDocuments.id, id)).returning();
+    return updatedProseDocument || undefined;
   }
 
   async deleteProseDocument(id: string): Promise<boolean> {
     const result = await db.delete(proseDocuments).where(eq(proseDocuments.id, id));
-    return (result.rowCount ?? 0) > 0;
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Character Relationship operations
+  async getCharacterRelationships(characterId: string): Promise<CharacterRelationship[]> {
+    return await db.select().from(characterRelationships).where(eq(characterRelationships.characterId, characterId));
+  }
+
+  async createCharacterRelationship(relationship: InsertCharacterRelationship): Promise<CharacterRelationship> {
+    const [newRelationship] = await db.insert(characterRelationships).values(relationship).returning();
+    return newRelationship;
+  }
+
+  async updateCharacterRelationship(id: string, relationship: Partial<InsertCharacterRelationship>): Promise<CharacterRelationship | undefined> {
+    const [updatedRelationship] = await db.update(characterRelationships).set(relationship).where(eq(characterRelationships.id, id)).returning();
+    return updatedRelationship || undefined;
+  }
+
+  async deleteCharacterRelationship(id: string): Promise<boolean> {
+    const result = await db.delete(characterRelationships).where(eq(characterRelationships.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  // Image Asset operations
+  async createImageAsset(imageAsset: InsertImageAsset): Promise<ImageAsset> {
+    const [newImageAsset] = await db.insert(imageAssets).values(imageAsset).returning();
+    return newImageAsset;
+  }
+
+  async getImageAssets(entityType: string, entityId: string): Promise<ImageAsset[]> {
+    return await db.select().from(imageAssets)
+      .where(eq(imageAssets.entityType, entityType))
+      .where(eq(imageAssets.entityId, entityId));
+  }
+
+  // Project Settings operations
+  async getProjectSettings(projectId: string): Promise<ProjectSettings | undefined> {
+    const [settings] = await db.select().from(projectSettings).where(eq(projectSettings.projectId, projectId));
+    return settings || undefined;
+  }
+
+  async updateProjectSettings(projectId: string, settings: Partial<InsertProjectSettings>): Promise<ProjectSettings> {
+    const existing = await this.getProjectSettings(projectId);
+    
+    if (existing) {
+      const [updatedSettings] = await db.update(projectSettings)
+        .set(settings)
+        .where(eq(projectSettings.projectId, projectId))
+        .returning();
+      return updatedSettings;
+    } else {
+      const newSettings: InsertProjectSettings = {
+        id: `settings_${Date.now()}`,
+        projectId,
+        ...settings
+      };
+      const [createdSettings] = await db.insert(projectSettings).values(newSettings).returning();
+      return createdSettings;
+    }
   }
 }
 
-export const storage = new DatabaseStorage();
+export const storage = new MemoryStorage();

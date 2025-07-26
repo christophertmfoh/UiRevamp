@@ -5,21 +5,17 @@
 
 import { FieldConfigManager, type UniversalFieldDefinition } from './baseFieldConfig';
 
-// Location-specific fields
 export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
   {
     key: 'type',
-    label: 'Location Type',
     type: 'select',
     section: 'identity',
     category: 'identity',
     priority: 'essential',
-    entityTypes: ['locations'],
     options: ['City', 'Town', 'Village', 'Building', 'Landmark', 'Natural Feature', 'Realm', 'Other'],
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
-    aiPromptTemplate: 'Determine the most appropriate type for this location: {name}'
   },
   {
     key: 'geography',
@@ -28,7 +24,6 @@ export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
     section: 'physical',
     category: 'physical',
     priority: 'essential',
-    entityTypes: ['locations'],
     placeholder: 'Physical layout and geographical features',
     aiEnhanceable: true,
     searchable: true,
@@ -42,7 +37,6 @@ export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
     section: 'background',
     category: 'background',
     priority: 'important',
-    entityTypes: ['locations'],
     placeholder: 'Historical background and significant events',
     aiEnhanceable: true,
     searchable: true,
@@ -56,8 +50,6 @@ export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
     section: 'story',
     category: 'story',
     priority: 'essential',
-    entityTypes: ['locations'],
-    placeholder: 'Why this location matters to the story',
     aiEnhanceable: true,
     searchable: true,
     exportable: true,
@@ -70,7 +62,6 @@ export const LOCATION_FIELDS: UniversalFieldDefinition[] = [
     section: 'physical',
     category: 'physical',
     priority: 'important',
-    entityTypes: ['locations'],
     placeholder: 'Mood, feeling, and ambiance',
     aiEnhanceable: true,
     searchable: false,
@@ -329,7 +320,6 @@ FieldConfigManager.registerFields([
 ]);
 
 // Export entity-specific field getters
-export const getLocationFields = () => FieldConfigManager.getFieldsForEntity('locations');
 export const getFactionFields = () => FieldConfigManager.getFieldsForEntity('factions');
 export const getItemFields = () => FieldConfigManager.getFieldsForEntity('items');
 export const getCreatureFields = () => FieldConfigManager.getFieldsForEntity('creatures');
