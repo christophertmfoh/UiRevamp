@@ -3,14 +3,14 @@
  * Renders organized sections of character fields with consistent layout
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { FieldRenderer } from './FieldRenderer';
-import { getCharacterFieldsBySection, getCharacterSectionById } from '@/lib/config/fieldConfig';
+import { getFieldsBySection, getSectionById } from '@/lib/config/fieldConfig';
 import { QuickProgress } from './CharacterProgress';
 
 interface FormSectionProps {
@@ -40,8 +40,8 @@ export function FormSection({
 }: FormSectionProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   
-  const section = getCharacterSectionById(sectionId);
-  const fields = getCharacterFieldsBySection(sectionId);
+  const section = getSectionById(sectionId);
+  const fields = getFieldsBySection(sectionId);
   
   if (!section || fields.length === 0) {
     return null;

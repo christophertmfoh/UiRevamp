@@ -108,11 +108,11 @@ const CREATION_STEPS: Step[] = [
     description: 'Skills, talents, and special capabilities',
     icon: Zap,
     fields: [
-      { key: 'abilities', label: 'Core Abilities', type: 'array', placeholder: 'Swordsmanship, investigation, leadership (separate with commas)' },
+      { key: 'abilities', label: 'Core Abilities', type: 'array', placeholder: 'Swordsmanship, magic, investigation (separate with commas)' },
       { key: 'skills', label: 'Skills', type: 'array', placeholder: 'Learned skills and competencies' },
       { key: 'talents', label: 'Natural Talents', type: 'array', placeholder: 'Innate gifts and aptitudes' },
       { key: 'specialAbilities', label: 'Special Abilities', type: 'textarea', placeholder: 'Unique powers or supernatural abilities' },
-      { key: 'powers', label: 'Powers', type: 'textarea', placeholder: 'Special abilities or exceptional skills' },
+      { key: 'powers', label: 'Powers', type: 'textarea', placeholder: 'Magical, psychic, or superhuman powers' },
       { key: 'strengths', label: 'Strengths', type: 'textarea', placeholder: 'What they excel at' },
       { key: 'weaknesses', label: 'Weaknesses', type: 'textarea', placeholder: 'What they struggle with' },
       { key: 'training', label: 'Training', type: 'textarea', placeholder: 'Formal education and training received' }
@@ -186,7 +186,7 @@ export function CharacterGuidedCreation({
       skills: [],
       talents: [],
       expertise: [],
-      spokenLanguages: '',
+      languages: [],
       archetypes: [],
       tropes: [],
       tags: []
@@ -224,7 +224,7 @@ export function CharacterGuidedCreation({
     const processedData = { ...data };
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'archetypes', 'tropes', 'tags'
+      'languages', 'archetypes', 'tropes', 'tags'
     ];
     
     arrayFields.forEach(field => {

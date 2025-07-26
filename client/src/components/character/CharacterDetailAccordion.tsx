@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowLeft, Edit, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Heart, FileText, BookText } from 'lucide-react';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS, getCharacterFieldsBySection } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
 
 interface CharacterDetailAccordionProps {
   projectId: string;
@@ -132,7 +132,7 @@ export function CharacterDetailAccordion({
 
   // Helper function to check if a section has any content
   const sectionHasContent = (sectionId: string) => {
-    const fields = getCharacterFieldsBySection(sectionId);
+    const fields = getFieldsBySection(sectionId);
     if (!fields.length) return false;
     
     return fields.some(field => {
@@ -169,7 +169,7 @@ export function CharacterDetailAccordion({
 
   // Render a section's content dynamically based on configuration
   const renderSectionContent = (sectionId: string) => {
-    const fields = getCharacterFieldsBySection(sectionId);
+    const fields = getFieldsBySection(sectionId);
     if (!fields.length) return null;
 
     const content = fields.map((field, index) => {

@@ -58,7 +58,7 @@ const onboardingSteps = [
   },
   {
     title: "AI Genies: Your Creative Assistant",
-    description: "Click any sparkle icon to enhance fields with AI",
+    description: "Click any magic wand icon to enhance fields with AI",
     content: (
       <div className="space-y-4">
         <div className="bg-gradient-to-r from-accent/10 to-accent/5 rounded-2xl p-6 border border-accent/20">
@@ -67,7 +67,7 @@ const onboardingSteps = [
               <Zap className="h-5 w-5 text-accent" />
             </div>
             <div>
-              <h4 className="font-semibold">AI Enhancement Icons</h4>
+              <h4 className="font-semibold">Magic Wand Icons</h4>
               <p className="text-sm text-muted-foreground">Click to generate contextual content</p>
             </div>
           </div>

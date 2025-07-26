@@ -49,7 +49,7 @@ const ARCHETYPES = [
   { value: 'explorer', label: 'The Explorer', description: 'Freedom-loving, adventurous, pioneering' },
   { value: 'sage', label: 'The Sage', description: 'Wise, knowledgeable, truth-seeking' },
   { value: 'outlaw', label: 'The Outlaw', description: 'Revolutionary, wild, disruptive' },
-  { value: 'visionary', label: 'The Visionary', description: 'Visionary, inventive, transformative' },
+  { value: 'magician', label: 'The Magician', description: 'Visionary, inventive, transformative' },
   { value: 'everyman', label: 'The Everyman', description: 'Relatable, down-to-earth, belongs' },
   { value: 'lover', label: 'The Lover', description: 'Passionate, devoted, romantic' },
   { value: 'jester', label: 'The Jester', description: 'Fun-loving, humorous, lives in the moment' },

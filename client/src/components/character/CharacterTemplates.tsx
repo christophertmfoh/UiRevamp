@@ -5,11 +5,15 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles } from 'lucide-react';
-import type { Character, EntityTemplate, EntityTemplatesProps } from '@/lib/types';
 
-interface CharacterTemplate extends EntityTemplate<Character> {
+interface CharacterTemplate {
+  id: string;
+  name: string;
+  description: string;
   category: 'fantasy' | 'modern' | 'scifi' | 'romance' | 'thriller' | 'universal';
   icon: React.ComponentType<any>;
+  fields: Partial<any>; // Character fields pre-filled
+  tags: string[];
   popularity: number;
 }
 
@@ -38,21 +42,21 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
   {
     id: 'dark-sorcerer',
     name: 'Dark Sorcerer',
-    description: 'A powerful scholarly figure who studies ancient knowledge',
+    description: 'A powerful magic user who dabbles in forbidden arts',
     category: 'fantasy',
     icon: Zap,
-    tags: ['scholarly', 'dark', 'powerful', 'corrupted'],
+    tags: ['magic', 'dark', 'powerful', 'corrupted'],
     popularity: 82,
     fields: {
       role: 'Antagonist',
-      archetype: 'scholar',
+      archetype: 'magician',
       personalityTraits: ['intelligent', 'ambitious', 'secretive'],
-      goals: 'Master forbidden knowledge and achieve immortality',
+      goals: 'Master forbidden magic and achieve immortality',
       motivations: 'Fear of death and hunger for ultimate power',
-      strengths: 'Vast scholarly knowledge, strategic mind, ancient artifacts',
-      weaknesses: 'Arrogance, scholarly obsession, isolation',
-      background: 'Once a respected scholar who turned to forbidden knowledge',
-      powers: 'Ancient knowledge, strategic thinking, artifact mastery'
+      strengths: 'Vast magical knowledge, strategic mind, ancient artifacts',
+      weaknesses: 'Arrogance, magical corruption, isolation',
+      background: 'Once a respected scholar who turned to dark magic',
+      magicalAbilities: 'Necromancy, shadow manipulation, soul magic'
     }
   },
   {
@@ -131,7 +135,7 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
       personalityTraits: ['wise', 'patient', 'mysterious'],
       goals: 'Guide the next generation and pass on knowledge',
       motivations: 'Redemption for past mistakes',
-      strengths: 'Vast knowledge, strategic abilities, insight',
+      strengths: 'Vast knowledge, magical abilities, insight',
       weaknesses: 'Fading power, reluctance to fully engage',
       secrets: 'Connected to the main conflict in unexpected ways',
       experience: 'Decades of study and adventure'
@@ -489,7 +493,9 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
   }
 ];
 
-interface CharacterTemplatesProps extends Omit<EntityTemplatesProps<Character>, 'entityType'> {
+interface CharacterTemplatesProps {
+  isOpen: boolean;
+  onClose: () => void;
   onSelectTemplate: (template: CharacterTemplate) => void;
   isGenerating?: boolean;
 }
