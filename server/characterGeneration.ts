@@ -158,6 +158,12 @@ ${projectContext}`;
     const text = response.text();
     
     console.log('Server: Gemini response received:', text.substring(0, 200) + '...');
+    console.log('Server: Full response length:', text.length);
+    
+    // Log the raw response for debugging
+    if (text.length < 1000) {
+      console.log('Server: Full response:', text);
+    }
     
     // Enhanced JSON cleaning and extraction
     let cleanText = text;
@@ -392,6 +398,10 @@ ${projectContext}`;
     return processedData;
   } catch (error) {
     console.error('Server: Error generating character:', error);
+    if (error instanceof Error) {
+      console.error('Server: Error details:', error.message);
+      console.error('Server: Error stack:', error.stack);
+    }
     throw new Error('Failed to generate character. Please try again.');
   }
 }
@@ -487,6 +497,17 @@ function buildProjectContext(context: CharacterGenerationContext): string {
         contextPrompt += `\n${generationOptions.customPrompt}\n`;
       } else {
         contextPrompt += `Creative Direction & Additional Details: ${generationOptions.customPrompt}\n`;
+        
+        // Add enhanced requirements for custom generation to match template quality
+        contextPrompt += `\nCRITICAL CUSTOM CHARACTER REQUIREMENTS:
+• Generate publication-quality content for ALL 67 character fields listed in the JSON format
+• Every single field must contain meaningful, specific, contextual content
+• NO generic placeholders, empty fields, or vague descriptions
+• Create authentic details that feel researched and lived-in
+• Build interconnected traits where strengths create weaknesses
+• Ensure backstory elements explain current abilities and fears
+• Physical appearance must reflect their life experiences
+• All relationships need specific history and emotional stakes`;
       }
     }
   }
