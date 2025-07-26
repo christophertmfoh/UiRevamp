@@ -124,25 +124,44 @@ Return ONLY the JSON object with maximum field coverage:`;
     ];
     
     for (const field of arrayFields) {
-      if (characterData[field]) {
+      if (characterData[field] !== undefined && characterData[field] !== null) {
         // Handle various data types that might be returned
         if (typeof characterData[field] === 'string') {
-          try {
-            // Try to parse if it's a JSON string
-            characterData[field] = JSON.parse(characterData[field]);
-          } catch {
-            // If parsing fails, split by common delimiters
-            characterData[field] = characterData[field]
-              .split(/[,;|]/)
-              .map(item => item.trim())
-              .filter(item => item.length > 0);
+          const stringValue = characterData[field].trim();
+          
+          // Check for malformed JSON objects like "{}" or "[]"
+          if (stringValue === '{}' || stringValue === '[]' || stringValue === '') {
+            characterData[field] = [];
+          } else {
+            try {
+              // Try to parse if it's a JSON string
+              const parsed = JSON.parse(stringValue);
+              if (Array.isArray(parsed)) {
+                characterData[field] = parsed;
+              } else if (typeof parsed === 'object' && parsed !== null) {
+                // Convert object to array of values
+                characterData[field] = Object.values(parsed).filter(val => val && String(val).trim().length > 0);
+              } else {
+                // Single value, convert to array
+                characterData[field] = [String(parsed)];
+              }
+            } catch {
+              // If parsing fails, split by common delimiters
+              characterData[field] = stringValue
+                .split(/[,;|]/)
+                .map(item => item.trim())
+                .filter(item => item.length > 0);
+            }
           }
         } else if (typeof characterData[field] === 'object' && !Array.isArray(characterData[field])) {
           // Convert object to array of values
-          characterData[field] = Object.values(characterData[field]).filter(val => val && val.length > 0);
+          characterData[field] = Object.values(characterData[field]).filter(val => val && String(val).trim().length > 0);
+        } else if (!Array.isArray(characterData[field])) {
+          // Convert any other type to array
+          characterData[field] = characterData[field] ? [String(characterData[field])] : [];
         }
         
-        // Ensure it's always an array
+        // Ensure it's always an array and clean items
         if (!Array.isArray(characterData[field])) {
           characterData[field] = [];
         }
@@ -150,7 +169,7 @@ Return ONLY the JSON object with maximum field coverage:`;
         // Clean array items
         characterData[field] = characterData[field]
           .map(item => typeof item === 'string' ? item.trim() : String(item).trim())
-          .filter(item => item.length > 0 && item !== '{}' && item !== '[]')
+          .filter(item => item.length > 0 && item !== '{}' && item !== '[]' && item !== 'null' && item !== 'undefined')
           .slice(0, 10); // Limit to reasonable number
       } else {
         characterData[field] = [];
@@ -176,6 +195,13 @@ Return ONLY the JSON object with maximum field coverage:`;
     
     // Add notes
     characterData.notes = `Character imported from document: ${characterData.name || 'Unknown Character'}`;
+    
+    // Debug array field processing
+    console.log('Array field processing debug:', {
+      nicknames: { type: typeof characterData.nicknames, value: characterData.nicknames, isArray: Array.isArray(characterData.nicknames) },
+      aliases: { type: typeof characterData.aliases, value: characterData.aliases, isArray: Array.isArray(characterData.aliases) },
+      distinguishingMarks: { type: typeof characterData.distinguishingMarks, value: characterData.distinguishingMarks, isArray: Array.isArray(characterData.distinguishingMarks) }
+    });
     
     console.log('✓ Comprehensive AI extraction successful:', {
       name: characterData.name,
