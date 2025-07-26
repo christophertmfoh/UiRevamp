@@ -540,7 +540,7 @@ export function CharacterUnifiedViewPremium({
                                 onClick={() => setIsEditing(true)}
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-accent hover:bg-accent/10"
+                                className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                               >
                                 <Plus className="h-3 w-3 mr-1" />
                                 Add {field.label}
@@ -562,7 +562,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -625,7 +625,7 @@ export function CharacterUnifiedViewPremium({
                             onClick={() => setIsEditing(true)}
                             variant="ghost" 
                             size="sm" 
-                            className="mt-2 text-accent hover:bg-accent/10"
+                            className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                           >
                             <Plus className="h-3 w-3 mr-1" />
                             Add Overall Description
@@ -698,7 +698,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -802,7 +802,7 @@ export function CharacterUnifiedViewPremium({
                                 onClick={() => setIsEditing(true)}
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-accent hover:bg-accent/10"
+                                className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                               >
                                 <Plus className="h-3 w-3 mr-1" />
                                 Add {field.label}
@@ -824,7 +824,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -886,7 +886,7 @@ export function CharacterUnifiedViewPremium({
                             onClick={() => setIsEditing(true)}
                             variant="ghost" 
                             size="sm" 
-                            className="mt-2 text-accent hover:bg-accent/10"
+                            className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                           >
                             <Plus className="h-3 w-3 mr-1" />
                             Add Background Overview
@@ -989,7 +989,7 @@ export function CharacterUnifiedViewPremium({
                                 onClick={() => setIsEditing(true)}
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-accent hover:bg-accent/10"
+                                className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                               >
                                 <Plus className="h-3 w-3 mr-1" />
                                 Add {field.label}
@@ -1009,7 +1009,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -1110,7 +1110,7 @@ export function CharacterUnifiedViewPremium({
                                 onClick={() => setIsEditing(true)}
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-accent hover:bg-accent/10"
+                                className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                               >
                                 <Plus className="h-3 w-3 mr-1" />
                                 Add {field.label}
@@ -1130,7 +1130,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -1204,7 +1204,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -1345,7 +1345,7 @@ export function CharacterUnifiedViewPremium({
                                 onClick={() => setIsEditing(true)}
                                 variant="ghost" 
                                 size="sm" 
-                                className="mt-2 text-accent hover:bg-accent/10"
+                                className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                               >
                                 <Plus className="h-3 w-3 mr-1" />
                                 Add {field.label}
@@ -1365,7 +1365,7 @@ export function CharacterUnifiedViewPremium({
                               onClick={() => setIsEditing(true)}
                               variant="ghost" 
                               size="sm" 
-                              className="mt-2 text-accent hover:bg-accent/10"
+                              className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                             >
                               <Plus className="h-3 w-3 mr-1" />
                               Add {field.label}
@@ -1416,7 +1416,7 @@ export function CharacterUnifiedViewPremium({
                             onClick={() => setIsEditing(true)}
                             variant="ghost" 
                             size="sm" 
-                            className="mt-2 text-accent hover:bg-accent/10"
+                            className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
                           >
                             <Plus className="h-3 w-3 mr-1" />
                             Add Character Arc
