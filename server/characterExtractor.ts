@@ -109,21 +109,25 @@ export async function importCharacterDocument(filePath: string, fileName: string
     // Extract text based on file type
     if (fileName.toLowerCase().endsWith('.pdf')) {
       try {
-        const dataBuffer = fs.readFileSync(filePath);
-        const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.js');
+        const { PDFExtract } = await import('pdf.js-extract');
+        const pdfExtract = new PDFExtract();
         
-        const doc = await pdfjsLib.getDocument(dataBuffer).promise;
+        const data = await new Promise<any>((resolve, reject) => {
+          pdfExtract.extract(filePath, {}, (err: any, data: any) => {
+            if (err) reject(err);
+            else resolve(data);
+          });
+        });
+        
+        // Extract text from all pages
         let fullText = '';
-        
-        for (let i = 1; i <= doc.numPages; i++) {
-          const page = await doc.getPage(i);
-          const textContent = await page.getTextContent();
-          const pageText = textContent.items.map((item: any) => item.str).join(' ');
+        for (const page of data.pages) {
+          const pageText = page.content.map((item: any) => item.str).join(' ');
           fullText += pageText + '\n';
         }
         
         textContent = fullText.trim();
-        console.log('PDF extraction successful. Pages:', doc.numPages, 'Text length:', textContent.length);
+        console.log('PDF extraction successful. Pages:', data.pages.length, 'Text length:', textContent.length);
       } catch (pdfError) {
         console.error('PDF extraction failed:', pdfError);
         throw new Error('Failed to extract text from PDF. The file may be corrupted, password-protected, or contain only images. Please try converting to Word (.docx) or text (.txt) format.');

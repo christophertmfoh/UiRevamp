@@ -17,7 +17,7 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 ✓ **GRID LAYOUT OPTIMIZATION** - Character creation modal now uses responsive 4-column grid for all creation options
 ✓ **PROPER FUNCTION NAMING** - All server functions renamed from parseX to extractX/importX for accurate terminology
 ✓ **CHARACTER EXTRACTOR SYSTEM** - Renamed documentParser.ts to characterExtractor.ts for accurate system naming
-✓ **PRODUCTION PDF SUPPORT** - Implemented pdfjs-dist library (Mozilla Firefox PDF engine) for reliable PDF text extraction
+✓ **PRODUCTION PDF SUPPORT** - Implemented pdf.js-extract library for reliable PDF text extraction with coordinate data
 ✓ **COMPREHENSIVE ERROR HANDLING** - PDF extraction includes detailed error messages for corrupted, password-protected, or image-only files
 ✓ **RELIABLE FILE PROCESSING** - Full support for PDF, Word (.docx), and text (.txt) files with proper error recovery
 
