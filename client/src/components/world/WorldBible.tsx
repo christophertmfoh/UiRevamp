@@ -90,9 +90,9 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   // World overview data
   const worldData = {
     overview: {
-      title: project.title || 'The BloomWeaver\'s Lament',
-      subtitle: 'A Character-Driven Story',
-      description: project.description || 'A compelling story of characters facing challenges and growing through their journeys.',
+      title: project.name || 'Untitled Project',
+      subtitle: `${project.type || 'Story'} ${project.genre ? `- ${project.genre}` : ''}`,
+      description: project.synopsis || project.description || 'Add a synopsis to describe your project...',
       coreThemes: ['Destiny vs. Free Will', 'Power and Corruption', 'Sacrifice and Redemption', 'Unity in Diversity'],
       majorConflicts: ['The Ancient Prophecy', 'War of the Five Kingdoms', 'The Dark Lord\'s Return'],
       keyMysteries: ['The Lost Bloodline', 'The Sealed Temple', 'The Forgotten Alliance']
@@ -336,7 +336,6 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
           </Button>
           <div className="text-center flex-1">
             <h1 className="font-title text-3xl">World Bible</h1>
-            <p className="text-muted-foreground">The BloomWeaver's Lament</p>
           </div>
           <div className="flex items-center space-x-2">
             <div className="relative">
