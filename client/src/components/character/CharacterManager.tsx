@@ -20,7 +20,7 @@ interface CharacterManagerProps {
   onClearSelection?: () => void;
 }
 
-type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited';
+type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-role' | 'by-race' | 'by-age' | 'by-completion' | 'by-class' | 'protagonists-first' | 'villains-first' | 'by-species';
 type ViewMode = 'grid' | 'list';
 
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
@@ -107,6 +107,20 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     }
   });
 
+  // Calculate character completion percentage
+  const getCompletionPercentage = (character: Character): number => {
+    return Math.min(100, ((character.name ? 10 : 0) + 
+                          (character.description ? 15 : 0) + 
+                          (character.imageUrl ? 15 : 0) + 
+                          (character.personalityTraits?.length ? 10 : 0) + 
+                          (character.race ? 10 : 0) +
+                          (character.class ? 10 : 0) +
+                          (character.age ? 5 : 0) +
+                          (character.background ? 10 : 0) +
+                          (character.goals ? 10 : 0) +
+                          (character.relationships ? 5 : 0)));
+  };
+
   // Sort and filter characters
   const sortCharacters = (chars: Character[]): Character[] => {
     switch (sortBy) {
@@ -116,6 +130,42 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       case 'recently-edited':
         return [...chars].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      case 'by-role':
+        return [...chars].sort((a, b) => (a.role || 'Character').localeCompare(b.role || 'Character'));
+      case 'by-race':
+        return [...chars].sort((a, b) => (a.race || 'Unknown').localeCompare(b.race || 'Unknown'));
+      case 'by-species':
+        return [...chars].sort((a, b) => (a.race || 'Unknown').localeCompare(b.race || 'Unknown'));
+      case 'by-class':
+        return [...chars].sort((a, b) => (a.class || 'None').localeCompare(b.class || 'None'));
+      case 'by-age':
+        return [...chars].sort((a, b) => {
+          const ageA = parseInt(a.age?.toString() || '0') || 0;
+          const ageB = parseInt(b.age?.toString() || '0') || 0;
+          return ageA - ageB; // Youngest first
+        });
+      case 'by-completion':
+        return [...chars].sort((a, b) => getCompletionPercentage(b) - getCompletionPercentage(a)); // Most complete first
+      case 'protagonists-first':
+        return [...chars].sort((a, b) => {
+          const roleA = a.role?.toLowerCase() || '';
+          const roleB = b.role?.toLowerCase() || '';
+          const isProtagonistA = roleA.includes('protagonist') || roleA.includes('hero') || roleA.includes('main');
+          const isProtagonistB = roleB.includes('protagonist') || roleB.includes('hero') || roleB.includes('main');
+          if (isProtagonistA && !isProtagonistB) return -1;
+          if (!isProtagonistA && isProtagonistB) return 1;
+          return (a.name || '').localeCompare(b.name || '');
+        });
+      case 'villains-first':
+        return [...chars].sort((a, b) => {
+          const roleA = a.role?.toLowerCase() || '';
+          const roleB = b.role?.toLowerCase() || '';
+          const isVillainA = roleA.includes('villain') || roleA.includes('antagonist') || roleA.includes('enemy');
+          const isVillainB = roleB.includes('villain') || roleB.includes('antagonist') || roleB.includes('enemy');
+          if (isVillainA && !isVillainB) return -1;
+          if (!isVillainA && isVillainB) return 1;
+          return (a.name || '').localeCompare(b.name || '');
+        });
       default:
         return chars;
     }
@@ -651,15 +701,43 @@ Generate a complete, detailed character that expands on these template foundatio
                   Sort
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-56">
+                {/* Basic Sort Options */}
                 <DropdownMenuItem onClick={() => setSortBy('alphabetical')}>
-                  A-Z Order
+                  📝 A-Z Order
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('recently-added')}>
-                  Recently Added
+                  🕒 Recently Added
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortBy('recently-edited')}>
-                  Recently Edited
+                  ✏️ Recently Edited
+                </DropdownMenuItem>
+                
+                {/* Character Detail Sorts */}
+                <hr className="my-2" />
+                <DropdownMenuItem onClick={() => setSortBy('by-completion')}>
+                  📊 By Completion Level
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-role')}>
+                  🎭 By Story Role
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-race')}>
+                  🧬 By Race/Species
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-class')}>
+                  ⚔️ By Class/Profession
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('by-age')}>
+                  🎂 By Age (Youngest First)
+                </DropdownMenuItem>
+                
+                {/* Story-Based Sorts */}
+                <hr className="my-2" />
+                <DropdownMenuItem onClick={() => setSortBy('protagonists-first')}>
+                  🌟 Protagonists First
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('villains-first')}>
+                  😈 Villains First
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
