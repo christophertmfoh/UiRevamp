@@ -8,7 +8,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { handleEntityError, showErrorToast, showSuccessToast } from '@/lib/utils/errorHandling';
-import type { Character, Project, EntityManagerProps } from '@/lib/types';
+import type { Character, Project } from '@/lib/types';
+import type { EntityManagerProps } from '@/lib/types/entityTypes';
 import { CharacterDetailView } from './CharacterDetailView';
 import { 
   CharacterPortraitModal, 
