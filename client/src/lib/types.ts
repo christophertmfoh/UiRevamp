@@ -157,10 +157,7 @@ export interface Character {
   expertise?: string[];
   specialAbilities?: string;
   powers?: string;
-  magicalAbilities?: string;
-  magicType?: string;
-  magicSource?: string;
-  magicLimitations?: string;
+  abilityLimitations?: string;
   superpowers?: string;
   strengths?: string;
   competencies?: string;
@@ -190,8 +187,7 @@ export interface Character {
   storyFunction?: string;
   
   // Language & Communication (Voice & Expression)
-  languages?: string[];
-  nativeLanguage?: string;
+  spokenLanguages?: string;
   accent?: string;
   dialect?: string;
   voiceDescription?: string;
@@ -210,7 +206,7 @@ export interface Character {
   friends?: string;
   socialCircle?: string;
   community?: string;
-  culture?: string;
+  culturalBackground?: string;
   traditions?: string;
   customs?: string;
   religion?: string;
@@ -241,7 +237,7 @@ export interface Character {
   research?: string;
   references?: string;
   mood?: string;
-  theme?: string;
+  personalTheme?: string;
   symbolism?: string;
   
   // Technical (System & Display)

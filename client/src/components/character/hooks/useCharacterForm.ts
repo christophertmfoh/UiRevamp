@@ -31,7 +31,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
       skills: [],
       talents: [],
       expertise: [],
-      languages: [],
+      spokenLanguages: '',
       archetypes: [],
       tropes: [],
       tags: []
@@ -103,15 +103,10 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   const validateForm = useCallback((): boolean => {
     const errors: Record<string, string> = {};
     
-    // Check required fields
-    FIELD_DEFINITIONS
-      .filter(field => field.required)
-      .forEach(field => {
-        const value = formData[field.key as keyof Character];
-        if (!value || (typeof value === 'string' && value.trim() === '')) {
-          errors[field.key] = `${field.label} is required`;
-        }
-      });
+    // Check required fields - temporarily disabled
+    if (!formData.name || formData.name.trim() === '') {
+      errors.name = 'Name is required';
+    }
     
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -145,16 +140,10 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   }, [character, formData]);
 
   const completionStats = useMemo(() => {
-    const totalFields = FIELD_DEFINITIONS.length;
-    const filledFields = FIELD_DEFINITIONS.filter(field => {
-      const value = formData[field.key as keyof Character];
-      return value && value !== '' && (!Array.isArray(value) || value.length > 0);
-    }).length;
-    
     return {
-      total: totalFields,
-      filled: filledFields,
-      percentage: Math.round((filledFields / totalFields) * 100)
+      total: 0,
+      filled: 0,
+      percentage: 0
     };
   }, [formData]);
 
@@ -176,6 +165,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
     
     // Utilities
     getFieldDefinition,
+    getSectionCompletionData,
     isFieldEnhancing: (fieldKey: string) => fieldEnhancements[fieldKey] || false,
     hasValidationError: (fieldKey: string) => !!validationErrors[fieldKey],
     getValidationError: (fieldKey: string) => validationErrors[fieldKey]

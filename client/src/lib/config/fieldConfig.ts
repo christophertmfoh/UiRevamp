@@ -25,6 +25,7 @@ export interface Section {
 }
 
 // Character sections with consistent organization
+export const FIELD_DEFINITIONS: any[] = [];
 export const CHARACTER_SECTIONS = [
   {
     id: 'identity',
@@ -95,7 +96,7 @@ export const FIELD_DEFINITIONS: FieldDefinition[] = [
     required: true,
     priority: 'essential',
     placeholder: 'Enter character name',
-    aiPrompt: 'Generate a meaningful name that fits the character\'s background, culture, and the story\'s setting'
+    aiPrompt: 'Generate a meaningful name that fits the character\'s background, cultural background, and the story\'s setting'
   },
   {
     key: 'age',

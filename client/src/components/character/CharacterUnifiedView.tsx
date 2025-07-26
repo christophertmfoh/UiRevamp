@@ -109,7 +109,7 @@ export function CharacterUnifiedView({
     // Define all fields that should be arrays according to schema
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
+      'archetypes', 'tropes', 'tags'
     ];
     
     // Define all fields that should be strings according to schema  
@@ -344,7 +344,7 @@ export function CharacterUnifiedView({
     const section = CHARACTER_SECTIONS.find(s => s.id === sectionId);
     if (!section) return null;
 
-    // Get fields for this section from FIELD_DEFINITIONS
+    // Get fields for this section
     const sectionFields = getCharacterFieldsBySection(sectionId);
     
     // Debug personality section specifically

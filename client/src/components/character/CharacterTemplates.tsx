@@ -38,21 +38,21 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
   {
     id: 'dark-sorcerer',
     name: 'Dark Sorcerer',
-    description: 'A powerful magic user who dabbles in forbidden arts',
+    description: 'A powerful scholarly figure who studies ancient knowledge',
     category: 'fantasy',
     icon: Zap,
-    tags: ['magic', 'dark', 'powerful', 'corrupted'],
+    tags: ['scholarly', 'dark', 'powerful', 'corrupted'],
     popularity: 82,
     fields: {
       role: 'Antagonist',
-      archetype: 'magician',
+      archetype: 'scholar',
       personalityTraits: ['intelligent', 'ambitious', 'secretive'],
-      goals: 'Master forbidden magic and achieve immortality',
+      goals: 'Master forbidden knowledge and achieve immortality',
       motivations: 'Fear of death and hunger for ultimate power',
-      strengths: 'Vast magical knowledge, strategic mind, ancient artifacts',
-      weaknesses: 'Arrogance, magical corruption, isolation',
-      background: 'Once a respected scholar who turned to dark magic',
-      magicalAbilities: 'Necromancy, shadow manipulation, soul magic'
+      strengths: 'Vast scholarly knowledge, strategic mind, ancient artifacts',
+      weaknesses: 'Arrogance, scholarly obsession, isolation',
+      background: 'Once a respected scholar who turned to forbidden knowledge',
+      powers: 'Ancient knowledge, strategic thinking, artifact mastery'
     }
   },
   {
@@ -131,7 +131,7 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
       personalityTraits: ['wise', 'patient', 'mysterious'],
       goals: 'Guide the next generation and pass on knowledge',
       motivations: 'Redemption for past mistakes',
-      strengths: 'Vast knowledge, magical abilities, insight',
+      strengths: 'Vast knowledge, strategic abilities, insight',
       weaknesses: 'Fading power, reluctance to fully engage',
       secrets: 'Connected to the main conflict in unexpected ways',
       experience: 'Decades of study and adventure'

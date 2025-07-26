@@ -35,7 +35,7 @@ export function analyzeCharacter(character: any): CharacterAnalysis {
   const isFantasy = allText.includes('elf') || 
                     allText.includes('dwarf') || 
                     allText.includes('dragon') || 
-                    allText.includes('magic') ||
+                    allText.includes('special') ||
                     race.includes('elf') || 
                     race.includes('dwarf');
   

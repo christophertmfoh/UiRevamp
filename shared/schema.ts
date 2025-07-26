@@ -173,12 +173,7 @@ export const characters = pgTable("characters", {
   skills: text("skills").array().default([]),
   talents: text("talents").array().default([]),
   expertise: text("expertise").array().default([]),
-  specialAbilities: text("special_abilities").default(''),
   powers: text("powers").default(''),
-  magicalAbilities: text("magical_abilities").default(''),
-  magicType: text("magic_type").default(''),
-  magicSource: text("magic_source").default(''),
-  magicLimitations: text("magic_limitations").default(''),
   superpowers: text("superpowers").default(''),
   strengths: text("strengths").default(''),
   competencies: text("competencies").default(''),
@@ -208,8 +203,7 @@ export const characters = pgTable("characters", {
   storyFunction: text("story_function").default(''),
   
   // Language & Communication (Voice & Expression)
-  languages: text("languages").array().default([]),
-  nativeLanguage: text("native_language").default(''),
+  spokenLanguages: text("spoken_languages").default(''),
   accent: text("accent").default(''),
   dialect: text("dialect").default(''),
   voiceDescription: text("voice_description").default(''),
@@ -228,7 +222,7 @@ export const characters = pgTable("characters", {
   friends: text("friends").default(''),
   socialCircle: text("social_circle").default(''),
   community: text("community").default(''),
-  culture: text("culture").default(''),
+  culturalBackground: text("cultural_background").default(''),
   traditions: text("traditions").default(''),
   customs: text("customs").default(''),
   religion: text("religion").default(''),
@@ -259,7 +253,7 @@ export const characters = pgTable("characters", {
   research: text("research").default(''),
   references: text("references").default(''),
   mood: text("mood").default(''),
-  theme: text("theme").default(''),
+  personalTheme: text("personal_theme").default(''),
   symbolism: text("symbolism").default(''),
   
   // Technical (System & Display)
@@ -284,7 +278,7 @@ export const characters = pgTable("characters", {
 export const entityMetadata = pgTable("entity_metadata", {
   id: text("id").primaryKey(),
   projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
-  entityType: text("entity_type").notNull(), // 'character', 'faction', etc.
+  entityType: text("entity_type").notNull().default('character'),
   entityId: text("entity_id").notNull(), // Reference to the actual entity
   
   // Universal metadata fields

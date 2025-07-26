@@ -82,56 +82,12 @@ export async function fleshOutItem(
   return {
     ...item,
     history: "Enhanced history with AI insights",
-    powers: "Detailed magical or special properties",
+    powers: "Detailed special abilities or properties",
     significance: "Importance to the story and characters"
   };
 }
 
-export async function generateItemImage(
-  item: Item, 
-  stylePrompt: string, 
-  engine: 'gemini' | 'midjourney' | 'openai'
-): Promise<string> {
-  await new Promise(resolve => setTimeout(resolve, 2500));
-  
-  return `https://picsum.photos/400/400?random=${item.id}`;
-}
 
-  stylePrompt: string, 
-  engine: 'gemini' | 'midjourney' | 'openai'
-): Promise<string> {
-  await new Promise(resolve => setTimeout(resolve, 2500));
-  
-}
-
-  project: Project, 
-  toolId: string
-): Promise<any> {
-  await new Promise(resolve => setTimeout(resolve, 1200));
-  
-  return {
-    history: "Rich historical background",
-    significance: "Important role in the story",
-    atmosphere: "Vivid sensory details"
-  };
-}
-
-export async function fleshOutFaction(
-  faction: Faction, 
-  project: Project, 
-  toolId: string
-): Promise<Faction> {
-  await new Promise(resolve => setTimeout(resolve, 1300));
-  
-  return {
-    ...faction,
-    goals: "Clear organizational objectives",
-    methods: "How they operate and achieve goals",
-    leadership: "Key figures and hierarchy",
-    resources: "Assets and capabilities",
-    relationships: "Connections to other factions"
-  };
-}
 
 export async function getAICoachFeedback(
   project: Project, 
@@ -149,7 +105,7 @@ export async function getAICoachFeedback(
     ],
     guidingQuestions: [
       "What is at stake for your character in this moment?",
-      "How does this scene advance your overall story theme?",
+      "How does this scene advance your overall story?",
       "What emotion do you want readers to feel here?"
     ]
   };

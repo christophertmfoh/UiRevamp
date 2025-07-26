@@ -13,7 +13,7 @@ export function processAIResponse(response: string, fieldKey: string): any {
   // Handle array fields that might come back as comma-separated strings
   const arrayFields = [
     'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-    'languages', 'archetypes', 'tropes', 'tags', 'likes', 'dislikes',
+    'archetypes', 'tropes', 'tags', 'likes', 'dislikes',
     'strengths', 'weaknesses'
   ];
   
@@ -66,7 +66,7 @@ export function convertDataFromDatabase(data: any): any {
   // Convert JSON strings back to arrays/objects
   const arrayFields = [
     'personalityTraits', 'abilities', 'skills', 'talents', 'expertise',
-    'languages', 'archetypes', 'tropes', 'tags', 'likes', 'dislikes',
+    'archetypes', 'tropes', 'tags', 'likes', 'dislikes',
     'strengths', 'weaknesses'
   ];
   

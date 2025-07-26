@@ -72,7 +72,7 @@ export function CharacterUnifiedViewPremium({
     const processedData = { ...data };
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
+      'archetypes', 'tropes', 'tags'
     ];
     
     arrayFields.forEach(field => {

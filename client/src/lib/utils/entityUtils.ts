@@ -1,6 +1,6 @@
 /**
  * Universal Entity Utilities
- * Generic utility functions that work across all entity types (Characters, Factions, Items, etc.)
+ * Generic utility functions that work across all entity types (Characters only)
  */
 
 import type { FieldDefinition } from '@/lib/config/fieldConfig';

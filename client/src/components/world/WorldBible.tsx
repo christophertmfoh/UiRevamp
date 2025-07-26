@@ -15,7 +15,7 @@ import {
   Clock, 
   Scroll,
   Crown,
-  Languages,
+
   Heart,
   Search,
   Plus,
@@ -91,8 +91,8 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   const worldData = {
     overview: {
       title: project.title || 'The BloomWeaver\'s Lament',
-      subtitle: 'A Tale of Magic and Destiny',
-      description: project.description || 'In a world where magic flows through ancient bloodlines and destiny is written in the stars, follow the journey of heroes who must confront the darkness that threatens to consume everything they hold dear.',
+      subtitle: 'A Character-Driven Story',
+      description: project.description || 'A compelling story of characters facing challenges and growing through their journeys.',
       coreThemes: ['Destiny vs. Free Will', 'Power and Corruption', 'Sacrifice and Redemption', 'Unity in Diversity'],
       majorConflicts: ['The Ancient Prophecy', 'War of the Five Kingdoms', 'The Dark Lord\'s Return'],
       keyMysteries: ['The Lost Bloodline', 'The Sealed Temple', 'The Forgotten Alliance']
@@ -218,7 +218,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Sword className="h-5 w-5 mr-2 text-accent" />
-                    Core Themes
+                    Story Themes
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

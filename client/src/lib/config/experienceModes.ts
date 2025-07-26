@@ -74,7 +74,7 @@ export const INTERMEDIATE_ADDITIONAL_FIELDS: FieldConfig[] = [
   { fieldKey: 'strengths', priority: 'important', section: 'skills' },
   { fieldKey: 'weaknesses', priority: 'important', section: 'skills' },
   { fieldKey: 'expertise', priority: 'important', section: 'skills' },
-  { fieldKey: 'languages', priority: 'important', section: 'skills' },
+  { fieldKey: 'spokenLanguages', priority: 'important', section: 'skills' },
   
   // Story additions
   { fieldKey: 'fears', priority: 'important', section: 'story' },

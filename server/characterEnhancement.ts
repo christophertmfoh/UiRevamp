@@ -34,7 +34,7 @@ export async function enhanceCharacterWithAI({ currentData, project, character }
     personality: ['personality', 'temperament', 'traits', 'quirks', 'mannerisms', 'speechPattern', 'voice', 'likes', 'dislikes', 'hobbies', 'habits', 'values', 'beliefs'],
     background: ['backstory', 'childhood', 'education', 'family', 'pastEvents', 'socialClass', 'homeland', 'culturalBackground'],
     relationships: ['allies', 'enemies', 'mentors', 'rivals', 'romanticInterests', 'family', 'friends'],
-    skills: ['skills', 'abilities', 'talents', 'magicalAbilities', 'equipment', 'weapons', 'strengths', 'weaknesses'],
+    skills: ['skills', 'abilities', 'talents', 'powers', 'equipment', 'weapons', 'strengths', 'weaknesses'],
     story: ['motivations', 'goals', 'fears', 'secrets', 'flaws', 'character_arc', 'narrativeRole', 'plotImportance', 'internal_conflict', 'external_conflict']
   };
   
@@ -124,14 +124,14 @@ Return ONLY a complete JSON object with both existing and enhanced character dat
     {
       id: 'relationships',
       name: 'relationships',
-      fields: ['relationships', 'family', 'friends', 'enemies', 'allies', 'rivals', 'mentors', 'proteges', 'romanticHistory', 'currentRelationships', 'socialConnections', 'politicalAffiliations', 'organizationalMemberships'],
+      fields: ['relationships', 'family', 'friends', 'enemies', 'allies', 'rivals', 'mentors', 'proteges', 'romanticHistory', 'currentRelationships', 'socialConnections'],
       instruction: `Generate meaningful relationship details for ALL specified fields.`
     },
     {
       id: 'abilities',
       name: 'abilities',
-      fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'magicalAbilities', 'magicType', 'magicSource', 'specialAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
-      instruction: `Generate comprehensive abilities for ALL specified fields. For magic-related fields, if character has no magical abilities, set to "None" or appropriate non-magical values.`
+      fields: ['skills', 'talents', 'abilities', 'strengths', 'expertise', 'training', 'experience', 'specializations', 'powers', 'specialAbilities', 'combatSkills', 'intellectualPursuits', 'artisticTalents', 'technicalSkills'],
+      instruction: `Generate comprehensive abilities for ALL specified fields. Focus on realistic skills and talents appropriate to the character.`
     },
     {
       name: 'story',

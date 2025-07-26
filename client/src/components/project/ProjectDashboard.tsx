@@ -65,7 +65,7 @@ export function ProjectDashboard({
       id: 'world-bible', 
       label: 'World Bible', 
       icon: Globe, 
-      description: 'Build your universe - characters, factions, lore',
+      description: 'Develop your characters and story elements',
       status: project.characters?.length > 0 ? 'active' : 'pending',
       count: project.characters?.length || 0,
       progress: Math.min(100, (project.characters?.length || 0) * 10)
