@@ -521,8 +521,9 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
   const sortedTemplates = [...filteredTemplates].sort((a, b) => b.popularity - a.popularity);
 
   const handleSelectTemplate = (template: CharacterTemplate) => {
+    setSelectedTemplate(template);
     onSelectTemplate(template);
-    onClose();
+    // Don't close immediately - let the parent handle closing after generation
   };
 
   return (
