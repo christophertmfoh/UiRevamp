@@ -588,30 +588,12 @@ Generate a complete, detailed character that expands on these template foundatio
                   <div 
                     className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
                     style={{
-                      width: `${Math.min(100, ((character.name ? 10 : 0) + 
-                                                (character.description ? 15 : 0) + 
-                                                (character.imageUrl ? 15 : 0) + 
-                                                (character.personalityTraits?.length ? 10 : 0) + 
-                                                (character.race ? 10 : 0) +
-                                                (character.class ? 10 : 0) +
-                                                (character.age ? 5 : 0) +
-                                                (character.background ? 10 : 0) +
-                                                (character.goals ? 10 : 0) +
-                                                (character.relationships ? 5 : 0)))}%`
+                      width: `${getCompletionPercentage(character)}%`
                     }}
                   />
                 </div>
                 <span className="text-xs text-muted-foreground font-medium">
-                  {Math.min(100, ((character.name ? 10 : 0) + 
-                                  (character.description ? 15 : 0) + 
-                                  (character.imageUrl ? 15 : 0) + 
-                                  (character.personalityTraits?.length ? 10 : 0) + 
-                                  (character.race ? 10 : 0) +
-                                  (character.class ? 10 : 0) +
-                                  (character.age ? 5 : 0) +
-                                  (character.background ? 10 : 0) +
-                                  (character.goals ? 10 : 0) +
-                                  (character.relationships ? 5 : 0)))}%
+                  {getCompletionPercentage(character)}%
                 </span>
               </div>
             </div>
@@ -694,30 +676,12 @@ Generate a complete, detailed character that expands on these template foundatio
                 <div 
                   className="h-full bg-gradient-to-r from-accent to-accent/80 transition-all duration-300"
                   style={{
-                    width: `${Math.min(100, ((character.name ? 10 : 0) + 
-                                            (character.description ? 15 : 0) + 
-                                            (character.imageUrl ? 15 : 0) + 
-                                            (character.personalityTraits?.length ? 10 : 0) + 
-                                            (character.race ? 10 : 0) +
-                                            (character.class ? 10 : 0) +
-                                            (character.age ? 5 : 0) +
-                                            (character.background ? 10 : 0) +
-                                            (character.goals ? 10 : 0) +
-                                            (character.relationships ? 5 : 0)))}%`
+                    width: `${getCompletionPercentage(character)}%`
                   }}
                 />
               </div>
               <span className="text-xs text-muted-foreground font-medium">
-                {Math.min(100, ((character.name ? 10 : 0) + 
-                                (character.description ? 15 : 0) + 
-                                (character.imageUrl ? 15 : 0) + 
-                                (character.personalityTraits?.length ? 10 : 0) + 
-                                (character.race ? 10 : 0) +
-                                (character.class ? 10 : 0) +
-                                (character.age ? 5 : 0) +
-                                (character.background ? 10 : 0) +
-                                (character.goals ? 10 : 0) +
-                                (character.relationships ? 5 : 0)))}%
+                {getCompletionPercentage(character)}%
               </span>
             </div>
           </div>
