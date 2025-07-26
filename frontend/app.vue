@@ -1,41 +1,30 @@
 <template>
   <div>
-    <!-- Main App Layout -->
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-    
-    <!-- Global Notifications -->
-    <div id="notifications" class="fixed top-4 right-4 z-50 space-y-2">
-      <!-- Toast notifications will be rendered here -->
-    </div>
+    <NuxtPage />
   </div>
 </template>
 
-<script setup lang="ts">
-// Global meta configuration
+<script setup>
+// Global app configuration
 useHead({
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
-
-// Initialize theme
-const colorMode = useColorMode()
-
-// Global error handling
-onErrorCaptured((error) => {
-  console.error('Global error captured:', error)
-  return false // Don't prevent error propagation
+  title: 'Fablecraft - Craft Your Fable',
+  meta: [
+    { name: 'description', content: 'Advanced AI-powered creative writing platform with intelligent character generation and world-building tools.' }
+  ]
 })
 </script>
 
 <style>
-html {
-  scroll-behavior: smooth;
+/* Global styles will be added here */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #faf8f5;
+  color: #2d2d2d;
 }
 
-body {
-  font-family: 'Inter', ui-sans-serif, system-ui;
+* {
+  box-sizing: border-box;
 }
 </style>
