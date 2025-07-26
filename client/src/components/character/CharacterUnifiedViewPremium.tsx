@@ -1035,7 +1035,7 @@ export function CharacterUnifiedViewPremium({
                           Array.isArray((formData as any)[field.key]) && ((formData as any)[field.key] as string[]).length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                               {((formData as any)[field.key] as string[]).map((item: string, index: number) => (
-                                <Badge key={index} variant="secondary" className="bg-accent/20 text-accent-foreground">
+                                <Badge key={index} variant="secondary" className="bg-accent/15 text-accent border border-accent/20">
                                   {item}
                                 </Badge>
                               ))}
