@@ -27,7 +27,10 @@ type ViewMode = 'grid' | 'list';
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const saved = localStorage.getItem('characterViewMode');
+    return (saved as ViewMode) || 'grid';
+  });
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
@@ -63,6 +66,11 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       }
     }
   }, [selectedCharacterId, characters, onClearSelection]);
+
+  // Persist view mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('characterViewMode', viewMode);
+  }, [viewMode]);
 
   const deleteMutation = useMutation({
     mutationFn: (characterId: string) => 
