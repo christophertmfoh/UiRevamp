@@ -53,53 +53,105 @@ export function CharacterPortraitModal({
     return null;
   };
 
-  // Generate enhanced AI prompt from character data, art style, additional details, and project context
+  // Generate comprehensive AI prompt from ALL character data across every category
   const generateCharacterPrompt = () => {
-    const characterParts = [];
-    const visualParts = [];
+    const allCharacterInfo = [];
     
-    // Character Identity & Basic Info
-    if (character.name) characterParts.push(`Character named ${character.name}`);
-    if (character.race) characterParts.push(character.race);
-    if (character.class) characterParts.push(character.class);
-    if (character.age) characterParts.push(`${character.age} years old`);
-    if (character.role) characterParts.push(`story role: ${character.role}`);
+    // IDENTITY CATEGORY - All fields
+    if (character.name) allCharacterInfo.push(`${character.name}`);
+    if (character.nicknames && Array.isArray(character.nicknames) && character.nicknames.length > 0) allCharacterInfo.push(`nicknames: ${character.nicknames.join(', ')}`);
+    if (character.title) allCharacterInfo.push(`title: ${character.title}`);
+    if (character.aliases && Array.isArray(character.aliases) && character.aliases.length > 0) allCharacterInfo.push(`aliases: ${character.aliases.join(', ')}`);
+    if (character.race) allCharacterInfo.push(`${character.race}`);
+    if (character.age) allCharacterInfo.push(`${character.age} years old`);
+    if (character.class) allCharacterInfo.push(`class: ${character.class}`);
+    if (character.profession) allCharacterInfo.push(`profession: ${character.profession}`);
+    if (character.role) allCharacterInfo.push(`story role: ${character.role}`);
     
-    // Physical Appearance Details
-    if (character.physicalDescription) visualParts.push(character.physicalDescription);
-    if (character.height) visualParts.push(`${character.height} tall`);
-    if (character.build) visualParts.push(`${character.build} build`);
-    if (character.eyeColor) visualParts.push(`${character.eyeColor} eyes`);
-    if (character.hairColor || character.hairStyle) {
-      const hairDesc = [character.hairColor, character.hairStyle].filter(Boolean).join(' ');
-      visualParts.push(`${hairDesc} hair`);
-    }
-    if (character.skinTone) visualParts.push(`${character.skinTone} skin`);
-    if (character.distinguishingMarks) visualParts.push(`distinguishing marks: ${character.distinguishingMarks}`);
-    if (character.clothingStyle) visualParts.push(`clothing style: ${character.clothingStyle}`);
-    if (character.posture) visualParts.push(`posture: ${character.posture}`);
+    // APPEARANCE CATEGORY - All visual fields
+    if (character.physicalDescription) allCharacterInfo.push(`physical description: ${character.physicalDescription}`);
+    if (character.height) allCharacterInfo.push(`${character.height} tall`);
+    if (character.weight) allCharacterInfo.push(`${character.weight}`);
+    if (character.build) allCharacterInfo.push(`${character.build} build`);
+    if (character.bodyType) allCharacterInfo.push(`body type: ${character.bodyType}`);
+    if (character.eyeColor) allCharacterInfo.push(`${character.eyeColor} eyes`);
+    if (character.hairColor) allCharacterInfo.push(`${character.hairColor} hair`);
+    if (character.hairStyle) allCharacterInfo.push(`hair style: ${character.hairStyle}`);
+    if (character.facialHair) allCharacterInfo.push(`facial hair: ${character.facialHair}`);
+    if (character.skinTone) allCharacterInfo.push(`${character.skinTone} skin`);
+    if (character.distinguishingMarks) allCharacterInfo.push(`distinguishing marks: ${character.distinguishingMarks}`);
+    if (character.scars) allCharacterInfo.push(`scars: ${character.scars}`);
+    if (character.tattoos) allCharacterInfo.push(`tattoos: ${character.tattoos}`);
+    if (character.clothingStyle) allCharacterInfo.push(`clothing style: ${character.clothingStyle}`);
+    if (character.accessories) allCharacterInfo.push(`accessories: ${character.accessories}`);
+    if (character.posture) allCharacterInfo.push(`posture: ${character.posture}`);
+    if (character.gait) allCharacterInfo.push(`gait: ${character.gait}`);
+    if (character.mannerisms) allCharacterInfo.push(`mannerisms: ${character.mannerisms}`);
     
-    // Personality influence on appearance
-    if (character.temperament) visualParts.push(`${character.temperament} temperament`);
+    // PERSONALITY CATEGORY - All personality fields
+    if (character.personality) allCharacterInfo.push(`personality: ${character.personality}`);
     if (character.personalityTraits && Array.isArray(character.personalityTraits) && character.personalityTraits.length > 0) {
-      visualParts.push(`personality: ${character.personalityTraits.slice(0, 3).join(', ')}`);
+      allCharacterInfo.push(`traits: ${character.personalityTraits.join(', ')}`);
+    }
+    if (character.temperament) allCharacterInfo.push(`temperament: ${character.temperament}`);
+    if (character.worldview) allCharacterInfo.push(`worldview: ${character.worldview}`);
+    if (character.values) allCharacterInfo.push(`values: ${character.values}`);
+    if (character.beliefs) allCharacterInfo.push(`beliefs: ${character.beliefs}`);
+    if (character.motivations) allCharacterInfo.push(`motivations: ${character.motivations}`);
+    if (character.goals) allCharacterInfo.push(`goals: ${character.goals}`);
+    if (character.fears) allCharacterInfo.push(`fears: ${character.fears}`);
+    if (character.desires) allCharacterInfo.push(`desires: ${character.desires}`);
+    if (character.vices) allCharacterInfo.push(`vices: ${character.vices}`);
+    if (character.habits) allCharacterInfo.push(`habits: ${character.habits}`);
+    if (character.quirks) allCharacterInfo.push(`quirks: ${character.quirks}`);
+    
+    // ABILITIES CATEGORY - All ability fields
+    if (character.abilities && Array.isArray(character.abilities) && character.abilities.length > 0) {
+      allCharacterInfo.push(`abilities: ${character.abilities.join(', ')}`);
+    }
+    if (character.skills && Array.isArray(character.skills) && character.skills.length > 0) {
+      allCharacterInfo.push(`skills: ${character.skills.join(', ')}`);
+    }
+    if (character.talents && Array.isArray(character.talents) && character.talents.length > 0) {
+      allCharacterInfo.push(`talents: ${character.talents.join(', ')}`);
+    }
+    if (character.strengths) allCharacterInfo.push(`strengths: ${character.strengths}`);
+    if (character.weaknesses) allCharacterInfo.push(`weaknesses: ${character.weaknesses}`);
+    if (character.training) allCharacterInfo.push(`training: ${character.training}`);
+    
+    // BACKGROUND CATEGORY - All background fields
+    if (character.backstory) allCharacterInfo.push(`backstory: ${character.backstory}`);
+    if (character.childhood) allCharacterInfo.push(`childhood: ${character.childhood}`);
+    if (character.familyHistory) allCharacterInfo.push(`family history: ${character.familyHistory}`);
+    if (character.education) allCharacterInfo.push(`education: ${character.education}`);
+    if (character.formativeEvents) allCharacterInfo.push(`formative events: ${character.formativeEvents}`);
+    if (character.socialClass) allCharacterInfo.push(`social class: ${character.socialClass}`);
+    if (character.occupation) allCharacterInfo.push(`occupation: ${character.occupation}`);
+    if (character.spokenLanguages && Array.isArray(character.spokenLanguages) && character.spokenLanguages.length > 0) {
+      allCharacterInfo.push(`languages: ${character.spokenLanguages.join(', ')}`);
     }
     
-    // Build comprehensive prompt structure
-    const promptParts = [];
+    // RELATIONSHIPS CATEGORY - All relationship fields
+    if (character.family) allCharacterInfo.push(`family: ${character.family}`);
+    if (character.friends) allCharacterInfo.push(`friends: ${character.friends}`);
+    if (character.allies) allCharacterInfo.push(`allies: ${character.allies}`);
+    if (character.enemies) allCharacterInfo.push(`enemies: ${character.enemies}`);
+    if (character.rivals) allCharacterInfo.push(`rivals: ${character.rivals}`);
+    if (character.mentors) allCharacterInfo.push(`mentors: ${character.mentors}`);
+    if (character.relationships) allCharacterInfo.push(`relationships: ${character.relationships}`);
+    if (character.socialCircle) allCharacterInfo.push(`social circle: ${character.socialCircle}`);
     
-    // Character description
-    if (characterParts.length > 0) {
-      promptParts.push(characterParts.join(', '));
+    // META CATEGORY - All meta fields
+    if (character.storyFunction) allCharacterInfo.push(`story function: ${character.storyFunction}`);
+    if (character.personalTheme) allCharacterInfo.push(`personal theme: ${character.personalTheme}`);
+    if (character.symbolism) allCharacterInfo.push(`symbolism: ${character.symbolism}`);
+    if (character.inspiration) allCharacterInfo.push(`inspiration: ${character.inspiration}`);
+    if (character.archetypes && Array.isArray(character.archetypes) && character.archetypes.length > 0) {
+      allCharacterInfo.push(`archetypes: ${character.archetypes.join(', ')}`);
     }
+    if (character.notes) allCharacterInfo.push(`notes: ${character.notes}`);
     
-    // Visual details
-    if (visualParts.length > 0) {
-      promptParts.push(visualParts.join(', '));
-    }
-    
-    // The prompt will be enhanced server-side with art style, additional details, and quality tags
-    return promptParts.join('. ');
+    return allCharacterInfo.join(', ');
   };
 
   // Helper function to save portraits to character
