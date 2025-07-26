@@ -928,7 +928,21 @@ export function CharacterUnifiedViewPremium({
                   </CardHeader>
                   <CardContent>
                     {isEditing ? (
-                      field.type === 'textarea' ? (
+                      field.type === 'array' ? (
+                        <Input
+                          value={Array.isArray((formData as any)[field.key]) 
+                            ? (formData as any)[field.key].join(', ')
+                            : (formData as any)[field.key] || ''
+                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const arrayValue = value.trim() ? value.split(',').map(s => s.trim()) : [];
+                            setFormData({...formData, [field.key]: arrayValue});
+                          }}
+                          placeholder={field.placeholder}
+                          className="border-accent/20 focus:border-accent focus:ring-accent/20"
+                        />
+                      ) : field.type === 'textarea' ? (
                         <Textarea
                           value={(formData as any)[field.key] || ''}
                           onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
@@ -936,6 +950,17 @@ export function CharacterUnifiedViewPremium({
                           className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
                           rows={4}
                         />
+                      ) : field.type === 'select' ? (
+                        <select
+                          value={(formData as any)[field.key] || ''}
+                          onChange={(e) => setFormData({...formData, [field.key]: e.target.value})}
+                          className="w-full p-2 border border-accent/20 rounded-md focus:border-accent focus:ring-accent/20 bg-background"
+                        >
+                          <option value="">Select {field.label}</option>
+                          {field.options?.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                          ))}
+                        </select>
                       ) : (
                         <Input
                           value={(formData as any)[field.key] || ''}
@@ -946,7 +971,32 @@ export function CharacterUnifiedViewPremium({
                       )
                     ) : (
                       <div className="space-y-2">
-                        {(formData as any)[field.key] ? (
+                        {field.type === 'array' ? (
+                          Array.isArray((formData as any)[field.key]) && ((formData as any)[field.key] as string[]).length > 0 ? (
+                            <div className="flex flex-wrap gap-2">
+                              {((formData as any)[field.key] as string[]).map((item: string, index: number) => (
+                                <Badge key={index} variant="secondary" className="bg-accent/20 text-accent-foreground">
+                                  {item}
+                                </Badge>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center py-4">
+                              <p className="text-sm text-muted-foreground italic">
+                                No {field.label.toLowerCase()} added yet
+                              </p>
+                              <Button 
+                                onClick={() => setIsEditing(true)}
+                                variant="ghost" 
+                                size="sm" 
+                                className="mt-2 text-accent hover:bg-accent/10"
+                              >
+                                <Plus className="h-3 w-3 mr-1" />
+                                Add {field.label}
+                              </Button>
+                            </div>
+                          )
+                        ) : (formData as any)[field.key] ? (
                           <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
                             {(formData as any)[field.key]}
                           </p>
