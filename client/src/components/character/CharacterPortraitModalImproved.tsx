@@ -840,7 +840,7 @@ export function CharacterPortraitModal({
       {/* Portrait Generation Loading Screen - Same as AI Template Generator */}
       {isGenerating && (
         <Dialog open={true} onOpenChange={() => {}}>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-md [&>button]:hidden">
             <div className="flex flex-col items-center text-center space-y-6 py-8">
               <div className="relative">
                 <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>
