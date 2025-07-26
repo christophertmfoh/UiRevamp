@@ -227,12 +227,9 @@ export function CharacterPortraitModal({
           additionalDetails,
           engineType: 'gemini'
         })
-        // Removed signal: controller.signal to prevent aborts
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to generate image');
-      }
+      if (!response.ok) throw new Error('Failed to generate image');
       
       const data = await response.json();
       
@@ -269,8 +266,6 @@ export function CharacterPortraitModal({
       setIsGenerating(false);
     }
   };
-
-  // Removed handleCancelGeneration to eliminate unhandled rejection errors
 
   const handleSetMainImage = (imageId: string) => {
     const updatedGallery = portraitGallery.map(img => ({
@@ -842,10 +837,10 @@ export function CharacterPortraitModal({
         </Dialog>
       )}
 
-      {/* Portrait Generation Loading Screen - No Cancel Functionality */}
+      {/* Portrait Generation Loading Screen - Same as AI Template Generator */}
       {isGenerating && (
-        <Dialog open={true}>
-          <DialogContent className="max-w-md [&>button]:hidden">
+        <Dialog open={true} onOpenChange={() => {}}>
+          <DialogContent className="max-w-md">
             <div className="flex flex-col items-center text-center space-y-6 py-8">
               <div className="relative">
                 <div className="w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin"></div>

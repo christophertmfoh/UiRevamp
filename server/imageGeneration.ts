@@ -59,42 +59,16 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
       throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
     }
     
-    console.log(`Both GOOGLE_API_KEY and GEMINI_API_KEY are set. Using GOOGLE_API_KEY.`);
     const ai = new GoogleGenAI({ apiKey });
     
-    // Wrap the Gemini API call to handle known abort issues
-    const makeGeminiRequest = () => {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const apiResponse = await ai.models.generateContent({
-            model: "gemini-2.0-flash-preview-image-generation",
-            contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-            config: {
-              responseModalities: [Modality.TEXT, Modality.IMAGE],
-            },
-          });
-          resolve(apiResponse);
-        } catch (error: any) {
-          // Known Gemini SDK bug: AbortErrors can't be caught normally
-          if (error.name === 'AbortError' || 
-              (error.message && (error.message.includes('aborted') || error.message.includes('cancelled')))) {
-            console.log('Gemini API call was cancelled');
-            reject(new Error('CANCELLED'));
-            return;
-          }
-          console.log('Gemini API error:', error);
-          reject(error);
-        }
-      });
-    };
-    
-    // Race with timeout and use the wrapped request
-    const response = await Promise.race([
-      makeGeminiRequest(),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Image generation timeout')), 30000)
-      )
-    ]);
+    // Use the image generation model
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-preview-image-generation",
+      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE],
+      },
+    });
 
     const candidates = response.candidates;
     if (!candidates || candidates.length === 0) {
