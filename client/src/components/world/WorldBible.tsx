@@ -96,9 +96,14 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   // Project update mutation
   const updateProjectMutation = useMutation({
     mutationFn: async (updatedProject: Partial<Project>) => {
-      return apiRequest('PUT', `/api/projects/${project.id}`, updatedProject);
+      const response = await apiRequest('PUT', `/api/projects/${project.id}`, updatedProject);
+      return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (updatedProject) => {
+      // Update the project object locally
+      Object.assign(project, updatedProject);
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
       queryClient.invalidateQueries({ queryKey: ['/api/projects', project.id] });
     },
   });
@@ -117,7 +122,11 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
   };
 
   const handleSynopsisSubmit = () => {
-    updateProjectMutation.mutate({ synopsis: synopsisText });
+    if (synopsisText.trim()) {
+      updateProjectMutation.mutate({ synopsis: synopsisText.trim() });
+    } else {
+      updateProjectMutation.mutate({ synopsis: '' });
+    }
     setIsEditingSynopsis(false);
   };
 
