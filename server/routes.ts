@@ -44,6 +44,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: project.name,
         type: project.type,
         description: project.description || '',
+        synopsis: project.synopsis || '',
         genre: project.genre || [],
         createdAt: project.createdAt,
         lastModified: project.lastModified,
