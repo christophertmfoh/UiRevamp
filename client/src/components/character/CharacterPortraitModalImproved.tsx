@@ -271,8 +271,10 @@ export function CharacterPortraitModal({
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         console.log('Image generation cancelled by user');
+        // Don't treat cancellation as an error - just clean up state
       } else {
         console.error('Image generation failed:', error);
+        // Only show error for actual failures, not cancellations
       }
       setIsGenerating(false);
       setAbortController(null);

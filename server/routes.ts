@@ -396,6 +396,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Return result in expected format
       res.json(result);
     } catch (error: any) {
+      // Check if this is a connection abort (client cancelled)
+      if (req.destroyed || req.aborted) {
+        console.log('Image generation request was cancelled by client');
+        return; // Don't send response to aborted request
+      }
+      
       console.error("Error generating comprehensive character image:", error);
       res.status(500).json({ 
         error: "Failed to generate comprehensive image", 
