@@ -1,8 +1,223 @@
+<template>
+  <div class="min-h-screen bg-gradient-to-br from-background via-background to-background/50">
+    <!-- Header -->
+    <header class="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <!-- Left side - empty for balance -->
+          <div class="w-40"></div>
+          
+          <!-- Center - Brand -->
+          <div class="flex items-center justify-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl flex items-center justify-center border border-accent/20">
+              <svg class="h-6 w-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <div class="text-center">
+              <h1 class="font-display text-3xl text-foreground leading-none tracking-tight">Fablecraft</h1>
+              <div class="text-sm text-accent font-medium">Craft Your Fable</div>
+            </div>
+          </div>
+          
+          <!-- Right side - Projects button -->
+          <div class="w-40 flex justify-end">
+            <button 
+              @click="showProjects = true"
+              class="border border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300 px-4 py-2 rounded-lg flex items-center space-x-2"
+            >
+              <span>Your Projects</span>
+              <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
 
+    <!-- Hero Section -->
+    <section class="container mx-auto px-6 py-32">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center space-y-12">
+          <!-- Badge -->
+          <div class="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
+            <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+            <span class="text-sm font-medium text-accent">Craft Your Fable</span>
+          </div>
+          
+          <!-- Main Heading -->
+          <h1 class="font-display text-6xl md:text-7xl lg:text-8xl text-foreground leading-[0.9] tracking-tight">
+            The Complete
+            <span class="block bg-gradient-to-r from-accent via-accent/80 to-accent/60 bg-clip-text text-transparent">
+              Your Creative Journey
+            </span>
+          </h1>
+          
+          <!-- Description -->
+          <p class="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
+            Transform fleeting ideas into rich, immersive worlds. From initial brainstorming to 
+            final production, Fablecraft guides you through every step of the creative journey 
+            with AI-powered tools and professional storytelling frameworks.
+          </p>
 
+          <!-- Loading Bar Animation -->
+          <div class="max-w-md mx-auto pt-8">
+            <div class="w-full bg-border/30 rounded-full h-2">
+              <div class="bg-gradient-to-r from-accent via-accent/80 to-accent h-2 rounded-full animate-pulse" :style="`width: ${loadingProgress}%`"></div>
+            </div>
+          </div>
 
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
+            <button 
+              @click="createNewProject"
+              class="bg-accent hover:bg-accent/90 text-accent-foreground px-10 py-4 text-lg font-medium rounded-lg flex items-center space-x-3 min-w-[240px] group"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              <span>Start Your Story</span>
+            </button>
+            
+            <button 
+              @click="showProjects = true"
+              class="border border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 px-10 py-4 text-lg rounded-lg flex items-center space-x-3 min-w-[240px] group"
+            >
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              <span>Browse Projects</span>
+            </button>
+          </div>
 
+          <!-- Feature Tags -->
+          <div class="flex flex-wrap justify-center gap-3 pt-8">
+            <span class="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium border border-accent/20">Character Development</span>
+            <span class="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium border border-accent/20">World Building</span>
+            <span class="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium border border-accent/20">AI Assistance</span>
+            <span class="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium border border-accent/20">Story Structure</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Features - Your Creative Toolkit -->
+    <section class="container mx-auto px-6 py-24">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center space-y-4 mb-16">
+          <div class="w-12 h-12 bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl flex items-center justify-center mx-auto mb-6 border border-accent/20">
+            <svg class="h-6 w-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-4xl text-foreground">Your Creative Toolkit</h3>
+          <p class="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
+            Every tool you need to bring your stories to life, from concept to completion
+          </p>
+        </div>
+        
+        <div class="space-y-6">
+          <div v-for="(feature, index) in features" :key="index" class="relative">
+            <!-- Connection line to next feature -->
+            <div v-if="index < features.length - 1" class="absolute left-8 top-full w-0.5 h-6 bg-gradient-to-b from-accent/30 to-transparent z-10"></div>
+            
+            <div class="creative-card group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 cursor-pointer relative overflow-hidden rounded-2xl p-8">
+              <!-- Subtle glow on hover -->
+              <div class="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div class="flex items-center space-x-6 relative">
+                <div :class="`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0`">
+                  <component :is="feature.icon" class="h-8 w-8" />
+                </div>
+                <div class="flex-1 space-y-2">
+                  <h4 class="font-display text-2xl text-foreground group-hover:text-accent transition-colors duration-300">
+                    {{ feature.title }}
+                  </h4>
+                  <p class="font-literary text-muted-foreground leading-relaxed text-lg">
+                    {{ feature.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="container mx-auto px-6 py-24">
+      <div class="max-w-4xl mx-auto">
+        <!-- Visual Guide Leading to CTA -->
+        <div class="flex justify-center mb-12">
+          <div class="flex flex-col items-center space-y-4">
+            <div class="flex space-x-2">
+              <div class="w-2 h-2 bg-accent rounded-full animate-ping"></div>
+              <div class="w-2 h-2 bg-accent rounded-full animate-ping delay-150"></div>
+              <div class="w-2 h-2 bg-accent rounded-full animate-ping delay-300"></div>
+            </div>
+            <div class="w-1 h-8 bg-gradient-to-b from-accent to-transparent rounded-full"></div>
+          </div>
+        </div>
+        
+        <div class="text-center space-y-8">
+          <div class="space-y-4">
+            <div class="w-16 h-16 bg-gradient-to-br from-accent/20 to-accent/5 rounded-2xl flex items-center justify-center mx-auto border border-accent/20">
+              <svg class="h-8 w-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-4xl text-foreground">Begin Your Journey</h3>
+            <p class="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
+              Join storytellers worldwide in crafting the next generation of immersive narratives
+            </p>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div class="group">
+              <button 
+                @click="createNewProject"
+                class="bg-gradient-to-r from-accent via-accent/90 to-accent text-accent-foreground text-lg px-10 py-4 min-w-[240px] group-hover:scale-105 transition-transform duration-300 rounded-lg flex items-center justify-center space-x-3"
+              >
+                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span>Begin Your Journey</span>
+              </button>
+              <div class="mt-2 text-sm text-muted-foreground text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Create your first project
+              </div>
+            </div>
+            
+            <div class="group">
+              <button 
+                @click="showProjects = true"
+                class="border border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300 text-lg px-10 py-4 min-w-[240px] group-hover:scale-105 rounded-lg flex items-center justify-center space-x-3"
+              >
+                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span>View Your Projects</span>
+              </button>
+              <div class="mt-2 text-sm text-muted-foreground text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Continue existing work
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-border/50 py-12">
+      <div class="container mx-auto px-6">
+        <div class="text-center">
+          <p class="text-muted-foreground font-literary">
+            Crafted for storytellers, by storytellers
+          </p>
+        </div>
+      </div>
+    </footer>
 
     <!-- Projects Modal -->
     <div v-if="showProjects" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4" @click="showProjects = false">
@@ -78,11 +293,58 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 // State
 const showProjects = ref(false)
 const showCreateProject = ref(false)
+const loadingProgress = ref(0)
+
+// Features data - exact match from React app
+const features = [
+  {
+    icon: 'sparkles',
+    title: "Brainstorm",
+    description: "Generate endless story ideas with AI-powered creative assistance and narrative inspiration.",
+    color: "candlelight-glow"
+  },
+  {
+    icon: 'globe',
+    title: "World Bible",
+    description: "Build comprehensive universes with characters, locations, factions, items, and deep lore systems.",
+    color: "ember-accent"
+  },
+  {
+    icon: 'target',
+    title: "Outline",
+    description: "Structure your narrative with classic story beats, three-act structure, or custom frameworks.",
+    color: "caramel-warm"
+  },
+  {
+    icon: 'edit-3',
+    title: "Manuscript",
+    description: "Write novels and screenplays with AI assistance, formatting tools, and seamless revision tracking.",
+    color: "leather-texture"
+  },
+  {
+    icon: 'clapperboard',
+    title: "Storyboard",
+    description: "Visualize scenes and sequences with collaborative storyboarding and scene planning tools.",
+    color: "candlelight-glow"
+  },
+  {
+    icon: 'eye',
+    title: "Pre-Visualization",
+    description: "Create 3D scene previews, camera movements, and visual narrative planning.",
+    color: "ember-accent"
+  },
+  {
+    icon: 'music',
+    title: "Score & Audio",
+    description: "Integrate music, sound effects, and audio elements to complete your multimedia story.",
+    color: "caramel-warm"
+  }
+]
 
 // Sample projects data
 const projects = ref([
@@ -113,6 +375,17 @@ const newProject = reactive({
   description: ''
 })
 
+// Loading animation
+onMounted(() => {
+  const interval = setInterval(() => {
+    if (loadingProgress.value < 100) {
+      loadingProgress.value += Math.random() * 10
+    } else {
+      loadingProgress.value = 0
+    }
+  }, 500)
+})
+
 // Methods
 const createNewProject = () => {
   showCreateProject.value = true
@@ -121,7 +394,6 @@ const createNewProject = () => {
 const openProject = (project) => {
   showProjects.value = false
   console.log('Opening project:', project.name)
-  // Navigate to project workspace
 }
 
 const createProject = () => {
@@ -142,1276 +414,3 @@ const createProject = () => {
   showProjects.value = false
 }
 </script>
-
-<style scoped>
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
-.landing-page {
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
-  color: #e5e7eb;
-}
-
-/* Background */
-.background-pattern {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 100%);
-  z-index: -2;
-}
-
-.radial-gradient {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15) 0%, transparent 50%);
-  z-index: -1;
-}
-
-/* Navigation */
-.nav-header {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 2rem;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.brand-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.brand-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #f1f5f9;
-  font-family: 'Playfair Display', serif;
-}
-
-.brand-tagline {
-  font-size: 0.875rem;
-  color: #94a3b8;
-  font-weight: 500;
-  margin-left: 0.5rem;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-}
-
-.projects-btn {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: rgba(79, 70, 229, 0.1);
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  border-radius: 0.5rem;
-  color: #a5b4fc;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.projects-btn:hover {
-  background: rgba(79, 70, 229, 0.2);
-  border-color: rgba(79, 70, 229, 0.5);
-  color: #c7d2fe;
-  transform: translateY(-1px);
-}
-
-/* Hero Content */
-.hero-content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 100px);
-  padding: 2rem;
-}
-
-.hero-container {
-  text-align: center;
-  max-width: 56rem;
-  animation: fadeIn 1s ease-out;
-}
-
-/* Hero Badge */
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(79, 70, 229, 0.1);
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  margin-bottom: 2rem;
-  animation: pulseGlow 2s infinite;
-}
-
-.badge-pulse {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: #6366f1;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-.badge-text {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #a5b4fc;
-}
-
-/* Hero Heading */
-.hero-heading {
-  font-size: 3.75rem;
-  font-weight: 800;
-  line-height: 0.9;
-  color: #f1f5f9;
-  margin-bottom: 2rem;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: -0.025em;
-}
-
-.hero-highlight {
-  display: block;
-  background: linear-gradient(135deg, #d4af37 0%, #f1c40f 50%, #d4af37 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-/* Hero Description */
-.hero-description {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: #94a3b8;
-  max-width: 48rem;
-  margin: 0 auto 3rem auto;
-  font-weight: 300;
-}
-
-/* Loading Section */
-.loading-section {
-  margin-bottom: 3rem;
-}
-
-.loading-bar {
-  width: 100%;
-  max-width: 20rem;
-  height: 0.25rem;
-  background: rgba(79, 70, 229, 0.2);
-  border-radius: 0.125rem;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.loading-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
-  border-radius: 0.125rem;
-  animation: loadingProgress 3s ease-in-out infinite;
-}
-
-/* Action Buttons */
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.btn-primary, .btn-secondary {
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-}
-
-.btn-secondary {
-  background: rgba(79, 70, 229, 0.1);
-  color: #a5b4fc;
-  border: 1px solid rgba(79, 70, 229, 0.3);
-}
-
-.btn-secondary:hover {
-  background: rgba(79, 70, 229, 0.2);
-  color: #c7d2fe;
-  transform: translateY(-2px);
-}
-
-/* Feature Tags */
-.feature-tags {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.feature-tag {
-  padding: 0.5rem 1rem;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  color: #94a3b8;
-  font-weight: 500;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(8px);
-}
-
-.modal-content {
-  background: #1e293b;
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  border-radius: 1rem;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #f1f5f9;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #94a3b8;
-  cursor: pointer;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  transition: all 0.2s;
-}
-
-.close-btn:hover {
-  background: rgba(79, 70, 229, 0.1);
-  color: #c7d2fe;
-}
-
-/* Projects Modal */
-.projects-content {
-  padding: 2rem;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.project-card, .create-project-card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(79, 70, 229, 0.2);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.project-card:hover, .create-project-card:hover {
-  background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(79, 70, 229, 0.4);
-  transform: translateY(-4px);
-}
-
-.project-icon, .create-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.create-icon {
-  font-size: 3rem;
-  color: #6366f1;
-  font-weight: 300;
-}
-
-.project-card h4, .create-project-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #f1f5f9;
-  font-weight: 600;
-}
-
-.project-card p, .create-project-card p {
-  color: #94a3b8;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-}
-
-.project-type {
-  display: inline-block;
-  background: rgba(79, 70, 229, 0.2);
-  color: #a5b4fc;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-}
-
-.open-project-btn {
-  background: #6366f1;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.open-project-btn:hover {
-  background: #5856eb;
-  transform: translateY(-1px);
-}
-
-/* Create Project Form */
-.create-form {
-  padding: 2rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #f1f5f9;
-}
-
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(79, 70, 229, 0.3);
-  border-radius: 0.5rem;
-  color: #f1f5f9;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-.form-group input::placeholder, .form-group textarea::placeholder {
-  color: #64748b;
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-.btn-cancel, .btn-create {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-}
-
-.btn-cancel {
-  background: rgba(79, 70, 229, 0.1);
-  color: #94a3b8;
-  border: 1px solid rgba(79, 70, 229, 0.2);
-}
-
-.btn-cancel:hover {
-  background: rgba(79, 70, 229, 0.2);
-  color: #c7d2fe;
-}
-
-.btn-create {
-  background: #6366f1;
-  color: white;
-}
-
-.btn-create:hover {
-  background: #5856eb;
-  transform: translateY(-1px);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-  }
-}
-
-@keyframes loadingProgress {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .nav-header {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  
-  .hero-heading {
-    font-size: 2.5rem;
-  }
-  
-  .hero-description {
-    font-size: 1.125rem;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .feature-tags {
-    justify-content: center;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .modal-content {
-    width: 95%;
-    margin: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-container {
-    padding: 0 1rem;
-  }
-  
-  .hero-heading {
-    font-size: 2rem;
-  }
-  
-  .hero-description {
-    font-size: 1rem;
-  }
-  
-  .brand-tagline {
-    display: none;
-  }
-}
-
-/* Main Content */
-.main-content {
-  padding: 2rem 0;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.section-header h2 {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.header-controls {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.view-toggle {
-  display: flex;
-  background: white;
-  border: 1px solid #e5e5e5;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.view-btn {
-  padding: 0.5rem 0.75rem;
-  border: none;
-  background: white;
-  color: #6b5b47;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.view-btn:hover {
-  background: #f8f6f3;
-}
-
-.view-btn.active {
-  background: #6b5b47;
-  color: white;
-}
-
-.create-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #6b5b47, #8b7355);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s;
-  box-shadow: 0 2px 8px rgba(107, 91, 71, 0.2);
-}
-
-.create-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(107, 91, 71, 0.3);
-}
-
-.plus-icon {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.rotating:hover {
-  animation: rotate 0.3s ease-in-out;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(90deg); }
-}
-
-/* Projects Grid */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.project-card {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-}
-
-.project-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.project-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.project-type {
-  background: #f3e8d0;
-  color: #6b5b47;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.project-description {
-  color: #666;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.project-stats {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.project-stats .stat {
-  background: #f8f6f3;
-  color: #6b5b47;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-}
-
-/* Characters Grid */
-.characters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.character-card {
-  background: white;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
-}
-
-.premium-card {
-  position: relative;
-}
-
-.premium-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.15);
-}
-
-.character-image {
-  position: relative;
-  width: 100%;
-  height: 250px;
-  background: linear-gradient(135deg, #f3e8d0, #e8d5b7);
-  overflow: hidden;
-}
-
-.character-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.premium-card:hover .character-image img {
-  transform: scale(1.1);
-}
-
-.character-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(107, 91, 71, 0.8), rgba(139, 115, 85, 0.8));
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.premium-card:hover .character-overlay {
-  opacity: 1;
-}
-
-.overlay-btn {
-  padding: 0.5rem 1rem;
-  background: white;
-  color: #6b5b47;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.overlay-btn:hover {
-  transform: translateY(-2px);
-}
-
-.character-info {
-  padding: 1.5rem;
-}
-
-.character-info h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.character-role {
-  color: #6b5b47;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-}
-
-.character-tags {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.tag {
-  background: #f3e8d0;
-  color: #6b5b47;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.progress-section {
-  margin-bottom: 1rem;
-}
-
-.progress-bar {
-  background: #f0f0f0;
-  border-radius: 1rem;
-  height: 0.5rem;
-  position: relative;
-  margin-bottom: 0.5rem;
-}
-
-.progress-fill {
-  background: linear-gradient(135deg, #10b981, #059669);
-  height: 100%;
-  border-radius: 1rem;
-  transition: width 0.3s ease;
-}
-
-.progress-text {
-  font-size: 0.75rem;
-  color: #666;
-}
-
-.completion-status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.high-completion {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.medium-completion {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.low-completion {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* Characters List */
-.characters-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.character-list-item {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  transition: all 0.2s ease;
-}
-
-.character-list-item:hover {
-  transform: translateX(8px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-.character-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  background: #f3e8d0;
-}
-
-.character-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.character-details {
-  flex: 1;
-}
-
-.character-name-section {
-  display: flex;
-  gap: 1rem;
-  align-items: baseline;
-  margin-bottom: 0.5rem;
-}
-
-.character-name-section h3 {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.character-meta {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.meta-item {
-  color: #666;
-  font-size: 0.875rem;
-}
-
-.progress-percentage {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #6b5b47;
-}
-
-.character-actions {
-  display: flex;
-  gap: 0.75rem;
-}
-
-/* World Categories */
-.world-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.category-card {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
-}
-
-.category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-}
-
-.category-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.category-card h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.category-card p {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.category-progress {
-  margin-bottom: 1.5rem;
-}
-
-.category-progress .progress-text {
-  font-size: 0.875rem;
-  color: #6b5b47;
-  font-weight: 500;
-}
-
-/* Buttons */
-.btn-primary, .btn-secondary {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #6b5b47, #8b7355);
-  color: white;
-  box-shadow: 0 2px 8px rgba(107, 91, 71, 0.2);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(107, 91, 71, 0.3);
-}
-
-.btn-secondary {
-  background: #f3e8d0;
-  color: #6b5b47;
-  border: 1px solid #e5d5b7;
-}
-
-.btn-secondary:hover {
-  background: #e8d5b7;
-  transform: translateY(-1px);
-}
-
-/* Empty States */
-.empty-state {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 4rem 2rem;
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.7;
-}
-
-.empty-state h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.5rem;
-  color: #2d2d2d;
-  font-weight: 600;
-}
-
-.empty-state p {
-  color: #666;
-  margin-bottom: 2rem;
-  font-size: 1.125rem;
-}
-
-/* Modals */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  background: white;
-  border-radius: 1rem;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #666;
-  cursor: pointer;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  transition: all 0.2s;
-}
-
-.close-btn:hover {
-  background: #f0f0f0;
-  color: #333;
-}
-
-.project-form, .creation-options {
-  padding: 2rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #2d2d2d;
-}
-
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  outline: none;
-  border-color: #6b5b47;
-  box-shadow: 0 0 0 3px rgba(107, 91, 71, 0.1);
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 2rem;
-}
-
-.creation-options {
-  display: grid;
-  gap: 1rem;
-}
-
-.creation-option {
-  padding: 1.5rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.creation-option:hover {
-  border-color: #6b5b47;
-  background: #fafafa;
-  transform: translateY(-2px);
-}
-
-.option-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.creation-option h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #2d2d2d;
-}
-
-.creation-option p {
-  color: #666;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-}
-
-.option-btn {
-  background: #f3e8d0;
-  color: #6b5b47;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.option-btn:hover {
-  background: #e8d5b7;
-  transform: translateY(-1px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-  }
-  
-  .header-controls {
-    justify-content: space-between;
-  }
-  
-  .projects-grid, .characters-grid, .world-categories {
-    grid-template-columns: 1fr;
-  }
-  
-  .characters-list .character-list-item {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .character-actions {
-    justify-content: center;
-  }
-  
-  .banner-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.5rem;
-  }
-  
-  .performance-stats {
-    margin-left: 0;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 0.5rem;
-  }
-  
-  .main-content {
-    padding: 1rem 0;
-  }
-  
-  .modal-content {
-    width: 95%;
-    margin: 1rem;
-  }
-  
-  .creation-options {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
