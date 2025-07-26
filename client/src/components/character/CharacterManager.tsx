@@ -457,9 +457,14 @@ Generate a complete, detailed character that expands on these template foundatio
         {/* Premium Character Info */}
         <div className="p-6 space-y-4 relative">
           <div>
-            <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight mb-1">
-              {character.name}
-            </h3>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate leading-tight">
+                {character.name}
+              </h3>
+              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+                Character
+              </Badge>
+            </div>
             {character.title && (
               <p className="text-accent/80 text-sm font-medium truncate mb-3">
                 "{character.title}"
@@ -580,6 +585,9 @@ Generate a complete, detailed character that expands on these template foundatio
               <h3 className="font-bold text-xl group-hover:text-accent transition-colors truncate">
                 {character.name}
               </h3>
+              <Badge className="text-xs bg-accent/90 text-accent-foreground font-medium shadow-sm">
+                Character
+              </Badge>
               {character.title && (
                 <span className="text-accent/70 text-sm font-medium italic">"{character.title}"</span>
               )}
