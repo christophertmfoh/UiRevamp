@@ -5,7 +5,7 @@ import mammoth from 'mammoth';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
-export interface ParsedCharacterData {
+export interface ExtractedCharacterData {
   // Identity fields
   name?: string;
   nicknames?: string[];
@@ -102,7 +102,7 @@ export interface ParsedCharacterData {
   characterArc?: string;
 }
 
-export async function importCharacterDocument(filePath: string, fileName: string): Promise<ParsedCharacterData> {
+export async function importCharacterDocument(filePath: string, fileName: string): Promise<ExtractedCharacterData> {
   let textContent = '';
   
   try {
@@ -125,8 +125,8 @@ export async function importCharacterDocument(filePath: string, fileName: string
 
     console.log('Extracted text content (first 500 chars):', textContent.substring(0, 500));
 
-    // Use AI to parse the character data
-    const characterData = await parseCharacterWithAI(textContent);
+    // Use AI to extract the character data
+    const characterData = await extractCharacterWithAI(textContent);
     
     // Clean up temporary file
     try {
@@ -149,7 +149,7 @@ export async function importCharacterDocument(filePath: string, fileName: string
   }
 }
 
-async function parseCharacterWithAI(textContent: string): Promise<ParsedCharacterData> {
+async function extractCharacterWithAI(textContent: string): Promise<ExtractedCharacterData> {
   const systemPrompt = `You are an expert character analysis AI. Your task is to extract character information from the provided document and organize it into comprehensive character fields.
 
 DOCUMENT ANALYSIS REQUIREMENTS:
@@ -169,7 +169,7 @@ FIELD ORGANIZATION GUIDELINES:
 - Relationships: Family, friends, allies, enemies, mentors, social connections
 - Meta: Story function, themes, symbolism, archetypes, notes
 
-CRITICAL PARSING INSTRUCTIONS:
+CRITICAL EXTRACTION INSTRUCTIONS:
 - Arrays should contain individual items, not comma-separated strings
 - Keep descriptions concise but informative
 - Preserve original terminology and names from the document
@@ -297,19 +297,19 @@ Respond with a comprehensive JSON object containing all extracted character info
     });
 
     const rawJson = response.text;
-    console.log('AI parsing response (first 1000 chars):', rawJson?.substring(0, 1000));
+    console.log('AI extraction response (first 1000 chars):', rawJson?.substring(0, 1000));
 
     if (!rawJson) {
-      throw new Error('Empty response from AI parser');
+      throw new Error('Empty response from AI extractor');
     }
 
-    const characterData: ParsedCharacterData = JSON.parse(rawJson);
-    console.log('Parsed character data:', characterData);
+    const characterData: ExtractedCharacterData = JSON.parse(rawJson);
+    console.log('Extracted character data:', characterData);
     
     return characterData;
     
   } catch (error) {
-    console.error('AI parsing error:', error);
+    console.error('AI extraction error:', error);
     throw new Error(`Failed to extract character data: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

@@ -376,7 +376,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Document imported successfully:', characterData);
       
-      // Return the parsed character data for frontend to create character
+      // Return the extracted character data for frontend to create character
       res.json({
         ...characterData,
         projectId: projectId
