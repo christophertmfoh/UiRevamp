@@ -177,7 +177,9 @@ export class CharacterCreationService {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save character');
+        const errorText = await response.text();
+        console.error('Save character failed with status:', response.status, 'Error:', errorText);
+        throw new Error(`Failed to save character: ${response.status} - ${errorText}`);
       }
 
       const savedCharacter = await response.json();

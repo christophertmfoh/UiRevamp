@@ -372,6 +372,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Direct character creation endpoint for character save operations
+  app.post("/api/characters", async (req, res) => {
+    try {
+      console.log('Creating character directly:', req.body);
+      
+      const characterData = {
+        id: req.body.id || `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        ...req.body
+      };
+      
+      // Transform array fields to comma-separated strings for database compatibility
+      const arrayToStringFields = [
+        'hobbies', 'interests', 'habits', 'mannerisms', 
+        'strengths', 'weaknesses', 'fears', 'phobias', 'values', 'beliefs', 
+        'goals', 'motivations', 'secrets', 'flaws', 'quirks', 'equipment', 
+        'possessions', 'relationships', 'allies', 'enemies', 'rivals', 
+        'familyMembers', 'friends', 'acquaintances', 'children', 'parents', 
+        'siblings', 'spouse', 'pets', 'companions', 'mentors', 'students', 
+        'themes', 'symbolism', 'inspiration'
+      ];
+      
+      // Fields that should remain as arrays (defined with .array() in schema)
+      const keepAsArrayFields = [
+        'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+        'tropes', 'tags', 'spokenLanguages'
+      ];
+      
+      arrayToStringFields.forEach(field => {
+        if (Array.isArray(characterData[field])) {
+          characterData[field] = characterData[field].join(', ');
+        }
+      });
+      
+      // Ensure array fields stay as arrays and handle empty strings
+      keepAsArrayFields.forEach(field => {
+        if (typeof characterData[field] === 'string') {
+          if (characterData[field] === '' || !characterData[field]) {
+            characterData[field] = [];
+          } else {
+            characterData[field] = characterData[field].split(',').map(s => s.trim()).filter(s => s);
+          }
+        } else if (!Array.isArray(characterData[field])) {
+          characterData[field] = [];
+        }
+      });
+      
+      console.log('Creating character with transformed data');
+      const character = await storage.createCharacter(characterData);
+      res.status(201).json(character);
+    } catch (error) {
+      console.error("Error creating character:", error);
+      res.status(500).json({ error: "Internal server error", details: error.message });
+    }
+  });
+
   // Enhanced character document import endpoint with automatic portrait generation
   app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
     try {
