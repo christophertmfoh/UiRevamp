@@ -4,6 +4,14 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 26, 2025 - **MAJOR STACK MIGRATION INITIATED - IN PROGRESS**
+✓ **MIGRATION DECISION** - Moving from React/Express/Node.js to Nuxt 3/Vue 3/Kotlin/Spring Boot stack
+✓ **MIGRATION PLAN** - Multi-phase approach to preserve all data and functionality
+✓ **SNAPSHOT CREATED** - Current React/Express application state preserved before migration
+✓ **NEW STACK ARCHITECTURE** - Frontend: Nuxt 3 + Vue 3 + Pinia + TypeScript, Backend: Kotlin + Spring Boot + PostgreSQL
+✓ **DATA PRESERVATION STRATEGY** - Database schema and content will be maintained throughout migration
+✓ **ENHANCED CAPABILITIES** - Better performance, stronger type safety, enterprise-grade scalability
+
 ### July 26, 2025 - **COMPLETE REBRANDING TO FABLECRAFT - COMPLETED**
 ✓ **APPLICATION NAME UPDATED** - Changed from "Story Weaver" to "Fablecraft" throughout entire application
 ✓ **MAIN TAGLINE REDESIGNED** - Updated from "From Spark to Story" to "Craft Your Fable" 
@@ -142,11 +150,19 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 
 ## Project Architecture
 
-### Technology Stack
+### Technology Stack (MIGRATING)
+**New Target Stack:**
+- **Frontend**: Nuxt 3 with Vue 3, TypeScript, Tailwind CSS, Pinia state management
+- **Backend**: Kotlin with Spring Boot framework, Spring Data JPA
+- **Database**: PostgreSQL (preserved), Flyway for migrations
+- **AI Integration**: Google Gemini AI (preserved), Spring WebClient for async calls
+- **Development**: Gradle build system, Spring Boot DevTools
+
+**Previous Stack (being migrated from):**
 - **Frontend**: React.js with TypeScript, Tailwind CSS, React Query
 - **Backend**: Express.js with TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
-- **AI Integration**: Google Gemini AI for character generation, Google Gemini + OpenAI for image generation
+- **AI Integration**: Google Gemini AI for character generation
 - **Development**: Vite for build system, tsx for TypeScript execution
 
 ### Key Features
