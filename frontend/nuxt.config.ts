@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  devServer: {
+    port: 5000
+  },
+
   runtimeConfig: {
     // Private keys (only available on server-side)
     googleApiKey: process.env.GOOGLE_API_KEY_1,
