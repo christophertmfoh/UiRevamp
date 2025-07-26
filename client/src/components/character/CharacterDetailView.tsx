@@ -36,6 +36,8 @@ export function CharacterDetailView({
           // After completion, switch to viewing the created character
           setIsEditing(false);
           onEdit(savedCharacter);
+          // Scroll to top of the page when transitioning to character view
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
     );
@@ -62,6 +64,8 @@ export function CharacterDetailView({
         onSave={(savedCharacter) => {
           setIsEditing(false);
           onEdit(savedCharacter); // Update the character in parent component
+          // Scroll to top when returning from edit mode
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />
     );
