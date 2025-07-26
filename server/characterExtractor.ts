@@ -147,8 +147,9 @@ export async function importCharacterDocument(filePath: string, fileName: string
 
     console.log('Extracted text content (first 500 chars):', textContent.substring(0, 500));
 
-    // Use AI to extract the character data
-    const characterData = await extractCharacterWithAI(textContent);
+    // Extract character data directly from text
+    const { extractCharacterFromText } = await import('./simpleExtractor');
+    const characterData = await extractCharacterFromText(textContent);
     
     // Clean up temporary file
     try {
@@ -171,7 +172,7 @@ export async function importCharacterDocument(filePath: string, fileName: string
   }
 }
 
-async function extractCharacterWithAI(textContent: string): Promise<ExtractedCharacterData> {
+async function extractCharacterFromText(textContent: string): Promise<ExtractedCharacterData> {
   const systemPrompt = `You are an expert character analysis AI. Your task is to extract character information from the provided document and organize it into comprehensive character fields.
 
 DOCUMENT ANALYSIS REQUIREMENTS:
