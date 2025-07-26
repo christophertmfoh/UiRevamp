@@ -193,7 +193,7 @@ export function LandingPage({
                   variant="outline"
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="group border-2 border-stone-300 dark:border-amber-500/40 text-stone-700 dark:text-amber-200 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-400 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
+                  className="group border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
                 >
                   <span className="flex items-center">
                     See Examples
@@ -439,7 +439,7 @@ export function LandingPage({
                 onClick={() => onNavigate('projects')}
                 variant="outline"
                 size="lg"
-                className="group border-2 border-stone-400 dark:border-amber-500/60 text-stone-700 dark:text-amber-200 hover:bg-white dark:hover:bg-amber-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-500 rounded-2xl backdrop-blur-sm bg-white/50 dark:bg-slate-800/50"
+                className="group border-2 border-amber-400 dark:border-amber-500/60 text-amber-700 dark:text-amber-200 bg-white dark:bg-slate-800/50 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-500 rounded-2xl backdrop-blur-sm"
               >
                 <span className="flex items-center">
                   Explore Examples
