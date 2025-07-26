@@ -437,7 +437,7 @@ export function CharacterUnifiedViewPremium({
           <TabsContent value="identity" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
               <h2 className="text-2xl font-bold text-foreground">Identity</h2>
-              <p className="text-muted-foreground mt-1">Full name, nicknames, title, aliases, age, race/species, class/profession, story role</p>
+              <p className="text-muted-foreground mt-1">Basic information that defines who your character is</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -450,8 +450,12 @@ export function CharacterUnifiedViewPremium({
                 { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, Elf, Dragon, etc.' },
                 { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, Mage, Detective, etc.' },
                 { key: 'role', label: 'Story Role', type: 'select', placeholder: 'Select an option', options: [
-                  'Protagonist', 'Antagonist', 'Supporting Character', 'Mentor', 'Love Interest', 
-                  'Comic Relief', 'Anti-hero', 'Deuteragonist', 'Tritagonist', 'Foil', 'Other'
+                  'Protagonist', 'Antagonist', 'Deuteragonist', 'Tritagonist', 'Supporting Character', 
+                  'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero', 'Anti-Villain',
+                  'Foil Character', 'Catalyst', 'Guardian', 'Threshold Guardian', 'Shapeshifter', 'Shadow',
+                  'Herald', 'Trickster', 'Innocent', 'Explorer', 'Sage', 'Hero', 'Outlaw', 'Magician',
+                  'Regular Guy/Girl', 'Lover', 'Jester', 'Caregiver', 'Creator', 'Ruler', 'Minor Character',
+                  'Background Character', 'Cameo', 'Narrator', 'Confidant', 'Red Herring', 'MacGuffin Guardian'
                 ]}
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
@@ -531,12 +535,15 @@ export function CharacterUnifiedViewPremium({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'description', label: 'Physical Description', type: 'textarea', placeholder: 'Describe the character\'s appearance...' },
-                { key: 'height', label: 'Height', type: 'text', placeholder: 'Character height' },
-                { key: 'build', label: 'Build', type: 'text', placeholder: 'Slim, muscular, etc.' },
-                { key: 'hairColor', label: 'Hair Color', type: 'text', placeholder: 'Hair color and style' },
-                { key: 'eyeColor', label: 'Eye Color', type: 'text', placeholder: 'Eye color' },
-                { key: 'distinguishingFeatures', label: 'Distinguishing Features', type: 'textarea', placeholder: 'Scars, tattoos, unique features...' }
+                { key: 'physicalDescription', label: 'Overall Description', type: 'textarea', placeholder: 'General physical appearance overview' },
+                { key: 'height', label: 'Height', type: 'text', placeholder: '5\'8" or 173cm' },
+                { key: 'build', label: 'Build', type: 'select', options: ['Slim', 'Athletic', 'Stocky', 'Muscular', 'Heavy', 'Petite', 'Tall', 'Average'] },
+                { key: 'eyeColor', label: 'Eye Color', type: 'text', placeholder: 'Blue, brown, heterochromia, etc.' },
+                { key: 'hairColor', label: 'Hair Color', type: 'text', placeholder: 'Natural and current color' },
+                { key: 'hairStyle', label: 'Hair Style', type: 'text', placeholder: 'Length, cut, styling' },
+                { key: 'skinTone', label: 'Skin Tone', type: 'text', placeholder: 'Complexion and tone' },
+                { key: 'distinguishingMarks', label: 'Distinguishing Marks', type: 'textarea', placeholder: 'Scars, tattoos, birthmarks, etc.' },
+                { key: 'clothingStyle', label: 'Clothing Style', type: 'textarea', placeholder: 'How they typically dress' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -610,12 +617,22 @@ export function CharacterUnifiedViewPremium({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'personalityTraits', label: 'Personality Traits', type: 'array', placeholder: 'brave, loyal, curious (comma-separated)' },
-                { key: 'goals', label: 'Goals', type: 'textarea', placeholder: 'What does this character want to achieve?' },
-                { key: 'motivations', label: 'Motivations', type: 'textarea', placeholder: 'What drives this character?' },
-                { key: 'fears', label: 'Fears', type: 'textarea', placeholder: 'What is this character afraid of?' },
-                { key: 'values', label: 'Values', type: 'textarea', placeholder: 'What does this character value most?' },
-                { key: 'flaws', label: 'Flaws', type: 'textarea', placeholder: 'Character weaknesses and flaws' }
+                { key: 'personality', label: 'Personality Overview', type: 'textarea', placeholder: 'Core personality description' },
+                { key: 'personalityTraits', label: 'Key Traits', type: 'array', placeholder: 'Brave, cynical, optimistic (separate with commas)' },
+                { key: 'temperament', label: 'Temperament', type: 'select', options: [
+                  'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Sanguine-Choleric', 'Sanguine-Phlegmatic',
+                  'Choleric-Sanguine', 'Choleric-Melancholic', 'Melancholic-Choleric', 'Melancholic-Phlegmatic',
+                  'Phlegmatic-Sanguine', 'Phlegmatic-Melancholic', 'Optimistic', 'Pessimistic', 'Realistic',
+                  'Idealistic', 'Cynical', 'Stoic', 'Emotional', 'Analytical', 'Intuitive', 'Impulsive',
+                  'Cautious', 'Adventurous', 'Reserved', 'Outgoing', 'Aggressive', 'Passive', 'Balanced'
+                ] },
+                { key: 'worldview', label: 'Worldview', type: 'textarea', placeholder: 'How they see the world and their place in it' },
+                { key: 'values', label: 'Core Values', type: 'textarea', placeholder: 'What they believe is most important' },
+                { key: 'goals', label: 'Goals', type: 'textarea', placeholder: 'What they want to achieve' },
+                { key: 'motivations', label: 'Motivations', type: 'textarea', placeholder: 'What drives them forward' },
+                { key: 'fears', label: 'Fears', type: 'textarea', placeholder: 'What they are afraid of' },
+                { key: 'desires', label: 'Desires', type: 'textarea', placeholder: 'What they want most' },
+                { key: 'vices', label: 'Character Flaws', type: 'textarea', placeholder: 'Weaknesses and imperfections' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -720,17 +737,20 @@ export function CharacterUnifiedViewPremium({
           <TabsContent value="background" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
               <h2 className="text-2xl font-bold text-foreground">Background</h2>
-              <p className="text-muted-foreground mt-1">Character history, relationships, and story context</p>
+              <p className="text-muted-foreground mt-1">History, upbringing, and formative experiences</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'background', label: 'Background', type: 'textarea', placeholder: 'Character\'s history and backstory...' },
-                { key: 'family', label: 'Family', type: 'textarea', placeholder: 'Family members and relationships' },
-                { key: 'relationships', label: 'Key Relationships', type: 'textarea', placeholder: 'Important relationships and connections' },
-                { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Character\'s job or role in society' },
-                { key: 'education', label: 'Education', type: 'text', placeholder: 'Educational background' },
-                { key: 'secrets', label: 'Secrets', type: 'textarea', placeholder: 'Hidden information about the character' }
+                { key: 'background', label: 'Background Overview', type: 'textarea', placeholder: 'General background and history' },
+                { key: 'backstory', label: 'Detailed Backstory', type: 'textarea', placeholder: 'Comprehensive life story' },
+                { key: 'childhood', label: 'Childhood', type: 'textarea', placeholder: 'Early years and upbringing' },
+                { key: 'familyHistory', label: 'Family History', type: 'textarea', placeholder: 'Family background and lineage' },
+                { key: 'education', label: 'Education', type: 'textarea', placeholder: 'Formal and informal learning' },
+                { key: 'formativeEvents', label: 'Formative Events', type: 'textarea', placeholder: 'Key life-changing moments' },
+                { key: 'socialClass', label: 'Social Class', type: 'select', options: ['Upper Class', 'Upper Middle', 'Middle Class', 'Working Class', 'Lower Class', 'Outcast', 'Noble', 'Commoner'] },
+                { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Current job or profession' },
+                { key: 'spokenLanguages', label: 'Spoken Languages', type: 'array', placeholder: 'Languages they can speak (separate with commas)' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -804,12 +824,14 @@ export function CharacterUnifiedViewPremium({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'abilities', label: 'Abilities', type: 'array', placeholder: 'Combat, Magic, etc.' },
-                { key: 'skills', label: 'Skills', type: 'array', placeholder: 'Swordsmanship, Diplomacy, etc.' },
-                { key: 'talents', label: 'Talents', type: 'array', placeholder: 'Natural gifts and aptitudes' },
-                { key: 'specialAbilities', label: 'Special Abilities', type: 'textarea', placeholder: 'Unique powers or magical abilities...' },
-                { key: 'strengths', label: 'Strengths', type: 'textarea', placeholder: 'Character strengths and competencies...' },
-                { key: 'training', label: 'Training', type: 'textarea', placeholder: 'Formal training and education...' }
+                { key: 'abilities', label: 'Core Abilities', type: 'array', placeholder: 'Swordsmanship, magic, investigation (separate with commas)' },
+                { key: 'skills', label: 'Skills', type: 'array', placeholder: 'Learned skills and competencies' },
+                { key: 'talents', label: 'Natural Talents', type: 'array', placeholder: 'Innate gifts and aptitudes' },
+                { key: 'specialAbilities', label: 'Special Abilities', type: 'textarea', placeholder: 'Unique powers or supernatural abilities' },
+                { key: 'powers', label: 'Powers', type: 'textarea', placeholder: 'Magical, psychic, or superhuman powers' },
+                { key: 'strengths', label: 'Strengths', type: 'textarea', placeholder: 'What they excel at' },
+                { key: 'weaknesses', label: 'Weaknesses', type: 'textarea', placeholder: 'What they struggle with' },
+                { key: 'training', label: 'Training', type: 'textarea', placeholder: 'Formal education and training received' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -925,12 +947,14 @@ export function CharacterUnifiedViewPremium({
               {/* Current Manual Relationships */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {[
-                  { key: 'family', label: 'Family', type: 'textarea', placeholder: 'Family members and relationships...' },
-                  { key: 'friends', label: 'Friends', type: 'textarea', placeholder: 'Close friends and companions...' },
-                  { key: 'allies', label: 'Allies', type: 'textarea', placeholder: 'Political or strategic allies...' },
-                  { key: 'enemies', label: 'Enemies', type: 'textarea', placeholder: 'Opponents and adversaries...' },
-                  { key: 'mentors', label: 'Mentors', type: 'textarea', placeholder: 'Teachers and guides...' },
-                  { key: 'relationships', label: 'Other Relationships', type: 'textarea', placeholder: 'Additional important connections...' }
+                  { key: 'family', label: 'Family', type: 'textarea', placeholder: 'Parents, siblings, spouse, children' },
+                  { key: 'friends', label: 'Friends', type: 'textarea', placeholder: 'Close friends and companions' },
+                  { key: 'allies', label: 'Allies', type: 'textarea', placeholder: 'Trusted allies and supporters' },
+                  { key: 'enemies', label: 'Enemies', type: 'textarea', placeholder: 'Opponents and adversaries' },
+                  { key: 'rivals', label: 'Rivals', type: 'textarea', placeholder: 'Competitive relationships' },
+                  { key: 'mentors', label: 'Mentors', type: 'textarea', placeholder: 'Teachers and guides' },
+                  { key: 'relationships', label: 'Other Relationships', type: 'textarea', placeholder: 'Additional important connections' },
+                  { key: 'socialCircle', label: 'Social Circle', type: 'textarea', placeholder: 'General social environment' }
                 ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -1027,12 +1051,22 @@ export function CharacterUnifiedViewPremium({
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[
-                { key: 'storyFunction', label: 'Story Function', type: 'text', placeholder: 'Role in the narrative' },
-                { key: 'archetypes', label: 'Archetypes', type: 'array', placeholder: 'Hero, Mentor, Trickster, etc.' },
-                { key: 'themes', label: 'Themes', type: 'array', placeholder: 'Associated themes and symbolism' },
-                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What does this character symbolize?' },
-                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, other characters, or concepts that inspired this character' },
-                { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas...' }
+                { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'Their role in advancing the plot' },
+                { key: 'personalTheme', label: 'Associated Themes', type: 'textarea', placeholder: 'Themes they represent or explore' },
+                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What they symbolize in the story' },
+                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, characters, or concepts that inspired them' },
+                { key: 'archetypes', label: 'Archetypes', type: 'select', options: [
+                  'The Hero', 'The Mentor', 'The Threshold Guardian', 'The Herald', 'The Shapeshifter', 'The Shadow',
+                  'The Ally', 'The Trickster', 'The Innocent', 'The Explorer', 'The Sage', 'The Outlaw', 'The Magician',
+                  'The Regular Guy/Girl', 'The Lover', 'The Jester', 'The Caregiver', 'The Creator', 'The Ruler',
+                  'The Warrior', 'The Orphan', 'The Seeker', 'The Destroyer', 'The Rebel', 'The Fool', 'The Wise Woman/Man',
+                  'The Mother', 'The Father', 'The Child', 'The Maiden', 'The Crone', 'The Anima', 'The Animus',
+                  'The Self', 'The Persona', 'The Great Mother', 'The Terrible Mother', 'The Wise Old Man',
+                  'The Divine Child', 'The Wounded Healer', 'The Scapegoat', 'The Martyr', 'The Savior',
+                  'The Temptress', 'The Femme Fatale', 'The Damsel in Distress', 'The Dark Lord', 'The Prophet',
+                  'The Shaman', 'The Guide', 'The Guardian', 'The Gatekeeper', 'The Threshold Dweller'
+                ] },
+                { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
