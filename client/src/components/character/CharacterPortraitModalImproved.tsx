@@ -55,57 +55,94 @@ export function CharacterPortraitModal({
     return null;
   };
 
-  // Generate comprehensive AI prompt from ALL character data across every category
+  // Generate optimized character portrait prompt prioritizing visual elements  
   const generateCharacterPrompt = () => {
-    const allCharacterInfo = [];
+    const promptSections = [];
     
-    // IDENTITY CATEGORY - All fields
-    if (character.name) allCharacterInfo.push(`${character.name}`);
-    if (character.nicknames && Array.isArray(character.nicknames) && character.nicknames.length > 0) allCharacterInfo.push(`nicknames: ${character.nicknames.join(', ')}`);
-    if (character.title) allCharacterInfo.push(`title: ${character.title}`);
-    if (character.aliases && Array.isArray(character.aliases) && character.aliases.length > 0) allCharacterInfo.push(`aliases: ${character.aliases.join(', ')}`);
-    if (character.race) allCharacterInfo.push(`${character.race}`);
-    if (character.age) allCharacterInfo.push(`${character.age} years old`);
-    if (character.class) allCharacterInfo.push(`class: ${character.class}`);
-    if (character.profession) allCharacterInfo.push(`profession: ${character.profession}`);
-    if (character.role) allCharacterInfo.push(`story role: ${character.role}`);
-    
-    // APPEARANCE CATEGORY - All visual fields
-    if (character.physicalDescription) allCharacterInfo.push(`physical description: ${character.physicalDescription}`);
-    if (character.height) allCharacterInfo.push(`${character.height} tall`);
-    if (character.weight) allCharacterInfo.push(`${character.weight}`);
-    if (character.build) allCharacterInfo.push(`${character.build} build`);
-    if (character.bodyType) allCharacterInfo.push(`body type: ${character.bodyType}`);
-    if (character.eyeColor) allCharacterInfo.push(`${character.eyeColor} eyes`);
-    if (character.hairColor) allCharacterInfo.push(`${character.hairColor} hair`);
-    if (character.hairStyle) allCharacterInfo.push(`hair style: ${character.hairStyle}`);
-    if (character.facialHair) allCharacterInfo.push(`facial hair: ${character.facialHair}`);
-    if (character.skinTone) allCharacterInfo.push(`${character.skinTone} skin`);
-    if (character.distinguishingMarks) allCharacterInfo.push(`distinguishing marks: ${character.distinguishingMarks}`);
-    if (character.scars) allCharacterInfo.push(`scars: ${character.scars}`);
-    if (character.tattoos) allCharacterInfo.push(`tattoos: ${character.tattoos}`);
-    if (character.clothingStyle) allCharacterInfo.push(`clothing style: ${character.clothingStyle}`);
-    if (character.accessories) allCharacterInfo.push(`accessories: ${character.accessories}`);
-    if (character.posture) allCharacterInfo.push(`posture: ${character.posture}`);
-    if (character.gait) allCharacterInfo.push(`gait: ${character.gait}`);
-    if (character.mannerisms) allCharacterInfo.push(`mannerisms: ${character.mannerisms}`);
-    
-    // PERSONALITY CATEGORY - All personality fields
-    if (character.personality) allCharacterInfo.push(`personality: ${character.personality}`);
-    if (character.personalityTraits && Array.isArray(character.personalityTraits) && character.personalityTraits.length > 0) {
-      allCharacterInfo.push(`traits: ${character.personalityTraits.join(', ')}`);
+    // CORE IDENTITY (Essential character foundation)
+    const identityElements = [];
+    if (character.name) identityElements.push(character.name);
+    if (character.age) identityElements.push(`${character.age} years old`);
+    if (character.race) identityElements.push(character.race);
+    if (character.class) identityElements.push(character.class);
+    if (character.profession || character.occupation) identityElements.push(character.profession || character.occupation);
+    if (identityElements.length > 0) {
+      promptSections.push(identityElements.join(', '));
     }
-    if (character.temperament) allCharacterInfo.push(`temperament: ${character.temperament}`);
-    if (character.worldview) allCharacterInfo.push(`worldview: ${character.worldview}`);
-    if (character.values) allCharacterInfo.push(`values: ${character.values}`);
-    if (character.beliefs) allCharacterInfo.push(`beliefs: ${character.beliefs}`);
-    if (character.motivations) allCharacterInfo.push(`motivations: ${character.motivations}`);
-    if (character.goals) allCharacterInfo.push(`goals: ${character.goals}`);
-    if (character.fears) allCharacterInfo.push(`fears: ${character.fears}`);
-    if (character.desires) allCharacterInfo.push(`desires: ${character.desires}`);
-    if (character.vices) allCharacterInfo.push(`vices: ${character.vices}`);
-    if (character.habits) allCharacterInfo.push(`habits: ${character.habits}`);
-    if (character.quirks) allCharacterInfo.push(`quirks: ${character.quirks}`);
+    
+    // PHYSICAL APPEARANCE (Highest priority for portraits) 
+    const visualElements = [];
+    if (character.physicalDescription) visualElements.push(character.physicalDescription);
+    if (character.build) visualElements.push(`${character.build} build`);
+    if (character.height) visualElements.push(`${character.height} height`);
+    
+    // Facial features (critical for portraits)
+    const facialFeatures = [];
+    if (character.eyeColor) facialFeatures.push(`${character.eyeColor} eyes`);
+    if (character.hairColor && character.hairStyle) {
+      facialFeatures.push(`${character.hairColor} ${character.hairStyle} hair`);
+    } else if (character.hairColor) {
+      facialFeatures.push(`${character.hairColor} hair`);
+    } else if (character.hairStyle) {
+      facialFeatures.push(`${character.hairStyle} hair`);
+    }
+    if (character.facialHair) facialFeatures.push(`${character.facialHair} facial hair`);
+    if (character.skinTone) facialFeatures.push(`${character.skinTone} skin`);
+    if (character.distinguishingMarks) facialFeatures.push(character.distinguishingMarks);
+    if (character.scars) facialFeatures.push(`scars: ${character.scars}`);
+    if (character.tattoos) facialFeatures.push(`tattoos: ${character.tattoos}`);
+    
+    if (facialFeatures.length > 0) {
+      visualElements.push(facialFeatures.join(', '));
+    }
+    
+    // Clothing and presentation (important for character context)
+    const styleElements = [];
+    if (character.clothingStyle) styleElements.push(`wearing ${character.clothingStyle}`);
+    if (character.accessories) styleElements.push(character.accessories);
+    if (styleElements.length > 0) {
+      visualElements.push(styleElements.join(', '));
+    }
+    
+    // Body language and expression (shows in portraits)
+    const expressionElements = [];
+    if (character.posture) expressionElements.push(`${character.posture} posture`);
+    if (character.mannerisms) expressionElements.push(character.mannerisms);
+    if (expressionElements.length > 0) {
+      visualElements.push(expressionElements.join(', '));
+    }
+    
+    if (visualElements.length > 0) {
+      promptSections.push(visualElements.join('. '));
+    }
+    
+    // PERSONALITY EXPRESSION (How personality shows visually)
+    const personalityVisuals = [];
+    if (character.temperament) personalityVisuals.push(`${character.temperament} demeanor`);
+    if (character.personality) personalityVisuals.push(`${character.personality} personality`);
+    if (character.personalityTraits && Array.isArray(character.personalityTraits) && character.personalityTraits.length > 0) {
+      // Limit to top 3 traits to avoid overwhelming the prompt
+      personalityVisuals.push(`${character.personalityTraits.slice(0, 3).join(', ')} traits`);
+    }
+    if (personalityVisuals.length > 0) {
+      promptSections.push(personalityVisuals.join(', '));
+    }
+    
+    // BACKGROUND CONTEXT (Subtle influence on appearance)
+    const contextElements = [];
+    if (character.socialClass) contextElements.push(`${character.socialClass} background`);
+    if (character.backstory) {
+      // Extract key visual elements from backstory (limit to avoid prompt bloat)
+      const backstorySnippet = character.backstory.length > 80 
+        ? character.backstory.substring(0, 80) + '...'
+        : character.backstory;
+      contextElements.push(backstorySnippet);
+    }
+    if (contextElements.length > 0) {
+      promptSections.push(contextElements.join(', '));
+    }
+    
+    return promptSections.join('. ');
     
     // ABILITIES CATEGORY - All ability fields
     if (character.abilities && Array.isArray(character.abilities) && character.abilities.length > 0) {

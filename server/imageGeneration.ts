@@ -27,15 +27,17 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
     throw new Error("OpenAI API key not configured");
   }
 
-  const fullPrompt = `${params.characterPrompt}, ${params.stylePrompt}`;
-  console.log('Generating OpenAI image with prompt:', fullPrompt);
+  // Optimize DALL-E 3 prompt for better portrait generation
+  const optimizedPrompt = `Portrait photography of ${params.characterPrompt}. Professional studio lighting, highly detailed facial features, sharp focus on eyes, photorealistic quality. ${params.stylePrompt || 'High-quality portrait with dramatic lighting, cinematic composition, award-winning photography'}. Medium shot composition, detailed textures, realistic proportions, expressive eyes.`;
+  console.log('Generating OpenAI image with optimized prompt:', optimizedPrompt);
   
   const response = await openai.images.generate({
     model: "dall-e-3",
-    prompt: fullPrompt,
+    prompt: optimizedPrompt,
     n: 1,
     size: "1024x1024",
-    quality: "standard",
+    quality: "hd", // Use HD quality for better portraits
+    style: "vivid", // Vivid style for more detailed character portraits
   });
 
   if (!response.data?.[0]?.url) {
@@ -47,8 +49,14 @@ async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url:
 
 async function generateWithGemini(params: CharacterImageRequest): Promise<{ url: string }> {
   try {
-    const fullPrompt = `Create a detailed character portrait: ${params.characterPrompt}. Style: ${params.stylePrompt}`;
-    console.log('Generating Gemini image with prompt:', fullPrompt);
+    // Optimize prompt structure for better portrait generation
+    const optimizedPrompt = `Professional character portrait photography: ${params.characterPrompt}. 
+    
+Artistic direction: ${params.stylePrompt || 'High-quality portrait photography with dramatic lighting, masterpiece quality, highly detailed, sharp focus, cinematic lighting, expressive eyes, realistic proportions'}.
+
+Photography specifications: Medium shot portrait composition, professional studio lighting, detailed facial features, clear sharp focus on face and eyes, photorealistic quality, award-winning portrait photography.`;
+    
+    console.log('Generating Gemini image with optimized prompt:', optimizedPrompt);
 
     // Use the @google/genai library with proper configuration
     const { GoogleGenAI, Modality } = await import("@google/genai");
@@ -61,10 +69,10 @@ async function generateWithGemini(params: CharacterImageRequest): Promise<{ url:
     
     const ai = new GoogleGenAI({ apiKey });
     
-    // Use the image generation model
+    // Use the image generation model with optimized prompt
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash-preview-image-generation",
-      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      contents: [{ role: "user", parts: [{ text: optimizedPrompt }] }],
       config: {
         responseModalities: [Modality.TEXT, Modality.IMAGE],
       },
