@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
 
-  css: ['~/assets/css/main.css'],
+  css: [],
 
   devServer: {
     port: 5000,
@@ -70,13 +70,5 @@ export default defineNuxtConfig({
     }
   },
 
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@use "~/assets/scss/_colors.scss" as *;'
-        }
-      }
-    }
-  }
+
 })
