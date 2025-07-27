@@ -2,7 +2,7 @@ import { storage } from "../storage";
 // Removed generateCharacterPrompt import - using inline prompt generation
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_2 || process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_X || process.env.GOOGLE_API_KEY_2 || process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
 
 interface GenerateCharacterParams {
   projectId: string;
