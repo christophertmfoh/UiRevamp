@@ -4,8 +4,9 @@ import { FloatingOrbs } from '../FloatingOrbs';
 import { ProjectsHeader } from './ProjectsHeader';
 import { ProjectsFilters } from './ProjectsFilters';
 import { ProjectsStats } from './ProjectsStats';
-import { ProjectsList } from './ProjectsList';
+import { LazyProjectsList, LazyProjectModals } from './LazyProjectComponents';
 import { useProjectsLogic } from '@/hooks/useProjectsLogic';
+import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { Card } from '@/components/ui/card';
 
@@ -61,6 +62,9 @@ export const ProjectsPage = React.memo(function ProjectsPage({
     setViewMode,
     setSortBy,
   } = useProjectsLogic({ projects });
+
+  // Custom hook for task management
+  const taskManagement = useTaskManagement();
 
   // Memoized handlers
   const handleToggleEditMode = useCallback(() => {
@@ -191,7 +195,7 @@ export const ProjectsPage = React.memo(function ProjectsPage({
         />
 
         {/* Projects List Section */}
-        <ProjectsList
+        <LazyProjectsList
           projects={filteredProjects}
           searchQuery={searchQuery}
           sortBy={sortBy}
@@ -199,8 +203,42 @@ export const ProjectsPage = React.memo(function ProjectsPage({
           isLoading={isLoading}
           onSelectProject={onSelectProject}
           onNewProject={onNewProject}
+          enableVirtualization={filteredProjects.length > 20}
         />
       </div>
+
+      {/* Lazy Loaded Modals */}
+      <LazyProjectModals
+        // Add Task Modal
+        showAddTaskModal={taskManagement.showAddTaskModal}
+        onCloseAddTaskModal={() => taskManagement.setShowAddTaskModal(false)}
+        newTaskText={taskManagement.newTaskText}
+        setNewTaskText={taskManagement.setNewTaskText}
+        newTaskPriority={taskManagement.newTaskPriority}
+        setNewTaskPriority={taskManagement.setNewTaskPriority}
+        newTaskEstimatedTime={taskManagement.newTaskEstimatedTime}
+        setNewTaskEstimatedTime={taskManagement.setNewTaskEstimatedTime}
+        onCreateTask={taskManagement.handleCreateTask}
+        editingTask={taskManagement.editingTask}
+
+        // Tasks Modal
+        showTasksModal={taskManagement.showTasksModal}
+        onCloseTasksModal={() => taskManagement.setShowTasksModal(false)}
+        todayTasks={taskManagement.todayTasks}
+        isLoadingTasks={taskManagement.isLoadingTasks}
+        taskStats={taskManagement.taskStats}
+        onToggleTaskCompletion={taskManagement.handleToggleTaskCompletion}
+        onEditTask={taskManagement.handleEditTask}
+        onDeleteTask={taskManagement.handleDeleteTask}
+
+        // Goals Modal
+        showGoalsModal={taskManagement.showGoalsModal}
+        onCloseGoalsModal={() => taskManagement.setShowGoalsModal(false)}
+        tempGoals={taskManagement.tempGoals}
+        setTempGoals={taskManagement.setTempGoals}
+        todayProgress={taskManagement.todayProgress}
+        onSaveGoals={taskManagement.handleSaveGoals}
+      />
     </div>
   );
 });
