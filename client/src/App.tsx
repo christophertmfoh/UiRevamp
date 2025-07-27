@@ -3,6 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from './components/theme-provider';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectsView, ProjectDashboard } from './components/project';
@@ -297,11 +298,12 @@ export default function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
-          <Toaster />
-          {renderView()}
+    <ThemeProvider defaultTheme="dark" storageKey="fablecraft-theme">
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
+            <Toaster />
+            {renderView()}
           
           {/* Modals */}
           {modal.type === 'new' && (
@@ -348,5 +350,6 @@ export default function App() {
         </div>
       </TooltipProvider>
     </QueryClientProvider>
+    </ThemeProvider>
   );
 }

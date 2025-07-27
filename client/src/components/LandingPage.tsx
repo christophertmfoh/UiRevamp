@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { ThemeToggle } from './theme-toggle';
 import { 
   Feather, 
   BookOpen, 
@@ -89,7 +90,6 @@ export function LandingPage({
   guideMode, 
   setGuideMode 
 }: LandingPageProps) {
-  const [isDark, setIsDark] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
@@ -98,14 +98,6 @@ export function LandingPage({
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
@@ -134,18 +126,7 @@ export function LandingPage({
           </div>
           
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsDark(!isDark)}
-              className="w-10 h-10 p-0 rounded-xl text-stone-600 dark:text-amber-200 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              {isDark ? (
-                <Sun className="h-5 w-5 text-amber-600 dark:text-amber-300" />
-              ) : (
-                <Moon className="h-5 w-5 text-stone-600" />
-              )}
-            </Button>
+            <ThemeToggle />
             <Button 
               onClick={() => onNavigate('projects')}
               className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-400 px-6 py-2 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
+import { ThemeToggle } from '../theme-toggle';
 
 import { ArrowLeft, Plus, Search, BookOpen, Clock, MoreVertical, Feather, Sparkles, Users, MapPin, Edit, Trash2, Upload, FileText, Moon, Sun } from 'lucide-react';
 import {
@@ -33,15 +34,6 @@ export function ProjectsView({
   const [searchTerm, setSearchTerm] = React.useState('');
   const [typeFilter, setTypeFilter] = React.useState('all');
   const [genreFilter, setGenreFilter] = React.useState('all');
-  const [isDark, setIsDark] = React.useState(true);
-
-  React.useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
 
   const { data: projects = [], isLoading, error } = useQuery({
     queryKey: ['/api/projects'],
@@ -176,18 +168,7 @@ export function ProjectsView({
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Button
-                onClick={() => setIsDark(!isDark)}
-                variant="ghost"
-                size="icon"
-                className="w-10 h-10 p-0 rounded-xl text-stone-600 dark:text-amber-200 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
-              >
-                {isDark ? (
-                  <Sun className="h-5 w-5 text-amber-600 dark:text-amber-300" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
-              </Button>
+              <ThemeToggle />
               <Button 
                 onClick={() => onOpenModal({ type: 'import', project: null })} 
                 variant="outline"
