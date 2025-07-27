@@ -369,64 +369,59 @@ export function ProjectsPageRedesign({
                 </Button>
               </div>
               
-              <div className="flex-grow space-y-4">
+              <div className="flex-grow space-y-3">
                 {/* Daily Words */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Daily Words</p>
-                    <p className="text-sm font-bold">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Daily Words</p>
+                    <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.words}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{goals.dailyWords}</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.words / goals.dailyWords) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: `${Math.min((todayProgress.words / goals.dailyWords) * 100, 100)}%` }}></div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / goals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">
-                    {Math.round((todayProgress.words / goals.dailyWords) * 100)}% complete • {Math.max(0, goals.dailyWords - todayProgress.words)} words to go
-                  </p>
                 </div>
 
                 {/* Writing Time */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Time</p>
-                    <p className="text-sm font-bold">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Time</p>
+                    <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.minutes}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{goals.dailyMinutes} min</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.minutes / goals.dailyMinutes) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / goals.dailyMinutes) * 100, 100)}%` }}></div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / goals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">
-                    {Math.round((todayProgress.minutes / goals.dailyMinutes) * 100)}% complete • {Math.max(0, goals.dailyMinutes - todayProgress.minutes)} min remaining
-                  </p>
                 </div>
 
                 {/* Writing Streak */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
-                    <p className="text-sm font-bold">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Streak</p>
+                    <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.currentStreak}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{goals.streakDays} days</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.currentStreak / goals.streakDays) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / goals.streakDays) * 100, 100)}%` }}></div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / goals.streakDays) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">
-                    {todayProgress.currentStreak >= goals.streakDays ? '🎉 Goal achieved!' : `${Math.round((todayProgress.currentStreak / goals.streakDays) * 100)}% complete • ${goals.streakDays - todayProgress.currentStreak} days to goal`}
-                  </p>
                 </div>
 
-                {/* Sessions Summary */}
-                <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
-                    <span>Sessions Today</span>
-                    <span>2 sessions • {todayProgress.minutes} minutes</span>
-                  </div>
+                {/* Divider line */}
+                <div className="border-t border-stone-200/50 dark:border-stone-700/50 my-3"></div>
+
+                {/* Compact Summary */}
+                <div className="flex items-center justify-between text-[10px] text-stone-500 dark:text-stone-400">
+                  <span>2 writing sessions today</span>
+                  <span>Next milestone in {Math.max(0, goals.dailyWords - todayProgress.words)} words</span>
                 </div>
               </div>
             </CardContent>
