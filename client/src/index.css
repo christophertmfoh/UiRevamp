@@ -4,17 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SCROLLBAR SYSTEM */
+/* FORCE CUSTOM SCROLLBAR - NUCLEAR OPTION */
+/* Remove default scrollbars and force custom ones */
+
+/* Document level - absolute override */
 html, body {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
   overflow-y: auto;
 }
 
 html::-webkit-scrollbar, body::-webkit-scrollbar {
-  display: none;
+  display: none; /* Safari and Chrome */
 }
 
+/* Force visible custom scrollbars with highest specificity */
 html {
   --scrollbar-width: 8px;
   --scrollbar-thumb: #a0967d;
@@ -22,6 +26,7 @@ html {
   --scrollbar-track: transparent;
 }
 
+/* Override ALL webkit scrollbar properties with maximum specificity */
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
 *::-webkit-scrollbar {
@@ -62,11 +67,13 @@ body::-webkit-scrollbar-corner,
   background: var(--scrollbar-track) !important;
 }
 
+/* Firefox fallback */
 html, body, * {
   scrollbar-width: thin !important;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track) !important;
 }
 
+/* Force scrollbar visibility for main document */
 html {
   overflow-y: scroll !important;
 }
@@ -81,7 +88,9 @@ body {
 
 @layer utilities {
   /* UNIVERSAL THEME-AWARE GRADIENT CLASSES */
+  /* These replace ALL hardcoded emerald-stone-amber gradients */
   
+  /* Primary theme gradient - auto mint green in light, emerald-stone-amber in dark */
   .gradient-primary {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
   }
@@ -98,6 +107,7 @@ body {
     @apply hover:bg-gradient-to-r hover:from-[var(--gradient-brand-start)] hover:via-[var(--gradient-brand-middle)] hover:to-[var(--gradient-brand-end)];
   }
   
+  /* Brand Gradient Classes - Both Modes */
   .brand-gradient-text {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
   }
@@ -110,10 +120,12 @@ body {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] hover:opacity-90 transition-opacity duration-300;
   }
 
+  /* Vignette gradient overlay for dark mode */
   .vignette-gradient {
     background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, hsl(var(--gradient-brand-start) / 0.1) 70%, hsl(var(--gradient-brand-end) / 0.1) 100%);
   }
   
+  /* ALL TEXT BLACK IN LIGHT MODE */
   .text-theme-primary {
     @apply text-foreground;
   }
@@ -126,6 +138,7 @@ body {
     @apply text-foreground;
   }
   
+  /* Destructive gradient for dangerous actions */
   .destructive-gradient-text {
     @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)] bg-clip-text text-transparent;
   }
@@ -134,6 +147,16 @@ body {
     @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)];
   }
   
+  /* Quick access to common gradient combinations */
+  .emerald-gradient-text {
+    @apply bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent;
+  }
+  
+  .amber-gradient-text {
+    @apply bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent;
+  }
+  
+  /* Glass effect utilities */
   .glass-effect {
     background: var(--fablecraft-glass-card);
     border: 1px solid var(--fablecraft-glass-border);
@@ -141,11 +164,13 @@ body {
     -webkit-backdrop-filter: blur(8px);
   }
   
+  /* Floating card effect */
   .floating-card {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transform: translateZ(0);
   }
   
+  /* Interactive hover effects */
   .interactive-hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -154,19 +179,27 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   }
+  
+  /* Text gradients */
+  .gradient-text-emerald {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+  }
 }
 
 /* Optimized Theme Transitions */
+/* Target only elements that need transitions */
 html {
-  transition: none;
+  transition: none; /* Prevent flashing on theme change */
 }
 
+/* Apply transitions only to interactive elements and theme-sensitive components */
 .theme-transition {
   transition: background-color 0.2s ease,
               color 0.2s ease,
               border-color 0.2s ease;
 }
 
+/* Buttons and interactive elements */
 button, a, input, textarea, select,
 .card, .paper-surface, .creative-card,
 .bg-card, .bg-background, .bg-muted,
@@ -177,11 +210,12 @@ button, a, input, textarea, select,
               box-shadow 0.2s ease;
 }
 
+/* SVG icons */
 svg {
   transition: fill 0.2s ease, stroke 0.2s ease;
 }
 
-/* Animations */
+/* Disable transitions on animations to prevent conflicts */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -210,297 +244,152 @@ svg {
   animation-delay: 4s;
 }
 
+/* Prevent transitions on transforms used for parallax/animations */
 [style*="transform"] {
   transition: background-color 0.3s ease,
               color 0.3s ease,
               opacity 0.3s ease !important;
 }
 
-/* ===================================================================== */
-/* FABLECRAFT THEME SYSTEM - 7 CAREFULLY CRAFTED THEMES */
-/* ===================================================================== */
-
-/* THEME 1: FABLECRAFT LIGHT (IMPROVED) - Clean, Airy, with Depth */
+/* LIGHT MODE - NEW MINT GREEN GRADIENTS + ALL BLACK TEXT */
 :root {
-  /* Improved Light Mode - Soft cream background with depth */
-  --background: hsl(30, 15%, 97%);                   /* Soft cream instead of pure white */
-  --foreground: hsl(0, 0%, 15%);                     /* Dark charcoal instead of pure black */
-  --muted: hsl(30, 10%, 92%);                       /* Warmer muted backgrounds */
-  --muted-foreground: hsl(0, 0%, 40%);              /* Softer muted text */
-  --popover: hsl(0, 0%, 100%);                      /* Pure white popover */
-  --popover-foreground: hsl(0, 0%, 15%);            /* Dark charcoal popover text */
-  --card: hsl(0, 0%, 100%);                         /* Pure white cards */
-  --card-foreground: hsl(0, 0%, 15%);               /* Dark charcoal card text */
-  --border: hsl(30, 8%, 80%);                       /* Warmer light borders */
-  --input: hsl(30, 10%, 96%);                       /* Cream input backgrounds */
-  --primary: hsl(165, 70%, 41%);                    /* Refined teal-green primary */
-  --primary-foreground: hsl(0, 0%, 100%);           /* White text on primary */
-  --secondary: hsl(30, 10%, 90%);                   /* Warm light secondary */
-  --secondary-foreground: hsl(0, 0%, 15%);          /* Dark secondary text */
-  --accent: hsl(165, 70%, 41%);                     /* Teal-green accent */
-  --accent-foreground: hsl(0, 0%, 100%);            /* White accent text */
-  --destructive: hsl(0, 65%, 51%);                  /* Red destructive */
-  --destructive-foreground: hsl(0, 0%, 100%);       /* White destructive text */
-  --ring: hsl(165, 70%, 41%);                       /* Teal-green focus ring */
+  /* Light Mode - Mint Green Gradients + Black Text */
+  --background: hsl(0, 0%, 98%);                     /* Almost white background */
+  --foreground: hsl(0, 0%, 0%);                      /* Pure black text */
+  --muted: hsl(0, 0%, 94%);                          /* Light muted backgrounds */
+  --muted-foreground: hsl(0, 0%, 0%);                /* Black muted text */
+  --popover: hsl(0, 0%, 100%);                       /* Pure white popover */
+  --popover-foreground: hsl(0, 0%, 0%);              /* Black popover text */
+  --card: hsl(0, 0%, 100%);                          /* Pure white cards */
+  --card-foreground: hsl(0, 0%, 0%);                 /* Black card text */
+  --border: hsl(0, 0%, 85%);                         /* Light gray borders */
+  --input: hsl(0, 0%, 96%);                          /* Light gray input backgrounds */
+  --primary: hsl(160, 75%, 35%);                     /* Mint green primary */
+  --primary-foreground: hsl(0, 0%, 100%);            /* White text on mint green */
+  --secondary: hsl(0, 0%, 94%);                      /* Light secondary */
+  --secondary-foreground: hsl(0, 0%, 0%);            /* Black secondary text */
+  --accent: hsl(160, 75%, 40%);                      /* Mint green accent */
+  --accent-foreground: hsl(0, 0%, 100%);             /* White accent text */
+  --destructive: hsl(0, 75%, 50%);                   /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 100%);        /* White destructive text */
+  --ring: hsl(160, 75%, 35%);                        /* Mint green focus ring */
   --radius: 0.75rem;
   
-  /* Improved Light Mode Gradients - Green to Cyan (Analogous) */
-  --gradient-brand-start: hsl(165, 70%, 41%);       /* Teal-green start */
-  --gradient-brand-middle: hsl(180, 65%, 48%);      /* Cyan middle */
-  --gradient-brand-end: hsl(195, 60%, 55%);         /* Light cyan end */
+  /* Light Mode Gradients - Mint Green Theme */
+  --gradient-brand-start: hsl(160, 75%, 45%);        /* Mint green start */
+  --gradient-brand-middle: hsl(150, 60%, 55%);       /* Light mint middle */
+  --gradient-brand-end: hsl(140, 65%, 65%);          /* Lighter mint end */
   
   /* Light Mode Destructive Gradients */
-  --gradient-destructive-start: hsl(0, 65%, 51%);   /* Red */
-  --gradient-destructive-end: hsl(15, 70%, 55%);    /* Orange-red */
+  --gradient-destructive-start: hsl(0, 75%, 60%);    /* Light red */
+  --gradient-destructive-end: hsl(15, 75%, 65%);     /* Light orange-red */
+  
+  /* Light Mode Semantic Colors - ALL BLACK TEXT */
+  --color-heading-primary: hsl(0, 0%, 0%);           /* Black headings */
+  --color-heading-secondary: hsl(0, 0%, 0%);         /* Black subheadings */
+  --color-body-primary: hsl(0, 0%, 0%);              /* Black body text */
+  --color-body-secondary: hsl(0, 0%, 0%);            /* Black secondary text */
+  --color-body-muted: hsl(0, 0%, 0%);                /* Black muted text */
   
   /* Light Mode Glass Effects */
-  --fablecraft-glass-card: hsl(0, 0%, 100%, 0.85);  /* Semi-transparent white */
-  --fablecraft-glass-border: hsl(30, 8%, 80%, 0.5); /* Warm glass border */
-  
-  /* Light Mode Orb Colors */
-  --fablecraft-orb-primary: hsl(165, 70%, 41%, 0.08); /* Very soft teal-green orb */
-  --fablecraft-orb-secondary: hsl(180, 65%, 48%, 0.06); /* Very soft cyan orb */
-  --fablecraft-orb-accent: hsl(195, 60%, 55%, 0.04);   /* Very soft light cyan orb */
+  --fablecraft-glass-card: hsl(160, 75%, 95%, 0.8);  /* Light mint glass */
+  --fablecraft-glass-border: hsl(160, 50%, 80%, 0.5); /* Mint glass border */
 }
 
-/* THEME 2: FABLECRAFT DARK (IMPROVED) - Your Current Dark with Better Gradient */
+/* DARK MODE - Preserve Perfect Existing Design */
 .dark {
-  /* Improved Dark Mode - Radial gradient background with green-cyan harmony */
-  --background: hsl(220, 13%, 9%);                  /* Deep charcoal with subtle radial gradient */
-  --foreground: hsl(210, 40%, 95%);                 /* Slightly off-white for softer feel */
-  --muted: hsl(220, 13%, 12%);                      /* Darker muted backgrounds */
-  --muted-foreground: hsl(215, 20%, 65%);           /* Light gray muted text */
-  --popover: hsl(220, 13%, 9%);                     /* Deep popover */
-  --popover-foreground: hsl(210, 40%, 95%);
-  --card: hsl(220, 13%, 9%);                        /* Deep cards */
-  --card-foreground: hsl(210, 40%, 95%);
-  --border: hsl(215, 25%, 20%);                     /* Subtle borders */
-  --input: hsl(215, 25%, 15%);                      /* Input backgrounds */
-  --primary: hsl(155, 85%, 44%);                    /* Bright emerald green */
+  /* Fablecraft Brand System - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --background: hsl(20, 14.3%, 4.1%);               /* Deep stone background */
+  --foreground: hsl(0, 0%, 95%);                    /* Clean light text */
+  --muted: hsl(20, 14.3%, 9%);                      /* Muted backgrounds */
+  --muted-foreground: hsl(20, 5.9%, 63.9%);         /* Muted text */
+  --popover: hsl(20, 14.3%, 4.1%);                  /* Deep popover */
+  --popover-foreground: hsl(0, 0%, 95%);
+  --card: hsl(20, 14.3%, 4.1%);                     /* Dark cards */
+  --card-foreground: hsl(0, 0%, 95%);
+  --border: hsl(20, 5.9%, 15%);                     /* Subtle borders */
+  --input: hsl(20, 5.9%, 15%);                      /* Input backgrounds */
+  --primary: hsl(155, 84%, 44%);                    /* Emerald primary */
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(215, 25%, 15%);                  /* Dark secondary */
-  --secondary-foreground: hsl(210, 40%, 95%);
-  --accent: hsl(180, 75%, 45%);                     /* Bright cyan accent */
-  --accent-foreground: hsl(220, 13%, 9%);
-  --destructive: hsl(0, 62%, 45%);                  /* Red destructive */
-  --destructive-foreground: hsl(210, 40%, 95%);
-  --ring: hsl(155, 85%, 44%);                       /* Emerald focus ring */
+  --secondary: hsl(20, 5.9%, 15%);                  /* Dark secondary */
+  --secondary-foreground: hsl(0, 0%, 95%);
+  --accent: hsl(35, 91%, 54%);                      /* Amber accent */
+  --accent-foreground: hsl(20, 14.3%, 4.1%);
+  --destructive: hsl(0, 62.8%, 30.6%);              /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 95%);
+  --ring: hsl(155, 84%, 44%);                       /* Emerald focus ring */
   --radius: 0.75rem;
   
-  /* Improved Dark Mode Gradients - Green to Cyan (Analogous & Magical) */
-  --gradient-brand-start: hsl(155, 85%, 44%);       /* Bright emerald */
-  --gradient-brand-middle: hsl(170, 80%, 46%);      /* Teal middle */
-  --gradient-brand-end: hsl(180, 75%, 45%);         /* Bright cyan */
+  /* Fablecraft Design System - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --fablecraft-bg-base: hsl(20, 14.3%, 3%);                /* Page background */
+  --fablecraft-bg-subtle: hsl(20, 14.3%, 7%);              /* Section backgrounds */
   
-  /* Dark Mode Destructive Gradients */
-  --gradient-destructive-start: hsl(0, 62%, 45%);   /* Red */
-  --gradient-destructive-end: hsl(15, 65%, 50%);    /* Orange */
+  /* Semantic Color Tokens - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --color-heading-primary: hsl(0, 0%, 95%);                /* Main headings */
+  --color-heading-secondary: hsl(20, 5%, 85%);             /* Subheadings */
+  --color-body-primary: hsl(20, 5%, 90%);                  /* Primary body text */
+  --color-body-secondary: hsl(20, 5%, 70%);                /* Secondary body text */
+  --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
   
-  /* Dark Mode Glass Effects */
-  --fablecraft-glass-card: hsl(220, 13%, 15%, 0.8); /* Dark glass */
-  --fablecraft-glass-border: hsl(215, 25%, 25%, 0.4); /* Dark glass border */
+  /* Brand Gradient Colors - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --gradient-brand-start: hsl(155, 84%, 44%);              /* Emerald start */
+  --gradient-brand-middle: hsl(20, 10%, 40%);              /* Stone middle */
+  --gradient-brand-end: hsl(35, 91%, 54%);                 /* Amber end */
   
-  /* Dark Mode Orb Colors */
-  --fablecraft-orb-primary: hsl(155, 85%, 44%, 0.15); /* Soft emerald orb */
-  --fablecraft-orb-secondary: hsl(180, 75%, 45%, 0.12); /* Soft cyan orb */
-  --fablecraft-orb-accent: hsl(170, 80%, 46%, 0.08);    /* Soft teal orb */
+  /* Destructive Gradient Colors - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --gradient-destructive-start: hsl(0, 84%, 45%);          /* Red */
+  --gradient-destructive-end: hsl(20, 84%, 50%);           /* Orange */
+  
+  /* Icon Colors - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
+  --color-icon-primary: hsl(155, 84%, 50%);                /* Primary icons */
+  --color-icon-secondary: hsl(35, 91%, 60%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
+  --fablecraft-glass-card: hsl(20, 10%, 90%, 0.4);         /* Glassmorphism cards */
+  --fablecraft-glass-border: hsl(20, 10%, 70%, 0.3);       /* Glass borders */
+  
+  /* Elegant Dark Mode - Floating Orbs (EXACT MATCH TO SCREENSHOTS) */
+  --fablecraft-orb-emerald: hsl(155, 60%, 40%, 0.30);      /* Emerald orbs */
+  --fablecraft-orb-amber: hsl(35, 70%, 45%, 0.20);         /* Amber orbs */
+  --fablecraft-orb-stone: hsl(20, 20%, 50%, 0.30);         /* Stone orbs */
+  
+  /* Elegant Dark Mode - Ambient Lighting (EXACT MATCH TO SCREENSHOTS) */
+  --fablecraft-ambient-emerald: hsl(155, 50%, 45%, 0.10);  /* Emerald lighting */
+  --fablecraft-ambient-amber: hsl(35, 60%, 50%, 0.10);     /* Amber lighting */
+  --fablecraft-ambient-stone: hsl(20, 15%, 40%, 0.10);     /* Stone lighting */
+  
+  /* Elegant Dark Mode - Gradient Mesh (EXACT MATCH TO SCREENSHOTS) */
+  --fablecraft-mesh-emerald: hsl(155, 40%, 30%, 0.20);     /* Mesh emerald */
+  --fablecraft-mesh-stone: hsl(20, 15%, 35%, 0.40);        /* Mesh stone */
+  --fablecraft-mesh-amber: hsl(35, 50%, 35%, 0.20);        /* Mesh amber */
 }
 
-/* THEME 3: MIDNIGHT INK - Deep Blue & Gold */
-.midnight-ink {
-  --background: hsl(210, 100%, 8%);                 /* Deep navy background */
-  --foreground: hsl(45, 15%, 90%);                  /* Off-white with warm tint */
-  --muted: hsl(210, 80%, 12%);                      /* Slightly lighter navy */
-  --muted-foreground: hsl(45, 10%, 70%);            /* Warm muted text */
-  --popover: hsl(210, 80%, 12%);
-  --popover-foreground: hsl(45, 15%, 90%);
-  --card: hsl(210, 80%, 12%);
-  --card-foreground: hsl(45, 15%, 90%);
-  --border: hsl(210, 50%, 20%);
-  --input: hsl(210, 60%, 15%);
-  --primary: hsl(45, 100%, 50%);                    /* Brilliant gold */
-  --primary-foreground: hsl(210, 100%, 8%);
-  --secondary: hsl(210, 60%, 15%);
-  --secondary-foreground: hsl(45, 15%, 90%);
-  --accent: hsl(40, 80%, 65%);                      /* Soft sandy gold */
-  --accent-foreground: hsl(210, 100%, 8%);
-  --destructive: hsl(0, 60%, 50%);
-  --destructive-foreground: hsl(45, 15%, 90%);
-  --ring: hsl(45, 100%, 50%);
-  --radius: 0.75rem;
-  
-  /* Midnight Ink Gradients - Gold to Sandy Beige */
-  --gradient-brand-start: hsl(45, 100%, 50%);       /* Brilliant gold */
-  --gradient-brand-middle: hsl(42, 85%, 60%);       /* Rich gold */
-  --gradient-brand-end: hsl(40, 60%, 75%);          /* Sandy beige */
-  
-  --gradient-destructive-start: hsl(0, 60%, 50%);
-  --gradient-destructive-end: hsl(15, 65%, 55%);
-  
-  --fablecraft-glass-card: hsl(210, 80%, 12%, 0.85);
-  --fablecraft-glass-border: hsl(210, 50%, 25%, 0.4);
-  
-  --fablecraft-orb-primary: hsl(45, 100%, 50%, 0.12);
-  --fablecraft-orb-secondary: hsl(40, 80%, 65%, 0.08);
-  --fablecraft-orb-accent: hsl(42, 85%, 60%, 0.06);
+/* Animated blob effect */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
-/* THEME 4: SUNRISE CREATIVE - Purple & Orange */
-.sunrise-creative {
-  --background: hsl(280, 30%, 12%);                 /* Rich indigo/eggplant */
-  --foreground: hsl(320, 25%, 92%);                 /* Soft pink-white */
-  --muted: hsl(280, 25%, 16%);                      /* Darker purple */
-  --muted-foreground: hsl(320, 15%, 75%);           /* Light purple-pink */
-  --popover: hsl(280, 25%, 16%);
-  --popover-foreground: hsl(320, 25%, 92%);
-  --card: hsl(280, 25%, 16%);
-  --card-foreground: hsl(320, 25%, 92%);
-  --border: hsl(280, 20%, 25%);
-  --input: hsl(280, 25%, 18%);
-  --primary: hsl(300, 100%, 50%);                   /* Vibrant magenta */
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(280, 25%, 18%);
-  --secondary-foreground: hsl(320, 25%, 92%);
-  --accent: hsl(30, 100%, 55%);                     /* Fiery orange */
-  --accent-foreground: hsl(280, 30%, 12%);
-  --destructive: hsl(0, 65%, 55%);
-  --destructive-foreground: hsl(320, 25%, 92%);
-  --ring: hsl(300, 100%, 50%);
-  --radius: 0.75rem;
-  
-  /* Sunrise Creative Gradients - Magenta to Orange */
-  --gradient-brand-start: hsl(300, 100%, 50%);      /* Vibrant magenta */
-  --gradient-brand-middle: hsl(330, 85%, 55%);      /* Pink-red middle */
-  --gradient-brand-end: hsl(30, 100%, 55%);         /* Fiery orange */
-  
-  --gradient-destructive-start: hsl(0, 65%, 55%);
-  --gradient-destructive-end: hsl(20, 70%, 60%);
-  
-  --fablecraft-glass-card: hsl(280, 25%, 16%, 0.85);
-  --fablecraft-glass-border: hsl(280, 20%, 30%, 0.4);
-  
-  --fablecraft-orb-primary: hsl(300, 100%, 50%, 0.15);
-  --fablecraft-orb-secondary: hsl(330, 85%, 55%, 0.12);
-  --fablecraft-orb-accent: hsl(30, 100%, 55%, 0.08);
+.animate-blob {
+  animation: blob 7s infinite;
 }
 
-/* THEME 5: SEPIA PARCHMENT - Brown & Cream (Light Mode) */
-.sepia-parchment {
-  --background: hsl(45, 25%, 92%);                  /* Soft parchment */
-  --foreground: hsl(30, 40%, 25%);                  /* Dark sepia brown */
-  --muted: hsl(40, 20%, 85%);                       /* Darker tan */
-  --muted-foreground: hsl(30, 30%, 45%);            /* Medium brown */
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(30, 40%, 25%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(30, 40%, 25%);
-  --border: hsl(40, 15%, 75%);
-  --input: hsl(45, 20%, 88%);
-  --primary: hsl(0, 50%, 40%);                      /* Deep burgundy */
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(40, 15%, 82%);
-  --secondary-foreground: hsl(30, 40%, 25%);
-  --accent: hsl(30, 60%, 30%);                      /* Dark sepia brown */
-  --accent-foreground: hsl(45, 25%, 92%);
-  --destructive: hsl(0, 55%, 45%);
-  --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(0, 50%, 40%);
-  --radius: 0.75rem;
-  
-  /* Sepia Parchment - Single Color (No Gradients for Classic Feel) */
-  --gradient-brand-start: hsl(0, 50%, 40%);         /* Deep burgundy only */
-  --gradient-brand-middle: hsl(0, 50%, 40%);        /* Same color */
-  --gradient-brand-end: hsl(0, 50%, 40%);           /* Same color */
-  
-  --gradient-destructive-start: hsl(0, 55%, 45%);
-  --gradient-destructive-end: hsl(0, 55%, 45%);
-  
-  --fablecraft-glass-card: hsl(0, 0%, 100%, 0.9);
-  --fablecraft-glass-border: hsl(40, 15%, 70%, 0.4);
-  
-  /* No orbs for classic feel - these won't be used */
-  --fablecraft-orb-primary: transparent;
-  --fablecraft-orb-secondary: transparent;
-  --fablecraft-orb-accent: transparent;
+.animation-delay-2000 {
+  animation-delay: 2s;
 }
 
-/* THEME 6: EVERGREEN FOCUS - Monochromatic Green */
-.evergreen-focus {
-  --background: hsl(150, 50%, 8%);                  /* Deep forest green */
-  --foreground: hsl(120, 15%, 90%);                 /* Warm off-white */
-  --muted: hsl(150, 40%, 12%);                      /* Dark olive/sage */
-  --muted-foreground: hsl(120, 10%, 70%);           /* Light gray-green */
-  --popover: hsl(150, 40%, 12%);
-  --popover-foreground: hsl(120, 15%, 90%);
-  --card: hsl(150, 40%, 12%);
-  --card-foreground: hsl(120, 15%, 90%);
-  --border: hsl(150, 30%, 20%);
-  --input: hsl(150, 35%, 15%);
-  --primary: hsl(120, 60%, 45%);                    /* Bright spring green */
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(150, 35%, 15%);
-  --secondary-foreground: hsl(120, 15%, 90%);
-  --accent: hsl(140, 50%, 65%);                     /* Light mint */
-  --accent-foreground: hsl(150, 50%, 8%);
-  --destructive: hsl(0, 55%, 50%);
-  --destructive-foreground: hsl(120, 15%, 90%);
-  --ring: hsl(120, 60%, 45%);
-  --radius: 0.75rem;
-  
-  /* Evergreen Focus Gradients - Spring Green to Mint */
-  --gradient-brand-start: hsl(120, 60%, 45%);       /* Bright spring green */
-  --gradient-brand-middle: hsl(130, 55%, 55%);      /* Medium green */
-  --gradient-brand-end: hsl(140, 50%, 65%);         /* Light mint */
-  
-  --gradient-destructive-start: hsl(0, 55%, 50%);
-  --gradient-destructive-end: hsl(15, 60%, 55%);
-  
-  --fablecraft-glass-card: hsl(150, 40%, 12%, 0.85);
-  --fablecraft-glass-border: hsl(150, 30%, 25%, 0.4);
-  
-  --fablecraft-orb-primary: hsl(120, 60%, 45%, 0.12);
-  --fablecraft-orb-secondary: hsl(140, 50%, 65%, 0.08);
-  --fablecraft-orb-accent: hsl(130, 55%, 55%, 0.06);
-}
-
-/* THEME 7: OBSIDIAN MINIMAL - Monochrome & Accent */
-.obsidian-minimal {
-  --background: hsl(0, 0%, 13%);                    /* Neutral medium-dark gray */
-  --foreground: hsl(0, 0%, 83%);                    /* Light gray */
-  --muted: hsl(0, 0%, 20%);                         /* Slightly lighter gray */
-  --muted-foreground: hsl(0, 0%, 60%);              /* Medium gray */
-  --popover: hsl(0, 0%, 20%);
-  --popover-foreground: hsl(0, 0%, 83%);
-  --card: hsl(0, 0%, 20%);
-  --card-foreground: hsl(0, 0%, 83%);
-  --border: hsl(0, 0%, 30%);
-  --input: hsl(0, 0%, 18%);
-  --primary: hsl(215, 100%, 60%);                   /* Sharp cobalt blue */
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(0, 0%, 18%);
-  --secondary-foreground: hsl(0, 0%, 83%);
-  --accent: hsl(215, 100%, 60%);                    /* Sharp cobalt blue */
-  --accent-foreground: hsl(0, 0%, 100%);
-  --destructive: hsl(0, 60%, 55%);
-  --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(215, 100%, 60%);
-  --radius: 0.75rem;
-  
-  /* Obsidian Minimal - Single Accent Color (No Gradients) */
-  --gradient-brand-start: hsl(215, 100%, 60%);      /* Cobalt blue only */
-  --gradient-brand-middle: hsl(215, 100%, 60%);     /* Same color */
-  --gradient-brand-end: hsl(215, 100%, 60%);        /* Same color */
-  
-  --gradient-destructive-start: hsl(0, 60%, 55%);
-  --gradient-destructive-end: hsl(0, 60%, 55%);
-  
-  --fablecraft-glass-card: hsl(0, 0%, 20%, 0.9);
-  --fablecraft-glass-border: hsl(0, 0%, 35%, 0.4);
-  
-  /* No orbs for minimal feel */
-  --fablecraft-orb-primary: transparent;
-  --fablecraft-orb-secondary: transparent;
-  --fablecraft-orb-accent: transparent;
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
 
 @layer base {
@@ -510,11 +399,14 @@ svg {
 
   body {
     @apply bg-background text-foreground antialiased;
+    background: var(--gradient-warm);
+    background-attachment: fixed;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
     font-weight: 400;
   }
   
+  /* Typography hierarchy for modern literary feel */
   .font-serif {
     font-family: 'Source Serif 4', 'Georgia', serif;
   }
@@ -543,13 +435,24 @@ svg {
 }
 
 @layer components {
+  /* Modern Cozy Creative Components */
   .creative-card {
     @apply bg-card border border-border rounded-xl;
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--muted)));
+    background: linear-gradient(135deg, hsl(28, 12%, 11%), hsl(25, 10%, 9%));
+    box-shadow: var(--shadow-warm);
     backdrop-filter: blur(8px);
   }
   
   .paper-surface {
-    @apply bg-card text-card-foreground rounded-xl border border-border;
+    background: var(--gradient-paper);
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+    border-radius: 0.75rem;
+  }
+  
+  .candlelight-glow {
+    background: var(--gradient-candlelight);
+    box-shadow: var(--shadow-glow);
+    color: hsl(25, 12%, 6%);
   }
 }
