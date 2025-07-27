@@ -623,6 +623,202 @@
   border-color: hsl(var(--primary) / 0.3);
 }
 
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted-foreground) / 0.1) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.loading-spinner {
+  border: 2px solid hsl(var(--muted));
+  border-top: 2px solid hsl(var(--primary));
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.loading-dots::before,
+.loading-dots::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  animation: loading-dots 1.4s infinite ease-in-out both;
+}
+
+.loading-dots::before { animation-delay: -0.32s; }
+.loading-dots::after { animation-delay: -0.16s; }
+
+@keyframes loading-dots {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Empty States */
+.empty-state {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}
+
+.empty-state-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  opacity: 0.5;
+  color: hsl(var(--muted-foreground));
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.empty-state p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Enhanced Accessibility - High Contrast Mode */
+@media (prefers-contrast: high) {
+  .card-enhanced {
+    border-width: 2px;
+  }
+  
+  .btn-enhanced {
+    border: 2px solid hsl(var(--primary));
+  }
+  
+  .focus-ring:focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .floating-orb {
+    animation: none;
+  }
+  
+  .loading-skeleton {
+    animation: none;
+    background: hsl(var(--muted));
+  }
+}
+
+/* Large Screen Component Density */
+@media (min-width: 1536px) {
+  .large-screen-dense .space-y-xl > * + * { margin-top: 1rem; }
+  .large-screen-dense .space-y-2xl > * + * { margin-top: 1.5rem; }
+  .large-screen-dense .gap-xl { gap: 1rem; }
+  .large-screen-dense .gap-2xl { gap: 1.5rem; }
+  .large-screen-dense .p-xl { padding: 1rem; }
+  .large-screen-dense .p-2xl { padding: 1.5rem; }
+}
+
+/* Modal Enhancements */
+.modal-overlay {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.6);
+  animation: modal-fade-in 0.2s ease-out;
+}
+
+.modal-content {
+  animation: modal-slide-up 0.3s ease-out;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-slide-up {
+  from { 
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced Search/Filter Interface */
+.search-enhanced {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.search-enhanced:focus-within {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.filter-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filter-chip.active {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.filter-chip:not(.active) {
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+
+/* Visual Hierarchy Improvements */
+.visual-hierarchy h1 { margin-bottom: 1.5rem; }
+.visual-hierarchy h2 { margin-bottom: 1.25rem; margin-top: 2rem; }
+.visual-hierarchy h3 { margin-bottom: 1rem; margin-top: 1.5rem; }
+.visual-hierarchy p { margin-bottom: 1rem; }
+.visual-hierarchy .lead { font-size: 1.125rem; margin-bottom: 1.5rem; }
+
 /* Responsive Breakpoint Utilities */
 @media (max-width: 640px) {
   .mobile-center { text-align: center; }

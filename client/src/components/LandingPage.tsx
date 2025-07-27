@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from './theme-toggle';
 import { FloatingOrbs } from './FloatingOrbs';
+import { HeroSection } from './landing/HeroSection';
 import {
   DropdownMenu,
   DropdownMenuContent,
