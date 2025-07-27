@@ -77,6 +77,42 @@ export function ProjectsPageRedesign({
   const [scrollY, setScrollY] = useState(0);
   const [showTasksModal, setShowTasksModal] = useState(false);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
+  
+  // Goals state
+  const [goals, setGoals] = useState(() => {
+    const saved = localStorage.getItem('fablecraft_writing_goals');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return {
+      dailyWords: 500,
+      dailyMinutes: 60,
+      streakDays: 30
+    };
+  });
+  
+  // Today's progress (in real app, this would come from API)
+  const [todayProgress] = useState({
+    words: 300,
+    minutes: 45,
+    currentStreak: 7
+  });
+  
+  // Temporary goals state for modal
+  const [tempGoals, setTempGoals] = useState(goals);
+  
+  // Open modal handler
+  const handleOpenGoalsModal = () => {
+    setTempGoals(goals); // Reset temp goals to current saved goals
+    setShowGoalsModal(true);
+  };
+  
+  // Save goals handler
+  const handleSaveGoals = () => {
+    setGoals(tempGoals);
+    localStorage.setItem('fablecraft_writing_goals', JSON.stringify(tempGoals));
+    setShowGoalsModal(false);
+  };
 
   // Helper functions to update preferences and save to localStorage
   const updateViewMode = (mode: 'grid' | 'list') => {
@@ -326,7 +362,7 @@ export function ProjectsPageRedesign({
                 </div>
                 <Button
                   size="sm"
-                  onClick={() => setShowGoalsModal(true)}
+                  onClick={handleOpenGoalsModal}
                   className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
@@ -338,24 +374,28 @@ export function ProjectsPageRedesign({
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
-                    <p className="text-sm font-bold text-emerald-600">7 days</p>
+                    <p className="text-sm font-bold text-emerald-600">{todayProgress.currentStreak} days</p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '70%' }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / goals.streakDays) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">Great momentum! Keep it up.</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">
+                    {todayProgress.currentStreak >= goals.streakDays ? 'Goal achieved! 🎉' : `${goals.streakDays - todayProgress.currentStreak} days to goal`}
+                  </p>
                 </div>
 
                 {/* Today's Writing */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Writing</p>
-                    <p className="text-sm font-bold text-emerald-600">300 words</p>
+                    <p className="text-sm font-bold text-emerald-600">{todayProgress.words} words</p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: `${Math.min((todayProgress.words / goals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">
+                    {todayProgress.words}/{goals.dailyWords} words • {Math.round((todayProgress.words / goals.dailyWords) * 100)}% complete
+                  </p>
                 </div>
 
                 {/* Writing Sessions Today */}
@@ -727,7 +767,7 @@ export function ProjectsPageRedesign({
               <Button 
                 variant="outline"
                 className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300"
-                onClick={() => setShowGoalsModal(true)}
+                onClick={handleOpenGoalsModal}
               >
                 <Target className="w-4 h-4 mr-2" />
                 Manage Goals
@@ -760,12 +800,13 @@ export function ProjectsPageRedesign({
                   type="number" 
                   placeholder="500" 
                   className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
-                  defaultValue="500"
+                  value={tempGoals.dailyWords}
+                  onChange={(e) => setTempGoals({...tempGoals, dailyWords: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '60%' }}></div>
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.words / tempGoals.dailyWords) * 100, 100)}%` }}></div>
                 </div>
-                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">300/500 words</p>
+                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
               </div>
               
               <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
@@ -776,12 +817,13 @@ export function ProjectsPageRedesign({
                   type="number" 
                   placeholder="60" 
                   className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
-                  defaultValue="60"
+                  value={tempGoals.dailyMinutes}
+                  onChange={(e) => setTempGoals({...tempGoals, dailyMinutes: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '75%' }}></div>
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
                 </div>
-                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">45/60 mins</p>
+                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.minutes}/{tempGoals.dailyMinutes} mins</p>
               </div>
             </div>
 
@@ -798,13 +840,14 @@ export function ProjectsPageRedesign({
                     type="number" 
                     placeholder="30" 
                     className="w-14 h-7 text-center text-sm bg-white/80 dark:bg-slate-800/60" 
-                    defaultValue="30"
+                    value={tempGoals.streakDays}
+                    onChange={(e) => setTempGoals({...tempGoals, streakDays: parseInt(e.target.value) || 0})}
                   />
                   <span className="text-xs text-stone-500">days</span>
                 </div>
               </div>
               <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
-                <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '23%' }}></div>
+                <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
               </div>
             </div>
 
@@ -819,6 +862,7 @@ export function ProjectsPageRedesign({
             <div className="flex gap-2 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
               <Button 
                 size="sm"
+                onClick={handleSaveGoals}
                 className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
                 Save Goals
