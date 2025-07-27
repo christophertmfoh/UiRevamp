@@ -193,7 +193,7 @@ export function LandingPage({
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg">
               <Feather className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+            <span className="text-2xl font-black font-serif text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
             </span>
           </div>
@@ -303,7 +303,7 @@ export function LandingPage({
                 <div className="w-20 h-20 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
                   <PenTool className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">Your Writing Journey</h3>
+                <h3 className="text-2xl font-black text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">Your Writing Journey</h3>
                 
                 <div 
                   className="grid grid-cols-2 gap-4"
@@ -337,8 +337,8 @@ export function LandingPage({
                         </div>
                         <h4 className={`font-bold text-sm transition-all duration-300 ${
                           isActive 
-                            ? 'text-stone-900 dark:text-stone-50 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]' 
-                            : 'text-stone-700 dark:text-stone-300 group-hover:text-stone-900 dark:group-hover:text-stone-100'
+                            ? 'text-heading-primary drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]' 
+                            : 'text-body-secondary group-hover:text-heading-primary'
                         }`}>
                           {step.title}
                         </h4>
@@ -364,7 +364,7 @@ export function LandingPage({
             <Badge className="bg-white/95 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-stone-400/60 dark:border-stone-600 font-bold backdrop-blur-md shadow-md dark:shadow-lg">
               End-to-End Creative Production
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
               From Idea to Final Media
             </h2>
             <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal">
@@ -393,7 +393,7 @@ export function LandingPage({
                     </div>
                     
                     <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
-                      <h4 className="font-black text-lg text-stone-900 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.3] tracking-tight">{step.title}</h4>
+                      <h4 className="font-black text-lg text-heading-primary group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.3] tracking-tight">{step.title}</h4>
                       <p className="text-sm text-stone-700 dark:text-stone-200 group-hover:text-stone-800 dark:group-hover:text-stone-100 transition-colors duration-300 font-medium leading-[1.6] tracking-normal">{step.description}</p>
                       <p className="text-xs text-stone-600 dark:text-stone-300 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-semibold leading-[1.5] tracking-wide">
                         {step.detail}
@@ -418,7 +418,7 @@ export function LandingPage({
             <Badge className="bg-white/95 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-stone-400/60 dark:border-stone-600 font-bold backdrop-blur-md shadow-md dark:shadow-lg">
               Revolutionary Creative Technology
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
               The Creative Industry's First True End-to-End Suite
             </h2>
             <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal">

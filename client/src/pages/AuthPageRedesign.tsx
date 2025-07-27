@@ -61,10 +61,10 @@ function checkPasswordStrength(password: string) {
   
   if (score >= 5) {
     strength = 'Strong';
-    color = 'text-emerald-500';
+    color = 'icon-primary';
   } else if (score >= 3) {
     strength = 'Medium';
-    color = 'text-amber-500';
+    color = 'icon-secondary';
   }
   
   return { checks, score, strength, color };
@@ -224,7 +224,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
             <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-lg">
               <Feather className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
+            <h1 className="text-2xl font-serif font-bold text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
               Fablecraft
             </h1>
           </div>
@@ -241,7 +241,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
             <h2 className="text-4xl font-black bg-gradient-to-r from-emerald-600 via-stone-800 to-amber-600 dark:from-emerald-400 dark:via-stone-200 dark:to-amber-400 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] mb-4">
               Welcome to Fablecraft
             </h2>
-            <p className="text-xl text-stone-700 dark:text-stone-300 font-medium leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-wide">
+            <p className="text-xl text-body-secondary font-medium leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-wide">
               Your creative storytelling journey begins here
             </p>
           </div>
@@ -281,7 +281,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardTitle className="text-2xl font-black text-stone-900 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">
                       Welcome back
                     </CardTitle>
-                    <CardDescription className="text-stone-700 dark:text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] tracking-wide">
+                    <CardDescription className="text-body-secondary font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] tracking-wide">
                       Sign in to continue your creative journey
                     </CardDescription>
                   </CardHeader>

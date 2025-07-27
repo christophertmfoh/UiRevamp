@@ -53,14 +53,14 @@ className="brand-gradient-bg hover:opacity-90"
 
 ## Migration Steps
 
-### Step 1: Text Elements
+### Step 1: Text Elements ✅ COMPLETED
 Search for all text color classes and replace with semantic tokens:
 ```bash
 # Find: text-stone-[0-9]+ dark:text-stone-[0-9]+
 # Replace with appropriate semantic class
 ```
 
-### Step 2: Icons
+### Step 2: Icons ✅ COMPLETED
 Update all icon colors:
 ```jsx
 // Before

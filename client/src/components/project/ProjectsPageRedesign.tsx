@@ -882,7 +882,7 @@ export function ProjectsPageRedesign({
                 <Button 
                   size="sm"
                   onClick={() => onSelectProject(projects[0])}
-                  className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
+                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
                 >
                   Open Project
                 </Button>
@@ -901,7 +901,7 @@ export function ProjectsPageRedesign({
                     <Button 
                       size="sm"
                       onClick={onNewProject}
-                      className="gradient-emerald-amber gradient-emerald-amber-hover gradient-text text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Create Project
                     </Button>
@@ -926,7 +926,7 @@ export function ProjectsPageRedesign({
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="gradient-emerald-amber gradient-emerald-amber-hover gradient-text text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -938,7 +938,7 @@ export function ProjectsPageRedesign({
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Daily Words</p>
                     <p className="text-xs font-semibold">
-                      <span className="text-emerald-600">{todayProgress.words}</span>
+                      <span className="icon-primary">{todayProgress.words}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyWords}</span>
                       <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.words / actualGoals.dailyWords) * 100)}%)</span>
                     </p>
@@ -953,7 +953,7 @@ export function ProjectsPageRedesign({
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Time</p>
                     <p className="text-xs font-semibold">
-                      <span className="text-emerald-600">{todayProgress.minutes}</span>
+                      <span className="icon-primary">{todayProgress.minutes}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyMinutes} min</span>
                       <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.minutes / actualGoals.dailyMinutes) * 100)}%)</span>
                     </p>
@@ -968,7 +968,7 @@ export function ProjectsPageRedesign({
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Streak</p>
                     <p className="text-xs font-semibold">
-                      <span className="text-emerald-600">{todayProgress.currentStreak}</span>
+                      <span className="icon-primary">{todayProgress.currentStreak}</span>
                       <span className="text-stone-500 dark:text-stone-400">/{actualGoals.streakDays} days</span>
                       <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.currentStreak / actualGoals.streakDays) * 100)}%)</span>
                     </p>
@@ -994,7 +994,7 @@ export function ProjectsPageRedesign({
                         <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-5">
-                <CheckCircle className="w-4 h-4 text-emerald-600" />
+                <CheckCircle className="w-4 h-4 icon-primary" />
                 <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
                   Quick Tasks
                 </h3>
@@ -1008,7 +1008,7 @@ export function ProjectsPageRedesign({
                     <Button
                       size="sm"
                       onClick={() => setShowTasksModal(true)}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1"
+                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1"
                     >
                       Add Tasks
                     </Button>
@@ -1050,14 +1050,14 @@ export function ProjectsPageRedesign({
                   <Button 
                     size="sm"
                     onClick={() => setShowAddTaskModal(true)}
-                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     Add Task
                   </Button>
                   <Button 
                     size="sm"
                     onClick={() => setShowTasksModal(true)}
-                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     View All
                   </Button>
