@@ -77,20 +77,20 @@ export function ProjectsView({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const { data: projects = [], isLoading } = useQuery({
+  const { data: projects = [], isLoading } = useQuery<Project[]>({
     queryKey: ['/api/projects']
   });
 
   const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.genres?.some((genre: string) => genre.toLowerCase().includes(searchTerm.toLowerCase()))
-  ).sort((a, b) => {
+    project.genre?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).sort((a: Project, b: Project) => {
     switch (sortBy) {
       case 'name':
         return a.name.localeCompare(b.name);
       case 'updated':
-        return new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime();
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       case 'created':
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       case 'type':
@@ -113,7 +113,7 @@ export function ProjectsView({
 
     // Check genres
     totalSections += 1;
-    if (project.genres && project.genres.length > 0) {
+    if (project.genre && project.genre.length > 0) {
       completedSections += 1;
     }
 
@@ -338,7 +338,7 @@ export function ProjectsView({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">
-                  {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
+                  {filteredProjects.filter((p: Project) => new Date(p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
                 </p>
                 <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
               </div>
@@ -351,7 +351,7 @@ export function ProjectsView({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">
-                  {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
+                  {Array.from(new Set(filteredProjects.map((p: Project) => p.genre).filter(Boolean))).length}
                 </p>
                 <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
               </div>
@@ -537,8 +537,8 @@ export function ProjectsView({
 
                 <div className="space-y-3">
                   {filteredProjects.slice(0, 5).map((project) => {
-                    const timeAgo = new Date(project.updatedAt || project.createdAt).toLocaleDateString();
-                    const isRecent = new Date(project.updatedAt || project.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
+                    const timeAgo = new Date(project.createdAt).toLocaleDateString();
+                    const isRecent = new Date(project.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
                     
                     return (
                       <div key={project.id} className="flex items-center space-x-3 p-3 bg-stone-50/50 dark:bg-stone-700/30 rounded-xl hover:bg-stone-100/50 dark:hover:bg-stone-700/50 transition-colors duration-200 cursor-pointer" onClick={() => onSelectProject(project)}>
@@ -652,7 +652,7 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
         <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
           <div className="flex items-center">
             <Clock className="w-3 h-3 mr-1" />
-            Updated {new Date(project.updatedAt || project.createdAt).toLocaleDateString()}
+            Updated {new Date(project.createdAt).toLocaleDateString()}
           </div>
           <Badge variant="secondary" className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-900 dark:to-amber-900 text-stone-700 dark:text-stone-300">
             {project.genres?.[0] || 'Unspecified'}
