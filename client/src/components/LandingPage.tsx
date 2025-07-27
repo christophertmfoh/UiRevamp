@@ -195,7 +195,7 @@ export function LandingPage({
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 px-8 py-6">
+      <nav className="relative z-10 px-6 sm:px-8 py-4 sm:py-6">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg">
@@ -281,30 +281,30 @@ export function LandingPage({
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
-        <div className="grid lg:grid-cols-12 gap-16 items-center">
+      <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-20 lg:py-24">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Main Content */}
-          <div className="lg:col-span-7 space-y-10">
-            <div className="space-y-10">
+          <div className="lg:col-span-7 space-y-8 lg:space-y-10">
+            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
               <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
                 <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
                 <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
                 Where Stories{' '}
                 <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                   Come to Life
                 </span>
               </h1>
               
-              <p className="text-xl text-body-primary max-w-2xl leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+              <p className="text-lg sm:text-xl text-body-primary max-w-2xl leading-[1.7] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
                 From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
                 and graphic novels with AI that understands the art of storytelling. Your imagination, 
                 amplified by intelligence.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 pt-6">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6">
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
@@ -333,7 +333,7 @@ export function LandingPage({
 
           {/* Process Preview */}
           <div className="lg:col-span-5">
-            <div className="bg-card/80 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-border">
+            <div className="bg-card/80 backdrop-blur-xl rounded-2xl lg:rounded-[2rem] p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-border">
               {/* Theme-aware gradient overlay */}
               <div className="absolute inset-0 rounded-[2rem] opacity-0 hover:opacity-100 transition-opacity duration-500" 
                    style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, transparent 50%, hsl(var(--orb-secondary) / 0.05) 100%)' }}></div>
@@ -492,8 +492,8 @@ export function LandingPage({
           </div>
 
           {/* Key Benefits */}
-          <div className="grid md:grid-cols-3 gap-8 pt-16">
-            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 pt-12 lg:pt-16">
+            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
@@ -507,7 +507,7 @@ export function LandingPage({
               </div>
             </div>
             
-            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
@@ -521,7 +521,7 @@ export function LandingPage({
               </div>
             </div>
             
-            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-stone-50/0 dark:from-amber-900/0 dark:to-stone-900/0 group-hover:from-amber-50/50 group-hover:to-stone-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-stone-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
@@ -539,7 +539,7 @@ export function LandingPage({
       </section>
 
       {/* Final CTA */}
-      <section className="relative z-10 max-w-5xl mx-auto px-8 py-32">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-24 lg:py-32">
         <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-stone-50 via-emerald-50/80 to-amber-50/60 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 border border-stone-300/50 dark:border-slate-600/50 shadow-2xl">
           {/* Background texture */}
           <div className="absolute inset-0 opacity-20 bg-repeat bg-center" style={{
@@ -550,12 +550,12 @@ export function LandingPage({
           <div className="absolute top-8 right-8 w-32 h-32 bg-gradient-to-br from-emerald-300/20 to-stone-400/10 rounded-full blur-2xl"></div>
           <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-stone-300/20 to-amber-400/10 rounded-full blur-xl"></div>
           
-          <div className="relative z-10 text-center space-y-12 p-16">
+          <div className="relative z-10 text-center space-y-8 sm:space-y-12 p-8 sm:p-12 lg:p-16">
             <div className="space-y-8">
               <div className="w-24 h-24 gradient-primary-br rounded-full flex items-center justify-center mx-auto shadow-2xl hover:shadow-3xl hover:scale-110 hover:rotate-6 transition-all duration-500 cursor-pointer">
                 <Zap className="w-12 h-12 text-primary-foreground" />
               </div>
-              <h2 className="text-5xl md:text-6xl font-bold gradient-primary-text leading-tight">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold gradient-primary-text leading-tight">
                 Start Your Creative Revolution
               </h2>
               <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto leading-relaxed">
@@ -564,7 +564,7 @@ export function LandingPage({
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-8 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 lg:gap-8 justify-center">
               <Button 
                 onClick={() => onNewProject()}
                 size="lg"
