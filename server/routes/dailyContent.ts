@@ -12,21 +12,30 @@ router.post('/generate', authenticateToken, async (req, res) => {
 
     const prompt = `You are a creative writing assistant. Generate fresh, inspiring content for writers in the following categories. Make sure all content is unique, engaging, and helpful for writers.
 
+IMPORTANT CHARACTER LIMITS (strictly enforce these):
+- motivation: Maximum 80 characters
+- joke: Maximum 100 characters
+- tip: Maximum 120 characters
+- word definition: Maximum 60 characters
+- word usage: Maximum 80 characters
+- prompt: Maximum 100 characters
+- fact: Maximum 120 characters
+
 Generate content in this exact JSON format:
 {
-  "motivation": "An inspiring quote about writing, creativity, or perseverance (not from a famous person, create original)",
-  "joke": "A clever, clean writing-related joke or pun that will make writers smile",
-  "tip": "A practical, actionable writing tip that helps improve craft or process",
+  "motivation": "An inspiring quote about writing (max 80 chars)",
+  "joke": "A clever writing joke or pun (max 100 chars)",
+  "tip": "A practical writing tip (max 120 chars)",
   "wordOfDay": {
-    "word": "An interesting, uncommon but useful word for writers",
-    "definition": "Clear, concise definition",
-    "usage": "How writers can use this word effectively"
+    "word": "An uncommon but useful word",
+    "definition": "Clear definition (max 60 chars)",
+    "usage": "How to use this word (max 80 chars)"
   },
-  "prompt": "A creative story prompt that sparks imagination (one sentence)",
-  "fact": "An interesting, lesser-known fact about writing, literature, or famous authors"
+  "prompt": "A creative story prompt (max 100 chars)",
+  "fact": "An interesting writing fact (max 120 chars)"
 }
 
-Make the content fresh, varied, and specifically helpful for fiction writers. Be creative and avoid clichés.`;
+Keep content concise, punchy, and within character limits. Be creative and avoid clichés.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
