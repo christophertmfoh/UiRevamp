@@ -70,9 +70,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log('Document imported successfully:', extractedData);
 
-      // Transform extracted data to match database schema
-      const characterData: any = {
-        id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      // Generate a more robust unique ID to prevent collisions
+      const generateUniqueId = () => {
+        const timestamp = Date.now();
+        const randomPart = Math.random().toString(36).substring(2, 15);
+        const extraRandom = Math.random().toString(36).substring(2, 9);
+        return `char_${timestamp}_${randomPart}_${extraRandom}`;
+      };
+
+      // Transform extracted data to match database schema  
+      const characterData: Record<string, unknown> = {
+        id: generateUniqueId(),
         projectId,
         name: extractedData.name || 'Unnamed Character',
         ...extractedData
@@ -100,9 +108,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       res.json({ character });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error importing document:", error);
-      res.status(500).json({ error: "Failed to import document", details: error.message });
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      res.status(500).json({ error: "Failed to import document", details: errorMessage });
     }
   });
 
@@ -112,11 +121,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Character image generation request:', req.body);
       const imageUrl = await generateCharacterImage(req.body);
       res.json({ imageUrl });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error generating character image:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
       res.status(500).json({ 
         error: "Failed to generate character image", 
-        details: error.message 
+        details: errorMessage 
       });
     }
   });
