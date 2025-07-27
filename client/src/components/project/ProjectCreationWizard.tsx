@@ -44,7 +44,13 @@ const genres = [
   'Horror', 'Historical', 'Literary', 'Adventure', 'Crime',
   'Western', 'Dystopian', 'Urban Fantasy', 'Epic Fantasy',
   'Space Opera', 'Cyberpunk', 'Steampunk', 'Paranormal',
-  'Contemporary', 'Magical Realism'
+  'Contemporary', 'Magical Realism', 'Smut', 'Erotica',
+  'Dark Romance', 'Cozy Mystery', 'Psychological Thriller',
+  'Military Sci-Fi', 'LitRPG', 'Reverse Harem', 'Romantasy',
+  'Dark Fantasy', 'Grimdark', 'New Adult', 'Young Adult',
+  'Middle Grade', 'Slice of Life', 'Satire', 'Mythology',
+  'Fairy Tale Retelling', 'Time Travel', 'Alternate History',
+  'Post-Apocalyptic', 'Superhero', 'Sword & Sorcery'
 ];
 
 const projectTypes = [
@@ -271,22 +277,29 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-heading-primary">Select your genres</h3>
               <p className="text-sm text-body-secondary">Choose one or more genres that best fit your story</p>
-              <div className="flex flex-wrap gap-2">
-                {genres.map((genre) => (
-                  <Badge
-                    key={genre}
-                    variant={selectedGenres.includes(genre) ? "default" : "outline"}
-                    className={`cursor-pointer transition-all duration-200 ${
-                      selectedGenres.includes(genre)
-                        ? 'bg-gradient-to-r from-emerald-600 to-amber-600 text-white border-transparent'
-                        : 'hover:scale-105'
-                    }`}
-                    onClick={() => toggleGenre(genre)}
-                  >
-                    {genre}
-                  </Badge>
-                ))}
+              <div className="max-h-[300px] overflow-y-auto pr-2 border rounded-lg p-4 bg-stone-50 dark:bg-stone-900/20 border-stone-200 dark:border-stone-700/30">
+                <div className="flex flex-wrap gap-2">
+                  {genres.map((genre) => (
+                    <Badge
+                      key={genre}
+                      variant={selectedGenres.includes(genre) ? "default" : "outline"}
+                      className={`cursor-pointer transition-all duration-200 ${
+                        selectedGenres.includes(genre)
+                          ? 'bg-gradient-to-r from-emerald-600 to-amber-600 text-white border-transparent'
+                          : 'hover:scale-105'
+                      }`}
+                      onClick={() => toggleGenre(genre)}
+                    >
+                      {genre}
+                    </Badge>
+                  ))}
+                </div>
               </div>
+              {selectedGenres.length > 0 && (
+                <p className="text-sm text-body-secondary">
+                  Selected: {selectedGenres.length} genre{selectedGenres.length !== 1 ? 's' : ''}
+                </p>
+              )}
             </div>
           )}
 

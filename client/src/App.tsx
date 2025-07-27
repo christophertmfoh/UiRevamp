@@ -176,6 +176,8 @@ export default function App() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
+          id: Date.now().toString(),
+          userId: user?.id || '',
           name: projectData.name,
           type: projectData.type,
           description: projectData.description || '',
