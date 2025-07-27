@@ -134,75 +134,92 @@ body {
 }
 
 :root {
-  /* Light mode - Clean, modern palette */
-  --background: hsl(30, 20%, 94%);              /* Softer warm white */
-  --foreground: hsl(30, 40%, 15%);              /* Rich dark brown */
-  --muted: hsl(30, 15%, 90%);                   /* Light warm gray */
-  --muted-foreground: hsl(30, 20%, 40%);        /* Muted text */
-  --popover: hsl(30, 20%, 96%);                 /* Soft white */
-  --popover-foreground: hsl(30, 40%, 15%);
-  --card: hsl(30, 18%, 93%);                    /* Softer card white */
-  --card-foreground: hsl(30, 40%, 15%);
-  --border: hsl(30, 15%, 85%);                  /* Light border */
-  --input: hsl(30, 15%, 92%);                   /* Input background */
-  --primary: hsl(155, 50%, 40%);                /* Emerald green */
-  --primary-foreground: hsl(30, 20%, 98%);
-  --secondary: hsl(30, 25%, 85%);               /* Light stone */
-  --secondary-foreground: hsl(30, 40%, 15%);
-  --accent: hsl(35, 70%, 50%);                  /* Golden amber */
-  --accent-foreground: hsl(30, 40%, 15%);
-  --destructive: hsl(0, 60%, 50%);              /* Red */
-  --destructive-foreground: hsl(30, 20%, 98%);
-  --ring: hsl(155, 50%, 40%);                   /* Emerald ring */
+  /* Fablecraft Brand System - Light Mode */
+  --background: hsl(20, 14.3%, 95%);                /* Clean stone background */
+  --foreground: hsl(20, 14.3%, 4.1%);               /* Rich dark text */
+  --muted: hsl(20, 14.3%, 90%);                     /* Muted backgrounds */
+  --muted-foreground: hsl(20, 5.9%, 45%);           /* Muted text */
+  --popover: hsl(0, 0%, 100%);                      /* Clean white */
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);                         /* Pure white cards */
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 85%);                     /* Subtle borders */
+  --input: hsl(20, 5.9%, 92%);                      /* Input backgrounds */
+  --primary: hsl(155, 84%, 44%);                    /* Emerald primary */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(20, 5.9%, 95%);                  /* Light secondary */
+  --secondary-foreground: hsl(20, 9%, 9%);
+  --accent: hsl(35, 91%, 54%);                      /* Amber accent */
+  --accent-foreground: hsl(20, 14.3%, 4.1%);
+  --destructive: hsl(0, 84%, 60%);                  /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(155, 84%, 44%);                       /* Emerald focus ring */
   --radius: 0.75rem;
   
-  /* Creative palette extensions */
-  --paper: hsl(42, 20%, 94%);                 /* Warm paper white */
-  --ink: hsl(25, 15%, 12%);                   /* Rich ink dark */
-  --parchment: hsl(40, 25%, 86%);            /* Aged parchment */
-  --candlelight: hsl(40, 65%, 68%);          /* Warm golden glow */
-  --ember: hsl(18, 55%, 48%);                /* Warm orange ember */
-  --sage: hsl(72, 18%, 42%);                 /* Muted sage green */
-  --leather: hsl(22, 30%, 32%);              /* Rich leather brown */
-  --brass: hsl(45, 40%, 55%);                /* Brass metallic */
-  --coffee: hsl(25, 20%, 20%);               /* Rich coffee brown */
-  --caramel: hsl(35, 35%, 45%);              /* Caramel accent */
+  /* Fablecraft Design System - Light Mode */
+  --fablecraft-bg-base: hsl(20, 14.3%, 97%);               /* Page background */
+  --fablecraft-bg-subtle: hsl(20, 14.3%, 94%);             /* Section backgrounds */
+  --fablecraft-glass-card: hsl(120, 5%, 70%, 0.3);         /* Glassmorphism cards */
+  --fablecraft-glass-border: hsl(120, 5%, 60%, 0.4);       /* Glass borders */
   
-  /* Gradients for depth */
-  --gradient-candlelight: linear-gradient(135deg, hsl(40, 65%, 68%), hsl(35, 55%, 58%));
-  --gradient-ember: linear-gradient(135deg, hsl(18, 55%, 48%), hsl(22, 50%, 38%));
-  --gradient-paper: linear-gradient(180deg, hsl(42, 20%, 94%), hsl(40, 18%, 90%));
-  --gradient-leather: linear-gradient(135deg, hsl(22, 30%, 32%), hsl(18, 25%, 22%));
-  --gradient-warm: linear-gradient(135deg, hsl(25, 12%, 8%), hsl(28, 15%, 6%));
+  /* Enhanced Light Mode - Floating Orbs */
+  --fablecraft-orb-emerald: hsl(155, 70%, 50%, 0.45);      /* Emerald orbs */
+  --fablecraft-orb-amber: hsl(35, 80%, 55%, 0.40);         /* Amber orbs */
+  --fablecraft-orb-stone: hsl(20, 15%, 55%, 0.45);         /* Stone orbs */
   
-  /* Texture and atmosphere */
-  --texture-paper: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.015'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3Ccircle cx='25' cy='18' r='0.5'/%3E%3Ccircle cx='45' cy='35' r='1'/%3E%3Ccircle cx='15' cy='45' r='0.5'/%3E%3C/g%3E%3C/svg%3E");
-  --shadow-warm: 0 8px 32px hsla(22, 30%, 8%, 0.4);
-  --shadow-glow: 0 0 24px hsla(40, 65%, 68%, 0.08);
-  --shadow-soft: 0 4px 16px hsla(25, 20%, 10%, 0.25);
+  /* Enhanced Light Mode - Ambient Lighting */
+  --fablecraft-ambient-emerald: hsl(155, 70%, 50%, 0.25);  /* Emerald lighting */
+  --fablecraft-ambient-amber: hsl(35, 80%, 55%, 0.25);     /* Amber lighting */
+  --fablecraft-ambient-stone: hsl(20, 15%, 45%, 0.25);     /* Stone lighting */
+  
+  /* Enhanced Light Mode - Gradient Mesh */
+  --fablecraft-mesh-emerald: hsl(155, 60%, 60%, 0.35);     /* Mesh emerald */
+  --fablecraft-mesh-stone: hsl(20, 20%, 65%, 0.50);        /* Mesh stone */
+  --fablecraft-mesh-amber: hsl(35, 70%, 65%, 0.35);        /* Mesh amber */
 }
 
 .dark {
-  /* Dark mode - Modern, sophisticated palette */
-  --background: hsl(30, 10%, 8%);               /* Deep warm black */
-  --foreground: hsl(30, 15%, 90%);              /* Warm light */
-  --muted: hsl(30, 10%, 15%);                   /* Rich dark */
-  --muted-foreground: hsl(30, 10%, 65%);        /* Soft text */
-  --popover: hsl(30, 10%, 12%);                 /* Deep brown */
-  --popover-foreground: hsl(30, 15%, 90%);
-  --card: hsl(30, 10%, 12%);                    /* Card dark */
-  --card-foreground: hsl(30, 15%, 90%);
-  --border: hsl(30, 8%, 22%);                   /* Subtle border */
-  --input: hsl(30, 10%, 15%);                   /* Input dark */
-  --primary: hsl(155, 45%, 45%);                /* Emerald green */
-  --primary-foreground: hsl(30, 20%, 98%);
-  --secondary: hsl(30, 10%, 20%);               /* Secondary */
-  --secondary-foreground: hsl(30, 15%, 90%);
-  --accent: hsl(35, 65%, 55%);                  /* Golden amber */
-  --accent-foreground: hsl(30, 40%, 15%);
-  --destructive: hsl(0, 55%, 45%);              /* Muted red */
-  --destructive-foreground: hsl(30, 15%, 90%);
-  --ring: hsl(155, 45%, 45%);                   /* Emerald ring */
+  /* Fablecraft Brand System - Dark Mode */
+  --background: hsl(20, 14.3%, 4.1%);               /* Deep stone background */
+  --foreground: hsl(0, 0%, 95%);                    /* Clean light text */
+  --muted: hsl(20, 14.3%, 9%);                      /* Muted backgrounds */
+  --muted-foreground: hsl(20, 5.9%, 63.9%);         /* Muted text */
+  --popover: hsl(20, 14.3%, 4.1%);                  /* Deep popover */
+  --popover-foreground: hsl(0, 0%, 95%);
+  --card: hsl(20, 14.3%, 4.1%);                     /* Dark cards */
+  --card-foreground: hsl(0, 0%, 95%);
+  --border: hsl(20, 5.9%, 15%);                     /* Subtle borders */
+  --input: hsl(20, 5.9%, 15%);                      /* Input backgrounds */
+  --primary: hsl(155, 84%, 44%);                    /* Emerald primary */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(20, 5.9%, 15%);                  /* Dark secondary */
+  --secondary-foreground: hsl(0, 0%, 95%);
+  --accent: hsl(35, 91%, 54%);                      /* Amber accent */
+  --accent-foreground: hsl(20, 14.3%, 4.1%);
+  --destructive: hsl(0, 62.8%, 30.6%);              /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 95%);
+  --ring: hsl(155, 84%, 44%);                       /* Emerald focus ring */
+  
+  /* Fablecraft Design System - Dark Mode */
+  --fablecraft-bg-base: hsl(20, 14.3%, 3%);                /* Page background */
+  --fablecraft-bg-subtle: hsl(20, 14.3%, 7%);              /* Section backgrounds */
+  --fablecraft-glass-card: hsl(20, 10%, 90%, 0.4);         /* Glassmorphism cards */
+  --fablecraft-glass-border: hsl(20, 10%, 70%, 0.3);       /* Glass borders */
+  
+  /* Elegant Dark Mode - Floating Orbs */
+  --fablecraft-orb-emerald: hsl(155, 60%, 40%, 0.30);      /* Emerald orbs */
+  --fablecraft-orb-amber: hsl(35, 70%, 45%, 0.20);         /* Amber orbs */
+  --fablecraft-orb-stone: hsl(20, 20%, 50%, 0.30);         /* Stone orbs */
+  
+  /* Elegant Dark Mode - Ambient Lighting */
+  --fablecraft-ambient-emerald: hsl(155, 50%, 45%, 0.10);  /* Emerald lighting */
+  --fablecraft-ambient-amber: hsl(35, 60%, 50%, 0.10);     /* Amber lighting */
+  --fablecraft-ambient-stone: hsl(20, 15%, 40%, 0.10);     /* Stone lighting */
+  
+  /* Elegant Dark Mode - Gradient Mesh */
+  --fablecraft-mesh-emerald: hsl(155, 40%, 30%, 0.20);     /* Mesh emerald */
+  --fablecraft-mesh-stone: hsl(20, 15%, 35%, 0.40);        /* Mesh stone */
+  --fablecraft-mesh-amber: hsl(35, 50%, 35%, 0.20);        /* Mesh amber */
 }
 
 /* Animated blob effect */
@@ -436,27 +453,7 @@ body {
   }
 }
 
-.dark {
-  --background: hsl(222, 84%, 5%);
-  --foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217, 32%, 17%);
-  --muted-foreground: hsl(215, 20%, 65%);
-  --popover: hsl(222, 84%, 5%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --card: hsl(222, 84%, 5%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217, 32%, 17%);
-  --input: hsl(217, 32%, 17%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(222, 84%, 5%);
-  --secondary: hsl(217, 32%, 17%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --accent: hsl(217, 32%, 17%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --ring: hsl(207, 90%, 54%);
-}
+
 
 @layer base {
   * {

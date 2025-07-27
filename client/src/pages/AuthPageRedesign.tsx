@@ -166,27 +166,41 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {/* Gradient Mesh Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-300/35 via-stone-300/50 to-amber-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br" style={{
+          background: `linear-gradient(to bottom right, 
+            var(--fablecraft-mesh-emerald), 
+            var(--fablecraft-mesh-stone), 
+            var(--fablecraft-mesh-amber))`
+        }}></div>
         
         {/* Floating Orbs */}
         <div 
-          className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-400/45 to-emerald-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+          className="absolute -top-40 -left-40 w-80 h-80 rounded-full blur-3xl animate-pulse"
+          style={{ 
+            background: `linear-gradient(to bottom right, var(--fablecraft-orb-emerald), var(--fablecraft-orb-emerald))`,
+            transform: `translateY(${scrollY * 0.1}px)` 
+          }}
         ></div>
         <div 
-          className="absolute top-20 -right-32 w-96 h-96 bg-gradient-to-br from-amber-400/40 to-amber-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse delay-1000"
-          style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+          className="absolute top-20 -right-32 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000"
+          style={{ 
+            background: `linear-gradient(to bottom right, var(--fablecraft-orb-amber), var(--fablecraft-orb-amber))`,
+            transform: `translateY(${scrollY * 0.15}px)` 
+          }}
         ></div>
         <div 
-          className="absolute -bottom-32 left-1/2 w-64 h-64 bg-gradient-to-br from-stone-400/45 to-stone-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
-          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+          className="absolute -bottom-32 left-1/2 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500"
+          style={{ 
+            background: `linear-gradient(to bottom right, var(--fablecraft-orb-stone), var(--fablecraft-orb-stone))`,
+            transform: `translateY(${scrollY * 0.05}px)` 
+          }}
         ></div>
 
         {/* Ambient Lighting Effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
-          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-stone-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 rounded-full blur-2xl animate-pulse delay-300" style={{ background: `var(--fablecraft-ambient-emerald)` }}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full blur-2xl animate-pulse delay-700" style={{ background: `var(--fablecraft-ambient-amber)` }}></div>
+          <div className="absolute top-3/4 left-3/4 w-32 h-32 rounded-full blur-xl animate-pulse delay-1000" style={{ background: `var(--fablecraft-ambient-stone)` }}></div>
         </div>
       </div>
 
@@ -233,10 +247,16 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           </div>
 
           {/* Auth Card */}
-          <Card className="bg-stone-700/30 dark:bg-stone-900/40 backdrop-blur-xl border-stone-600/40 dark:border-stone-700/30 shadow-2xl">
+          <Card className="backdrop-blur-xl shadow-2xl" style={{
+            background: `var(--fablecraft-glass-card)`,
+            borderColor: `var(--fablecraft-glass-border)`
+          }}>
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <div className="p-6">
-                <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-700/25 dark:bg-stone-800/30 backdrop-blur-sm border border-stone-600/30 dark:border-white/10">
+                <TabsList className="grid w-full grid-cols-2 mb-6 backdrop-blur-sm border" style={{
+                  background: `var(--fablecraft-glass-card)`,
+                  borderColor: `var(--fablecraft-glass-border)`
+                }}>
                   <TabsTrigger 
                     value="login" 
                     className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-stone-600 data-[state=active]:to-amber-700 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"

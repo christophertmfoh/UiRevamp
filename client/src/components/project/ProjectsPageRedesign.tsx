@@ -113,31 +113,45 @@ export function ProjectsPageRedesign({
   const uniqueGenres = Array.from(new Set(projects.map((p: Project) => p.genre).filter(Boolean))).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-stone-100 to-emerald-50 dark:from-stone-950 dark:via-stone-900 dark:to-emerald-950 transition-all duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-stone-100 to-stone-50 dark:from-stone-900 dark:via-stone-800 dark:to-stone-900 transition-all duration-300">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Mesh Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-300/35 via-stone-300/50 to-amber-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
+        <div className="absolute inset-0" style={{
+          background: `linear-gradient(to bottom right, 
+            var(--fablecraft-mesh-emerald), 
+            var(--fablecraft-mesh-stone), 
+            var(--fablecraft-mesh-amber))`
+        }}></div>
         
         {/* Floating Orbs */}
         <div 
-          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-amber-400/40 to-amber-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})` }}
+          className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl animate-pulse"
+          style={{ 
+            background: `var(--fablecraft-orb-amber)`,
+            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})` 
+          }}
         />
         <div 
-          className="absolute bottom-40 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/45 to-emerald-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse delay-1000"
-          style={{ transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})` }}
+          className="absolute bottom-40 right-20 w-72 h-72 rounded-full blur-3xl animate-pulse delay-1000"
+          style={{ 
+            background: `var(--fablecraft-orb-emerald)`,
+            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})` 
+          }}
         />
         <div 
-          className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-stone-400/45 to-stone-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
-          style={{ transform: `translate(${scrollY * 0.01}px, ${-scrollY * 0.08}px)` }}
+          className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500"
+          style={{ 
+            background: `var(--fablecraft-orb-stone)`,
+            transform: `translate(${scrollY * 0.01}px, ${-scrollY * 0.08}px)` 
+          }}
         />
 
         {/* Ambient Lighting Effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
-          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-stone-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 rounded-full blur-2xl animate-pulse delay-300" style={{ background: `var(--fablecraft-ambient-emerald)` }}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full blur-2xl animate-pulse delay-700" style={{ background: `var(--fablecraft-ambient-amber)` }}></div>
+          <div className="absolute top-3/4 left-3/4 w-32 h-32 rounded-full blur-xl animate-pulse delay-1000" style={{ background: `var(--fablecraft-ambient-stone)` }}></div>
         </div>
       </div>
 
@@ -216,7 +230,10 @@ export function ProjectsPageRedesign({
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <Card className="bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <Card className="backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style={{
+            background: `var(--fablecraft-glass-card)`,
+            borderColor: `var(--fablecraft-glass-border)`
+          }}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -234,7 +251,10 @@ export function ProjectsPageRedesign({
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <Card className="backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style={{
+            background: `var(--fablecraft-glass-card)`,
+            borderColor: `var(--fablecraft-glass-border)`
+          }}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -252,7 +272,10 @@ export function ProjectsPageRedesign({
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <Card className="backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105" style={{
+            background: `var(--fablecraft-glass-card)`,
+            borderColor: `var(--fablecraft-glass-border)`
+          }}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -290,7 +313,10 @@ export function ProjectsPageRedesign({
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white/60 dark:bg-stone-900/30 backdrop-blur-xl rounded-3xl p-6 shadow-xl border border-stone-300/20 dark:border-stone-700/30 mb-8">
+        <div className="backdrop-blur-xl rounded-3xl p-6 shadow-xl border mb-8" style={{
+          background: `var(--fablecraft-glass-card)`,
+          borderColor: `var(--fablecraft-glass-border)`
+        }}>
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
