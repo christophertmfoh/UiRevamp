@@ -262,19 +262,42 @@ export function ProjectsPageRedesign({
               </div>
             </div>
 
-            {/* Writing Tip */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-4 h-4 text-white" />
+            {/* Writing Resources */}
+            <div className="space-y-4">
+              {/* Writing Tip */}
+              <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-2">
+                      Today's Writing Tip
+                    </p>
+                    <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-3">
+                      Character development is the backbone of compelling storytelling. Spend time understanding your characters' motivations before diving into plot.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                    Today's Writing Tip
-                  </p>
-                  <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
-                    Character development is the backbone of compelling storytelling. Spend time understanding your characters' motivations before diving into plot.
-                  </p>
+                
+                {/* Quick Stats */}
+                <div className="flex items-center justify-between pt-4 border-t border-stone-200/50 dark:border-stone-700/50">
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400">Projects</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">47</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400">Characters</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">12k</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400">Words</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-emerald-600">98%</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400">Creativity</p>
+                  </div>
                 </div>
               </div>
             </div>
