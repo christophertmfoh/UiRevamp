@@ -120,6 +120,8 @@ export function LandingPage({
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
 
+      {/* Top to middle gradient overlay */}
+      <div className="absolute inset-x-0 top-0 h-[70vh] bg-gradient-to-b from-stone-900/20 via-stone-900/10 to-transparent dark:from-slate-900/40 dark:via-slate-900/20 dark:to-transparent pointer-events-none z-[1]"></div>
       
       {/* Enhanced HD Fantasy/Novel Background with Multi-layer Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
