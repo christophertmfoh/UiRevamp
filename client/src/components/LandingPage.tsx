@@ -118,10 +118,10 @@ export function LandingPage({
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-emerald-50/40 to-stone-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
 
       {/* Top to middle gradient overlay */}
-      <div className="absolute inset-x-0 top-0 h-[70vh] bg-gradient-to-b from-stone-50/60 via-stone-50/30 to-transparent dark:from-slate-900/40 dark:via-slate-900/20 dark:to-transparent pointer-events-none z-[1]"></div>
+      <div className="absolute inset-x-0 top-0 h-[70vh] bg-gradient-to-b from-amber-100/40 via-emerald-50/20 to-transparent dark:from-slate-900/40 dark:via-slate-900/20 dark:to-transparent pointer-events-none z-[1]"></div>
       
       {/* Enhanced HD Fantasy/Novel Background with Multi-layer Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
@@ -248,7 +248,7 @@ export function LandingPage({
             <ThemeToggle />
             <Button 
               onClick={() => onNavigate('projects')}
-              className="bg-white/95 dark:bg-slate-800/80 backdrop-blur-sm border border-stone-400/40 dark:border-stone-600/30 text-stone-800 dark:text-stone-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:border-emerald-500 dark:hover:border-emerald-600 px-6 py-2 shadow-md dark:shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="bg-gradient-to-r from-amber-50 to-emerald-50 dark:bg-slate-800/80 backdrop-blur-sm border border-emerald-400/50 dark:border-stone-600/30 text-stone-800 dark:text-stone-200 hover:from-amber-100 hover:to-emerald-100 dark:hover:bg-emerald-900/30 hover:border-emerald-500 dark:hover:border-emerald-600 px-6 py-2 shadow-md dark:shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               Your Projects
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -263,7 +263,7 @@ export function LandingPage({
           {/* Main Content */}
           <div className="lg:col-span-7 space-y-10">
             <div className="space-y-10">
-              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-md dark:shadow-none">
+              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-gradient-to-r from-amber-100 to-emerald-100 dark:bg-stone-900/30 border border-amber-300/60 dark:border-stone-700/50 shadow-md dark:shadow-none">
                 <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
                 <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
               </div>
@@ -312,7 +312,7 @@ export function LandingPage({
 
           {/* Process Preview */}
           <div className="lg:col-span-5">
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-stone-300/30 dark:border-slate-700/20">
+            <div className="bg-gradient-to-br from-amber-50/90 via-white/80 to-emerald-50/90 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-amber-200/40 dark:border-slate-700/20">
               {/* Subtle gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/20 via-transparent to-emerald-50/10 dark:from-stone-900/10 dark:via-transparent dark:to-emerald-900/5 rounded-[2rem]"></div>
               
@@ -341,8 +341,8 @@ export function LandingPage({
                         onMouseEnter={() => setHoveredStep(index)}
                         className={`p-5 rounded-2xl transition-all duration-700 cursor-pointer group ${
                           isActive 
-                            ? 'bg-gradient-to-br from-emerald-50/90 to-stone-50/80 dark:from-emerald-900/40 dark:to-stone-900/30 scale-110 shadow-2xl shadow-emerald-200/40 dark:shadow-emerald-900/20 -translate-y-1 border border-emerald-500/40 dark:border-emerald-600/30' 
-                            : 'bg-white/70 dark:bg-slate-700/30 border border-stone-300/50 dark:border-slate-600/30 hover:bg-gradient-to-br hover:from-stone-50/80 hover:to-emerald-50/60 dark:hover:from-stone-900/30 dark:hover:to-emerald-900/20 hover:border-stone-400/60 dark:hover:border-stone-600/40 hover:scale-105 hover:shadow-lg'
+                            ? 'bg-gradient-to-br from-emerald-100 to-amber-100 dark:from-emerald-900/40 dark:to-stone-900/30 scale-110 shadow-2xl shadow-emerald-300/50 dark:shadow-emerald-900/20 -translate-y-1 border border-emerald-400/60 dark:border-emerald-600/30' 
+                            : 'bg-gradient-to-br from-amber-50/80 to-emerald-50/60 dark:bg-slate-700/30 border border-emerald-300/40 dark:border-slate-600/30 hover:from-amber-100 hover:to-emerald-100 dark:hover:from-stone-900/30 dark:hover:to-emerald-900/20 hover:border-emerald-400/70 dark:hover:border-stone-600/40 hover:scale-105 hover:shadow-lg'
                         }`}
                       >
                         <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
@@ -376,7 +376,7 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-white/95 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-stone-400/60 dark:border-stone-600 font-bold backdrop-blur-md shadow-md dark:shadow-lg">
+            <Badge className="bg-gradient-to-r from-amber-100 to-emerald-100 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-amber-300/60 dark:border-stone-600 font-bold backdrop-blur-md shadow-md dark:shadow-lg">
               End-to-End Creative Production
             </Badge>
             <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
