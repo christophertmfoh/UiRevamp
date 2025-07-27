@@ -26,7 +26,8 @@ import {
   ArrowLeft,
   Activity,
   TrendingUp,
-  Image
+  Image,
+  CheckCircle
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -205,15 +206,78 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
-        <div className="text-center mb-12 space-y-6 py-8">
-          <div className="overflow-visible py-4">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-relaxed tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] pb-6 mt-[1px] mb-[1px]">
-              Your Projects
-            </h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
+          {/* Left Side - Title and Description */}
+          <div className="space-y-6">
+            <div className="overflow-visible py-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-relaxed tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] pb-6 mt-[1px] mb-[1px]">
+                Your Projects
+              </h1>
+            </div>
+            <p className="text-xl text-stone-800 dark:text-stone-200 leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+              Organize, track, and bring your stories to life with intelligent project management.
+            </p>
           </div>
-          <p className="text-xl text-stone-800 dark:text-stone-200 max-w-2xl mx-auto leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
-            Organize, track, and bring your stories to life with intelligent project management.
-          </p>
+
+          {/* Right Side - Quick Access Cards */}
+          <div className="space-y-4">
+            {/* Recent Project Card */}
+            {projects.length > 0 && (
+              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
+                    <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs">
+                      Active
+                    </Badge>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-semibold text-stone-900 dark:text-stone-100 truncate">{projects[0]?.name}</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400 truncate">{projects[0]?.description || 'No description'}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => onNavigate(`project/${projects[0]?.id}`)}
+                        className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      >
+                        Open
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Quick To-Do Box */}
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Quick Tasks</h3>
+                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                    <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-amber-600 rounded-full"></div>
+                    <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-stone-600 rounded-full"></div>
+                    <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
+                  </div>
+                </div>
+                <Button 
+                  size="sm"
+                  className="mt-3 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                >
+                  View All Tasks
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Stats Cards */}
