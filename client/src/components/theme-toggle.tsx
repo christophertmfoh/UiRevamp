@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/components/theme-provider';
+import type { Theme } from '@/components/theme-provider';
 
 const themeIcons = {
   light: Sun,
@@ -30,9 +31,9 @@ export function ThemeToggle() {
     return <IconComponent className="h-4 w-4" />;
   };
 
-  const handleThemeChange = (newTheme: string) => {
+  const handleThemeChange = (newTheme: Theme) => {
     try {
-      setTheme(newTheme as any);
+      setTheme(newTheme);
     } catch (error) {
       console.warn('Theme change failed:', error);
     }

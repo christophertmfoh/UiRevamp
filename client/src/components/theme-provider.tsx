@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark' | 'midnight-ink' | 'sunrise-creative' | 'sepia-parchment' | 'evergreen-focus' | 'obsidian-minimal' | 'system';
-type ResolvedTheme = Exclude<Theme, 'system'>;
+export type Theme = 'light' | 'dark' | 'midnight-ink' | 'sunrise-creative' | 'sepia-parchment' | 'evergreen-focus' | 'obsidian-minimal' | 'system';
+export type ResolvedTheme = Exclude<Theme, 'system'>;
 
-type ThemeConfig = {
+export type ThemeConfig = {
   id: ResolvedTheme;
   name: string;
   description: string;
