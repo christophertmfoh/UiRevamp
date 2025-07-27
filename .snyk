@@ -1,0 +1,19 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch: {}
+
+# Snyk specific settings
+# These settings help Snyk better analyze your project
+exclude:
+  - dist/**
+  - node_modules/**
+  - uploads/**
+  - attached_assets/**
+  
+# Enable security testing for:
+# - npm dependencies
+# - code security issues
+# - license compliance
