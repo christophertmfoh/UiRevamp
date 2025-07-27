@@ -3,7 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
-
+import { ThemeProvider } from './components/theme-provider';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
@@ -281,12 +281,14 @@ export default function App() {
   // Show loading spinner while checking auth
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
+      <ThemeProvider defaultTheme="dark" storageKey="fablecraft-theme">
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 
@@ -346,8 +348,9 @@ export default function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="fablecraft-theme">
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
           <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
             <Toaster />
             {renderView()}
@@ -397,5 +400,6 @@ export default function App() {
         </div>
       </TooltipProvider>
     </QueryClientProvider>
+    </ThemeProvider>
   );
 }
