@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme-toggle';
+
 import { 
   Feather, 
   BookOpen, 
@@ -250,16 +250,7 @@ export function ProjectsView({
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-stone-200/50 dark:bg-stone-700/50" />
                 
-                {/* Theme Toggle in Dropdown */}
-                <div className="px-2 py-2">
-                  <div className="flex items-center justify-between p-2 rounded-xl hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-200">
-                    <div className="flex items-center">
-                      <Sun className="w-4 h-4 mr-3 text-stone-600 dark:text-stone-400" />
-                      <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Theme</span>
-                    </div>
-                    <ThemeToggle />
-                  </div>
-                </div>
+
                 
                 <DropdownMenuSeparator className="bg-stone-200/50 dark:bg-stone-700/50" />
                 <DropdownMenuItem 
