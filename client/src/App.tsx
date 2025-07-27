@@ -10,7 +10,7 @@ import { LandingPage } from './components/LandingPage';
 import { ProjectDashboard } from './components/project';
 import { ProjectsPageRedesign } from './components/project/ProjectsPageRedesign';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
-import { AuthPage } from './pages/AuthPage';
+import { AuthPageRedesign } from './pages/AuthPageRedesign';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
@@ -296,7 +296,7 @@ export default function App() {
     switch(view) {
       case 'auth':
         return (
-          <AuthPage 
+          <AuthPageRedesign 
             onAuth={handleAuth}
             onBack={() => setView('landing')}
           />
