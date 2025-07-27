@@ -4,6 +4,15 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 27, 2025 - **LANDING PAGE VISUAL ENHANCEMENTS COMPLETED**
+✓ **PARTICLE EFFECTS REMOVED** - Eliminated floating letters, story elements, and ink drops from background for cleaner appearance
+✓ **BACKGROUND IMAGES ENHANCED** - Increased opacity and vibrancy of mountain forest backgrounds (70%/60%/50% opacity levels)
+✓ **IMPROVED IMAGE FILTERS** - Applied brightness (1.1), contrast (1.2), and saturation (1.2) to reduce greywashed appearance
+✓ **REDUCED OVERLAYS** - Lightened gradient overlays to let background images shine through more clearly
+✓ **EARTH TONE PALETTE COMPLETE** - All UI elements now use cohesive stone, emerald, and amber color scheme
+✓ **MULTI-LAYER PARALLAX RETAINED** - Kept sophisticated parallax scrolling effects for depth and immersion
+✓ **CLEANER VISUAL DESIGN** - Background images now more prominent without distracting particle animations
+
 ### July 26, 2025 - **PREMIUM LANDING PAGE WITH UNIFIED COLOR SCHEME COMPLETED**
 ✓ **COMPLETE VISUAL OPTIMIZATION** - Landing page refined to absolute premium quality with enhanced animations and interactions
 ✓ **UNIFIED WARM COLOR PALETTE** - Entire page now uses cohesive amber/orange/red gradient family throughout all elements

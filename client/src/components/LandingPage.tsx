@@ -40,116 +40,7 @@ interface LandingPageProps {
 
 
 
-// Particle system component
-const ParticleSystem = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    // Story particles - floating letters, words, ink drops
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      opacity: number;
-      size: number;
-      type: 'letter' | 'ink' | 'star';
-      char?: string;
-      rotation: number;
-      rotationSpeed: number;
-    }> = [];
-    
-    const storyElements = ['A', 'B', 'C', '✦', '✧', '✩', '✪', '◦', '•', '·', '"', '"', "'", "'"];
-    
-    // Initialize particles
-    for (let i = 0; i < 120; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.6 + 0.1,
-        size: Math.random() * 3 + 1,
-        type: Math.random() > 0.7 ? 'letter' : Math.random() > 0.5 ? 'ink' : 'star',
-        char: storyElements[Math.floor(Math.random() * storyElements.length)],
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.02
-      });
-    }
-    
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(particle => {
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        particle.rotation += particle.rotationSpeed;
-        
-        // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
-        
-        // Draw particle
-        ctx.save();
-        ctx.translate(particle.x, particle.y);
-        ctx.rotate(particle.rotation);
-        ctx.globalAlpha = particle.opacity;
-        
-        if (particle.type === 'letter') {
-          ctx.fillStyle = '#10b981'; // emerald-500
-          ctx.font = `${particle.size * 6}px serif`;
-          ctx.textAlign = 'center';
-          ctx.fillText(particle.char || 'A', 0, 0);
-        } else if (particle.type === 'ink') {
-          ctx.fillStyle = '#78716c'; // stone-500
-          ctx.beginPath();
-          ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
-          ctx.fill();
-        } else {
-          ctx.fillStyle = '#d97706'; // amber-600
-          ctx.font = `${particle.size * 4}px serif`;
-          ctx.textAlign = 'center';
-          ctx.fillText('✦', 0, 0);
-        }
-        
-        ctx.restore();
-      });
-      
-      requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
-  
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'transparent' }}
-    />
-  );
-};
+
 
 const processSteps = [
   { 
@@ -223,44 +114,43 @@ export function LandingPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
-      {/* Particle System */}
-      <ParticleSystem />
+
       
       {/* Enhanced HD Fantasy/Novel Background with Multi-layer Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
         {/* Far Background - Mountain Peaks */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 dark:opacity-30"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 dark:opacity-50"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
             transform: `translateY(${scrollY * 0.05}px) scale(1.2)`,
-            filter: 'brightness(0.9) contrast(1.1)'
+            filter: 'brightness(1.1) contrast(1.2) saturate(1.2)'
           }}
         />
         
         {/* Mid Background - Forest Layer */}
         <div 
-          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-35 dark:opacity-25"
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-60 dark:opacity-40"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
             transform: `translateY(${scrollY * 0.15}px) scale(1.15)`,
-            filter: 'brightness(0.85) contrast(1.05)',
+            filter: 'brightness(1.05) contrast(1.15) saturate(1.15)',
           }}
         />
         
         {/* Foreground - Misty Forest Floor */}
         <div 
-          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-25 dark:opacity-20"
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-50 dark:opacity-35"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
             transform: `translateY(${scrollY * 0.25}px) scale(1.1)`,
-            filter: 'brightness(0.8) blur(0.5px)',
+            filter: 'brightness(1.0) contrast(1.1) saturate(1.1) blur(0.5px)',
           }}
         />
         
         {/* Earth tone overlay matching forest palette */}
         <div 
-          className="absolute inset-0 bg-gradient-to-br from-stone-900/20 via-emerald-900/10 to-amber-900/15 dark:from-stone-900/30 dark:via-emerald-900/20 dark:to-amber-900/20"
+          className="absolute inset-0 bg-gradient-to-br from-stone-900/10 via-emerald-900/5 to-amber-900/8 dark:from-stone-900/20 dark:via-emerald-900/10 dark:to-amber-900/15"
           style={{ transform: `translateY(${scrollY * 0.08}px)` }}
         />
         
