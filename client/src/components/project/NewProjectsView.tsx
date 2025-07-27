@@ -276,259 +276,161 @@ export function ProjectsView({
 
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-8 py-8">
-        {/* Hero Header Section */}
-        <div className="mb-16">
-          <div className="text-center space-y-8 mb-12">
-            <div className="inline-flex items-center space-x-3 px-5 py-3 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-lg dark:shadow-none backdrop-blur-sm">
+        {/* Header Section */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-lg backdrop-blur-sm mb-4">
               <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">Your Creative Universe</span>
+              <span className="text-xs font-bold text-stone-900 dark:text-stone-100 uppercase tracking-wide">Creative Universe</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+            <h1 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 leading-tight tracking-tight mb-2">
               Your{' '}
-              <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+              <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent">
                 Projects
               </span>
             </h1>
             
-            <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl mx-auto leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
-              Your creative command center. Organize, track, and bring your stories to life with intelligent project management designed for storytellers.
+            <p className="text-stone-700 dark:text-stone-300 max-w-2xl">
+              Organize, track, and bring your stories to life with intelligent project management.
             </p>
           </div>
 
-          {/* Balanced Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">{filteredProjects.length}</p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Projects</p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-white" />
-                </div>
+          <Button 
+            onClick={onNewProject}
+            className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 text-white px-6 py-3 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-2xl"
+          >
+            <Plus className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+            New Project
+          </Button>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">{filteredProjects.length}</p>
+                <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Projects</p>
               </div>
-            </div>
-            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                    {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
-                  </p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </div>
-            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                    {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
-                  </p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                  <Target className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </div>
-            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">Ready</p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">To Write</p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                  <PenTool className="w-6 h-6 text-white" />
-                </div>
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-4 h-4 text-white" />
               </div>
             </div>
           </div>
-
-          {/* Balanced 2-Column Layout */}
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Left Side - Start Creating */}
-            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-stone-300/30 dark:border-stone-700/20">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/20 via-transparent to-amber-50/10 dark:from-emerald-900/10 dark:via-transparent dark:to-amber-900/5 rounded-[2rem]"></div>
-              
-              <div className="relative z-10 text-center space-y-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
-                  <Sparkles className="w-10 h-10 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight mb-2">Start Creating</h3>
-                  <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">Transform your ideas into compelling narratives with AI-powered tools.</p>
-                </div>
-                
-                <Button 
-                  onClick={onNewProject}
-                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden w-full"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="relative z-10 flex items-center justify-center">
-                    <Plus className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    Create New Project
-                  </span>
-                </Button>
+          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">
+                  {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
+                </p>
+                <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
+              </div>
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                <Zap className="w-4 h-4 text-white" />
               </div>
             </div>
-
-            {/* Right Side - Recent Activity */}
-            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-stone-300/30 dark:border-stone-700/20">
-              <div className="space-y-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 tracking-tight">Recent Activity</h3>
-                    <p className="text-sm text-stone-600 dark:text-stone-400">Track your creative progress</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  {filteredProjects.slice(0, 4).map((project, index) => {
-                    const timeAgo = new Date(project.updatedAt || project.createdAt).toLocaleDateString();
-                    const isRecent = new Date(project.updatedAt || project.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
-                    
-                    return (
-                      <div key={project.id} className="flex items-center space-x-4 p-4 bg-stone-50/50 dark:bg-stone-700/30 rounded-2xl hover:bg-stone-100/50 dark:hover:bg-stone-700/50 transition-colors duration-200">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          isRecent 
-                            ? 'bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700' 
-                            : 'bg-stone-300 dark:bg-stone-600'
-                        }`}>
-                          {project.type === 'novel' ? <BookOpen className="w-5 h-5 text-white" /> :
-                           project.type === 'screenplay' ? <FileText className="w-5 h-5 text-white" /> :
-                           <Image className="w-5 h-5 text-white" />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 truncate">
-                            {project.name}
-                          </p>
-                          <p className="text-xs text-stone-600 dark:text-stone-400">
-                            {isRecent ? 'Updated today' : `Updated ${timeAgo}`}
-                          </p>
-                        </div>
-                        {isRecent && (
-                          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                        )}
-                      </div>
-                    );
-                  })}
-                  
-                  {filteredProjects.length === 0 && (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-stone-200 dark:bg-stone-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Clock className="w-8 h-8 text-stone-400 dark:text-stone-500" />
-                      </div>
-                      <p className="text-stone-600 dark:text-stone-400 text-sm">No recent activity yet</p>
-                      <p className="text-stone-500 dark:text-stone-500 text-xs">Create your first project to get started</p>
-                    </div>
-                  )}
-                </div>
+          </div>
+          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">
+                  {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
+                </p>
+                <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
+              </div>
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                <Target className="w-4 h-4 text-white" />
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-2xl font-bold text-stone-900 dark:text-stone-50">Ready</p>
+                <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">To Write</p>
+              </div>
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                <PenTool className="w-4 h-4 text-white" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Balanced Search & Controls */}
-        <div className="mb-12">
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Search Section */}
-            <div className="bg-white/60 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-2xl border border-stone-300/30 dark:border-stone-700/20">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                    <Search className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-black text-stone-900 dark:text-stone-50">Find Projects</h3>
-                </div>
-                
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 text-stone-400" />
-                  </div>
-                  <Input
-                    placeholder="Search projects, descriptions, genres..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-12 pr-4 py-3 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm border-stone-300/50 dark:border-stone-600/50 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all duration-200"
-                  />
-                </div>
-                
-                {searchTerm && (
-                  <div className="flex items-center justify-center px-4 py-2 bg-stone-100 dark:bg-stone-700 rounded-2xl">
-                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                      {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''} found
-                    </span>
-                  </div>
-                )}
-              </div>
+        {/* Search and View Controls */}
+        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
+          {/* Search */}
+          <div className="relative flex-1 max-w-md">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-stone-400" />
             </div>
+            <Input
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-4 py-2 bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all duration-200"
+            />
+          </div>
+          
+          {/* Results Counter */}
+          {searchTerm && (
+            <div className="px-3 py-2 bg-stone-100 dark:bg-stone-700 rounded-xl">
+              <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          )}
 
-            {/* View Controls */}
-            <div className="bg-white/60 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-2xl border border-stone-300/30 dark:border-stone-700/20">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                    <Eye className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="text-lg font-black text-stone-900 dark:text-stone-50">Display Options</h3>
-                </div>
-                
-                <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-2xl p-2 backdrop-blur-sm">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setViewMode('grid')}
-                    className={`flex-1 rounded-xl px-4 py-3 transition-all duration-200 ${
-                      viewMode === 'grid' 
-                        ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-lg' 
-                        : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-                    }`}
-                  >
-                    <Grid3X3 className="w-4 h-4 mr-2" />
-                    Grid View
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setViewMode('list')}
-                    className={`flex-1 rounded-xl px-4 py-3 transition-all duration-200 ${
-                      viewMode === 'list' 
-                        ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-lg' 
-                        : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-                    }`}
-                  >
-                    <List className="w-4 h-4 mr-2" />
-                    List View
-                  </Button>
-                </div>
-              </div>
-            </div>
+          {/* View Toggle */}
+          <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-xl p-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setViewMode('grid')}
+              className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                viewMode === 'grid' 
+                  ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+              }`}
+            >
+              <Grid3X3 className="w-4 h-4 mr-1" />
+              Grid
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setViewMode('list')}
+              className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                viewMode === 'list' 
+                  ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+              }`}
+            >
+              <List className="w-4 h-4 mr-1" />
+              List
+            </Button>
           </div>
         </div>
 
-        {/* Projects Grid/List */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-64 bg-white/50 dark:bg-stone-800/50 rounded-2xl animate-pulse" />
-            ))}
-          </div>
-        ) : filteredProjects.length === 0 ? (
-          <div className="text-center py-24">
-            <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-              <BookOpen className="w-12 h-12 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold text-stone-900 dark:text-stone-50 mb-4">
-              {searchTerm ? 'No projects found' : 'Start your first project'}
-            </h3>
-            <p className="text-stone-600 dark:text-stone-400 mb-8 max-w-md mx-auto">
+        {/* Main Content Area */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+          {/* Projects Section */}
+          <div className="xl:col-span-3">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="h-64 bg-white/50 dark:bg-stone-800/50 rounded-2xl animate-pulse" />
+                ))}
+              </div>
+            ) : filteredProjects.length === 0 ? (
+              <div className="text-center py-24">
+                <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                  <BookOpen className="w-12 h-12 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-900 dark:text-stone-50 mb-4">
+                  {searchTerm ? 'No projects found' : 'Start your first project'}
+                </h3>
+                <p className="text-stone-600 dark:text-stone-400 mb-8 max-w-md mx-auto">
               {searchTerm 
                 ? 'Try adjusting your search terms to find what you\'re looking for.'
                 : 'Every great story begins with a single idea. Create your first project and bring your imagination to life.'
@@ -568,6 +470,67 @@ export function ProjectsView({
             ))}
           </div>
         )}
+          </div>
+
+          {/* Recent Activity Sidebar */}
+          <div className="xl:col-span-1">
+            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-2xl p-6 shadow-xl border border-stone-300/30 dark:border-stone-700/20 sticky top-8">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                    <Clock className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-stone-50">Recent Activity</h3>
+                    <p className="text-xs text-stone-600 dark:text-stone-400">Latest updates</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {filteredProjects.slice(0, 5).map((project) => {
+                    const timeAgo = new Date(project.updatedAt || project.createdAt).toLocaleDateString();
+                    const isRecent = new Date(project.updatedAt || project.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
+                    
+                    return (
+                      <div key={project.id} className="flex items-center space-x-3 p-3 bg-stone-50/50 dark:bg-stone-700/30 rounded-xl hover:bg-stone-100/50 dark:hover:bg-stone-700/50 transition-colors duration-200 cursor-pointer" onClick={() => onSelectProject(project)}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                          isRecent 
+                            ? 'bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700' 
+                            : 'bg-stone-300 dark:bg-stone-600'
+                        }`}>
+                          {project.type === 'novel' ? <BookOpen className="w-4 h-4 text-white" /> :
+                           project.type === 'screenplay' ? <FileText className="w-4 h-4 text-white" /> :
+                           <Image className="w-4 h-4 text-white" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 truncate">
+                            {project.name}
+                          </p>
+                          <p className="text-xs text-stone-600 dark:text-stone-400">
+                            {isRecent ? 'Today' : timeAgo}
+                          </p>
+                        </div>
+                        {isRecent && (
+                          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  
+                  {filteredProjects.length === 0 && (
+                    <div className="text-center py-6">
+                      <div className="w-12 h-12 bg-stone-200 dark:bg-stone-700 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Clock className="w-6 h-6 text-stone-400 dark:text-stone-500" />
+                      </div>
+                      <p className="text-stone-600 dark:text-stone-400 text-sm">No activity yet</p>
+                      <p className="text-stone-500 dark:text-stone-500 text-xs">Start creating!</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
