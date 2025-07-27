@@ -218,19 +218,19 @@ export function ProjectsPageRedesign({
         {/* Page Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
           {/* Left Side - Title and Enhanced Content */}
-          <div className="space-y-5">
+          <div className="space-y-4 text-center">
             <div className="overflow-visible">
               <div className="mb-3">
                 <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
                   Welcome back, {user?.username || 'Writer'}
                 </p>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-3">
                 Your Projects
               </h1>
             </div>
             
-            <p className="text-xl text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+            <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.5] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
               Organize, track, and bring your stories to life with intelligent project management.
             </p>
             
@@ -239,7 +239,7 @@ export function ProjectsPageRedesign({
               <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 uppercase tracking-wider">
                 Quick Actions
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <Button
                   onClick={onNewProject}
                   className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden"
@@ -262,42 +262,33 @@ export function ProjectsPageRedesign({
               </div>
             </div>
 
-            {/* Writing Resources */}
-            <div className="space-y-4">
-              {/* Writing Tip */}
-              <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                      Today's Writing Tip
-                    </p>
-                    <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-3">
-                      Character development is the backbone of compelling storytelling. Spend time understanding your characters' motivations before diving into plot.
-                    </p>
-                  </div>
+            {/* Writing Stats */}
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-3 h-3 text-white" />
                 </div>
-                
-                {/* Quick Stats */}
-                <div className="flex items-center justify-between pt-4 border-t border-stone-200/50 dark:border-stone-700/50">
-                  <div className="text-center">
-                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400">Projects</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">47</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400">Characters</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg font-bold text-stone-900 dark:text-stone-100">12k</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400">Words</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg font-bold text-emerald-600">98%</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400">Creativity</p>
-                  </div>
+                <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                  Your Writing Journey
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-4 gap-4">
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Projects</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">47</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Characters</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">12k</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Words</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-emerald-600">98%</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Creativity</p>
                 </div>
               </div>
             </div>
