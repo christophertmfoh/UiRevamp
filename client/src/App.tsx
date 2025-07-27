@@ -320,24 +320,18 @@ export default function App() {
     return (
       <ThemeProvider 
         attribute="class" 
-        defaultTheme="midnight-ink" 
+        defaultTheme="dark" 
         enableSystem
         themes={[
           'light', 
+          'dark',
+          'system',
+          'arctic-focus',
+          'golden-hour',
           'midnight-ink',
-          'parchment-scholar',
           'forest-manuscript',
           'starlit-prose',
-          'coffee-house',
-          'arctic-focus',
-          'sunset-chapter',
-          'graphite-minimal',
-          'obsidian-writer',
-          'emerald-library',
-          'rose-quartz',
-          'golden-hour',
-          'lavender-fields',
-          'copper-manuscript'
+          'coffee-house'
         ]}
       >
         <div className="min-h-screen bg-background flex items-center justify-center">
@@ -408,24 +402,18 @@ export default function App() {
   return (
     <ThemeProvider 
       attribute="class" 
-      defaultTheme="midnight-ink" 
+      defaultTheme="dark" 
       enableSystem
       themes={[
         'light', 
+        'dark',
+        'system',
+        'arctic-focus',
+        'golden-hour',
         'midnight-ink',
-        'parchment-scholar',
         'forest-manuscript',
         'starlit-prose',
-        'coffee-house',
-        'arctic-focus',
-        'sunset-chapter',
-        'graphite-minimal',
-        'obsidian-writer',
-        'emerald-library',
-        'rose-quartz',
-        'golden-hour',
-        'lavender-fields',
-        'copper-manuscript'
+        'coffee-house'
       ]}
     >
       <QueryClientProvider client={queryClient}>
