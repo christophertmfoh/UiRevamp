@@ -192,12 +192,12 @@ export function MessageOfTheDay() {
 
   return (
     <Card 
-      className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full group hover:shadow-2xl transition-all duration-300"
+      className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full group hover:shadow-2xl transition-all duration-300"
     >
       <CardContent className="p-5 h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
+            <Sparkles className="w-4 h-4 text-primary" />
             <h3 className="font-bold text-foreground text-sm">
               Daily Inspiration
             </h3>
@@ -211,10 +211,10 @@ export function MessageOfTheDay() {
                 refreshContent();
               }}
               disabled={isGenerating}
-              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-7 w-7 p-0 hover:bg-accent/10 disabled:opacity-50 disabled:cursor-not-allowed"
               title="Refresh content"
             >
-              <RefreshCw className={`w-3 h-3 text-stone-400 ${isGenerating ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3 h-3 text-muted-foreground ${isGenerating ? 'animate-spin' : ''}`} />
             </Button>
             <Button
               size="sm"
@@ -223,10 +223,10 @@ export function MessageOfTheDay() {
                 e.stopPropagation();
                 handleNextSet();
               }}
-              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
+              className="h-7 w-7 p-0 hover:bg-accent/10"
               title="Next set"
             >
-              <ChevronRight className="w-3 h-3 text-stone-400" />
+              <ChevronRight className="w-3 h-3 text-muted-foreground" />
             </Button>
           </div>
         </div>
@@ -237,10 +237,10 @@ export function MessageOfTheDay() {
               {/* Motivation */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
+                  <div className="w-2.5 h-2.5 gradient-primary-br rounded-full"></div>
+                                      <p className="text-xs font-semibold text-foreground/80 uppercase tracking-wide">Motivation</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-normal">
+                <p className="text-xs text-muted-foreground italic leading-normal">
                   "{content.motivation}"
                 </p>
               </div>
@@ -248,10 +248,10 @@ export function MessageOfTheDay() {
               {/* Writing Joke */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Smile className="h-3.5 w-3.5 text-amber-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writer's Humor</p>
+                  <Smile className="h-3.5 w-3.5 text-primary" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Writer's Humor</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
+                <p className="text-xs text-muted-foreground leading-normal">
                   {content.joke}
                 </p>
               </div>
@@ -259,10 +259,10 @@ export function MessageOfTheDay() {
               {/* Writing Tip */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="h-3.5 w-3.5 text-amber-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Pro Tip</p>
+                  <Lightbulb className="h-3.5 w-3.5 text-primary" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Pro Tip</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
+                <p className="text-xs text-muted-foreground leading-normal">
                   {content.tip}
                 </p>
               </div>
@@ -274,23 +274,23 @@ export function MessageOfTheDay() {
               {/* Word of the Day */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <BookOpen className="h-3.5 w-3.5 text-emerald-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
+                  <BookOpen className="h-3.5 w-3.5 text-primary" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Word of the Day</p>
                 </div>
                 <p className="text-xs">
-                  <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
+                  <span className="font-semibold text-primary">{content.wordOfDay.word}</span>
                   <span className="text-foreground"> - {content.wordOfDay.definition}</span>
                 </p>
-                <p className="text-[11px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+                <p className="text-[11px] text-muted-foreground italic">{content.wordOfDay.usage}</p>
               </div>
 
               {/* Quick Prompt */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <PenTool className="h-3.5 w-3.5 text-amber-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Quick Prompt</p>
+                  <PenTool className="h-3.5 w-3.5 text-primary" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Quick Prompt</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-normal">
+                <p className="text-xs text-muted-foreground italic leading-normal">
                   {content.prompt}
                 </p>
               </div>
@@ -298,10 +298,10 @@ export function MessageOfTheDay() {
               {/* Writing Fact */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
+                  <Sparkles className="h-3.5 w-3.5 text-primary" />
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Writing Fact</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
+                <p className="text-xs text-muted-foreground leading-normal">
                   {content.fact}
                 </p>
               </div>
@@ -318,8 +318,8 @@ export function MessageOfTheDay() {
                 key={index}
                 className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
                   currentSet === index
-                    ? 'bg-gradient-to-br from-emerald-600 to-amber-600 w-2 h-2'
-                    : 'bg-stone-300 dark:bg-stone-600'
+                    ? 'gradient-primary-br w-2 h-2'
+                    : 'bg-muted'
                 }`}
               ></div>
             ))}

@@ -637,7 +637,7 @@ export function ProjectsPageRedesign({
                   <p className="text-lg font-black text-primary-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                     New Project
                   </p>
-                  <p className="text-xs font-medium text-primary mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+                  <p className="text-xs font-medium text-primary-foreground/80 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
                     Start your journey
                   </p>
                 </div>
