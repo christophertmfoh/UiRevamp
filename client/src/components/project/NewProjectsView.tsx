@@ -36,7 +36,8 @@ import {
   Target,
   Zap,
   Moon,
-  Sun
+  Sun,
+  ArrowUpDown
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -65,6 +66,7 @@ export function ProjectsView({
 }: ProjectsViewProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'type'>('updated');
   const [scrollY, setScrollY] = useState(0);
   const queryClient = useQueryClient();
 
@@ -81,8 +83,22 @@ export function ProjectsView({
 
   const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    project.genres?.some((genre: string) => genre.toLowerCase().includes(searchTerm.toLowerCase()))
+  ).sort((a, b) => {
+    switch (sortBy) {
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'updated':
+        return new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime();
+      case 'created':
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case 'type':
+        return (a.type || '').localeCompare(b.type || '');
+      default:
+        return 0;
+    }
+  });
 
   // Calculate project progress based on content
   const calculateProgress = (project: Project) => {
@@ -357,59 +373,97 @@ export function ProjectsView({
           </div>
         </div>
 
-        {/* Search and View Controls */}
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-6">
-          {/* Search */}
-          <div className="relative flex-1 max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-stone-400" />
+        {/* Perfectly Balanced Control Bar */}
+        <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-stone-300/30 dark:border-stone-700/20 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+            
+            {/* Search Section - Left */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-stone-400" />
+              </div>
+              <Input
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all duration-200"
+              />
             </div>
-            <Input
-              placeholder="Search projects..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 rounded-xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all duration-200"
-            />
+            
+            {/* Sort Section - Center */}
+            <div className="flex items-center justify-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 text-stone-700 dark:text-stone-300 hover:bg-stone-100/80 dark:hover:bg-stone-700/80 rounded-xl px-4 py-2">
+                    <ArrowUpDown className="w-4 h-4 mr-2" />
+                    Sort by {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="w-48">
+                  <DropdownMenuItem onClick={() => setSortBy('name')}>
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Name
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy('updated')}>
+                    <Clock className="w-4 h-4 mr-2" />
+                    Recently Updated
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy('created')}>
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Date Created
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy('type')}>
+                    <FileText className="w-4 h-4 mr-2" />
+                    Project Type
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            
+            {/* View Toggle Section - Right */}
+            <div className="flex justify-end">
+              <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-xl p-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                    viewMode === 'grid' 
+                      ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                  }`}
+                >
+                  <Grid3X3 className="w-4 h-4 mr-1" />
+                  Grid
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                    viewMode === 'list' 
+                      ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                  }`}
+                >
+                  <List className="w-4 h-4 mr-1" />
+                  List
+                </Button>
+              </div>
+            </div>
           </div>
           
           {/* Results Counter */}
           {searchTerm && (
-            <div className="px-3 py-2 bg-stone-100 dark:bg-stone-700 rounded-xl">
-              <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''}
-              </span>
+            <div className="flex justify-center mt-3">
+              <div className="px-4 py-2 bg-stone-100 dark:bg-stone-700 rounded-xl">
+                <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                  {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''} found
+                </span>
+              </div>
             </div>
           )}
-
-          {/* View Toggle */}
-          <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-xl p-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className={`rounded-lg px-3 py-2 transition-all duration-200 ${
-                viewMode === 'grid' 
-                  ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
-                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-              }`}
-            >
-              <Grid3X3 className="w-4 h-4 mr-1" />
-              Grid
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('list')}
-              className={`rounded-lg px-3 py-2 transition-all duration-200 ${
-                viewMode === 'list' 
-                  ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
-                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-              }`}
-            >
-              <List className="w-4 h-4 mr-1" />
-              List
-            </Button>
-          </div>
         </div>
 
         {/* Main Content Area */}
