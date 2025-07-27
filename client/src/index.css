@@ -86,11 +86,7 @@ body {
   background: transparent !important;
 }
 
-/* Global Gradient Rules for Light/Dark Mode */
-@layer utilities {
-  /* Button/Badge gradients */
-  .gradient-emerald-amber {
-    @apply bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+-stone-600 dark:to-amber-700;
   }
   
   .gradient-emerald-amber-hover {
