@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 // Enhanced password validation
 const passwordSchema = z.string()
@@ -410,7 +409,6 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
 
         {/* Theme Toggle */}
         <div className="absolute top-4 right-4">
-          <ThemeToggle />
         </div>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { 
   Feather, 
   BookOpen, 
@@ -257,7 +256,6 @@ export function ProjectsView({
                       <Sun className="w-4 h-4 mr-3 text-stone-600 dark:text-stone-400" />
                       <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Theme</span>
                     </div>
-                    <ThemeToggle />
                   </div>
                 </div>
                 
