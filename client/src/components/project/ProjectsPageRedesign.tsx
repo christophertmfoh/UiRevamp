@@ -519,21 +519,15 @@ export function ProjectsPageRedesign({
               </DropdownMenuContent>
             </DropdownMenu>
             <Button
-              variant="outline"
+              size="icon"
               onClick={() => setIsEditMode(!isEditMode)}
-              className={`flex items-center space-x-2 ${isEditMode ? 'bg-amber-100 dark:bg-amber-900/20 border-amber-400' : ''}`}
+              className="w-10 h-10 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
             >
               {isEditMode ? (
-                <>
-                  <Unlock className="w-4 h-4" />
-                  <span className="hidden sm:inline">Editing</span>
-                </>
+                <Unlock className="w-4 h-4" />
               ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  <span className="hidden sm:inline">Customize</span>
-                </>
+                <Lock className="w-4 h-4" />
               )}
             </Button>
             <ThemeToggle />
