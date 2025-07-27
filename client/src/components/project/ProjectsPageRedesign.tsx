@@ -550,7 +550,7 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
         {/* Page Header */}
-        <div className="relative bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6 overflow-hidden">
+        <div className="relative bg-card/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-border/30 mb-6 overflow-hidden">
           {/* Vignette gradient overlay - only visible in dark mode */}
           <div className="absolute inset-0 vignette-gradient opacity-0 dark:opacity-100 pointer-events-none rounded-[2rem]"></div>
           <div className="text-center">
@@ -560,7 +560,7 @@ export function ProjectsPageRedesign({
                   Welcome back, {user?.username || 'Writer'}
                 </p>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-50 leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
                 Your Projects
               </h1>
             </div>

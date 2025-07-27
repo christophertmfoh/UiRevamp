@@ -102,7 +102,7 @@ body {
   
   /* Vignette gradient overlay for dark mode */
   .vignette-gradient {
-    background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(16, 185, 129, 0.1) 70%, rgba(251, 191, 36, 0.1) 100%);
+    background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, hsl(var(--gradient-brand-start) / 0.1) 70%, hsl(var(--gradient-brand-end) / 0.1) 100%);
   }
   
   /* Destructive gradient for dangerous actions */
