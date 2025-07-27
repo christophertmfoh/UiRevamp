@@ -296,91 +296,88 @@ export function ProjectsView({
             </p>
           </div>
 
-          {/* Balanced Grid Layout */}
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Left Side - Stats & Action */}
-            <div className="space-y-8">
-              {/* Quick Stats */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-3xl font-black text-stone-900 dark:text-stone-50">{filteredProjects.length}</p>
-                      <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Projects</p>
-                    </div>
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                      <BookOpen className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
+          {/* Balanced Stats Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">{filteredProjects.length}</p>
+                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Projects</p>
                 </div>
-                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                        {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
-                      </p>
-                      <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
-                    </div>
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                      <Zap className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                        {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
-                      </p>
-                      <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
-                    </div>
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                      <Target className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-3xl font-black text-stone-900 dark:text-stone-50">Ready</p>
-                      <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">To Write</p>
-                    </div>
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                      <PenTool className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                  <BookOpen className="w-6 h-6 text-white" />
                 </div>
               </div>
-
-              {/* Start Creating Card */}
-              <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-stone-300/30 dark:border-stone-700/20">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/20 via-transparent to-amber-50/10 dark:from-emerald-900/10 dark:via-transparent dark:to-amber-900/5 rounded-[2rem]"></div>
-                
-                <div className="relative z-10 text-center space-y-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
-                    <Sparkles className="w-10 h-10 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight mb-2">Start Creating</h3>
-                    <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">Transform your ideas into compelling narratives with AI-powered tools.</p>
-                  </div>
-                  
-                  <Button 
-                    onClick={onNewProject}
-                    className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden w-full"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <span className="relative z-10 flex items-center justify-center">
-                      <Plus className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                      Create New Project
-                    </span>
-                  </Button>
+            </div>
+            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
+                    {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
+                  </p>
+                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
                 </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
+                    {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
+                  </p>
+                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                  <Target className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-6 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">Ready</p>
+                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">To Write</p>
+                </div>
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                  <PenTool className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Balanced 2-Column Layout */}
+          <div className="grid lg:grid-cols-2 gap-8 items-start">
+            {/* Left Side - Start Creating */}
+            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-stone-300/30 dark:border-stone-700/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/20 via-transparent to-amber-50/10 dark:from-emerald-900/10 dark:via-transparent dark:to-amber-900/5 rounded-[2rem]"></div>
+              
+              <div className="relative z-10 text-center space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
+                  <Sparkles className="w-10 h-10 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight mb-2">Start Creating</h3>
+                  <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">Transform your ideas into compelling narratives with AI-powered tools.</p>
+                </div>
+                
+                <Button 
+                  onClick={onNewProject}
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden w-full"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center justify-center">
+                    <Plus className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    Create New Project
+                  </span>
+                </Button>
               </div>
             </div>
 
             {/* Right Side - Recent Activity */}
-            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-stone-300/30 dark:border-stone-700/20 h-fit">
+            <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-stone-300/30 dark:border-stone-700/20">
               <div className="space-y-6">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
