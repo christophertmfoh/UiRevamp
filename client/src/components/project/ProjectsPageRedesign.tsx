@@ -415,7 +415,201 @@ export function ProjectsPageRedesign({
             <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-black
+                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                    {totalProjects}
+                  </p>
+                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                    Total Projects
+                  </p>
+                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Library className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                    {activeProjects}
+                  </p>
+                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                    Active This Week
+                  </p>
+                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Activity className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                    {uniqueGenres}
+                  </p>
+                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                    Genres Explored
+                  </p>
+                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                    New Project
+                  </p>
+                  <p className="text-xs font-medium text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+                    Start your journey
+                  </p>
+                </div>
+                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                  <PlusCircle className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Search and Filters */}
+          <div className="flex flex-col lg:flex-row gap-4 items-center mb-6">
+            {/* Search Bar */}
+            <div className="relative flex-1 w-full">
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+                <Search className="h-4 w-4 text-white pointer-events-none" />
+              </div>
+              <Input
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full h-12 pl-14 pr-4 bg-white/80 dark:bg-stone-800/60 border-stone-300/30 dark:border-stone-700/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all duration-300"
+              />
+            </div>
+
+            {/* Sort Options */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  {sortBy === 'updated' ? 'Recently Updated' : 
+                   sortBy === 'created' ? 'Date Created' : 
+                   sortBy === 'type' ? 'Type' :
+                   'Name'}
+                  <ChevronDown className="w-4 h-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-48">
+                <DropdownMenuItem onClick={() => updateSortBy('name')}>
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Name
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateSortBy('updated')}>
+                  <Clock className="w-4 h-4 mr-2" />
+                  Recently Updated
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateSortBy('created')}>
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Date Created
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateSortBy('type')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Project Type
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* View Toggle */}
+            <div className="flex items-center bg-white/80 dark:bg-stone-800/60 rounded-2xl p-1 border border-stone-300/30 dark:border-stone-700/30">
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => updateViewMode('grid')}
+                className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                  viewMode === 'grid' 
+                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
+                }`}
+              >
+                <Grid3X3 className="w-4 h-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => updateViewMode('list')}
+                className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+                  viewMode === 'list' 
+                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
+                }`}
+              >
+                <List className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Results Counter */}
+          {searchTerm && (
+            <div className="mb-4 text-center">
+              <p className="text-sm text-stone-600 dark:text-stone-400">
+                Found <span className="font-semibold text-stone-900 dark:text-stone-100">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''}
+              </p>
+            </div>
+          )}
+
+          {/* Projects Display */}
+          {isLoading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+            </div>
+          ) : filteredProjects.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <PenTool className="w-12 h-12 text-stone-600 dark:text-stone-400" />
+              </div>
+              <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
+                {searchTerm ? 'No projects found' : 'Start Your First Story'}
+              </h3>
+              <p className="text-stone-800 dark:text-stone-200 mb-6 max-w-md mx-auto font-medium leading-[1.6] drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+                {searchTerm 
+                  ? 'Try adjusting your search or create a new project.' 
+                  : 'Every great story begins with a single idea. Start crafting your narrative today.'}
+              </p>
+              <Button 
+                onClick={onNewProject}
+                className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Create New Project
+              </Button>
+            </div>
+          ) : viewMode === 'grid' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredProjects.map((project: Project) => (
+                <ProjectCard key={project.id} project={project} onSelect={onSelectProject} />
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredProjects.map((project: Project) => (
+                <ProjectListItem key={project.id} project={project} onSelect={onSelectProject} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Dashboard Cards - 2x2 Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 mb-8 lg:h-[600px]">
+          {/* Message of the Day */}
+          <MessageOfTheDay />
+          
+          {/* Recent Project */}
+          {projects.length > 0 ? (
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
@@ -641,210 +835,6 @@ export function ProjectsPageRedesign({
             </CardContent>
           </Card>
         </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                    {totalProjects}
-                  </p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 mt-1">
-                    Total Projects
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <Library className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                    {activeProjects}
-                  </p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 mt-1">
-                    Active This Week
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <Activity className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
-                    {uniqueGenres}
-                  </p>
-                  <p className="text-sm font-medium text-stone-600 dark:text-stone-400 mt-1">
-                    Genres Explored
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] tracking-tight">
-                    New Project
-                  </p>
-                  <p className="text-sm font-medium text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] tracking-wide">
-                    Start your journey
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <PlusCircle className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            {/* Search Bar */}
-            <div className="relative flex-1 w-full">
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
-                <Search className="h-4 w-4 text-white pointer-events-none" />
-              </div>
-              <Input
-                placeholder="Search projects..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 pl-14 pr-4 bg-white/80 dark:bg-stone-800/60 border-stone-300/30 dark:border-stone-700/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all duration-300"
-              />
-            </div>
-
-            {/* Sort Options */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  {sortBy === 'updated' ? 'Recently Updated' : 
-                   sortBy === 'created' ? 'Date Created' : 
-                   sortBy === 'type' ? 'Type' :
-                   'Name'}
-                  <ChevronDown className="w-4 h-4 ml-2" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-48">
-                <DropdownMenuItem onClick={() => updateSortBy('name')}>
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  Name
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => updateSortBy('updated')}>
-                  <Clock className="w-4 h-4 mr-2" />
-                  Recently Updated
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => updateSortBy('created')}>
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Date Created
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => updateSortBy('type')}>
-                  <FileText className="w-4 h-4 mr-2" />
-                  Project Type
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* View Toggle */}
-            <div className="flex items-center bg-white/80 dark:bg-stone-800/60 rounded-2xl p-1 border border-stone-300/30 dark:border-stone-700/30">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => updateViewMode('grid')}
-                className={`px-4 py-2 rounded-xl transition-all duration-300 ${
-                  viewMode === 'grid' 
-                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
-                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
-                }`}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => updateViewMode('list')}
-                className={`px-4 py-2 rounded-xl transition-all duration-300 ${
-                  viewMode === 'list' 
-                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
-                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
-                }`}
-              >
-                <List className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Results Counter */}
-          {searchTerm && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-stone-600 dark:text-stone-400">
-                Found <span className="font-semibold text-stone-900 dark:text-stone-100">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Projects Display */}
-        {isLoading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
-          </div>
-        ) : filteredProjects.length === 0 ? (
-          <Card className="bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl">
-            <CardContent className="p-16 text-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <PenTool className="w-12 h-12 text-stone-600 dark:text-stone-400" />
-              </div>
-              <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
-                {searchTerm ? 'No projects found' : 'Start Your First Story'}
-              </h3>
-              <p className="text-stone-800 dark:text-stone-200 mb-6 max-w-md mx-auto font-medium leading-[1.6] drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
-                {searchTerm 
-                  ? 'Try adjusting your search or create a new project.' 
-                  : 'Every great story begins with a single idea. Start crafting your narrative today.'}
-              </p>
-              <Button 
-                onClick={onNewProject}
-                className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                <PlusCircle className="w-4 h-4 mr-2" />
-                Create New Project
-              </Button>
-            </CardContent>
-          </Card>
-        ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project: Project) => (
-              <ProjectCard key={project.id} project={project} onSelect={onSelectProject} />
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredProjects.map((project: Project) => (
-              <ProjectListItem key={project.id} project={project} onSelect={onSelectProject} />
-            ))}
-          </div>
-        )}
       </div>
 
 
