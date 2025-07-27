@@ -458,17 +458,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const characterData: any = {
         projectId,
         name: extractedData.name || 'Unnamed Character',
-        // Identity fields
-        nicknames: Array.isArray(extractedData.nicknames) ? extractedData.nicknames.join(', ') : '',
+        // Identity fields (all text fields)
+        nicknames: Array.isArray(extractedData.nicknames) ? extractedData.nicknames.join(', ') : extractedData.nicknames || '',
         title: extractedData.title || '',
-        aliases: Array.isArray(extractedData.aliases) ? extractedData.aliases.join(', ') : '',
+        aliases: Array.isArray(extractedData.aliases) ? extractedData.aliases.join(', ') : extractedData.aliases || '',
         age: extractedData.age || '',
         race: extractedData.race || '',
         class: extractedData.class || '',
         profession: extractedData.profession || '',
         role: extractedData.role || '',
         
-        // Appearance fields
+        // Appearance fields (all text fields)
         physicalDescription: extractedData.physicalDescription || '',
         height: extractedData.height || '',
         build: extractedData.build || '',
@@ -476,31 +476,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         hairColor: extractedData.hairColor || '',
         hairStyle: extractedData.hairStyle || '',
         skinTone: extractedData.skinTone || '',
-        distinguishingMarks: Array.isArray(extractedData.distinguishingMarks) ? extractedData.distinguishingMarks.join(', ') : '',
+        distinguishingMarks: Array.isArray(extractedData.distinguishingMarks) ? extractedData.distinguishingMarks.join(', ') : extractedData.distinguishingMarks || '',
         clothingStyle: extractedData.clothingStyle || '',
         facialFeatures: extractedData.facialFeatures || '',
         
-        // Personality fields
-        personalityOverview: extractedData.personalityOverview || '',
-        personalityTraits: Array.isArray(extractedData.personalityTraits) ? extractedData.personalityTraits.join(', ') : '',
+        // Personality fields - personalityTraits is ARRAY, others are text
+        personality: extractedData.personalityOverview || '',
+        personalityTraits: Array.isArray(extractedData.personalityTraits) ? extractedData.personalityTraits : [],
         temperament: extractedData.temperament || '',
         worldview: extractedData.worldview || '',
-        values: Array.isArray(extractedData.values) ? extractedData.values.join(', ') : '',
-        goals: Array.isArray(extractedData.goals) ? extractedData.goals.join(', ') : '',
-        motivations: Array.isArray(extractedData.motivations) ? extractedData.motivations.join(', ') : '',
-        fears: Array.isArray(extractedData.fears) ? extractedData.fears.join(', ') : '',
+        values: Array.isArray(extractedData.values) ? extractedData.values.join(', ') : extractedData.values || '',
+        motivations: Array.isArray(extractedData.motivations) ? extractedData.motivations.join(', ') : extractedData.motivations || '',
+        fears: Array.isArray(extractedData.fears) ? extractedData.fears.join(', ') : extractedData.fears || '',
         
-        // Background fields
+        // Background fields (all text fields)
         backstory: extractedData.backstory || '',
         familyHistory: extractedData.familyHistory || '',
         education: extractedData.education || '',
         
-        // Abilities fields
-        coreAbilities: extractedData.coreAbilities || '',
-        skills: Array.isArray(extractedData.skills) ? extractedData.skills.join(', ') : '',
-        talents: Array.isArray(extractedData.talents) ? extractedData.talents.join(', ') : '',
-        strengths: Array.isArray(extractedData.strengths) ? extractedData.strengths.join(', ') : '',
-        weaknesses: Array.isArray(extractedData.weaknesses) ? extractedData.weaknesses.join(', ') : ''
+        // Abilities fields - abilities, skills, talents are ARRAYS
+        abilities: Array.isArray(extractedData.abilities) ? extractedData.abilities : [],
+        skills: Array.isArray(extractedData.skills) ? extractedData.skills : [],
+        talents: Array.isArray(extractedData.talents) ? extractedData.talents : [],
+        // Other ability fields are text
+        strengths: Array.isArray(extractedData.strengths) ? extractedData.strengths.join(', ') : extractedData.strengths || '',
+        weaknesses: Array.isArray(extractedData.weaknesses) ? extractedData.weaknesses.join(', ') : extractedData.weaknesses || ''
       };
 
       // Generate automatic portrait for imported character
