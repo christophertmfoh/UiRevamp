@@ -116,31 +116,29 @@ export function ProjectsPageRedesign({
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-stone-100 to-emerald-50 dark:from-stone-950 dark:via-stone-900 dark:to-emerald-950 transition-all duration-300">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs */}
+        {/* Gradient Mesh Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-300/35 via-stone-300/50 to-amber-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
+        
+        {/* Floating Orbs */}
         <div 
-          className="absolute top-20 left-10 w-96 h-96 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(30, 70%, 70%, 0.15) 0%, transparent 70%)',
-            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
-            filter: 'blur(40px)'
-          }}
+          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-amber-400/40 to-amber-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse"
+          style={{ transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})` }}
         />
         <div 
-          className="absolute bottom-40 right-20 w-72 h-72 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(140, 70%, 60%, 0.1) 0%, transparent 70%)',
-            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
-            filter: 'blur(30px)'
-          }}
+          className="absolute bottom-40 right-20 w-72 h-72 bg-gradient-to-br from-emerald-400/45 to-emerald-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse delay-1000"
+          style={{ transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})` }}
         />
         <div 
-          className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(35, 70%, 60%, 0.1) 0%, transparent 70%)',
-            transform: `translate(${scrollY * 0.01}px, ${-scrollY * 0.08}px)`,
-            filter: 'blur(35px)'
-          }}
+          className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-br from-stone-400/45 to-stone-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
+          style={{ transform: `translate(${scrollY * 0.01}px, ${-scrollY * 0.08}px)` }}
         />
+
+        {/* Ambient Lighting Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
+          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-stone-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+        </div>
       </div>
 
       {/* Navigation Header */}
