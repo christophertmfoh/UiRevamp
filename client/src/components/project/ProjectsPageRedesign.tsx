@@ -408,13 +408,14 @@ export function ProjectsPageRedesign({
           </p>
         </div>
 
-        {/* Dashboard Cards - 2x2 Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 mb-8 lg:h-[600px]">
-          {/* Message of the Day */}
-          <MessageOfTheDay />
-          
-          {/* Recent Project */}
-          {projects.length > 0 ? (
+        {/* Project Management Section */}
+        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-8">
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-2xl font-black
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
