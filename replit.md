@@ -34,6 +34,18 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 ✓ **JSON RESPONSE OPTIMIZATION** - Using responseMimeType: "application/json" for better structured output
 ✓ **UNIFIED USER EXPERIENCE** - Custom and template generation now have identical visual feedback during creation
 
+### July 27, 2025 - **ENHANCED AI EXTRACTION FOR MAXIMUM CHARACTER DETAIL - COMPLETED**
+✓ **REVOLUTIONIZED AI PROMPTING** - Complete overhaul of extraction prompts with professional literary analysis approach
+✓ **ADVANCED EXTRACTION MANDATE** - Master character analyst prompts extract every possible detail from documents
+✓ **PSYCHOLOGICAL DEPTH ANALYSIS** - AI now extracts underlying motivations, hidden fears, subtle personality nuances from subtext
+✓ **ENHANCED FIELD REQUIREMENTS** - Minimum 15+ personality traits, 10+ skills/abilities extraction from any document
+✓ **PROFESSIONAL THOROUGHNESS** - AI reads between lines to extract implied character attributes and relationship dynamics
+✓ **OPTIMIZED AI SETTINGS** - Temperature increased to 0.5, token limits raised to 12000 for comprehensive responses
+✓ **SUBTEXT INTELLIGENCE** - Extracts personality traits from actions, dialogue, and descriptive language patterns
+✓ **PROFESSION-BASED INFERENCE** - Automatically infers skills and abilities based on character professions and backgrounds
+✓ **COMPREHENSIVE RELATIONSHIP MAPPING** - Finds all relationship mentions including brief references to people in character's life
+✓ **GRANULAR PHYSICAL ANALYSIS** - Captures ALL physical descriptors, distinguishing marks, style details beyond basic appearance
+
 ### July 26, 2025 - **COMPREHENSIVE CHARACTER DOCUMENT IMPORT SYSTEM COMPLETED**
 ✓ **ADVANCED AI EXTRACTION** - Gemini AI with comprehensive 50+ field mapping across all character categories  
 ✓ **INTELLIGENT FIELD COVERAGE** - Identity (14), Appearance (28), Personality (35), Abilities (11), Background (10), Relationships (8), Meta (9) fields

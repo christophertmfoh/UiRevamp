@@ -173,33 +173,36 @@ export async function importCharacterDocument(filePath: string, fileName: string
 }
 
 async function extractCharacterFromText(textContent: string): Promise<ExtractedCharacterData> {
-  const systemPrompt = `You are an expert character analysis AI. Your task is to extract character information from the provided document and organize it into comprehensive character fields.
+  const systemPrompt = `You are a master character analyst with decades of experience in literary character development. Your expertise allows you to extract comprehensive character details from any document, reading between the lines to capture both explicit and subtle character information.
 
-DOCUMENT ANALYSIS REQUIREMENTS:
-- Read the entire document carefully to identify ALL character information
-- Extract details about the character's identity, appearance, personality, abilities, background, relationships, and story function
-- Convert narrative descriptions into structured field data
-- If information is missing, leave those fields empty (don't invent details)
-- Maintain authenticity to the source material
-- Split complex information appropriately (e.g., personality traits as separate items)
+ADVANCED EXTRACTION MANDATE:
+- Extract EVERY possible character detail from the document
+- Analyze subtext and implications to infer unstated character attributes
+- Break down complex descriptions into granular, specific components
+- Extract psychological depth: underlying motivations, hidden fears, subtle desires
+- Identify profession-based skills and abilities even if not explicitly listed
+- Find relationship dynamics and social connections mentioned or implied
+- Extract personality nuances from dialogue, actions, and descriptive language
+- Capture physical details beyond basic appearance descriptions
 
-FIELD ORGANIZATION GUIDELINES:
-- Identity: Basic character information (name, age, race, class, profession, role)
-- Appearance: Physical description details (height, build, colors, distinguishing features)
-- Personality: Traits, temperament, values, goals, motivations, fears, quirks, habits
-- Abilities: Skills, talents, powers, strengths, weaknesses, training
-- Background: Backstory, childhood, family history, education, occupation, languages
-- Relationships: Family, friends, allies, enemies, mentors, social connections
-- Meta: Story function, themes, symbolism, archetypes, notes
+COMPREHENSIVE FIELD ANALYSIS:
+- Identity: Extract full names, nicknames, titles, professions, ages, roles, social positions
+- Appearance: Height, weight, build, coloring, distinguishing marks, style, mannerisms, body language
+- Personality: Core traits, temperament, worldview, values, beliefs, quirks, habits, vices, emotional patterns
+- Abilities: Professional skills, natural talents, learned abilities, special powers, training background
+- Background: Full life history, childhood, family, education, formative events, social class, languages
+- Relationships: Family members, friends, allies, enemies, mentors, rivals, romantic interests
+- Meta: Story purpose, thematic significance, character archetypes, symbolic meaning
 
-CRITICAL EXTRACTION INSTRUCTIONS:
-- Arrays should contain individual items, not comma-separated strings
-- Keep descriptions concise but informative
-- Preserve original terminology and names from the document
-- Extract both explicit and implied character information
-- Maintain character voice and authenticity from source
+EXTRACTION REQUIREMENTS:
+- Minimum 15+ personality traits per character (extract from actions, dialogue, descriptions)
+- Extract 10+ skills/abilities based on profession, background, and actions described
+- Find all relationship mentions, even brief references to people in their life
+- Capture ALL physical descriptors, distinguishing marks, scars, clothing style details
+- Extract psychological elements: fears from hesitations, motivations from goals, values from decisions
+- Professional analysis standard: leave no character detail unexplored
 
-Respond with a comprehensive JSON object containing all extracted character information.`;
+Return a complete JSON object with maximum field population and depth.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -207,6 +210,8 @@ Respond with a comprehensive JSON object containing all extracted character info
       config: {
         systemInstruction: systemPrompt,
         responseMimeType: 'application/json',
+        temperature: 0.5, // Higher temperature for more creative extraction
+        maxOutputTokens: 12000, // Allow much longer responses
         responseSchema: {
           type: 'object',
           properties: {
@@ -312,7 +317,21 @@ Respond with a comprehensive JSON object containing all extracted character info
           role: 'user',
           parts: [
             {
-              text: `Please analyze this character document and extract all character information into structured fields:\n\n${textContent}`
+              text: `COMPREHENSIVE CHARACTER ANALYSIS REQUIRED
+
+Extract maximum detail from this character document. Analyze every sentence for character information. Read between the lines. Extract implied traits, abilities, and relationships. This is professional-grade character analysis.
+
+Document to analyze:
+
+${textContent}
+
+EXTRACTION GOALS:
+- Extract 15+ personality traits minimum
+- Find 10+ skills/abilities from profession and actions
+- Capture ALL physical details and distinguishing features  
+- Extract every relationship mention
+- Infer psychological depth from context
+- Professional thoroughness required - extract everything possible`
             }
           ]
         }

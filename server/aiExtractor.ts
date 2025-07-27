@@ -7,9 +7,18 @@ export async function extractCharacterFromText(textContent: string): Promise<Ext
     const { GoogleGenAI } = await import('@google/genai');
     const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '' });
     
-    const prompt = `You are an expert character sheet analyst. Extract comprehensive character information from this document and return ONLY a JSON object with ALL possible fields filled (use empty string "" for missing text fields, empty array [] for missing array fields):
+    const prompt = `You are an expert character sheet analyst with 20+ years of experience in literary analysis. Your task is to extract EVERY possible detail about the character from this document. Read between the lines, extract implied information, and be thorough.
 
-COMPREHENSIVE CHARACTER EXTRACTION:
+EXTRACTION PRIORITIES:
+1. Extract ALL explicit character information mentioned
+2. Infer character details from context and subtext
+3. Break down complex descriptions into individual components
+4. Extract emotional/psychological details beyond surface descriptions
+5. Find hidden personality traits, motivations, and background elements
+6. Look for subtle relationship hints and social dynamics
+7. Extract ANY abilities, skills, or talents mentioned or implied
+
+COMPREHENSIVE CHARACTER EXTRACTION (fill EVERY field possible):
 {
   "name": "Character's full name",
   "nicknames": ["nickname1", "nickname2"],
@@ -100,9 +109,9 @@ Return ONLY the JSON object with maximum field coverage:`;
       model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
-        temperature: 0.3, // Slightly higher for more detailed extraction
+        temperature: 0.5, // Higher temperature for more creative and thorough extraction
         responseMimeType: 'application/json',
-        maxOutputTokens: 8192 // Allow longer responses for comprehensive data
+        maxOutputTokens: 12000 // Allow much longer responses for comprehensive data
       }
     });
 
