@@ -1413,7 +1413,7 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
           <div className="w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
             <ProjectIcon className="w-7 h-7 text-white" />
           </div>
-          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100  text-stone-700 dark:text-white border-0">
+          <Badge className="gradient-primary text-stone-700 dark:text-white border-0">
             {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
           </Badge>
         </div>
@@ -1475,7 +1475,7 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
           </div>
           
           <div className="text-right space-y-2">
-            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100  text-stone-700 dark:text-white border-0">
+            <Badge className="gradient-primary text-stone-700 dark:text-white border-0">
               {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
             </Badge>
             <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
