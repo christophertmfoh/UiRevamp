@@ -196,20 +196,6 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
               </TabsTrigger>
             </TabsList>
 
-            {/* Security Information */}
-            <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
-              <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Account Security</span>
-              </div>
-              <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                <p>• Usernames and emails must be unique</p>
-                <p>• Username: 3-30 characters (letters, numbers, _, -)</p>
-                <p>• Passwords: 8+ characters with uppercase, lowercase, number & special character</p>
-                <p>• All data is securely encrypted and protected</p>
-              </div>
-            </div>
-
             {/* Error Display */}
             {error && (
               <Alert variant="destructive" className="mb-6">
@@ -280,6 +266,20 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                   Join Fablecraft and start your creative journey
                 </CardDescription>
               </CardHeader>
+              
+              {/* Security Information - Signup Only */}
+              <div className="mx-6 mb-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Account Security</span>
+                </div>
+                <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                  <p>• Usernames and emails must be unique</p>
+                  <p>• Username: 3-30 characters (letters, numbers, _, -)</p>
+                  <p>• Passwords: 8+ characters with uppercase, lowercase, number & special character</p>
+                  <p>• All data is securely encrypted and protected</p>
+                </div>
+              </div>
               <form onSubmit={signupForm.handleSubmit(onSignup)}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
