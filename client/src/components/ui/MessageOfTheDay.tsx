@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Lightbulb, Sparkles, RefreshCw, Heart, Share2, BookOpen, PenTool, Smile } from 'lucide-react';
+import { Lightbulb, Sparkles, RefreshCw, BookOpen, PenTool, Smile, ChevronRight } from 'lucide-react';
 
 interface DailyContent {
   motivation: string;
@@ -91,8 +91,6 @@ export function MessageOfTheDay() {
     fact: '',
     timestamp: Date.now()
   });
-  const [isLiked, setIsLiked] = useState(false);
-  const [showActions, setShowActions] = useState(false);
   const [currentSet, setCurrentSet] = useState(0); // 0, 1, or 2 for cycling through content
 
   const getRandomItem = <T,>(array: T[]): T => {
@@ -112,20 +110,10 @@ export function MessageOfTheDay() {
     
     setContent(newContent);
     localStorage.setItem('fablecraft_daily_content', JSON.stringify(newContent));
-    setIsLiked(false);
   };
 
-  const handleShare = () => {
-    const shareText = `Daily Writing Inspiration:\n\n${content.motivation}\n\n${content.joke}`;
-    if (navigator.share) {
-      navigator.share({
-        title: 'Daily Writing Inspiration',
-        text: shareText,
-        url: window.location.origin
-      });
-    } else {
-      navigator.clipboard.writeText(shareText);
-    }
+  const handleNextSet = () => {
+    setCurrentSet((prev) => (prev + 1) % 3);
   };
 
   useEffect(() => {
@@ -140,7 +128,6 @@ export function MessageOfTheDay() {
         // Check if content is less than 12 hours old
         if (now - parsed.timestamp < 43200000) {
           setContent(parsed);
-          setIsLiked(storedLike === 'true');
           return;
         }
       } catch (e) {
@@ -164,8 +151,6 @@ export function MessageOfTheDay() {
   return (
     <Card 
       className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full group hover:shadow-2xl transition-all duration-300"
-      onMouseEnter={() => setShowActions(true)}
-      onMouseLeave={() => setShowActions(false)}
     >
       <CardContent className="p-5 h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
@@ -175,30 +160,7 @@ export function MessageOfTheDay() {
               Daily Inspiration
             </h3>
           </div>
-          <div className={`flex items-center gap-1 transition-opacity duration-200 ${showActions ? 'opacity-100' : 'opacity-0'}`}>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsLiked(!isLiked);
-                localStorage.setItem('fablecraft_content_liked', (!isLiked).toString());
-              }}
-              className="h-7 w-7 p-0 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
-            >
-              <Heart className={`w-3 h-3 transition-colors ${isLiked ? 'text-red-500 fill-red-500' : 'text-stone-400'}`} />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleShare();
-              }}
-              className="h-7 w-7 p-0 hover:bg-amber-100 dark:hover:bg-amber-900/30"
-            >
-              <Share2 className="w-3 h-3 text-stone-400" />
-            </Button>
+          <div className="flex items-center gap-1">
             <Button
               size="sm"
               variant="ghost"
@@ -207,44 +169,57 @@ export function MessageOfTheDay() {
                 refreshContent();
               }}
               className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
+              title="Refresh content"
             >
               <RefreshCw className="w-3 h-3 text-stone-400" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextSet();
+              }}
+              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
+              title="Next set"
+            >
+              <ChevronRight className="w-3 h-3 text-stone-400" />
             </Button>
           </div>
         </div>
         
-        <div className="flex-grow space-y-3 overflow-y-auto">
+        <div className="flex-grow space-y-4 overflow-y-auto flex flex-col justify-center">
           {currentSet === 0 && (
             <>
               {/* Motivation */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                <p className="text-sm text-stone-700 dark:text-stone-300 italic leading-relaxed">
                   "{content.motivation}"
                 </p>
               </div>
 
               {/* Writing Joke */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Smile className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITER'S HUMOR</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Smile className="h-4 w-4 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writer's Humor</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300">
+                <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
                   {content.joke}
                 </p>
               </div>
 
               {/* Writing Tip */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Lightbulb className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">PRO TIP</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Lightbulb className="h-4 w-4 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Pro Tip</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300">
+                <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
                   {content.tip}
                 </p>
               </div>
@@ -254,36 +229,36 @@ export function MessageOfTheDay() {
           {currentSet === 1 && (
             <>
               {/* Word of the Day */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <BookOpen className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
                 </div>
-                <p className="text-xs">
+                <p className="text-sm">
                   <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
                   <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
                 </p>
-                <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+                <p className="text-xs text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
               </div>
 
               {/* Quick Prompt */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <PenTool className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">QUICK PROMPT</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <PenTool className="h-4 w-4 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Quick Prompt</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                <p className="text-sm text-stone-700 dark:text-stone-300 italic leading-relaxed">
                   {content.prompt}
                 </p>
               </div>
 
               {/* Writing Fact */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITING FACT</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300">
+                <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
                   {content.fact}
                 </p>
               </div>
@@ -293,47 +268,44 @@ export function MessageOfTheDay() {
           {currentSet === 2 && (
             <>
               {/* Motivation */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                <p className="text-sm text-stone-700 dark:text-stone-300 italic leading-relaxed">
                   "{content.motivation}"
                 </p>
               </div>
 
               {/* Writing Fact */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITING FACT</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300">
+                <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
                   {content.fact}
                 </p>
               </div>
 
               {/* Word of the Day */}
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <BookOpen className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
                 </div>
-                <p className="text-xs">
+                <p className="text-sm">
                   <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
                   <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
                 </p>
-                <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+                <p className="text-xs text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
               </div>
             </>
           )}
         </div>
         
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-          <span className="text-[10px] text-stone-500 dark:text-stone-400">
-            Cycles every 15 seconds
-          </span>
+        <div className="flex justify-center mt-2">
           <div className="flex items-center gap-1">
             {[0, 1, 2].map((index) => (
               <div
