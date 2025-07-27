@@ -87,79 +87,22 @@ body {
 }
 
 @layer utilities {
-  /* Brand Classes - Light mode uses solid mint, dark mode uses gradient */
+  /* Brand Gradient Classes - Consistent across light/dark modes */
   .brand-gradient-text {
-    @apply font-black text-[#0F5132] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
   }
   
   .brand-gradient-bg {
-    @apply bg-[#B2F5D4] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
   }
   
   .brand-gradient-border {
-    background: #B2F5D4;
-    @apply dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+    background: linear-gradient(to right, var(--gradient-brand-start), var(--gradient-brand-middle), var(--gradient-brand-end));
   }
   
-  /* Brand Button - Matches the mint green design */
-  .brand-button {
-    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 bg-[#B2F5D4] text-[#0F5132] hover:bg-[#9FEDC8] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
-  }
+
   
-  /* Mint Button for Light Mode */
-  .mint-button {
-    @apply bg-[#B2F5D4] text-[#0F5132] hover:bg-[#9FEDC8];
-  }
-  
-  /* Override ALL gradient styles in light mode */
-  :root:not(.dark) [class*="bg-gradient-to-"] {
-    background-image: none !important;
-    @apply bg-[#B2F5D4] hover:bg-[#9FEDC8] !important;
-  }
-  
-  /* All buttons with gradient classes in light mode */
-  :root:not(.dark) button[class*="from-emerald"],
-  :root:not(.dark) button[class*="to-amber"],
-  :root:not(.dark) button[class*="via-stone"],
-  :root:not(.dark) .btn[class*="from-emerald"],
-  :root:not(.dark) .btn[class*="to-amber"],
-  :root:not(.dark) .btn[class*="via-stone"] {
-    background-image: none !important;
-    @apply bg-[#B2F5D4] hover:bg-[#9FEDC8] text-[#0F5132] !important;
-  }
-  
-  /* All text with emerald colors in light mode */
-  :root:not(.dark) [class*="text-emerald"] {
-    @apply text-[#0F5132] !important;
-  }
-  
-  /* All icons in light mode */
-  :root:not(.dark) svg {
-    @apply text-[#0F5132];
-  }
-  
-  /* Override specific button hover states */
-  :root:not(.dark) button:hover[class*="hover:from-emerald"],
-  :root:not(.dark) button:hover[class*="hover:to-amber"],
-  :root:not(.dark) button:hover[class*="hover:via-stone"] {
-    background-image: none !important;
-    @apply bg-[#9FEDC8] !important;
-  }
-  
-  /* Genre tags and badges in light mode */
-  :root:not(.dark) [class*="bg-emerald"],
-  :root:not(.dark) [class*="bg-amber"],
-  :root:not(.dark) [class*="bg-stone"] {
-    @apply bg-[#B2F5D4] text-[#0F5132] !important;
-  }
-  
-  .mint-button-text {
-    @apply text-[#1F4E3C];
-  }
-  
-  .mint-button-hover {
-    @apply bg-[#B8EDD4];
-  }
+
   
   /* Brand Icon Button */
   .brand-icon-button {
@@ -338,21 +281,15 @@ svg {
   --color-body-secondary: hsl(20, 8%, 45%);                /* Secondary body text */
   --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
   
-  /* Brand Colors - Light Mode (Mint Green Theme) */
-  --color-brand-bg: hsl(152, 52%, 88%);                    /* Mint green background */
-  --color-brand-text: hsl(152, 25%, 20%);                  /* Dark green text */
-  --color-brand-hover: hsl(152, 52%, 82%);                 /* Hover state */
-  --color-brand-icon: hsl(152, 30%, 25%);                  /* Icon color */
-  
-  /* Brand Gradient Colors - Light Mode (Subtle mint gradient) */
-  --gradient-brand-start: hsl(152, 52%, 88%);              /* Mint start */
-  --gradient-brand-middle: hsl(152, 48%, 85%);             /* Mint middle */
-  --gradient-brand-end: hsl(152, 45%, 82%);                /* Mint end */
+  /* Brand Gradient Colors - Light Mode (Light versions of dark mode) */
+  --gradient-brand-start: hsl(155, 84%, 50%);              /* Light emerald */
+  --gradient-brand-middle: hsl(20, 10%, 50%);              /* Light stone */
+  --gradient-brand-end: hsl(35, 91%, 55%);                 /* Light amber */
   
   /* Icon Colors - Light Mode */
-  --color-icon-primary: hsl(152, 30%, 25%);                /* Primary icons */
-  --color-icon-secondary: hsl(152, 20%, 35%);              /* Secondary icons */
-  --color-icon-muted: hsl(152, 10%, 50%);                  /* Muted icons */
+  --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
+  --color-icon-secondary: hsl(20, 10%, 40%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
   --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
   --fablecraft-glass-card: hsl(120, 5%, 70%, 0.3);         /* Glassmorphism cards */
   --fablecraft-glass-border: hsl(120, 5%, 60%, 0.4);       /* Glass borders */

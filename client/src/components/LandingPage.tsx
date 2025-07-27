@@ -270,22 +270,22 @@ export function LandingPage({
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
-                  className="group mint-button dark:bg-gradient-to-r dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 dark:text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
-                    <PenTool className="mr-3 h-5 w-5 text-[#1F4E3C] dark:text-white group-hover:scale-110 transition-transform duration-300" />
+                    <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
                     Begin Your Story
                   </span>
                 </Button>
                 <Button 
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="group mint-button dark:bg-gradient-to-r dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 dark:text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
-                    <Library className="mr-3 h-5 w-5 text-[#1F4E3C] dark:text-white group-hover:scale-110 transition-transform duration-300" />
+                    <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
                     Browse Stories
                   </span>
                 </Button>

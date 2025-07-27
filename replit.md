@@ -4,6 +4,15 @@
 Fablecraft is an advanced AI-powered creative writing platform that empowers writers to develop rich, contextual narratives through innovative character generation and management tools. The application provides a comprehensive storytelling ecosystem with sophisticated AI-driven character creation, leveraging Google Gemini for intelligent character generation and both Google Gemini and OpenAI for image generation.
 
 ## Recent Changes
+### July 27, 2025 - **LIGHT/DARK MODE CONSISTENCY LESSON - CRITICAL USER FEEDBACK**
+⚠️ **CRITICAL LESSON LEARNED** - User became frustrated when light mode was completely changed to mint green everywhere instead of maintaining design consistency
+✓ **PROPER LIGHT MODE IMPLEMENTATION** - Light mode should be a "light version of dark mode" not a complete color replacement
+✓ **DESIGN CONSISTENCY IS KEY** - Both modes should use the same gradient system (emerald-stone-amber) with appropriate brightness adjustments
+✓ **TARGETED COLOR APPLICATION** - Special colors (like mint green) should only be applied to specific requested elements, not globally
+✓ **USER'S EXACT WORDS** - "light mode should be a light mode verison [sic] of the dark mode" - maintain same design language
+✓ **REVERTED AGGRESSIVE OVERRIDES** - Removed mint green overrides that broke the overall design consistency
+✓ **RESTORED GRADIENT SYSTEM** - All buttons and UI elements now use consistent emerald-stone-amber gradients in both modes
+
 ### January 13, 2025 - **FULL DRAG-AND-DROP CUSTOMIZATION SYSTEM COMPLETED**
 ✓ **COMPREHENSIVE CUSTOMIZATION SYSTEM** - Implemented complete drag-and-drop functionality for projects page layout personalization
 ✓ **MAIN SECTION REORDERING** - Users can drag and swap Project Management and Dashboard Widgets sections
