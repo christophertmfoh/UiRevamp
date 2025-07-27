@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FloatingOrbs } from '../FloatingOrbs';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
@@ -446,13 +447,10 @@ export function ProjectsPageRedesign({
   const uniqueGenres = Array.from(new Set(projects.map((p: Project) => p.genre).filter(Boolean))).length;
 
   return (
-          <div className="min-h-screen bg-background transition-all duration-300">
+          <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-background">
+
       {/* Theme-aware floating orbs */}
-      <div className="floating-orbs">
-        <div className="floating-orb"></div>
-        <div className="floating-orb"></div>
-        <div className="floating-orb"></div>
-      </div>
+      <FloatingOrbs />
 
       {/* Modern Abstract Background System */}
       <div className="absolute inset-0">
