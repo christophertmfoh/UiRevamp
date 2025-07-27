@@ -216,26 +216,28 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
-          {/* Left Side - Title and Enhanced Content */}
-          <div className="space-y-4 text-center">
-            <div className="overflow-visible">
-              <div className="mb-3">
-                <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
-                  Welcome back, {user?.username || 'Writer'}
-                </p>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-3">
-                Your Projects
-              </h1>
+        <div className="text-center mb-8">
+          <div className="overflow-visible">
+            <div className="mb-3">
+              <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
+                Welcome back, {user?.username || 'Writer'}
+              </p>
             </div>
-            
-            <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto mt-2">
-              Organize, track, and bring your stories to life with intelligent project management.
-            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-3">
+              Your Projects
+            </h1>
+          </div>
+          
+          <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto mt-2">
+            Organize, track, and bring your stories to life with intelligent project management.
+          </p>
+        </div>
 
-            {/* Writing Progress */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 min-h-[280px]">
+        {/* Two Column Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {/* Left Side - Writing Progress */}
+          <div className="flex flex-col">
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 flex-1">
               <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
