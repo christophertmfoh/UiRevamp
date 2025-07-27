@@ -466,23 +466,23 @@ export function ProjectsPageRedesign({
           style={{ transform: `translateY(${scrollY * 0.05}px)` }}
         ></div>
 
-        {/* Ambient Lighting Effects - Mint Green for Light Mode */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-green-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
-          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-teal-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+        {/* Theme-aware floating orbs */}
+        <div className="floating-orbs">
+          <div className="floating-orb"></div>
+          <div className="floating-orb"></div>
+          <div className="floating-orb"></div>
         </div>
       </div>
 
       {/* Navigation Header */}
-      <nav className="relative z-10 px-8 py-4 border-b border-stone-200/20 dark:border-stone-800/20 backdrop-blur-xl">
+      <nav className="relative z-10 px-8 py-4 border-b border-border/20 backdrop-blur-xl bg-background/80">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Back Button */}
           <div className="flex-1">
             <Button
               variant="ghost"
               onClick={() => onNavigate('landing')}
-              className="group text-foreground hover:text-stone-900 dark:hover:text-stone-100"
+              className="group text-foreground hover:text-foreground/80"
             >
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
               Back
@@ -492,7 +492,7 @@ export function ProjectsPageRedesign({
           {/* Centered Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 gradient-primary-br rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-5 h-5 text-emerald-800 dark:text-white" />
+              <Feather className="w-5 h-5 text-primary" />
             </div>
             <span className="text-2xl font-black font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
@@ -504,7 +504,7 @@ export function ProjectsPageRedesign({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  className="group gradient-primary text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
+                  className="group gradient-primary text-primary-foreground px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 flex items-center space-x-2">
@@ -533,7 +533,7 @@ export function ProjectsPageRedesign({
             <Button
               size="icon"
               onClick={() => setIsEditMode(!isEditMode)}
-              className="w-10 h-10 gradient-primary text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
+              className="w-10 h-10 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
               title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
             >
               {isEditMode ? (
@@ -598,26 +598,26 @@ export function ProjectsPageRedesign({
                     <span className="ml-2 text-sm font-medium text-foreground">Project Management</span>
                   </div>
                 )}
-                <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+                <div className="glass-card rounded-[2rem] p-6 shadow-xl">
           {/* Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="surface-elevated rounded-xl p-4 border border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-foreground">
                     {totalProjects}
                   </p>
-                  <p className="text-xs font-medium text-foreground mt-1">
+                  <p className="text-xs font-medium text-muted-foreground mt-1">
                     Total Projects
                   </p>
                 </div>
                 <div className="w-10 h-10 gradient-primary-br rounded-lg flex items-center justify-center shadow-md">
-                  <Library className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Library className="w-5 h-5 text-primary-foreground" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="surface-elevated rounded-xl p-4 border border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-foreground">
@@ -628,12 +628,12 @@ export function ProjectsPageRedesign({
                   </p>
                 </div>
                 <div className="w-10 h-10 gradient-primary-br rounded-lg flex items-center justify-center shadow-md">
-                  <Activity className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Activity className="w-5 h-5 text-primary-foreground" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="surface-elevated rounded-xl p-4 border border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-foreground">
@@ -644,7 +644,7 @@ export function ProjectsPageRedesign({
                   </p>
                 </div>
                 <div className="w-10 h-10 gradient-primary-br rounded-lg flex items-center justify-center shadow-md">
-                  <Sparkles className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Sparkles className="w-5 h-5 text-primary-foreground" />
                 </div>
               </div>
             </div>
@@ -652,15 +652,15 @@ export function ProjectsPageRedesign({
             <div className="gradient-primary-br rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-lg font-black text-emerald-800 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                  <p className="text-lg font-black text-primary-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                     New Project
                   </p>
-                  <p className="text-xs font-medium text-emerald-700 dark:text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+                  <p className="text-xs font-medium text-primary mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
                     Start your journey
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-emerald-300/30 dark:bg-white/20 rounded-lg flex items-center justify-center">
-                  <PlusCircle className="w-5 h-5 text-emerald-800 dark:text-white" />
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <PlusCircle className="w-5 h-5 text-primary-foreground" />
                 </div>
               </div>
             </div>
@@ -671,20 +671,20 @@ export function ProjectsPageRedesign({
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 gradient-primary-br rounded-lg flex items-center justify-center">
-                <Search className="h-4 w-4 text-emerald-800 dark:text-white pointer-events-none" />
+                <Search className="h-4 w-4 text-primary-foreground pointer-events-none" />
               </div>
               <Input
                 placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 pl-14 pr-4 bg-white/80 dark:bg-stone-800/60 border-stone-300/30 dark:border-stone-700/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all duration-300"
+                className="w-full h-12 pl-14 pr-4 surface-elevated border-border/30 rounded-2xl text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-300"
               />
             </div>
 
             {/* Sort Options */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-12 px-6 gradient-primary hover:opacity-90 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
+                <Button className="h-12 px-6 gradient-primary hover:opacity-90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
                   <TrendingUp className="w-4 h-4 mr-2" />
                   {sortBy === 'updated' ? 'Recently Updated' : 
                    sortBy === 'created' ? 'Date Created' : 
@@ -714,15 +714,15 @@ export function ProjectsPageRedesign({
             </DropdownMenu>
 
             {/* View Toggle */}
-            <div className="flex items-center bg-white/80 dark:bg-stone-800/60 rounded-2xl p-1 border border-stone-300/30 dark:border-stone-700/30">
+            <div className="flex items-center surface-elevated rounded-2xl p-1 border border-border/30">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => updateViewMode('grid')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'grid' 
-                    ? 'gradient-primary text-emerald-800 dark:text-white shadow-md' 
-                    : 'text-foreground hover:text-stone-900 dark:hover:text-stone-100'
+                    ? 'gradient-primary text-primary-foreground shadow-md' 
+                    : 'text-foreground hover:text-foreground'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
@@ -733,8 +733,8 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('list')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'list' 
-                    ? 'gradient-primary text-emerald-800 dark:text-white shadow-md' 
-                    : 'text-foreground hover:text-stone-900 dark:hover:text-stone-100'
+                    ? 'gradient-primary text-primary-foreground shadow-md' 
+                    : 'text-foreground hover:text-foreground'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -746,7 +746,7 @@ export function ProjectsPageRedesign({
           {searchTerm && (
             <div className="mb-4 text-center">
               <p className="text-sm text-foreground">
-                Found <span className="font-semibold text-stone-900 dark:text-stone-100">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''}
+                Found <span className="font-semibold text-foreground">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''}
               </p>
             </div>
           )}
@@ -771,7 +771,7 @@ export function ProjectsPageRedesign({
               </p>
               <Button 
                 onClick={onNewProject}
-                className="gradient-primary hover:opacity-90 text-emerald-800 dark:text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="gradient-primary hover:opacity-90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create New Project
@@ -838,47 +838,47 @@ export function ProjectsPageRedesign({
                       }`}
                     >
                       {isEditMode && (
-                        <div className="absolute top-2 right-2 z-10 bg-white/80 dark:bg-stone-800/80 rounded-lg p-1">
+                        <div className="absolute top-2 right-2 z-10 bg-card/80 rounded-lg p-1">
                           <GripVertical className="w-4 h-4 text-foreground" />
                         </div>
                       )}
                       {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
                       {widget.id === 'recent-project' && (
                         projects.length > 0 ? (
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
+            <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-foreground text-sm">Recent Project</h3>
-                  <Badge className="gradient-primary text-emerald-800 dark:text-white text-xs px-2 py-1 border-0">
+                  <Badge className="gradient-primary text-primary-foreground text-xs px-2 py-1 border-0">
                     Active
                   </Badge>
                 </div>
                 <div className="space-y-3 flex-grow">
                   <div>
-                    <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
+                    <p className="font-semibold text-foreground text-sm truncate">{projects[0]?.name}</p>
                     <p className="text-xs text-foreground mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
                   </div>
                   
                   {/* Project Details */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-stone-500 dark:text-stone-400">Type:</span>
-                      <span className="text-stone-700 dark:text-stone-300 font-medium">{projects[0]?.type || 'Creative Project'}</span>
+                      <span className="text-muted-foreground">Type:</span>
+                      <span className="text-foreground/80 font-medium">{projects[0]?.type || 'Creative Project'}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-stone-500 dark:text-stone-400">Genre:</span>
-                      <span className="text-stone-700 dark:text-stone-300 font-medium">
+                      <span className="text-muted-foreground">Genre:</span>
+                      <span className="text-foreground/80 font-medium">
                         {typeof projects[0]?.genre === 'string' ? projects[0].genre : 
                          (Array.isArray(projects[0]?.genre) && projects[0].genre[0]) || 'Unspecified'}
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-stone-500 dark:text-stone-400">Progress:</span>
+                      <span className="text-muted-foreground">Progress:</span>
                       <span className="text-emerald-600 font-medium">75% Complete</span>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Clock className="w-3 h-3" />
                     <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
                   </div>
@@ -886,14 +886,14 @@ export function ProjectsPageRedesign({
                 <Button 
                   size="sm"
                   onClick={() => onSelectProject(projects[0])}
-                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
+                  className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
                 >
                   Open Project
                 </Button>
               </CardContent>
             </Card>
           ) : (
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+            <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
               <CardContent className="p-5 h-full flex flex-col justify-center">
                 <div className="text-center space-y-3">
                   <div className="w-12 h-12 gradient-icon-container rounded-full flex items-center justify-center mx-auto">
@@ -905,7 +905,7 @@ export function ProjectsPageRedesign({
                     <Button 
                       size="sm"
                       onClick={onNewProject}
-                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Create Project
                     </Button>
@@ -916,21 +916,21 @@ export function ProjectsPageRedesign({
                         )
                       )}
                       {widget.id === 'writing-progress' && (
-                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                        <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 gradient-icon-container rounded-full flex items-center justify-center">
                     <Sparkles className="w-3 h-3 gradient-text" />
                   </div>
-                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                  <p className="text-sm font-semibold text-foreground">
                     Writing Progress
                   </p>
                 </div>
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -940,14 +940,14 @@ export function ProjectsPageRedesign({
                 {/* Daily Words */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Daily Words</p>
+                    <p className="text-xs font-medium text-foreground/80">Daily Words</p>
                     <p className="text-xs font-semibold">
                       <span className="icon-primary">{todayProgress.words}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyWords}</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.words / actualGoals.dailyWords) * 100)}%)</span>
+                      <span className="text-muted-foreground">/{actualGoals.dailyWords}</span>
+                      <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.words / actualGoals.dailyWords) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                  <div className="w-full bg-muted rounded-full h-2">
                     <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
                 </div>
@@ -955,14 +955,14 @@ export function ProjectsPageRedesign({
                 {/* Writing Time */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Time</p>
+                    <p className="text-xs font-medium text-foreground/80">Writing Time</p>
                     <p className="text-xs font-semibold">
                       <span className="icon-primary">{todayProgress.minutes}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyMinutes} min</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.minutes / actualGoals.dailyMinutes) * 100)}%)</span>
+                      <span className="text-muted-foreground">/{actualGoals.dailyMinutes} min</span>
+                      <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.minutes / actualGoals.dailyMinutes) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                  <div className="w-full bg-muted rounded-full h-2">
                     <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
                 </div>
@@ -970,23 +970,23 @@ export function ProjectsPageRedesign({
                 {/* Writing Streak */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Streak</p>
+                    <p className="text-xs font-medium text-foreground/80">Writing Streak</p>
                     <p className="text-xs font-semibold">
                       <span className="icon-primary">{todayProgress.currentStreak}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.streakDays} days</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.currentStreak / actualGoals.streakDays) * 100)}%)</span>
+                      <span className="text-muted-foreground">/{actualGoals.streakDays} days</span>
+                      <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.currentStreak / actualGoals.streakDays) * 100)}%)</span>
                     </p>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                  <div className="w-full bg-muted rounded-full h-2">
                     <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
                 {/* Divider line */}
-                <div className="border-t border-stone-200/50 dark:border-stone-700/50 my-3"></div>
+                <div className="border-t border-border/30 my-3"></div>
 
                 {/* Compact Summary */}
-                <div className="flex items-center justify-between text-[10px] text-stone-500 dark:text-stone-400">
+                <div className="flex items-center justify-between text-[10px] text-muted-foreground">
                   <span>2 writing sessions today</span>
                   <span>Next milestone in {Math.max(0, actualGoals.dailyWords - todayProgress.words)} words</span>
                 </div>
@@ -995,7 +995,7 @@ export function ProjectsPageRedesign({
           </Card>
                       )}
                       {widget.id === 'quick-tasks' && (
-                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                        <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle className="w-4 h-4 icon-primary" />
@@ -1005,14 +1005,14 @@ export function ProjectsPageRedesign({
               </div>
               <div className="space-y-3 text-sm mb-5 flex-grow overflow-y-auto">
                 {isLoadingTasks ? (
-                  <div className="text-center text-stone-500 dark:text-stone-400 text-xs">Loading tasks...</div>
+                  <div className="text-center text-muted-foreground text-xs">Loading tasks...</div>
                 ) : todayTasks.length === 0 ? (
-                  <div className="text-center text-stone-500 dark:text-stone-400 text-xs">
+                  <div className="text-center text-muted-foreground text-xs">
                     <p className="mb-2">No tasks for today yet</p>
                     <Button
                       size="sm"
                       onClick={() => setShowTasksModal(true)}
-                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1"
+                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1"
                     >
                       Add Tasks
                     </Button>
@@ -1021,7 +1021,7 @@ export function ProjectsPageRedesign({
                   todayTasks.slice(0, 3).map((task) => (
                     <div 
                       key={task.id} 
-                      className="flex items-center gap-3 cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 p-1 rounded-lg transition-colors duration-200"
+                      className="flex items-center gap-3 cursor-pointer hover:bg-accent/10 p-1 rounded-lg transition-colors duration-200"
                       onClick={() => toggleTaskCompletion(task)}
                     >
                       <Checkbox 
@@ -1029,7 +1029,7 @@ export function ProjectsPageRedesign({
                         className="h-4 w-4"
                         onClick={(e) => e.stopPropagation()}
                       />
-                      <span className={`text-stone-700 dark:text-stone-300 ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
+                      <span className={`text-foreground/80 ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
                         {task.text}
                       </span>
                       {task.priority === 'high' && (
@@ -1039,12 +1039,12 @@ export function ProjectsPageRedesign({
                   ))
                 )}
               </div>
-              <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50 mt-auto">
-                <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
+              <div className="pt-3 border-t border-border/30 mt-auto">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
                   <span>Today's Progress</span>
                   <span>{todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed</span>
                 </div>
-                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
+                <div className="w-full bg-muted rounded-full h-1.5 mb-3">
                   <div 
                     className="gradient-progress h-1.5 rounded-full" 
                     style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
@@ -1054,14 +1054,14 @@ export function ProjectsPageRedesign({
                   <Button 
                     size="sm"
                     onClick={() => setShowAddTaskModal(true)}
-                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     Add Task
                   </Button>
                   <Button 
                     size="sm"
                     onClick={() => setShowTasksModal(true)}
-                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     View All
                   </Button>
@@ -1082,7 +1082,7 @@ export function ProjectsPageRedesign({
 
       {/* Add Task Modal */}
       <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
-        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black gradient-primary bg-clip-text text-transparent">
               Add New Task
@@ -1094,24 +1094,24 @@ export function ProjectsPageRedesign({
           
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              <label className="text-sm font-medium text-foreground/80">
                 Task Description
               </label>
               <Textarea
                 placeholder="What do you need to do?"
                 value={newTaskText}
                 onChange={(e) => setNewTaskText(e.target.value)}
-                className="min-h-[100px] resize-none bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl"
+                className="min-h-[100px] resize-none bg-muted/50 border-border rounded-xl"
               />
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                <label className="text-sm font-medium text-foreground/80">
                   Priority
                 </label>
                 <Select value={newTaskPriority} onValueChange={(value: 'low' | 'medium' | 'high') => setNewTaskPriority(value)}>
-                  <SelectTrigger className="bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl">
+                  <SelectTrigger className="bg-muted/50 border-border rounded-xl">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1123,9 +1123,9 @@ export function ProjectsPageRedesign({
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+                <label className="text-sm font-medium text-foreground/80 flex items-center justify-between">
                   <span>Estimated Time</span>
-                  <span className="text-xs text-stone-500 dark:text-stone-400">{newTaskEstimatedTime} min</span>
+                  <span className="text-xs text-muted-foreground">{newTaskEstimatedTime} min</span>
                 </label>
                 <div className="relative">
                   <input
@@ -1135,7 +1135,7 @@ export function ProjectsPageRedesign({
                     step="5"
                     value={newTaskEstimatedTime}
                     onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value))}
-                    className="w-full h-10 appearance-none bg-stone-200 dark:bg-stone-700 rounded-xl cursor-pointer
+                    className="w-full h-10 appearance-none bg-muted rounded-xl cursor-pointer
                       [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
                       [&::-webkit-slider-thumb]:bg-gradient-to-r [&::-webkit-slider-thumb]:from-emerald-600 [&::-webkit-slider-thumb]:to-amber-600 
                       [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
@@ -1151,14 +1151,14 @@ export function ProjectsPageRedesign({
               <Button 
                 onClick={handleCreateTask}
                 disabled={!newTaskText.trim()}
-                className="flex-1 gradient-primary hover:opacity-90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+                className="flex-1 gradient-primary hover:opacity-90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
               >
                 Add Task
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => setShowAddTaskModal(false)}
-                className="px-8 border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 rounded-xl"
+                className="px-8 border-2 border-border text-foreground/80 hover:bg-accent/10 transition-all duration-300 rounded-xl"
               >
                 Cancel
               </Button>
@@ -1169,7 +1169,7 @@ export function ProjectsPageRedesign({
 
       {/* View All Tasks Modal */}
       <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
-        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black gradient-primary bg-clip-text text-transparent">
               Tasks & To-Do List
@@ -1183,43 +1183,43 @@ export function ProjectsPageRedesign({
             {/* Today's Tasks */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-stone-700 dark:text-stone-300">Today's Tasks</h3>
-                <span className="text-sm text-stone-500 dark:text-stone-400">
+                <h3 className="text-lg font-bold text-foreground/80">Today's Tasks</h3>
+                <span className="text-sm text-muted-foreground">
                   {todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed
                 </span>
               </div>
               
               <div className="space-y-2 max-h-[400px] overflow-y-auto">
                 {isLoadingTasks ? (
-                  <div className="text-center py-8 text-sm text-stone-500">Loading tasks...</div>
+                  <div className="text-center py-8 text-sm text-muted-foreground">Loading tasks...</div>
                 ) : todayTasks.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">No tasks for today. Add one above!</p>
+                    <p className="text-sm text-muted-foreground mb-3">No tasks for today. Add one above!</p>
                     <Button
                       size="sm"
                       onClick={() => {
                         setShowTasksModal(false);
                         setShowAddTaskModal(true);
                       }}
-                      className="gradient-primary hover:opacity-90 text-white"
+                      className="gradient-primary hover:opacity-90 text-primary-foreground"
                     >
                       Add Your First Task
                     </Button>
                   </div>
                 ) : (
                   todayTasks.map((task) => (
-                    <div key={task.id} className="flex items-start gap-3 p-4 bg-stone-100/60 dark:bg-stone-900/40 rounded-xl hover:bg-stone-100/80 dark:hover:bg-stone-900/60 transition-colors">
+                    <div key={task.id} className="flex items-start gap-3 p-4 bg-muted/50 rounded-xl hover:bg-accent/20 transition-colors">
                       <Checkbox
                         checked={task.status === 'completed'}
                         onCheckedChange={() => toggleTaskCompletion(task)}
                         className="mt-0.5 h-5 w-5"
                       />
                       <div className="flex-grow">
-                        <p className={`font-medium ${task.status === 'completed' ? 'line-through text-stone-400' : 'text-stone-700 dark:text-stone-300'}`}>
+                        <p className={`font-medium ${task.status === 'completed' ? 'line-through text-muted-foreground/70' : 'text-foreground/80'}`}>
                           {task.text}
                         </p>
                         <div className="flex items-center gap-4 mt-2">
-                          <span className="text-xs text-stone-500 dark:text-stone-400">
+                          <span className="text-xs text-muted-foreground">
                             <Clock className="w-3 h-3 inline mr-1" />
                             {task.estimatedTime} min
                           </span>
@@ -1246,7 +1246,7 @@ export function ProjectsPageRedesign({
                             setShowTasksModal(false);
                             setShowAddTaskModal(true);
                           }}
-                          className="h-8 w-8 p-0 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-lg"
+                          className="h-8 w-8 p-0 hover:bg-accent/20 rounded-lg"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -1267,7 +1267,7 @@ export function ProjectsPageRedesign({
             
             {/* Progress Summary */}
             <div className="bg-gradient-to-br from-emerald-50 to-amber-50 dark:from-emerald-900/20 dark:to-amber-900/20 rounded-xl p-5">
-              <h4 className="text-lg font-bold text-stone-700 dark:text-stone-300 mb-4">Weekly Progress</h4>
+              <h4 className="text-lg font-bold text-foreground/80 mb-4">Weekly Progress</h4>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <p className="text-sm text-foreground mb-1">Tasks Completed</p>
@@ -1285,7 +1285,7 @@ export function ProjectsPageRedesign({
 
       {/* Goals Modal */}
       <Dialog open={showGoalsModal} onOpenChange={setShowGoalsModal}>
-        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-lg font-black gradient-primary bg-clip-text text-transparent">
               Set Writing Goals
@@ -1298,78 +1298,78 @@ export function ProjectsPageRedesign({
           <div className="space-y-4 py-3">
             {/* Compact Goals Grid */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
-                <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
+              <div className="p-3 surface-elevated rounded-xl">
+                <label className="text-xs font-medium text-foreground/80 block mb-1">
                   Daily Words
                 </label>
                 <Input 
                   type="number" 
                   placeholder="500" 
-                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  className="h-8 text-sm mb-2 surface-elevated" 
                   value={tempGoals.dailyWords}
                   onChange={(e) => setTempGoals({...tempGoals, dailyWords: parseInt(e.target.value) || 0})}
                 />
-                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
+                <div className="w-full bg-muted rounded-full h-1.5">
 
                 </div>
-                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
               </div>
               
-              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
-                <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
+              <div className="p-3 surface-elevated rounded-xl">
+                <label className="text-xs font-medium text-foreground/80 block mb-1">
                   Daily Minutes
                 </label>
                 <Input 
                   type="number" 
                   placeholder="60" 
-                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  className="h-8 text-sm mb-2 surface-elevated" 
                   value={tempGoals.dailyMinutes}
                   onChange={(e) => setTempGoals({...tempGoals, dailyMinutes: parseInt(e.target.value) || 0})}
                 />
-                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
+                <div className="w-full bg-muted rounded-full h-1.5">
                   <div className="gradient-primary h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
                 </div>
-                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.minutes}/{tempGoals.dailyMinutes} mins</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{todayProgress.minutes}/{tempGoals.dailyMinutes} mins</p>
               </div>
             </div>
 
             {/* Streak Goal Compact */}
-            <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+            <div className="p-3 surface-elevated rounded-xl">
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-medium text-stone-700 dark:text-stone-300">
+                <label className="text-xs font-medium text-foreground/80">
                   Streak Goal
                 </label>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-emerald-600">7</span>
-                  <span className="text-xs text-stone-500">/</span>
+                  <span className="text-xs text-muted-foreground">/</span>
                   <Input 
                     type="number" 
                     placeholder="30" 
-                    className="w-14 h-7 text-center text-sm bg-white/80 dark:bg-slate-800/60" 
+                    className="w-14 h-7 text-center text-sm surface-elevated" 
                     value={tempGoals.streakDays}
                     onChange={(e) => setTempGoals({...tempGoals, streakDays: parseInt(e.target.value) || 0})}
                   />
-                  <span className="text-xs text-stone-500">days</span>
+                  <span className="text-xs text-muted-foreground">days</span>
                 </div>
               </div>
-              <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
+              <div className="w-full bg-muted rounded-full h-2">
                 <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
               </div>
             </div>
 
             {/* Coming Soon Note */}
-            <div className="p-3 bg-stone-100/60 dark:bg-stone-700/20 rounded-xl border border-dashed border-stone-300 dark:border-stone-600">
+            <div className="p-3 bg-muted/40 rounded-xl border border-dashed border-border">
               <p className="text-xs text-foreground text-center">
                 <span className="font-medium">Coming Soon:</span> Project-specific goals that sync with your stories
               </p>
             </div>
 
             {/* Compact Action Buttons */}
-            <div className="flex gap-2 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+            <div className="flex gap-2 pt-3 border-t border-border/30">
               <Button 
                 size="sm"
                 onClick={handleSaveGoals}
-                className="flex-1 gradient-primary hover:opacity-90 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                className="flex-1 gradient-primary hover:opacity-90 text-primary-foreground text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
                 Save Goals
               </Button>
@@ -1377,7 +1377,7 @@ export function ProjectsPageRedesign({
                 size="sm"
                 variant="outline"
                 onClick={() => setShowGoalsModal(false)}
-                className="px-4 border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 text-xs"
+                className="px-4 border border-border text-foreground/80 hover:bg-accent/10 transition-all duration-300 text-xs"
               >
                 Cancel
               </Button>
@@ -1404,16 +1404,16 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
 
   return (
     <Card 
-      className="group bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-1 cursor-pointer overflow-hidden"
+      className="group surface-elevated backdrop-blur-xl border-border/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-1 cursor-pointer overflow-hidden"
       onClick={() => onSelect(project)}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-stone-600/5 to-amber-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       <CardHeader className="relative">
         <div className="flex items-start justify-between mb-4">
           <div className="w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-            <ProjectIcon className="w-7 h-7 text-white" />
+            <ProjectIcon className="w-7 h-7 text-primary-foreground" />
           </div>
-          <Badge className="gradient-primary text-stone-700 dark:text-white border-0">
+          <Badge className="gradient-primary text-primary-foreground border-0">
             {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
           </Badge>
         </div>
@@ -1425,11 +1425,11 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
         </p>
       </CardHeader>
       <CardContent>
-        <p className="text-stone-700 dark:text-stone-300 text-sm mb-4 line-clamp-3">
+        <p className="text-foreground/80 text-sm mb-4 line-clamp-3">
           {project.description || 'No description available.'}
         </p>
         
-        <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
+        <div className="flex items-center text-xs text-muted-foreground">
           <Clock className="w-3 h-3 mr-1" />
           Updated {new Date(project.createdAt).toLocaleDateString()}
         </div>
@@ -1453,13 +1453,13 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
 
   return (
     <Card 
-      className="group bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+      className="group surface-elevated backdrop-blur-xl border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
       onClick={() => onSelect(project)}
     >
       <CardContent className="p-6">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <ProjectIcon className="w-8 h-8 text-white" />
+            <ProjectIcon className="w-8 h-8 text-primary-foreground" />
           </div>
           
           <div className="flex-1">
@@ -1469,16 +1469,16 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
             <p className="text-foreground text-sm">
               {project.type || 'Creative Project'}
             </p>
-            <p className="text-stone-700 dark:text-stone-300 text-sm mt-1 line-clamp-1">
+            <p className="text-foreground/80 text-sm mt-1 line-clamp-1">
               {project.description || 'No description available.'}
             </p>
           </div>
           
           <div className="text-right space-y-2">
-            <Badge className="gradient-primary text-stone-700 dark:text-white border-0">
+            <Badge className="gradient-primary text-primary-foreground border-0">
               {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
             </Badge>
-            <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
+            <div className="flex items-center text-xs text-muted-foreground">
               <Clock className="w-3 h-3 mr-1" />
               {new Date(project.createdAt).toLocaleDateString()}
             </div>

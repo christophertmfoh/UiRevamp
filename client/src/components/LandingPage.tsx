@@ -195,7 +195,7 @@ export function LandingPage({
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg">
-              <Feather className="w-6 h-6 text-white" />
+              <Feather className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="text-2xl font-black font-serif text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
@@ -209,7 +209,7 @@ export function LandingPage({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button 
-                      className="group gradient-primary text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
+                      className="group gradient-primary text-primary-foreground px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       <span className="relative z-10 flex items-center">
@@ -262,7 +262,7 @@ export function LandingPage({
             ) : (
               <Button 
                 onClick={onAuth}
-                className="group gradient-primary text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
+                className="group gradient-primary text-primary-foreground px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
@@ -304,7 +304,7 @@ export function LandingPage({
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
-                  className="group gradient-primary text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+                  className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
@@ -315,7 +315,7 @@ export function LandingPage({
                 <Button 
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="group gradient-primary text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+                  className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
@@ -336,7 +336,7 @@ export function LandingPage({
               
               <div className="relative z-10 text-center space-y-6">
                 <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
-                  <PenTool className="w-10 h-10 text-white" />
+                  <PenTool className="w-10 h-10 text-primary-foreground" />
                 </div>
                 <h3 className="text-2xl font-black text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">Your Writing Journey</h3>
                 
@@ -368,7 +368,7 @@ export function LandingPage({
                             ? 'gradient-primary-br scale-110 shadow-lg' 
                             : 'bg-muted/80 group-hover:opacity-90 group-hover:scale-110 group-hover:shadow-lg'
                         }`}>
-                          <IconComponent className="w-6 h-6 text-white" />
+                          <IconComponent className="w-6 h-6 text-primary-foreground" />
                         </div>
                         <h4 className={`font-bold text-sm transition-all duration-300 ${
                           isActive 
@@ -424,7 +424,7 @@ export function LandingPage({
                       <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" 
                            style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 100%)' }}></div>
                       <div className="w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">
-                        <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
+                        <IconComponent className="w-8 h-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                       </div>
                     </div>
                     
@@ -475,7 +475,7 @@ export function LandingPage({
                   
                   <CardContent className="relative z-10 p-8 text-center space-y-6">
                     <div className="w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                      <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
+                      <IconComponent className="w-8 h-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <div className="space-y-2">
                       <div className="text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-primary group-hover:to-foreground transition-all duration-500">{indicator.number}</div>
@@ -489,12 +489,12 @@ export function LandingPage({
 
           {/* Key Benefits */}
           <div className="grid md:grid-cols-3 gap-8 pt-16">
-            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-stone-300/50 dark:border-stone-600/20 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <CheckCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                  <CheckCircle className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">World Bible Intelligence</h3>
                 <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
@@ -503,12 +503,12 @@ export function LandingPage({
               </div>
             </div>
             
-            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-stone-300/50 dark:border-stone-600/20 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br dark:from-stone-600 dark:via-emerald-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <TrendingUp className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                  <TrendingUp className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">Document AI Extraction</h3>
                 <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
@@ -517,12 +517,12 @@ export function LandingPage({
               </div>
             </div>
             
-            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-stone-300/50 dark:border-stone-600/20 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="group text-center space-y-6 p-8 rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-stone-50/0 dark:from-amber-900/0 dark:to-stone-900/0 group-hover:from-amber-50/50 group-hover:to-stone-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-stone-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br dark:from-amber-700 dark:via-stone-700 dark:to-emerald-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <Award className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                  <Award className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 <h3 className="text-2xl font-bold text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Visual Production Ready</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
@@ -549,7 +549,7 @@ export function LandingPage({
           <div className="relative z-10 text-center space-y-12 p-16">
             <div className="space-y-8">
               <div className="w-24 h-24 gradient-primary-br rounded-full flex items-center justify-center mx-auto shadow-2xl hover:shadow-3xl hover:scale-110 hover:rotate-6 transition-all duration-500 cursor-pointer">
-                <Zap className="w-12 h-12 text-white" />
+                <Zap className="w-12 h-12 text-primary-foreground" />
               </div>
               <h2 className="text-5xl md:text-6xl font-bold gradient-primary-text leading-tight">
                 Start Your Creative Revolution
@@ -564,7 +564,7 @@ export function LandingPage({
               <Button 
                 onClick={() => onNewProject()}
                 size="lg"
-                className="group gradient-primary hover:opacity-80  dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-16 py-6 text-xl font-bold shadow-2xl hover:shadow-3xl hover:scale-110 hover:-translate-y-2 transition-all duration-500 rounded-2xl relative overflow-hidden"
+                className="group gradient-primary hover:opacity-80  dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-primary-foreground px-16 py-6 text-xl font-bold shadow-2xl hover:shadow-3xl hover:scale-110 hover:-translate-y-2 transition-all duration-500 rounded-2xl relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
@@ -575,7 +575,7 @@ export function LandingPage({
               <Button 
                 onClick={() => onNavigate('projects')}
                 size="lg"
-                className="group gradient-primary hover:opacity-80  dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                className="group gradient-primary hover:opacity-80  dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-primary-foreground px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
@@ -593,7 +593,7 @@ export function LandingPage({
         <div className="max-w-7xl mx-auto text-center space-y-8">
           <div className="flex items-center justify-center space-x-4 group cursor-pointer">
             <div className="w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-              <Feather className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
+              <Feather className="w-7 h-7 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
             </div>
             <span className="text-3xl font-bold gradient-primary-text group-hover:text-primary transition-all duration-300">
               Fablecraft
