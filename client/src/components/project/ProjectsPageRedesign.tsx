@@ -557,7 +557,7 @@ export function ProjectsPageRedesign({
                 Welcome back, {user?.username || 'Writer'}
               </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black brand-gradient-text leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-50 leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
               Your Projects
             </h1>
           </div>
