@@ -522,7 +522,7 @@ export function ProjectsPageRedesign({
             <div className="w-10 h-10 gradient-primary-br rounded-xl flex items-center justify-center shadow-lg">
               <Feather className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-2xl font-black font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+            <span className="text-heading-2 font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
               Fablecraft
             </span>
           </div>

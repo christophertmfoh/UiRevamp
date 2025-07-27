@@ -9,15 +9,15 @@ interface ProjectsStatsProps {
 
 export function ProjectsStats({ totalProjects, completedProjects, onNewProject }: ProjectsStatsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div className="desktop-grid-4 gap-lg mb-xl stagger-children" style={{'--stagger-delay': '100ms'}}>
       {/* Total Projects */}
-      <div className="surface-elevated rounded-xl p-4 border border-border/30">
+      <div className="card-enhanced p-lg space-y-sm fade-in-up">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-2xl font-black text-foreground">
+            <p className="text-heading-2 text-foreground">
               {totalProjects}
             </p>
-            <p className="text-xs font-medium text-muted-foreground mt-1">
+            <p className="text-caption text-muted-foreground mt-1">
               Total Projects
             </p>
           </div>
@@ -28,13 +28,13 @@ export function ProjectsStats({ totalProjects, completedProjects, onNewProject }
       </div>
 
       {/* Completed Projects */}
-      <div className="surface-elevated rounded-xl p-4 border border-border/30">
+      <div className="card-enhanced p-lg space-y-sm fade-in-up">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-2xl font-black text-foreground">
+            <p className="text-heading-2 text-foreground">
               {completedProjects}
             </p>
-            <p className="text-xs font-medium text-muted-foreground mt-1">
+            <p className="text-caption text-muted-foreground mt-1">
               Completed Projects
             </p>
           </div>
@@ -45,13 +45,13 @@ export function ProjectsStats({ totalProjects, completedProjects, onNewProject }
       </div>
 
       {/* In Progress */}
-      <div className="surface-elevated rounded-xl p-4 border border-border/30">
+      <div className="card-enhanced p-lg space-y-sm fade-in-up">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-2xl font-black text-foreground">
+            <p className="text-heading-2 text-foreground">
               {totalProjects - completedProjects}
             </p>
-            <p className="text-xs font-medium text-muted-foreground mt-1">
+            <p className="text-caption text-muted-foreground mt-1">
               In Progress
             </p>
           </div>
@@ -63,12 +63,12 @@ export function ProjectsStats({ totalProjects, completedProjects, onNewProject }
 
       {/* New Project Button */}
       <div 
-        className="gradient-primary-br rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" 
+        className="card-enhanced gradient-primary-br p-lg hover-scale hover-glow interactive-element fade-in-up" 
         onClick={onNewProject}
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-lg font-black text-primary-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+            <p className="text-heading-3 text-primary-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
               New Project
             </p>
             <p className="text-xs font-medium text-primary-foreground/80 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">

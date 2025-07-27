@@ -429,43 +429,43 @@ export function LandingPage({
           </div>
 
           {/* Key Benefits */}
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 pt-12 lg:pt-16">
-            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+          <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'}}>
+            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <CheckCircle className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">World Bible Intelligence</h3>
+                <h3 className="text-heading-2 text-foreground group-hover:text-primary transition-colors duration-300">World Bible Intelligence</h3>
                 <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
                   Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe.
                 </p>
               </div>
             </div>
             
-            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br dark:from-stone-600 dark:via-emerald-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <TrendingUp className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">Document AI Extraction</h3>
+                <h3 className="text-heading-2 text-foreground group-hover:text-primary transition-colors duration-300">Document AI Extraction</h3>
                 <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
                   Upload character sheets and documents - our AI extracts 50+ attributes automatically with intelligent field mapping.
                 </p>
               </div>
             </div>
             
-            <div className="group text-center space-y-4 sm:space-y-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl surface-elevated backdrop-blur-sm border border-border/30 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-stone-50/0 dark:from-amber-900/0 dark:to-stone-900/0 group-hover:from-amber-50/50 group-hover:to-stone-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-stone-900/10 transition-all duration-700"></div>
               
               <div className="relative z-10 space-y-6">
                 <div className="w-20 h-20 gradient-primary-br dark:from-amber-700 dark:via-stone-700 dark:to-emerald-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                   <Award className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Visual Production Ready</h3>
+                <h3 className="text-heading-2 text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Visual Production Ready</h3>
                 <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
                   Generate consistent character visuals, storyboards, and multimedia content for novels, screenplays, and graphic novels.
                 </p>
@@ -492,10 +492,10 @@ export function LandingPage({
               <div className="w-24 h-24 gradient-primary-br rounded-full flex items-center justify-center mx-auto shadow-2xl hover:shadow-3xl hover:scale-110 hover:rotate-6 transition-all duration-500 cursor-pointer">
                 <Zap className="w-12 h-12 text-primary-foreground" />
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold gradient-primary-text leading-tight">
+              <h2 className="text-display-2 gradient-primary-text">
                 Start Your Creative Revolution
               </h2>
-              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto leading-relaxed">
+                              <p className="text-body-large text-muted-foreground max-w-3xl mx-auto">
                 Ready to transform any creative idea into complete multimedia production? 
                 Join the first true end-to-end AI creative suite that replaces 15+ scattered tools.
               </p>
