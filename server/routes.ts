@@ -4,6 +4,7 @@ import { projectRouter } from "./routes/projects";
 import { characterRouter } from "./routes/characters";
 import { outlineRouter } from "./routes/outlines";
 import { proseRouter } from "./routes/prose";
+import { dailyContentRouter } from "./routes/dailyContent";
 import { errorHandler } from "./middleware/errorHandler";
 import { signUp, signIn, signOut, authenticateToken, optionalAuth, signupSchema, loginSchema } from "./auth";
 import multer from "multer";
@@ -76,6 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api", optionalAuth, characterRouter);
   app.use("/api", optionalAuth, outlineRouter);
   app.use("/api", optionalAuth, proseRouter);
+  app.use("/api/daily-content", authenticateToken, dailyContentRouter);
   
   // Legacy routes that need migration
   app.get("/api/projects/:projectId/locations", async (req, res) => {

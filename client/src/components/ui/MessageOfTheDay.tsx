@@ -91,29 +91,70 @@ export function MessageOfTheDay() {
     fact: '',
     timestamp: Date.now()
   });
-  const [currentSet, setCurrentSet] = useState(0); // 0, 1, or 2 for cycling through content
+  const [currentSet, setCurrentSet] = useState(0); // 0 or 1 for cycling through content
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const getRandomItem = <T,>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)];
   };
 
-  const refreshContent = () => {
-    const newContent: DailyContent = {
-      motivation: getRandomItem(motivationalQuotes),
-      joke: getRandomItem(writingJokes),
-      tip: getRandomItem(writingTips),
-      wordOfDay: getRandomItem(wordsOfTheDay),
-      prompt: getRandomItem(writingPrompts),
-      fact: getRandomItem(writingFacts),
-      timestamp: Date.now()
-    };
+  const refreshContent = async () => {
+    if (isGenerating) return;
     
-    setContent(newContent);
-    localStorage.setItem('fablecraft_daily_content', JSON.stringify(newContent));
+    setIsGenerating(true);
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch('/api/daily-content/generate', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const newContent = await response.json();
+        const contentWithTimestamp: DailyContent = {
+          ...newContent,
+          timestamp: Date.now()
+        };
+        setContent(contentWithTimestamp);
+        localStorage.setItem('fablecraft_daily_content', JSON.stringify(contentWithTimestamp));
+      } else {
+        // Fallback to static content if API fails
+        const newContent: DailyContent = {
+          motivation: getRandomItem(motivationalQuotes),
+          joke: getRandomItem(writingJokes),
+          tip: getRandomItem(writingTips),
+          wordOfDay: getRandomItem(wordsOfTheDay),
+          prompt: getRandomItem(writingPrompts),
+          fact: getRandomItem(writingFacts),
+          timestamp: Date.now()
+        };
+        setContent(newContent);
+        localStorage.setItem('fablecraft_daily_content', JSON.stringify(newContent));
+      }
+    } catch (error) {
+      console.error('Failed to generate content:', error);
+      // Fallback to static content
+      const newContent: DailyContent = {
+        motivation: getRandomItem(motivationalQuotes),
+        joke: getRandomItem(writingJokes),
+        tip: getRandomItem(writingTips),
+        wordOfDay: getRandomItem(wordsOfTheDay),
+        prompt: getRandomItem(writingPrompts),
+        fact: getRandomItem(writingFacts),
+        timestamp: Date.now()
+      };
+      setContent(newContent);
+      localStorage.setItem('fablecraft_daily_content', JSON.stringify(newContent));
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleNextSet = () => {
-    setCurrentSet((prev) => (prev + 1) % 3);
+    setCurrentSet((prev) => (prev + 1) % 2);
   };
 
   useEffect(() => {
@@ -142,7 +183,7 @@ export function MessageOfTheDay() {
   // Cycle through content sets every 15 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSet((prev) => (prev + 1) % 3);
+      setCurrentSet((prev) => (prev + 1) % 2);
     }, 15000);
 
     return () => clearInterval(interval);
@@ -168,10 +209,11 @@ export function MessageOfTheDay() {
                 e.stopPropagation();
                 refreshContent();
               }}
-              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
+              disabled={isGenerating}
+              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30 disabled:opacity-50 disabled:cursor-not-allowed"
               title="Refresh content"
             >
-              <RefreshCw className="w-3 h-3 text-stone-400" />
+              <RefreshCw className={`w-3 h-3 text-stone-400 ${isGenerating ? 'animate-spin' : ''}`} />
             </Button>
             <Button
               size="sm"
@@ -265,49 +307,12 @@ export function MessageOfTheDay() {
             </>
           )}
 
-          {currentSet === 2 && (
-            <>
-              {/* Motivation */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
-                </div>
-                <p className="text-sm text-stone-700 dark:text-stone-300 italic leading-relaxed">
-                  "{content.motivation}"
-                </p>
-              </div>
 
-              {/* Writing Fact */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-emerald-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
-                </div>
-                <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed">
-                  {content.fact}
-                </p>
-              </div>
-
-              {/* Word of the Day */}
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-emerald-600" />
-                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
-                </div>
-                <p className="text-sm">
-                  <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
-                  <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
-                </p>
-                <p className="text-xs text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
-              </div>
-            </>
-          )}
         </div>
         
         <div className="flex justify-center mt-2">
           <div className="flex items-center gap-1">
-            {[0, 1, 2].map((index) => (
+            {[0, 1].map((index) => (
               <div
                 key={index}
                 className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
