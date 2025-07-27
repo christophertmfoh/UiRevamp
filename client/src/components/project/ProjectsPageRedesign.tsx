@@ -446,27 +446,9 @@ export function ProjectsPageRedesign({
   const uniqueGenres = Array.from(new Set(projects.map((p: Project) => p.genre).filter(Boolean))).length;
 
   return (
-          <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-teal-50 dark:from-stone-950 dark:via-stone-900 dark:to-emerald-950 transition-all duration-300">
-      {/* Animated Background Elements */}
+          <div className="min-h-screen bg-background transition-all duration-300">
+      {/* Theme-aware animated background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Mesh Background - Mint Green for Light Mode */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-300/35 via-emerald-300/50 to-teal-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
-        
-        {/* Floating Orbs */}
-        <div 
-          className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-400/45 to-green-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse"
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-        ></div>
-        <div 
-          className="absolute top-20 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/40 to-emerald-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse delay-1000"
-          style={{ transform: `translateY(${scrollY * 0.15}px)` }}
-        ></div>
-        <div 
-          className="absolute -bottom-32 left-1/2 w-64 h-64 bg-gradient-to-br from-teal-400/45 to-teal-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
-          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-        ></div>
-
-        {/* Theme-aware floating orbs */}
         <div className="floating-orbs">
           <div className="floating-orb"></div>
           <div className="floating-orb"></div>
