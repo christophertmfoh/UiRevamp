@@ -86,6 +86,58 @@ body {
   background: transparent !important;
 }
 
+/* Smooth Dark/Light Mode Transitions */
+*,
+*::before,
+*::after {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease,
+    backdrop-filter 0.3s ease,
+    text-shadow 0.3s ease,
+    fill 0.3s ease,
+    stroke 0.3s ease !important;
+}
+
+/* Enhanced transitions for elements that commonly change */
+html,
+body,
+div,
+section,
+header,
+nav,
+main,
+aside,
+footer,
+article,
+p,
+h1, h2, h3, h4, h5, h6,
+span,
+button,
+input,
+textarea,
+select {
+  transition: 
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Ensure SVG icons transition smoothly */
+svg,
+svg * {
+  transition: 
+    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
 :root {
   /* Light mode - Clean, modern palette */
   --background: hsl(30, 20%, 94%);              /* Softer warm white */
