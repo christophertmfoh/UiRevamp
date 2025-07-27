@@ -500,7 +500,7 @@ export function ProjectsPageRedesign({
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -518,7 +518,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -533,7 +533,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -548,7 +548,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -582,7 +582,7 @@ export function ProjectsPageRedesign({
                     <Button
                       size="sm"
                       onClick={() => setShowTasksModal(true)}
-                      className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-3 py-1"
+                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1"
                     >
                       Add Tasks
                     </Button>
@@ -616,7 +616,7 @@ export function ProjectsPageRedesign({
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
                   <div 
-                    className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" 
+                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" 
                     style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
                   ></div>
                 </div>
@@ -969,7 +969,7 @@ export function ProjectsPageRedesign({
                         setShowTasksModal(false);
                         setShowAddTaskModal(true);
                       }}
-                      className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white"
+                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white"
                     >
                       Add Your First Task
                     </Button>
@@ -1078,7 +1078,7 @@ export function ProjectsPageRedesign({
                   onChange={(e) => setTempGoals({...tempGoals, dailyWords: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.words / tempGoals.dailyWords) * 100, 100)}%` }}></div>
+                  <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.words / tempGoals.dailyWords) * 100, 100)}%` }}></div>
                 </div>
                 <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
               </div>
@@ -1095,7 +1095,7 @@ export function ProjectsPageRedesign({
                   onChange={(e) => setTempGoals({...tempGoals, dailyMinutes: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                  <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
                 </div>
                 <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.minutes}/{tempGoals.dailyMinutes} mins</p>
               </div>
@@ -1121,7 +1121,7 @@ export function ProjectsPageRedesign({
                 </div>
               </div>
               <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
-                <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
+                <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
               </div>
             </div>
 
