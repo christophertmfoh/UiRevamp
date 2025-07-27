@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-emerald-500 to-amber-500 text-white font-semibold hover:from-emerald-600 hover:to-amber-600 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        default: "gradient-primary text-white font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         destructive:
-          "bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold hover:from-red-600 hover:to-orange-600 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+          "gradient-destructive text-white font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         outline:
-          "border-2 border-emerald-500/50 bg-transparent text-emerald-600 dark:text-emerald-400 hover:bg-gradient-to-r hover:from-emerald-500 hover:to-amber-500 hover:text-white hover:border-transparent transform hover:scale-[1.02] active:scale-[0.98]",
+          "border-2 border-[var(--gradient-brand-start)]/50 bg-transparent text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-white hover:border-transparent transform hover:scale-[1.02] active:scale-[0.98]",
         secondary:
-          "bg-gradient-to-r from-stone-400 to-stone-500 text-white font-semibold hover:from-stone-500 hover:to-stone-600 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
-        ghost: "text-emerald-600 dark:text-emerald-400 hover:bg-gradient-to-r hover:from-emerald-500 hover:to-amber-500 hover:text-white transform hover:scale-[1.02] active:scale-[0.98]",
-        link: "text-emerald-600 dark:text-emerald-400 underline-offset-4 hover:underline",
+          "bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        ghost: "text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-white transform hover:scale-[1.02] active:scale-[0.98]",
+        link: "text-[var(--gradient-brand-start)] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

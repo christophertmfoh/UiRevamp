@@ -115,6 +115,16 @@ body {
            hover:brightness-110;
   }
   
+  /* Destructive gradient classes */
+  .gradient-destructive {
+    @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)];
+  }
+  
+  .gradient-destructive-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)]
+           hover:brightness-110;
+  }
+  
 
   
 
@@ -301,6 +311,10 @@ svg {
   --gradient-brand-middle: hsl(20, 20%, 70%);              /* Light stone - actually light! */
   --gradient-brand-end: hsl(35, 80%, 70%);                 /* Light amber - actually light! */
   
+  /* Destructive Gradient Colors - Light Mode */
+  --gradient-destructive-start: hsl(0, 70%, 75%);          /* Light red */
+  --gradient-destructive-end: hsl(20, 70%, 75%);           /* Light orange */
+  
   /* Icon Colors - Light Mode */
   --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
   --color-icon-secondary: hsl(20, 10%, 40%);               /* Secondary icons */
@@ -364,6 +378,10 @@ svg {
   --gradient-brand-start: hsl(155, 84%, 44%);              /* Emerald start */
   --gradient-brand-middle: hsl(20, 10%, 40%);              /* Stone middle */
   --gradient-brand-end: hsl(35, 91%, 54%);                 /* Amber end */
+  
+  /* Destructive Gradient Colors - Dark Mode */
+  --gradient-destructive-start: hsl(0, 84%, 45%);          /* Red */
+  --gradient-destructive-end: hsl(20, 84%, 50%);           /* Orange */
   
   /* Icon Colors - Dark Mode */
   --color-icon-primary: hsl(155, 84%, 50%);                /* Primary icons */
