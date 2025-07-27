@@ -550,21 +550,23 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
         {/* Page Header */}
-        <div className="text-center mb-6">
-          <div className="overflow-visible">
-            <div className="mb-2">
-              <p className="text-lg text-body-secondary font-medium">
-                Welcome back, {user?.username || 'Writer'}
-              </p>
+        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6">
+          <div className="text-center">
+            <div className="overflow-visible">
+              <div className="mb-2">
+                <p className="text-lg text-body-secondary font-medium">
+                  Welcome back, {user?.username || 'Writer'}
+                </p>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-50 leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
+                Your Projects
+              </h1>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-50 leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
-              Your Projects
-            </h1>
+            
+            <p className="text-lg text-body-primary leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
+              Organize, track, and bring your stories to life with intelligent project management.
+            </p>
           </div>
-          
-          <p className="text-lg text-body-primary leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
-            Organize, track, and bring your stories to life with intelligent project management.
-          </p>
         </div>
 
         {/* Draggable Sections */}
