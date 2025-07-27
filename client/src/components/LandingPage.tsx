@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ThemeToggle } from './theme-toggle';
 import { 
   Feather, 
   BookOpen, 
@@ -211,6 +212,9 @@ export function LandingPage({
           </div>
           
           <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
             {/* Authentication Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">

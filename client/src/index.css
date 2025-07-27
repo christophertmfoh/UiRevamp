@@ -87,7 +87,7 @@ body {
 }
 
 @layer utilities {
-  /* Brand Gradient Classes - Dark Mode Only */
+  /* Brand Gradient Classes - Both Modes */
   .brand-gradient-text {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
   }
@@ -99,7 +99,7 @@ body {
   .brand-gradient-bg-hover {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] hover:opacity-90 transition-opacity duration-300;
   }
-  
+
   /* Vignette gradient overlay for dark mode */
   .vignette-gradient {
     background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, hsl(var(--gradient-brand-start) / 0.1) 70%, hsl(var(--gradient-brand-end) / 0.1) 100%);
@@ -218,8 +218,53 @@ svg {
               opacity 0.3s ease !important;
 }
 
-/* PERFECT DARK MODE - Based on Screenshots - UNBREAKABLE */
+/* LIGHT MODE - NEW MINT GREEN GRADIENTS + ALL BLACK TEXT */
 :root {
+  /* Light Mode - Mint Green Gradients + Black Text */
+  --background: hsl(0, 0%, 98%);                     /* Almost white background */
+  --foreground: hsl(0, 0%, 0%);                      /* Pure black text */
+  --muted: hsl(0, 0%, 94%);                          /* Light muted backgrounds */
+  --muted-foreground: hsl(0, 0%, 0%);                /* Black muted text */
+  --popover: hsl(0, 0%, 100%);                       /* Pure white popover */
+  --popover-foreground: hsl(0, 0%, 0%);              /* Black popover text */
+  --card: hsl(0, 0%, 100%);                          /* Pure white cards */
+  --card-foreground: hsl(0, 0%, 0%);                 /* Black card text */
+  --border: hsl(0, 0%, 85%);                         /* Light gray borders */
+  --input: hsl(0, 0%, 96%);                          /* Light gray input backgrounds */
+  --primary: hsl(160, 75%, 35%);                     /* Mint green primary */
+  --primary-foreground: hsl(0, 0%, 100%);            /* White text on mint green */
+  --secondary: hsl(0, 0%, 94%);                      /* Light secondary */
+  --secondary-foreground: hsl(0, 0%, 0%);            /* Black secondary text */
+  --accent: hsl(160, 75%, 40%);                      /* Mint green accent */
+  --accent-foreground: hsl(0, 0%, 100%);             /* White accent text */
+  --destructive: hsl(0, 75%, 50%);                   /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 100%);        /* White destructive text */
+  --ring: hsl(160, 75%, 35%);                        /* Mint green focus ring */
+  --radius: 0.75rem;
+  
+  /* Light Mode Gradients - Mint Green Theme */
+  --gradient-brand-start: hsl(160, 75%, 45%);        /* Mint green start */
+  --gradient-brand-middle: hsl(150, 60%, 55%);       /* Light mint middle */
+  --gradient-brand-end: hsl(140, 65%, 65%);          /* Lighter mint end */
+  
+  /* Light Mode Destructive Gradients */
+  --gradient-destructive-start: hsl(0, 75%, 60%);    /* Light red */
+  --gradient-destructive-end: hsl(15, 75%, 65%);     /* Light orange-red */
+  
+  /* Light Mode Semantic Colors - ALL BLACK TEXT */
+  --color-heading-primary: hsl(0, 0%, 0%);           /* Black headings */
+  --color-heading-secondary: hsl(0, 0%, 0%);         /* Black subheadings */
+  --color-body-primary: hsl(0, 0%, 0%);              /* Black body text */
+  --color-body-secondary: hsl(0, 0%, 0%);            /* Black secondary text */
+  --color-body-muted: hsl(0, 0%, 0%);                /* Black muted text */
+  
+  /* Light Mode Glass Effects */
+  --fablecraft-glass-card: hsl(160, 75%, 95%, 0.8);  /* Light mint glass */
+  --fablecraft-glass-border: hsl(160, 50%, 80%, 0.5); /* Mint glass border */
+}
+
+/* DARK MODE - Preserve Perfect Existing Design */
+.dark {
   /* Fablecraft Brand System - Dark Mode (EXACT MATCH TO SCREENSHOTS) */
   --background: hsl(20, 14.3%, 4.1%);               /* Deep stone background */
   --foreground: hsl(0, 0%, 95%);                    /* Clean light text */
@@ -284,34 +329,6 @@ svg {
   --fablecraft-mesh-emerald: hsl(155, 40%, 30%, 0.20);     /* Mesh emerald */
   --fablecraft-mesh-stone: hsl(20, 15%, 35%, 0.40);        /* Mesh stone */
   --fablecraft-mesh-amber: hsl(35, 50%, 35%, 0.20);        /* Mesh amber */
-}
-
-/* ENSURE DARK MODE IS ALWAYS APPLIED - BULLETPROOF */
-html,
-body,
-.dark,
-[data-theme="dark"] {
-  /* Same exact colors again to ensure they override everything */
-  --background: hsl(20, 14.3%, 4.1%);
-  --foreground: hsl(0, 0%, 95%);
-  --muted: hsl(20, 14.3%, 9%);
-  --muted-foreground: hsl(20, 5.9%, 63.9%);
-  --popover: hsl(20, 14.3%, 4.1%);
-  --popover-foreground: hsl(0, 0%, 95%);
-  --card: hsl(20, 14.3%, 4.1%);
-  --card-foreground: hsl(0, 0%, 95%);
-  --border: hsl(20, 5.9%, 15%);
-  --input: hsl(20, 5.9%, 15%);
-  --primary: hsl(155, 84%, 44%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(20, 5.9%, 15%);
-  --secondary-foreground: hsl(0, 0%, 95%);
-  --accent: hsl(35, 91%, 54%);
-  --accent-foreground: hsl(20, 14.3%, 4.1%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 95%);
-  --ring: hsl(155, 84%, 44%);
-  --radius: 0.75rem;
 }
 
 /* Animated blob effect */
