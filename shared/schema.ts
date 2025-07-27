@@ -3,6 +3,28 @@ import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Users table for authentication
+export const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  username: text("username").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  fullName: text("full_name"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  lastLoginAt: timestamp("last_login_at"),
+  isActive: boolean("is_active").default(true).notNull(),
+});
+
+// Sessions table for authentication
+export const sessions = pgTable("sessions", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  token: text("token").notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Generic Entity Types for Universal Template System
 export type EntityType = 
   | 'character';
@@ -32,6 +54,7 @@ export interface EntityFieldConfig {
 // Core project table
 export const projects = pgTable("projects", {
   id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: 'cascade' }).notNull(),
   name: text("name").notNull(),
   type: text("type", { enum: ['novel', 'screenplay', 'comic'] }).notNull(),
   description: text("description"),
@@ -525,5 +548,14 @@ export type EntityRelationship = typeof entityRelationships.$inferSelect;
 export type InsertEntityRelationship = z.infer<typeof insertEntityRelationshipSchema>;
 export type EntityTemplate = typeof entityTemplates.$inferSelect;
 export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
+
+// User and session schemas and types
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true, lastLoginAt: true });
+export const insertSessionSchema = createInsertSchema(sessions).omit({ id: true, createdAt: true });
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = z.infer<typeof insertSessionSchema>;
 
 // Generic Entity Union Type (for Universal Template System)

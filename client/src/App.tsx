@@ -4,10 +4,12 @@ import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from './components/theme-provider';
+import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectsView, ProjectDashboard } from './components/project';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
+import { AuthPage } from './pages/AuthPage';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
@@ -111,10 +113,17 @@ const applyScrollbarStyles = () => {
 };
 
 export default function App() {
-  const [view, setView] = useState('landing'); // landing, projects, dashboard
+  const [view, setView] = useState('landing'); // landing, projects, dashboard, auth
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<{type: string | null; project: Project | null}>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
+  
+  const { user, token, isAuthenticated, checkAuth, login, logout, isLoading } = useAuth();
+
+  // Initialize auth on app load
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   // Apply scrollbar styles when component mounts and on view changes
   useEffect(() => {
@@ -257,14 +266,49 @@ export default function App() {
     }
   };
 
+  const handleAuth = (user: any, token: string) => {
+    login(user, token);
+    setView('projects');
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setView('landing');
+    setActiveProject(null);
+  };
+
+  // Show loading spinner while checking auth
+  if (isLoading) {
+    return (
+      <ThemeProvider defaultTheme="dark" storageKey="fablecraft-theme">
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </ThemeProvider>
+    );
+  }
+
   const renderView = () => {
     switch(view) {
+      case 'auth':
+        return (
+          <AuthPage 
+            onAuth={handleAuth}
+            onBack={() => setView('landing')}
+          />
+        );
       case 'projects':
         return (
           <ProjectsView 
             onSelectProject={handleSelectProject} 
             onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)} 
             onBack={() => setView('landing')} 
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
             guideMode={guideMode}
           />
         );
@@ -279,6 +323,9 @@ export default function App() {
             onBack={() => { setView('projects'); setActiveProject(null); }} 
             onUpdateProject={handleUpdateProject} 
             onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)}
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
             guideMode={guideMode}
             setGuideMode={setGuideMode}
           />
@@ -290,6 +337,10 @@ export default function App() {
             onNavigate={setView} 
             onNewProject={() => setModal({ type: 'new', project: null })} 
             onUploadManuscript={() => setModal({ type: 'importManuscript', project: null })}
+            onAuth={() => setView('auth')}
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
             guideMode={guideMode}
             setGuideMode={setGuideMode}
           />

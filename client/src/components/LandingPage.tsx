@@ -34,6 +34,10 @@ interface LandingPageProps {
   onNavigate: (view: string) => void;
   onNewProject: () => void;
   onUploadManuscript: () => void;
+  onAuth: () => void;
+  onLogout: () => Promise<void>;
+  user: any;
+  isAuthenticated: boolean;
   guideMode: boolean;
   setGuideMode: (mode: boolean) => void;
 }
@@ -92,6 +96,10 @@ export function LandingPage({
   onNavigate, 
   onNewProject, 
   onUploadManuscript, 
+  onAuth,
+  onLogout,
+  user,
+  isAuthenticated,
   guideMode, 
   setGuideMode 
 }: LandingPageProps) {
@@ -191,17 +199,43 @@ export function LandingPage({
           </div>
           
           <div className="flex items-center space-x-4">
+            {/* Authentication Buttons */}
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-stone-600 dark:text-stone-300 hidden sm:block">
+                  Welcome, {user?.username}
+                </span>
+                <Button 
+                  onClick={() => onNavigate('projects')}
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center">
+                    <BookOpen className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    Your Projects
+                  </span>
+                </Button>
+                <Button 
+                  onClick={onLogout}
+                  variant="outline"
+                  className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Button 
+                onClick={onAuth}
+                className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  <Users className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  Sign Up / Sign In
+                </span>
+              </Button>
+            )}
             <ThemeToggle />
-            <Button 
-              onClick={() => onNavigate('projects')}
-              className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <span className="relative z-10 flex items-center">
-                <BookOpen className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                Your Projects
-              </span>
-            </Button>
           </div>
         </div>
       </nav>

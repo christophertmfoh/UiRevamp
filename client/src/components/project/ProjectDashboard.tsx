@@ -35,6 +35,9 @@ interface ProjectDashboardProps {
   onBack: () => void;
   onUpdateProject: (project: Project) => void;
   onOpenModal: (modalInfo: ModalInfo) => void;
+  onLogout: () => Promise<void>;
+  user: any;
+  isAuthenticated: boolean;
   guideMode: boolean;
   setGuideMode: (enabled: boolean) => void;
 }
@@ -44,6 +47,9 @@ export function ProjectDashboard({
   onBack, 
   onUpdateProject, 
   onOpenModal, 
+  onLogout,
+  user,
+  isAuthenticated,
   guideMode, 
   setGuideMode 
 }: ProjectDashboardProps) {

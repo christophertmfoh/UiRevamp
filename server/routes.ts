@@ -5,6 +5,7 @@ import { characterRouter } from "./routes/characters";
 import { outlineRouter } from "./routes/outlines";
 import { proseRouter } from "./routes/prose";
 import { errorHandler } from "./middleware/errorHandler";
+import { signUp, signIn, signOut, authenticateToken, optionalAuth, signupSchema, loginSchema } from "./auth";
 import multer from "multer";
 import { storage } from "./storage";
 import { importCharacterDocument } from "./characterExtractor";
@@ -32,11 +33,49 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Mount modular routers
-  app.use("/api/projects", projectRouter);
-  app.use("/api", characterRouter);
-  app.use("/api", outlineRouter);
-  app.use("/api", proseRouter);
+  // Authentication routes
+  app.post("/api/auth/signup", async (req, res) => {
+    try {
+      const result = await signUp(req.body);
+      res.status(201).json(result);
+    } catch (error) {
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Signup failed' });
+    }
+  });
+
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const result = await signIn(req.body);
+      res.json(result);
+    } catch (error) {
+      res.status(401).json({ error: error instanceof Error ? error.message : 'Login failed' });
+    }
+  });
+
+  app.post("/api/auth/logout", authenticateToken, async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+      const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+      
+      if (token) {
+        await signOut(token);
+      }
+      
+      res.json({ message: 'Logged out successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Logout failed' });
+    }
+  });
+
+  app.get("/api/auth/me", authenticateToken, async (req, res) => {
+    res.json({ user: req.user });
+  });
+
+  // Mount modular routers with optional auth
+  app.use("/api/projects", optionalAuth, projectRouter);
+  app.use("/api", optionalAuth, characterRouter);
+  app.use("/api", optionalAuth, outlineRouter);
+  app.use("/api", optionalAuth, proseRouter);
   
   // Legacy routes that need migration
   app.get("/api/projects/:projectId/locations", async (req, res) => {
