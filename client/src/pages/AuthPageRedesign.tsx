@@ -191,29 +191,32 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 flex items-center justify-between p-6 lg:p-8">
-        <div className="flex items-center gap-4">
-          <Button
-            onClick={onBack}
-            variant="ghost"
-            size="sm"
-            className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-            <Feather className="w-5 h-5 text-white" />
+      <nav className="relative z-50 p-6 lg:p-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={onBack}
+              variant="ghost"
+              size="sm"
+              className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
           </div>
-          <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
-            Fablecraft
-          </h1>
-        </div>
 
-        <ThemeToggle />
+          {/* Centered Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
+              <Feather className="w-5 h-5 text-white" />
+            </div>
+            <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
+              Fablecraft
+            </h1>
+          </div>
+
+          <ThemeToggle />
+        </div>
       </nav>
 
       {/* Main Content */}
