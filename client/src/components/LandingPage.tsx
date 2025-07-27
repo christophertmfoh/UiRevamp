@@ -228,23 +228,23 @@ export function LandingPage({
       
       {/* HD Fantasy/Novel Background with Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
-        {/* Main HD Background Image */}
+        {/* Main HD Background Image - Majestic Mountain Forest */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 dark:opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 dark:opacity-25"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
             transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
-            filter: 'sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.8)'
+            filter: 'sepia(25%) saturate(110%) hue-rotate(10deg) brightness(0.85)'
           }}
         />
         
-        {/* Secondary Layer - Ancient Library */}
+        {/* Secondary Layer - Mystical Forest Path */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15 dark:opacity-10"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-15"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=2856&q=80')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
             transform: `translateY(${scrollY * 0.15}px) scale(1.05)`,
-            filter: 'sepia(30%) saturate(130%) hue-rotate(10deg) brightness(0.6)',
+            filter: 'sepia(35%) saturate(120%) hue-rotate(15deg) brightness(0.7)',
             mixBlendMode: 'multiply'
           }}
         />
