@@ -47,18 +47,22 @@ export function ProjectsView({
   });
 
   const filteredProjects = projects.filter((project: Project) => {
+    const genreArray = Array.isArray(project.genre) ? project.genre : [project.genre].filter(Boolean);
+    
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.genre.some((g: string) => g.toLowerCase().includes(searchTerm.toLowerCase()));
+      genreArray.some((g: string) => g.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesType = typeFilter === 'all' || project.type === typeFilter;
-    const matchesGenre = genreFilter === 'all' || project.genre.includes(genreFilter);
+    const matchesGenre = genreFilter === 'all' || genreArray.includes(genreFilter);
     
     return matchesSearch && matchesType && matchesGenre;
   });
 
   // Get unique genres for filter dropdown
-  const allGenres = Array.from(new Set(projects.flatMap((p: Project) => p.genre))).filter(Boolean) as string[];
+  const allGenres = Array.from(new Set(projects.flatMap((p: Project) => {
+    return Array.isArray(p.genre) ? p.genre : [p.genre].filter(Boolean);
+  }))).filter(Boolean) as string[];
 
   // Calculate project progress based on content
   const calculateProgress = (project: Project) => {
@@ -83,9 +87,9 @@ export function ProjectsView({
       completedSections += 1;
     }
 
-    // Check factions
+    // Check description
     totalSections += 1;
-    if (project.factions && project.factions.length > 0) {
+    if (project.description && project.description.length > 20) {
       completedSections += 1;
     }
 
@@ -135,53 +139,76 @@ export function ProjectsView({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-30 bg-repeat bg-center dark:block hidden" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-      }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative transition-all duration-700 overflow-hidden">
+      {/* Enhanced Background Patterns */}
+      <div className="absolute inset-0">
+        {/* Light mode pattern */}
+        <div className="absolute inset-0 opacity-20 dark:opacity-0 transition-opacity duration-700" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='0.08'%3E%3Cpath d='M50 50c13.807 0 25-11.193 25-25S63.807 0 50 0 25 11.193 25 25s11.193 25 25 25zm0 25c13.807 0 25-11.193 25-25S63.807 50 50 50 25 61.193 25 75s11.193 25 25 25zM25 25c13.807 0 25-11.193 25-25S38.807-25 25-25 0-13.807 0 0s11.193 25 25 25zm50 0c13.807 0 25-11.193 25-25S88.807-25 75-25 50-13.807 50 0s11.193 25 25 25z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+        
+        {/* Dark mode pattern */}
+        <div className="absolute inset-0 opacity-0 dark:opacity-30 transition-opacity duration-700" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3Ccircle cx='20' cy='20' r='10'/%3E%3Ccircle cx='60' cy='20' r='10'/%3E%3Ccircle cx='20' cy='60' r='10'/%3E%3Ccircle cx='60' cy='60' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+      </div>
       
-      {/* Ambient lighting */}
-      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-orange-300/20 dark:from-amber-500/10 dark:to-orange-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/20 to-red-300/15 dark:from-orange-500/5 dark:to-red-600/3 rounded-full blur-2xl"></div>
+      {/* Enhanced Ambient Lighting */}
+      <div className="absolute top-32 left-32 w-[500px] h-[500px] bg-gradient-to-br from-amber-300/40 via-orange-400/30 to-red-400/20 dark:from-amber-500/15 dark:via-orange-600/10 dark:to-red-600/5 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-gradient-to-br from-orange-300/30 via-red-400/20 to-pink-400/15 dark:from-orange-500/10 dark:via-red-600/8 dark:to-pink-600/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-amber-200/20 via-orange-300/15 to-red-300/10 dark:from-amber-600/8 dark:via-orange-700/6 dark:to-red-700/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
 
-      {/* Header */}
-      <header className="relative z-10 bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg border-b border-amber-200/60 dark:border-amber-500/30">
-        <div className="container mx-auto px-6 py-4">
+      {/* Cinematic Header */}
+      <header className="relative z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-amber-200/60 dark:border-amber-500/20 shadow-xl">
+        <div className="container mx-auto px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            {/* Left Side - Navigation & Title */}
+            <div className="flex items-center space-x-6">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={onBack} 
-                className="text-stone-600 dark:text-amber-200 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-all duration-300 hover:scale-105"
+                className="group text-stone-600 dark:text-amber-200 hover:bg-gradient-to-r hover:from-amber-100/80 hover:to-orange-100/60 dark:hover:from-amber-900/40 dark:hover:to-orange-900/30 transition-all duration-300 hover:scale-105 rounded-xl px-4 py-2 shadow-md hover:shadow-lg"
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
+                <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
                 Back to Home
               </Button>
-              <div className="h-6 w-px bg-amber-200 dark:bg-amber-700/50"></div>
-              <div>
-                <h1 className="text-3xl font-bold text-stone-800 dark:text-amber-50">Your Creative Projects</h1>
-                <p className="text-sm text-stone-600 dark:text-stone-300">
-                  {projects.length} {projects.length === 1 ? 'project' : 'projects'} in your studio
-                </p>
+              
+              <div className="h-8 w-px bg-gradient-to-b from-amber-300 to-orange-400 dark:from-amber-600 dark:to-orange-700"></div>
+              
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-2xl shadow-lg">
+                  <Feather className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-600 dark:from-amber-100 dark:via-orange-200 dark:to-red-200 bg-clip-text text-transparent tracking-tight">
+                    Creative Studio
+                  </h1>
+                  <p className="text-sm text-stone-600 dark:text-stone-300 font-medium">
+                    {projects.length} {projects.length === 1 ? 'project' : 'projects'} in development
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
+            
+            {/* Right Side - Actions */}
+            <div className="flex items-center space-x-4">
               <ThemeToggle />
+              
               <Button 
                 onClick={() => onOpenModal({ type: 'import', project: null })} 
                 variant="outline"
-                className="border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
+                className="group border-2 border-amber-400/60 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/90 dark:bg-slate-800/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-medium"
               >
-                <Upload className="h-4 w-4 mr-2" />
+                <Upload className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
                 Import Document
               </Button>
+              
               <Button 
                 onClick={() => onOpenModal({ type: 'new', project: null })} 
-                className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-semibold"
               >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
                 New Project
               </Button>
             </div>
@@ -189,65 +216,100 @@ export function ProjectsView({
         </div>
       </header>
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-amber-600 dark:text-amber-400" />
-              <Input
-                placeholder="Search projects..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-400 dark:focus:border-amber-400 shadow-sm hover:shadow-md transition-all duration-200"
-              />
-              {guideMode && (
-                <div className="guide-hint">Search by name, description, or genre</div>
-              )}
+      {/* Main Content Area */}
+      <div className="relative z-10 container mx-auto px-8 py-12">
+        {/* Enhanced Search and Filters Section */}
+        <div className="mb-12">
+          <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-3xl p-8 border border-amber-200/60 dark:border-amber-500/20 shadow-2xl">
+            <div className="flex flex-col lg:flex-row gap-6 items-center">
+              {/* Search Bar */}
+              <div className="relative flex-1 max-w-xl">
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl">
+                  <Search className="h-4 w-4 text-white" />
+                </div>
+                <Input
+                  placeholder="Search your creative projects..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-16 pr-6 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-500 dark:focus:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl text-lg font-medium"
+                />
+                {guideMode && (
+                  <div className="absolute top-full mt-2 left-0 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-4 py-2 rounded-lg text-sm font-medium shadow-lg">
+                    Search by name, description, or genre
+                  </div>
+                )}
+              </div>
+              
+              {/* Filter Controls */}
+              <div className="flex gap-4">
+                <Select value={typeFilter} onValueChange={setTypeFilter}>
+                  <SelectTrigger className="w-56 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
+                    <SelectValue placeholder="All Types" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-amber-200/60 dark:border-amber-500/30 rounded-2xl shadow-2xl">
+                    <SelectItem value="all" className="py-3 px-4 text-base font-medium">All Types</SelectItem>
+                    <SelectItem value="novel" className="py-3 px-4 text-base font-medium">📖 Novel</SelectItem>
+                    <SelectItem value="screenplay" className="py-3 px-4 text-base font-medium">🎬 Screenplay</SelectItem>
+                    <SelectItem value="comic" className="py-3 px-4 text-base font-medium">📚 Comic</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Select value={genreFilter} onValueChange={setGenreFilter}>
+                  <SelectTrigger className="w-56 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
+                    <SelectValue placeholder="All Genres" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-amber-200/60 dark:border-amber-500/30 rounded-2xl shadow-2xl">
+                    <SelectItem value="all" className="py-3 px-4 text-base font-medium">All Genres</SelectItem>
+                    {allGenres.map((genre) => (
+                      <SelectItem key={genre} value={genre} className="py-3 px-4 text-base font-medium">{String(genre)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-full sm:w-48 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-400 dark:hover:border-amber-400 shadow-sm hover:shadow-md transition-all duration-200">
-                <SelectValue placeholder="All Types" />
-              </SelectTrigger>
-              <SelectContent className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-amber-200/60 dark:border-amber-500/30">
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="novel">Novel</SelectItem>
-                <SelectItem value="screenplay">Screenplay</SelectItem>
-                <SelectItem value="comic">Comic</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={genreFilter} onValueChange={setGenreFilter}>
-              <SelectTrigger className="w-full sm:w-48 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-400 dark:hover:border-amber-400 shadow-sm hover:shadow-md transition-all duration-200">
-                <SelectValue placeholder="All Genres" />
-              </SelectTrigger>
-              <SelectContent className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-amber-200/60 dark:border-amber-500/30">
-                <SelectItem value="all">All Genres</SelectItem>
-                {allGenres.map((genre) => (
-                  <SelectItem key={genre} value={genre}>{String(genre)}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
         </div>
 
-        {/* Projects Grid */}
+        {/* Projects Display */}
         {filteredProjects.length === 0 && projects.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-12 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl max-w-md mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <BookOpen className="h-10 w-10 text-white" />
+          /* Empty State */
+          <div className="text-center py-20">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-16 border border-amber-200/60 dark:border-amber-500/20 shadow-2xl max-w-2xl mx-auto relative overflow-hidden">
+              {/* Background decoration */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500"></div>
+              
+              <div className="relative">
+                <div className="w-24 h-24 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl animate-pulse">
+                  <Feather className="h-12 w-12 text-white" />
+                </div>
+                
+                <h3 className="text-3xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-600 dark:from-amber-100 dark:via-orange-200 dark:to-red-200 bg-clip-text text-transparent mb-4">
+                  Your Creative Journey Begins
+                </h3>
+                
+                <p className="text-stone-600 dark:text-stone-300 mb-10 text-lg leading-relaxed max-w-md mx-auto">
+                  Transform your ideas into extraordinary stories. Create your first project to unlock the full power of AI-assisted storytelling.
+                </p>
+                
+                <div className="space-y-4">
+                  <Button 
+                    onClick={() => onOpenModal({ type: 'new', project: null })} 
+                    className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-8 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 rounded-2xl"
+                  >
+                    <Plus className="h-5 w-5 mr-2" />
+                    Create Your First Project
+                  </Button>
+                  
+                  <Button 
+                    onClick={() => onOpenModal({ type: 'import', project: null })} 
+                    variant="outline"
+                    className="border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/90 dark:bg-slate-800/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 px-8 py-3 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-2xl"
+                  >
+                    <Upload className="h-5 w-5 mr-2" />
+                    Import Document
+                  </Button>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 mb-3">No Projects Yet</h3>
-              <p className="text-stone-600 dark:text-stone-300 mb-8 leading-relaxed">
-                Start your creative journey by creating your first project
-              </p>
-              <Button 
-                onClick={() => onOpenModal({ type: 'new', project: null })} 
-                className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-8 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
-              >
-                <Plus className="h-5 w-5 mr-2" />
-                Create Your First Project
-              </Button>
             </div>
           </div>
         ) : filteredProjects.length === 0 ? (
@@ -349,61 +411,68 @@ export function ProjectsView({
                     </div>
                     
                     {/* Genres */}
-                    {project.genre && project.genre.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.genre.slice(0, 2).map((genre: string, index: number) => (
-                          <span key={index} className="text-xs font-medium bg-amber-100/50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full">
-                            {genre}
-                          </span>
-                        ))}
-                        {project.genre.length > 2 && (
-                          <span className="text-xs font-medium bg-orange-100/50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-3 py-1 rounded-full">
-                            +{project.genre.length - 2}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    {(() => {
+                      const genreArray = Array.isArray(project.genre) ? project.genre : [project.genre].filter(Boolean);
+                      return genreArray.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {genreArray.slice(0, 2).map((genre: string, index: number) => (
+                            <span key={index} className="text-xs font-medium bg-amber-100/50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full">
+                              {genre}
+                            </span>
+                          ))}
+                          {genreArray.length > 2 && (
+                            <span className="text-xs font-medium bg-orange-100/50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-3 py-1 rounded-full">
+                              +{genreArray.length - 2}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
                     
-                    {/* Progress Bar */}
-                    <div className="mb-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-stone-700 dark:text-amber-100">Progress</span>
-                        <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">{projectProgress}%</span>
-                      </div>
-                      <div className="h-2 bg-stone-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 transition-all duration-500"
-                          style={{ width: `${projectProgress}%` }}
-                        />
-                      </div>
-                    </div>
-                    
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-6">
-                      <div className="text-center p-4 rounded-2xl bg-amber-50/50 dark:bg-amber-900/10 group-hover:bg-amber-100/50 dark:group-hover:bg-amber-900/20 transition-colors duration-300">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent mb-1">
-                          {project.characters?.length || 0}
-                        </div>
-                        <div className="text-xs font-medium text-stone-600 dark:text-stone-300 uppercase tracking-wide">
-                          Characters
-                        </div>
-                      </div>
-                      <div className="text-center p-4 rounded-2xl bg-orange-50/50 dark:bg-orange-900/10 group-hover:bg-orange-100/50 dark:group-hover:bg-orange-900/20 transition-colors duration-300">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 dark:from-orange-400 dark:to-red-400 bg-clip-text text-transparent mb-1">
-                          {project.factions?.length || 0}
-                        </div>
-                        <div className="text-xs font-medium text-stone-600 dark:text-stone-300 uppercase tracking-wide">
-                          Factions
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Description if exists */}
+                    {/* Description */}
                     {project.description && (
-                      <p className="mt-4 text-sm text-stone-600 dark:text-stone-300 line-clamp-2">
+                      <p className="text-sm text-stone-600 dark:text-stone-300 mb-4 line-clamp-2 leading-relaxed">
                         {project.description}
                       </p>
                     )}
+                    
+                    {/* Progress Section */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Progress</span>
+                        <span className="text-sm font-bold text-amber-600 dark:text-amber-400">{projectProgress}%</span>
+                      </div>
+                      
+                      <div className="w-full bg-stone-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-full transition-all duration-700 group-hover:animate-pulse"
+                          style={{ width: `${projectProgress}%` }}
+                        ></div>
+                      </div>
+                      
+                      {/* Stats */}
+                      <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center">
+                            <Users className="h-3 w-3 mr-1" />
+                            <span>{project.characters?.length || 0} characters</span>
+                          </div>
+                          {project.lastModified && (
+                            <div className="flex items-center">
+                              <Clock className="h-3 w-3 mr-1" />
+                              <span>Updated {formatDistanceToNow(new Date(project.lastModified), { addSuffix: true })}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Hover overlay with call-to-action */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-6">
+                    <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-stone-800 dark:text-amber-100 px-4 py-2 rounded-xl font-medium text-sm shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      Click to open project
+                    </div>
                   </div>
                 </div>
               );
