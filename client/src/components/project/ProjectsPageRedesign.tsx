@@ -27,7 +27,9 @@ import {
   Activity,
   TrendingUp,
   Image,
-  CheckCircle
+  CheckCircle,
+  Plus,
+  Target
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -37,6 +39,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Project } from '@/lib/types';
 
@@ -65,6 +74,7 @@ export function ProjectsPageRedesign({
     return (saved as 'name' | 'updated' | 'created' | 'type') || 'updated';
   });
   const [scrollY, setScrollY] = useState(0);
+  const [showTasksModal, setShowTasksModal] = useState(false);
 
   // Helper functions to update preferences and save to localStorage
   const updateViewMode = (mode: 'grid' | 'list') => {
@@ -207,9 +217,14 @@ export function ProjectsPageRedesign({
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
-          {/* Left Side - Title and Description */}
+          {/* Left Side - Title and Enhanced Content */}
           <div className="space-y-6">
             <div className="overflow-visible py-4">
+              <div className="mb-4">
+                <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
+                  Welcome back, {user?.username || 'Writer'}
+                </p>
+              </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-relaxed tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] pb-6 mt-[1px] mb-[1px]">
                 Your Projects
               </h1>
@@ -217,6 +232,51 @@ export function ProjectsPageRedesign({
             <p className="text-xl text-stone-800 dark:text-stone-200 leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
               Organize, track, and bring your stories to life with intelligent project management.
             </p>
+            
+            {/* Quick Actions */}
+            <div className="space-y-3">
+              <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 uppercase tracking-wider">
+                Quick Actions
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  onClick={onNewProject}
+                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center space-x-2">
+                    <PlusCircle className="w-4 h-4" />
+                    <span>New Project</span>
+                  </span>
+                </Button>
+                
+                <Button
+                  onClick={() => onNavigate('landing')}
+                  variant="outline"
+                  className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 hover:scale-105"
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Browse Features
+                </Button>
+              </div>
+            </div>
+
+            {/* Writing Tip */}
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-4 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-1">
+                    Today's Writing Tip
+                  </p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                    Character development is the backbone of compelling storytelling. Spend time understanding your characters' motivations before diving into plot.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Side - Quick Access Cards */}
@@ -224,25 +284,29 @@ export function ProjectsPageRedesign({
             {/* Recent Project Card */}
             {projects.length > 0 && (
               <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
-                    <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Recent Project</h3>
+                    <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
                       Active
                     </Badge>
                   </div>
-                  <div className="space-y-1">
-                    <p className="font-semibold text-stone-900 dark:text-stone-100 truncate">{projects[0]?.name}</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400 truncate">{projects[0]?.description || 'No description'}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <Button 
-                        size="sm"
-                        onClick={() => onNavigate(`project/${projects[0]?.id}`)}
-                        className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
-                      >
-                        Open
-                      </Button>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
+                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
                     </div>
+                    <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                      <Clock className="w-3 h-3" />
+                      <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
+                    </div>
+                    <Button 
+                      size="sm"
+                      onClick={() => onSelectProject(projects[0])}
+                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                    >
+                      Open Project
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -250,31 +314,41 @@ export function ProjectsPageRedesign({
 
             {/* Quick To-Do Box */}
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Quick Tasks</h3>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Quick Tasks</h3>
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                 </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
                     <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-amber-600 rounded-full"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
                     <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-stone-600 rounded-full"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
                     <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
                   </div>
                 </div>
-                <Button 
-                  size="sm"
-                  className="mt-3 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                >
-                  View All Tasks
-                </Button>
+                <div className="mt-4 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-3">
+                    <span>Today's Progress</span>
+                    <span>1/3 completed</span>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-4">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
+                  </div>
+                  <Button 
+                    size="sm"
+                    onClick={() => setShowTasksModal(true)}
+                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                  >
+                    View All Tasks
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -484,6 +558,102 @@ export function ProjectsPageRedesign({
           </div>
         )}
       </div>
+
+      {/* Tasks Modal */}
+      <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
+        <DialogContent className="max-w-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+              Writing Tasks & Goals
+            </DialogTitle>
+            <DialogDescription className="text-stone-600 dark:text-stone-400">
+              Track your writing progress and stay motivated with personalized tasks.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Today's Tasks */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-emerald-600" />
+                Today's Tasks
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { text: "Develop main characters", status: "pending", priority: "high" },
+                  { text: "Outline chapter structure", status: "in-progress", priority: "medium" },
+                  { text: "Review plot points", status: "pending", priority: "low" },
+                  { text: "Write 500 words", status: "pending", priority: "high" },
+                  { text: "Character relationship mapping", status: "completed", priority: "medium" }
+                ].map((task, index) => (
+                  <div key={index} className="flex items-center gap-3 p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                    <div className={`w-2 h-2 rounded-full ${
+                      task.status === 'completed' ? 'bg-emerald-600' :
+                      task.status === 'in-progress' ? 'bg-amber-600' : 
+                      'bg-stone-400'
+                    }`}></div>
+                    <span className={`flex-1 text-sm ${
+                      task.status === 'completed' ? 
+                      'text-stone-500 dark:text-stone-400 line-through' : 
+                      'text-stone-700 dark:text-stone-300'
+                    }`}>
+                      {task.text}
+                    </span>
+                    <Badge variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'} className="text-xs">
+                      {task.priority}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Writing Goals */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <Target className="w-5 h-5 text-amber-600" />
+                Weekly Goals
+              </h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Words Written</span>
+                    <span className="text-xs text-stone-500 dark:text-stone-400">1,250 / 3,000</span>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '42%' }}></div>
+                  </div>
+                </div>
+                <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Characters Developed</span>
+                    <span className="text-xs text-stone-500 dark:text-stone-400">3 / 5</span>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex gap-3 pt-4 border-t border-stone-200/50 dark:border-stone-700/50">
+              <Button 
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Task
+              </Button>
+              <Button 
+                variant="outline"
+                className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
