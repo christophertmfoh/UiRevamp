@@ -447,13 +447,22 @@ export function ProjectsPageRedesign({
 
   return (
           <div className="min-h-screen bg-background transition-all duration-300">
-      {/* Theme-aware animated background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="floating-orbs">
-          <div className="floating-orb"></div>
-          <div className="floating-orb"></div>
-          <div className="floating-orb"></div>
-        </div>
+      {/* Theme-aware floating orbs */}
+      <div className="floating-orbs">
+        <div className="floating-orb"></div>
+        <div className="floating-orb"></div>
+        <div className="floating-orb"></div>
+      </div>
+
+      {/* Modern Abstract Background System */}
+      <div className="absolute inset-0">
+        {/* Theme-aware background orbs */}
+        <div className="absolute top-0 -left-4 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" 
+             style={{ backgroundColor: 'hsl(var(--orb-primary) / 0.3)' }}></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"
+             style={{ backgroundColor: 'hsl(var(--orb-secondary) / 0.3)' }}></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-4000"
+             style={{ backgroundColor: 'hsl(var(--orb-primary) / 0.2)' }}></div>
 
         {/* Noise Texture Overlay */}
         <div 
@@ -471,8 +480,28 @@ export function ProjectsPageRedesign({
               <circle cx="30" cy="30" r="0.5" fill="currentColor" className="text-foreground/20"/>
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect width="100%" height="100%" fill="url(#grid)" style={{ transform: `translateY(${scrollY * 0.1}px)` }}/>
         </svg>
+      </div>
+
+      {/* Floating Orbs with Parallax */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-primary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(40px)'
+          }}
+        />
+        <div 
+          className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-secondary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(30px)'
+          }}
+        />
       </div>
 
       {/* Navigation Header */}
