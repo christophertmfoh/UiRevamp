@@ -33,18 +33,28 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
 
-    root.classList.remove('light', 'dark');
+    // Add transitioning class to pause animations
+    root.classList.add('theme-transitioning');
 
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
+    // Small delay to ensure transitioning class is applied
+    requestAnimationFrame(() => {
+      root.classList.remove('light', 'dark');
 
-      root.classList.add(systemTheme);
-      return;
-    }
+      if (theme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
 
-    root.classList.add(theme);
+        root.classList.add(systemTheme);
+      } else {
+        root.classList.add(theme);
+      }
+
+      // Remove transitioning class after transition completes
+      setTimeout(() => {
+        root.classList.remove('theme-transitioning');
+      }, 800);
+    });
   }, [theme]);
 
   const value = {

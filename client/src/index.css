@@ -87,24 +87,25 @@ body {
 }
 
 /* Smooth Dark/Light Mode Transitions */
+/* Smoother, longer transitions with better easing */
 *,
 *::before,
 *::after {
-  transition: 
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    opacity 0.3s ease,
-    backdrop-filter 0.3s ease,
-    text-shadow 0.3s ease,
-    fill 0.3s ease,
-    stroke 0.3s ease !important;
+  transition-property: background-color, background-image, color, border-color, 
+                      box-shadow, opacity, transform, filter, backdrop-filter,
+                      text-shadow, fill, stroke;
+  transition-duration: 0.6s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: 0s;
 }
 
-/* Enhanced transitions for elements that commonly change */
+/* Priority elements get even smoother transitions */
 html,
-body,
+body {
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Main content areas with staggered timing */
 div,
 section,
 header,
@@ -112,30 +113,82 @@ nav,
 main,
 aside,
 footer,
-article,
+article {
+  transition-property: background-color, background-image, color, border-color, 
+                      box-shadow, opacity, transform, filter, backdrop-filter;
+  transition-duration: 0.7s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: 0.05s;
+}
+
+/* Text elements transition slightly faster */
 p,
 h1, h2, h3, h4, h5, h6,
 span,
+a,
+label {
+  transition-property: color, text-shadow, opacity, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: 0.1s;
+}
+
+/* Interactive elements remain responsive */
 button,
 input,
 textarea,
 select {
-  transition: 
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    text-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-property: background-color, color, border-color, box-shadow, transform;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Ensure SVG icons transition smoothly */
+/* SVG icons with smooth transitions */
 svg,
-svg * {
-  transition: 
-    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+svg path,
+svg circle,
+svg rect,
+svg polygon {
+  transition-property: fill, stroke, color, opacity, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: 0.05s;
+}
+
+/* Gradient transitions for special elements */
+.bg-gradient-to-r,
+.bg-gradient-to-br,
+.bg-gradient-to-b,
+[class*="from-"],
+[class*="via-"],
+[class*="to-"] {
+  transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Disable transitions on specific animations to prevent conflicts */
+.animate-blob,
+.animate-fade-in,
+.animate-pulse,
+[class*="animate-"] {
+  transition: none !important;
+}
+
+/* Pause all animations during theme transition */
+.theme-transitioning * {
+  animation-play-state: paused !important;
+}
+
+/* Disable hover effects during transition */
+.theme-transitioning *:hover {
+  transform: none !important;
+}
+
+/* Ensure smooth opacity transitions for theme-specific elements */
+.theme-transitioning .opacity-0,
+.theme-transitioning .opacity-100,
+.theme-transitioning .dark\:opacity-0,
+.theme-transitioning .dark\:opacity-100 {
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 :root {
