@@ -111,6 +111,48 @@ body {
     @apply bg-[#C6F6E0] text-[#1F4E3C] hover:bg-[#B8EDD4];
   }
   
+  /* Override ALL gradient styles in light mode */
+  :root:not(.dark) [class*="bg-gradient-to-"] {
+    background-image: none !important;
+    @apply bg-[#C6F6E0] hover:bg-[#B8EDD4] !important;
+  }
+  
+  /* All buttons with gradient classes in light mode */
+  :root:not(.dark) button[class*="from-emerald"],
+  :root:not(.dark) button[class*="to-amber"],
+  :root:not(.dark) button[class*="via-stone"],
+  :root:not(.dark) .btn[class*="from-emerald"],
+  :root:not(.dark) .btn[class*="to-amber"],
+  :root:not(.dark) .btn[class*="via-stone"] {
+    background-image: none !important;
+    @apply bg-[#C6F6E0] hover:bg-[#B8EDD4] text-[#1F4E3C] !important;
+  }
+  
+  /* All text with emerald colors in light mode */
+  :root:not(.dark) [class*="text-emerald"] {
+    @apply text-[#1F4E3C] !important;
+  }
+  
+  /* All icons in light mode */
+  :root:not(.dark) svg {
+    @apply text-[#1F4E3C];
+  }
+  
+  /* Override specific button hover states */
+  :root:not(.dark) button:hover[class*="hover:from-emerald"],
+  :root:not(.dark) button:hover[class*="hover:to-amber"],
+  :root:not(.dark) button:hover[class*="hover:via-stone"] {
+    background-image: none !important;
+    @apply bg-[#B8EDD4] !important;
+  }
+  
+  /* Genre tags and badges in light mode */
+  :root:not(.dark) [class*="bg-emerald"],
+  :root:not(.dark) [class*="bg-amber"],
+  :root:not(.dark) [class*="bg-stone"] {
+    @apply bg-[#C6F6E0] text-[#1F4E3C] !important;
+  }
+  
   .mint-button-text {
     @apply text-[#1F4E3C];
   }
