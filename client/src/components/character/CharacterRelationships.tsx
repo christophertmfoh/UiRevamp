@@ -30,7 +30,7 @@ const RELATIONSHIP_TYPES = [
   { value: 'mentor', label: 'Mentor', icon: Users, color: 'bg-purple-500' },
   { value: 'rival', label: 'Rival', icon: Sword, color: 'bg-orange-500' },
   { value: 'enemy', label: 'Enemy', icon: Sword, color: 'bg-red-500' },
-  { value: 'neutral', label: 'Neutral', icon: Users, color: 'bg-muted' }
+  { value: 'neutral', label: 'Neutral', icon: Users, color: 'bg-gray-500' }
 ];
 
 interface CharacterRelationshipsProps {
@@ -103,11 +103,11 @@ export function CharacterRelationships({
 
   const getStrengthColor = (strength: string) => {
     switch (strength) {
-      case 'weak': return 'bg-muted text-foreground';
+      case 'weak': return 'bg-gray-200 text-gray-800';
       case 'moderate': return 'bg-blue-200 text-blue-800';
       case 'strong': return 'bg-green-200 text-green-800';
       case 'intense': return 'bg-red-200 text-red-800';
-      default: return 'bg-muted text-foreground';
+      default: return 'bg-gray-200 text-gray-800';
     }
   };
 
@@ -120,7 +120,7 @@ export function CharacterRelationships({
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${typeInfo.color} text-foreground`}>
+              <div className={`p-2 rounded-lg ${typeInfo.color} text-white`}>
                 <Icon className="h-4 w-4" />
               </div>
               <div>

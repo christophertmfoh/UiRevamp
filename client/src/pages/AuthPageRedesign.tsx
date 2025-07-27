@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield, ArrowLeft, Feather } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 // Enhanced password validation
 const passwordSchema = z.string()
@@ -212,7 +211,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
               onClick={onBack}
               variant="ghost"
               size="sm"
-              className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-foreground hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
+              className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
@@ -222,14 +221,13 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           {/* Centered Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-3">
             <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-5 h-5 text-foreground" />
+              <Feather className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-2xl font-serif font-bold text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
               Fablecraft
             </h1>
           </div>
 
-          <ThemeToggle />
         </div>
       </nav>
 
@@ -247,20 +245,20 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           </div>
 
           {/* Auth Card */}
-          <Card className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-border/30 dark:border-border/20">
+          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-stone-300/30 dark:border-slate-700/20">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <div className="p-6">
-                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/50 dark:bg-card/30 backdrop-blur-sm border border-border/20 dark:border-border/30">
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/50 dark:bg-slate-700/30 backdrop-blur-sm border border-stone-300/20 dark:border-slate-600/30">
                   <TabsTrigger 
                     value="login" 
-                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-foreground data-[state=active]:shadow-md transition-all duration-300"
+                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
                   >
                     <LogIn className="w-4 h-4" />
                     Sign In
                   </TabsTrigger>
                   <TabsTrigger 
                     value="signup" 
-                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-foreground data-[state=active]:shadow-md transition-all duration-300"
+                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
                   >
                     <UserPlus className="w-4 h-4" />
                     Sign Up
@@ -278,7 +276,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                 {/* Login Tab */}
                 <TabsContent value="login" className="space-y-0">
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle className="text-2xl font-black text-stone-900 dark:text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">
+                    <CardTitle className="text-2xl font-black text-stone-900 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">
                       Welcome back
                     </CardTitle>
                     <CardDescription className="text-body-secondary font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] tracking-wide">
@@ -295,7 +293,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="emailOrUsername"
                           type="text"
                           placeholder="Enter your email or username"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...loginForm.register('emailOrUsername')}
                         />
                         {loginForm.formState.errors.emailOrUsername && (
@@ -310,7 +308,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="password"
                           type="password"
                           placeholder="Enter your password"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...loginForm.register('password')}
                         />
                         {loginForm.formState.errors.password && (
@@ -321,7 +319,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full gradient-primary text-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
+                        className="w-full gradient-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
                         disabled={loginMutation.isPending}
                         size="lg"
                       >
@@ -341,7 +339,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                 {/* Signup Tab */}
                 <TabsContent value="signup" className="space-y-0">
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle className="text-2xl font-black text-stone-900 dark:text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">
+                    <CardTitle className="text-2xl font-black text-stone-900 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">
                       Create account
                     </CardTitle>
                     <CardDescription className="text-stone-700 dark:text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] tracking-wide">
@@ -373,7 +371,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="fullName"
                           type="text"
                           placeholder="Enter your full name"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...signupForm.register('fullName')}
                         />
                       </div>
@@ -383,7 +381,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="email"
                           type="email"
                           placeholder="Enter your email"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...signupForm.register('email')}
                         />
                         {signupForm.formState.errors.email && (
@@ -396,7 +394,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="username"
                           type="text"
                           placeholder="Choose a username"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...signupForm.register('username')}
                         />
                         {signupForm.formState.errors.username && (
@@ -410,7 +408,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                           id="newPassword"
                           type="password"
                           placeholder="Create a password"
-                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-foreground placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
+                          className="bg-stone-800/10 dark:bg-white/10 border-stone-800/20 dark:border-white/20 text-stone-900 dark:text-white placeholder:text-stone-600 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 backdrop-blur-sm"
                           {...signupForm.register('password', {
                             onChange: (e) => {
                               setPasswordStrength(checkPasswordStrength(e.target.value));
@@ -473,7 +471,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full gradient-primary text-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
+                        className="w-full gradient-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
                         disabled={signupMutation.isPending}
                         size="lg"
                       >

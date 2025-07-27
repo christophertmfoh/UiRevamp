@@ -51,7 +51,7 @@ export function CharacterInsights({ character }: CharacterInsightsProps) {
     };
 
     return archetypeMap[archetype?.toLowerCase() || ''] || {
-      color: 'bg-muted',
+      color: 'bg-gray-500',
       description: 'Unique character with undefined archetype',
       icon: Users
     };
@@ -167,7 +167,7 @@ export function CharacterInsights({ character }: CharacterInsightsProps) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3">
-            <div className={`p-3 rounded-lg ${archetypeInfo.color} text-foreground`}>
+            <div className={`p-3 rounded-lg ${archetypeInfo.color} text-white`}>
               <ArchetypeIcon className="h-6 w-6" />
             </div>
             <div className="flex-1">

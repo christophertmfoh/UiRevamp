@@ -192,7 +192,7 @@ export function MessageOfTheDay() {
 
   return (
     <Card 
-      className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 dark:border-border/20 h-full group hover:shadow-2xl transition-all duration-300"
+      className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full group hover:shadow-2xl transition-all duration-300"
     >
       <CardContent className="p-5 h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
@@ -248,7 +248,7 @@ export function MessageOfTheDay() {
               {/* Writing Joke */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Smile className="h-3.5 w-3.5 text-warning" />
+                  <Smile className="h-3.5 w-3.5 text-amber-600" />
                   <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writer's Humor</p>
                 </div>
                 <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
@@ -259,7 +259,7 @@ export function MessageOfTheDay() {
               {/* Writing Tip */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="h-3.5 w-3.5 text-warning" />
+                  <Lightbulb className="h-3.5 w-3.5 text-amber-600" />
                   <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Pro Tip</p>
                 </div>
                 <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
@@ -287,7 +287,7 @@ export function MessageOfTheDay() {
               {/* Quick Prompt */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <PenTool className="h-3.5 w-3.5 text-warning" />
+                  <PenTool className="h-3.5 w-3.5 text-amber-600" />
                   <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Quick Prompt</p>
                 </div>
                 <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-normal">

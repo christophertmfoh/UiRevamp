@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
-import { ThemeToggle } from '../theme-toggle';
 
 import { ArrowLeft, Plus, Search, BookOpen, Clock, MoreVertical, Feather, Sparkles, Users, MapPin, Edit, Trash2, Upload, FileText, Moon, Sun } from 'lucide-react';
 import {
@@ -165,7 +164,7 @@ export function ProjectsView({
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-amber-200/20 via-orange-300/15 to-red-300/10 dark:from-amber-600/8 dark:via-orange-700/6 dark:to-red-700/4 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
 
       {/* Cinematic Header */}
-      <header className="relative z-20 glass-card dark:bg-background/80 backdrop-blur-xl border-b border-border shadow-xl">
+      <header className="relative z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-amber-200/60 dark:border-amber-500/20 shadow-xl">
         <div className="container mx-auto px-8 py-6">
           <div className="flex items-center justify-between">
             {/* Left Side - Navigation & Title */}
@@ -184,7 +183,7 @@ export function ProjectsView({
               
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-2xl shadow-lg">
-                  <Feather className="h-6 w-6 text-foreground" />
+                  <Feather className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <h1 className="text-4xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-600 dark:from-amber-100 dark:via-orange-200 dark:to-red-200 bg-clip-text text-transparent tracking-tight">
@@ -199,12 +198,11 @@ export function ProjectsView({
             
             {/* Right Side - Actions */}
             <div className="flex items-center space-x-4">
-              <ThemeToggle />
               
               <Button 
                 onClick={() => onOpenModal({ type: 'import', project: null })} 
                 variant="outline"
-                className="group border-2 border-amber-400/60 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 glass-card dark:bg-card/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-medium"
+                className="group border-2 border-amber-400/60 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/90 dark:bg-slate-800/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-medium"
               >
                 <Upload className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
                 Import Document
@@ -212,7 +210,7 @@ export function ProjectsView({
               
               <Button 
                 onClick={() => onOpenModal({ type: 'new', project: null })} 
-                className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-foreground shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-semibold"
+                className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 px-6 py-2.5 rounded-xl font-semibold"
               >
                 <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
                 New Project
@@ -226,18 +224,18 @@ export function ProjectsView({
       <div className="relative z-10 container mx-auto px-8 py-12">
         {/* Enhanced Search and Filters Section */}
         <div className="mb-12">
-          <div className="glass-card dark:bg-background/70 backdrop-blur-xl rounded-3xl p-8 border border-border shadow-2xl">
+          <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-3xl p-8 border border-amber-200/60 dark:border-amber-500/20 shadow-2xl">
             <div className="flex flex-col lg:flex-row gap-6 items-center">
               {/* Search Bar */}
               <div className="relative flex-1 max-w-xl">
                 <div className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl">
-                  <Search className="h-4 w-4 text-foreground" />
+                  <Search className="h-4 w-4 text-white" />
                 </div>
                 <Input
                   placeholder="Search your creative projects..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-16 pr-6 py-4 glass-card dark:bg-card/90 backdrop-blur-sm border-2 border-border text-stone-700 dark:text-amber-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-500 dark:focus:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl text-lg font-medium"
+                  className="pl-16 pr-6 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:border-amber-500 dark:focus:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl text-lg font-medium"
                 />
                 {guideMode && (
                   <div className="absolute top-full mt-2 left-0 bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-4 py-2 rounded-lg text-sm font-medium shadow-lg">
@@ -249,10 +247,10 @@ export function ProjectsView({
               {/* Filter Controls */}
               <div className="flex gap-4">
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="w-56 py-4 glass-card dark:bg-card/90 backdrop-blur-sm border-2 border-border text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
+                  <SelectTrigger className="w-56 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
                     <SelectValue placeholder="All Types" />
                   </SelectTrigger>
-                  <SelectContent className="glass-card dark:bg-background/95 backdrop-blur-xl border-2 border-border rounded-2xl shadow-2xl">
+                  <SelectContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-amber-200/60 dark:border-amber-500/30 rounded-2xl shadow-2xl">
                     <SelectItem value="all" className="py-3 px-4 text-base font-medium">All Types</SelectItem>
                     <SelectItem value="novel" className="py-3 px-4 text-base font-medium">📖 Novel</SelectItem>
                     <SelectItem value="screenplay" className="py-3 px-4 text-base font-medium">🎬 Screenplay</SelectItem>
@@ -261,10 +259,10 @@ export function ProjectsView({
                 </Select>
                 
                 <Select value={genreFilter} onValueChange={setGenreFilter}>
-                  <SelectTrigger className="w-56 py-4 glass-card dark:bg-card/90 backdrop-blur-sm border-2 border-border text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
+                  <SelectTrigger className="w-56 py-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-2 border-amber-200/60 dark:border-amber-500/30 text-stone-700 dark:text-amber-100 hover:border-amber-500 dark:hover:border-amber-400 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl font-medium">
                     <SelectValue placeholder="All Genres" />
                   </SelectTrigger>
-                  <SelectContent className="glass-card dark:bg-background/95 backdrop-blur-xl border-2 border-border rounded-2xl shadow-2xl">
+                  <SelectContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-amber-200/60 dark:border-amber-500/30 rounded-2xl shadow-2xl">
                     <SelectItem value="all" className="py-3 px-4 text-base font-medium">All Genres</SelectItem>
                     {allGenres.map((genre) => (
                       <SelectItem key={genre} value={genre} className="py-3 px-4 text-base font-medium">{String(genre)}</SelectItem>
@@ -280,13 +278,13 @@ export function ProjectsView({
         {filteredProjects.length === 0 && projects.length === 0 ? (
           /* Empty State */
           <div className="text-center py-20">
-            <div className="glass-card dark:bg-background/80 backdrop-blur-xl rounded-3xl p-16 border border-border shadow-2xl max-w-2xl mx-auto relative overflow-hidden">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl p-16 border border-amber-200/60 dark:border-amber-500/20 shadow-2xl max-w-2xl mx-auto relative overflow-hidden">
               {/* Background decoration */}
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500"></div>
               
               <div className="relative">
                 <div className="w-24 h-24 bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl animate-pulse">
-                  <Feather className="h-12 w-12 text-foreground" />
+                  <Feather className="h-12 w-12 text-white" />
                 </div>
                 
                 <h3 className="text-3xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-600 dark:from-amber-100 dark:via-orange-200 dark:to-red-200 bg-clip-text text-transparent mb-4">
@@ -300,7 +298,7 @@ export function ProjectsView({
                 <div className="space-y-4">
                   <Button 
                     onClick={() => onOpenModal({ type: 'new', project: null })} 
-                    className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-foreground px-8 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 rounded-2xl"
+                    className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-8 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 rounded-2xl"
                   >
                     <Plus className="h-5 w-5 mr-2" />
                     Create Your First Project
@@ -309,7 +307,7 @@ export function ProjectsView({
                   <Button 
                     onClick={() => onOpenModal({ type: 'import', project: null })} 
                     variant="outline"
-                    className="border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 glass-card dark:bg-card/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 px-8 py-3 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-2xl"
+                    className="border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/90 dark:bg-slate-800/60 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/30 dark:hover:to-orange-900/20 px-8 py-3 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-2xl"
                   >
                     <Upload className="h-5 w-5 mr-2" />
                     Import Document
@@ -320,9 +318,9 @@ export function ProjectsView({
           </div>
         ) : filteredProjects.length === 0 ? (
           <div className="text-center py-16">
-            <div className="glass-card dark:bg-card/70 backdrop-blur-lg rounded-3xl p-12 border border-amber-200/60 dark:border-border/50 shadow-2xl max-w-md mx-auto">
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-12 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl max-w-md mx-auto">
               <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <Search className="h-10 w-10 text-foreground" />
+                <Search className="h-10 w-10 text-white" />
               </div>
               <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 mb-3">No Projects Found</h3>
               <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
@@ -339,7 +337,7 @@ export function ProjectsView({
               return (
                 <div 
                   key={project.id} 
-                  className="group relative bg-white/50 dark:bg-card/50 backdrop-blur-sm rounded-3xl border border-amber-200/50 dark:border-amber-600/20 shadow-lg hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden"
+                  className="group relative bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-3xl border border-amber-200/50 dark:border-amber-600/20 shadow-lg hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden"
                   onClick={() => onSelectProject(project)}
                 >
                   {/* Background gradient on hover */}
@@ -353,14 +351,14 @@ export function ProjectsView({
                           project.type === 'screenplay' ? 'from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700' :
                           'from-red-400 via-red-500 to-orange-600 dark:from-red-500 dark:via-red-600 dark:to-orange-700'
                         } rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                          <IconComponent className="h-6 w-6 text-foreground" />
+                          <IconComponent className="h-6 w-6 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="text-xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                             {project.name}
                           </h3>
                           <div className="flex items-center space-x-2 mt-1">
-                            <span className="text-xs font-medium text-warning dark:text-amber-400 capitalize bg-amber-100/50 dark:bg-amber-900/30 px-2 py-0.5 rounded-full">
+                            <span className="text-xs font-medium text-amber-600 dark:text-amber-400 capitalize bg-amber-100/50 dark:bg-amber-900/30 px-2 py-0.5 rounded-full">
                               {project.type}
                             </span>
                             <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
@@ -376,12 +374,12 @@ export function ProjectsView({
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="h-8 w-8 p-0 text-stone-500 hover:text-warning dark:text-stone-400 dark:hover:text-amber-400 hover:bg-amber-100/50 dark:hover:bg-amber-900/30"
+                            className="h-8 w-8 p-0 text-stone-500 hover:text-amber-600 dark:text-stone-400 dark:hover:text-amber-400 hover:bg-amber-100/50 dark:hover:bg-amber-900/30"
                           >
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="glass-card dark:bg-card/90 backdrop-blur-lg border border-border">
+                        <DropdownMenuContent align="end" className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-amber-200/60 dark:border-amber-500/30">
                           <DropdownMenuItem 
                             onClick={(e) => {
                               e.stopPropagation();
@@ -407,7 +405,7 @@ export function ProjectsView({
                               e.stopPropagation();
                               onOpenModal({ type: 'delete', project });
                             }}
-                            className="text-destructive dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 focus:text-destructive dark:focus:text-red-400"
+                            className="text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 focus:text-red-600 dark:focus:text-red-400"
                           >
                             <Trash2 className="h-4 w-4 mr-2" />
                             Delete
@@ -446,10 +444,10 @@ export function ProjectsView({
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Progress</span>
-                        <span className="text-sm font-bold text-warning dark:text-amber-400">{projectProgress}%</span>
+                        <span className="text-sm font-bold text-amber-600 dark:text-amber-400">{projectProgress}%</span>
                       </div>
                       
-                      <div className="w-full bg-stone-200 dark:bg-card rounded-full h-2.5 overflow-hidden">
+                      <div className="w-full bg-stone-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
                         <div 
                           className="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 rounded-full transition-all duration-700 group-hover:animate-pulse"
                           style={{ width: `${projectProgress}%` }}
@@ -476,7 +474,7 @@ export function ProjectsView({
                   
                   {/* Hover overlay with call-to-action */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-6">
-                    <div className="glass-card dark:bg-card/90 backdrop-blur-sm text-stone-800 dark:text-amber-100 px-4 py-2 rounded-xl font-medium text-sm shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-stone-800 dark:text-amber-100 px-4 py-2 rounded-xl font-medium text-sm shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       Click to open project
                     </div>
                   </div>

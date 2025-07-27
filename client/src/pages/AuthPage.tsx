@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 // Enhanced password validation
 const passwordSchema = z.string()
@@ -171,19 +170,19 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-lg">
-              <span className="text-foreground font-bold text-lg">F</span>
+              <span className="text-white font-bold text-lg">F</span>
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Fablecraft
             </h1>
           </div>
-          <p className="text-secondary-foreground dark:text-muted-foreground">
+          <p className="text-gray-600 dark:text-gray-400">
             Join the creative storytelling platform
           </p>
         </div>
 
         {/* Auth Card */}
-        <Card className="shadow-xl border-0 glass-card dark:bg-card/70 backdrop-blur-sm">
+        <Card className="shadow-xl border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="login" className="gap-2">
@@ -270,7 +269,7 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
               {/* Security Information - Signup Only */}
               <div className="mx-6 mb-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center gap-2 mb-2">
-                  <Shield className="w-4 h-4 text-info dark:text-blue-400" />
+                  <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Account Security</span>
                 </div>
                 <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
@@ -314,7 +313,7 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                     {signupForm.formState.errors.username && (
                       <p className="text-sm text-red-500">{signupForm.formState.errors.username.message}</p>
                     )}
-                    <p className="text-xs text-muted-foreground">3-30 characters, letters/numbers/hyphens/underscores only</p>
+                    <p className="text-xs text-gray-500">3-30 characters, letters/numbers/hyphens/underscores only</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="newPassword">Password</Label>
@@ -336,14 +335,14 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                     {signupForm.watch('password') && (
                       <div className="mt-2 space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-secondary-foreground">Password Strength:</span>
+                          <span className="text-xs text-gray-600">Password Strength:</span>
                           <span className={`text-xs font-medium ${passwordStrength.color}`}>
                             {passwordStrength.strength}
                           </span>
                         </div>
                         
                         {/* Progress Bar */}
-                        <div className="w-full bg-muted rounded-full h-1.5">
+                        <div className="w-full bg-gray-200 rounded-full h-1.5">
                           <div 
                             className={`h-1.5 rounded-full transition-all duration-300 ${
                               passwordStrength.score >= 5 ? 'bg-green-500' :
@@ -355,23 +354,23 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                         
                         {/* Requirements Checklist */}
                         <div className="grid grid-cols-1 gap-1 text-xs">
-                          <div className={`flex items-center gap-1 ${passwordStrength.checks.length ? 'text-success' : 'text-muted-foreground'}`}>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.length ? 'text-green-600' : 'text-gray-400'}`}>
                             {passwordStrength.checks.length ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             8+ characters
                           </div>
-                          <div className={`flex items-center gap-1 ${passwordStrength.checks.uppercase ? 'text-success' : 'text-muted-foreground'}`}>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.uppercase ? 'text-green-600' : 'text-gray-400'}`}>
                             {passwordStrength.checks.uppercase ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             Uppercase letter
                           </div>
-                          <div className={`flex items-center gap-1 ${passwordStrength.checks.lowercase ? 'text-success' : 'text-muted-foreground'}`}>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.lowercase ? 'text-green-600' : 'text-gray-400'}`}>
                             {passwordStrength.checks.lowercase ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             Lowercase letter
                           </div>
-                          <div className={`flex items-center gap-1 ${passwordStrength.checks.number ? 'text-success' : 'text-muted-foreground'}`}>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.number ? 'text-green-600' : 'text-gray-400'}`}>
                             {passwordStrength.checks.number ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             Number
                           </div>
-                          <div className={`flex items-center gap-1 ${passwordStrength.checks.special ? 'text-success' : 'text-muted-foreground'}`}>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.special ? 'text-green-600' : 'text-gray-400'}`}>
                             {passwordStrength.checks.special ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                             Special character
                           </div>
@@ -403,14 +402,13 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
 
         {/* Back Button */}
         <div className="text-center mt-6">
-          <Button variant="ghost" onClick={onBack} className="text-secondary-foreground dark:text-muted-foreground">
+          <Button variant="ghost" onClick={onBack} className="text-gray-600 dark:text-gray-400">
             ← Back to landing page
           </Button>
         </div>
 
         {/* Theme Toggle */}
         <div className="absolute top-4 right-4">
-          <ThemeToggle />
         </div>
       </div>
     </div>

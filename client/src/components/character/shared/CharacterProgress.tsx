@@ -30,7 +30,7 @@ export function CharacterProgress({
     if (stats.percentage >= 80) return { level: 'Story Ready', color: 'bg-green-500', icon: CheckCircle };
     if (stats.percentage >= 60) return { level: 'Well Developed', color: 'bg-blue-500', icon: Star };
     if (stats.percentage >= 40) return { level: 'In Progress', color: 'bg-yellow-500', icon: Circle };
-    return { level: 'Early Stage', color: 'bg-muted', icon: Circle };
+    return { level: 'Early Stage', color: 'bg-gray-500', icon: Circle };
   };
 
   const readiness = getReadinessLevel();
@@ -82,11 +82,11 @@ export function CharacterProgress({
           <div className="pt-2 border-t border-border/50">
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
-                <div className="text-lg font-bold text-success">{stats.filled}</div>
+                <div className="text-lg font-bold text-green-600">{stats.filled}</div>
                 <div className="text-xs text-muted-foreground">Completed</div>
               </div>
               <div>
-                <div className="text-lg font-bold text-info">{stats.total}</div>
+                <div className="text-lg font-bold text-blue-600">{stats.total}</div>
                 <div className="text-xs text-muted-foreground">Total Fields</div>
               </div>
             </div>

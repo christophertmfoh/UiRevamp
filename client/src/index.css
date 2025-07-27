@@ -4,152 +4,459 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SCROLLBAR SYSTEM */
+/* FORCE CUSTOM SCROLLBAR - NUCLEAR OPTION */
+/* Remove default scrollbars and force custom ones */
+
+/* Document level - absolute override */
 html, body {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  overflow-y: auto;
 }
 
-html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
-html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-
-html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 6px;
-}
-
-html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-}
-
-/* THEME SYSTEM - LIGHT MODE (Default) */
-:root {
-  /* Base Colors - Light Mode */
-  --background: 248 250 252;           /* slate-50 - clean white */
-  --foreground: 15 23 42;              /* slate-900 - black text */
-  --card: 255 255 255;                 /* white - pure white cards */
-  --card-foreground: 15 23 42;         /* slate-900 - black text on cards */
-  --popover: 255 255 255;              /* white */
-  --popover-foreground: 15 23 42;      /* slate-900 */
-  --primary: 16 185 129;               /* emerald-500 - mint green primary */
-  --primary-foreground: 255 255 255;   /* white text on primary */
-  --secondary: 241 245 249;            /* slate-100 - light gray */
-  --secondary-foreground: 15 23 42;    /* slate-900 - black text */
-  --muted: 248 250 252;                /* slate-50 - muted background */
-  --muted-foreground: 100 116 139;     /* slate-500 - muted text */
-  --accent: 16 185 129;                /* emerald-500 - mint accent */
-  --accent-foreground: 255 255 255;    /* white text on accent */
-  --destructive: 239 68 68;            /* red-500 */
-  --destructive-foreground: 255 255 255; /* white */
-  --border: 226 232 240;               /* slate-200 - light borders */
-  --input: 248 250 252;                /* slate-50 - input background */
-  --ring: 16 185 129;                  /* emerald-500 - focus ring */
-  
-  /* Extended Theme Colors - Light Mode */
-  --success: 34 197 94;                /* green-500 */
-  --success-foreground: 255 255 255;   /* white */
-  --warning: 245 158 11;               /* amber-500 */
-  --warning-foreground: 255 255 255;   /* white */
-  --info: 59 130 246;                  /* blue-500 */
-  --info-foreground: 255 255 255;      /* white */
-  
-  /* Gradient Colors - Light Mode (Mint Green Theme) */
-  --gradient-start: 34 197 94;         /* green-500 - mint green start */
-  --gradient-middle: 16 185 129;       /* emerald-500 - mint green middle */
-  --gradient-end: 5 150 105;           /* emerald-600 - darker mint end */
-  
-  /* Glass/Blur Effects - Light Mode */
-  --glass-bg: 255 255 255 / 0.8;       /* white with transparency */
-  --glass-border: 226 232 240 / 0.5;   /* light border */
-  
-  /* Scrollbar - Light Mode */
+/* Force visible custom scrollbars with highest specificity */
+html {
+  --scrollbar-width: 8px;
+  --scrollbar-thumb: #a0967d;
+  --scrollbar-thumb-hover: #8b8269;
   --scrollbar-track: transparent;
-  --scrollbar-thumb: 148 163 184;       /* slate-400 */
-  --scrollbar-thumb-hover: 100 116 139; /* slate-500 */
+}
+
+/* Override ALL webkit scrollbar properties with maximum specificity */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width) !important;
+  height: var(--scrollbar-width) !important;
+  background: var(--scrollbar-track) !important;
+  display: block !important;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track) !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb) !important;
+  border-radius: 6px !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover) !important;
+}
+
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track) !important;
+}
+
+/* Firefox fallback */
+html, body, * {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track) !important;
+}
+
+/* Force scrollbar visibility for main document */
+html {
+  overflow-y: scroll !important;
+}
+
+body {
+  overflow: visible !important;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+@layer utilities {
+  /* Brand Gradient Classes - Consistent across light/dark modes */
+  .brand-gradient-text {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+  }
   
-  /* Semantic Colors - Light Mode */
-  --text-primary: 15 23 42;             /* slate-900 - primary black text */
-  --text-secondary: 51 65 85;           /* slate-700 - secondary text */
-  --text-muted: 100 116 139;            /* slate-500 - muted text */
-  --bg-elevated: 255 255 255;           /* white - elevated surfaces */
-  --bg-subtle: 248 250 252;             /* slate-50 - subtle backgrounds */
+  .brand-gradient-bg {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
   
+  .brand-gradient-bg-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] 
+           hover:from-[var(--gradient-brand-start-hover)] hover:via-[var(--gradient-brand-middle-hover)] hover:to-[var(--gradient-brand-end-hover)];
+  }
+  
+  .brand-gradient-border {
+    background: linear-gradient(to right, var(--gradient-brand-start), var(--gradient-brand-middle), var(--gradient-brand-end));
+  }
+  
+  /* THE FIX: Replace ALL hardcoded gradient classes with this */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  .gradient-primary-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)]
+           hover:brightness-110;
+  }
+  
+  /* Destructive gradient classes */
+  .gradient-destructive {
+    @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)];
+  }
+  
+  .gradient-destructive-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)]
+           hover:brightness-110;
+  }
+  
+
+  
+
+  
+  /* Brand Icon Button */
+  .brand-icon-button {
+    background-color: var(--color-brand-bg);
+    @apply w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:opacity-90 dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+  }
+  
+  .brand-icon-button svg {
+    color: var(--color-brand-icon);
+    @apply dark:text-white;
+  }
+  
+  /* Semantic Text Classes */
+  .text-heading-primary {
+    color: var(--color-heading-primary);
+  }
+  
+  .text-heading-secondary {
+    color: var(--color-heading-secondary);
+  }
+  
+  .text-body-primary {
+    color: var(--color-body-primary);
+  }
+  
+  .text-body-secondary {
+    color: var(--color-body-secondary);
+  }
+  
+  .text-body-muted {
+    color: var(--color-body-muted);
+  }
+  
+  /* Icon Color Classes */
+  .icon-primary {
+    color: var(--color-icon-primary);
+  }
+  
+  .icon-secondary {
+    color: var(--color-icon-secondary);
+  }
+  
+  .icon-muted {
+    color: var(--color-icon-muted);
+  }
+  
+  .icon-brand {
+    color: var(--color-brand-icon);
+    @apply dark:text-white;
+  }
+  
+  /* Legacy gradient classes for backwards compatibility */
+  .gradient-emerald-amber-hover {
+    @apply hover:from-emerald-200 hover:to-emerald-300 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600;
+  }
+  
+  /* Text color for gradient backgrounds */
+  .gradient-text {
+    @apply text-emerald-800 dark:text-white;
+  }
+  
+  /* Progress bar gradients */
+  .gradient-progress {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  /* Icon container gradients */
+  .gradient-icon-container {
+    @apply bg-gradient-to-br from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  /* Text gradients */
+  .gradient-text-emerald {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+  }
+}
+
+/* Optimized Theme Transitions */
+/* Target only elements that need transitions */
+html {
+  transition: none; /* Prevent flashing on theme change */
+}
+
+/* Apply transitions only to interactive elements and theme-sensitive components */
+.theme-transition {
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease;
+}
+
+/* Buttons and interactive elements */
+button, a, input, textarea, select,
+.card, .paper-surface, .creative-card,
+.bg-card, .bg-background, .bg-muted,
+.text-foreground, .text-muted-foreground {
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+/* SVG icons */
+svg {
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+/* Disable transitions on animations to prevent conflicts */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+  transition: none !important;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Prevent transitions on transforms used for parallax/animations */
+[style*="transform"] {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              opacity 0.3s ease !important;
+}
+
+/* Default to light theme */
+:root,
+[data-theme="light"] {
+  /* Fablecraft Brand System - Light Mode */
+  --background: hsl(20, 14.3%, 95%);                /* Clean stone background */
+  --foreground: hsl(20, 14.3%, 4.1%);               /* Rich dark text */
+  --muted: hsl(20, 14.3%, 90%);                     /* Muted backgrounds */
+  --muted-foreground: hsl(20, 5.9%, 45%);           /* Muted text */
+  --popover: hsl(0, 0%, 100%);                      /* Clean white */
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);                         /* Pure white cards */
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 85%);                     /* Subtle borders */
+  --input: hsl(20, 5.9%, 92%);                      /* Input backgrounds */
+  --primary: hsl(155, 84%, 44%);                    /* Emerald primary */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(20, 5.9%, 95%);                  /* Light secondary */
+  --secondary-foreground: hsl(20, 9%, 9%);
+  --accent: hsl(35, 91%, 54%);                      /* Amber accent */
+  --accent-foreground: hsl(20, 14.3%, 4.1%);
+  --destructive: hsl(0, 84%, 60%);                  /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(155, 84%, 44%);                       /* Emerald focus ring */
   --radius: 0.75rem;
+  
+  /* Fablecraft Design System - Light Mode */
+  --fablecraft-bg-base: hsl(20, 14.3%, 97%);               /* Page background */
+  --fablecraft-bg-subtle: hsl(20, 14.3%, 94%);             /* Section backgrounds */
+  
+  /* Semantic Color Tokens - Light Mode */
+  --color-heading-primary: hsl(20, 14.3%, 4.1%);           /* Main headings */
+  --color-heading-secondary: hsl(20, 10%, 25%);            /* Subheadings */
+  --color-body-primary: hsl(20, 10%, 25%);                 /* Primary body text */
+  --color-body-secondary: hsl(20, 8%, 45%);                /* Secondary body text */
+  --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
+  
+  /* Brand Gradient Colors - Light Mode (Properly light versions) */
+  --gradient-brand-start: hsl(155, 70%, 75%);              /* Light emerald - actually light! */
+  --gradient-brand-middle: hsl(20, 20%, 70%);              /* Light stone - actually light! */
+  --gradient-brand-end: hsl(35, 80%, 70%);                 /* Light amber - actually light! */
+  
+  /* Destructive Gradient Colors - Light Mode */
+  --gradient-destructive-start: hsl(0, 70%, 75%);          /* Light red */
+  --gradient-destructive-end: hsl(20, 70%, 75%);           /* Light orange */
+  
+  /* Icon Colors - Light Mode */
+  --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
+  --color-icon-secondary: hsl(20, 10%, 40%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
+  --fablecraft-glass-card: hsl(120, 5%, 70%, 0.3);         /* Glassmorphism cards */
+  --fablecraft-glass-border: hsl(120, 5%, 60%, 0.4);       /* Glass borders */
+  
+  /* Enhanced Light Mode - Floating Orbs */
+  --fablecraft-orb-emerald: hsl(155, 70%, 50%, 0.45);      /* Emerald orbs */
+  --fablecraft-orb-amber: hsl(35, 80%, 55%, 0.40);         /* Amber orbs */
+  --fablecraft-orb-stone: hsl(20, 15%, 55%, 0.45);         /* Stone orbs */
+  
+  /* Enhanced Light Mode - Ambient Lighting */
+  --fablecraft-ambient-emerald: hsl(155, 70%, 50%, 0.25);  /* Emerald lighting */
+  --fablecraft-ambient-amber: hsl(35, 80%, 55%, 0.25);     /* Amber lighting */
+  --fablecraft-ambient-stone: hsl(20, 15%, 45%, 0.25);     /* Stone lighting */
+  
+  /* Enhanced Light Mode - Gradient Mesh */
+  --fablecraft-mesh-emerald: hsl(155, 60%, 60%, 0.35);     /* Mesh emerald */
+  --fablecraft-mesh-stone: hsl(20, 20%, 65%, 0.50);        /* Mesh stone */
+  --fablecraft-mesh-amber: hsl(35, 70%, 65%, 0.35);        /* Mesh amber */
 }
 
-/* THEME SYSTEM - DARK MODE */
+/* Dark theme using both data attribute and class for compatibility */
+[data-theme="dark"],
 .dark {
-  /* Base Colors - Dark Mode (Keep Perfect) */
-  --background: 15 23 42;               /* slate-900 - deep dark */
-  --foreground: 248 250 252;            /* slate-50 - light text */
-  --card: 30 41 59;                     /* slate-800 - dark cards */
-  --card-foreground: 248 250 252;       /* slate-50 - light text on cards */
-  --popover: 30 41 59;                  /* slate-800 */
-  --popover-foreground: 248 250 252;    /* slate-50 */
-  --primary: 16 185 129;                /* emerald-500 - keep emerald */
-  --primary-foreground: 15 23 42;       /* slate-900 - dark text on emerald */
-  --secondary: 51 65 85;                /* slate-700 - dark secondary */
-  --secondary-foreground: 248 250 252;  /* slate-50 - light text */
-  --muted: 51 65 85;                    /* slate-700 - muted dark */
-  --muted-foreground: 148 163 184;      /* slate-400 - muted light text */
-  --accent: 245 158 11;                 /* amber-500 - amber accent */
-  --accent-foreground: 15 23 42;        /* slate-900 - dark text on amber */
-  --destructive: 239 68 68;             /* red-500 */
-  --destructive-foreground: 248 250 252; /* slate-50 */
-  --border: 51 65 85;                   /* slate-700 - dark borders */
-  --input: 51 65 85;                    /* slate-700 - input background */
-  --ring: 16 185 129;                   /* emerald-500 - focus ring */
+  /* Fablecraft Brand System - Dark Mode */
+  --background: hsl(20, 14.3%, 4.1%);               /* Deep stone background */
+  --foreground: hsl(0, 0%, 95%);                    /* Clean light text */
+  --muted: hsl(20, 14.3%, 9%);                      /* Muted backgrounds */
+  --muted-foreground: hsl(20, 5.9%, 63.9%);         /* Muted text */
+  --popover: hsl(20, 14.3%, 4.1%);                  /* Deep popover */
+  --popover-foreground: hsl(0, 0%, 95%);
+  --card: hsl(20, 14.3%, 4.1%);                     /* Dark cards */
+  --card-foreground: hsl(0, 0%, 95%);
+  --border: hsl(20, 5.9%, 15%);                     /* Subtle borders */
+  --input: hsl(20, 5.9%, 15%);                      /* Input backgrounds */
+  --primary: hsl(155, 84%, 44%);                    /* Emerald primary */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(20, 5.9%, 15%);                  /* Dark secondary */
+  --secondary-foreground: hsl(0, 0%, 95%);
+  --accent: hsl(35, 91%, 54%);                      /* Amber accent */
+  --accent-foreground: hsl(20, 14.3%, 4.1%);
+  --destructive: hsl(0, 62.8%, 30.6%);              /* Red destructive */
+  --destructive-foreground: hsl(0, 0%, 95%);
+  --ring: hsl(155, 84%, 44%);                       /* Emerald focus ring */
   
-  /* Extended Theme Colors - Dark Mode */
-  --success: 34 197 94;                 /* green-500 */
-  --success-foreground: 15 23 42;       /* slate-900 */
-  --warning: 245 158 11;                /* amber-500 */
-  --warning-foreground: 15 23 42;       /* slate-900 */
-  --info: 59 130 246;                   /* blue-500 */
-  --info-foreground: 15 23 42;          /* slate-900 */
+  /* Fablecraft Design System - Dark Mode */
+  --fablecraft-bg-base: hsl(20, 14.3%, 3%);                /* Page background */
+  --fablecraft-bg-subtle: hsl(20, 14.3%, 7%);              /* Section backgrounds */
   
-  /* Gradient Colors - Dark Mode (Darker, Consistent) */
-  --gradient-start: 5 150 105;          /* emerald-600 - darker emerald */
-  --gradient-middle: 30 41 59;          /* slate-800 - dark middle */
-  --gradient-end: 217 119 6;            /* amber-600 - darker amber */
+  /* Semantic Color Tokens - Dark Mode */
+  --color-heading-primary: hsl(0, 0%, 95%);                /* Main headings */
+  --color-heading-secondary: hsl(20, 5%, 85%);             /* Subheadings */
+  --color-body-primary: hsl(20, 5%, 90%);                  /* Primary body text */
+  --color-body-secondary: hsl(20, 5%, 70%);                /* Secondary body text */
+  --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
   
-  /* Glass/Blur Effects - Dark Mode */
-  --glass-bg: 30 41 59 / 0.8;           /* slate-800 with transparency */
-  --glass-border: 71 85 105 / 0.5;      /* slate-600 border */
+  /* Brand Gradient Colors - Dark Mode */
+  --gradient-brand-start: hsl(155, 84%, 44%);              /* Emerald start */
+  --gradient-brand-middle: hsl(20, 10%, 40%);              /* Stone middle */
+  --gradient-brand-end: hsl(35, 91%, 54%);                 /* Amber end */
   
-  /* Scrollbar - Dark Mode */
-  --scrollbar-track: transparent;
-  --scrollbar-thumb: 100 116 139;       /* slate-500 */
-  --scrollbar-thumb-hover: 148 163 184; /* slate-400 */
+  /* Destructive Gradient Colors - Dark Mode */
+  --gradient-destructive-start: hsl(0, 84%, 45%);          /* Red */
+  --gradient-destructive-end: hsl(20, 84%, 50%);           /* Orange */
   
-  /* Semantic Colors - Dark Mode */
-  --text-primary: 248 250 252;          /* slate-50 - primary light text */
-  --text-secondary: 203 213 225;        /* slate-300 - secondary text */
-  --text-muted: 148 163 184;            /* slate-400 - muted text */
-  --bg-elevated: 30 41 59;              /* slate-800 - elevated surfaces */
-  --bg-subtle: 51 65 85;                /* slate-700 - subtle backgrounds */
+  /* Icon Colors - Dark Mode */
+  --color-icon-primary: hsl(155, 84%, 50%);                /* Primary icons */
+  --color-icon-secondary: hsl(35, 91%, 60%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
+  --fablecraft-glass-card: hsl(20, 10%, 90%, 0.4);         /* Glassmorphism cards */
+  --fablecraft-glass-border: hsl(20, 10%, 70%, 0.3);       /* Glass borders */
+  
+  /* Elegant Dark Mode - Floating Orbs */
+  --fablecraft-orb-emerald: hsl(155, 60%, 40%, 0.30);      /* Emerald orbs */
+  --fablecraft-orb-amber: hsl(35, 70%, 45%, 0.20);         /* Amber orbs */
+  --fablecraft-orb-stone: hsl(20, 20%, 50%, 0.30);         /* Stone orbs */
+  
+  /* Elegant Dark Mode - Ambient Lighting */
+  --fablecraft-ambient-emerald: hsl(155, 50%, 45%, 0.10);  /* Emerald lighting */
+  --fablecraft-ambient-amber: hsl(35, 60%, 50%, 0.10);     /* Amber lighting */
+  --fablecraft-ambient-stone: hsl(20, 15%, 40%, 0.10);     /* Stone lighting */
+  
+  /* Elegant Dark Mode - Gradient Mesh */
+  --fablecraft-mesh-emerald: hsl(155, 40%, 30%, 0.20);     /* Mesh emerald */
+  --fablecraft-mesh-stone: hsl(20, 15%, 35%, 0.40);        /* Mesh stone */
+  --fablecraft-mesh-amber: hsl(35, 50%, 35%, 0.20);        /* Mesh amber */
+}
+
+/* Animated blob effect */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
+    background: var(--gradient-warm);
+    background-attachment: fixed;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    line-height: 1.6;
+    font-weight: 400;
   }
   
-  /* Typography */
+  /* Typography hierarchy for modern literary feel */
   .font-serif {
     font-family: 'Source Serif 4', 'Georgia', serif;
+  }
+  
+  .font-literary {
+    font-family: 'Source Serif 4', 'Georgia', serif;
+    font-optical-sizing: auto;
   }
   
   .font-title {
@@ -157,58 +464,380 @@ html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, *::-we
     font-weight: 600;
     letter-spacing: -0.02em;
   }
+  
+  .font-display {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  
+  .font-sans {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
 }
 
 @layer components {
-  /* Theme-aware component classes */
-  .surface-elevated {
-    @apply bg-card text-card-foreground border border-border;
+  /* Modern Cozy Creative Components */
+  .creative-card {
+    @apply bg-card border border-border rounded-xl;
+    background: linear-gradient(135deg, hsl(28, 12%, 11%), hsl(25, 10%, 9%));
+    box-shadow: var(--shadow-warm);
+    backdrop-filter: blur(8px);
   }
   
-  .surface-muted {
-    @apply bg-muted text-muted-foreground;
+  .paper-surface {
+    background: var(--gradient-paper);
+    color: var(--ink);
+    box-shadow: var(--shadow-soft);
+    border-radius: 0.75rem;
   }
   
-  .glass-card {
-    background: hsl(var(--glass-bg));
-    border: 1px solid hsl(var(--glass-border));
-    backdrop-filter: blur(16px);
+  .candlelight-glow {
+    background: var(--gradient-candlelight);
+    box-shadow: var(--shadow-glow);
+    color: hsl(25, 12%, 6%);
   }
   
-  /* Gradient utilities */
-  .gradient-primary {
-    background: linear-gradient(135deg, 
-      hsl(var(--gradient-start)), 
-      hsl(var(--gradient-middle)), 
-      hsl(var(--gradient-end))
-    );
+  .ember-accent {
+    background: var(--gradient-ember);
+    color: hsl(35, 8%, 88%);
   }
   
+  .caramel-warm {
+    background: linear-gradient(135deg, var(--caramel), hsl(32, 30%, 40%));
+    color: hsl(35, 8%, 88%);
+  }
+  
+  .leather-texture {
+    background: var(--gradient-leather);
+    color: hsl(45, 15%, 92%);
+  }
+  
+  .studio-nav {
+    @apply flex items-center space-x-1 text-sm;
+    color: hsl(42, 35%, 65%);
+  }
+  
+  .studio-nav .separator {
+    color: hsl(40, 12%, 50%);
+    margin: 0 0.5rem;
+  }
+  
+  .workbench-surface {
+    @apply creative-card p-6;
+    background: linear-gradient(to bottom, hsl(35, 18%, 13%), hsl(35, 15%, 11%));
+  }
+  
+  .tool-on-demand {
+    @apply opacity-0 transition-all duration-300 ease-out;
+    transform: translateY(4px);
+  }
+  
+  .tool-on-demand:hover,
+  .tool-on-demand.visible {
+    @apply opacity-100;
+    transform: translateY(0);
+  }
+  
+  .guide-hint {
+    @apply absolute -top-8 left-1/2 transform -translate-x-1/2 bg-accent text-accent-foreground px-2 py-1 rounded text-xs opacity-0 transition-opacity duration-200;
+    pointer-events: none;
+  }
+  
+  .guide-mode .guide-hint {
+    @apply opacity-100;
+  }
+  
+  .pipeline-step {
+    @apply relative;
+  }
+  
+  .pipeline-step.active {
+    background: var(--gradient-candlelight);
+    color: var(--ink);
+  }
+  
+  .pipeline-step.completed {
+    background: var(--gradient-ember);
+    color: hsl(45, 15%, 92%);
+  }
+  
+  .interactive-warm {
+    @apply transition-all duration-200 ease-out;
+  }
+  
+  .interactive-warm:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-warm), var(--shadow-glow);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite alternate;
+  }
+  
+  .animate-warm-breath {
+    animation: warmBreath 4s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes glowPulse {
+  from { box-shadow: 0 0 20px hsla(42, 80%, 75%, 0.1); }
+  to { box-shadow: 0 0 30px hsla(42, 80%, 75%, 0.3); }
+}
+
+@keyframes warmBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes borderTrace {
+  0% {
+    background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%;
+  }
+  25% {
+    background-position: 100% 0%, 100% 0%, 100% 100%, 0% 100%;
+  }
+  50% {
+    background-position: 100% 0%, 100% 100%, 100% 100%, 0% 100%;
+  }
+  75% {
+    background-position: 100% 0%, 100% 100%, 0% 100%, 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%, 100% 100%, 0% 100%, 0% 0%;
+  }
+}
+
+@keyframes borderRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
   .gradient-text {
-    background: linear-gradient(135deg, 
-      hsl(var(--gradient-start)), 
-      hsl(var(--gradient-middle)), 
-      hsl(var(--gradient-end))
-    );
+    background: linear-gradient(135deg, hsl(207, 90%, 54%), hsl(262, 83%, 58%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
-  /* Interactive states */
-  .interactive {
-    @apply transition-colors duration-200 hover:bg-accent/10;
+  .fablecraft-button {
+    background: linear-gradient(90deg, #10b981, #f59e0b);
+    color: white;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease-out;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
   }
   
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  .fablecraft-button:hover {
+    background: linear-gradient(90deg, #059669, #d97706);
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
   }
   
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  .fablecraft-button:active {
+    transform: scale(0.98);
   }
   
-  .btn-ghost {
-    @apply hover:bg-accent/10 hover:text-accent-foreground;
+  .glass-effect {
+    backdrop-filter: blur(16px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
   }
+  
+  .floating-card {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px hsla(215, 20%, 65%, 0.05);
+  }
+  
+  .interactive-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .interactive-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Removed duplicate animations - using the ones defined earlier */
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  from { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+  to { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+}
+
+/* Custom Scrollbar Styles - Force Override */
+html, body, div, section, article, main, aside, nav, header, footer, 
+form, fieldset, table, tr, td, th, ul, ol, li, dl, dt, dd, 
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, address, 
+canvas, embed, figure, object, video, audio, iframe, 
+input, textarea, select, button {
+  scrollbar-width: thin !important;
+  scrollbar-color: #a0967d transparent !important;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar, div::-webkit-scrollbar, 
+section::-webkit-scrollbar, article::-webkit-scrollbar, main::-webkit-scrollbar, 
+aside::-webkit-scrollbar, nav::-webkit-scrollbar, header::-webkit-scrollbar, 
+footer::-webkit-scrollbar, form::-webkit-scrollbar, fieldset::-webkit-scrollbar, 
+table::-webkit-scrollbar, tr::-webkit-scrollbar, td::-webkit-scrollbar, 
+th::-webkit-scrollbar, ul::-webkit-scrollbar, ol::-webkit-scrollbar, 
+li::-webkit-scrollbar, dl::-webkit-scrollbar, dt::-webkit-scrollbar, 
+dd::-webkit-scrollbar, h1::-webkit-scrollbar, h2::-webkit-scrollbar, 
+h3::-webkit-scrollbar, h4::-webkit-scrollbar, h5::-webkit-scrollbar, 
+h6::-webkit-scrollbar, p::-webkit-scrollbar, blockquote::-webkit-scrollbar, 
+pre::-webkit-scrollbar, address::-webkit-scrollbar, canvas::-webkit-scrollbar, 
+embed::-webkit-scrollbar, figure::-webkit-scrollbar, object::-webkit-scrollbar, 
+video::-webkit-scrollbar, audio::-webkit-scrollbar, iframe::-webkit-scrollbar, 
+input::-webkit-scrollbar, textarea::-webkit-scrollbar, select::-webkit-scrollbar, 
+button::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: transparent !important;
+}
+
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, div::-webkit-scrollbar-track, 
+section::-webkit-scrollbar-track, article::-webkit-scrollbar-track, main::-webkit-scrollbar-track, 
+aside::-webkit-scrollbar-track, nav::-webkit-scrollbar-track, header::-webkit-scrollbar-track, 
+footer::-webkit-scrollbar-track, form::-webkit-scrollbar-track, fieldset::-webkit-scrollbar-track, 
+table::-webkit-scrollbar-track, tr::-webkit-scrollbar-track, td::-webkit-scrollbar-track, 
+th::-webkit-scrollbar-track, ul::-webkit-scrollbar-track, ol::-webkit-scrollbar-track, 
+li::-webkit-scrollbar-track, dl::-webkit-scrollbar-track, dt::-webkit-scrollbar-track, 
+dd::-webkit-scrollbar-track, h1::-webkit-scrollbar-track, h2::-webkit-scrollbar-track, 
+h3::-webkit-scrollbar-track, h4::-webkit-scrollbar-track, h5::-webkit-scrollbar-track, 
+h6::-webkit-scrollbar-track, p::-webkit-scrollbar-track, blockquote::-webkit-scrollbar-track, 
+pre::-webkit-scrollbar-track, address::-webkit-scrollbar-track, canvas::-webkit-scrollbar-track, 
+embed::-webkit-scrollbar-track, figure::-webkit-scrollbar-track, object::-webkit-scrollbar-track, 
+video::-webkit-scrollbar-track, audio::-webkit-scrollbar-track, iframe::-webkit-scrollbar-track, 
+input::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track, select::-webkit-scrollbar-track, 
+button::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none !important;
+}
+
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb, 
+section::-webkit-scrollbar-thumb, article::-webkit-scrollbar-thumb, main::-webkit-scrollbar-thumb, 
+aside::-webkit-scrollbar-thumb, nav::-webkit-scrollbar-thumb, header::-webkit-scrollbar-thumb, 
+footer::-webkit-scrollbar-thumb, form::-webkit-scrollbar-thumb, fieldset::-webkit-scrollbar-thumb, 
+table::-webkit-scrollbar-thumb, tr::-webkit-scrollbar-thumb, td::-webkit-scrollbar-thumb, 
+th::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb, ol::-webkit-scrollbar-thumb, 
+li::-webkit-scrollbar-thumb, dl::-webkit-scrollbar-thumb, dt::-webkit-scrollbar-thumb, 
+dd::-webkit-scrollbar-thumb, h1::-webkit-scrollbar-thumb, h2::-webkit-scrollbar-thumb, 
+h3::-webkit-scrollbar-thumb, h4::-webkit-scrollbar-thumb, h5::-webkit-scrollbar-thumb, 
+h6::-webkit-scrollbar-thumb, p::-webkit-scrollbar-thumb, blockquote::-webkit-scrollbar-thumb, 
+pre::-webkit-scrollbar-thumb, address::-webkit-scrollbar-thumb, canvas::-webkit-scrollbar-thumb, 
+embed::-webkit-scrollbar-thumb, figure::-webkit-scrollbar-thumb, object::-webkit-scrollbar-thumb, 
+video::-webkit-scrollbar-thumb, audio::-webkit-scrollbar-thumb, iframe::-webkit-scrollbar-thumb, 
+input::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb, select::-webkit-scrollbar-thumb, 
+button::-webkit-scrollbar-thumb {
+  background: #a0967d !important;
+  border-radius: 6px !important;
+  border: none !important;
+  transition: background-color 0.2s ease !important;
+}
+
+html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover, 
+section::-webkit-scrollbar-thumb:hover, article::-webkit-scrollbar-thumb:hover, main::-webkit-scrollbar-thumb:hover, 
+aside::-webkit-scrollbar-thumb:hover, nav::-webkit-scrollbar-thumb:hover, header::-webkit-scrollbar-thumb:hover, 
+footer::-webkit-scrollbar-thumb:hover, form::-webkit-scrollbar-thumb:hover, fieldset::-webkit-scrollbar-thumb:hover, 
+table::-webkit-scrollbar-thumb:hover, tr::-webkit-scrollbar-thumb:hover, td::-webkit-scrollbar-thumb:hover, 
+th::-webkit-scrollbar-thumb:hover, ul::-webkit-scrollbar-thumb:hover, ol::-webkit-scrollbar-thumb:hover, 
+li::-webkit-scrollbar-thumb:hover, dl::-webkit-scrollbar-thumb:hover, dt::-webkit-scrollbar-thumb:hover, 
+dd::-webkit-scrollbar-thumb:hover, h1::-webkit-scrollbar-thumb:hover, h2::-webkit-scrollbar-thumb:hover, 
+h3::-webkit-scrollbar-thumb:hover, h4::-webkit-scrollbar-thumb:hover, h5::-webkit-scrollbar-thumb:hover, 
+h6::-webkit-scrollbar-thumb:hover, p::-webkit-scrollbar-thumb:hover, blockquote::-webkit-scrollbar-thumb:hover, 
+pre::-webkit-scrollbar-thumb:hover, address::-webkit-scrollbar-thumb:hover, canvas::-webkit-scrollbar-thumb:hover, 
+embed::-webkit-scrollbar-thumb:hover, figure::-webkit-scrollbar-thumb:hover, object::-webkit-scrollbar-thumb:hover, 
+video::-webkit-scrollbar-thumb:hover, audio::-webkit-scrollbar-thumb:hover, iframe::-webkit-scrollbar-thumb:hover, 
+input::-webkit-scrollbar-thumb:hover, textarea::-webkit-scrollbar-thumb:hover, select::-webkit-scrollbar-thumb:hover, 
+button::-webkit-scrollbar-thumb:hover {
+  background: #8b8269 !important;
+}
+
+/* Smooth scrolling behavior */
+html {
+  scroll-behavior: smooth !important;
+}
+
+/* Keep the class-based styling for specific elements */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #a0967d transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #a0967d;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #8b8269;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background: #766c59;
+}
+
+.scrollbar-thin::-webkit-scrollbar-corner {
+  background: transparent;
 }

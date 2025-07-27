@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { ThemeToggle } from '../theme-toggle';
 import { 
   ArrowLeft, 
   Users, 
@@ -155,7 +154,6 @@ export function ProjectDashboard({
           </div>
 
           <div className="flex items-center space-x-3">
-            <ThemeToggle />
             <Button 
               variant="outline" 
               size="sm" 

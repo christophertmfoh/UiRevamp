@@ -111,7 +111,7 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
       <nav className="relative z-10 flex items-center justify-between p-6 lg:p-8">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 brand-gradient-bg rounded-xl flex items-center justify-center">
-            <PenTool className="w-5 h-5 text-foreground" />
+            <PenTool className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold gradient-text">Fablecraft</span>
         </div>
@@ -141,7 +141,7 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
             <Button
               onClick={() => onNavigate('projects')}
-              className="group relative brand-gradient-bg hover:opacity-90 text-foreground font-semibold px-8 py-4 rounded-2xl shadow-lg interactive-hover h-12"
+              className="group relative brand-gradient-bg hover:opacity-90 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg interactive-hover h-12"
             >
               <FolderPlus className="w-5 h-5 mr-3" />
               View Projects
@@ -149,7 +149,7 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
             <Button
               variant="outline"
               onClick={() => onNavigate('brainstorm')}
-              className="group bg-stone-800/80 hover:bg-stone-700/80 border border-border text-body-primary font-semibold px-8 py-4 rounded-2xl interactive-hover h-12"
+              className="group bg-stone-800/80 hover:bg-stone-700/80 border border-stone-600 text-body-primary font-semibold px-8 py-4 rounded-2xl interactive-hover h-12"
             >
               <Lightbulb className="w-5 h-5 mr-3" />
               Brainstorm Ideas
@@ -158,42 +158,42 @@ const LandingPage = ({ onNavigate }: { onNavigate: (view: string) => void }) => 
 
           {/* Quick Actions Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-            <Card className="glass-effect floating-card interactive-hover border-border/50 bg-stone-800/30">
+            <Card className="glass-effect floating-card interactive-hover border-stone-700/50 bg-stone-800/30">
               <CardContent className="p-6">
                 <div className="w-12 h-12 gradient-icon-container rounded-xl flex items-center justify-center mb-4">
                   <Plus className="w-6 h-6 gradient-text" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2 text-foreground">New Project</h3>
+                <h3 className="font-semibold text-lg mb-2 text-white">New Project</h3>
                 <p className="text-body-secondary text-sm">Start fresh with a novel, screenplay, or comic project.</p>
               </CardContent>
             </Card>
 
-            <Card className="glass-effect floating-card interactive-hover border-border/50 bg-stone-800/30">
+            <Card className="glass-effect floating-card interactive-hover border-stone-700/50 bg-stone-800/30">
               <CardContent className="p-6">
                 <div className="w-12 h-12 gradient-icon-container rounded-xl flex items-center justify-center mb-4">
                   <UploadCloud className="w-6 h-6 gradient-text" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2 text-foreground">Import Manuscript</h3>
+                <h3 className="font-semibold text-lg mb-2 text-white">Import Manuscript</h3>
                 <p className="text-body-secondary text-sm">Upload existing work to enhance with AI tools.</p>
               </CardContent>
             </Card>
 
-            <Card className="glass-effect floating-card interactive-hover border-border/50 bg-stone-800/30">
+            <Card className="glass-effect floating-card interactive-hover border-stone-700/50 bg-stone-800/30">
               <CardContent className="p-6">
                 <div className="w-12 h-12 gradient-icon-container rounded-xl flex items-center justify-center mb-4">
                   <Users className="w-6 h-6 gradient-text" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2 text-foreground">Character Builder</h3>
+                <h3 className="font-semibold text-lg mb-2 text-white">Character Builder</h3>
                 <p className="text-body-secondary text-sm">AI-powered character generation and development.</p>
               </CardContent>
             </Card>
 
-            <Card className="glass-effect floating-card interactive-hover border-border/50 bg-stone-800/30">
+            <Card className="glass-effect floating-card interactive-hover border-stone-700/50 bg-stone-800/30">
               <CardContent className="p-6">
                 <div className="w-12 h-12 gradient-icon-container rounded-xl flex items-center justify-center mb-4">
                   <Map className="w-6 h-6 gradient-text" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2 text-foreground">World Building</h3>
+                <h3 className="font-semibold text-lg mb-2 text-white">World Building</h3>
                 <p className="text-body-secondary text-sm">Create rich, detailed fictional worlds and lore.</p>
               </CardContent>
             </Card>
@@ -246,7 +246,7 @@ const ProjectsDashboard = ({ onNavigate }: { onNavigate: (view: string) => void 
         <h1 className="text-3xl font-bold gradient-text">Your Projects</h1>
         <Button
           onClick={() => onNavigate('workspace')}
-          className="brand-gradient-bg hover:opacity-90 text-foreground font-semibold"
+          className="brand-gradient-bg hover:opacity-90 text-white font-semibold"
         >
           <Plus className="w-5 h-5 mr-2" />
           New Project
@@ -263,10 +263,10 @@ const ProjectsDashboard = ({ onNavigate }: { onNavigate: (view: string) => void 
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
                     <div className={`w-10 h-10 bg-gradient-to-br ${project.gradient} rounded-xl flex items-center justify-center`}>
-                      <IconComponent className="w-5 h-5 text-foreground" />
+                      <IconComponent className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg text-foreground">{project.name}</CardTitle>
+                      <CardTitle className="text-lg text-white">{project.name}</CardTitle>
                       <CardDescription className="text-body-secondary">{project.type}</CardDescription>
                     </div>
                   </div>
@@ -304,7 +304,7 @@ const ProjectsDashboard = ({ onNavigate }: { onNavigate: (view: string) => void 
                 >
                   Open Project
                 </Button>
-                <Button variant="outline" size="icon" className="border-border hover:bg-stone-600">
+                <Button variant="outline" size="icon" className="border-stone-600 hover:bg-stone-600">
                   <Link className="w-5 h-5" />
                 </Button>
               </CardFooter>
@@ -313,12 +313,12 @@ const ProjectsDashboard = ({ onNavigate }: { onNavigate: (view: string) => void 
         })}
 
         {/* New Project Card */}
-        <Card className="bg-stone-800/30 border-2 border-dashed border-border interactive-hover">
+        <Card className="bg-stone-800/30 border-2 border-dashed border-stone-600 interactive-hover">
           <CardContent className="flex flex-col items-center justify-center text-center p-8 min-h-[300px]">
             <div className="w-16 h-16 gradient-icon-container rounded-2xl flex items-center justify-center mb-4">
               <Plus className="w-8 h-8 gradient-text" />
             </div>
-            <h3 className="font-semibold text-lg mb-2 text-foreground">Create New Project</h3>
+            <h3 className="font-semibold text-lg mb-2 text-white">Create New Project</h3>
             <p className="text-body-secondary text-sm mb-6">Start a fresh story, screenplay, or comic book project.</p>
             <Button
               onClick={() => onNavigate('workspace')}
@@ -394,13 +394,13 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                   <div className="flex items-start space-x-6 mb-8">
                     {/* Character Avatar */}
                     <div className="flex-shrink-0">
-                      <div className="w-32 h-32 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-2xl border border-border/50 flex items-center justify-center group cursor-pointer hover:border-emerald-500/50 transition-colors">
+                      <div className="w-32 h-32 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-2xl border border-stone-600/50 flex items-center justify-center group cursor-pointer hover:border-emerald-500/50 transition-colors">
                         <User className="w-12 h-12 text-body-secondary group-hover:gradient-text transition-colors" />
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full mt-3 border-border hover:bg-stone-600"
+                        className="w-full mt-3 border-stone-600 hover:bg-stone-600"
                       >
                         Generate Image
                       </Button>
@@ -414,13 +414,13 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                           <Input
                             value={characterForm.name}
                             onChange={(e) => setCharacterForm({...characterForm, name: e.target.value})}
-                            className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                            className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                           />
                         </div>
                         <div>
                           <Label className="text-body-secondary font-semibold">Role</Label>
                           <Select value={characterForm.role} onValueChange={(value) => setCharacterForm({...characterForm, role: value})}>
-                            <SelectTrigger className="bg-stone-700/50 border-border/50 text-body-primary mt-2">
+                            <SelectTrigger className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -443,7 +443,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                           <Badge variant="secondary" className="bg-amber-500/20 text-amber-300 border border-amber-500/30">
                             The Survivor
                           </Badge>
-                          <Button variant="outline" size="sm" className="border-dashed border-border hover:border-stone-500 text-body-secondary">
+                          <Button variant="outline" size="sm" className="border-dashed border-stone-600 hover:border-stone-500 text-body-secondary">
                             + Add Archetype
                           </Button>
                         </div>
@@ -458,7 +458,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                       <Textarea
                         value={characterForm.description}
                         onChange={(e) => setCharacterForm({...characterForm, description: e.target.value})}
-                        className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                        className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                         rows={3}
                       />
                     </div>
@@ -469,7 +469,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                         <Textarea
                           value={characterForm.personality}
                           onChange={(e) => setCharacterForm({...characterForm, personality: e.target.value})}
-                          className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                          className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                           rows={4}
                         />
                       </div>
@@ -478,7 +478,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                         <Textarea
                           value={characterForm.motivations}
                           onChange={(e) => setCharacterForm({...characterForm, motivations: e.target.value})}
-                          className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                          className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                           rows={4}
                         />
                       </div>
@@ -490,7 +490,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               {/* Character Development Tabs */}
               <Card className="bg-card-background border-card-border floating-card">
                 <Tabs defaultValue="backstory" className="w-full">
-                  <div className="border-b border-border/50 p-6 pb-0">
+                  <div className="border-b border-stone-700/50 p-6 pb-0">
                     <TabsList className="bg-transparent">
                       <TabsTrigger value="backstory" className="data-[state=active]:bg-emerald-600/20 data-[state=active]:text-emerald-300">
                         Backstory
@@ -514,7 +514,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                         <Textarea
                           value={characterForm.backstory}
                           onChange={(e) => setCharacterForm({...characterForm, backstory: e.target.value})}
-                          className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                          className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                           rows={6}
                         />
                       </div>
@@ -525,7 +525,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                           <Textarea
                             value={characterForm.fears}
                             onChange={(e) => setCharacterForm({...characterForm, fears: e.target.value})}
-                            className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                            className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                             rows={3}
                           />
                         </div>
@@ -534,7 +534,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                           <Textarea
                             value={characterForm.secrets}
                             onChange={(e) => setCharacterForm({...characterForm, secrets: e.target.value})}
-                            className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                            className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                             rows={3}
                           />
                         </div>
@@ -568,10 +568,10 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-foreground" />
+                        <Sparkles className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg text-foreground">AI Character Enhancement</h3>
+                        <h3 className="font-semibold text-lg text-white">AI Character Enhancement</h3>
                         <p className="text-body-secondary text-sm">Let AI help develop your character further</p>
                       </div>
                     </div>
@@ -585,19 +585,19 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Button variant="outline" className="bg-stone-800/50 border-border/50 h-auto p-4 flex flex-col items-start">
+                    <Button variant="outline" className="bg-stone-800/50 border-stone-600/50 h-auto p-4 flex flex-col items-start">
                       <Users className="w-6 h-6 gradient-text mb-2" />
-                      <h4 className="font-medium mb-1 text-foreground">Generate Traits</h4>
+                      <h4 className="font-medium mb-1 text-white">Generate Traits</h4>
                       <p className="text-body-secondary text-sm">Add personality traits and quirks</p>
                     </Button>
-                    <Button variant="outline" className="bg-stone-800/50 border-border/50 h-auto p-4 flex flex-col items-start">
+                    <Button variant="outline" className="bg-stone-800/50 border-stone-600/50 h-auto p-4 flex flex-col items-start">
                       <ImageIcon className="w-6 h-6 gradient-text mb-2" />
-                      <h4 className="font-medium mb-1 text-foreground">Create Portrait</h4>
+                      <h4 className="font-medium mb-1 text-white">Create Portrait</h4>
                       <p className="text-body-secondary text-sm">Generate character artwork</p>
                     </Button>
-                    <Button variant="outline" className="bg-stone-800/50 border-border/50 h-auto p-4 flex flex-col items-start">
+                    <Button variant="outline" className="bg-stone-800/50 border-stone-600/50 h-auto p-4 flex flex-col items-start">
                       <Link className="w-6 h-6 text-emerald-400 mb-2" />
-                      <h4 className="font-medium mb-1 text-foreground">Build Relations</h4>
+                      <h4 className="font-medium mb-1 text-white">Build Relations</h4>
                       <p className="text-body-secondary text-sm">Create character connections</p>
                     </Button>
                   </div>
@@ -611,10 +611,10 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
         return (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-16 h-16 bg-card rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Settings className="w-8 h-8 text-body-secondary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Tool Under Development</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Tool Under Development</h3>
               <p className="text-body-secondary">This feature is being built and will be available soon.</p>
             </div>
           </div>
@@ -625,13 +625,13 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
   return (
     <div className="min-h-screen bg-background-primary flex">
       {/* Sidebar */}
-      <aside className="w-80 bg-stone-850/80 border-r border-border/50 flex flex-col">
+      <aside className="w-80 bg-stone-850/80 border-r border-stone-700/50 flex flex-col">
         {/* Sidebar Header */}
-        <div className="p-6 border-b border-border/50">
+        <div className="p-6 border-b border-stone-700/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
-                <PenTool className="w-4 h-4 text-foreground" />
+                <PenTool className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h2 className="font-bold text-lg gradient-text">Fablecraft</h2>
@@ -642,7 +642,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               variant="ghost"
               size="sm"
               onClick={() => onNavigate('projects')}
-              className="text-body-secondary hover:text-foreground"
+              className="text-body-secondary hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
             </Button>
@@ -679,10 +679,10 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
         </ScrollArea>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-border/50">
+        <div className="p-4 border-t border-stone-700/50">
           <Button
             variant="ghost"
-            className="w-full justify-start text-body-secondary hover:text-foreground hover:bg-stone-700/50"
+            className="w-full justify-start text-body-secondary hover:text-white hover:bg-stone-700/50"
           >
             <Settings className="w-5 h-5 mr-3" />
             Settings
@@ -693,16 +693,16 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Top Bar */}
-        <header className="bg-background/50 border-b border-border/50 p-6">
+        <header className="bg-slate-850/50 border-b border-stone-700/50 p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-foreground">Character Builder</h1>
+              <h1 className="text-2xl font-bold text-white">Character Builder</h1>
               <Badge className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                 AI-Powered
               </Badge>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="outline" className="border-border text-secondary-foreground hover:bg-secondary">
+              <Button variant="outline" className="border-stone-600 text-slate-300 hover:bg-slate-600">
                 <CheckCircle2 className="w-4 h-4 mr-2" />
                 Save
               </Button>
@@ -723,11 +723,11 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
 
       {/* Character Generation Modal */}
       <Dialog open={showCharacterModal} onOpenChange={setShowCharacterModal}>
-        <DialogContent className="glass-effect border-border max-w-2xl" aria-describedby="character-gen-description">
+        <DialogContent className="glass-effect border-slate-700 max-w-2xl" aria-describedby="character-gen-description">
           <DialogHeader>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-foreground" />
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
               <DialogTitle className="gradient-text">AI Character Generator</DialogTitle>
             </div>
@@ -741,7 +741,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               <Label className="text-body-secondary font-semibold">Character Concept</Label>
               <Textarea
                 placeholder="Describe your character idea... e.g., 'A grizzled dwarven warrior who lost his clan to a dragon attack'"
-                className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                 rows={3}
               />
             </div>
@@ -750,7 +750,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               <div>
                 <Label className="text-body-secondary font-semibold">Story Role</Label>
                 <Select>
-                  <SelectTrigger className="bg-stone-700/50 border-border/50 text-body-primary mt-2">
+                  <SelectTrigger className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2">
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
                   <SelectContent>
@@ -764,7 +764,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               <div>
                 <Label className="text-body-secondary font-semibold">Genre Focus</Label>
                 <Select>
-                  <SelectTrigger className="bg-stone-700/50 border-border/50 text-body-primary mt-2">
+                  <SelectTrigger className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2">
                     <SelectValue placeholder="Select genre" />
                   </SelectTrigger>
                   <SelectContent>
@@ -787,15 +787,15 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Checkbox id="portrait" defaultChecked />
-                    <Label htmlFor="portrait" className="text-secondary-foreground text-sm">Generate character portrait</Label>
+                    <Label htmlFor="portrait" className="text-slate-300 text-sm">Generate character portrait</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox id="backstory" defaultChecked />
-                    <Label htmlFor="backstory" className="text-secondary-foreground text-sm">Create detailed backstory</Label>
+                    <Label htmlFor="backstory" className="text-slate-300 text-sm">Create detailed backstory</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox id="relationships" />
-                    <Label htmlFor="relationships" className="text-secondary-foreground text-sm">Generate character relationships</Label>
+                    <Label htmlFor="relationships" className="text-slate-300 text-sm">Generate character relationships</Label>
                   </div>
                 </div>
               </CardContent>
@@ -819,11 +819,11 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
 
       {/* Brainstorm Modal */}
       <Dialog open={showBrainstormModal} onOpenChange={setShowBrainstormModal}>
-        <DialogContent className="glass-effect border-border max-w-3xl max-h-[90vh]" aria-describedby="brainstorm-description">
+        <DialogContent className="glass-effect border-slate-700 max-w-3xl max-h-[90vh]" aria-describedby="brainstorm-description">
           <DialogHeader>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <Lightbulb className="w-5 h-5 text-foreground" />
+                <Lightbulb className="w-5 h-5 text-white" />
               </div>
               <DialogTitle className="gradient-text">AI Story Brainstorming</DialogTitle>
             </div>
@@ -838,7 +838,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 <Label className="text-body-secondary font-semibold">Story Concept</Label>
                 <Input
                   placeholder="e.g., A detective story in a city that never sleeps..."
-                  className="bg-stone-700/50 border-border/50 text-body-primary mt-2"
+                  className="bg-stone-700/50 border-stone-600/50 text-body-primary mt-2"
                 />
               </div>
               
@@ -858,7 +858,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                       <FileText className="w-5 h-5 mr-2" />
                       Logline
                     </h3>
-                    <p className="text-secondary-foreground leading-relaxed">A cynical detective in a perpetually awake metropolis must solve a series of murders that only occur during the city's rare moments of darkness, uncovering a conspiracy that threatens the artificial light keeping the city alive.</p>
+                    <p className="text-slate-300 leading-relaxed">A cynical detective in a perpetually awake metropolis must solve a series of murders that only occur during the city's rare moments of darkness, uncovering a conspiracy that threatens the artificial light keeping the city alive.</p>
                   </div>
                   
                   <div>
@@ -867,15 +867,15 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                       Character Archetypes
                     </h3>
                     <div className="space-y-2">
-                      <div className="flex items-center space-x-3 text-secondary-foreground">
+                      <div className="flex items-center space-x-3 text-slate-300">
                         <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
                         <span>The Insomniac Detective - A sleep-deprived investigator who sees patterns others miss</span>
                       </div>
-                      <div className="flex items-center space-x-3 text-secondary-foreground">
+                      <div className="flex items-center space-x-3 text-slate-300">
                         <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
                         <span>The Shadow Killer - A mysterious figure who strikes only in darkness</span>
                       </div>
-                      <div className="flex items-center space-x-3 text-secondary-foreground">
+                      <div className="flex items-center space-x-3 text-slate-300">
                         <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
                         <span>The Light Keeper - Guardian of the city's eternal illumination system</span>
                       </div>
@@ -885,7 +885,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
               </Card>
               
               <div className="flex justify-center space-x-4">
-                <Button className="bg-warning hover:bg-amber-500">
+                <Button className="bg-amber-600 hover:bg-amber-500">
                   <Lightbulb className="w-4 h-4 mr-2" />
                   Generate New Ideas
                 </Button>
