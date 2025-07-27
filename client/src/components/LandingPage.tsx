@@ -292,11 +292,13 @@ export function LandingPage({
                             : 'bg-white/70 dark:bg-slate-700/30 border border-stone-300/50 dark:border-slate-600/30 hover:bg-gradient-to-br hover:from-stone-50/80 hover:to-emerald-50/60 dark:hover:from-stone-900/30 dark:hover:to-emerald-900/20 hover:border-stone-400/60 dark:hover:border-stone-600/40 hover:scale-105 hover:shadow-lg'
                         }`}
                       >
-                        <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
+                        <div className={`w-12 h-12 mb-3 rounded-xl flex items-center justify-center transition-all duration-500 ${
                           isActive 
-                            ? 'text-emerald-600 dark:text-emerald-400 scale-110' 
-                            : 'text-stone-500 dark:text-stone-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:scale-110'
-                        }`} />
+                            ? 'bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 scale-110 shadow-lg' 
+                            : 'bg-gradient-to-br from-stone-400 via-stone-500 to-stone-600 dark:from-stone-600 dark:via-stone-700 dark:to-stone-800 group-hover:from-emerald-500 group-hover:via-stone-600 group-hover:to-amber-700 dark:group-hover:from-emerald-600 dark:group-hover:via-stone-700 dark:group-hover:to-amber-800 group-hover:scale-110 group-hover:shadow-lg'
+                        }`}>
+                          <IconComponent className="w-6 h-6 text-white" />
+                        </div>
                         <h4 className={`font-bold text-sm transition-all duration-300 ${
                           isActive 
                             ? 'text-stone-900 dark:text-stone-50 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]' 
@@ -345,14 +347,13 @@ export function LandingPage({
                 const IconComponent = step.icon;
                 return (
                   <div key={index} className="text-center space-y-4 relative group">
-                    {/* Step number */}
-                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-full flex items-center justify-center text-sm font-bold text-white lg:block hidden z-20 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      {index + 1}
-                    </div>
+
                     
                     <div className="w-28 h-28 bg-white/90 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto shadow-lg dark:shadow-xl border border-stone-400/40 dark:border-slate-600/50 group-hover:shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer relative z-10 group-hover:rotate-3">
                       <div className="absolute inset-0 bg-gradient-to-br from-stone-50/50 to-emerald-50/30 dark:from-stone-900/20 dark:to-emerald-900/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <IconComponent className="w-10 h-10 text-emerald-600 dark:text-emerald-400 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-all duration-500 relative z-10 group-hover:scale-110" />
+                      <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">
+                        <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
+                      </div>
                     </div>
                     
                     <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
