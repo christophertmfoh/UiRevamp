@@ -188,10 +188,12 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
-        <div className="text-center mb-12 space-y-6 py-4">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-            Your Projects
-          </h1>
+        <div className="text-center mb-12 space-y-6 py-8">
+          <div className="overflow-visible py-4">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-relaxed tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] pb-6 mt-[1px] mb-[1px]">
+              Your Projects
+            </h1>
+          </div>
           <p className="text-xl text-stone-800 dark:text-stone-200 max-w-2xl mx-auto leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
             Organize, track, and bring your stories to life with intelligent project management.
           </p>
