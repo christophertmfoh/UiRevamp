@@ -1,4 +1,5 @@
 // Utility functions for transforming character data between frontend and database formats
+import { processPortraitsForStorage } from './imageCompression';
 
 // Fields that are stored as TEXT (strings) in database but might come as arrays from frontend
 const ARRAY_TO_STRING_FIELDS = [
@@ -56,5 +57,21 @@ export function transformCharacterData(data: Record<string, unknown>): Record<st
     delete transformedData.updatedAt;
   }
   
+  // Handle portraits array - compress images before storage
+  if (transformedData.portraits) {
+    if (typeof transformedData.portraits === 'string') {
+      try {
+        transformedData.portraits = JSON.parse(transformedData.portraits);
+      } catch {
+        transformedData.portraits = [];
+      }
+    }
+    if (!Array.isArray(transformedData.portraits)) {
+      transformedData.portraits = [];
+    }
+    // Compress portraits before storage
+    transformedData.portraits = processPortraitsForStorage(transformedData.portraits);
+  }
+
   return transformedData;
 }
