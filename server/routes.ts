@@ -10,9 +10,12 @@ import {
 import { storage } from "./storage";
 import { generateCharacterImage } from "./imageGeneration";
 import { importCharacterDocument } from "./characterExtractor";
+import { getAIServiceStats, clearAICache } from "./services/aiGeneration";
+import { getPoolStats } from "./db";
 import multer from "multer";
 import path from "path";
 import { fileTypeFromBuffer } from "file-type";
+import os from "os";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -35,7 +38,218 @@ const upload = multer({
   }
 });
 
+// Performance monitoring middleware
+const performanceTracker = {
+  requests: [] as Array<{ path: string; method: string; duration: number; timestamp: number; status: number }>,
+  errors: [] as Array<{ path: string; method: string; error: string; timestamp: number }>,
+  
+  addRequest(req: any, duration: number, status: number) {
+    this.requests.push({
+      path: req.path,
+      method: req.method,
+      duration,
+      status,
+      timestamp: Date.now()
+    });
+    
+    // Keep only last 1000 requests to prevent memory issues
+    if (this.requests.length > 1000) {
+      this.requests = this.requests.slice(-1000);
+    }
+  },
+  
+  addError(req: any, error: string) {
+    this.errors.push({
+      path: req.path,
+      method: req.method,
+      error,
+      timestamp: Date.now()
+    });
+    
+    // Keep only last 100 errors
+    if (this.errors.length > 100) {
+      this.errors = this.errors.slice(-100);
+    }
+  },
+  
+  getStats() {
+    const now = Date.now();
+    const lastHour = now - (60 * 60 * 1000);
+    const lastMinute = now - (60 * 1000);
+    
+    const recentRequests = this.requests.filter(r => r.timestamp > lastHour);
+    const recentErrors = this.errors.filter(e => e.timestamp > lastHour);
+    const lastMinuteRequests = this.requests.filter(r => r.timestamp > lastMinute);
+    
+    return {
+      totalRequests: this.requests.length,
+      requestsLastHour: recentRequests.length,
+      requestsLastMinute: lastMinuteRequests.length,
+      errorsLastHour: recentErrors.length,
+      averageResponseTime: recentRequests.length > 0 
+        ? recentRequests.reduce((sum, r) => sum + r.duration, 0) / recentRequests.length 
+        : 0,
+      slowestEndpoints: this.getSlowEndpoints(recentRequests),
+      errorsByEndpoint: this.getErrorsByEndpoint(recentErrors)
+    };
+  },
+  
+  getSlowEndpoints(requests: any[]) {
+    const endpointStats = new Map<string, { count: number; totalTime: number; maxTime: number }>();
+    
+    requests.forEach(req => {
+      const key = `${req.method} ${req.path}`;
+      const current = endpointStats.get(key) || { count: 0, totalTime: 0, maxTime: 0 };
+      
+      current.count++;
+      current.totalTime += req.duration;
+      current.maxTime = Math.max(current.maxTime, req.duration);
+      
+      endpointStats.set(key, current);
+    });
+    
+    return Array.from(endpointStats.entries())
+      .map(([endpoint, stats]) => ({
+        endpoint,
+        averageTime: stats.totalTime / stats.count,
+        maxTime: stats.maxTime,
+        count: stats.count
+      }))
+      .sort((a, b) => b.averageTime - a.averageTime)
+      .slice(0, 10);
+  },
+  
+  getErrorsByEndpoint(errors: any[]) {
+    const errorCounts = new Map<string, number>();
+    
+    errors.forEach(error => {
+      const key = `${error.method} ${error.path}`;
+      errorCounts.set(key, (errorCounts.get(key) || 0) + 1);
+    });
+    
+    return Array.from(errorCounts.entries())
+      .map(([endpoint, count]) => ({ endpoint, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+  }
+};
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Performance monitoring middleware
+  app.use((req, res, next) => {
+    const start = Date.now();
+    
+    res.on('finish', () => {
+      const duration = Date.now() - start;
+      performanceTracker.addRequest(req, duration, res.statusCode);
+      
+      if (res.statusCode >= 400) {
+        performanceTracker.addError(req, `HTTP ${res.statusCode}`);
+      }
+    });
+    
+    next();
+  });
+
+  // Health check and monitoring endpoints
+  app.get("/api/health", async (req, res) => {
+    try {
+      const memoryUsage = process.memoryUsage();
+      const systemStats = {
+        uptime: process.uptime(),
+        memory: {
+          rss: Math.round(memoryUsage.rss / 1024 / 1024), // MB
+          heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024), // MB
+          heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024), // MB
+          external: Math.round(memoryUsage.external / 1024 / 1024), // MB
+        },
+        cpu: {
+          loadAverage: os.loadavg(),
+          usage: process.cpuUsage()
+        },
+        system: {
+          platform: os.platform(),
+          arch: os.arch(),
+          nodeVersion: process.version,
+          totalMemory: Math.round(os.totalmem() / 1024 / 1024), // MB
+          freeMemory: Math.round(os.freemem() / 1024 / 1024), // MB
+        }
+      };
+
+      res.json({
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        version: process.env.npm_package_version || "1.0.0",
+        ...systemStats
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "unhealthy",
+        error: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
+  // Performance metrics endpoint
+  app.get("/api/metrics", async (req, res) => {
+    try {
+      const performanceStats = performanceTracker.getStats();
+      const aiStats = getAIServiceStats();
+      const dbStats = getPoolStats();
+      const cacheStats = storage.getCacheStats();
+
+      res.json({
+        timestamp: new Date().toISOString(),
+        performance: performanceStats,
+        ai: aiStats,
+        database: dbStats,
+        cache: cacheStats,
+        memory: {
+          heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+          heapTotal: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching metrics:", error);
+      res.status(500).json({ error: "Failed to fetch metrics" });
+    }
+  });
+
+  // Cache management endpoints
+  app.post("/api/admin/cache/clear", async (req, res) => {
+    try {
+      storage.clearCache();
+      clearAICache();
+      res.json({ message: "All caches cleared successfully" });
+    } catch (error) {
+      console.error("Error clearing caches:", error);
+      res.status(500).json({ error: "Failed to clear caches" });
+    }
+  });
+
+  // Performance optimization endpoint
+  app.post("/api/admin/optimize", async (req, res) => {
+    try {
+      // Force garbage collection if available
+      if (global.gc) {
+        global.gc();
+      }
+      
+      // Clear old performance data
+      performanceTracker.requests = performanceTracker.requests.slice(-500);
+      performanceTracker.errors = performanceTracker.errors.slice(-50);
+      
+      res.json({ 
+        message: "System optimization completed",
+        memoryAfter: Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+      });
+    } catch (error) {
+      console.error("Error during optimization:", error);
+      res.status(500).json({ error: "Optimization failed" });
+    }
+  });
+
   // Project routes
   app.get("/api/projects", async (req, res) => {
     try {
@@ -56,7 +270,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Project not found" });
       }
       
-      // Fetch related data
+      // Fetch related data with parallel requests for better performance
       const [characters, outlines, proseDocuments] = await Promise.all([
         storage.getCharacters(id),
         storage.getOutlines(id),
@@ -99,17 +313,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           imageGallery: [], // TODO: Fetch images
           displayImageId: c.displayImageId,
           modelImageUrls: [], // TODO: Handle model URLs
-          isModelTrained: c.isModelTrained || false,
-          tags: c.tags || []
         })),
-        proseDocuments: proseDocuments.map(doc => ({
-          id: doc.id,
-          title: doc.title,
-          content: doc.content || '',
-          type: doc.type,
-          createdAt: doc.createdAt
-        })),
-        settings: project.settings || { aiCraftConfig: { 'story-structure': true, 'character-development': true, 'world-building': true } }
+        proseDocuments: proseDocuments.map(p => ({
+          id: parseInt(p.id),
+          title: p.title,
+          content: p.content || '',
+          description: p.description || '',
+          imageGallery: [], // TODO: Fetch images
+        }))
       };
       
       res.json(transformedProject);

@@ -3,208 +3,313 @@
  * Consolidates all AI generation functionality with consistent patterns
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize AI service with fallback API keys
-const getAIService = () => {
-  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    throw new Error('No AI API key available');
-  }
-  return new GoogleGenAI({ apiKey });
-};
-
-// Standard AI configuration for consistent results
-export const AI_CONFIG = {
-  model: "gemini-2.5-flash",
-  temperature: 0.8,
-  maxOutputTokens: 200,
-  candidateCount: 1,
-  safetySettings: [
-    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
-    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
-  ]
-};
-
-// Rate limiting state
-const rateLimitState = {
-  requests: [] as number[],
-  maxRequests: 8,
-  windowMs: 60000
-};
-
-export function checkRateLimit(): boolean {
-  const now = Date.now();
-  rateLimitState.requests = rateLimitState.requests.filter(
-    time => now - time < rateLimitState.windowMs
-  );
-  
-  if (rateLimitState.requests.length >= rateLimitState.maxRequests) {
-    return false;
-  }
-  
-  rateLimitState.requests.push(now);
-  return true;
+// Rate limiting and queue management
+interface QueueItem {
+  id: string;
+  prompt: string;
+  resolve: (value: string) => void;
+  reject: (error: Error) => void;
+  priority: number;
+  timestamp: number;
 }
 
-// Enhanced retry logic with exponential backoff
-export async function generateWithRetry(
-  prompt: string,
-  maxRetries: number = 3,
-  customConfig?: Partial<typeof AI_CONFIG>
-): Promise<string> {
-  const ai = getAIService();
-  const config = { ...AI_CONFIG, ...customConfig };
-  const safetySettings = [...config.safetySettings];
-  
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      console.log(`AI attempt ${attempt + 1}/${maxRetries}`);
-      
-      const response = await ai.models.generateContent({
-        model: config.model,
-        config: {
-          temperature: config.temperature,
-          maxOutputTokens: config.maxOutputTokens,
-          candidateCount: config.candidateCount,
-          safetySettings: safetySettings
-        },
-        contents: prompt,
-      });
+class AIRequestQueue {
+  private queue: QueueItem[] = [];
+  private processing = false;
+  private readonly maxConcurrent = 3;
+  private readonly rateLimit = 60; // requests per minute
+  private readonly requestTimes: number[] = [];
+  private currentProcessing = 0;
 
-      const content = response.text?.trim() || '';
-      
-      // Handle safety filter blocking
-      if (response.candidates?.[0]?.finishReason === 'SAFETY') {
-        console.log(`Response blocked by safety filters, trying simpler prompt`);
-        
-        const safePrompt = `Generate appropriate content: ${prompt.substring(0, 100)}`;
-        const safeResponse = await ai.models.generateContent({
-          model: config.model,
-          config: { 
-            temperature: 0.7, 
-            maxOutputTokens: 100,
-            candidateCount: 1,
-            safetySettings: safetySettings
-          },
-          contents: safePrompt,
-        });
-        
-        const safeContent = safeResponse.text?.trim() || '';
-        if (safeContent) return safeContent;
+  async addRequest(prompt: string, priority: number = 1): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const item: QueueItem = {
+        id: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        prompt,
+        resolve,
+        reject,
+        priority,
+        timestamp: Date.now()
+      };
+
+      // Insert based on priority (higher priority first)
+      const insertIndex = this.queue.findIndex(q => q.priority < priority);
+      if (insertIndex === -1) {
+        this.queue.push(item);
+      } else {
+        this.queue.splice(insertIndex, 0, item);
       }
-      
-      if (content) {
-        console.log(`Generated content (attempt ${attempt + 1}): ${content.substring(0, 100)}...`);
-        return content;
-      }
-      
-      // Exponential backoff
-      if (attempt < maxRetries - 1) {
-        const waitTime = Math.pow(2, attempt) * 1000;
-        console.log(`Empty response, waiting ${waitTime}ms before retry...`);
-        await new Promise(resolve => setTimeout(resolve, waitTime));
-      }
-      
+
+      this.processQueue();
+    });
+  }
+
+  private async processQueue() {
+    if (this.processing || this.currentProcessing >= this.maxConcurrent) return;
+    if (this.queue.length === 0) return;
+
+    // Check rate limit
+    const now = Date.now();
+    const oneMinuteAgo = now - 60 * 1000;
+    this.requestTimes.splice(0, this.requestTimes.findIndex(time => time > oneMinuteAgo));
+
+    if (this.requestTimes.length >= this.rateLimit) {
+      const oldestRequest = this.requestTimes[0];
+      const waitTime = 60 * 1000 - (now - oldestRequest) + 1000; // Add 1s buffer
+      console.log(`Rate limit reached, waiting ${waitTime}ms`);
+      setTimeout(() => this.processQueue(), waitTime);
+      return;
+    }
+
+    const item = this.queue.shift();
+    if (!item) return;
+
+    this.currentProcessing++;
+    this.requestTimes.push(now);
+
+    try {
+      const result = await this.makeAIRequest(item.prompt);
+      item.resolve(result);
     } catch (error) {
-      console.log(`AI request failed (attempt ${attempt + 1}):`, error);
-      if (attempt < maxRetries - 1) {
-        const waitTime = Math.pow(2, attempt) * 1000;
+      item.reject(error instanceof Error ? error : new Error(String(error)));
+    } finally {
+      this.currentProcessing--;
+      // Continue processing queue
+      setTimeout(() => this.processQueue(), 100);
+    }
+  }
+
+  private async makeAIRequest(prompt: string): Promise<string> {
+    const apiKey = process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('Gemini API key is not configured');
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.8,
+        topK: 40,
+        topP: 0.9,
+        maxOutputTokens: 8192,
+      },
+    });
+
+    const response = await result.response;
+    return response.text();
+  }
+
+  getQueueStats() {
+    return {
+      queueLength: this.queue.length,
+      processing: this.currentProcessing,
+      recentRequests: this.requestTimes.length
+    };
+  }
+}
+
+// Response caching
+interface CacheEntry {
+  content: string;
+  timestamp: number;
+  ttl: number;
+}
+
+class AIResponseCache {
+  private cache = new Map<string, CacheEntry>();
+  private readonly defaultTTL = 24 * 60 * 60 * 1000; // 24 hours
+
+  private generateCacheKey(prompt: string): string {
+    // Create a stable hash from the prompt for caching
+    let hash = 0;
+    for (let i = 0; i < prompt.length; i++) {
+      const char = prompt.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return `ai_${Math.abs(hash).toString(36)}`;
+  }
+
+  get(prompt: string): string | null {
+    const key = this.generateCacheKey(prompt);
+    const entry = this.cache.get(key);
+    
+    if (!entry) return null;
+    
+    if (Date.now() - entry.timestamp > entry.ttl) {
+      this.cache.delete(key);
+      return null;
+    }
+    
+    return entry.content;
+  }
+
+  set(prompt: string, content: string, ttl: number = this.defaultTTL): void {
+    const key = this.generateCacheKey(prompt);
+    this.cache.set(key, {
+      content,
+      timestamp: Date.now(),
+      ttl
+    });
+  }
+
+  clear(): void {
+    this.cache.clear();
+  }
+
+  getStats() {
+    return {
+      size: this.cache.size,
+      entries: Array.from(this.cache.keys()).slice(0, 10) // Sample keys
+    };
+  }
+}
+
+// Global instances
+const aiQueue = new AIRequestQueue();
+const aiCache = new AIResponseCache();
+
+export interface AIGenerationOptions {
+  prompt: string;
+  priority?: number;
+  useCache?: boolean;
+  cacheHours?: number;
+  maxRetries?: number;
+  temperature?: number;
+}
+
+export async function generateAIContent(options: AIGenerationOptions): Promise<string> {
+  const {
+    prompt,
+    priority = 1,
+    useCache = true,
+    cacheHours = 24,
+    maxRetries = 3,
+    temperature = 0.8
+  } = options;
+
+  // Check cache first
+  if (useCache) {
+    const cached = aiCache.get(prompt);
+    if (cached) {
+      console.log('Returning cached AI response');
+      return cached;
+    }
+  }
+
+  // Retry logic with exponential backoff
+  let lastError: Error | null = null;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`AI attempt ${attempt}/${maxRetries}`);
+      
+      // Add to queue for processing
+      const content = await aiQueue.addRequest(prompt, priority);
+      
+      if (!content || content.trim().length === 0) {
+        throw new Error('Empty response from AI service');
+      }
+
+      // Cache successful response
+      if (useCache) {
+        aiCache.set(prompt, content, cacheHours * 60 * 60 * 1000);
+      }
+
+      console.log(`Generated content (attempt ${attempt}): ${content.substring(0, 100)}...`);
+      return content;
+
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.log(`AI request failed (attempt ${attempt}):`, lastError.message);
+      
+      if (attempt < maxRetries) {
+        const waitTime = Math.min(1000 * Math.pow(2, attempt - 1), 10000); // Exponential backoff, max 10s
+        console.log(`Empty response, waiting ${waitTime}ms before retry...`);
         await new Promise(resolve => setTimeout(resolve, waitTime));
       }
     }
   }
-  
-  throw new Error(`Failed to generate content after ${maxRetries} attempts`);
+
+  throw new Error(`AI generation failed after ${maxRetries} attempts: ${lastError?.message}`);
 }
 
-// Specialized generation functions
-export class AIGenerationService {
-  static async generateCharacterField(
-    fieldKey: string,
-    fieldLabel: string,
-    character: any,
-    context: string = ''
-  ): Promise<string> {
-    const prompt = this.buildCharacterFieldPrompt(fieldKey, fieldLabel, character, context);
-    return generateWithRetry(prompt);
+// Legacy function for backward compatibility
+export async function generateCharacterContent(
+  prompt: string,
+  maxRetries: number = 3,
+  temperature: number = 0.8
+): Promise<string> {
+  return generateAIContent({
+    prompt,
+    maxRetries,
+    temperature,
+    priority: 2, // Higher priority for character generation
+    useCache: true,
+    cacheHours: 12 // Shorter cache for character content
+  });
+}
+
+// Enhanced bulk generation with batching
+export async function generateBulkContent(
+  prompts: string[],
+  options: Partial<AIGenerationOptions> = {}
+): Promise<string[]> {
+  const batchSize = 5; // Process in batches to avoid overwhelming the queue
+  const results: string[] = [];
+  
+  for (let i = 0; i < prompts.length; i += batchSize) {
+    const batch = prompts.slice(i, i + batchSize);
+    const batchPromises = batch.map(prompt => 
+      generateAIContent({ ...options, prompt })
+    );
+    
+    const batchResults = await Promise.allSettled(batchPromises);
+    
+    for (const result of batchResults) {
+      if (result.status === 'fulfilled') {
+        results.push(result.value);
+      } else {
+        console.error('Batch generation error:', result.reason);
+        results.push(''); // Empty fallback for failed generation
+      }
+    }
   }
   
-  static async generateWorldElement(
-    elementType: string,
-    context: any,
-    additionalPrompt: string = ''
-  ): Promise<string> {
-    const prompt = this.buildWorldElementPrompt(elementType, context, additionalPrompt);
-    return generateWithRetry(prompt);
-  }
+  return results;
+}
+
+// Monitoring and health check functions
+export function getAIServiceStats() {
+  return {
+    queue: aiQueue.getQueueStats(),
+    cache: aiCache.getStats(),
+    timestamp: new Date().toISOString()
+  };
+}
+
+export function clearAICache() {
+  aiCache.clear();
+}
+
+// Preload commonly used prompts
+export async function preloadCommonPrompts() {
+  const commonPrompts = [
+    "Generate a fantasy character name",
+    "Create a character backstory",
+    "Describe a character's appearance"
+  ];
   
-  private static buildCharacterFieldPrompt(
-    fieldKey: string,
-    fieldLabel: string,
-    character: any,
-    context: string
-  ): string {
-    // Build contextual character analysis
-    const characterContext = this.buildCharacterContext(character);
-    
-    // Field-specific prompting
-    const fieldPrompts: Record<string, string> = {
-      personality: "Generate a rich personality description with specific traits, quirks, and behavioral patterns",
-      background: "Create a compelling backstory that explains how this character became who they are",
-      goals: "Define clear, specific objectives that drive this character's actions",
-      motivations: "Explain the deep emotional or psychological reasons behind their goals",
-      talents: "List natural gifts and innate abilities this character was born with",
-      skills: "Describe learned abilities and trained competencies",
-      strengths: "Identify what this character excels at physically, mentally, and socially",
-      flaws: "Create meaningful character flaws that create internal conflict and growth opportunities",
-    };
-    
-    const fieldPrompt = fieldPrompts[fieldKey] || `Generate appropriate ${fieldLabel.toLowerCase()} for this character`;
-    
-    return `You are a professional character development expert. ${fieldPrompt}.
-
-CHARACTER CONTEXT:
-${characterContext}
-
-${context}
-
-Generate ${fieldLabel.toLowerCase()}:`;
-  }
-  
-  private static buildWorldElementPrompt(
-    elementType: string,
-    context: any,
-    additionalPrompt: string
-  ): string {
-    return `You are a world-building expert. Create a detailed ${elementType} that fits naturally into this world.
-
-CONTEXT:
-${JSON.stringify(context, null, 2)}
-
-${additionalPrompt}
-
-Generate ${elementType}:`;
-  }
-  
-  private static buildCharacterContext(character: any): string {
-    const name = character.name || 'Unknown';
-    const race = character.race || 'Unknown';
-    const role = character.role || 'Unknown';
-    const background = character.background || '';
-    const goals = character.goals || '';
-    const personality = character.personality || '';
-    
-    return `=== CHARACTER ANALYSIS ===
-Name: ${name}
-Race/Species: ${race}
-Role: ${role}
-Background: ${background}
-Personality: ${personality}
-Goals: ${goals}
-
-This character context should inform all generated content.`;
-  }
+  // Pre-warm cache with low priority
+  await Promise.allSettled(
+    commonPrompts.map(prompt => 
+      generateAIContent({ prompt, priority: 0, useCache: true })
+    )
+  );
 }
