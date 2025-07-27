@@ -208,7 +208,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
             <Feather className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-2xl font-serif font-bold bg-gradient-to-r from-emerald-400 via-stone-200 to-amber-400 bg-clip-text text-transparent tracking-tight">
+          <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
             Fablecraft
           </h1>
         </div>
