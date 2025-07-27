@@ -87,6 +87,26 @@ body {
 }
 
 @layer utilities {
+  /* UNIVERSAL THEME-AWARE GRADIENT CLASSES */
+  /* These replace ALL hardcoded emerald-stone-amber gradients */
+  
+  /* Primary theme gradient - auto mint green in light, emerald-stone-amber in dark */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  .gradient-primary-br {
+    @apply bg-gradient-to-br from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  .gradient-primary-text {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+  }
+  
+  .gradient-primary-hover {
+    @apply hover:bg-gradient-to-r hover:from-[var(--gradient-brand-start)] hover:via-[var(--gradient-brand-middle)] hover:to-[var(--gradient-brand-end)];
+  }
+  
   /* Brand Gradient Classes - Both Modes */
   .brand-gradient-text {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
@@ -103,6 +123,19 @@ body {
   /* Vignette gradient overlay for dark mode */
   .vignette-gradient {
     background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, hsl(var(--gradient-brand-start) / 0.1) 70%, hsl(var(--gradient-brand-end) / 0.1) 100%);
+  }
+  
+  /* ALL TEXT BLACK IN LIGHT MODE */
+  .text-theme-primary {
+    @apply text-foreground;
+  }
+  
+  .text-theme-secondary {
+    @apply text-muted-foreground;
+  }
+  
+  .text-theme-heading {
+    @apply text-foreground;
   }
   
   /* Destructive gradient for dangerous actions */
