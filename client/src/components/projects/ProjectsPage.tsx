@@ -5,8 +5,10 @@ import { ProjectsHeader } from './ProjectsHeader';
 import { ProjectsFilters } from './ProjectsFilters';
 import { ProjectsStats } from './ProjectsStats';
 import { LazyProjectsList, LazyProjectModals } from './LazyProjectComponents';
+import { DashboardWidgets } from './DashboardWidgets';
 import { useProjectsLogic } from '@/hooks/useProjectsLogic';
 import { useTaskManagement } from '@/hooks/useTaskManagement';
+import { useWidgetManagement } from '@/hooks/useWidgetManagement';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { Card } from '@/components/ui/card';
 
@@ -65,6 +67,9 @@ export const ProjectsPage = React.memo(function ProjectsPage({
 
   // Custom hook for task management
   const taskManagement = useTaskManagement();
+
+  // Custom hook for widget management
+  const widgetManagement = useWidgetManagement();
 
   // Memoized handlers
   const handleToggleEditMode = useCallback(() => {
@@ -205,6 +210,42 @@ export const ProjectsPage = React.memo(function ProjectsPage({
           onNewProject={onNewProject}
           enableVirtualization={filteredProjects.length > 20}
         />
+
+        {/* Dashboard Widgets Section */}
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-heading-2 text-foreground">Dashboard</h2>
+            {isEditMode && (
+              <Button
+                size="sm"
+                onClick={widgetManagement.resetWidgets}
+                className="text-xs text-muted-foreground hover:text-foreground"
+                variant="ghost"
+              >
+                Reset Layout
+              </Button>
+            )}
+          </div>
+          <DashboardWidgets
+            widgets={widgetManagement.widgets}
+            projects={projects}
+            todayTasks={taskManagement.todayTasks}
+            isLoadingTasks={taskManagement.isLoadingTasks}
+            actualGoals={taskManagement.tempGoals}
+            todayProgress={taskManagement.todayProgress}
+            isEditMode={isEditMode}
+            draggedWidget={widgetManagement.draggedWidget}
+            dragOverWidget={widgetManagement.dragOverWidget}
+            onWidgetDragStart={widgetManagement.handleWidgetDragStart}
+            onWidgetDragOver={widgetManagement.handleWidgetDragOver}
+            onWidgetDrop={widgetManagement.handleWidgetDrop}
+            onWidgetDragLeave={widgetManagement.handleWidgetDragLeave}
+            onOpenGoalsModal={taskManagement.handleOpenGoalsModal}
+            onShowTasksModal={() => taskManagement.setShowTasksModal(true)}
+            onShowAddTaskModal={() => taskManagement.setShowAddTaskModal(true)}
+            onToggleTaskCompletion={taskManagement.handleToggleTaskCompletion}
+          />
+        </div>
       </div>
 
       {/* Lazy Loaded Modals */}

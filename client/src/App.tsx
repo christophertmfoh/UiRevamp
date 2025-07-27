@@ -8,10 +8,23 @@ import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectDashboard } from './components/project';
-import { ProjectsPageRedesign } from './components/project/ProjectsPageRedesign';
+import { createLazyRoute } from './components/projects/LazyProjectComponents';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
+
+// Create lazy-loaded routes
+const LazyProjectsPage = createLazyRoute(() => 
+  import('./components/projects/ProjectsPage').then(module => ({ 
+    default: module.ProjectsPage 
+  }))
+);
+
+const LazyProjectDashboard = createLazyRoute(() => 
+  import('./components/project').then(module => ({ 
+    default: module.ProjectDashboard 
+  }))
+);
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -355,7 +368,7 @@ export default function App() {
         );
       case 'projects':
         return (
-          <ProjectsPageRedesign 
+          <LazyProjectsPage 
             onNavigate={setView}
             onNewProject={() => setModal({ type: 'new', project: null })}
             onSelectProject={handleSelectProject} 
@@ -369,7 +382,7 @@ export default function App() {
           return null;
         }
         return (
-          <ProjectDashboard 
+          <LazyProjectDashboard 
             project={activeProject} 
             onBack={() => { setView('projects'); setActiveProject(null); }} 
             onUpdateProject={handleUpdateProject} 
