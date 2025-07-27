@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'midnight-ink' | 'sunrise-creative' | 'sepia-parchment' | 'evergreen-focus' | 'obsidian-minimal' | 'system';
 type ResolvedTheme = Exclude<Theme, 'system'>;
@@ -95,42 +95,34 @@ export const THEME_CONFIGS: ThemeConfig[] = [
 
 // Get system theme preference (only returns light or dark)
 const getSystemTheme = (): 'light' | 'dark' => {
+  if (typeof window === 'undefined') return 'dark';
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-// Apply theme to DOM using class-based switching
+// Simplified, robust theme application
 const applyTheme = (theme: ResolvedTheme) => {
+  if (typeof window === 'undefined') return;
+  
   try {
-    const root = window.document.documentElement;
+    const root = document.documentElement;
     
-    // Remove all theme classes
-    const allThemeClasses = ['dark', 'midnight-ink', 'sunrise-creative', 'sepia-parchment', 'evergreen-focus', 'obsidian-minimal'];
-    root.classList.remove(...allThemeClasses);
+    // Clear all existing theme classes safely
+    const allThemeClasses = ['light', 'dark', 'midnight-ink', 'sunrise-creative', 'sepia-parchment', 'evergreen-focus', 'obsidian-minimal'];
+    allThemeClasses.forEach(cls => {
+      root.classList.remove(cls);
+    });
     
     // Add the selected theme class
-    if (theme !== 'light') {
-      root.classList.add(theme);
-    }
+    root.classList.add(theme);
     
-    // Maintain backward compatibility with Tailwind's dark: utilities
-    const themeConfig = THEME_CONFIGS.find(config => config.id === theme);
-    if (themeConfig && !themeConfig.isLight) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    
-    // Set data attribute for potential CSS targeting
+    // Set data attribute
     root.setAttribute('data-theme', theme);
+    
+    // Store in localStorage for persistence
+    localStorage.setItem('fablecraft-theme', theme);
+    
   } catch (error) {
-    console.error('Error applying theme:', error);
-    // Fallback to basic dark/light switching
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    console.warn('Theme application failed:', error);
   }
 };
 
@@ -140,22 +132,38 @@ export function ThemeProvider({
   storageKey = 'fablecraft-theme',
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    // Check localStorage first
-    const stored = localStorage.getItem(storageKey) as Theme | null;
-    return stored || defaultTheme;
+    if (typeof window === 'undefined') return defaultTheme;
+    
+    try {
+      const stored = localStorage.getItem(storageKey) as Theme | null;
+      return stored && stored !== 'system' ? stored : defaultTheme;
+    } catch {
+      return defaultTheme;
+    }
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
-    return theme === 'system' ? getSystemTheme() : theme as ResolvedTheme;
+    if (theme === 'system') return getSystemTheme();
+    return theme as ResolvedTheme;
   });
 
   // Handle theme changes
-  const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem(storageKey, newTheme);
-  }, [storageKey]);
+  const setTheme = (newTheme: Theme) => {
+    try {
+      setThemeState(newTheme);
+      
+      const resolved = newTheme === 'system' ? getSystemTheme() : newTheme as ResolvedTheme;
+      setResolvedTheme(resolved);
+      
+      // Apply immediately
+      applyTheme(resolved);
+      
+    } catch (error) {
+      console.warn('Theme setting failed:', error);
+    }
+  };
 
-  // Apply theme to DOM
+  // Apply theme on mount and when theme changes
   useEffect(() => {
     const resolved = theme === 'system' ? getSystemTheme() : theme as ResolvedTheme;
     setResolvedTheme(resolved);
@@ -168,43 +176,27 @@ export function ThemeProvider({
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
-    const handleChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? 'dark' : 'light';
+    const handleChange = () => {
+      const newTheme = getSystemTheme();
       setResolvedTheme(newTheme);
       applyTheme(newTheme);
     };
 
-    // Modern browsers
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    } 
-    // Legacy browsers
-    else if (mediaQuery.addListener) {
-      mediaQuery.addListener(handleChange);
-      return () => mediaQuery.removeListener(handleChange);
-    }
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme]);
 
   // Helper functions
-  const getThemeConfig = useCallback((themeId: Theme): ThemeConfig | undefined => {
+  const getThemeConfig = (themeId: Theme): ThemeConfig | undefined => {
     if (themeId === 'system') return undefined;
     return THEME_CONFIGS.find(config => config.id === themeId);
-  }, []);
+  };
 
-  const currentThemeConfig = useMemo(() => {
-    return getThemeConfig(resolvedTheme);
-  }, [resolvedTheme, getThemeConfig]);
+  const currentThemeConfig = getThemeConfig(resolvedTheme);
+  const isLightTheme = currentThemeConfig?.isLight ?? false;
+  const isDarkTheme = !isLightTheme;
 
-  const isLightTheme = useMemo(() => {
-    return currentThemeConfig?.isLight ?? false;
-  }, [currentThemeConfig]);
-
-  const isDarkTheme = useMemo(() => {
-    return !isLightTheme;
-  }, [isLightTheme]);
-
-  const value = useMemo(() => ({
+  const value: ThemeProviderState = {
     theme,
     resolvedTheme,
     setTheme,
@@ -212,7 +204,7 @@ export function ThemeProvider({
     getThemeConfig,
     isLightTheme,
     isDarkTheme,
-  }), [theme, resolvedTheme, setTheme, getThemeConfig, isLightTheme, isDarkTheme]);
+  };
 
   return (
     <ThemeProviderContext.Provider value={value}>
