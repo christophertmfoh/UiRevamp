@@ -1,17 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 
-type Theme = 'light' | 'dark' | 'midnight-ink' | 'sunrise-creative' | 'sepia-parchment' | 'evergreen-focus' | 'obsidian-minimal' | 'system';
-type ResolvedTheme = Exclude<Theme, 'system'>;
-
-type ThemeConfig = {
-  id: ResolvedTheme;
-  name: string;
-  description: string;
-  mood: string;
-  isLight: boolean;
-  category: 'light' | 'dark' | 'creative';
-  featured?: boolean;
-};
+type Theme = 'dark' | 'light' | 'system';
+type ResolvedTheme = 'dark' | 'light';
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -23,114 +13,25 @@ type ThemeProviderState = {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
-  availableThemes: ThemeConfig[];
-  getThemeConfig: (theme: Theme) => ThemeConfig | undefined;
-  isLightTheme: boolean;
-  isDarkTheme: boolean;
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
 
-// Theme configurations with metadata
-export const THEME_CONFIGS: ThemeConfig[] = [
-  {
-    id: 'light',
-    name: 'Fablecraft Light',
-    description: 'Clean, airy, with soft cream background and green-cyan gradients',
-    mood: 'Clean & Professional',
-    isLight: true,
-    category: 'light',
-    featured: true,
-  },
-  {
-    id: 'dark',
-    name: 'Fablecraft Dark',
-    description: 'Deep charcoal with magical emerald-cyan harmony',
-    mood: 'Modern & Focused',
-    isLight: false,
-    category: 'dark',
-    featured: true,
-  },
-  {
-    id: 'midnight-ink',
-    name: 'Midnight Ink',
-    description: 'Deep navy with brilliant gold accents for scholarly elegance',
-    mood: 'Scholarly & Premium',
-    isLight: false,
-    category: 'creative',
-  },
-  {
-    id: 'sunrise-creative',
-    name: 'Sunrise Creative',
-    description: 'Inspiring purple-to-orange gradients for creative energy',
-    mood: 'Inspiring & Vibrant',
-    isLight: false,
-    category: 'creative',
-  },
-  {
-    id: 'sepia-parchment',
-    name: 'Sepia Parchment',
-    description: 'Warm browns and cream for classic literary feel',
-    mood: 'Classic & Literary',
-    isLight: true,
-    category: 'light',
-  },
-  {
-    id: 'evergreen-focus',
-    name: 'Evergreen Focus',
-    description: 'Monochromatic greens for natural calm and focus',
-    mood: 'Natural & Calming',
-    isLight: false,
-    category: 'creative',
-  },
-  {
-    id: 'obsidian-minimal',
-    name: 'Obsidian Minimal',
-    description: 'Distraction-free grayscale with sharp blue accents',
-    mood: 'Minimal & Technical',
-    isLight: false,
-    category: 'dark',
-  },
-];
-
-// Get system theme preference (only returns light or dark)
-const getSystemTheme = (): 'light' | 'dark' => {
+// Get system theme preference
+const getSystemTheme = (): ResolvedTheme => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-  // Apply theme to DOM using class-based switching
+// Apply theme to DOM using data attribute (more efficient than classes)
 const applyTheme = (theme: ResolvedTheme) => {
-  try {
-    const root = window.document.documentElement;
-    
-    // Remove all theme classes
-    const allThemeClasses = ['dark', 'midnight-ink', 'sunrise-creative', 'sepia-parchment', 'evergreen-focus', 'obsidian-minimal'];
-    root.classList.remove(...allThemeClasses);
-    
-    // Add the selected theme class
-    if (theme !== 'light') {
-      root.classList.add(theme);
-    }
-    
-    // Maintain backward compatibility with Tailwind's dark: utilities
-    const themeConfig = THEME_CONFIGS.find(config => config.id === theme);
-    if (themeConfig && !themeConfig.isLight) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    
-    // Set data attribute for potential CSS targeting
-    root.setAttribute('data-theme', theme);
-  } catch (error) {
-    console.error('Error applying theme:', error);
-    // Fallback to basic dark/light switching
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+  const root = window.document.documentElement;
+  root.setAttribute('data-theme', theme);
+  
+  // Also set class for Tailwind dark: utilities
+  if (theme === 'dark') {
+    root.classList.add('dark');
+  } else {
+    root.classList.remove('dark');
   }
 };
 
@@ -186,33 +87,11 @@ export function ThemeProvider({
     }
   }, [theme]);
 
-  // Helper functions
-  const getThemeConfig = useCallback((themeId: Theme): ThemeConfig | undefined => {
-    if (themeId === 'system') return undefined;
-    return THEME_CONFIGS.find(config => config.id === themeId);
-  }, []);
-
-  const currentThemeConfig = useMemo(() => {
-    return getThemeConfig(resolvedTheme);
-  }, [resolvedTheme, getThemeConfig]);
-
-  const isLightTheme = useMemo(() => {
-    return currentThemeConfig?.isLight ?? false;
-  }, [currentThemeConfig]);
-
-  const isDarkTheme = useMemo(() => {
-    return !isLightTheme;
-  }, [isLightTheme]);
-
   const value = useMemo(() => ({
     theme,
     resolvedTheme,
     setTheme,
-    availableThemes: THEME_CONFIGS,
-    getThemeConfig,
-    isLightTheme,
-    isDarkTheme,
-  }), [theme, resolvedTheme, setTheme, getThemeConfig, isLightTheme, isDarkTheme]);
+  }), [theme, resolvedTheme, setTheme]);
 
   return (
     <ThemeProviderContext.Provider value={value}>
@@ -230,5 +109,3 @@ export const useTheme = () => {
 
   return context;
 };
-
-// Theme configurations are available through the useTheme hook's availableThemes property
