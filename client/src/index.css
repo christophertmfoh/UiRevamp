@@ -87,17 +87,42 @@ body {
 }
 
 @layer utilities {
-  /* Brand Gradient Classes - Consistent across light/dark modes */
+  /* Brand Classes - Light mode uses solid mint, dark mode uses gradient */
   .brand-gradient-text {
-    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+    color: var(--color-brand-text);
+    @apply font-black dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
   }
   
   .brand-gradient-bg {
-    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+    background-color: var(--color-brand-bg);
+    @apply dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
   }
   
   .brand-gradient-border {
-    background: linear-gradient(to right, var(--gradient-brand-start), var(--gradient-brand-middle), var(--gradient-brand-end));
+    background: var(--color-brand-bg);
+    @apply dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+  }
+  
+  /* Brand Button - Matches the mint green design */
+  .brand-button {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text);
+    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 hover:opacity-90 dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
+  }
+  
+  .brand-button:hover {
+    background-color: var(--color-brand-hover);
+  }
+  
+  /* Brand Icon Button */
+  .brand-icon-button {
+    background-color: var(--color-brand-bg);
+    @apply w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:opacity-90 dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+  }
+  
+  .brand-icon-button svg {
+    color: var(--color-brand-icon);
+    @apply dark:text-white;
   }
   
   /* Semantic Text Classes */
@@ -132,6 +157,11 @@ body {
   
   .icon-muted {
     color: var(--color-icon-muted);
+  }
+  
+  .icon-brand {
+    color: var(--color-brand-icon);
+    @apply dark:text-white;
   }
   
   /* Legacy gradient classes for backwards compatibility */
@@ -261,15 +291,21 @@ svg {
   --color-body-secondary: hsl(20, 8%, 45%);                /* Secondary body text */
   --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
   
-  /* Brand Gradient Colors - Light Mode */
-  --gradient-brand-start: hsl(155, 84%, 40%);              /* Emerald start */
-  --gradient-brand-middle: hsl(20, 10%, 30%);              /* Stone middle */
-  --gradient-brand-end: hsl(35, 91%, 45%);                 /* Amber end */
+  /* Brand Colors - Light Mode (Mint Green Theme) */
+  --color-brand-bg: hsl(152, 52%, 88%);                    /* Mint green background */
+  --color-brand-text: hsl(152, 25%, 20%);                  /* Dark green text */
+  --color-brand-hover: hsl(152, 52%, 82%);                 /* Hover state */
+  --color-brand-icon: hsl(152, 30%, 25%);                  /* Icon color */
+  
+  /* Brand Gradient Colors - Light Mode (Subtle mint gradient) */
+  --gradient-brand-start: hsl(152, 52%, 88%);              /* Mint start */
+  --gradient-brand-middle: hsl(152, 48%, 85%);             /* Mint middle */
+  --gradient-brand-end: hsl(152, 45%, 82%);                /* Mint end */
   
   /* Icon Colors - Light Mode */
-  --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
-  --color-icon-secondary: hsl(20, 10%, 40%);               /* Secondary icons */
-  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-primary: hsl(152, 30%, 25%);                /* Primary icons */
+  --color-icon-secondary: hsl(152, 20%, 35%);              /* Secondary icons */
+  --color-icon-muted: hsl(152, 10%, 50%);                  /* Muted icons */
   --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
   --fablecraft-glass-card: hsl(120, 5%, 70%, 0.3);         /* Glassmorphism cards */
   --fablecraft-glass-border: hsl(120, 5%, 60%, 0.4);       /* Glass borders */
