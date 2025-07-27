@@ -31,7 +31,8 @@ import {
   Plus,
   Target,
   Edit2,
-  Trash2
+  Trash2,
+  Pencil
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -92,28 +93,18 @@ export function ProjectsPageRedesign({
   const [showTasksModal, setShowTasksModal] = useState(false);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
   
-  // Goals state (use API data if available, otherwise use localStorage)
-  const actualGoals = writingGoals || {
-    dailyWords: 500,
-    dailyMinutes: 60,
-    streakDays: 30
-  };
-  
-  // Today's progress (using real task stats)
-  const todayProgress = {
-    words: taskStats?.completedTasks ? taskStats.completedTasks * 150 : 0, // Estimate words per task
-    minutes: taskStats?.completedTasks ? taskStats.completedTasks * 30 : 0, // Estimate minutes per task
-    currentStreak: 7 // This would come from API in real implementation
-  };
-  
-  // Temporary goals state for modal
-  const [tempGoals, setTempGoals] = useState(actualGoals);
-  
   // Task modal states
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [newTaskText, setNewTaskText] = useState('');
   const [newTaskPriority, setNewTaskPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState<number>(30);
+  
+  // Temporary goals state for modal
+  const [tempGoals, setTempGoals] = useState({
+    dailyWords: 500,
+    dailyMinutes: 60,
+    streakDays: 30
+  });
   
   // Open modal handler
   const handleOpenGoalsModal = () => {
@@ -181,13 +172,13 @@ export function ProjectsPageRedesign({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const { toast } = useToast();
+  
+  // Queries
   const { data: projects = [], isLoading } = useQuery<Project[]>({
     queryKey: ['/api/projects']
   });
   
-  const { toast } = useToast();
-  
-  // Task queries and mutations
   const { data: todayTasks = [], isLoading: isLoadingTasks } = useQuery<Task[]>({
     queryKey: ['tasks', 'today'],
     queryFn: () => taskService.getTodayTasks(),
@@ -206,6 +197,20 @@ export function ProjectsPageRedesign({
     enabled: !!user
   });
   
+  // Computed values
+  const actualGoals = writingGoals || {
+    dailyWords: tempGoals.dailyWords,
+    dailyMinutes: tempGoals.dailyMinutes,
+    streakDays: tempGoals.streakDays
+  };
+  
+  const todayProgress = {
+    words: taskStats?.completedTasks ? taskStats.completedTasks * 150 : 0,
+    minutes: taskStats?.completedTasks ? taskStats.completedTasks * 30 : 0,
+    currentStreak: 7
+  };
+  
+  // Mutations
   const updateTaskMutation = useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: Partial<Task> }) => 
       taskService.updateTask(id, updates),
@@ -263,7 +268,7 @@ export function ProjectsPageRedesign({
     };
     updateTaskMutation.mutate({ id: task.id, updates });
   };
-
+  
   const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -504,12 +509,12 @@ export function ProjectsPageRedesign({
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Daily Words</p>
                     <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.words}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{goals.dailyWords}</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.words / goals.dailyWords) * 100)}%)</span>
+                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyWords}</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.words / actualGoals.dailyWords) * 100)}%)</span>
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / goals.dailyWords) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -519,12 +524,12 @@ export function ProjectsPageRedesign({
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Time</p>
                     <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.minutes}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{goals.dailyMinutes} min</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.minutes / goals.dailyMinutes) * 100)}%)</span>
+                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.dailyMinutes} min</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.minutes / actualGoals.dailyMinutes) * 100)}%)</span>
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / goals.dailyMinutes) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -534,12 +539,12 @@ export function ProjectsPageRedesign({
                     <p className="text-xs font-medium text-stone-700 dark:text-stone-300">Writing Streak</p>
                     <p className="text-xs font-semibold">
                       <span className="text-emerald-600">{todayProgress.currentStreak}</span>
-                      <span className="text-stone-500 dark:text-stone-400">/{goals.streakDays} days</span>
-                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.currentStreak / goals.streakDays) * 100)}%)</span>
+                      <span className="text-stone-500 dark:text-stone-400">/{actualGoals.streakDays} days</span>
+                      <span className="text-stone-400 dark:text-stone-500 ml-1">({Math.round((todayProgress.currentStreak / actualGoals.streakDays) * 100)}%)</span>
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / goals.streakDays) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -549,7 +554,7 @@ export function ProjectsPageRedesign({
                 {/* Compact Summary */}
                 <div className="flex items-center justify-between text-[10px] text-stone-500 dark:text-stone-400">
                   <span>2 writing sessions today</span>
-                  <span>Next milestone in {Math.max(0, goals.dailyWords - todayProgress.words)} words</span>
+                  <span>Next milestone in {Math.max(0, actualGoals.dailyWords - todayProgress.words)} words</span>
                 </div>
               </div>
             </CardContent>
@@ -943,6 +948,164 @@ export function ProjectsPageRedesign({
                 <Target className="w-4 h-4 mr-2" />
                 Manage Goals
               </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Tasks Modal */}
+      <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-xl font-black text-stone-900 dark:text-stone-50">
+              Tasks & To-Do List
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Add New Task */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
+                {editingTask ? 'Edit Task' : 'Add New Task'}
+              </h3>
+              <div className="space-y-3">
+                <Textarea
+                  placeholder="What do you need to do?"
+                  value={newTaskText}
+                  onChange={(e) => setNewTaskText(e.target.value)}
+                  className="min-h-[80px] resize-none"
+                />
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-stone-600 dark:text-stone-400 mb-1 block">Priority</label>
+                    <Select value={newTaskPriority} onValueChange={(value: 'low' | 'medium' | 'high') => setNewTaskPriority(value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="low">Low</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="high">High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-xs text-stone-600 dark:text-stone-400 mb-1 block">Estimated Time (min)</label>
+                    <Input 
+                      type="number" 
+                      min="5" 
+                      step="5" 
+                      value={newTaskEstimatedTime} 
+                      onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value) || 30)}
+                    />
+                  </div>
+                </div>
+                <Button 
+                  onClick={editingTask ? handleUpdateTask : handleCreateTask}
+                  disabled={!newTaskText.trim()}
+                  className="w-full bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white"
+                >
+                  {editingTask ? 'Update Task' : 'Add Task'}
+                </Button>
+                {editingTask && (
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setEditingTask(null);
+                      setNewTaskText('');
+                      setNewTaskPriority('medium');
+                      setNewTaskEstimatedTime(30);
+                    }}
+                    className="w-full"
+                  >
+                    Cancel Edit
+                  </Button>
+                )}
+              </div>
+            </div>
+            
+            <div className="border-t border-stone-200 dark:border-stone-700"></div>
+            
+            {/* Today's Tasks */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Today's Tasks</h3>
+                <span className="text-xs text-stone-500 dark:text-stone-400">
+                  {todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed
+                </span>
+              </div>
+              
+              <div className="space-y-2">
+                {isLoadingTasks ? (
+                  <div className="text-center py-4 text-sm text-stone-500">Loading tasks...</div>
+                ) : todayTasks.length === 0 ? (
+                  <div className="text-center py-4 text-sm text-stone-500">No tasks for today. Add one above!</div>
+                ) : (
+                  todayTasks.map((task) => (
+                    <div key={task.id} className="flex items-start gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+                      <Checkbox
+                        checked={task.status === 'completed'}
+                        onCheckedChange={() => toggleTaskCompletion(task)}
+                        className="mt-0.5"
+                      />
+                      <div className="flex-grow">
+                        <p className={`text-sm ${task.status === 'completed' ? 'line-through text-stone-400' : 'text-stone-700 dark:text-stone-300'}`}>
+                          {task.text}
+                        </p>
+                        <div className="flex items-center gap-4 mt-1">
+                          <span className="text-xs text-stone-500 dark:text-stone-400">
+                            {task.estimatedTime} min
+                          </span>
+                          {task.priority === 'high' && (
+                            <Badge variant="destructive" className="text-[10px] px-1 py-0 h-4">High</Badge>
+                          )}
+                          {task.priority === 'low' && (
+                            <Badge variant="secondary" className="text-[10px] px-1 py-0 h-4">Low</Badge>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setEditingTask(task);
+                            setNewTaskText(task.text);
+                            setNewTaskPriority(task.priority);
+                            setNewTaskEstimatedTime(task.estimatedTime || 30);
+                          }}
+                          className="h-7 w-7 p-0"
+                        >
+                          <Pencil className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => deleteTaskMutation.mutate(task.id)}
+                          className="h-7 w-7 p-0 text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            
+            {/* Progress Summary */}
+            <div className="bg-gradient-to-br from-emerald-50 to-amber-50 dark:from-emerald-900/20 dark:to-amber-900/20 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300 mb-3">Weekly Progress</h4>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-stone-600 dark:text-stone-400">Tasks Completed</p>
+                  <p className="text-2xl font-black text-emerald-600">{taskStats?.completedTasks || 0}</p>
+                </div>
+                <div>
+                  <p className="text-stone-600 dark:text-stone-400">Total Time</p>
+                  <p className="text-2xl font-black text-amber-600">{taskStats?.totalTime || 0}h</p>
+                </div>
+              </div>
             </div>
           </div>
         </DialogContent>
