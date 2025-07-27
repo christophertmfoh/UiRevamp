@@ -47,6 +47,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { Project } from '@/lib/types';
 
 interface ProjectsPageRedesignProps {
@@ -321,47 +322,87 @@ export function ProjectsPageRedesign({
               </Card>
             )}
 
-            {/* Quick Tasks */}
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-              <CardContent className="p-5">
-                <div className="flex items-center gap-3 mb-5">
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
-                    Quick Tasks
-                  </h3>
-                </div>
-                <div className="space-y-3 text-sm mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
-                    <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
+            {/* Quick Tasks and Writing Goals */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* Quick Tasks */}
+              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+                      Quick Tasks
+                    </h3>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
-                    <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
+                  <div className="space-y-3 text-sm mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
+                      <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
+                      <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
+                      <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
-                    <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
+                  <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+                    <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
+                      <span>Today's Progress</span>
+                      <span>1/3 completed</span>
+                    </div>
+                    <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
+                      <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
+                    </div>
+                    <Button 
+                      size="sm"
+                      onClick={() => setShowTasksModal(true)}
+                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                    >
+                      View All Tasks
+                    </Button>
                   </div>
-                </div>
-                <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
-                    <span>Today's Progress</span>
-                    <span>1/3 completed</span>
+                </CardContent>
+              </Card>
+
+              {/* Writing Goals */}
+              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Target className="w-4 h-4 text-amber-600" />
+                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+                      Writing Goals
+                    </h3>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
+                  <div className="space-y-4">
+                    {/* Weekly Goal */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Weekly Goal</p>
+                        <p className="text-sm font-bold text-amber-600">2,100/3,500 words</p>
+                      </div>
+                      <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                        <div className="bg-gradient-to-r from-amber-600 to-emerald-600 h-2 rounded-full" style={{ width: '60%' }}></div>
+                      </div>
+                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">60% complete • 3 days left</p>
+                    </div>
+
+                    {/* Monthly Goal */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Monthly Goal</p>
+                        <p className="text-sm font-bold text-emerald-600">8,400/15,000 words</p>
+                      </div>
+                      <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
+                        <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '56%' }}></div>
+                      </div>
+                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">On track! Keep writing.</p>
+                    </div>
                   </div>
-                  <Button 
-                    size="sm"
-                    onClick={() => setShowTasksModal(true)}
-                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                  >
-                    View All Tasks
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
