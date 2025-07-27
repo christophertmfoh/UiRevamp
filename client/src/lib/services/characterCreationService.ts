@@ -213,11 +213,8 @@ export class CharacterCreationService {
         characterData = await this.generateFromTemplate(projectId, data);
         break;
       case 'document':
-        // Document import creates character directly in database, no need to save again
-        const importedCharacter = await this.importFromDocument(projectId, data);
-        // Invalidate cache to refresh UI
-        queryClient.invalidateQueries({ queryKey: ['/api/characters', { projectId }] });
-        return importedCharacter as Character;
+        characterData = await this.importFromDocument(projectId, data);
+        break;
       case 'manual':
         characterData = await this.createManualCharacter(projectId, data);
         break;
