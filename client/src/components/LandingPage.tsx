@@ -282,118 +282,55 @@ export function LandingPage({
 
       {/* Hero Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-20 lg:py-24">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Main Content */}
-          <div className="lg:col-span-7 space-y-8 lg:space-y-10">
-            <div className="space-y-6 sm:space-y-8 lg:space-y-10">
-              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
-                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
-                <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-                Where Stories{' '}
-                <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                  Come to Life
-                </span>
-              </h1>
-              
-              <p className="text-lg sm:text-xl text-body-primary max-w-2xl leading-[1.7] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-                From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
-                and graphic novels with AI that understands the art of storytelling. Your imagination, 
-                amplified by intelligence.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6">
-                <Button 
-                  size="lg"
-                  onClick={() => onNewProject()}
-                  className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="relative z-10 flex items-center">
-                    <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    Begin Your Story
-                  </span>
-                </Button>
-                <Button 
-                  size="lg"
-                  onClick={() => onNavigate('projects')}
-                  className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="relative z-10 flex items-center">
-                    <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    Browse Stories
-                  </span>
-                </Button>
-              </div>
+        {/* Centered Hero Content */}
+        <div className="text-center space-y-8 lg:space-y-12 max-w-5xl mx-auto">
+          <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
+              <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
             </div>
-          </div>
+            
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+              Where Stories{' '}
+              <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+                Come to Life
+              </span>
+            </h1>
+            
+            <p className="text-lg sm:text-xl text-body-primary max-w-3xl mx-auto leading-[1.7] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+              From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
+              and graphic novels with AI that understands the art of storytelling. Your imagination, 
+              amplified by intelligence.
+            </p>
 
-          {/* Process Preview */}
-          <div className="lg:col-span-5">
-            <div className="bg-card/80 backdrop-blur-xl rounded-2xl lg:rounded-[2rem] p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-border">
-              {/* Theme-aware gradient overlay */}
-              <div className="absolute inset-0 rounded-[2rem] opacity-0 hover:opacity-100 transition-opacity duration-500" 
-                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, transparent 50%, hsl(var(--orb-secondary) / 0.05) 100%)' }}></div>
-              
-              <div className="relative z-10 text-center space-y-6">
-                <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
-                  <PenTool className="w-10 h-10 text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-black text-heading-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">Your Writing Journey</h3>
-                
-                <div 
-                  className="grid grid-cols-2 gap-4"
-                  onMouseEnter={() => setIsHoveringSteps(true)}
-                  onMouseLeave={() => {
-                    setIsHoveringSteps(false);
-                    setHoveredStep(null);
-                  }}
-                >
-                  {processSteps.map((step, index) => {
-                    const IconComponent = step.icon;
-                    // Use hoveredStep if hovering, otherwise use currentStep
-                    const isActive = isHoveringSteps ? index === hoveredStep : index === currentStep;
-                    
-                    return (
-                      <div
-                        key={index}
-                        onMouseEnter={() => setHoveredStep(index)}
-                        className={`p-5 rounded-2xl transition-all duration-700 cursor-pointer group ${
-                          isActive 
-                            ? 'bg-accent/30 scale-110 shadow-2xl -translate-y-1 border border-primary/40' 
-                            : 'bg-card/70 border border-border hover:bg-accent/10 hover:border-primary/30 hover:scale-105 hover:shadow-lg'
-                        }`}
-                      >
-                        <div className={`w-12 h-12 mb-3 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                          isActive 
-                            ? 'gradient-primary-br scale-110 shadow-lg' 
-                            : 'bg-muted/80 group-hover:opacity-90 group-hover:scale-110 group-hover:shadow-lg'
-                        }`}>
-                          <IconComponent className="w-6 h-6 text-primary-foreground" />
-                        </div>
-                        <h4 className={`font-bold text-sm transition-all duration-300 ${
-                          isActive 
-                            ? 'text-foreground drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]' 
-                            : 'text-muted-foreground group-hover:text-foreground'
-                        }`}>
-                          {step.title}
-                        </h4>
-                        {isActive && (
-                          <p className="text-xs text-foreground/70 mt-2 animate-in fade-in duration-500 font-medium leading-[1.5] tracking-normal">
-                            {step.description}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6 justify-center">
+              <Button 
+                size="lg"
+                onClick={() => onNewProject()}
+                className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  Begin Your Story
+                </span>
+              </Button>
+              <Button 
+                size="lg"
+                onClick={() => onNavigate('projects')}
+                className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  Browse Stories
+                </span>
+              </Button>
             </div>
           </div>
         </div>
+
+
       </section>
 
       {/* Complete Process Pipeline */}
