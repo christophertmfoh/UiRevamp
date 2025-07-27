@@ -11,6 +11,7 @@ import { ProjectDashboard } from './components/project';
 import { ProjectsPageRedesign } from './components/project/ProjectsPageRedesign';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
+import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
@@ -166,10 +167,43 @@ export default function App() {
     setTimeout(forceScrollbarCSS, 500);
   });
 
-  const handleProjectCreated = (project: Project) => {
-    setActiveProject(project);
-    setView('dashboard');
-    setModal({ type: null, project: null });
+  const handleProjectCreated = async (projectData: any) => {
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: projectData.name,
+          type: projectData.type,
+          description: projectData.description || '',
+          genre: projectData.genres || [],
+          manuscriptNovel: '',
+          manuscriptScreenplay: '',
+          synopsis: projectData.synopsis || ''
+        }),
+      });
+
+      if (response.ok) {
+        const newProject = await response.json();
+        // Fetch the full project data with related entities
+        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (fullProjectResponse.ok) {
+          const fullProject = await fullProjectResponse.json();
+          setActiveProject(fullProject);
+          setView('dashboard');
+          setModal({ type: null, project: null });
+        }
+      }
+    } catch (error) {
+      // Handle error silently - user will see no project was created
+    }
   };
 
   const handleCreateProjectFromManuscript = async (data: any, fileName: string) => {
@@ -357,10 +391,10 @@ export default function App() {
           
           {/* Modals */}
           {modal.type === 'new' && (
-            <ProjectModal 
+            <ProjectCreationWizard 
+              isOpen={true}
               onClose={() => setModal({ type: null, project: null })} 
-              onProjectCreated={handleProjectCreated} 
-              onSwitchToManuscriptImport={() => setModal({type: 'importManuscript', project: null})}
+              onCreate={handleProjectCreated}
             />
           )}
           {modal.type === 'edit' && modal.project && (
