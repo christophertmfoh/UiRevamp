@@ -109,56 +109,56 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
   const renderSelectionScreen = () => (
     <div className="space-y-6 p-6">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-black text-heading-primary">How would you like to start?</h2>
-        <p className="text-body-secondary">Choose your preferred way to begin your creative journey</p>
+        <h2 className="text-2xl font-black text-foreground">How would you like to start?</h2>
+        <p className="text-muted-foreground">Choose your preferred way to begin your creative journey</p>
       </div>
 
       <div className="grid gap-4">
         <Card 
-          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/30 dark:border-stone-700/30 hover:shadow-2xl"
+          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/60 dark:bg-slate-700/40 backdrop-blur-xl border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl"
           onClick={() => setMode('manual')}
         >
           <div className="p-6 flex items-start space-x-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="w-14 h-14 rounded-xl gradient-primary-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <PenTool className="w-7 h-7 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-heading-primary mb-1">Create Your Own Project</h3>
-              <p className="text-sm text-body-secondary">Start from scratch with full creative control. Perfect for writers who know their vision.</p>
+              <h3 className="text-lg font-bold text-foreground mb-1">Create Your Own Project</h3>
+              <p className="text-sm text-muted-foreground">Start from scratch with full creative control. Perfect for writers who know their vision.</p>
             </div>
-            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all duration-300" />
+            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
           </div>
         </Card>
 
         <Card 
-          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/30 dark:border-stone-700/30 hover:shadow-2xl"
+          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/60 dark:bg-slate-700/40 backdrop-blur-xl border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl"
           onClick={() => setMode('ai')}
         >
           <div className="p-6 flex items-start space-x-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="w-14 h-14 rounded-xl gradient-primary-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-heading-primary mb-1">Get Started with AI</h3>
-              <p className="text-sm text-body-secondary">Let AI help you develop your story idea. Great for overcoming writer's block.</p>
+              <h3 className="text-lg font-bold text-foreground mb-1">Get Started with AI</h3>
+              <p className="text-sm text-muted-foreground">Let AI help you develop your story idea. Great for overcoming writer's block.</p>
             </div>
-            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all duration-300" />
+            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
           </div>
         </Card>
 
         <Card 
-          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/30 dark:border-stone-700/30 hover:shadow-2xl"
+          className="group cursor-pointer hover:scale-[1.02] transition-all duration-300 bg-white/60 dark:bg-slate-700/40 backdrop-blur-xl border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl"
           onClick={() => setMode('upload')}
         >
           <div className="p-6 flex items-start space-x-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+            <div className="w-14 h-14 rounded-xl gradient-primary-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <Upload className="w-7 h-7 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-heading-primary mb-1">Upload Document</h3>
-              <p className="text-sm text-body-secondary">Import existing world bibles, manuscripts, or character sheets to continue your work.</p>
+              <h3 className="text-lg font-bold text-foreground mb-1">Upload Document</h3>
+              <p className="text-sm text-muted-foreground">Import existing world bibles, manuscripts, or character sheets to continue your work.</p>
             </div>
-            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-stone-600 group-hover:translate-x-1 transition-all duration-300" />
+            <ArrowRight className="w-5 h-5 text-stone-400 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
           </div>
         </Card>
       </div>
@@ -185,7 +185,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   index <= step 
-                    ? 'bg-gradient-to-br from-emerald-600 to-emerald-700 text-white' 
+                    ? 'gradient-primary-br text-white' 
                     : 'bg-stone-200 dark:bg-stone-700 text-stone-400'
                 }`}>
                   {index + 1}
@@ -193,14 +193,14 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                 {index < steps.length - 1 && (
                   <div className={`flex-1 h-0.5 mx-2 transition-all duration-300 ${
                     index < step 
-                      ? 'bg-emerald-600' 
+                      ? 'gradient-primary' 
                       : 'bg-stone-200 dark:bg-stone-700'
                   }`} />
                 )}
               </div>
             ))}
           </div>
-          <p className="text-center text-sm font-medium text-body-secondary">
+          <p className="text-center text-sm font-medium text-muted-foreground">
             Step {step + 1} of {steps.length}: {steps[step]}
           </p>
         </div>
@@ -210,43 +210,43 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
           {step === 0 && (
             <div className="space-y-4">
               <div>
-                <Label htmlFor="project-name" className="text-base font-bold mb-2">Project Name</Label>
+                <Label htmlFor="project-name" className="text-base font-bold mb-2 text-foreground">Project Name</Label>
                 <Input
                   id="project-name"
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                   placeholder="Enter your project name..."
-                  className="mt-2"
+                  className="mt-2 bg-white/80 dark:bg-slate-800/60"
                 />
-                <p className="text-xs text-body-secondary mt-1">Choose a memorable name for your creative work</p>
+                <p className="text-xs text-muted-foreground mt-1">Choose a memorable name for your creative work</p>
               </div>
               
               <div>
-                <Label htmlFor="description" className="text-base font-bold mb-2">Brief Description</Label>
+                <Label htmlFor="description" className="text-base font-bold mb-2 text-foreground">Brief Description</Label>
                 <Textarea
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="A short description of your project..."
-                  className="mt-2 min-h-[100px]"
+                  className="mt-2 min-h-[100px] bg-white/80 dark:bg-slate-800/60"
                 />
-                <p className="text-xs text-body-secondary mt-1">This helps you remember the core concept</p>
+                <p className="text-xs text-muted-foreground mt-1">This helps you remember the core concept</p>
               </div>
             </div>
           )}
 
           {step === 1 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-heading-primary">What are you creating?</h3>
+              <h3 className="text-lg font-bold text-foreground">What are you creating?</h3>
               <div className="grid gap-3">
                 {projectTypes.map((type) => {
                   const Icon = type.icon;
                   return (
                     <Card
                       key={type.id}
-                      className={`cursor-pointer transition-all duration-300 ${
+                      className={`cursor-pointer transition-all duration-300 bg-white/60 dark:bg-slate-700/40 border-stone-300/30 dark:border-slate-700/20 ${
                         projectType === type.id 
-                          ? 'ring-2 ring-emerald-600 bg-emerald-50 dark:bg-emerald-950/20' 
+                          ? 'ring-2 ring-primary bg-primary/5' 
                           : 'hover:scale-[1.01] hover:shadow-lg'
                       }`}
                       onClick={() => setProjectType(type.id as ProjectType)}
@@ -254,7 +254,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                       <div className="p-4 flex items-center space-x-3">
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                           projectType === type.id
-                            ? 'bg-gradient-to-br from-emerald-600 to-emerald-700'
+                            ? 'gradient-primary-br'
                             : 'bg-stone-200 dark:bg-stone-700'
                         }`}>
                           <Icon className={`w-5 h-5 ${
@@ -262,8 +262,8 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                           }`} />
                         </div>
                         <div className="flex-1">
-                          <h4 className="font-bold text-heading-primary">{type.label}</h4>
-                          <p className="text-xs text-body-secondary">{type.description}</p>
+                          <h4 className="font-bold text-foreground">{type.label}</h4>
+                          <p className="text-xs text-muted-foreground">{type.description}</p>
                         </div>
                       </div>
                     </Card>
@@ -275,9 +275,9 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
 
           {step === 2 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-heading-primary">Select your genres</h3>
-              <p className="text-sm text-body-secondary">Choose one or more genres that best fit your story</p>
-              <div className="max-h-[300px] overflow-y-auto pr-2 border rounded-lg p-4 bg-stone-50 dark:bg-stone-900/20 border-stone-200 dark:border-stone-700/30">
+              <h3 className="text-lg font-bold text-foreground">Select your genres</h3>
+              <p className="text-sm text-muted-foreground">Choose one or more genres that best fit your story</p>
+              <div className="max-h-[300px] overflow-y-auto pr-2 border rounded-lg p-4 bg-white/60 dark:bg-slate-700/40 border-stone-200 dark:border-slate-700/30">
                 <div className="flex flex-wrap gap-2">
                   {genres.map((genre) => (
                     <Badge
@@ -285,8 +285,8 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                       variant={selectedGenres.includes(genre) ? "default" : "outline"}
                       className={`cursor-pointer transition-all duration-200 ${
                         selectedGenres.includes(genre)
-                          ? 'bg-gradient-to-r from-emerald-600 to-amber-600 text-white border-transparent'
-                          : 'hover:scale-105'
+                          ? 'gradient-primary text-white border-transparent'
+                          : 'hover:scale-105 border-stone-300 dark:border-stone-600 text-foreground'
                       }`}
                       onClick={() => toggleGenre(genre)}
                     >
@@ -296,7 +296,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                 </div>
               </div>
               {selectedGenres.length > 0 && (
-                <p className="text-sm text-body-secondary">
+                <p className="text-sm text-muted-foreground">
                   Selected: {selectedGenres.length} genre{selectedGenres.length !== 1 ? 's' : ''}
                 </p>
               )}
@@ -306,15 +306,15 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
           {step === 3 && (
             <div className="space-y-4">
               <div>
-                <Label htmlFor="synopsis" className="text-base font-bold mb-2">Story Synopsis (Optional)</Label>
+                <Label htmlFor="synopsis" className="text-base font-bold mb-2 text-foreground">Story Synopsis (Optional)</Label>
                 <Textarea
                   id="synopsis"
                   value={synopsis}
                   onChange={(e) => setSynopsis(e.target.value)}
                   placeholder="Tell us about your story idea..."
-                  className="mt-2 min-h-[150px]"
+                  className="mt-2 min-h-[150px] bg-white/80 dark:bg-slate-800/60"
                 />
-                <p className="text-xs text-body-secondary mt-1">This helps our AI understand your vision and provide better assistance</p>
+                <p className="text-xs text-muted-foreground mt-1">This helps our AI understand your vision and provide better assistance</p>
               </div>
             </div>
           )}
@@ -325,7 +325,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
           <Button
             variant="outline"
             onClick={() => step > 0 ? setStep(step - 1) : setMode('selection')}
-            className="flex items-center"
+            className="flex items-center border-stone-300 dark:border-stone-600 text-foreground hover:bg-stone-100 dark:hover:bg-stone-800"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             {step === 0 ? 'Back' : 'Previous'}
@@ -335,7 +335,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
             <Button
               onClick={() => setStep(step + 1)}
               disabled={step === 0 && !projectName.trim()}
-              className="gradient-primary text-white flex items-center"
+              className="gradient-primary hover:opacity-90 text-white flex items-center"
             >
               Next
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -353,7 +353,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                 handleClose();
               }}
               disabled={!projectName.trim()}
-              className="gradient-primary text-white flex items-center"
+              className="gradient-primary hover:opacity-90 text-white flex items-center"
             >
               Create Project
               <Sparkles className="w-4 h-4 ml-2" />
@@ -368,22 +368,22 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
     return (
       <div className="p-6 space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center mb-4">
+          <div className="w-16 h-16 mx-auto rounded-2xl gradient-primary-br flex items-center justify-center mb-4">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-black text-heading-primary">AI Story Assistant</h2>
-          <p className="text-body-secondary">This feature will help you develop your story idea with AI guidance</p>
+          <h2 className="text-2xl font-black text-foreground">AI Story Assistant</h2>
+          <p className="text-muted-foreground">This feature will help you develop your story idea with AI guidance</p>
         </div>
 
-        <Card className="p-6 bg-amber-50 dark:bg-amber-950/20 border-amber-300 dark:border-amber-700/30">
+        <Card className="p-6 bg-primary/5 border-primary/20">
           <div className="flex items-start space-x-3">
-            <Wand2 className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5" />
+            <Wand2 className="w-5 h-5 text-primary mt-0.5" />
             <div>
-              <h3 className="font-bold text-amber-900 dark:text-amber-100">Coming Soon!</h3>
-              <p className="text-sm text-amber-800 dark:text-amber-200 mt-1">
+              <h3 className="font-bold text-foreground">Coming Soon!</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 Our AI story development wizard is currently being crafted. Soon you'll be able to:
               </p>
-              <ul className="mt-2 space-y-1 text-sm text-amber-700 dark:text-amber-300">
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
                 <li>• Brainstorm story ideas with AI</li>
                 <li>• Generate character concepts</li>
                 <li>• Develop plot outlines</li>
@@ -397,7 +397,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
           <Button
             variant="outline"
             onClick={() => setMode('selection')}
-            className="flex items-center"
+            className="flex items-center border-stone-300 dark:border-stone-600 text-foreground hover:bg-stone-100 dark:hover:bg-stone-800"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
@@ -411,22 +411,22 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
     return (
       <div className="p-6 space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center mb-4">
+          <div className="w-16 h-16 mx-auto rounded-2xl gradient-primary-br flex items-center justify-center mb-4">
             <Upload className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-black text-heading-primary">Document Upload</h2>
-          <p className="text-body-secondary">Import your existing creative work</p>
+          <h2 className="text-2xl font-black text-foreground">Document Upload</h2>
+          <p className="text-muted-foreground">Import your existing creative work</p>
         </div>
 
-        <Card className="p-6 bg-stone-50 dark:bg-stone-950/20 border-stone-300 dark:border-stone-700/30">
+        <Card className="p-6 bg-muted/30 border-muted-foreground/20">
           <div className="flex items-start space-x-3">
-            <FileText className="w-5 h-5 text-stone-600 dark:text-stone-400 mt-0.5" />
+            <FileText className="w-5 h-5 text-muted-foreground mt-0.5" />
             <div>
-              <h3 className="font-bold text-stone-900 dark:text-stone-100">Feature In Development</h3>
-              <p className="text-sm text-stone-800 dark:text-stone-200 mt-1">
+              <h3 className="font-bold text-foreground">Feature In Development</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 Document upload functionality is being developed. Soon you'll be able to import:
               </p>
-              <ul className="mt-2 space-y-1 text-sm text-stone-700 dark:text-stone-300">
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
                 <li>• World bibles and story notes</li>
                 <li>• Existing manuscripts</li>
                 <li>• Character sheets and profiles</li>
@@ -441,7 +441,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
           <Button
             variant="outline"
             onClick={() => setMode('selection')}
-            className="flex items-center"
+            className="flex items-center border-stone-300 dark:border-stone-600 text-foreground hover:bg-stone-100 dark:hover:bg-stone-800"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
@@ -453,9 +453,9 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border-stone-300/30 dark:border-stone-700/30">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-black text-heading-primary">
+          <DialogTitle className="text-2xl font-black gradient-primary-text">
             Create New Project
           </DialogTitle>
         </DialogHeader>
