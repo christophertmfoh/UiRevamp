@@ -479,8 +479,8 @@ export function ProjectsPageRedesign({
           
           {/* Centered Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
+              <Feather className="w-5 h-5 text-emerald-800 dark:text-white" />
             </div>
             <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
@@ -492,7 +492,7 @@ export function ProjectsPageRedesign({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden flex items-center space-x-2"
+                  className="group bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden flex items-center space-x-2"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 flex items-center space-x-2">
@@ -521,7 +521,7 @@ export function ProjectsPageRedesign({
             <Button
               size="icon"
               onClick={() => setIsEditMode(!isEditMode)}
-              className="w-10 h-10 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+              className="w-10 h-10 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
             >
               {isEditMode ? (
@@ -595,8 +595,8 @@ export function ProjectsPageRedesign({
                     Total Projects
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Library className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Library className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
             </div>
@@ -611,8 +611,8 @@ export function ProjectsPageRedesign({
                     Active This Week
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Activity className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Activity className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
             </div>
@@ -627,24 +627,24 @@ export function ProjectsPageRedesign({
                     Genres Explored
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                  <Sparkles className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
+            <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                  <p className="text-lg font-black text-emerald-800 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                     New Project
                   </p>
-                  <p className="text-xs font-medium text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+                  <p className="text-xs font-medium text-emerald-700 dark:text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
                     Start your journey
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                  <PlusCircle className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-emerald-300/30 dark:bg-white/20 rounded-lg flex items-center justify-center">
+                  <PlusCircle className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
             </div>
@@ -654,8 +654,8 @@ export function ProjectsPageRedesign({
           <div className="flex flex-col lg:flex-row gap-4 items-center mb-6">
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
-                <Search className="h-4 w-4 text-white pointer-events-none" />
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center">
+                <Search className="h-4 w-4 text-emerald-800 dark:text-white pointer-events-none" />
               </div>
               <Input
                 placeholder="Search projects..."
@@ -668,7 +668,7 @@ export function ProjectsPageRedesign({
             {/* Sort Options */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
+                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
                   <TrendingUp className="w-4 h-4 mr-2" />
                   {sortBy === 'updated' ? 'Recently Updated' : 
                    sortBy === 'created' ? 'Date Created' : 
@@ -705,7 +705,7 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('grid')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'grid' 
-                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
                     : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
@@ -717,7 +717,7 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('list')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'list' 
-                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
                     : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
@@ -742,7 +742,7 @@ export function ProjectsPageRedesign({
             </div>
           ) : filteredProjects.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-100/50 to-emerald-200/50 dark:from-emerald-600/20 dark:via-stone-600/20 dark:to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <PenTool className="w-12 h-12 text-stone-600 dark:text-stone-400" />
               </div>
               <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
@@ -755,7 +755,7 @@ export function ProjectsPageRedesign({
               </p>
               <Button 
                 onClick={onNewProject}
-                className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create New Project
@@ -833,7 +833,7 @@ export function ProjectsPageRedesign({
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
-                  <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
+                  <Badge className="bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white text-xs px-2 py-1 border-0">
                     Active
                   </Badge>
                 </div>
@@ -870,7 +870,7 @@ export function ProjectsPageRedesign({
                 <Button 
                   size="sm"
                   onClick={() => onSelectProject(projects[0])}
-                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
+                  className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
                 >
                   Open Project
                 </Button>
@@ -880,8 +880,8 @@ export function ProjectsPageRedesign({
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
               <CardContent className="p-5 h-full flex flex-col justify-center">
                 <div className="text-center space-y-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center mx-auto">
-                    <PlusCircle className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-full flex items-center justify-center mx-auto">
+                    <PlusCircle className="w-6 h-6 text-emerald-800 dark:text-white" />
                   </div>
                   <div>
                     <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
@@ -889,7 +889,7 @@ export function ProjectsPageRedesign({
                     <Button 
                       size="sm"
                       onClick={onNewProject}
-                      className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:to-amber-600 dark:hover:from-emerald-500 dark:hover:to-amber-500 text-emerald-800 dark:text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Create Project
                     </Button>
@@ -904,8 +904,8 @@ export function ProjectsPageRedesign({
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-white" />
+                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-full flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-emerald-800 dark:text-white" />
                   </div>
                   <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                     Writing Progress
@@ -914,7 +914,7 @@ export function ProjectsPageRedesign({
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -932,7 +932,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -947,7 +947,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -962,7 +962,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
+                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -1030,7 +1030,7 @@ export function ProjectsPageRedesign({
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
                   <div 
-                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" 
+                    className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-1.5 rounded-full" 
                     style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
                   ></div>
                 </div>
@@ -1294,7 +1294,7 @@ export function ProjectsPageRedesign({
                   onChange={(e) => setTempGoals({...tempGoals, dailyWords: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.words / tempGoals.dailyWords) * 100, 100)}%` }}></div>
+
                 </div>
                 <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
               </div>
