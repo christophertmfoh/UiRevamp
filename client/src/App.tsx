@@ -7,7 +7,8 @@ import { ThemeProvider } from './components/theme-provider';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
-import { ProjectsView, ProjectDashboard } from './components/project';
+import { ProjectDashboard } from './components/project';
+import { ProjectsView } from './components/project/NewProjectsView';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPage } from './pages/AuthPage';
 
@@ -303,13 +304,11 @@ export default function App() {
       case 'projects':
         return (
           <ProjectsView 
+            onNavigate={setView}
+            onNewProject={() => setModal({ type: 'new', project: null })}
             onSelectProject={handleSelectProject} 
-            onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)} 
-            onBack={() => setView('landing')} 
             onLogout={handleLogout}
             user={user}
-            isAuthenticated={isAuthenticated}
-            guideMode={guideMode}
           />
         );
       case 'dashboard':
