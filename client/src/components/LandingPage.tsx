@@ -250,17 +250,17 @@ export function LandingPage({
             <div className="space-y-10">
               <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-md dark:shadow-none">
                 <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
+                <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
                 Where Stories{' '}
-                <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+                <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                   Come to Life
                 </span>
               </h1>
               
-              <p className="text-xl text-stone-800 dark:text-stone-200 max-w-2xl leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+              <p className="text-xl text-body-primary max-w-2xl leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
                 From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
                 and graphic novels with AI that understands the art of storytelling. Your imagination, 
                 amplified by intelligence.

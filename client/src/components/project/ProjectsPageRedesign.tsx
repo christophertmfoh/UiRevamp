@@ -553,16 +553,16 @@ export function ProjectsPageRedesign({
         <div className="text-center mb-6">
           <div className="overflow-visible">
             <div className="mb-2">
-              <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
+              <p className="text-lg text-body-secondary font-medium">
                 Welcome back, {user?.username || 'Writer'}
               </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black brand-gradient-text leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
               Your Projects
             </h1>
           </div>
           
-          <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
+          <p className="text-lg text-body-primary leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
             Organize, track, and bring your stories to life with intelligent project management.
           </p>
         </div>

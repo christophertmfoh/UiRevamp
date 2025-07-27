@@ -87,6 +87,54 @@ body {
 }
 
 @layer utilities {
+  /* Brand Gradient Classes - Consistent across light/dark modes */
+  .brand-gradient-text {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
+  }
+  
+  .brand-gradient-bg {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  .brand-gradient-border {
+    background: linear-gradient(to right, var(--gradient-brand-start), var(--gradient-brand-middle), var(--gradient-brand-end));
+  }
+  
+  /* Semantic Text Classes */
+  .text-heading-primary {
+    color: var(--color-heading-primary);
+  }
+  
+  .text-heading-secondary {
+    color: var(--color-heading-secondary);
+  }
+  
+  .text-body-primary {
+    color: var(--color-body-primary);
+  }
+  
+  .text-body-secondary {
+    color: var(--color-body-secondary);
+  }
+  
+  .text-body-muted {
+    color: var(--color-body-muted);
+  }
+  
+  /* Icon Color Classes */
+  .icon-primary {
+    color: var(--color-icon-primary);
+  }
+  
+  .icon-secondary {
+    color: var(--color-icon-secondary);
+  }
+  
+  .icon-muted {
+    color: var(--color-icon-muted);
+  }
+  
+  /* Legacy gradient classes for backwards compatibility */
   .gradient-emerald-amber-hover {
     @apply hover:from-emerald-200 hover:to-emerald-300 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600;
   }
@@ -205,6 +253,24 @@ svg {
   /* Fablecraft Design System - Light Mode */
   --fablecraft-bg-base: hsl(20, 14.3%, 97%);               /* Page background */
   --fablecraft-bg-subtle: hsl(20, 14.3%, 94%);             /* Section backgrounds */
+  
+  /* Semantic Color Tokens - Light Mode */
+  --color-heading-primary: hsl(20, 14.3%, 4.1%);           /* Main headings */
+  --color-heading-secondary: hsl(20, 10%, 25%);            /* Subheadings */
+  --color-body-primary: hsl(20, 10%, 25%);                 /* Primary body text */
+  --color-body-secondary: hsl(20, 8%, 45%);                /* Secondary body text */
+  --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
+  
+  /* Brand Gradient Colors - Light Mode */
+  --gradient-brand-start: hsl(155, 84%, 40%);              /* Emerald start */
+  --gradient-brand-middle: hsl(20, 10%, 30%);              /* Stone middle */
+  --gradient-brand-end: hsl(35, 91%, 45%);                 /* Amber end */
+  
+  /* Icon Colors - Light Mode */
+  --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
+  --color-icon-secondary: hsl(20, 10%, 40%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
   --fablecraft-glass-card: hsl(120, 5%, 70%, 0.3);         /* Glassmorphism cards */
   --fablecraft-glass-border: hsl(120, 5%, 60%, 0.4);       /* Glass borders */
   
@@ -251,6 +317,24 @@ svg {
   /* Fablecraft Design System - Dark Mode */
   --fablecraft-bg-base: hsl(20, 14.3%, 3%);                /* Page background */
   --fablecraft-bg-subtle: hsl(20, 14.3%, 7%);              /* Section backgrounds */
+  
+  /* Semantic Color Tokens - Dark Mode */
+  --color-heading-primary: hsl(0, 0%, 95%);                /* Main headings */
+  --color-heading-secondary: hsl(20, 5%, 85%);             /* Subheadings */
+  --color-body-primary: hsl(20, 5%, 90%);                  /* Primary body text */
+  --color-body-secondary: hsl(20, 5%, 70%);                /* Secondary body text */
+  --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
+  
+  /* Brand Gradient Colors - Dark Mode */
+  --gradient-brand-start: hsl(155, 84%, 44%);              /* Emerald start */
+  --gradient-brand-middle: hsl(20, 10%, 40%);              /* Stone middle */
+  --gradient-brand-end: hsl(35, 91%, 54%);                 /* Amber end */
+  
+  /* Icon Colors - Dark Mode */
+  --color-icon-primary: hsl(155, 84%, 50%);                /* Primary icons */
+  --color-icon-secondary: hsl(35, 91%, 60%);               /* Secondary icons */
+  --color-icon-muted: hsl(20, 5%, 60%);                    /* Muted icons */
+  --color-icon-white: hsl(0, 0%, 100%);                    /* Icons on dark backgrounds */
   --fablecraft-glass-card: hsl(20, 10%, 90%, 0.4);         /* Glassmorphism cards */
   --fablecraft-glass-border: hsl(20, 10%, 70%, 0.3);       /* Glass borders */
   
