@@ -235,7 +235,7 @@ export function ProjectsPageRedesign({
             </p>
 
             {/* Writing Progress */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 min-h-[280px]">
               <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
@@ -272,7 +272,7 @@ export function ProjectsPageRedesign({
           </div>
 
           {/* Right Side - Quick Access Cards */}
-          <div className="space-y-4">
+          <div className="flex flex-col space-y-4 h-full">
             {/* Recent Project Card */}
             {projects.length > 0 && (
               <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
@@ -305,7 +305,7 @@ export function ProjectsPageRedesign({
             )}
 
             {/* Quick To-Do Box */}
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 flex-1">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Quick Tasks</h3>
