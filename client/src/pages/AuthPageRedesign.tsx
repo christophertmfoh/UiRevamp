@@ -221,7 +221,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
 
           {/* Centered Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center shadow-lg">
               <Feather className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
@@ -253,14 +253,14 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/50 dark:bg-slate-700/30 backdrop-blur-sm border border-stone-300/20 dark:border-slate-600/30">
                   <TabsTrigger 
                     value="login" 
-                    className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-stone-600 data-[state=active]:to-amber-700 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
+                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
                   >
                     <LogIn className="w-4 h-4" />
                     Sign In
                   </TabsTrigger>
                   <TabsTrigger 
                     value="signup" 
-                    className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-stone-600 data-[state=active]:to-amber-700 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
+                    className="gap-2 data-[state=active]:gradient-primary data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
                   >
                     <UserPlus className="w-4 h-4" />
                     Sign Up
@@ -321,7 +321,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold tracking-wide"
+                        className="w-full gradient-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
                         disabled={loginMutation.isPending}
                         size="lg"
                       >
@@ -473,7 +473,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold tracking-wide"
+                        className="w-full gradient-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:brightness-110 font-semibold tracking-wide"
                         disabled={signupMutation.isPending}
                         size="lg"
                       >

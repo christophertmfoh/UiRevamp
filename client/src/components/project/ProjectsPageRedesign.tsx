@@ -504,7 +504,7 @@ export function ProjectsPageRedesign({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden flex items-center space-x-2"
+                  className="group gradient-primary text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 flex items-center space-x-2">
@@ -533,7 +533,7 @@ export function ProjectsPageRedesign({
             <Button
               size="icon"
               onClick={() => setIsEditMode(!isEditMode)}
-              className="w-10 h-10 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+              className="w-10 h-10 gradient-primary text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
               title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
             >
               {isEditMode ? (

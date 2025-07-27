@@ -96,8 +96,23 @@ body {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
   }
   
+  .brand-gradient-bg-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] 
+           hover:from-[var(--gradient-brand-start-hover)] hover:via-[var(--gradient-brand-middle-hover)] hover:to-[var(--gradient-brand-end-hover)];
+  }
+  
   .brand-gradient-border {
     background: linear-gradient(to right, var(--gradient-brand-start), var(--gradient-brand-middle), var(--gradient-brand-end));
+  }
+  
+  /* THE FIX: Replace ALL hardcoded gradient classes with this */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
+  }
+  
+  .gradient-primary-hover {
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)]
+           hover:brightness-110;
   }
   
 
@@ -166,17 +181,17 @@ body {
   
   /* Progress bar gradients */
   .gradient-progress {
-    @apply bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
   }
   
   /* Icon container gradients */
   .gradient-icon-container {
-    @apply bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+    @apply bg-gradient-to-br from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)];
   }
   
   /* Text gradients */
   .gradient-text-emerald {
-    @apply bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-400 dark:to-amber-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] bg-clip-text text-transparent;
   }
 }
 
@@ -281,10 +296,10 @@ svg {
   --color-body-secondary: hsl(20, 8%, 45%);                /* Secondary body text */
   --color-body-muted: hsl(20, 5%, 55%);                    /* Muted/helper text */
   
-  /* Brand Gradient Colors - Light Mode (Light versions of dark mode) */
-  --gradient-brand-start: hsl(155, 84%, 50%);              /* Light emerald */
-  --gradient-brand-middle: hsl(20, 10%, 50%);              /* Light stone */
-  --gradient-brand-end: hsl(35, 91%, 55%);                 /* Light amber */
+  /* Brand Gradient Colors - Light Mode (Properly light versions) */
+  --gradient-brand-start: hsl(155, 70%, 75%);              /* Light emerald - actually light! */
+  --gradient-brand-middle: hsl(20, 20%, 70%);              /* Light stone - actually light! */
+  --gradient-brand-end: hsl(35, 80%, 70%);                 /* Light amber - actually light! */
   
   /* Icon Colors - Light Mode */
   --color-icon-primary: hsl(155, 84%, 40%);                /* Primary icons */
