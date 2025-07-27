@@ -233,87 +233,92 @@ export function ProjectsPageRedesign({
           </p>
         </div>
 
-        {/* Two Column Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Left Side - Writing Progress */}
-          <div className="flex flex-col">
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-lg border border-stone-300/30 dark:border-slate-700/20 flex-1">
-              <div className="flex items-center justify-center gap-3 mb-5">
-                <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-3 h-3 text-white" />
-                </div>
-                <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Writing Progress
-                </p>
-              </div>
-              
-              {/* Writing Streak */}
-              <div className="mb-5">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
-                  <p className="text-sm font-bold text-emerald-600">7 days</p>
-                </div>
-                <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '70%' }}></div>
-                </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">Great momentum! Keep it up.</p>
-              </div>
-
-              {/* Today's Writing */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Writing</p>
-                  <p className="text-sm font-bold text-emerald-600">300 words</p>
-                </div>
-                <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
-                </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Quick Access Cards */}
-          <div className="flex flex-col space-y-4 h-full">
-            {/* Recent Project Card */}
-            {projects.length > 0 && (
-              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Recent Project</h3>
-                    <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
-                      Active
-                    </Badge>
-                  </div>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-                      <Clock className="w-3 h-3" />
-                      <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
-                    </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => onSelectProject(projects[0])}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                    >
-                      Open Project
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Quick To-Do Box */}
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 flex-1">
+        {/* Dashboard Cards */}
+        <div className="space-y-6 mb-8">
+          {/* Message of the Day */}
+          <MessageOfTheDay />
+          
+          {/* Recent Project (if exists) */}
+          {projects.length > 0 && (
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
               <CardContent className="p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Quick Tasks</h3>
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Recent Project</h3>
+                  <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
+                    Active
+                  </Badge>
                 </div>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                    <Clock className="w-3 h-3" />
+                    <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
+                  </div>
+                  <Button 
+                    size="sm"
+                    onClick={() => onSelectProject(projects[0])}
+                    className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                  >
+                    Open Project
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Writing Progress and Quick Tasks */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Writing Progress */}
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-center gap-3 mb-5">
+                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-white" />
+                  </div>
+                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                    Writing Progress
+                  </p>
+                </div>
+                
+                {/* Writing Streak */}
+                <div className="mb-5">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
+                    <p className="text-sm font-bold text-emerald-600">7 days</p>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '70%' }}></div>
+                  </div>
+                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">Great momentum! Keep it up.</p>
+                </div>
+
+                {/* Today's Writing */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Writing</p>
+                    <p className="text-sm font-bold text-emerald-600">300 words</p>
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                  <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Tasks */}
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-5">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    Quick Tasks
+                  </h3>
+                </div>
+                <div className="space-y-3 text-sm mb-5">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
                     <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
@@ -327,7 +332,7 @@ export function ProjectsPageRedesign({
                     <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
                   </div>
                 </div>
-                <div className="mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+                <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
                   <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
                     <span>Today's Progress</span>
                     <span>1/3 completed</span>
