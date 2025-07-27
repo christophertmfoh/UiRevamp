@@ -1,0 +1,12 @@
+# Replit-specific environment overrides
+NODE_ENV=development
+DATABASE_MAX_CONNECTIONS=3
+AI_CACHE_DURATION=300000
+ENABLE_REQUEST_LOGGING=false
+REPLIT_OPTIMIZED=true
+
+# Memory optimization flags
+NODE_OPTIONS=--max-old-space-size=512 --optimize-for-size
+
+# Replit development settings
+REPLIT_DEV_MODE=true

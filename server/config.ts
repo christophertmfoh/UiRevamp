@@ -33,10 +33,10 @@ export interface AppConfig {
 const configs: Record<string, AppConfig> = {
   development: {
     database: {
-      maxConnections: 5,
+      maxConnections: process.env.REPL_ID ? 3 : 5, // Replit optimization
       idleTimeout: 30000,
-      connectionTimeout: 10000,
-      enableLogging: true,
+      connectionTimeout: process.env.REPL_ID ? 15000 : 10000, // Higher for Replit
+      enableLogging: !process.env.REPL_ID, // Disable logging in Replit for performance
     },
     ai: {
       maxRequests: 8,
@@ -63,9 +63,9 @@ const configs: Record<string, AppConfig> = {
   },
   production: {
     database: {
-      maxConnections: 20,
+      maxConnections: process.env.REPL_ID ? 5 : 20, // Replit memory constraints
       idleTimeout: 30000,
-      connectionTimeout: 10000,
+      connectionTimeout: process.env.REPL_ID ? 15000 : 10000,
       enableLogging: false,
     },
     ai: {

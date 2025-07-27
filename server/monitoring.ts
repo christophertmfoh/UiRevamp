@@ -163,15 +163,39 @@ export async function getSystemHealth() {
   };
 }
 
+// Replit-specific health checks
+export async function getReplitHealth() {
+  const health = await getSystemHealth();
+  
+  return {
+    ...health,
+    replit: {
+      replId: process.env.REPL_ID || 'development',
+      isDeployment: !!process.env.REPL_DEPLOYMENT,
+      isReplitEnvironment: !!process.env.REPL_ID,
+      region: process.env.REPL_REGION || 'unknown',
+      memoryLimit: process.env.REPL_ID ? '512MB' : 'unlimited',
+    },
+    performance: {
+      nodeVersion: process.version,
+      platform: process.platform,
+      arch: process.arch,
+      memoryUsage: process.memoryUsage(),
+    }
+  };
+}
+
 // Singleton performance monitor
 export const performanceMonitor = new PerformanceMonitor();
 
 // Express routes for monitoring
 export function addMonitoringRoutes(app: any) {
-  // Health check endpoint
+  // Health check endpoint with Replit-specific data
   app.get('/health', async (req: Request, res: Response) => {
     try {
-      const health = await getSystemHealth();
+      const health = process.env.REPL_ID 
+        ? await getReplitHealth() 
+        : await getSystemHealth();
       const statusCode = health.status === 'healthy' ? 200 : 503;
       res.status(statusCode).json(health);
     } catch (error) {
@@ -179,6 +203,10 @@ export function addMonitoringRoutes(app: any) {
         status: 'unhealthy',
         timestamp: new Date().toISOString(),
         error: error instanceof Error ? error.message : 'Unknown error',
+        replit: process.env.REPL_ID ? {
+          replId: process.env.REPL_ID,
+          isDeployment: !!process.env.REPL_DEPLOYMENT,
+        } : undefined
       });
     }
   });

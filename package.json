@@ -8,7 +8,12 @@
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "replit:dev": "npm run dev",
+    "replit:deploy": "npm run build && npm run start",
+    "replit:health": "curl $REPL_URL/health || curl http://localhost:5000/health",
+    "replit:metrics": "curl $REPL_URL/metrics || curl http://localhost:5000/metrics",
+    "replit:install": "npm install lodash-es @types/lodash-es && npm run build"
   },
   "dependencies": {
     "@google/genai": "^1.11.0",

@@ -4,6 +4,23 @@ import { setupVite, serveStatic, log } from "./vite";
 import { performanceMonitor, addMonitoringRoutes } from "./monitoring";
 import { config } from "./config";
 
+// Replit-specific optimizations
+if (process.env.REPL_ID) {
+  // Memory optimization for Replit
+  process.env.NODE_OPTIONS = '--max-old-space-size=512 --optimize-for-size';
+  
+  // Garbage collection optimization
+  if (global.gc) {
+    setInterval(() => {
+      const memUsage = process.memoryUsage();
+      if (memUsage.heapUsed / memUsage.heapTotal > 0.8) {
+        global.gc();
+        log('🧹 Garbage collection triggered due to high memory usage');
+      }
+    }, 60000); // Run GC check every minute
+  }
+}
+
 const app = express();
 app.use(express.json({ limit: config.api.requestLimit }));
 app.use(express.urlencoded({ extended: false, limit: config.api.requestLimit }));
