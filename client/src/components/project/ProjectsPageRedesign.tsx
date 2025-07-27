@@ -185,12 +185,14 @@ export function ProjectsPageRedesign({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  variant="ghost" 
-                  className="flex items-center space-x-2 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden flex items-center space-x-2"
                 >
-                  <User className="w-4 h-4" />
-                  <span className="hidden sm:inline">{user?.username}</span>
-                  <ChevronDown className="w-4 h-4" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center space-x-2">
+                    <User className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="hidden sm:inline">{user?.username}</span>
+                    <ChevronDown className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                  </span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
