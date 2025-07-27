@@ -3,6 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from './theme-toggle';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { 
   Feather, 
   BookOpen, 
@@ -27,7 +34,12 @@ import {
   Image,
   Bookmark,
   Library,
-  PenTool
+  PenTool,
+  ChevronDown,
+  User,
+  Settings,
+  LogOut,
+  UserCircle
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -202,28 +214,58 @@ export function LandingPage({
             {/* Authentication Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-stone-600 dark:text-stone-300 hidden sm:block">
-                  Welcome, {user?.username}
-                </span>
-                <Button 
-                  onClick={() => onNavigate('projects')}
-                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="relative z-10 flex items-center">
-                    <BookOpen className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                    Your Projects
-                  </span>
-                </Button>
-                <Button 
-                  onClick={onLogout}
-                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <span className="relative z-10">
-                    Sign Out
-                  </span>
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <span className="relative z-10 flex items-center">
+                        <UserCircle className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                        Welcome {user?.username || 'User'}
+                        <ChevronDown className="ml-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border border-stone-300/30 dark:border-stone-700/30 shadow-2xl rounded-xl mt-2">
+                    <DropdownMenuItem 
+                      onClick={() => onNavigate('projects')}
+                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <BookOpen className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <span className="font-medium">Your Projects</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Account clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <User className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <span className="font-medium">Account</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Community clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <Users className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <span className="font-medium">Community</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Settings clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <Settings className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <span className="font-medium">Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="my-2 border-stone-300/30 dark:border-stone-700/30" />
+                    <DropdownMenuItem 
+                      onClick={onLogout}
+                      className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/20 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <LogOut className="mr-3 h-4 w-4 text-red-600 dark:text-red-400" />
+                      <span className="font-medium text-red-600 dark:text-red-400">Sign Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ) : (
               <Button 
