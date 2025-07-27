@@ -160,23 +160,23 @@ export function ThemeToggle() {
         className="w-80 bg-card/95 border-border/30 backdrop-blur-sm"
       >
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          Featured Themes
+          Essential Themes
         </DropdownMenuLabel>
-        {renderThemesByCategory('Featured')}
+        {renderThemesByCategory('Essential')}
         
         <DropdownMenuSeparator />
         
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          Creative Collection
+          High Engagement
         </DropdownMenuLabel>
-        {renderThemesByCategory('Creative Collection')}
+        {renderThemesByCategory('High Engagement')}
         
         <DropdownMenuSeparator />
         
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          Classic Themes
+          Premium Experience
         </DropdownMenuLabel>
-        {renderThemesByCategory('Classic')}
+        {renderThemesByCategory('Premium')}
       </DropdownMenuContent>
     </DropdownMenu>
   )
