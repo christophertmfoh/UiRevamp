@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield, ArrowLeft, Feather } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
-
+import { ThemeToggle } from '@/components/theme-toggle';
 
 // Enhanced password validation
 const passwordSchema = z.string()
@@ -229,7 +229,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
             </h1>
           </div>
 
-          
+          <ThemeToggle />
         </div>
       </nav>
 
