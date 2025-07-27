@@ -247,16 +247,10 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           </div>
 
           {/* Auth Card */}
-          <Card className="backdrop-blur-xl shadow-2xl" style={{
-            background: `var(--fablecraft-glass-card)`,
-            borderColor: `var(--fablecraft-glass-border)`
-          }}>
+          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-stone-300/30 dark:border-slate-700/20">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <div className="p-6">
-                <TabsList className="grid w-full grid-cols-2 mb-6 backdrop-blur-sm border" style={{
-                  background: `var(--fablecraft-glass-card)`,
-                  borderColor: `var(--fablecraft-glass-border)`
-                }}>
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/50 dark:bg-slate-700/30 backdrop-blur-sm border border-stone-300/20 dark:border-slate-600/30">
                   <TabsTrigger 
                     value="login" 
                     className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-stone-600 data-[state=active]:to-amber-700 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-300"
