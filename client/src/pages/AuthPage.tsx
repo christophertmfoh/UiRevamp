@@ -11,7 +11,6 @@ import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield } from 'lucide-
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
 
-
 // Enhanced password validation
 const passwordSchema = z.string()
   .min(8, 'Password must be at least 8 characters')
@@ -408,7 +407,9 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
           </Button>
         </div>
 
-        
+        {/* Theme Toggle */}
+        <div className="absolute top-4 right-4">
+        </div>
       </div>
     </div>
   );

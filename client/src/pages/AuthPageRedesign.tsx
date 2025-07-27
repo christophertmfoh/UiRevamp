@@ -11,7 +11,6 @@ import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield, ArrowLeft, Fea
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
 
-
 // Enhanced password validation
 const passwordSchema = z.string()
   .min(8, 'Password must be at least 8 characters')
@@ -229,7 +228,6 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
             </h1>
           </div>
 
-          
         </div>
       </nav>
 

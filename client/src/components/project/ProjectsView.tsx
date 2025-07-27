@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
 
-
 import { ArrowLeft, Plus, Search, BookOpen, Clock, MoreVertical, Feather, Sparkles, Users, MapPin, Edit, Trash2, Upload, FileText, Moon, Sun } from 'lucide-react';
 import {
   DropdownMenu,
@@ -199,7 +198,6 @@ export function ProjectsView({
             
             {/* Right Side - Actions */}
             <div className="flex items-center space-x-4">
-  
               
               <Button 
                 onClick={() => onOpenModal({ type: 'import', project: null })} 
