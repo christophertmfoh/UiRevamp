@@ -22,6 +22,9 @@ interface ProjectsViewProps {
   onSelectProject: (project: Project) => void;
   onOpenModal: (modalInfo: ModalInfo) => void;
   onBack: () => void;
+  onLogout: () => Promise<void>;
+  user: any;
+  isAuthenticated: boolean;
   guideMode: boolean;
 }
 
@@ -29,6 +32,9 @@ export function ProjectsView({
   onSelectProject, 
   onOpenModal, 
   onBack, 
+  onLogout,
+  user,
+  isAuthenticated,
   guideMode 
 }: ProjectsViewProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -51,7 +57,7 @@ export function ProjectsView({
     
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      genreArray.some((g: string) => g.toLowerCase().includes(searchTerm.toLowerCase()));
+      genreArray.some((g: string | undefined) => g?.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesType = typeFilter === 'all' || project.type === typeFilter;
     const matchesGenre = genreFilter === 'all' || genreArray.includes(genreFilter);
@@ -139,7 +145,7 @@ export function ProjectsView({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative transition-all duration-700 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100/70 via-orange-100/40 to-red-100/25 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative transition-all duration-700 overflow-hidden">
       {/* Enhanced Background Patterns */}
       <div className="absolute inset-0">
         {/* Light mode pattern */}
@@ -415,7 +421,7 @@ export function ProjectsView({
                       const genreArray = Array.isArray(project.genre) ? project.genre : [project.genre].filter(Boolean);
                       return genreArray.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {genreArray.slice(0, 2).map((genre: string, index: number) => (
+                          {genreArray.filter(Boolean).slice(0, 2).map((genre: string, index: number) => (
                             <span key={index} className="text-xs font-medium bg-amber-100/50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full">
                               {genre}
                             </span>

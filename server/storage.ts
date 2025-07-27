@@ -6,6 +6,8 @@ import {
   characterRelationships, 
   imageAssets, 
   projectSettings,
+  users,
+  sessions,
   type Project, 
   type InsertProject,
   type Character,
@@ -19,14 +21,31 @@ import {
   type ImageAsset,
   type InsertImageAsset,
   type ProjectSettings,
-  type InsertProjectSettings
+  type InsertProjectSettings,
+  type User,
+  type InsertUser,
+  type Session,
+  type InsertSession
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
+  // User operations
+  getUserByEmail(email: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserById(id: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  updateUserLastLogin(id: string): Promise<void>;
+
+  // Session operations
+  createSession(session: InsertSession): Promise<Session>;
+  getSessionByToken(token: string): Promise<Session | undefined>;
+  deleteSession(token: string): Promise<boolean>;
+  deleteExpiredSessions(): Promise<void>;
+
   // Project operations
-  getProjects(): Promise<Project[]>;
+  getProjects(userId?: string): Promise<Project[]>;
   getProject(id: string): Promise<Project | undefined>;
   createProject(project: any): Promise<Project>;
   updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined>;
@@ -69,8 +88,75 @@ export interface IStorage {
 }
 
 class MemoryStorage implements IStorage {
+  // User operations
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async getUserById(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const newUser = {
+      id: Date.now().toString(),
+      ...user,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    const [createdUser] = await db.insert(users).values(newUser).returning();
+    return createdUser;
+  }
+
+  async updateUserLastLogin(id: string): Promise<void> {
+    await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, id));
+  }
+
+  // Session operations
+  async createSession(session: InsertSession): Promise<Session> {
+    const newSession = {
+      id: Date.now().toString(),
+      ...session,
+      createdAt: new Date()
+    };
+    const [createdSession] = await db.insert(sessions).values(newSession).returning();
+    return createdSession;
+  }
+
+  async getSessionByToken(token: string): Promise<Session | undefined> {
+    const [session] = await db.select().from(sessions)
+      .where(eq(sessions.token, token));
+    
+    if (session && session.expiresAt > new Date()) {
+      return session;
+    }
+    return undefined;
+  }
+
+  async deleteSession(token: string): Promise<boolean> {
+    const result = await db.delete(sessions).where(eq(sessions.token, token));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async deleteExpiredSessions(): Promise<void> {
+    const now = new Date();
+    await db.delete(sessions).where(eq(sessions.expiresAt, now));
+  }
+
   // Project operations
-  async getProjects(): Promise<Project[]> {
+  async getProjects(userId?: string): Promise<Project[]> {
+    if (userId) {
+      return await db.select().from(projects)
+        .where(eq(projects.userId, userId))
+        .orderBy(desc(projects.createdAt));
+    }
     return await db.select().from(projects).orderBy(desc(projects.createdAt));
   }
 

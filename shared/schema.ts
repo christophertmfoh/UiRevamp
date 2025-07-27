@@ -1,7 +1,29 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { pgTable, text, serial, integer, boolean, timestamp, json, varchar } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+// Users table for authentication
+export const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  username: text("username").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  fullName: text("full_name"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  lastLoginAt: timestamp("last_login_at"),
+  isActive: boolean("is_active").default(true).notNull(),
+});
+
+// Sessions table for authentication
+export const sessions = pgTable("sessions", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  token: text("token").notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 
 // Generic Entity Types for Universal Template System
 export type EntityType = 
@@ -32,6 +54,7 @@ export interface EntityFieldConfig {
 // Core project table
 export const projects = pgTable("projects", {
   id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: 'cascade' }).notNull(),
   name: text("name").notNull(),
   type: text("type", { enum: ['novel', 'screenplay', 'comic'] }).notNull(),
   description: text("description"),
@@ -525,5 +548,49 @@ export type EntityRelationship = typeof entityRelationships.$inferSelect;
 export type InsertEntityRelationship = z.infer<typeof insertEntityRelationshipSchema>;
 export type EntityTemplate = typeof entityTemplates.$inferSelect;
 export type InsertEntityTemplate = z.infer<typeof insertEntityTemplateSchema>;
+
+// User and session schemas and types
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true, lastLoginAt: true });
+export const insertSessionSchema = createInsertSchema(sessions).omit({ id: true, createdAt: true });
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = z.infer<typeof insertSessionSchema>;
+
+// Tasks table for user task management
+export const tasks = pgTable("tasks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  text: varchar("text").notNull(),
+  status: varchar("status").notNull().default('pending'), // pending, in-progress, completed
+  priority: varchar("priority").notNull().default('medium'), // low, medium, high
+  estimatedTime: integer("estimated_time"), // in minutes
+  completedAt: timestamp("completed_at"),
+  dueDate: timestamp("due_date"),
+  projectId: varchar("project_id").references(() => projects.id, { onDelete: 'cascade' }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Writing goals table
+export const writingGoals = pgTable("writing_goals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: 'cascade' }),
+  dailyWords: integer("daily_words").default(500),
+  dailyMinutes: integer("daily_minutes").default(60),
+  streakDays: integer("streak_days").default(30),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Task and Writing Goal schemas and types
+export const insertTaskSchema = createInsertSchema(tasks).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertWritingGoalSchema = createInsertSchema(writingGoals).omit({ id: true, createdAt: true, updatedAt: true });
+
+export type Task = typeof tasks.$inferSelect;
+export type InsertTask = z.infer<typeof insertTaskSchema>;
+export type WritingGoal = typeof writingGoals.$inferSelect;
+export type InsertWritingGoal = z.infer<typeof insertWritingGoalSchema>;
 
 // Generic Entity Union Type (for Universal Template System)

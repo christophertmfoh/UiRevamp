@@ -132,27 +132,12 @@ export class CharacterCreationService {
   ): Promise<Partial<Character>> {
     console.log('Creating manual character with automatic portrait');
     
-    try {
-      const response = await fetch(`/api/projects/${projectId}/characters/create-manual`, {
-        method: 'POST',
-        body: JSON.stringify(characterData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create manual character');
-      }
-
-      const enhancedCharacterData = await response.json();
-      console.log('Manual character created with portrait:', enhancedCharacterData.imageUrl ? 'Yes' : 'No');
-      
-      return enhancedCharacterData;
-    } catch (error) {
-      console.error('Manual character creation failed:', error);
-      throw error;
-    }
+    // For manual creation, just return the character data as-is
+    // Portrait can be generated separately if needed
+    return {
+      ...characterData,
+      projectId
+    };
   }
 
   /**
@@ -207,11 +192,17 @@ export class CharacterCreationService {
     // Generate character with automatic portrait based on method
     switch (method) {
       case 'custom':
-        characterData = await this.generateCustomCharacter(projectId, data);
-        break;
+        // Custom AI generation already creates character in database, no need to save again
+        const customCharacter = await this.generateCustomCharacter(projectId, data);
+        // Invalidate cache to refresh UI
+        queryClient.invalidateQueries({ queryKey: ['/api/characters', { projectId }] });
+        return customCharacter as Character;
       case 'template':
-        characterData = await this.generateFromTemplate(projectId, data);
-        break;
+        // Template generation already creates character in database, no need to save again
+        const templateCharacter = await this.generateFromTemplate(projectId, data);
+        // Invalidate cache to refresh UI
+        queryClient.invalidateQueries({ queryKey: ['/api/characters', { projectId }] });
+        return templateCharacter as Character;
       case 'document':
         // Document import creates character directly in database, no need to save again
         const importedCharacter = await this.importFromDocument(projectId, data);
@@ -225,7 +216,7 @@ export class CharacterCreationService {
         throw new Error('Unknown character creation method');
     }
 
-    // Save the character with all generated data including portrait
+    // Only save manually created characters (others are already saved by their respective endpoints)
     const savedCharacter = await this.saveCharacter(projectId, characterData);
     
     console.log('Character creation complete:', {

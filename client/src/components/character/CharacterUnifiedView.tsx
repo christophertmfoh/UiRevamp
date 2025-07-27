@@ -17,6 +17,7 @@ import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
 import { CharacterInsights } from './CharacterInsights';
 import { LoadingModal } from '../ui/loading-modal';
+import { FieldRenderer } from './FieldRenderer';
 
 interface CharacterUnifiedViewProps {
   projectId: string;
@@ -219,122 +220,17 @@ export function CharacterUnifiedView({
     }));
   };
 
-  // Helper function to render field based on type - matching organization module
+  // Helper function to render field based on type
   const renderField = (field: any, value: any) => {
-    // Debug personalityTraits specifically
-    if (field.key === 'personalityTraits') {
-      console.log('=== RENDERFIELD PERSONALITY TRAITS DEBUG ===');
-      console.log('field:', field);
-      console.log('value:', value);
-      console.log('typeof value:', typeof value);
-      console.log('Array.isArray(value):', Array.isArray(value));
-      console.log('value length:', Array.isArray(value) ? value.length : 'not array');
-      console.log('isEditing:', isEditing);
-      console.log('=== END RENDERFIELD DEBUG ===');
-    }
-    if (isEditing) {
-      switch (field.type) {
-        case 'text':
-          return (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              <Input
-                id={field.key}
-                value={value || ''}
-                onChange={(e) => handleInputChange(field.key, e.target.value)}
-                placeholder={`Enter ${field.label.toLowerCase()}...`}
-                className="creative-input"
-              />
-            </div>
-          );
-        
-        case 'textarea':
-          return (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              <Textarea
-                id={field.key}
-                value={value || ''}
-                onChange={(e) => handleInputChange(field.key, e.target.value)}
-                placeholder={`Enter ${field.label.toLowerCase()}...`}
-                className="creative-input min-h-[100px] resize-y"
-              />
-            </div>
-          );
-        
-        case 'select':
-          return (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              <Select 
-                value={value || ''} 
-                onValueChange={(newValue) => handleInputChange(field.key, newValue)}
-              >
-                <SelectTrigger className="creative-input">
-                  <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
-                </SelectTrigger>
-                <SelectContent>
-                  {field.options?.map((option: string) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          );
-        
-        case 'array':
-          return (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              <Input
-                id={field.key}
-                value={Array.isArray(value) ? value.join(', ') : ''}
-                onChange={(e) => handleInputChange(field.key, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
-                placeholder={`Enter ${field.label.toLowerCase()}, separated by commas...`}
-                className="creative-input"
-              />
-            </div>
-          );
-        
-        default:
-          return (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
-              <Input
-                id={field.key}
-                value={value || ''}
-                onChange={(e) => handleInputChange(field.key, e.target.value)}
-                placeholder={`Enter ${field.label.toLowerCase()}...`}
-                className="creative-input"
-              />
-            </div>
-          );
-      }
-    } else {
-      // View mode - show all fields, but only display content if present
-      return (
-        <div key={field.key} className="space-y-2">
-          <Label className="text-muted-foreground">{field.label}</Label>
-          {(!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) ? (
-            <div className="text-sm text-muted-foreground italic">
-              No {field.label.toLowerCase()} added yet
-            </div>
-          ) : Array.isArray(value) ? (
-            <div className="flex flex-wrap gap-1">
-              {value.map((item: string, index: number) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {item}
-                </Badge>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm">{value}</p>
-          )}
-        </div>
-      );
-    }
+    return (
+      <FieldRenderer
+        key={field.key}
+        field={field}
+        value={value}
+        isEditing={isEditing}
+        onChange={handleInputChange}
+      />
+    );
   };
 
 
