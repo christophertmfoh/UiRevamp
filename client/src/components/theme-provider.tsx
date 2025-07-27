@@ -99,30 +99,64 @@ const getSystemTheme = (): 'light' | 'dark' => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-// Simplified, robust theme application
+// Simplified, robust theme application with maximum error protection
 const applyTheme = (theme: ResolvedTheme) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
   try {
     const root = document.documentElement;
+    if (!root || !root.classList) return;
     
-    // Clear all existing theme classes safely
+    // Clear all existing theme classes safely with individual try-catch
     const allThemeClasses = ['light', 'dark', 'midnight-ink', 'sunrise-creative', 'sepia-parchment', 'evergreen-focus', 'obsidian-minimal'];
+    
     allThemeClasses.forEach(cls => {
-      root.classList.remove(cls);
+      try {
+        root.classList.remove(cls);
+      } catch (e) {
+        // Silently ignore individual class removal errors
+      }
     });
     
-    // Add the selected theme class
-    root.classList.add(theme);
+    // Add the selected theme class with protection
+    try {
+      root.classList.add(theme);
+    } catch (e) {
+      console.warn('Failed to add theme class:', theme, e);
+    }
     
-    // Set data attribute
-    root.setAttribute('data-theme', theme);
+    // Set data attribute with protection
+    try {
+      root.setAttribute('data-theme', theme);
+    } catch (e) {
+      console.warn('Failed to set data-theme attribute:', e);
+    }
     
-    // Store in localStorage for persistence
-    localStorage.setItem('fablecraft-theme', theme);
+    // Store in localStorage with protection
+    try {
+      localStorage.setItem('fablecraft-theme', theme);
+    } catch (e) {
+      console.warn('Failed to save theme to localStorage:', e);
+    }
     
   } catch (error) {
-    console.warn('Theme application failed:', error);
+    console.warn('Theme application failed completely:', error);
+    // Ultimate fallback - just try to set basic dark/light
+    try {
+      const root = document.documentElement;
+      if (root && root.classList) {
+        if (theme === 'light') {
+          root.classList.remove('dark');
+          root.classList.add('light');
+        } else {
+          root.classList.remove('light');
+          root.classList.add('dark');
+        }
+      }
+    } catch (e) {
+      // If even this fails, just log and continue
+      console.warn('Even fallback theme application failed:', e);
+    }
   }
 };
 
@@ -131,6 +165,8 @@ export function ThemeProvider({
   defaultTheme = 'dark',
   storageKey = 'fablecraft-theme',
 }: ThemeProviderProps) {
+  const [isChanging, setIsChanging] = useState(false);
+  
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === 'undefined') return defaultTheme;
     
@@ -147,28 +183,45 @@ export function ThemeProvider({
     return theme as ResolvedTheme;
   });
 
-  // Handle theme changes
+  // Handle theme changes with debouncing
   const setTheme = (newTheme: Theme) => {
+    if (isChanging) {
+      console.log('🎨 Theme change blocked - already changing');
+      return;
+    }
+    
+    console.log('🎨 Theme change requested:', newTheme);
+    setIsChanging(true);
+    
     try {
       setThemeState(newTheme);
       
       const resolved = newTheme === 'system' ? getSystemTheme() : newTheme as ResolvedTheme;
+      console.log('🎨 Resolved theme:', resolved);
       setResolvedTheme(resolved);
       
       // Apply immediately
+      console.log('🎨 Applying theme...');
       applyTheme(resolved);
+      console.log('🎨 Theme applied successfully');
       
     } catch (error) {
-      console.warn('Theme setting failed:', error);
+      console.error('🎨 Theme setting failed:', error);
+      console.error('🎨 Error stack:', error?.stack);
+    } finally {
+      // Reset the changing flag after a short delay
+      setTimeout(() => setIsChanging(false), 100);
     }
   };
 
-  // Apply theme on mount and when theme changes
+  // Apply theme on mount and when theme changes - with protection against loops
   useEffect(() => {
+    if (isChanging) return;
+    
     const resolved = theme === 'system' ? getSystemTheme() : theme as ResolvedTheme;
     setResolvedTheme(resolved);
     applyTheme(resolved);
-  }, [theme]);
+  }, [theme, isChanging]);
 
   // Listen for system theme changes
   useEffect(() => {
@@ -177,6 +230,8 @@ export function ThemeProvider({
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     const handleChange = () => {
+      if (isChanging) return;
+      
       const newTheme = getSystemTheme();
       setResolvedTheme(newTheme);
       applyTheme(newTheme);
@@ -184,7 +239,7 @@ export function ThemeProvider({
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme]);
+  }, [theme, isChanging]);
 
   // Helper functions
   const getThemeConfig = (themeId: Theme): ThemeConfig | undefined => {
