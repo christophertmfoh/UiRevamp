@@ -450,23 +450,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Import the document using AI
-      const characterData = await importCharacterDocument(req.file.path, req.file.originalname);
+      const extractedData = await importCharacterDocument(req.file.path, req.file.originalname);
       
-      console.log('Document imported successfully, now generating portrait');
+      console.log('Document imported successfully:', extractedData);
+
+      // Transform extracted data to match database schema
+      const characterData: any = {
+        projectId,
+        name: extractedData.name || 'Unnamed Character',
+        // Identity fields
+        nicknames: Array.isArray(extractedData.nicknames) ? extractedData.nicknames.join(', ') : '',
+        title: extractedData.title || '',
+        aliases: Array.isArray(extractedData.aliases) ? extractedData.aliases.join(', ') : '',
+        age: extractedData.age || '',
+        race: extractedData.race || '',
+        class: extractedData.class || '',
+        profession: extractedData.profession || '',
+        role: extractedData.role || '',
+        
+        // Appearance fields
+        physicalDescription: extractedData.physicalDescription || '',
+        height: extractedData.height || '',
+        build: extractedData.build || '',
+        eyeColor: extractedData.eyeColor || '',
+        hairColor: extractedData.hairColor || '',
+        hairStyle: extractedData.hairStyle || '',
+        skinTone: extractedData.skinTone || '',
+        distinguishingMarks: Array.isArray(extractedData.distinguishingMarks) ? extractedData.distinguishingMarks.join(', ') : '',
+        clothingStyle: extractedData.clothingStyle || '',
+        facialFeatures: extractedData.facialFeatures || '',
+        
+        // Personality fields
+        personalityOverview: extractedData.personalityOverview || '',
+        personalityTraits: Array.isArray(extractedData.personalityTraits) ? extractedData.personalityTraits.join(', ') : '',
+        temperament: extractedData.temperament || '',
+        worldview: extractedData.worldview || '',
+        values: Array.isArray(extractedData.values) ? extractedData.values.join(', ') : '',
+        goals: Array.isArray(extractedData.goals) ? extractedData.goals.join(', ') : '',
+        motivations: Array.isArray(extractedData.motivations) ? extractedData.motivations.join(', ') : '',
+        fears: Array.isArray(extractedData.fears) ? extractedData.fears.join(', ') : '',
+        
+        // Background fields
+        backstory: extractedData.backstory || '',
+        familyHistory: extractedData.familyHistory || '',
+        education: extractedData.education || '',
+        
+        // Abilities fields
+        coreAbilities: extractedData.coreAbilities || '',
+        skills: Array.isArray(extractedData.skills) ? extractedData.skills.join(', ') : '',
+        talents: Array.isArray(extractedData.talents) ? extractedData.talents.join(', ') : '',
+        strengths: Array.isArray(extractedData.strengths) ? extractedData.strengths.join(', ') : '',
+        weaknesses: Array.isArray(extractedData.weaknesses) ? extractedData.weaknesses.join(', ') : ''
+      };
 
       // Generate automatic portrait for imported character
       try {
         const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
-        const portraitUrl = await generateCharacterPortrait(characterData);
+        const portraitUrl = await generateCharacterPortrait(extractedData);
         
         if (portraitUrl) {
           console.log('Portrait generated successfully for imported character');
           characterData.imageUrl = portraitUrl;
-          characterData.portraits = [{
-            id: `portrait_${Date.now()}`,
-            url: portraitUrl,
-            isMain: true
-          }];
         } else {
           console.log('Portrait generation failed for imported character');
         }
@@ -474,11 +518,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error('Portrait generation failed for imported character:', portraitError);
       }
       
-      // Return the extracted character data with portrait for frontend
-      res.json({
-        ...characterData,
-        projectId: projectId
-      });
+      // Create the character in the database
+      console.log('Creating character in database with imported data');
+      const createdCharacter = await storage.createCharacter(characterData);
+      
+      res.status(201).json(createdCharacter);
       
     } catch (error: any) {
       console.error("Error importing document:", error);
