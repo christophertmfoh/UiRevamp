@@ -194,10 +194,13 @@ export function LandingPage({
             <ThemeToggle />
             <Button 
               onClick={() => onNavigate('projects')}
-              className="group bg-gradient-to-r from-emerald-500 to-amber-500 text-white font-semibold hover:from-emerald-600 hover:to-amber-600 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] px-6 py-2 transition-all duration-300 ease-out"
+              className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
             >
-              Your Projects
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10 flex items-center">
+                Your Projects
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
             </Button>
           </div>
         </div>
@@ -503,7 +506,7 @@ export function LandingPage({
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
-                  Your Projects
+                  Explore Examples
                   <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Button>
