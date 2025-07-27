@@ -155,8 +155,8 @@ export function ProjectsPageRedesign({
       {/* Navigation Header */}
       <nav className="relative z-10 px-8 py-6 border-b border-stone-200/20 dark:border-stone-800/20 backdrop-blur-xl">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center space-x-6">
-            {/* Back to Landing */}
+          {/* Back Button */}
+          <div className="flex-1">
             <Button
               variant="ghost"
               onClick={() => onNavigate('landing')}
@@ -165,20 +165,20 @@ export function ProjectsPageRedesign({
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
               Back
             </Button>
-            
-            {/* Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-                <Feather className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
-                Fablecraft
-              </span>
+          </div>
+          
+          {/* Centered Logo */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
+              <Feather className="w-5 h-5 text-white" />
             </div>
+            <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+              Fablecraft
+            </span>
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 flex-1 justify-end">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
