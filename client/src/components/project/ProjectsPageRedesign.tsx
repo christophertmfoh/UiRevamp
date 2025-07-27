@@ -880,8 +880,8 @@ export function ProjectsPageRedesign({
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
               <CardContent className="p-5 h-full flex flex-col justify-center">
                 <div className="text-center space-y-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-full flex items-center justify-center mx-auto">
-                    <PlusCircle className="w-6 h-6 text-emerald-800 dark:text-white" />
+                  <div className="w-12 h-12 gradient-icon-container rounded-full flex items-center justify-center mx-auto">
+                    <PlusCircle className="w-6 h-6 gradient-text" />
                   </div>
                   <div>
                     <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
@@ -889,7 +889,7 @@ export function ProjectsPageRedesign({
                     <Button 
                       size="sm"
                       onClick={onNewProject}
-                      className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:to-amber-600 dark:hover:from-emerald-500 dark:hover:to-amber-500 text-emerald-800 dark:text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      className="gradient-emerald-amber gradient-emerald-amber-hover gradient-text text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Create Project
                     </Button>
@@ -904,8 +904,8 @@ export function ProjectsPageRedesign({
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-full flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-emerald-800 dark:text-white" />
+                  <div className="w-6 h-6 gradient-icon-container rounded-full flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 gradient-text" />
                   </div>
                   <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                     Writing Progress
@@ -914,7 +914,7 @@ export function ProjectsPageRedesign({
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="gradient-emerald-amber gradient-emerald-amber-hover gradient-text text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -932,7 +932,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
+                    <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -947,7 +947,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                    <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -962,7 +962,7 @@ export function ProjectsPageRedesign({
                     </p>
                   </div>
                   <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
+                    <div className="gradient-progress h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
                   </div>
                 </div>
 
@@ -1030,7 +1030,7 @@ export function ProjectsPageRedesign({
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
                   <div 
-                    className="bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 h-1.5 rounded-full" 
+                    className="gradient-progress h-1.5 rounded-full" 
                     style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
                   ></div>
                 </div>

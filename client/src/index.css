@@ -86,6 +86,38 @@ body {
   background: transparent !important;
 }
 
+/* Global Gradient Rules for Light/Dark Mode */
+@layer utilities {
+  /* Button/Badge gradients */
+  .gradient-emerald-amber {
+    @apply bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+  }
+  
+  .gradient-emerald-amber-hover {
+    @apply hover:from-emerald-200 hover:to-emerald-300 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600;
+  }
+  
+  /* Text color for gradient backgrounds */
+  .gradient-text {
+    @apply text-emerald-800 dark:text-white;
+  }
+  
+  /* Progress bar gradients */
+  .gradient-progress {
+    @apply bg-gradient-to-r from-emerald-400 to-emerald-500 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+  }
+  
+  /* Icon container gradients */
+  .gradient-icon-container {
+    @apply bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700;
+  }
+  
+  /* Text gradients */
+  .gradient-text-emerald {
+    @apply bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-400 dark:to-amber-400 bg-clip-text text-transparent;
+  }
+}
+
 /* Smooth Dark/Light Mode Transitions */
 /* Simple, unified transitions for all elements */
 * {
