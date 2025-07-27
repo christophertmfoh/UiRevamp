@@ -320,12 +320,12 @@ export function ProjectsView({
           </div>
         ) : filteredProjects.length === 0 ? (
           <div className="text-center py-16">
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-12 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl max-w-md mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <div className="bg-card/70 backdrop-blur-lg rounded-3xl p-12 border border-border shadow-2xl max-w-md mx-auto">
+              <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                 <Search className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 mb-3">No Projects Found</h3>
-              <p className="text-stone-600 dark:text-stone-300 leading-relaxed">
+              <h3 className="text-2xl font-bold text-foreground mb-3">No Projects Found</h3>
+              <p className="text-foreground/70 leading-relaxed">
                 Try adjusting your search terms or filters
               </p>
             </div>
@@ -339,31 +339,28 @@ export function ProjectsView({
               return (
                 <div 
                   key={project.id} 
-                  className="group relative bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-3xl border border-amber-200/50 dark:border-amber-600/20 shadow-lg hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden"
+                  className="group relative bg-card/50 backdrop-blur-sm rounded-3xl border border-border shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden"
                   onClick={() => onSelectProject(project)}
                 >
                   {/* Background gradient on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-orange-50/0 to-red-50/0 dark:from-amber-900/0 dark:via-orange-900/0 dark:to-red-900/0 group-hover:from-amber-50/50 group-hover:via-orange-50/30 group-hover:to-red-50/20 dark:group-hover:from-amber-900/20 dark:group-hover:via-orange-900/15 dark:group-hover:to-red-900/10 transition-all duration-700"></div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
+                       style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.08) 0%, hsl(var(--orb-secondary) / 0.05) 100%)' }}></div>
                   
                   <div className="relative z-10 p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start space-x-3">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${
-                          project.type === 'novel' ? 'from-amber-400 via-orange-500 to-orange-600 dark:from-amber-500 dark:via-orange-600 dark:to-orange-700' :
-                          project.type === 'screenplay' ? 'from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700' :
-                          'from-red-400 via-red-500 to-orange-600 dark:from-red-500 dark:via-red-600 dark:to-orange-700'
-                        } rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                        <div className="w-12 h-12 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                           <IconComponent className="h-6 w-6 text-white" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                             {project.name}
                           </h3>
                           <div className="flex items-center space-x-2 mt-1">
-                            <span className="text-xs font-medium text-amber-600 dark:text-amber-400 capitalize bg-amber-100/50 dark:bg-amber-900/30 px-2 py-0.5 rounded-full">
+                            <span className="text-xs font-medium text-primary capitalize bg-primary/10 px-2 py-0.5 rounded-full">
                               {project.type}
                             </span>
-                            <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
+                            <div className="flex items-center text-xs text-muted-foreground">
                               <Clock className="h-3 w-3 mr-1" />
                               {formatDistanceToNow(new Date(project.lastModified), { addSuffix: true })}
                             </div>
@@ -376,18 +373,18 @@ export function ProjectsView({
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="h-8 w-8 p-0 text-stone-500 hover:text-amber-600 dark:text-stone-400 dark:hover:text-amber-400 hover:bg-amber-100/50 dark:hover:bg-amber-900/30"
+                            className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-accent/50"
                           >
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-amber-200/60 dark:border-amber-500/30">
+                        <DropdownMenuContent align="end" className="bg-card/90 backdrop-blur-lg border border-border">
                           <DropdownMenuItem 
                             onClick={(e) => {
                               e.stopPropagation();
                               onOpenModal({ type: 'rename', project });
                             }}
-                            className="hover:bg-amber-100 dark:hover:bg-amber-900/30"
+                            className="hover:bg-accent/50"
                           >
                             <Edit className="h-4 w-4 mr-2" />
                             Rename
@@ -397,7 +394,7 @@ export function ProjectsView({
                               e.stopPropagation();
                               onOpenModal({ type: 'edit', project });
                             }}
-                            className="hover:bg-amber-100 dark:hover:bg-amber-900/30"
+                            className="hover:bg-accent/50"
                           >
                             <FileText className="h-4 w-4 mr-2" />
                             Edit Details
@@ -421,8 +418,8 @@ export function ProjectsView({
                       const genreArray = Array.isArray(project.genre) ? project.genre : [project.genre].filter(Boolean);
                       return genreArray.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {genreArray.filter(Boolean).slice(0, 2).map((genre: string, index: number) => (
-                            <span key={index} className="text-xs font-medium bg-amber-100/50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-3 py-1 rounded-full">
+                          {genreArray.filter(Boolean).slice(0, 2).map((genre: string | undefined, index: number) => genre && (
+                            <span key={index} className="text-xs font-medium bg-primary/10 text-primary px-3 py-1 rounded-full">
                               {genre}
                             </span>
                           ))}

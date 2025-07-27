@@ -84,7 +84,7 @@ export function ProjectsView({
   const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    project.genre?.toLowerCase().includes(searchTerm.toLowerCase())
+    (typeof project.genre === 'string' ? project.genre.toLowerCase().includes(searchTerm.toLowerCase()) : false)
   ).sort((a: Project, b: Project) => {
     switch (sortBy) {
       case 'name':
@@ -295,9 +295,9 @@ export function ProjectsView({
         {/* Header Section */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-lg backdrop-blur-sm mb-4">
-              <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-xs font-bold text-stone-900 dark:text-stone-100 uppercase tracking-wide">Creative Universe</span>
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-card/90 border border-border shadow-lg backdrop-blur-sm mb-4">
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
+              <span className="text-xs font-bold text-foreground uppercase tracking-wide">Creative Universe</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl font-black text-foreground leading-tight tracking-tight mb-2">
@@ -307,7 +307,7 @@ export function ProjectsView({
               </span>
             </h1>
             
-            <p className="text-stone-700 dark:text-stone-300 max-w-2xl">
+            <p className="text-foreground/70 max-w-2xl">
               Organize, track, and bring your stories to life with intelligent project management.
             </p>
           </div>
@@ -323,7 +323,7 @@ export function ProjectsView({
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl p-4 border border-border shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-foreground">{filteredProjects.length}</p>
@@ -334,7 +334,7 @@ export function ProjectsView({
               </div>
             </div>
           </div>
-          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl p-4 border border-border shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-foreground">
@@ -347,7 +347,7 @@ export function ProjectsView({
               </div>
             </div>
           </div>
-          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl p-4 border border-border shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-foreground">
@@ -360,7 +360,7 @@ export function ProjectsView({
               </div>
             </div>
           </div>
-          <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-sm">
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl p-4 border border-border shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-foreground">Ready</p>
@@ -377,12 +377,12 @@ export function ProjectsView({
         <div className="flex items-center justify-between mb-8">
           {/* Left: Search */}
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-stone-400 pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
             <Input
               placeholder="Search projects..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 bg-white/60 dark:bg-stone-800/40 backdrop-blur-sm border border-stone-300/30 dark:border-stone-700/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 shadow-sm hover:shadow-md focus:shadow-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/30 transition-all duration-300"
+              className="w-full h-12 pl-12 pr-4 bg-card/60 backdrop-blur-sm border border-border rounded-2xl text-foreground placeholder:text-muted-foreground shadow-sm hover:shadow-md focus:shadow-lg focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all duration-300"
             />
           </div>
           
@@ -391,7 +391,7 @@ export function ProjectsView({
             <span className="text-sm font-medium text-foreground">Sort by:</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-10 px-4 text-stone-700 dark:text-stone-300 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 rounded-xl transition-all duration-200">
+                <Button variant="ghost" className="h-10 px-4 text-foreground hover:bg-accent/50 rounded-xl transition-all duration-200">
                   <ArrowUpDown className="w-4 h-4 mr-2" />
                   <span className="font-medium">
                     {sortBy === 'updated' ? 'Recently Updated' : 
@@ -541,18 +541,18 @@ export function ProjectsView({
                     const isRecent = new Date(project.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
                     
                     return (
-                      <div key={project.id} className="flex items-center space-x-3 p-3 bg-stone-50/50 dark:bg-stone-700/30 rounded-xl hover:bg-stone-100/50 dark:hover:bg-stone-700/50 transition-colors duration-200 cursor-pointer" onClick={() => onSelectProject(project)}>
+                      <div key={project.id} className="flex items-center space-x-3 p-3 bg-muted/50 rounded-xl hover:bg-muted/70 transition-colors duration-200 cursor-pointer" onClick={() => onSelectProject(project)}>
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                           isRecent 
                             ? 'gradient-primary-br' 
-                            : 'bg-stone-300 dark:bg-stone-600'
+                            : 'bg-muted'
                         }`}>
                           {project.type === 'novel' ? <BookOpen className="w-4 h-4 text-white" /> :
                            project.type === 'screenplay' ? <FileText className="w-4 h-4 text-white" /> :
                            <Image className="w-4 h-4 text-white" />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 truncate">
+                          <p className="text-sm font-semibold text-foreground truncate">
                             {project.name}
                           </p>
                           <p className="text-xs text-foreground">
@@ -560,7 +560,7 @@ export function ProjectsView({
                           </p>
                         </div>
                         {isRecent && (
-                          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                          <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
                         )}
                       </div>
                     );
@@ -568,11 +568,11 @@ export function ProjectsView({
                   
                   {filteredProjects.length === 0 && (
                     <div className="text-center py-6">
-                      <div className="w-12 h-12 bg-stone-200 dark:bg-stone-700 rounded-xl flex items-center justify-center mx-auto mb-3">
-                        <Clock className="w-6 h-6 text-stone-400 dark:text-stone-500" />
+                      <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <Clock className="w-6 h-6 text-muted-foreground" />
                       </div>
                       <p className="text-foreground text-sm">No activity yet</p>
-                      <p className="text-stone-500 dark:text-stone-500 text-xs">Start creating!</p>
+                      <p className="text-muted-foreground text-xs">Start creating!</p>
                     </div>
                   )}
                 </div>
