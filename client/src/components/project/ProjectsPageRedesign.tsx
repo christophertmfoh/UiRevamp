@@ -235,26 +235,65 @@ export function ProjectsPageRedesign({
         </div>
 
         {/* Dashboard Cards - 2x2 Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Left Column */}
-          <div className="space-y-6">
-            {/* Message of the Day */}
-            <MessageOfTheDay />
-            
-            {/* Writing Progress */}
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-              <CardContent className="p-5">
-                <div className="flex items-center justify-center gap-3 mb-5">
-                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-white" />
-                  </div>
-                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                    Writing Progress
-                  </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 mb-8 lg:h-[600px]">
+          {/* Message of the Day */}
+          <MessageOfTheDay />
+          
+          {/* Recent Project */}
+          {projects.length > 0 ? (
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
+              <CardContent className="p-5 h-full flex flex-col">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
+                  <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
+                    Active
+                  </Badge>
                 </div>
-                
+                <div className="space-y-3 flex-grow">
+                  <div>
+                    <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
+                    <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+                    <Clock className="w-3 h-3" />
+                    <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <Button 
+                  size="sm"
+                  onClick={() => onSelectProject(projects[0])}
+                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
+                >
+                  Open Project
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+              <CardContent className="p-5 h-full flex flex-col justify-center">
+                <div className="text-center">
+                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Create your first project to get started!</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Writing Progress */}
+          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+            <CardContent className="p-5 h-full flex flex-col">
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-3 h-3 text-white" />
+                </div>
+                <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                  Writing Progress
+                </p>
+              </div>
+              
+              <div className="flex-grow space-y-5">
                 {/* Writing Streak */}
-                <div className="mb-5">
+                <div>
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
                     <p className="text-sm font-bold text-emerald-600">7 days</p>
@@ -276,134 +315,51 @@ export function ProjectsPageRedesign({
                   </div>
                   <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          {/* Right Column */}
-          <div className="space-y-6">
-            {/* Recent Project (if exists) */}
-            {projects.length > 0 ? (
-              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
-                    <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
-                      Active
-                    </Badge>
-                  </div>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-                      <Clock className="w-3 h-3" />
-                      <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
-                    </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => onSelectProject(projects[0])}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                    >
-                      Open Project
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-                <CardContent className="p-5">
-                  <div className="text-center">
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
-                    <p className="text-xs text-stone-600 dark:text-stone-400">Create your first project to get started!</p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Quick Tasks and Writing Goals */}
-            <div className="grid grid-cols-1 gap-4">
-              {/* Quick Tasks */}
-              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <CheckCircle className="w-4 h-4 text-emerald-600" />
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
-                      Quick Tasks
-                    </h3>
-                  </div>
-                  <div className="space-y-3 text-sm mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
-                      <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
-                      <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
-                      <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
-                    </div>
-                  </div>
-                  <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-                    <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
-                      <span>Today's Progress</span>
-                      <span>1/3 completed</span>
-                    </div>
-                    <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
-                      <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
-                    </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => setShowTasksModal(true)}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                    >
-                      View All Tasks
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Writing Goals */}
-              <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Target className="w-4 h-4 text-amber-600" />
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
-                      Writing Goals
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    {/* Weekly Goal */}
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Weekly Goal</p>
-                        <p className="text-sm font-bold text-amber-600">2,100/3,500 words</p>
-                      </div>
-                      <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                        <div className="bg-gradient-to-r from-amber-600 to-emerald-600 h-2 rounded-full" style={{ width: '60%' }}></div>
-                      </div>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">60% complete • 3 days left</p>
-                    </div>
-
-                    {/* Monthly Goal */}
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Monthly Goal</p>
-                        <p className="text-sm font-bold text-emerald-600">8,400/15,000 words</p>
-                      </div>
-                      <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                        <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '56%' }}></div>
-                      </div>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">On track! Keep writing.</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+          {/* Quick Tasks */}
+          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+            <CardContent className="p-5 h-full flex flex-col">
+              <div className="flex items-center gap-3 mb-5">
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
+                <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+                  Quick Tasks
+                </h3>
+              </div>
+              <div className="space-y-3 text-sm mb-5 flex-grow">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
+                  <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
+                  <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
+                  <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50 mt-auto">
+                <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
+                  <span>Today's Progress</span>
+                  <span>1/3 completed</span>
+                </div>
+                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
+                </div>
+                <Button 
+                  size="sm"
+                  onClick={() => setShowTasksModal(true)}
+                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                >
+                  View All Tasks
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Stats Cards */}
