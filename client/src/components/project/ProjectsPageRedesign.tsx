@@ -145,7 +145,7 @@ export function ProjectsPageRedesign({
               <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
                 <Feather className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black text-stone-900 dark:text-stone-50">
+              <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
                 Fablecraft
               </span>
             </div>
@@ -189,10 +189,10 @@ export function ProjectsPageRedesign({
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
         <div className="text-center mb-12 space-y-4">
-          <h1 className="text-5xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
             Your Projects
           </h1>
-          <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-800 dark:text-stone-200 max-w-2xl mx-auto leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
             Organize, track, and bring your stories to life with intelligent project management.
           </p>
         </div>
@@ -257,10 +257,10 @@ export function ProjectsPageRedesign({
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xl font-bold text-white">
+                  <p className="text-xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] tracking-tight">
                     New Project
                   </p>
-                  <p className="text-sm text-white/80 mt-1">
+                  <p className="text-sm font-medium text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] tracking-wide">
                     Start your journey
                   </p>
                 </div>
@@ -370,10 +370,10 @@ export function ProjectsPageRedesign({
               <div className="w-24 h-24 bg-gradient-to-br from-emerald-600/20 via-stone-600/20 to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <PenTool className="w-12 h-12 text-stone-600 dark:text-stone-400" />
               </div>
-              <h3 className="text-2xl font-bold text-stone-900 dark:text-stone-50 mb-2">
+              <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
                 {searchTerm ? 'No projects found' : 'Start Your First Story'}
               </h3>
-              <p className="text-stone-600 dark:text-stone-400 mb-6 max-w-md mx-auto">
+              <p className="text-stone-800 dark:text-stone-200 mb-6 max-w-md mx-auto font-medium leading-[1.6] drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
                 {searchTerm 
                   ? 'Try adjusting your search or create a new project.' 
                   : 'Every great story begins with a single idea. Start crafting your narrative today.'}
