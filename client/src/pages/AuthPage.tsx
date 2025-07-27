@@ -7,16 +7,28 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, Loader2, UserPlus, LogIn } from 'lucide-react';
+import { AlertCircle, Loader2, UserPlus, LogIn, Check, X, Shield } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMutation } from '@tanstack/react-query';
 import { ThemeToggle } from '@/components/theme-toggle';
 
+// Enhanced password validation
+const passwordSchema = z.string()
+  .min(8, 'Password must be at least 8 characters')
+  .max(128, 'Password must be less than 128 characters')
+  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+  .regex(/[0-9]/, 'Password must contain at least one number')
+  .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character');
+
 // Validation schemas
 const signupSchema = z.object({
   email: z.string().email('Invalid email format'),
-  username: z.string().min(3, 'Username must be at least 3 characters').max(30, 'Username must be less than 30 characters'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  username: z.string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(30, 'Username must be less than 30 characters')
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, hyphens, and underscores'),
+  password: passwordSchema,
   fullName: z.string().optional()
 });
 
@@ -33,9 +45,35 @@ interface AuthPageProps {
   onBack: () => void;
 }
 
+// Password strength checker
+function checkPasswordStrength(password: string) {
+  const checks = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password)
+  };
+  
+  const score = Object.values(checks).filter(Boolean).length;
+  let strength = 'Weak';
+  let color = 'text-red-500';
+  
+  if (score >= 5) {
+    strength = 'Strong';
+    color = 'text-green-500';
+  } else if (score >= 3) {
+    strength = 'Medium';
+    color = 'text-yellow-500';
+  }
+  
+  return { checks, score, strength, color };
+}
+
 export function AuthPage({ onAuth, onBack }: AuthPageProps) {
   const [activeTab, setActiveTab] = useState('login');
   const [error, setError] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState(checkPasswordStrength(''));
 
   const signupForm = useForm<SignupData>({
     resolver: zodResolver(signupSchema),
@@ -158,6 +196,20 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
               </TabsTrigger>
             </TabsList>
 
+            {/* Security Information */}
+            <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-800 dark:text-blue-200">Account Security</span>
+              </div>
+              <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                <p>• Usernames and emails must be unique</p>
+                <p>• Username: 3-30 characters (letters, numbers, _, -)</p>
+                <p>• Passwords: 8+ characters with uppercase, lowercase, number & special character</p>
+                <p>• All data is securely encrypted and protected</p>
+              </div>
+            </div>
+
             {/* Error Display */}
             {error && (
               <Alert variant="destructive" className="mb-6">
@@ -262,6 +314,7 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                     {signupForm.formState.errors.username && (
                       <p className="text-sm text-red-500">{signupForm.formState.errors.username.message}</p>
                     )}
+                    <p className="text-xs text-gray-500">3-30 characters, letters/numbers/hyphens/underscores only</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="newPassword">Password</Label>
@@ -269,10 +322,61 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                       id="newPassword"
                       type="password"
                       placeholder="Create a password"
-                      {...signupForm.register('password')}
+                      {...signupForm.register('password', {
+                        onChange: (e) => {
+                          setPasswordStrength(checkPasswordStrength(e.target.value));
+                        }
+                      })}
                     />
                     {signupForm.formState.errors.password && (
                       <p className="text-sm text-red-500">{signupForm.formState.errors.password.message}</p>
+                    )}
+                    
+                    {/* Password Strength Indicator */}
+                    {signupForm.watch('password') && (
+                      <div className="mt-2 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-gray-600">Password Strength:</span>
+                          <span className={`text-xs font-medium ${passwordStrength.color}`}>
+                            {passwordStrength.strength}
+                          </span>
+                        </div>
+                        
+                        {/* Progress Bar */}
+                        <div className="w-full bg-gray-200 rounded-full h-1.5">
+                          <div 
+                            className={`h-1.5 rounded-full transition-all duration-300 ${
+                              passwordStrength.score >= 5 ? 'bg-green-500' :
+                              passwordStrength.score >= 3 ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}
+                            style={{ width: `${(passwordStrength.score / 5) * 100}%` }}
+                          />
+                        </div>
+                        
+                        {/* Requirements Checklist */}
+                        <div className="grid grid-cols-1 gap-1 text-xs">
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.length ? 'text-green-600' : 'text-gray-400'}`}>
+                            {passwordStrength.checks.length ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                            8+ characters
+                          </div>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.uppercase ? 'text-green-600' : 'text-gray-400'}`}>
+                            {passwordStrength.checks.uppercase ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                            Uppercase letter
+                          </div>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.lowercase ? 'text-green-600' : 'text-gray-400'}`}>
+                            {passwordStrength.checks.lowercase ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                            Lowercase letter
+                          </div>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.number ? 'text-green-600' : 'text-gray-400'}`}>
+                            {passwordStrength.checks.number ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                            Number
+                          </div>
+                          <div className={`flex items-center gap-1 ${passwordStrength.checks.special ? 'text-green-600' : 'text-gray-400'}`}>
+                            {passwordStrength.checks.special ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                            Special character
+                          </div>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </CardContent>
