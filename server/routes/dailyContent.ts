@@ -8,7 +8,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_X || process.env.GOOGLE_
 
 router.post('/generate', authenticateToken, async (req, res) => {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     const prompt = `You are a creative writing assistant. Generate fresh, inspiring content for writers in the following categories. Make sure all content is unique, engaging, and helpful for writers.
 
