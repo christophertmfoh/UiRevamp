@@ -89,13 +89,11 @@ body {
 @layer utilities {
   /* Brand Classes - Light mode uses solid mint, dark mode uses gradient */
   .brand-gradient-text {
-    color: var(--color-brand-text);
-    @apply font-black dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
+    @apply font-black text-[#1F4E3C] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
   }
   
   .brand-gradient-bg {
-    background-color: var(--color-brand-bg);
-    @apply dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+    @apply bg-[#C6F6E0] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
   }
   
   .brand-gradient-border {
@@ -105,13 +103,20 @@ body {
   
   /* Brand Button - Matches the mint green design */
   .brand-button {
-    background-color: var(--color-brand-bg);
-    color: var(--color-brand-text);
-    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 hover:opacity-90 dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
+    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 bg-[#C6F6E0] text-[#1F4E3C] hover:bg-[#B8EDD4] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
   }
   
-  .brand-button:hover {
-    background-color: var(--color-brand-hover);
+  /* Mint Button for Light Mode */
+  .mint-button {
+    @apply bg-[#C6F6E0] text-[#1F4E3C] hover:bg-[#B8EDD4];
+  }
+  
+  .mint-button-text {
+    @apply text-[#1F4E3C];
+  }
+  
+  .mint-button-hover {
+    @apply bg-[#B8EDD4];
   }
   
   /* Brand Icon Button */
