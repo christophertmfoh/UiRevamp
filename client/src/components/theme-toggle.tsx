@@ -11,7 +11,16 @@ import {
   Scroll,
   TreePine,
   Square,
-  Check
+  Check,
+  BookOpen,
+  Trees,
+  Coffee,
+  Snowflake,
+  Edit3,
+  Pen,
+  Library,
+  Heart,
+  Flower
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
@@ -32,53 +41,109 @@ import {
  */
 const themeConfig = {
   light: {
-    name: 'Off-White Light',
+    name: 'Parchment Classic',
     icon: Sun,
-    description: 'Reduces eye strain vs pure white (UX Research 2024)',
-    category: 'Essential',
-    engagement: 'Trust & Productivity'
+    description: 'Warm cream with burgundy accents for traditional writing',
+    category: 'Classic Writers',
+    engagement: 'Traditional & Timeless'
   },
-  dark: {
-    name: 'GitHub Dark',
+  'midnight-ink': {
+    name: 'Midnight Ink',
     icon: Moon,
-    description: 'High contrast for developer-style engagement',
-    category: 'Essential',
-    engagement: 'Focus & Development'
+    description: 'Deep navy with gold accents - scholarly and magical',
+    category: 'Classic Writers',
+    engagement: 'Scholarly & Premium'
   },
-  system: {
-    name: 'System Auto',
-    icon: Monitor,
-    description: 'Auto-adapts to your device preference',
-    category: 'Essential',
-    engagement: 'Personalized Experience'
+  'parchment-scholar': {
+    name: 'Parchment Scholar',
+    icon: BookOpen,
+    description: 'Vintage academic vibes with warm cream and brown tones',
+    category: 'Classic Writers',
+    engagement: 'Academic & Vintage'
   },
-  'discord-gaming': {
-    name: 'Discord Gaming',
-    icon: Square,
-    description: 'Deep purples/blues with neon accents for creativity',
-    category: 'High Engagement',
-    engagement: 'Gaming & Creative Energy'
+  'forest-manuscript': {
+    name: 'Forest Manuscript',
+    icon: Trees,
+    description: 'Deep greens for natural, focused writing sessions',
+    category: 'Classic Writers',
+    engagement: 'Natural & Focused'
   },
-  'notion-focus': {
-    name: 'Notion Focus',
-    icon: Scroll,
-    description: 'Clean pastels optimized for productivity',
-    category: 'High Engagement',
-    engagement: 'Reading & Focus'  
-  },
-  'spotify-energy': {
-    name: 'Spotify Energy',
+  'starlit-prose': {
+    name: 'Starlit Prose',
     icon: Star,
-    description: 'Bright green system for dynamic engagement',
-    category: 'High Engagement',
-    engagement: 'Dynamic & Energetic'
+    description: 'Dark purple with silver - mystical and poetic inspiration',
+    category: 'Creative Inspiration',
+    engagement: 'Mystical & Poetic'
   },
-  'mocha-luxury': {
-    name: 'Mocha Luxury',
-    icon: TreePine,
-    description: '2025 Pantone trend with gold accents',
-    category: 'Premium',
-    engagement: 'Luxury & Sophistication'
+  'coffee-house': {
+    name: 'Coffee House',
+    icon: Coffee,
+    description: 'Rich browns and warm oranges for cozy cafe writing vibes',
+    category: 'Creative Inspiration',
+    engagement: 'Cozy & Inspiring'
+  },
+  'arctic-focus': {
+    name: 'Arctic Focus',
+    icon: Snowflake,
+    description: 'Cool blues and whites for clean, distraction-free writing',
+    category: 'Creative Inspiration',
+    engagement: 'Clean & Focused'
+  },
+  'sunset-chapter': {
+    name: 'Sunset Chapter',
+    icon: Sunrise,
+    description: 'Warm oranges and reds for inspiring creative energy',
+    category: 'Creative Inspiration',
+    engagement: 'Inspiring & Creative'
+  },
+  'graphite-minimal': {
+    name: 'Graphite Minimal',
+    icon: Edit3,
+    description: 'Monochrome grays for distraction-free, professional writing',
+    category: 'Minimalist Focus',
+    engagement: 'Professional & Minimal'
+  },
+  'obsidian-writer': {
+    name: 'Obsidian Writer',
+    icon: Pen,
+    description: 'Ultra-minimal pure blacks for serious, focused writing',
+    category: 'Minimalist Focus',
+    engagement: 'Ultra-Minimal & Serious'
+  },
+  'emerald-library': {
+    name: 'Emerald Library',
+    icon: Library,
+    description: 'Rich emerald with gold for classic library atmosphere',
+    category: 'Premium Literary',
+    engagement: 'Classic & Literary'
+  },
+  'rose-quartz': {
+    name: 'Rose Quartz',
+    icon: Heart,
+    description: 'Soft pinks and whites for gentle, romantic writing',
+    category: 'Premium Literary',
+    engagement: 'Gentle & Romantic'
+  },
+  'golden-hour': {
+    name: 'Golden Hour',
+    icon: Sun,
+    description: 'Warm yellows and oranges for inspiring, optimistic writing',
+    category: 'Premium Literary',
+    engagement: 'Optimistic & Uplifting'
+  },
+  'lavender-fields': {
+    name: 'Lavender Fields',
+    icon: Flower,
+    description: 'Purple and lavender tones for calm, poetic inspiration',
+    category: 'Premium Literary',
+    engagement: 'Calm & Poetic'
+  },
+  'copper-manuscript': {
+    name: 'Copper Manuscript',
+    icon: Palette,
+    description: 'Warm metallic copper tones for premium, artistic writing',
+    category: 'Premium Literary',
+    engagement: 'Premium & Artistic'
   }
 } as const;
 
@@ -160,23 +225,30 @@ export function ThemeToggle() {
         className="w-80 bg-card/95 border-border/30 backdrop-blur-sm"
       >
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          Essential Themes
+          Classic Writers
         </DropdownMenuLabel>
-        {renderThemesByCategory('Essential')}
+        {renderThemesByCategory('Classic Writers')}
         
         <DropdownMenuSeparator />
         
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          High Engagement
+          Creative Inspiration
         </DropdownMenuLabel>
-        {renderThemesByCategory('High Engagement')}
+        {renderThemesByCategory('Creative Inspiration')}
         
         <DropdownMenuSeparator />
         
         <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
-          Premium Experience
+          Minimalist Focus
         </DropdownMenuLabel>
-        {renderThemesByCategory('Premium')}
+        {renderThemesByCategory('Minimalist Focus')}
+        
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuLabel className="text-sm font-semibold text-foreground px-3 py-2">
+          Premium Literary
+        </DropdownMenuLabel>
+        {renderThemesByCategory('Premium Literary')}
       </DropdownMenuContent>
     </DropdownMenu>
   )

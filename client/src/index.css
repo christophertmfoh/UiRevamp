@@ -6,202 +6,476 @@
 
 @layer base {
   /* 
-   * Research-Based Theme System for Maximum Engagement & Eye Strain Reduction
-   * Based on 2024-2025 UX/UI studies on color psychology and user engagement
-   * Sources: UX Stack Exchange, Toptal Dark UI Study, Color Psychology Research
+   * Literary-Inspired Theme System for Creative Writers
+   * 14 unique themes designed for authors, screenwriters, and creative professionals
+   * Focus on inspiration, readability, and long writing sessions
    */
   
-  /* Theme 1: Off-White Light - Reduces eye strain vs pure white (UX Research 2024) */
+  /* Default Light Theme */
   :root {
-    --background: 30 15% 97%; /* Off-white instead of pure white */
-    --foreground: 240 15% 15%;
-    --card: 30 15% 98%;
-    --card-foreground: 240 15% 15%;
-    --popover: 30 15% 98%;
-    --popover-foreground: 240 15% 15%;
-    --primary: 212 100% 50%; /* Trust-building blue (Color Psychology) */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 30 10% 92%;
-    --secondary-foreground: 240 10% 35%;
-    --muted: 30 10% 92%;
-    --muted-foreground: 240 8% 46%;
-    --accent: 142 76% 36%; /* Growth/action green */
-    --accent-foreground: 0 0% 98%;
+    --background: 48 30% 96%; /* Soft parchment white */
+    --foreground: 30 40% 20%;
+    --card: 48 25% 94%;
+    --card-foreground: 30 40% 20%;
+    --popover: 48 25% 94%;
+    --popover-foreground: 30 40% 20%;
+    --primary: 350 100% 25%; /* Rich burgundy */
+    --primary-foreground: 48 30% 96%;
+    --secondary: 48 20% 88%;
+    --secondary-foreground: 30 40% 25%;
+    --muted: 48 20% 88%;
+    --muted-foreground: 30 25% 45%;
+    --accent: 30 80% 25%; /* Deep sepia */
+    --accent-foreground: 48 30% 96%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 30 8% 88%;
-    --input: 30 8% 88%;
-    --ring: 212 100% 50%;
+    --destructive-foreground: 48 30% 96%;
+    --border: 48 15% 82%;
+    --input: 48 15% 85%;
+    --ring: 350 100% 25%;
     --radius: 0.75rem;
     
-    /* Engagement-optimized variables */
-    --gradient-brand-start: 212 100% 50%;
-    --gradient-brand-end: 142 76% 36%;
-    --gradient-brand-text: 212 100% 40%;
-    --surface-elevated: 30 15% 99%;
-    --surface-muted: 30 10% 94%;
-    --orb-primary: 212 100% 50%;
-    --orb-secondary: 142 76% 36%;
+    /* Creative writing variables */
+    --gradient-brand-start: 350 100% 25%;
+    --gradient-brand-end: 30 80% 25%;
+    --gradient-brand-text: 350 100% 25%;
+    --surface-elevated: 48 25% 96%;
+    --surface-muted: 48 20% 90%;
+    --orb-primary: 350 100% 25%;
+    --orb-secondary: 30 80% 25%;
   }
 
-  /* Theme 2: GitHub Dark - High contrast for developer-style engagement */
-  .dark {
-    --background: 220 13% 9%; /* GitHub-inspired deep dark */
-    --foreground: 213 31% 91%;
-    --card: 217 19% 13%;
-    --card-foreground: 213 31% 91%;
-    --popover: 217 19% 13%;
-    --popover-foreground: 213 31% 91%;
-    --primary: 212 100% 70%; /* Bright blue for high contrast */
-    --primary-foreground: 220 13% 9%;
-    --secondary: 217 19% 18%;
-    --secondary-foreground: 213 31% 91%;
-    --muted: 217 19% 18%;
-    --muted-foreground: 218 11% 65%;
-    --accent: 142 72% 29%; /* GitHub green */
-    --accent-foreground: 213 31% 91%;
+  /* Theme 1: Midnight Ink - Deep navy with gold (scholarly, premium, magical) */
+  .midnight-ink {
+    --background: 210 100% 8%; /* Deep navy */
+    --foreground: 45 30% 90%;
+    --card: 210 50% 12%;
+    --card-foreground: 45 30% 90%;
+    --popover: 210 50% 15%;
+    --popover-foreground: 45 30% 90%;
+    --primary: 45 100% 50%; /* Brilliant gold */
+    --primary-foreground: 210 100% 8%;
+    --secondary: 210 50% 18%;
+    --secondary-foreground: 45 30% 90%;
+    --muted: 210 50% 18%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 42 87% 76%; /* Sandy beige */
+    --accent-foreground: 210 100% 8%;
     --destructive: 0 72% 51%;
-    --destructive-foreground: 213 31% 91%;
-    --border: 217 19% 18%;
-    --input: 217 19% 18%;
-    --ring: 212 100% 70%;
+    --destructive-foreground: 45 30% 90%;
+    --border: 210 50% 22%;
+    --input: 210 50% 15%;
+    --ring: 45 100% 50%;
     
-    /* High-contrast engagement variables */
-    --gradient-brand-start: 212 100% 70%;
-    --gradient-brand-end: 142 72% 29%;
-    --gradient-brand-text: 212 100% 75%;
-    --surface-elevated: 217 19% 15%;
-    --surface-muted: 217 19% 11%;
-    --orb-primary: 212 100% 70%;
-    --orb-secondary: 142 72% 29%;
+    --gradient-brand-start: 45 100% 50%;
+    --gradient-brand-end: 42 87% 76%;
+    --gradient-brand-text: 45 100% 55%;
+    --surface-elevated: 210 50% 15%;
+    --surface-muted: 210 50% 10%;
+    --orb-primary: 45 100% 50%;
+    --orb-secondary: 42 87% 76%;
   }
 
-  /* Theme 3: Discord Gaming - Deep purples/blues with neon accents for creativity */
-  .discord-gaming {
-    --background: 235 16% 15%; /* Discord-inspired deep blue */
-    --foreground: 220 100% 95%;
-    --card: 235 25% 18%;
-    --card-foreground: 220 100% 95%;
-    --popover: 235 25% 20%;
-    --popover-foreground: 220 100% 95%;
-    --primary: 268 83% 58%; /* Discord blurple */
-    --primary-foreground: 235 16% 15%;
-    --secondary: 235 25% 22%;
-    --secondary-foreground: 220 100% 95%;
-    --muted: 235 25% 22%;
-    --muted-foreground: 220 15% 70%;
-    --accent: 326 100% 74%; /* Electric pink accent */
-    --accent-foreground: 235 16% 15%;
-    --destructive: 0 100% 67%;
-    --destructive-foreground: 220 100% 95%;
-    --border: 235 25% 25%;
-    --input: 235 25% 20%;
-    --ring: 268 83% 58%;
+  /* Theme 2: Parchment Scholar - Warm cream and brown (vintage academic) */
+  .parchment-scholar {
+    --background: 45 56% 91%; /* Warm parchment */
+    --foreground: 25 40% 20%;
+    --card: 45 30% 88%;
+    --card-foreground: 25 40% 20%;
+    --popover: 45 30% 88%;
+    --popover-foreground: 25 40% 20%;
+    --primary: 25 100% 15%; /* Deep brown */
+    --primary-foreground: 45 56% 91%;
+    --secondary: 45 20% 83%;
+    --secondary-foreground: 25 40% 25%;
+    --muted: 45 20% 83%;
+    --muted-foreground: 25 25% 45%;
+    --accent: 15 60% 35%; /* Sepia brown */
+    --accent-foreground: 45 56% 91%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 45 56% 91%;
+    --border: 45 15% 78%;
+    --input: 45 15% 80%;
+    --ring: 25 100% 15%;
     
-    /* Gaming engagement variables */
-    --gradient-brand-start: 268 83% 58%;
-    --gradient-brand-end: 326 100% 74%;
-    --gradient-brand-text: 268 83% 65%;
-    --surface-elevated: 235 25% 22%;
-    --surface-muted: 235 25% 12%;
-    --orb-primary: 268 83% 58%;
-    --orb-secondary: 326 100% 74%;
+    --gradient-brand-start: 25 100% 15%;
+    --gradient-brand-end: 15 60% 35%;
+    --gradient-brand-text: 25 100% 15%;
+    --surface-elevated: 45 30% 90%;
+    --surface-muted: 45 20% 85%;
+    --orb-primary: 25 100% 15%;
+    --orb-secondary: 15 60% 35%;
   }
 
-  /* Theme 4: Notion Focus - Clean pastels optimized for productivity */
-  .notion-focus {
-    --background: 240 6% 97%; /* Notion-like soft background */
-    --foreground: 240 10% 15%;
-    --card: 240 8% 98%;
-    --card-foreground: 240 10% 15%;
-    --popover: 240 8% 98%;
-    --popover-foreground: 240 10% 15%;
-    --primary: 201 96% 32%; /* Notion blue */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 5% 92%;
-    --secondary-foreground: 240 8% 40%;
-    --muted: 240 5% 92%;
-    --muted-foreground: 240 6% 50%;
-    --accent: 162 73% 46%; /* Soft green for focus */
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72% 56%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 88%;
-    --input: 240 5% 88%;
-    --ring: 201 96% 32%;
+  /* Theme 3: Forest Manuscript - Deep greens (natural, focused) */
+  .forest-manuscript {
+    --background: 150 100% 10%; /* Deep forest */
+    --foreground: 120 20% 90%;
+    --card: 150 50% 15%;
+    --card-foreground: 120 20% 90%;
+    --popover: 150 50% 18%;
+    --popover-foreground: 120 20% 90%;
+    --primary: 120 70% 45%; /* Bright spring green */
+    --primary-foreground: 150 100% 10%;
+    --secondary: 150 50% 20%;
+    --secondary-foreground: 120 20% 90%;
+    --muted: 150 50% 20%;
+    --muted-foreground: 150 20% 65%;
+    --accent: 140 60% 70%; /* Light mint */
+    --accent-foreground: 150 100% 10%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 120 20% 90%;
+    --border: 150 50% 25%;
+    --input: 150 50% 18%;
+    --ring: 120 70% 45%;
     
-    /* Productivity-focused variables */
-    --gradient-brand-start: 201 96% 32%;
-    --gradient-brand-end: 162 73% 46%;
-    --gradient-brand-text: 201 96% 28%;
-    --surface-elevated: 240 8% 99%;
-    --surface-muted: 240 5% 94%;
-    --orb-primary: 201 96% 32%;
-    --orb-secondary: 162 73% 46%;
+    --gradient-brand-start: 120 70% 45%;
+    --gradient-brand-end: 140 60% 70%;
+    --gradient-brand-text: 120 70% 50%;
+    --surface-elevated: 150 50% 18%;
+    --surface-muted: 150 50% 12%;
+    --orb-primary: 120 70% 45%;
+    --orb-secondary: 140 60% 70%;
   }
 
-  /* Theme 5: Spotify Energy - Bright green system for dynamic engagement */
-  .spotify-energy {
-    --background: 0 0% 7%; /* Spotify black */
-    --foreground: 0 0% 95%;
-    --card: 0 0% 11%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 141 73% 42%; /* Spotify green */
-    --primary-foreground: 0 0% 7%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 15%;
+  /* Theme 4: Starlit Prose - Dark purple with silver (mystical, poetic) */
+  .starlit-prose {
+    --background: 270 30% 12%; /* Deep cosmic purple */
+    --foreground: 0 0% 92%;
+    --card: 270 25% 16%;
+    --card-foreground: 0 0% 92%;
+    --popover: 270 25% 20%;
+    --popover-foreground: 0 0% 92%;
+    --primary: 0 0% 85%; /* Bright silver */
+    --primary-foreground: 270 30% 12%;
+    --secondary: 270 25% 22%;
+    --secondary-foreground: 0 0% 92%;
+    --muted: 270 25% 22%;
+    --muted-foreground: 270 15% 70%;
+    --accent: 280 60% 75%; /* Soft lavender */
+    --accent-foreground: 270 30% 12%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 92%;
+    --border: 270 25% 28%;
+    --input: 270 25% 20%;
+    --ring: 0 0% 85%;
+    
+    --gradient-brand-start: 0 0% 85%;
+    --gradient-brand-end: 280 60% 75%;
+    --gradient-brand-text: 0 0% 90%;
+    --surface-elevated: 270 25% 18%;
+    --surface-muted: 270 25% 14%;
+    --orb-primary: 0 0% 85%;
+    --orb-secondary: 280 60% 75%;
+  }
+
+  /* Theme 5: Coffee House - Rich browns and warm oranges (cozy cafe vibes) */
+  .coffee-house {
+    --background: 25 25% 15%; /* Dark coffee brown */
+    --foreground: 30 30% 88%;
+    --card: 25 20% 20%;
+    --card-foreground: 30 30% 88%;
+    --popover: 25 20% 24%;
+    --popover-foreground: 30 30% 88%;
+    --primary: 25 85% 55%; /* Warm orange */
+    --primary-foreground: 25 25% 15%;
+    --secondary: 25 20% 28%;
+    --secondary-foreground: 30 30% 88%;
+    --muted: 25 20% 28%;
+    --muted-foreground: 25 15% 65%;
+    --accent: 35 80% 65%; /* Golden amber */
+    --accent-foreground: 25 25% 15%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 30 30% 88%;
+    --border: 25 20% 32%;
+    --input: 25 20% 24%;
+    --ring: 25 85% 55%;
+    
+    --gradient-brand-start: 25 85% 55%;
+    --gradient-brand-end: 35 80% 65%;
+    --gradient-brand-text: 25 85% 60%;
+    --surface-elevated: 25 20% 22%;
+    --surface-muted: 25 20% 18%;
+    --orb-primary: 25 85% 55%;
+    --orb-secondary: 35 80% 65%;
+  }
+
+  /* Theme 6: Arctic Focus - Cool blues and whites (clean, minimal, focused) */
+  .arctic-focus {
+    --background: 200 20% 96%; /* Cool arctic white */
+    --foreground: 200 15% 20%;
+    --card: 200 15% 94%;
+    --card-foreground: 200 15% 20%;
+    --popover: 200 15% 94%;
+    --popover-foreground: 200 15% 20%;
+    --primary: 200 100% 40%; /* Clear blue */
+    --primary-foreground: 200 20% 96%;
+    --secondary: 200 10% 88%;
+    --secondary-foreground: 200 15% 35%;
+    --muted: 200 10% 88%;
+    --muted-foreground: 200 10% 50%;
+    --accent: 190 80% 50%; /* Cyan accent */
+    --accent-foreground: 200 20% 96%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 200 20% 96%;
+    --border: 200 10% 82%;
+    --input: 200 10% 85%;
+    --ring: 200 100% 40%;
+    
+    --gradient-brand-start: 200 100% 40%;
+    --gradient-brand-end: 190 80% 50%;
+    --gradient-brand-text: 200 100% 35%;
+    --surface-elevated: 200 15% 96%;
+    --surface-muted: 200 10% 90%;
+    --orb-primary: 200 100% 40%;
+    --orb-secondary: 190 80% 50%;
+  }
+
+  /* Theme 7: Sunset Chapter - Warm oranges and deep reds (inspiring, creative energy) */
+  .sunset-chapter {
+    --background: 15 30% 12%; /* Deep sunset brown */
+    --foreground: 30 25% 90%;
+    --card: 15 25% 16%;
+    --card-foreground: 30 25% 90%;
+    --popover: 15 25% 20%;
+    --popover-foreground: 30 25% 90%;
+    --primary: 15 90% 55%; /* Sunset orange */
+    --primary-foreground: 15 30% 12%;
+    --secondary: 15 25% 24%;
+    --secondary-foreground: 30 25% 90%;
+    --muted: 15 25% 24%;
+    --muted-foreground: 15 15% 70%;
+    --accent: 0 85% 60%; /* Warm red */
+    --accent-foreground: 15 30% 12%;
+    --destructive: 0 80% 55%;
+    --destructive-foreground: 30 25% 90%;
+    --border: 15 25% 28%;
+    --input: 15 25% 20%;
+    --ring: 15 90% 55%;
+    
+    --gradient-brand-start: 15 90% 55%;
+    --gradient-brand-end: 0 85% 60%;
+    --gradient-brand-text: 15 90% 60%;
+    --surface-elevated: 15 25% 18%;
+    --surface-muted: 15 25% 14%;
+    --orb-primary: 15 90% 55%;
+    --orb-secondary: 0 85% 60%;
+  }
+
+  /* Theme 8: Graphite Minimal - Monochrome grays (distraction-free, professional) */
+  .graphite-minimal {
+    --background: 0 0% 15%; /* Medium gray */
+    --foreground: 0 0% 85%;
+    --card: 0 0% 20%;
+    --card-foreground: 0 0% 85%;
+    --popover: 0 0% 22%;
+    --popover-foreground: 0 0% 85%;
+    --primary: 200 100% 60%; /* Cobalt blue accent */
+    --primary-foreground: 0 0% 15%;
+    --secondary: 0 0% 25%;
+    --secondary-foreground: 0 0% 85%;
+    --muted: 0 0% 25%;
     --muted-foreground: 0 0% 65%;
-    --accent: 60 100% 50%; /* Electric yellow accent */
-    --accent-foreground: 0 0% 7%;
-    --destructive: 0 86% 59%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 0 0% 18%;
-    --input: 0 0% 15%;
-    --ring: 141 73% 42%;
+    --accent: 0 0% 95%; /* Pure white accent */
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 85%;
+    --border: 0 0% 28%;
+    --input: 0 0% 22%;
+    --ring: 200 100% 60%;
     
-    /* High-energy engagement variables */
-    --gradient-brand-start: 141 73% 42%;
-    --gradient-brand-end: 60 100% 50%;
-    --gradient-brand-text: 141 73% 45%;
-    --surface-elevated: 0 0% 13%;
-    --surface-muted: 0 0% 9%;
-    --orb-primary: 141 73% 42%;
-    --orb-secondary: 60 100% 50%;
+    --gradient-brand-start: 200 100% 60%;
+    --gradient-brand-end: 0 0% 95%;
+    --gradient-brand-text: 200 100% 65%;
+    --surface-elevated: 0 0% 22%;
+    --surface-muted: 0 0% 18%;
+    --orb-primary: 200 100% 60%;
+    --orb-secondary: 0 0% 95%;
   }
 
-  /* Theme 6: Mocha Luxury - 2025 Pantone trend with gold accents */
-  .mocha-luxury {
-    --background: 30 20% 85%; /* Mocha Mousse base */
-    --foreground: 30 40% 15%;
-    --card: 30 25% 88%;
-    --card-foreground: 30 40% 15%;
-    --popover: 30 25% 88%;
-    --popover-foreground: 30 40% 15%;
-    --primary: 45 90% 55%; /* Gold accent */
-    --primary-foreground: 30 20% 85%;
-    --secondary: 30 15% 80%;
-    --secondary-foreground: 30 40% 25%;
-    --muted: 30 15% 80%;
-    --muted-foreground: 30 25% 45%;
-    --accent: 25 95% 48%; /* Warm copper */
-    --accent-foreground: 30 20% 85%;
-    --destructive: 0 80% 58%;
-    --destructive-foreground: 30 20% 85%;
-    --border: 30 15% 75%;
-    --input: 30 15% 75%;
-    --ring: 45 90% 55%;
+  /* Theme 9: Emerald Library - Rich emerald with gold (classic library feel) */
+  .emerald-library {
+    --background: 150 50% 8%; /* Deep emerald */
+    --foreground: 45 30% 88%;
+    --card: 150 40% 12%;
+    --card-foreground: 45 30% 88%;
+    --popover: 150 40% 15%;
+    --popover-foreground: 45 30% 88%;
+    --primary: 45 90% 50%; /* Rich gold */
+    --primary-foreground: 150 50% 8%;
+    --secondary: 150 40% 18%;
+    --secondary-foreground: 45 30% 88%;
+    --muted: 150 40% 18%;
+    --muted-foreground: 150 20% 65%;
+    --accent: 160 60% 35%; /* Forest green */
+    --accent-foreground: 45 30% 88%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 45 30% 88%;
+    --border: 150 40% 22%;
+    --input: 150 40% 15%;
+    --ring: 45 90% 50%;
     
-    /* Luxury aesthetic variables */
-    --gradient-brand-start: 45 90% 55%;
-    --gradient-brand-end: 25 95% 48%;
-    --gradient-brand-text: 45 90% 45%;
-    --surface-elevated: 30 25% 90%;
-    --surface-muted: 30 15% 82%;
-    --orb-primary: 45 90% 55%;
-    --orb-secondary: 25 95% 48%;
+    --gradient-brand-start: 45 90% 50%;
+    --gradient-brand-end: 160 60% 35%;
+    --gradient-brand-text: 45 90% 55%;
+    --surface-elevated: 150 40% 15%;
+    --surface-muted: 150 40% 10%;
+    --orb-primary: 45 90% 50%;
+    --orb-secondary: 160 60% 35%;
+  }
+
+  /* Theme 10: Rose Quartz - Soft pinks and whites (gentle, romantic writing) */
+  .rose-quartz {
+    --background: 340 20% 96%; /* Soft rose white */
+    --foreground: 340 30% 20%;
+    --card: 340 15% 94%;
+    --card-foreground: 340 30% 20%;
+    --popover: 340 15% 94%;
+    --popover-foreground: 340 30% 20%;
+    --primary: 340 70% 50%; /* Rose pink */
+    --primary-foreground: 340 20% 96%;
+    --secondary: 340 10% 88%;
+    --secondary-foreground: 340 30% 25%;
+    --muted: 340 10% 88%;
+    --muted-foreground: 340 15% 45%;
+    --accent: 320 60% 65%; /* Soft magenta */
+    --accent-foreground: 340 20% 96%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 340 20% 96%;
+    --border: 340 10% 82%;
+    --input: 340 10% 85%;
+    --ring: 340 70% 50%;
+    
+    --gradient-brand-start: 340 70% 50%;
+    --gradient-brand-end: 320 60% 65%;
+    --gradient-brand-text: 340 70% 45%;
+    --surface-elevated: 340 15% 96%;
+    --surface-muted: 340 10% 90%;
+    --orb-primary: 340 70% 50%;
+    --orb-secondary: 320 60% 65%;
+  }
+
+  /* Theme 11: Obsidian Writer - Pure blacks (ultra-minimal) */
+  .obsidian-writer {
+    --background: 0 0% 5%; /* Near black */
+    --foreground: 0 0% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 100%; /* Pure white */
+    --primary-foreground: 0 0% 5%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 150 70% 45%; /* Single green accent */
+    --accent-foreground: 0 0% 5%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 15%;
+    --input: 0 0% 10%;
+    --ring: 0 0% 100%;
+    
+    --gradient-brand-start: 0 0% 100%;
+    --gradient-brand-end: 150 70% 45%;
+    --gradient-brand-text: 0 0% 100%;
+    --surface-elevated: 0 0% 10%;
+    --surface-muted: 0 0% 7%;
+    --orb-primary: 0 0% 100%;
+    --orb-secondary: 150 70% 45%;
+  }
+
+  /* Theme 12: Golden Hour - Warm yellows and oranges (inspiring, optimistic) */
+  .golden-hour {
+    --background: 45 25% 94%; /* Warm golden white */
+    --foreground: 30 30% 20%;
+    --card: 45 20% 91%;
+    --card-foreground: 30 30% 20%;
+    --popover: 45 20% 91%;
+    --popover-foreground: 30 30% 20%;
+    --primary: 45 100% 40%; /* Golden yellow */
+    --primary-foreground: 45 25% 94%;
+    --secondary: 45 15% 85%;
+    --secondary-foreground: 30 30% 25%;
+    --muted: 45 15% 85%;
+    --muted-foreground: 30 20% 45%;
+    --accent: 35 90% 50%; /* Warm orange */
+    --accent-foreground: 45 25% 94%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 45 25% 94%;
+    --border: 45 15% 80%;
+    --input: 45 15% 83%;
+    --ring: 45 100% 40%;
+    
+    --gradient-brand-start: 45 100% 40%;
+    --gradient-brand-end: 35 90% 50%;
+    --gradient-brand-text: 45 100% 35%;
+    --surface-elevated: 45 20% 93%;
+    --surface-muted: 45 15% 87%;
+    --orb-primary: 45 100% 40%;
+    --orb-secondary: 35 90% 50%;
+  }
+
+  /* Theme 13: Lavender Fields - Purple and lavender tones (calm, poetic) */
+  .lavender-fields {
+    --background: 270 25% 94%; /* Light lavender */
+    --foreground: 270 30% 20%;
+    --card: 270 20% 91%;
+    --card-foreground: 270 30% 20%;
+    --popover: 270 20% 91%;
+    --popover-foreground: 270 30% 20%;
+    --primary: 270 60% 45%; /* Rich purple */
+    --primary-foreground: 270 25% 94%;
+    --secondary: 270 15% 85%;
+    --secondary-foreground: 270 30% 25%;
+    --muted: 270 15% 85%;
+    --muted-foreground: 270 20% 45%;
+    --accent: 260 70% 65%; /* Light purple */
+    --accent-foreground: 270 25% 94%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 270 25% 94%;
+    --border: 270 15% 80%;
+    --input: 270 15% 83%;
+    --ring: 270 60% 45%;
+    
+    --gradient-brand-start: 270 60% 45%;
+    --gradient-brand-end: 260 70% 65%;
+    --gradient-brand-text: 270 60% 40%;
+    --surface-elevated: 270 20% 93%;
+    --surface-muted: 270 15% 87%;
+    --orb-primary: 270 60% 45%;
+    --orb-secondary: 260 70% 65%;
+  }
+
+  /* Theme 14: Copper Manuscript - Warm metallic copper tones (premium, artistic) */
+  .copper-manuscript {
+    --background: 25 20% 12%; /* Dark copper brown */
+    --foreground: 30 25% 88%;
+    --card: 25 15% 16%;
+    --card-foreground: 30 25% 88%;
+    --popover: 25 15% 20%;
+    --popover-foreground: 30 25% 88%;
+    --primary: 25 80% 55%; /* Bright copper */
+    --primary-foreground: 25 20% 12%;
+    --secondary: 25 15% 24%;
+    --secondary-foreground: 30 25% 88%;
+    --muted: 25 15% 24%;
+    --muted-foreground: 25 10% 65%;
+    --accent: 15 90% 65%; /* Golden copper */
+    --accent-foreground: 25 20% 12%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 30 25% 88%;
+    --border: 25 15% 28%;
+    --input: 25 15% 20%;
+    --ring: 25 80% 55%;
+    
+    --gradient-brand-start: 25 80% 55%;
+    --gradient-brand-end: 15 90% 65%;
+    --gradient-brand-text: 25 80% 60%;
+    --surface-elevated: 25 15% 18%;
+    --surface-muted: 25 15% 14%;
+    --orb-primary: 25 80% 55%;
+    --orb-secondary: 15 90% 65%;
   }
 
   * {
