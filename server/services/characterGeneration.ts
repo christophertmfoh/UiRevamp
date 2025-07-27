@@ -2,7 +2,7 @@ import { storage } from "../storage";
 // Removed generateCharacterPrompt import - using inline prompt generation
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_2 || process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
 
 interface GenerateCharacterParams {
   projectId: string;
@@ -104,7 +104,7 @@ export async function generateCharacterWithAI(params: GenerateCharacterParams) {
     skills: transformedData.skills
   });
   
-  const character = await storage.createCharacter(transformedData);
+  const character = await storage.createCharacter(transformedData as any);
 
   return character;
 }
