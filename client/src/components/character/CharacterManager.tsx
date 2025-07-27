@@ -365,27 +365,21 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
   };
 
-  const handleDocumentParseComplete = async (file: File) => {
+  const handleDocumentParseComplete = async (characterData: any) => {
     try {
       setIsGenerating(true);
-      console.log('Starting document import with automatic portrait generation');
+      console.log('Document imported successfully:', characterData);
       
-      // Use the comprehensive service for document import with automatic portrait generation
-      const createdCharacter = await CharacterCreationService.completeCharacterCreation(
-        projectId,
-        'document',
-        file
-      );
-      
-      console.log('Document-based character creation completed with portrait:', createdCharacter);
+      // Refresh the characters list to show the new character
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       
       // Navigate to the new character
-      setSelectedCharacter(createdCharacter);
+      setSelectedCharacter(characterData);
       setIsCreating(false);
       setIsDocumentUploadOpen(false);
       
     } catch (error) {
-      console.error('Failed to create character from document:', error);
+      console.error('Failed to handle document import:', error);
     } finally {
       setIsGenerating(false);
     }
