@@ -231,8 +231,4 @@ export const useTheme = () => {
   return context;
 };
 
-// Export individual theme configs for external use
-export const FEATURED_THEMES = THEME_CONFIGS.filter(theme => theme.featured);
-export const LIGHT_THEMES = THEME_CONFIGS.filter(theme => theme.isLight);
-export const DARK_THEMES = THEME_CONFIGS.filter(theme => !theme.isLight);
-export const CREATIVE_THEMES = THEME_CONFIGS.filter(theme => theme.category === 'creative');
+// Theme configurations are available through the useTheme hook's availableThemes property
