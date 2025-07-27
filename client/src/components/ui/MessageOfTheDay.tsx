@@ -1,104 +1,141 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Lightbulb, Sparkles, RefreshCw, Heart, Share2 } from 'lucide-react';
+import { Lightbulb, Sparkles, RefreshCw, Heart, Share2, BookOpen, PenTool, Smile } from 'lucide-react';
 
-interface Message {
-  text: string;
-  type: 'motivational' | 'pun' | 'joke' | 'tip';
+interface DailyContent {
+  motivation: string;
+  joke: string;
+  tip: string;
+  wordOfDay: {
+    word: string;
+    definition: string;
+    usage: string;
+  };
+  prompt: string;
   timestamp: number;
 }
 
-const defaultMessages: Message[] = [
-  { text: "Every story starts with a single word. Make today's word count!", type: 'motivational', timestamp: Date.now() },
-  { text: "Writers don't have writer's block, they have character development opportunities!", type: 'pun', timestamp: Date.now() },
-  { text: "Why did the writer break up with their keyboard? Too many mixed characters!", type: 'joke', timestamp: Date.now() },
-  { text: "Pro tip: Your first draft is just you telling yourself the story.", type: 'tip', timestamp: Date.now() },
-  { text: "Plot twist: You're already a better writer than you were yesterday!", type: 'motivational', timestamp: Date.now() },
-  { text: "I'm reading a book about anti-gravity writing. It's impossible to put down!", type: 'joke', timestamp: Date.now() },
-  { text: "Character development is like coffee - it takes time to brew perfectly.", type: 'pun', timestamp: Date.now() },
-  { text: "Remember: Every published author was once an unpublished author who didn't give up.", type: 'motivational', timestamp: Date.now() }
+const motivationalQuotes = [
+  "Every story starts with a single word. Make today's word count!",
+  "Plot twist: You're already a better writer than you were yesterday!",
+  "Remember: Every published author was once an unpublished author who didn't give up.",
+  "Your characters are waiting to tell their tale.",
+  "A single sentence can change everything.",
+  "Great stories begin with a single keystroke.",
+  "Your imagination is your greatest tool.",
+  "Write the story only you can tell."
+];
+
+const writingJokes = [
+  "Why did the writer break up with their keyboard? Too many mixed characters!",
+  "I'm reading a book about anti-gravity writing. It's impossible to put down!",
+  "Why did the writer stay in bed? They had a bad case of writer's block!",
+  "What's a writer's favorite punctuation? The period—it means they finished something!",
+  "How do writers stay warm? They sit by the drafts!",
+  "What do you call a writer who doesn't follow guidelines? A rebel without a clause!",
+  "Why was the comma afraid? It had too many pauses in life!",
+  "What's a writer's favorite drink? Tequila mockingbird!"
+];
+
+const writingTips = [
+  "Pro tip: Your first draft is just you telling yourself the story.",
+  "Start with action to hook your readers immediately.",
+  "Show, don't tell—let readers experience the emotion.",
+  "Every character needs a want and a fear.",
+  "Dialogue should reveal character, not just convey information.",
+  "Read your dialogue aloud to test if it sounds natural.",
+  "Your protagonist should change by the story's end.",
+  "Conflict drives story—embrace it in every scene."
+];
+
+const wordsOfTheDay = [
+  { word: "Petrichor", definition: "The pleasant smell of earth after rain", usage: "Perfect for atmospheric descriptions" },
+  { word: "Sonder", definition: "The realization that everyone has a story", usage: "Great for character development" },
+  { word: "Vellichor", definition: "The wistfulness of used bookstores", usage: "Ideal for nostalgic scenes" },
+  { word: "Ineffable", definition: "Too great to be expressed in words", usage: "For those indescribable moments" },
+  { word: "Ephemeral", definition: "Lasting for a very short time", usage: "Perfect for fleeting emotions" },
+  { word: "Mellifluous", definition: "Sweet or musical; pleasant to hear", usage: "Describe voices or sounds" },
+  { word: "Serendipity", definition: "Finding something good without looking", usage: "For fortunate plot twists" }
+];
+
+const writingPrompts = [
+  "A character discovers a letter that was never meant to be sent...",
+  "The last person on Earth hears a knock at the door...",
+  "Your protagonist wakes up with a superpower they don't want...",
+  "A time traveler arrives with news about tomorrow...",
+  "Two enemies are trapped together during a storm...",
+  "A character must choose between two terrible truths...",
+  "Someone receives a package with no return address..."
 ];
 
 export function MessageOfTheDay() {
-  const [currentMessage, setCurrentMessage] = useState<Message>(defaultMessages[0]);
+  const [content, setContent] = useState<DailyContent>({
+    motivation: '',
+    joke: '',
+    tip: '',
+    wordOfDay: { word: '', definition: '', usage: '' },
+    prompt: '',
+    timestamp: Date.now()
+  });
   const [isLiked, setIsLiked] = useState(false);
   const [showActions, setShowActions] = useState(false);
 
-  const refreshMessage = () => {
-    const now = Date.now();
-    const randomMessage = defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
-    const newMessage: Message = {
-      ...randomMessage,
-      timestamp: now
+  const getRandomItem = <T,>(array: T[]): T => {
+    return array[Math.floor(Math.random() * array.length)];
+  };
+
+  const refreshContent = () => {
+    const newContent: DailyContent = {
+      motivation: getRandomItem(motivationalQuotes),
+      joke: getRandomItem(writingJokes),
+      tip: getRandomItem(writingTips),
+      wordOfDay: getRandomItem(wordsOfTheDay),
+      prompt: getRandomItem(writingPrompts),
+      timestamp: Date.now()
     };
     
-    setCurrentMessage(newMessage);
-    localStorage.setItem('fablecraft_message_of_day', JSON.stringify(newMessage));
+    setContent(newContent);
+    localStorage.setItem('fablecraft_daily_content', JSON.stringify(newContent));
+    setIsLiked(false);
   };
 
   const handleShare = () => {
+    const shareText = `Daily Writing Inspiration:\n\n${content.motivation}\n\n${content.joke}`;
     if (navigator.share) {
       navigator.share({
         title: 'Daily Writing Inspiration',
-        text: currentMessage.text,
+        text: shareText,
         url: window.location.origin
       });
     } else {
-      navigator.clipboard.writeText(currentMessage.text);
+      navigator.clipboard.writeText(shareText);
     }
   };
 
   useEffect(() => {
-    // Check if we have a stored message and timestamp
-    const stored = localStorage.getItem('fablecraft_message_of_day');
-    const storedLike = localStorage.getItem('fablecraft_message_liked');
+    // Check if we have stored content
+    const stored = localStorage.getItem('fablecraft_daily_content');
+    const storedLike = localStorage.getItem('fablecraft_content_liked');
     const now = Date.now();
     
     if (stored) {
       try {
-        const parsed: Message = JSON.parse(stored);
-        // Check if message is less than 12 hours old (12 * 60 * 60 * 1000 = 43200000)
+        const parsed: DailyContent = JSON.parse(stored);
+        // Check if content is less than 12 hours old
         if (now - parsed.timestamp < 43200000) {
-          setCurrentMessage(parsed);
+          setContent(parsed);
           setIsLiked(storedLike === 'true');
           return;
         }
       } catch (e) {
-        console.log('Error parsing stored message:', e);
+        console.log('Error parsing stored content:', e);
       }
     }
     
-    // Generate new message (for now, pick random from defaults)
-    // TODO: In future, this would call AI service every 12 hours
-    refreshMessage();
-    setIsLiked(false);
-    localStorage.removeItem('fablecraft_message_liked');
+    // Generate new content
+    refreshContent();
   }, []);
-
-  const getIcon = () => {
-    switch (currentMessage.type) {
-      case 'tip':
-        return <Lightbulb className="w-4 h-4 text-amber-600" />;
-      default:
-        return <Sparkles className="w-4 h-4 text-emerald-600" />;
-    }
-  };
-
-  const getLabel = () => {
-    switch (currentMessage.type) {
-      case 'motivational':
-        return 'Daily Motivation';
-      case 'pun':
-        return 'Writer\'s Pun';
-      case 'joke':
-        return 'Writing Humor';
-      case 'tip':
-        return 'Writing Tip';
-      default:
-        return 'Message of the Day';
-    }
-  };
 
   return (
     <Card 
@@ -109,9 +146,9 @@ export function MessageOfTheDay() {
       <CardContent className="p-5 h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            {getIcon()}
+            <Sparkles className="w-4 h-4 text-emerald-600" />
             <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
-              {getLabel()}
+              Daily Inspiration
             </h3>
           </div>
           <div className={`flex items-center gap-1 transition-opacity duration-200 ${showActions ? 'opacity-100' : 'opacity-0'}`}>
@@ -121,7 +158,7 @@ export function MessageOfTheDay() {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLiked(!isLiked);
-                localStorage.setItem('fablecraft_message_liked', (!isLiked).toString());
+                localStorage.setItem('fablecraft_content_liked', (!isLiked).toString());
               }}
               className="h-7 w-7 p-0 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
             >
@@ -143,7 +180,7 @@ export function MessageOfTheDay() {
               variant="ghost"
               onClick={(e) => {
                 e.stopPropagation();
-                refreshMessage();
+                refreshContent();
               }}
               className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
             >
@@ -152,14 +189,67 @@ export function MessageOfTheDay() {
           </div>
         </div>
         
-        <div className="flex-grow">
-          <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">
-            {currentMessage.text}
-          </p>
+        <div className="flex-grow space-y-3 overflow-y-auto">
+          {/* Motivation */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
+            </div>
+            <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+              "{content.motivation}"
+            </p>
+          </div>
+
+          {/* Writing Joke */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Smile className="h-3 w-3 text-amber-600" />
+              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITER'S HUMOR</p>
+            </div>
+            <p className="text-xs text-stone-700 dark:text-stone-300">
+              {content.joke}
+            </p>
+          </div>
+
+          {/* Writing Tip */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Lightbulb className="h-3 w-3 text-amber-600" />
+              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">PRO TIP</p>
+            </div>
+            <p className="text-xs text-stone-700 dark:text-stone-300">
+              {content.tip}
+            </p>
+          </div>
+
+          {/* Word of the Day */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <BookOpen className="h-3 w-3 text-emerald-600" />
+              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
+            </div>
+            <p className="text-xs">
+              <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
+              <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
+            </p>
+            <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+          </div>
+
+          {/* Quick Prompt */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <PenTool className="h-3 w-3 text-amber-600" />
+              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">QUICK PROMPT</p>
+            </div>
+            <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+              {content.prompt}
+            </p>
+          </div>
         </div>
         
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-          <span className="text-xs text-stone-500 dark:text-stone-400">
+        <div className="flex items-center justify-between mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+          <span className="text-[10px] text-stone-500 dark:text-stone-400">
             Updates every 12 hours
           </span>
           <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full animate-pulse"></div>
