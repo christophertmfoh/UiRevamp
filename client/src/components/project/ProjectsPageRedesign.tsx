@@ -262,34 +262,39 @@ export function ProjectsPageRedesign({
               </div>
             </div>
 
-            {/* Writing Stats */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
-              <div className="flex items-center justify-center gap-3 mb-4">
+            {/* Writing Progress */}
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 h-full flex flex-col justify-between">
+              <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
                 <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Your Writing Journey
+                  Writing Progress
                 </p>
               </div>
               
-              <div className="grid grid-cols-4 gap-4">
-                <div className="text-center">
-                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Projects</p>
+              {/* Writing Streak */}
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
+                  <p className="text-sm font-bold text-emerald-600">7 days</p>
                 </div>
-                <div className="text-center">
-                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">47</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Characters</p>
+                <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '70%' }}></div>
                 </div>
-                <div className="text-center">
-                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">12k</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Words</p>
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">Great momentum! Keep it up.</p>
+              </div>
+
+              {/* Today's Writing */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Writing</p>
+                  <p className="text-sm font-bold text-emerald-600">300 words</p>
                 </div>
-                <div className="text-center">
-                  <p className="text-xl font-bold text-emerald-600">98%</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Creativity</p>
+                <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
                 </div>
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">300/500 words • 60% complete</p>
               </div>
             </div>
           </div>
