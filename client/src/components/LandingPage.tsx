@@ -139,16 +139,16 @@ export function LandingPage({
   }, []);
 
   return (
-    <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-gradient-to-br from-stone-50 via-amber-50/20 to-emerald-50/10 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
+    <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50/20 to-teal-50/10 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
 
       {/* Modern Abstract Background System */}
       <div className="absolute inset-0">
-        {/* Light Mode Mesh Gradient */}
+        {/* Light Mode Mesh Gradient - Mint Green Theme */}
         <div className="absolute inset-0 opacity-100 dark:opacity-0 transition-opacity duration-300">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/80 via-amber-100/40 to-stone-100/60"></div>
-          <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob"></div>
-          <div className="absolute top-0 -right-4 w-96 h-96 bg-amber-300 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-stone-300 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-4000"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-green-100/80 via-emerald-100/40 to-teal-100/60"></div>
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-emerald-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-teal-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
 
         {/* Dark Mode Mesh Gradient */}

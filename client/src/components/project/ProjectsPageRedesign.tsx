@@ -446,31 +446,31 @@ export function ProjectsPageRedesign({
   const uniqueGenres = Array.from(new Set(projects.map((p: Project) => p.genre).filter(Boolean))).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-stone-100 to-emerald-50 dark:from-stone-950 dark:via-stone-900 dark:to-emerald-950 transition-all duration-300">
+          <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-100 to-teal-50 dark:from-stone-950 dark:via-stone-900 dark:to-emerald-950 transition-all duration-300">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Mesh Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-300/35 via-stone-300/50 to-amber-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
+        {/* Gradient Mesh Background - Mint Green for Light Mode */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-300/35 via-emerald-300/50 to-teal-300/35 dark:from-emerald-900/20 dark:via-stone-900/40 dark:to-amber-900/20"></div>
         
         {/* Floating Orbs */}
         <div 
-          className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-400/45 to-emerald-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse"
+          className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-400/45 to-green-600/50 dark:from-emerald-600/30 dark:to-emerald-800/30 rounded-full blur-3xl animate-pulse"
           style={{ transform: `translateY(${scrollY * 0.1}px)` }}
         ></div>
         <div 
-          className="absolute top-20 -right-32 w-96 h-96 bg-gradient-to-br from-amber-400/40 to-amber-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse delay-1000"
+          className="absolute top-20 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/40 to-emerald-600/45 dark:from-amber-600/20 dark:to-amber-800/20 rounded-full blur-3xl animate-pulse delay-1000"
           style={{ transform: `translateY(${scrollY * 0.15}px)` }}
         ></div>
         <div 
-          className="absolute -bottom-32 left-1/2 w-64 h-64 bg-gradient-to-br from-stone-400/45 to-stone-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
+          className="absolute -bottom-32 left-1/2 w-64 h-64 bg-gradient-to-br from-teal-400/45 to-teal-600/50 dark:from-stone-600/30 dark:to-stone-800/30 rounded-full blur-3xl animate-pulse delay-500"
           style={{ transform: `translateY(${scrollY * 0.05}px)` }}
         ></div>
 
-        {/* Ambient Lighting Effects */}
+        {/* Ambient Lighting Effects - Mint Green for Light Mode */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-amber-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
-          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-stone-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-green-400/25 dark:bg-emerald-500/10 rounded-full blur-2xl animate-pulse delay-300"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-emerald-400/25 dark:bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
+          <div className="absolute top-3/4 left-3/4 w-32 h-32 bg-teal-500/25 dark:bg-stone-400/10 rounded-full blur-xl animate-pulse delay-1000"></div>
         </div>
       </div>
 
