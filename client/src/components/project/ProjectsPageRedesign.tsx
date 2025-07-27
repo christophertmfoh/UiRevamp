@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,10 @@ import {
   Target,
   Edit2,
   Trash2,
-  Pencil
+  Pencil,
+  GripVertical,
+  Lock,
+  Unlock
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -73,6 +76,34 @@ interface ProjectsPageRedesignProps {
   user: any;
 }
 
+// Types for drag and drop
+type SectionType = 'project-management' | 'dashboard-widgets';
+type WidgetType = 'daily-inspiration' | 'recent-project' | 'writing-progress' | 'quick-tasks';
+
+interface LayoutSection {
+  id: SectionType;
+  name: string;
+  order: number;
+}
+
+interface DashboardWidget {
+  id: WidgetType;
+  name: string;
+  order: number;
+}
+
+const DEFAULT_LAYOUT: LayoutSection[] = [
+  { id: 'project-management', name: 'Project Management', order: 0 },
+  { id: 'dashboard-widgets', name: 'Dashboard Widgets', order: 1 }
+];
+
+const DEFAULT_WIDGETS: DashboardWidget[] = [
+  { id: 'daily-inspiration', name: 'Daily Inspiration', order: 0 },
+  { id: 'recent-project', name: 'Recent Project', order: 1 },
+  { id: 'writing-progress', name: 'Writing Progress', order: 2 },
+  { id: 'quick-tasks', name: 'Quick Tasks', order: 3 }
+];
+
 export function ProjectsPageRedesign({ 
   onNavigate, 
   onNewProject, 
@@ -93,6 +124,21 @@ export function ProjectsPageRedesign({
   const [showTasksModal, setShowTasksModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
+  
+  // Drag and drop state
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [layoutSections, setLayoutSections] = useState<LayoutSection[]>(() => {
+    const saved = localStorage.getItem('projectsLayoutSections');
+    return saved ? JSON.parse(saved) : DEFAULT_LAYOUT;
+  });
+  const [dashboardWidgets, setDashboardWidgets] = useState<DashboardWidget[]>(() => {
+    const saved = localStorage.getItem('projectsDashboardWidgets');
+    return saved ? JSON.parse(saved) : DEFAULT_WIDGETS;
+  });
+  const [draggedSection, setDraggedSection] = useState<SectionType | null>(null);
+  const [draggedWidget, setDraggedWidget] = useState<WidgetType | null>(null);
+  const [dragOverSection, setDragOverSection] = useState<SectionType | null>(null);
+  const [dragOverWidget, setDragOverWidget] = useState<WidgetType | null>(null);
   
   // Task modal states
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -177,6 +223,95 @@ export function ProjectsPageRedesign({
   }, []);
 
   const { toast } = useToast();
+  
+  // Save layout to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('projectsLayoutSections', JSON.stringify(layoutSections));
+  }, [layoutSections]);
+  
+  useEffect(() => {
+    localStorage.setItem('projectsDashboardWidgets', JSON.stringify(dashboardWidgets));
+  }, [dashboardWidgets]);
+  
+  // Drag and drop handlers for sections
+  const handleSectionDragStart = (e: React.DragEvent, sectionId: SectionType) => {
+    if (!isEditMode) return;
+    setDraggedSection(sectionId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  
+  const handleSectionDragOver = (e: React.DragEvent, sectionId: SectionType) => {
+    if (!isEditMode || !draggedSection) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverSection(sectionId);
+  };
+  
+  const handleSectionDrop = (e: React.DragEvent, targetSectionId: SectionType) => {
+    if (!isEditMode || !draggedSection) return;
+    e.preventDefault();
+    
+    if (draggedSection !== targetSectionId) {
+      const newSections = [...layoutSections];
+      const draggedIndex = newSections.findIndex(s => s.id === draggedSection);
+      const targetIndex = newSections.findIndex(s => s.id === targetSectionId);
+      
+      // Swap the sections
+      const temp = newSections[draggedIndex];
+      newSections[draggedIndex] = newSections[targetIndex];
+      newSections[targetIndex] = temp;
+      
+      // Update order values
+      newSections.forEach((section, index) => {
+        section.order = index;
+      });
+      
+      setLayoutSections(newSections);
+    }
+    
+    setDraggedSection(null);
+    setDragOverSection(null);
+  };
+  
+  // Drag and drop handlers for widgets
+  const handleWidgetDragStart = (e: React.DragEvent, widgetId: WidgetType) => {
+    if (!isEditMode) return;
+    setDraggedWidget(widgetId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  
+  const handleWidgetDragOver = (e: React.DragEvent, widgetId: WidgetType) => {
+    if (!isEditMode || !draggedWidget) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverWidget(widgetId);
+  };
+  
+  const handleWidgetDrop = (e: React.DragEvent, targetWidgetId: WidgetType) => {
+    if (!isEditMode || !draggedWidget) return;
+    e.preventDefault();
+    
+    if (draggedWidget !== targetWidgetId) {
+      const newWidgets = [...dashboardWidgets];
+      const draggedIndex = newWidgets.findIndex(w => w.id === draggedWidget);
+      const targetIndex = newWidgets.findIndex(w => w.id === targetWidgetId);
+      
+      // Swap the widgets
+      const temp = newWidgets[draggedIndex];
+      newWidgets[draggedIndex] = newWidgets[targetIndex];
+      newWidgets[targetIndex] = temp;
+      
+      // Update order values
+      newWidgets.forEach((widget, index) => {
+        widget.order = index;
+      });
+      
+      setDashboardWidgets(newWidgets);
+    }
+    
+    setDraggedWidget(null);
+    setDragOverWidget(null);
+  };
   
   // Queries
   const { data: projects = [], isLoading } = useQuery<Project[]>({
@@ -383,6 +518,24 @@ export function ProjectsPageRedesign({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditMode(!isEditMode)}
+              className={`flex items-center space-x-2 ${isEditMode ? 'bg-amber-100 dark:bg-amber-900/20 border-amber-400' : ''}`}
+              title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
+            >
+              {isEditMode ? (
+                <>
+                  <Unlock className="w-4 h-4" />
+                  <span className="hidden sm:inline">Editing</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-4 h-4" />
+                  <span className="hidden sm:inline">Customize</span>
+                </>
+              )}
+            </Button>
             <ThemeToggle />
           </div>
         </div>
@@ -408,8 +561,34 @@ export function ProjectsPageRedesign({
           </p>
         </div>
 
-        {/* Project Management Section */}
-        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-8">
+        {/* Draggable Sections */}
+        {layoutSections.sort((a, b) => a.order - b.order).map((section) => {
+          if (section.id === 'project-management') {
+            return (
+              <div
+                key={section.id}
+                draggable={isEditMode}
+                onDragStart={(e) => handleSectionDragStart(e, section.id)}
+                onDragOver={(e) => handleSectionDragOver(e, section.id)}
+                onDrop={(e) => handleSectionDrop(e, section.id)}
+                onDragLeave={() => setDragOverSection(null)}
+                className={`transition-all duration-300 mb-8 ${
+                  isEditMode ? 'cursor-move' : ''
+                } ${
+                  dragOverSection === section.id && draggedSection !== section.id
+                    ? 'ring-2 ring-amber-400 ring-opacity-50 scale-[1.02]'
+                    : ''
+                } ${
+                  draggedSection === section.id ? 'opacity-50' : ''
+                }`}
+              >
+                {isEditMode && (
+                  <div className="flex items-center justify-center mb-2 opacity-50">
+                    <GripVertical className="w-5 h-5 text-stone-600 dark:text-stone-400" />
+                    <span className="ml-2 text-sm font-medium text-stone-600 dark:text-stone-400">Project Management</span>
+                  </div>
+                )}
+                <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20">
           {/* Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
@@ -601,15 +780,61 @@ export function ProjectsPageRedesign({
               ))}
             </div>
           )}
-        </div>
-
-        {/* Dashboard Cards - 2x2 Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 mb-8 lg:h-[600px]">
-          {/* Message of the Day */}
-          <MessageOfTheDay />
-          
-          {/* Recent Project */}
-          {projects.length > 0 ? (
+                </div>
+              </div>
+            );
+          } else if (section.id === 'dashboard-widgets') {
+            return (
+              <div
+                key={section.id}
+                draggable={isEditMode}
+                onDragStart={(e) => handleSectionDragStart(e, section.id)}
+                onDragOver={(e) => handleSectionDragOver(e, section.id)}
+                onDrop={(e) => handleSectionDrop(e, section.id)}
+                onDragLeave={() => setDragOverSection(null)}
+                className={`transition-all duration-300 mb-8 ${
+                  isEditMode ? 'cursor-move' : ''
+                } ${
+                  dragOverSection === section.id && draggedSection !== section.id
+                    ? 'ring-2 ring-amber-400 ring-opacity-50 scale-[1.02]'
+                    : ''
+                } ${
+                  draggedSection === section.id ? 'opacity-50' : ''
+                }`}
+              >
+                {isEditMode && (
+                  <div className="flex items-center justify-center mb-2 opacity-50">
+                    <GripVertical className="w-5 h-5 text-stone-600 dark:text-stone-400" />
+                    <span className="ml-2 text-sm font-medium text-stone-600 dark:text-stone-400">Dashboard Widgets</span>
+                  </div>
+                )}
+                <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 lg:h-[600px]">
+                  {dashboardWidgets.sort((a, b) => a.order - b.order).map((widget) => (
+                    <div
+                      key={widget.id}
+                      draggable={isEditMode}
+                      onDragStart={(e) => handleWidgetDragStart(e, widget.id)}
+                      onDragOver={(e) => handleWidgetDragOver(e, widget.id)}
+                      onDrop={(e) => handleWidgetDrop(e, widget.id)}
+                      onDragLeave={() => setDragOverWidget(null)}
+                      className={`transition-all duration-300 relative ${
+                        isEditMode ? 'cursor-move' : ''
+                      } ${
+                        dragOverWidget === widget.id && draggedWidget !== widget.id
+                          ? 'ring-2 ring-amber-400 ring-opacity-50 scale-[1.02]'
+                          : ''
+                      } ${
+                        draggedWidget === widget.id ? 'opacity-50' : ''
+                      }`}
+                    >
+                      {isEditMode && (
+                        <div className="absolute top-2 right-2 z-10 bg-white/80 dark:bg-stone-800/80 rounded-lg p-1">
+                          <GripVertical className="w-4 h-4 text-stone-600 dark:text-stone-400" />
+                        </div>
+                      )}
+                      {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
+                      {widget.id === 'recent-project' && (
+                        projects.length > 0 ? (
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
@@ -678,10 +903,10 @@ export function ProjectsPageRedesign({
                 </div>
               </CardContent>
             </Card>
-          )}
-
-          {/* Writing Progress */}
-          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                        )
+                      )}
+                      {widget.id === 'writing-progress' && (
+                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
@@ -834,10 +1059,12 @@ export function ProjectsPageRedesign({
               </div>
             </CardContent>
           </Card>
-        </div>
-      </div>
-
-
+                </div>
+              </div>
+            );
+          }
+          return null;
+        })}
 
       {/* Add Task Modal */}
       <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
