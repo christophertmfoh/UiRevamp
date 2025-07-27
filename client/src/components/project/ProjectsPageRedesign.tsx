@@ -983,9 +983,9 @@ export function ProjectsPageRedesign({
               </div>
             </CardContent>
           </Card>
-
-          {/* Quick Tasks */}
-          <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                      )}
+                      {widget.id === 'quick-tasks' && (
+                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle className="w-4 h-4 text-emerald-600" />
@@ -1059,12 +1059,16 @@ export function ProjectsPageRedesign({
               </div>
             </CardContent>
           </Card>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             );
           }
           return null;
         })}
+      </div>
 
       {/* Add Task Modal */}
       <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
