@@ -29,7 +29,9 @@ import {
   Image,
   CheckCircle,
   Plus,
-  Target
+  Target,
+  Edit2,
+  Trash2
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -49,6 +51,18 @@ import {
 import { ThemeToggle } from '@/components/theme-toggle';
 import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { Project } from '@/lib/types';
+import { taskService, goalsService } from '@/lib/services/taskService';
+import type { Task, WritingGoal } from '@shared/schema';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useToast } from '@/hooks/use-toast';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ProjectsPageRedesignProps {
   onNavigate: (view: string) => void;
@@ -78,40 +92,75 @@ export function ProjectsPageRedesign({
   const [showTasksModal, setShowTasksModal] = useState(false);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
   
-  // Goals state
-  const [goals, setGoals] = useState(() => {
-    const saved = localStorage.getItem('fablecraft_writing_goals');
-    if (saved) {
-      return JSON.parse(saved);
-    }
-    return {
-      dailyWords: 500,
-      dailyMinutes: 60,
-      streakDays: 30
-    };
-  });
+  // Goals state (use API data if available, otherwise use localStorage)
+  const actualGoals = writingGoals || {
+    dailyWords: 500,
+    dailyMinutes: 60,
+    streakDays: 30
+  };
   
-  // Today's progress (in real app, this would come from API)
-  const [todayProgress] = useState({
-    words: 300,
-    minutes: 45,
-    currentStreak: 7
-  });
+  // Today's progress (using real task stats)
+  const todayProgress = {
+    words: taskStats?.completedTasks ? taskStats.completedTasks * 150 : 0, // Estimate words per task
+    minutes: taskStats?.completedTasks ? taskStats.completedTasks * 30 : 0, // Estimate minutes per task
+    currentStreak: 7 // This would come from API in real implementation
+  };
   
   // Temporary goals state for modal
-  const [tempGoals, setTempGoals] = useState(goals);
+  const [tempGoals, setTempGoals] = useState(actualGoals);
+  
+  // Task modal states
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [newTaskText, setNewTaskText] = useState('');
+  const [newTaskPriority, setNewTaskPriority] = useState<'low' | 'medium' | 'high'>('medium');
+  const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState<number>(30);
   
   // Open modal handler
   const handleOpenGoalsModal = () => {
-    setTempGoals(goals); // Reset temp goals to current saved goals
+    setTempGoals(actualGoals);
     setShowGoalsModal(true);
   };
   
   // Save goals handler
   const handleSaveGoals = () => {
-    setGoals(tempGoals);
-    localStorage.setItem('fablecraft_writing_goals', JSON.stringify(tempGoals));
+    updateGoalsMutation.mutate(tempGoals);
     setShowGoalsModal(false);
+  };
+  
+  // Create new task handler
+  const handleCreateTask = () => {
+    if (!newTaskText.trim()) return;
+    
+    createTaskMutation.mutate({
+      text: newTaskText,
+      priority: newTaskPriority,
+      estimatedTime: newTaskEstimatedTime,
+      status: 'pending',
+      dueDate: new Date()
+    });
+    
+    setNewTaskText('');
+    setNewTaskPriority('medium');
+    setNewTaskEstimatedTime(30);
+  };
+  
+  // Update task handler
+  const handleUpdateTask = () => {
+    if (!editingTask || !newTaskText.trim()) return;
+    
+    updateTaskMutation.mutate({
+      id: editingTask.id,
+      updates: {
+        text: newTaskText,
+        priority: newTaskPriority,
+        estimatedTime: newTaskEstimatedTime
+      }
+    });
+    
+    setEditingTask(null);
+    setNewTaskText('');
+    setNewTaskPriority('medium');
+    setNewTaskEstimatedTime(30);
   };
 
   // Helper functions to update preferences and save to localStorage
@@ -135,6 +184,85 @@ export function ProjectsPageRedesign({
   const { data: projects = [], isLoading } = useQuery<Project[]>({
     queryKey: ['/api/projects']
   });
+  
+  const { toast } = useToast();
+  
+  // Task queries and mutations
+  const { data: todayTasks = [], isLoading: isLoadingTasks } = useQuery<Task[]>({
+    queryKey: ['tasks', 'today'],
+    queryFn: () => taskService.getTodayTasks(),
+    enabled: !!user
+  });
+  
+  const { data: taskStats } = useQuery({
+    queryKey: ['tasks', 'stats'],
+    queryFn: () => taskService.getTaskStats(),
+    enabled: !!user
+  });
+  
+  const { data: writingGoals } = useQuery<WritingGoal>({
+    queryKey: ['goals'],
+    queryFn: () => goalsService.getGoals(),
+    enabled: !!user
+  });
+  
+  const updateTaskMutation = useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: Partial<Task> }) => 
+      taskService.updateTask(id, updates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'today'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'stats'] });
+    }
+  });
+  
+  const createTaskMutation = useMutation({
+    mutationFn: (task: Omit<Task, 'id' | 'userId' | 'createdAt' | 'updatedAt' | 'completedAt'>) => 
+      taskService.createTask(task),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'today'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'stats'] });
+      toast({
+        title: "Task created",
+        description: "Your new task has been added successfully."
+      });
+    }
+  });
+  
+  const deleteTaskMutation = useMutation({
+    mutationFn: (id: string) => taskService.deleteTask(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'today'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', 'stats'] });
+      toast({
+        title: "Task deleted",
+        description: "The task has been removed."
+      });
+    }
+  });
+  
+  const updateGoalsMutation = useMutation({
+    mutationFn: (goals: { dailyWords: number; dailyMinutes: number; streakDays: number }) => 
+      goalsService.updateGoals(goals),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['goals'] });
+      toast({
+        title: "Goals updated",
+        description: "Your writing goals have been saved."
+      });
+    }
+  });
+  
+  // Toggle task completion
+  const toggleTaskCompletion = (task: Task) => {
+    const updates = {
+      status: task.status === 'completed' ? 'pending' : 'completed',
+      completedAt: task.status === 'completed' ? null : new Date()
+    };
+    updateTaskMutation.mutate({ id: task.id, updates });
+  };
 
   const filteredProjects = projects.filter((project: Project) =>
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -436,27 +564,52 @@ export function ProjectsPageRedesign({
                   Quick Tasks
                 </h3>
               </div>
-              <div className="space-y-3 text-sm mb-5 flex-grow">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-emerald-600 rounded-full"></div>
-                  <span className="text-stone-700 dark:text-stone-300">Develop main characters</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
-                  <span className="text-stone-700 dark:text-stone-300">Outline chapter structure</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-stone-600 rounded-full"></div>
-                  <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
-                </div>
+              <div className="space-y-3 text-sm mb-5 flex-grow overflow-y-auto">
+                {isLoadingTasks ? (
+                  <div className="text-center text-stone-500 dark:text-stone-400 text-xs">Loading tasks...</div>
+                ) : todayTasks.length === 0 ? (
+                  <div className="text-center text-stone-500 dark:text-stone-400 text-xs">
+                    <p className="mb-2">No tasks for today yet</p>
+                    <Button
+                      size="sm"
+                      onClick={() => setShowTasksModal(true)}
+                      className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-3 py-1"
+                    >
+                      Add Tasks
+                    </Button>
+                  </div>
+                ) : (
+                  todayTasks.slice(0, 3).map((task) => (
+                    <div 
+                      key={task.id} 
+                      className="flex items-center gap-3 cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 p-1 rounded-lg transition-colors duration-200"
+                      onClick={() => toggleTaskCompletion(task)}
+                    >
+                      <Checkbox 
+                        checked={task.status === 'completed'}
+                        className="h-4 w-4"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                      <span className={`text-stone-700 dark:text-stone-300 ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
+                        {task.text}
+                      </span>
+                      {task.priority === 'high' && (
+                        <Badge variant="destructive" className="text-[10px] px-1 py-0 h-4">High</Badge>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
               <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50 mt-auto">
                 <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
                   <span>Today's Progress</span>
-                  <span>1/3 completed</span>
+                  <span>{todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed</span>
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
+                  <div 
+                    className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" 
+                    style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
+                  ></div>
                 </div>
                 <Button 
                   size="sm"
