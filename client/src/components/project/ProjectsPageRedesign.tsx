@@ -155,7 +155,7 @@ export function ProjectsPageRedesign({
   
   // Open modal handler
   const handleOpenGoalsModal = () => {
-    setTempGoals(actualGoals);
+    // Will be populated after queries are defined
     setShowGoalsModal(true);
   };
   
@@ -174,7 +174,8 @@ export function ProjectsPageRedesign({
       priority: newTaskPriority,
       estimatedTime: newTaskEstimatedTime,
       status: 'pending',
-      dueDate: new Date()
+      dueDate: new Date(),
+      projectId: null // Tasks from dashboard are not project-specific
     }, {
       onSuccess: () => {
         setNewTaskText('');
@@ -336,11 +337,22 @@ export function ProjectsPageRedesign({
     enabled: !!user
   });
   
+  // Update tempGoals when writingGoals data is loaded
+  useEffect(() => {
+    if (writingGoals) {
+      setTempGoals({
+        dailyWords: writingGoals.dailyWords || 500,
+        dailyMinutes: writingGoals.dailyMinutes || 60,
+        streakDays: writingGoals.streakDays || 30
+      });
+    }
+  }, [writingGoals]);
+  
   // Computed values
-  const actualGoals = writingGoals || {
-    dailyWords: tempGoals.dailyWords,
-    dailyMinutes: tempGoals.dailyMinutes,
-    streakDays: tempGoals.streakDays
+  const actualGoals = {
+    dailyWords: writingGoals?.dailyWords || tempGoals.dailyWords,
+    dailyMinutes: writingGoals?.dailyMinutes || tempGoals.dailyMinutes,
+    streakDays: writingGoals?.streakDays || tempGoals.streakDays
   };
   
   const todayProgress = {
@@ -1225,7 +1237,7 @@ export function ProjectsPageRedesign({
                           onClick={() => {
                             setEditingTask(task);
                             setNewTaskText(task.text);
-                            setNewTaskPriority(task.priority);
+                            setNewTaskPriority(task.priority as 'low' | 'medium' | 'high');
                             setNewTaskEstimatedTime(task.estimatedTime || 30);
                             setShowTasksModal(false);
                             setShowAddTaskModal(true);
@@ -1258,8 +1270,8 @@ export function ProjectsPageRedesign({
                   <p className="text-3xl font-black text-emerald-600">{taskStats?.completedTasks || 0}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Total Time</p>
-                  <p className="text-3xl font-black text-amber-600">{taskStats?.totalTime || 0}h</p>
+                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Completion Rate</p>
+                  <p className="text-3xl font-black text-amber-600">{taskStats?.completionRate ? Math.round(taskStats.completionRate) : 0}%</p>
                 </div>
               </div>
             </div>

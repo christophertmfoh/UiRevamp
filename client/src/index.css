@@ -86,9 +86,7 @@ body {
   background: transparent !important;
 }
 
--stone-600 dark:to-amber-700;
-  }
-  
+@layer utilities {
   .gradient-emerald-amber-hover {
     @apply hover:from-emerald-200 hover:to-emerald-300 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600;
   }
@@ -114,15 +112,33 @@ body {
   }
 }
 
-/* Smooth Dark/Light Mode Transitions */
-/* Simple, unified transitions for all elements */
-* {
-  transition: background-color 0.3s ease,
-              color 0.3s ease,
-              border-color 0.3s ease,
-              fill 0.3s ease,
-              stroke 0.3s ease,
-              opacity 0.3s ease;
+/* Optimized Theme Transitions */
+/* Target only elements that need transitions */
+html {
+  transition: none; /* Prevent flashing on theme change */
+}
+
+/* Apply transitions only to interactive elements and theme-sensitive components */
+.theme-transition {
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease;
+}
+
+/* Buttons and interactive elements */
+button, a, input, textarea, select,
+.card, .paper-surface, .creative-card,
+.bg-card, .bg-background, .bg-muted,
+.text-foreground, .text-muted-foreground {
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+/* SVG icons */
+svg {
+  transition: fill 0.2s ease, stroke 0.2s ease;
 }
 
 /* Disable transitions on animations to prevent conflicts */
@@ -161,7 +177,9 @@ body {
               opacity 0.3s ease !important;
 }
 
-:root {
+/* Default to light theme */
+:root,
+[data-theme="light"] {
   /* Fablecraft Brand System - Light Mode */
   --background: hsl(20, 14.3%, 95%);                /* Clean stone background */
   --foreground: hsl(20, 14.3%, 4.1%);               /* Rich dark text */
@@ -206,6 +224,8 @@ body {
   --fablecraft-mesh-amber: hsl(35, 70%, 65%, 0.35);        /* Mesh amber */
 }
 
+/* Dark theme using both data attribute and class for compatibility */
+[data-theme="dark"],
 .dark {
   /* Fablecraft Brand System - Dark Mode */
   --background: hsl(20, 14.3%, 4.1%);               /* Deep stone background */
