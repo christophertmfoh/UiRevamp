@@ -17,7 +17,7 @@ const KEEP_AS_ARRAY_FIELDS = [
   'tropes', 'tags', 'spokenLanguages', 'nicknames', 'aliases'
 ];
 
-export function transformCharacterData(data: any): any {
+export function transformCharacterData(data: Record<string, unknown>): Record<string, unknown> {
   const transformedData = { ...data };
   
   // Transform array fields to comma-separated strings

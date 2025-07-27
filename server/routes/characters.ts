@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { insertCharacterSchema } from "@shared/schema";
+// Removed unused insertCharacterSchema import
 import { storage } from "../storage";
 import { transformCharacterData } from "../utils/characterTransformers";
 import { generateCharacterWithAI } from "../services/characterGeneration";
@@ -56,11 +56,12 @@ characterRouter.post("/characters", async (req, res) => {
     const transformedData = transformCharacterData(characterData);
     
     console.log('Creating character with transformed data:', transformedData);
-    const character = await storage.createCharacter(transformedData);
+    const character = await storage.createCharacter(transformedData as any);
     res.status(201).json(character);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating character:", error);
-    console.error("Validation details:", error.issues || error.message);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Validation details:", errorMessage);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -82,9 +83,10 @@ characterRouter.put("/characters/:id", async (req, res) => {
     
     const character = await storage.updateCharacter(id, transformedData);
     res.json(character);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error updating character:", error);
-    console.error("Validation error details:", error.issues || error.message);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Validation error details:", errorMessage);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -140,9 +142,10 @@ characterRouter.post("/projects/:projectId/characters/generate-from-template", a
     }
     
     res.status(201).json(character);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generating character from template:", error);
-    res.status(500).json({ error: "Failed to generate character from template", details: error.message });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    res.status(500).json({ error: "Failed to generate character from template", details: errorMessage });
   }
 });
 
@@ -186,7 +189,7 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
     }
     
     res.status(201).json(character);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generating character:", error);
     res.status(500).json({ error: "Failed to generate character" });
   }
@@ -204,7 +207,7 @@ characterRouter.post("/characters/:id/generate-image", async (req, res) => {
     
     const imageUrl = await generateCharacterImage(req.body);
     res.json({ imageUrl });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generating character image:", error);
     res.status(500).json({ error: "Failed to generate image" });
   }
@@ -223,7 +226,7 @@ characterRouter.post("/projects/:projectId/characters/import", upload.single('fi
     const result = await importCharacterDocument(file.path, file.originalname);
     
     // Transform array fields to strings as expected by database
-    const transformedResult = transformCharacterData(result);
+    const transformedResult = transformCharacterData(result as Record<string, unknown>);
     
     const character = await storage.createCharacter({
       id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -231,7 +234,7 @@ characterRouter.post("/projects/:projectId/characters/import", upload.single('fi
       projectId
     });
     res.json({ character });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error importing character document:", error);
     res.status(500).json({ error: "Failed to import document" });
   }
