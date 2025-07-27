@@ -10,7 +10,14 @@ router.post('/generate', authenticateToken, async (req, res) => {
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-    const prompt = `You are a creative writing assistant. Generate fresh, inspiring content for writers in the following categories. Make sure all content is unique, engaging, and helpful for writers.
+    const prompt = `You are a creative writing assistant. Generate COMPLETELY NEW and UNIQUE content for writers. NEVER repeat previous suggestions.
+
+IMPORTANT: For Word of the Day, choose from this variety:
+- Unusual descriptive words (petrichor, susurrus, ephemeral, liminal, diaphanous)
+- Emotional/psychological terms (mellifluous, saudade, schadenfreude, ennui)
+- Action verbs (eviscerate, genuflect, gesticulate, prevaricate)
+- Literary terms (anachronism, denouement, verisimilitude, pastiche)
+- Atmospheric words (crepuscular, tenebrous, gossamer, lambent)
 
 IMPORTANT CHARACTER LIMITS (strictly enforce these):
 - motivation: Maximum 80 characters
@@ -27,7 +34,7 @@ Generate content in this exact JSON format:
   "joke": "A clever writing joke or pun (max 100 chars)",
   "tip": "A practical writing tip (max 120 chars)",
   "wordOfDay": {
-    "word": "An uncommon but useful word",
+    "word": "Pick a DIFFERENT uncommon word each time",
     "definition": "Clear definition (max 60 chars)",
     "usage": "How to use this word (max 80 chars)"
   },
@@ -35,7 +42,7 @@ Generate content in this exact JSON format:
   "fact": "An interesting writing fact (max 120 chars)"
 }
 
-Keep content concise, punchy, and within character limits. Be creative and avoid clichés.`;
+Be creative, varied, and NEVER repeat words or content from previous generations.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
