@@ -55,9 +55,26 @@ export function ProjectsPageRedesign({
   user 
 }: ProjectsPageRedesignProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
-  const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'type'>('updated');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
+    const saved = localStorage.getItem('projects-view-mode');
+    return (saved as 'grid' | 'list') || 'list';
+  });
+  const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'type'>(() => {
+    const saved = localStorage.getItem('projects-sort-by');
+    return (saved as 'name' | 'updated' | 'created' | 'type') || 'updated';
+  });
   const [scrollY, setScrollY] = useState(0);
+
+  // Helper functions to update preferences and save to localStorage
+  const updateViewMode = (mode: 'grid' | 'list') => {
+    setViewMode(mode);
+    localStorage.setItem('projects-view-mode', mode);
+  };
+
+  const updateSortBy = (sort: 'name' | 'updated' | 'created' | 'type') => {
+    setSortBy(sort);
+    localStorage.setItem('projects-sort-by', sort);
+  };
 
   // Parallax scrolling effect
   useEffect(() => {
@@ -303,19 +320,19 @@ export function ProjectsPageRedesign({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center" className="w-48">
-                <DropdownMenuItem onClick={() => setSortBy('name')}>
+                <DropdownMenuItem onClick={() => updateSortBy('name')}>
                   <BookOpen className="w-4 h-4 mr-2" />
                   Name
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('updated')}>
+                <DropdownMenuItem onClick={() => updateSortBy('updated')}>
                   <Clock className="w-4 h-4 mr-2" />
                   Recently Updated
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('created')}>
+                <DropdownMenuItem onClick={() => updateSortBy('created')}>
                   <Calendar className="w-4 h-4 mr-2" />
                   Date Created
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortBy('type')}>
+                <DropdownMenuItem onClick={() => updateSortBy('type')}>
                   <FileText className="w-4 h-4 mr-2" />
                   Project Type
                 </DropdownMenuItem>
@@ -327,7 +344,7 @@ export function ProjectsPageRedesign({
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('grid')}
+                onClick={() => updateViewMode('grid')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'grid' 
                     ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
@@ -339,7 +356,7 @@ export function ProjectsPageRedesign({
               <Button
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('list')}
+                onClick={() => updateViewMode('list')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'list' 
                     ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-md' 
