@@ -1,16 +1,5 @@
 import { apiRequest } from '@/lib/queryClient';
 import type { Task, InsertTask, WritingGoal } from '@shared/schema';
-import { useAuth } from '@/hooks/useAuth';
-
-// Helper to get auth token
-const getAuthHeaders = (): HeadersInit => {
-  const token = localStorage.getItem('auth_token');
-  const headers: HeadersInit = new Headers();
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-  return headers;
-};
 
 // Task CRUD operations
 export const taskService = {
