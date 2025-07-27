@@ -153,7 +153,7 @@ export function ProjectsPageRedesign({
       </div>
 
       {/* Navigation Header */}
-      <nav className="relative z-10 px-8 py-6 border-b border-stone-200/20 dark:border-stone-800/20 backdrop-blur-xl">
+      <nav className="relative z-10 px-8 py-4 border-b border-stone-200/20 dark:border-stone-800/20 backdrop-blur-xl">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Back Button */}
           <div className="flex-1">
@@ -214,31 +214,31 @@ export function ProjectsPageRedesign({
       </nav>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
         {/* Page Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <div className="overflow-visible">
-            <div className="mb-3">
+            <div className="mb-2">
               <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
                 Welcome back, {user?.username || 'Writer'}
               </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-3">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
               Your Projects
             </h1>
           </div>
           
-          <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto mt-2">
+          <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
             Organize, track, and bring your stories to life with intelligent project management.
           </p>
         </div>
 
         {/* Two Column Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Left Side - Writing Progress */}
           <div className="flex flex-col">
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 flex-1">
-              <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-lg border border-stone-300/30 dark:border-slate-700/20 flex-1">
+              <div className="flex items-center justify-center gap-3 mb-5">
                 <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
@@ -248,27 +248,27 @@ export function ProjectsPageRedesign({
               </div>
               
               {/* Writing Streak */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
+              <div className="mb-5">
+                <div className="flex items-center justify-between mb-2">
                   <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
                   <p className="text-sm font-bold text-emerald-600">7 days</p>
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
                   <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '70%' }}></div>
                 </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">Great momentum! Keep it up.</p>
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">Great momentum! Keep it up.</p>
               </div>
 
               {/* Today's Writing */}
               <div>
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2">
                   <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Writing</p>
                   <p className="text-sm font-bold text-emerald-600">300 words</p>
                 </div>
                 <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-3">
                   <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
                 </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">300/500 words • 60% complete</p>
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
               </div>
             </div>
           </div>
@@ -278,7 +278,7 @@ export function ProjectsPageRedesign({
             {/* Recent Project Card */}
             {projects.length > 0 && (
               <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <CardContent className="p-6">
+                <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Recent Project</h3>
                     <Badge className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white text-xs px-2 py-1">
@@ -308,8 +308,8 @@ export function ProjectsPageRedesign({
 
             {/* Quick To-Do Box */}
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 flex-1">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base">Quick Tasks</h3>
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                 </div>
@@ -327,12 +327,12 @@ export function ProjectsPageRedesign({
                     <span className="text-stone-700 dark:text-stone-300">Review plot points</span>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
-                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-3">
+                <div className="mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
                     <span>Today's Progress</span>
                     <span>1/3 completed</span>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-4">
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5 mb-3">
                     <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '33%' }}></div>
                   </div>
                   <Button 
@@ -349,9 +349,9 @@ export function ProjectsPageRedesign({
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-6">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
@@ -369,7 +369,7 @@ export function ProjectsPageRedesign({
           </Card>
 
           <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-6">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
@@ -387,7 +387,7 @@ export function ProjectsPageRedesign({
           </Card>
 
           <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-stone-300/30 dark:border-slate-700/20">
-            <CardContent className="p-6">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-3xl font-black text-stone-900 dark:text-stone-50">
@@ -405,7 +405,7 @@ export function ProjectsPageRedesign({
           </Card>
 
           <Card className="bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
-            <CardContent className="p-6">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] tracking-tight">
@@ -424,7 +424,7 @@ export function ProjectsPageRedesign({
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-8">
+        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
