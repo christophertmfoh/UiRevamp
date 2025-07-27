@@ -33,28 +33,18 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Add transitioning class to pause animations
-    root.classList.add('theme-transitioning');
+    root.classList.remove('light', 'dark');
 
-    // Small delay to ensure transitioning class is applied
-    requestAnimationFrame(() => {
-      root.classList.remove('light', 'dark');
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
 
-      if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light';
+      root.classList.add(systemTheme);
+      return;
+    }
 
-        root.classList.add(systemTheme);
-      } else {
-        root.classList.add(theme);
-      }
-
-      // Remove transitioning class after transition completes
-      setTimeout(() => {
-        root.classList.remove('theme-transitioning');
-      }, 800);
-    });
+    root.classList.add(theme);
   }, [theme]);
 
   const value = {
