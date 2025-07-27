@@ -80,20 +80,28 @@ export function useUpdateEntity<T extends BaseEntity>(
   });
 }
 
+// Helper function to invalidate entity queries
+function createInvalidateQueries(queryClient: any, entityType: string) {
+  return (projectId: string) => {
+    queryClient.invalidateQueries({ 
+      queryKey: ['/api/projects', projectId, entityType] 
+    });
+  };
+}
+
 export function useDeleteEntity(
   entityType: string,
   options?: Partial<UseMutationOptions<void, Error, { id: string; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
+  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<void, Error, { id: string; projectId: string }>({
     mutationFn: async ({ id }) => {
       return await apiRequest('DELETE', `/api/${entityType}/${id}`);
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ 
-        queryKey: ['/api/projects', variables.projectId, entityType] 
-      });
+      invalidateQueries(variables.projectId);
       options?.onSuccess?.(data, variables, context);
     },
     ...options,
@@ -106,15 +114,14 @@ export function useBulkDeleteEntities(
   options?: Partial<UseMutationOptions<void, Error, { ids: string[]; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
+  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<void, Error, { ids: string[]; projectId: string }>({
     mutationFn: async ({ ids }) => {
       return await apiRequest('DELETE', `/api/${entityType}/bulk`, { ids });
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ 
-        queryKey: ['/api/projects', variables.projectId, entityType] 
-      });
+      invalidateQueries(variables.projectId);
       options?.onSuccess?.(data, variables, context);
     },
     ...options,
@@ -126,15 +133,14 @@ export function useBulkUpdateEntities<T extends BaseEntity>(
   options?: Partial<UseMutationOptions<T[], Error, { ids: string[]; data: Partial<T>; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
+  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<T[], Error, { ids: string[]; data: Partial<T>; projectId: string }>({
     mutationFn: async ({ ids, data }) => {
       return await apiRequest('PATCH', `/api/${entityType}/bulk`, { ids, data });
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ 
-        queryKey: ['/api/projects', variables.projectId, entityType] 
-      });
+      invalidateQueries(variables.projectId);
       options?.onSuccess?.(data, variables, context);
     },
     ...options,

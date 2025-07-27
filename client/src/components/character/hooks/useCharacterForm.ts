@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { FIELD_DEFINITIONS, getFieldDefinition } from '@/lib/config/fieldConfig';
+import { calculateEntityCompleteness } from '@/lib/utils/entityUtils';
 
 interface UseCharacterFormProps {
   projectId: string;
@@ -145,17 +146,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   }, [character, formData]);
 
   const completionStats = useMemo(() => {
-    const totalFields = FIELD_DEFINITIONS.length;
-    const filledFields = FIELD_DEFINITIONS.filter(field => {
-      const value = formData[field.key as keyof Character];
-      return value && value !== '' && (!Array.isArray(value) || value.length > 0);
-    }).length;
-    
-    return {
-      total: totalFields,
-      filled: filledFields,
-      percentage: Math.round((filledFields / totalFields) * 100)
-    };
+    return calculateEntityCompleteness(formData, FIELD_DEFINITIONS);
   }, [formData]);
 
   return {
