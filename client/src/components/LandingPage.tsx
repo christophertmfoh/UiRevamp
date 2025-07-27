@@ -89,7 +89,7 @@ export function LandingPage({
   guideMode, 
   setGuideMode 
 }: LandingPageProps) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
