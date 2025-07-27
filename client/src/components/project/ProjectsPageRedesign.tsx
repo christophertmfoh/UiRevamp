@@ -91,6 +91,7 @@ export function ProjectsPageRedesign({
   });
   const [scrollY, setScrollY] = useState(0);
   const [showTasksModal, setShowTasksModal] = useState(false);
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
   
   // Task modal states
@@ -128,11 +129,14 @@ export function ProjectsPageRedesign({
       estimatedTime: newTaskEstimatedTime,
       status: 'pending',
       dueDate: new Date()
+    }, {
+      onSuccess: () => {
+        setNewTaskText('');
+        setNewTaskPriority('medium');
+        setNewTaskEstimatedTime(30);
+        setShowAddTaskModal(false);
+      }
     });
-    
-    setNewTaskText('');
-    setNewTaskPriority('medium');
-    setNewTaskEstimatedTime(30);
   };
   
   // Update task handler
@@ -616,13 +620,22 @@ export function ProjectsPageRedesign({
                     style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
                   ></div>
                 </div>
-                <Button 
-                  size="sm"
-                  onClick={() => setShowTasksModal(true)}
-                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                >
-                  View All Tasks
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    size="sm"
+                    onClick={() => setShowAddTaskModal(true)}
+                    className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                  >
+                    Add Task
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={() => setShowTasksModal(true)}
+                    className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                  >
+                    View All
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -835,114 +848,157 @@ export function ProjectsPageRedesign({
 
 
 
-      {/* Tasks Modal */}
-      <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
-        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+      {/* Add Task Modal */}
+      <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
+        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
           <DialogHeader>
-            <DialogTitle className="font-serif text-xl font-black text-stone-900 dark:text-stone-50">
-              Tasks & To-Do List
+            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+              Add New Task
             </DialogTitle>
+            <DialogDescription className="text-stone-600 dark:text-stone-400">
+              Create a task to track your writing progress
+            </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-6 py-4">
-            {/* Add New Task */}
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">
-                {editingTask ? 'Edit Task' : 'Add New Task'}
-              </h3>
-              <div className="space-y-3">
-                <Textarea
-                  placeholder="What do you need to do?"
-                  value={newTaskText}
-                  onChange={(e) => setNewTaskText(e.target.value)}
-                  className="min-h-[80px] resize-none"
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs text-stone-600 dark:text-stone-400 mb-1 block">Priority</label>
-                    <Select value={newTaskPriority} onValueChange={(value: 'low' | 'medium' | 'high') => setNewTaskPriority(value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="low">Low</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="high">High</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="text-xs text-stone-600 dark:text-stone-400 mb-1 block">Estimated Time (min)</label>
-                    <Input 
-                      type="number" 
-                      min="5" 
-                      step="5" 
-                      value={newTaskEstimatedTime} 
-                      onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value) || 30)}
-                    />
-                  </div>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                Task Description
+              </label>
+              <Textarea
+                placeholder="What do you need to do?"
+                value={newTaskText}
+                onChange={(e) => setNewTaskText(e.target.value)}
+                className="min-h-[100px] resize-none bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                  Priority
+                </label>
+                <Select value={newTaskPriority} onValueChange={(value: 'low' | 'medium' | 'high') => setNewTaskPriority(value)}>
+                  <SelectTrigger className="bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-stone-700 dark:text-stone-300 flex items-center justify-between">
+                  <span>Estimated Time</span>
+                  <span className="text-xs text-stone-500 dark:text-stone-400">{newTaskEstimatedTime} min</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="range"
+                    min="5"
+                    max="120"
+                    step="5"
+                    value={newTaskEstimatedTime}
+                    onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value))}
+                    className="w-full h-10 appearance-none bg-stone-200 dark:bg-stone-700 rounded-xl cursor-pointer
+                      [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
+                      [&::-webkit-slider-thumb]:bg-gradient-to-r [&::-webkit-slider-thumb]:from-emerald-600 [&::-webkit-slider-thumb]:to-amber-600 
+                      [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
+                      [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0
+                      [&::-moz-range-thumb]:bg-gradient-to-r [&::-moz-range-thumb]:from-emerald-600 [&::-moz-range-thumb]:to-amber-600 
+                      [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer"
+                  />
                 </div>
-                <Button 
-                  onClick={editingTask ? handleUpdateTask : handleCreateTask}
-                  disabled={!newTaskText.trim()}
-                  className="w-full bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white"
-                >
-                  {editingTask ? 'Update Task' : 'Add Task'}
-                </Button>
-                {editingTask && (
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      setEditingTask(null);
-                      setNewTaskText('');
-                      setNewTaskPriority('medium');
-                      setNewTaskEstimatedTime(30);
-                    }}
-                    className="w-full"
-                  >
-                    Cancel Edit
-                  </Button>
-                )}
               </div>
             </div>
             
-            <div className="border-t border-stone-200 dark:border-stone-700"></div>
-            
+            <div className="flex gap-3 pt-4">
+              <Button 
+                onClick={handleCreateTask}
+                disabled={!newTaskText.trim()}
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+              >
+                Add Task
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => setShowAddTaskModal(false)}
+                className="px-8 border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 rounded-xl"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* View All Tasks Modal */}
+      <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
+        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+              Tasks & To-Do List
+            </DialogTitle>
+            <DialogDescription className="text-stone-600 dark:text-stone-400">
+              Manage your writing tasks and track progress
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
             {/* Today's Tasks */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-stone-700 dark:text-stone-300">Today's Tasks</h3>
-                <span className="text-xs text-stone-500 dark:text-stone-400">
+                <h3 className="text-lg font-bold text-stone-700 dark:text-stone-300">Today's Tasks</h3>
+                <span className="text-sm text-stone-500 dark:text-stone-400">
                   {todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed
                 </span>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-[400px] overflow-y-auto">
                 {isLoadingTasks ? (
-                  <div className="text-center py-4 text-sm text-stone-500">Loading tasks...</div>
+                  <div className="text-center py-8 text-sm text-stone-500">Loading tasks...</div>
                 ) : todayTasks.length === 0 ? (
-                  <div className="text-center py-4 text-sm text-stone-500">No tasks for today. Add one above!</div>
+                  <div className="text-center py-8">
+                    <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">No tasks for today. Add one above!</p>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        setShowTasksModal(false);
+                        setShowAddTaskModal(true);
+                      }}
+                      className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white"
+                    >
+                      Add Your First Task
+                    </Button>
+                  </div>
                 ) : (
                   todayTasks.map((task) => (
-                    <div key={task.id} className="flex items-start gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+                    <div key={task.id} className="flex items-start gap-3 p-4 bg-stone-100/60 dark:bg-stone-900/40 rounded-xl hover:bg-stone-100/80 dark:hover:bg-stone-900/60 transition-colors">
                       <Checkbox
                         checked={task.status === 'completed'}
                         onCheckedChange={() => toggleTaskCompletion(task)}
-                        className="mt-0.5"
+                        className="mt-0.5 h-5 w-5"
                       />
                       <div className="flex-grow">
-                        <p className={`text-sm ${task.status === 'completed' ? 'line-through text-stone-400' : 'text-stone-700 dark:text-stone-300'}`}>
+                        <p className={`font-medium ${task.status === 'completed' ? 'line-through text-stone-400' : 'text-stone-700 dark:text-stone-300'}`}>
                           {task.text}
                         </p>
-                        <div className="flex items-center gap-4 mt-1">
+                        <div className="flex items-center gap-4 mt-2">
                           <span className="text-xs text-stone-500 dark:text-stone-400">
+                            <Clock className="w-3 h-3 inline mr-1" />
                             {task.estimatedTime} min
                           </span>
                           {task.priority === 'high' && (
-                            <Badge variant="destructive" className="text-[10px] px-1 py-0 h-4">High</Badge>
+                            <Badge variant="destructive" className="text-xs">High Priority</Badge>
+                          )}
+                          {task.priority === 'medium' && (
+                            <Badge variant="default" className="text-xs">Medium</Badge>
                           )}
                           {task.priority === 'low' && (
-                            <Badge variant="secondary" className="text-[10px] px-1 py-0 h-4">Low</Badge>
+                            <Badge variant="secondary" className="text-xs">Low</Badge>
                           )}
                         </div>
                       </div>
@@ -955,18 +1011,20 @@ export function ProjectsPageRedesign({
                             setNewTaskText(task.text);
                             setNewTaskPriority(task.priority);
                             setNewTaskEstimatedTime(task.estimatedTime || 30);
+                            setShowTasksModal(false);
+                            setShowAddTaskModal(true);
                           }}
-                          className="h-7 w-7 p-0"
+                          className="h-8 w-8 p-0 hover:bg-stone-200 dark:hover:bg-stone-700 rounded-lg"
                         >
-                          <Pencil className="h-3 w-3" />
+                          <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => deleteTaskMutation.mutate(task.id)}
-                          className="h-7 w-7 p-0 text-red-600 hover:text-red-700"
+                          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                         >
-                          <Trash2 className="h-3 w-3" />
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
@@ -976,16 +1034,16 @@ export function ProjectsPageRedesign({
             </div>
             
             {/* Progress Summary */}
-            <div className="bg-gradient-to-br from-emerald-50 to-amber-50 dark:from-emerald-900/20 dark:to-amber-900/20 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-stone-700 dark:text-stone-300 mb-3">Weekly Progress</h4>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-stone-600 dark:text-stone-400">Tasks Completed</p>
-                  <p className="text-2xl font-black text-emerald-600">{taskStats?.completedTasks || 0}</p>
+            <div className="bg-gradient-to-br from-emerald-50 to-amber-50 dark:from-emerald-900/20 dark:to-amber-900/20 rounded-xl p-5">
+              <h4 className="text-lg font-bold text-stone-700 dark:text-stone-300 mb-4">Weekly Progress</h4>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Tasks Completed</p>
+                  <p className="text-3xl font-black text-emerald-600">{taskStats?.completedTasks || 0}</p>
                 </div>
-                <div>
-                  <p className="text-stone-600 dark:text-stone-400">Total Time</p>
-                  <p className="text-2xl font-black text-amber-600">{taskStats?.totalTime || 0}h</p>
+                <div className="text-center">
+                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Total Time</p>
+                  <p className="text-3xl font-black text-amber-600">{taskStats?.totalTime || 0}h</p>
                 </div>
               </div>
             </div>

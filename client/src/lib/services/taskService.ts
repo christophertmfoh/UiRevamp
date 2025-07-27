@@ -5,8 +5,12 @@ import type { Task, InsertTask, WritingGoal } from '@shared/schema';
 export const taskService = {
   // Get all tasks for the current user
   async getTasks(): Promise<Task[]> {
+    // Get token from localStorage
+    const authState = localStorage.getItem('fablecraft-auth');
+    const token = authState ? JSON.parse(authState).state.token : null;
+    
     const response = await fetch('/api/tasks', {
-      credentials: 'include',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
     });
     
     if (!response.ok) {
@@ -18,9 +22,12 @@ export const taskService = {
 
   // Get today's tasks
   async getTodayTasks(): Promise<Task[]> {
+    // Get token from localStorage
+    const authState = localStorage.getItem('fablecraft-auth');
+    const token = authState ? JSON.parse(authState).state.token : null;
+    
     const response = await fetch('/api/tasks/today', {
-      headers: getAuthHeaders(),
-      credentials: 'include',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
     });
     
     if (!response.ok) {
@@ -55,9 +62,12 @@ export const taskService = {
     inProgressTasks: number;
     completionRate: number;
   }> {
+    // Get token from localStorage
+    const authState = localStorage.getItem('fablecraft-auth');
+    const token = authState ? JSON.parse(authState).state.token : null;
+    
     const response = await fetch('/api/tasks/stats', {
-      headers: getAuthHeaders(),
-      credentials: 'include',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
     });
     
     if (!response.ok) {
@@ -72,9 +82,12 @@ export const taskService = {
 export const goalsService = {
   // Get writing goals
   async getGoals(): Promise<WritingGoal> {
+    // Get token from localStorage
+    const authState = localStorage.getItem('fablecraft-auth');
+    const token = authState ? JSON.parse(authState).state.token : null;
+    
     const response = await fetch('/api/tasks/goals', {
-      headers: getAuthHeaders(),
-      credentials: 'include',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
     });
     
     if (!response.ok) {
