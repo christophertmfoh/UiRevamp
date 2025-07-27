@@ -55,7 +55,7 @@ export function ProjectsPageRedesign({
   user 
 }: ProjectsPageRedesignProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'type'>('updated');
   const [scrollY, setScrollY] = useState(0);
 
