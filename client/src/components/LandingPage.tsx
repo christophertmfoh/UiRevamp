@@ -285,15 +285,7 @@ export function LandingPage({
           }}
         ></div>
         
-        {/* Manuscript lines with subtle parallax */}
-        <div 
-          className="absolute inset-0 opacity-8 dark:opacity-4"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, transparent 0%, transparent 48%, #d4a574 49%, #d4a574 51%, transparent 52%, transparent 100%)`,
-            backgroundSize: '100% 45px',
-            transform: `translateY(${scrollY * 0.06}px)`
-          }}
-        />
+
         
         {/* Ancient scroll decorations */}
         <div 
