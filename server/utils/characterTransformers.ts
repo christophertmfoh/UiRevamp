@@ -14,7 +14,7 @@ const ARRAY_TO_STRING_FIELDS = [
 // Fields that should remain as arrays (defined with .array() in schema)
 const KEEP_AS_ARRAY_FIELDS = [
   'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-  'tropes', 'tags', 'spokenLanguages'
+  'tropes', 'tags', 'spokenLanguages', 'nicknames', 'aliases'
 ];
 
 export function transformCharacterData(data: any): any {

@@ -101,6 +101,51 @@ characterRouter.delete("/characters/:id", async (req, res) => {
   }
 });
 
+// Generate character from template
+characterRouter.post("/projects/:projectId/characters/generate-from-template", async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { templateData } = req.body;
+    
+    console.log('Starting template-based character generation');
+    
+    // Get project data
+    const project = await storage.getProject(projectId);
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+    
+    // Generate character with template data as prompts
+    const character = await generateCharacterWithAI({
+      projectId,
+      projectName: project.name,
+      projectDescription: project.description || '',
+      characterType: templateData?.category || 'character',
+      role: templateData?.role || 'character',
+      customPrompt: `Generate a character based on this template: ${templateData?.name || 'character template'}`,
+      personality: templateData?.personality || '',
+      archetype: templateData?.archetype || templateData?.name || 'character'
+    });
+    
+    // Generate portrait for the character
+    if (character.id) {
+      try {
+        const portraitUrl = await generateCharacterPortrait(character);
+        if (portraitUrl) {
+          console.log('Generated portrait URL for template character:', portraitUrl);
+        }
+      } catch (portraitError) {
+        console.error("Error generating portrait for template character:", portraitError);
+      }
+    }
+    
+    res.status(201).json(character);
+  } catch (error: any) {
+    console.error("Error generating character from template:", error);
+    res.status(500).json({ error: "Failed to generate character from template", details: error.message });
+  }
+});
+
 // Generate character with AI
 characterRouter.post("/projects/:projectId/characters/generate", async (req, res) => {
   try {
@@ -176,9 +221,13 @@ characterRouter.post("/projects/:projectId/characters/import", upload.single('fi
     }
     
     const result = await importCharacterDocument(file.path, file.originalname);
+    
+    // Transform array fields to strings as expected by database
+    const transformedResult = transformCharacterData(result);
+    
     const character = await storage.createCharacter({
       id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      ...result,
+      ...transformedResult,
       projectId
     });
     res.json({ character });
