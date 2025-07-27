@@ -6,43 +6,100 @@ const router = Router();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_X || process.env.GOOGLE_API_KEY!);
 
-router.post('/generate', authenticateToken, async (req, res) => {
+// Simple in-memory cache for pre-generated content
+let contentCache: any[] = [];
+let isGenerating = false;
+
+// Pre-generate content in the background
+async function preGenerateContent() {
+  if (isGenerating || contentCache.length >= 5) return;
+  
+  isGenerating = true;
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-2.5-flash',
+      generationConfig: {
+        temperature: 0.8,
+        maxOutputTokens: 512,
+      }
+    });
 
-    const prompt = `You are a creative writing assistant. Generate COMPLETELY NEW and UNIQUE content for writers. NEVER repeat previous suggestions.
+    const prompt = `Generate unique writing content. Character limits: motivation(80), joke(100), tip(120), word def(60), usage(80), prompt(100), fact(120).
 
-IMPORTANT: For Word of the Day, choose from this variety:
-- Unusual descriptive words (petrichor, susurrus, ephemeral, liminal, diaphanous)
-- Emotional/psychological terms (mellifluous, saudade, schadenfreude, ennui)
-- Action verbs (eviscerate, genuflect, gesticulate, prevaricate)
-- Literary terms (anachronism, denouement, verisimilitude, pastiche)
-- Atmospheric words (crepuscular, tenebrous, gossamer, lambent)
+Word variety: petrichor, ephemeral, saudade, verisimilitude, crepuscular, mellifluous, etc.
 
-IMPORTANT CHARACTER LIMITS (strictly enforce these):
-- motivation: Maximum 80 characters
-- joke: Maximum 100 characters
-- tip: Maximum 120 characters
-- word definition: Maximum 60 characters
-- word usage: Maximum 80 characters
-- prompt: Maximum 100 characters
-- fact: Maximum 120 characters
-
-Generate content in this exact JSON format:
+Return JSON only:
 {
-  "motivation": "An inspiring quote about writing (max 80 chars)",
-  "joke": "A clever writing joke or pun (max 100 chars)",
-  "tip": "A practical writing tip (max 120 chars)",
+  "motivation": "inspiring writing quote",
+  "joke": "writing humor",
+  "tip": "practical advice",
   "wordOfDay": {
-    "word": "Pick a DIFFERENT uncommon word each time",
-    "definition": "Clear definition (max 60 chars)",
-    "usage": "How to use this word (max 80 chars)"
+    "word": "unique uncommon word",
+    "definition": "brief definition",
+    "usage": "how to use it"
   },
-  "prompt": "A creative story prompt (max 100 chars)",
-  "fact": "An interesting writing fact (max 120 chars)"
+  "prompt": "story starter",
+  "fact": "writing trivia"
+}`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const content = JSON.parse(jsonMatch[0]);
+      contentCache.push(content);
+    }
+  } catch (error) {
+    console.error('Pre-generation error:', error);
+  } finally {
+    isGenerating = false;
+  }
 }
 
-Be creative, varied, and NEVER repeat words or content from previous generations.`;
+// Start pre-generating content
+setInterval(preGenerateContent, 10000); // Try to generate every 10 seconds
+preGenerateContent(); // Generate first one immediately
+
+router.post('/generate', authenticateToken, async (req, res) => {
+  try {
+    // First check if we have pre-generated content
+    if (contentCache.length > 0) {
+      const content = contentCache.shift(); // Get first item and remove it
+      res.json(content);
+      
+      // Trigger background generation to refill cache
+      setTimeout(preGenerateContent, 100);
+      return;
+    }
+
+    // If no cached content, generate on demand
+    const model = genAI.getGenerativeModel({ 
+      model: 'gemini-2.5-flash',
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 512,
+      }
+    });
+
+    const prompt = `Generate unique writing content. Character limits: motivation(80), joke(100), tip(120), word def(60), usage(80), prompt(100), fact(120).
+
+Word variety: petrichor, ephemeral, saudade, verisimilitude, crepuscular, mellifluous, etc.
+
+Return JSON only:
+{
+  "motivation": "inspiring writing quote",
+  "joke": "writing humor",
+  "tip": "practical advice",
+  "wordOfDay": {
+    "word": "unique uncommon word",
+    "definition": "brief definition",
+    "usage": "how to use it"
+  },
+  "prompt": "story starter",
+  "fact": "writing trivia"
+}`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -54,6 +111,9 @@ Be creative, varied, and NEVER repeat words or content from previous generations
       if (jsonMatch) {
         const content = JSON.parse(jsonMatch[0]);
         res.json(content);
+        
+        // Trigger background generation to fill cache
+        setTimeout(preGenerateContent, 100);
       } else {
         throw new Error('No JSON found in response');
       }
