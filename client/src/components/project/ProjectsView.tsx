@@ -139,7 +139,7 @@ export function ProjectsView({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative transition-all duration-700 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100/70 via-orange-100/40 to-red-100/25 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 relative transition-all duration-700 overflow-hidden">
       {/* Enhanced Background Patterns */}
       <div className="absolute inset-0">
         {/* Light mode pattern */}

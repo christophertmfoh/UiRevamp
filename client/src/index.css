@@ -88,16 +88,16 @@ body {
 
 :root {
   /* Light mode - Clean, modern palette */
-  --background: hsl(30, 20%, 98%);              /* Warm white */
+  --background: hsl(30, 20%, 94%);              /* Softer warm white */
   --foreground: hsl(30, 40%, 15%);              /* Rich dark brown */
-  --muted: hsl(30, 15%, 94%);                   /* Light warm gray */
+  --muted: hsl(30, 15%, 90%);                   /* Light warm gray */
   --muted-foreground: hsl(30, 20%, 40%);        /* Muted text */
-  --popover: hsl(30, 20%, 99%);                 /* Almost white */
+  --popover: hsl(30, 20%, 96%);                 /* Soft white */
   --popover-foreground: hsl(30, 40%, 15%);
-  --card: hsl(30, 18%, 97%);                    /* Soft white */
+  --card: hsl(30, 18%, 93%);                    /* Softer card white */
   --card-foreground: hsl(30, 40%, 15%);
-  --border: hsl(30, 15%, 88%);                  /* Light border */
-  --input: hsl(30, 15%, 96%);                   /* Input background */
+  --border: hsl(30, 15%, 85%);                  /* Light border */
+  --input: hsl(30, 15%, 92%);                   /* Input background */
   --primary: hsl(155, 50%, 40%);                /* Emerald green */
   --primary-foreground: hsl(30, 20%, 98%);
   --secondary: hsl(30, 25%, 85%);               /* Light stone */
