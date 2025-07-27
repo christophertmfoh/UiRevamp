@@ -415,15 +415,15 @@ export function LandingPage({
 
           {/* Process Preview */}
           <div className="lg:col-span-5">
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-8 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-8 border border-stone-300/60 dark:border-slate-600/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
               {/* Subtle gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-transparent to-orange-50/30 dark:from-amber-900/10 dark:via-transparent dark:to-orange-900/5 rounded-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-stone-50/50 via-transparent to-emerald-50/30 dark:from-stone-900/10 dark:via-transparent dark:to-emerald-900/5 rounded-3xl"></div>
               
               <div className="relative z-10 text-center space-y-6">
                 <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
                   <PenTool className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
+                <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-stone-50">Your Writing Journey</h3>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {processSteps.map((step, index) => {
@@ -435,24 +435,24 @@ export function LandingPage({
                         key={index}
                         className={`p-5 rounded-2xl border transition-all duration-700 cursor-pointer group ${
                           isActive 
-                            ? 'bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/30 dark:to-orange-900/20 border-amber-300 dark:border-amber-600 scale-110 shadow-xl shadow-amber-200/50 dark:shadow-amber-900/20 -translate-y-1' 
-                            : 'bg-white/60 dark:bg-slate-700/40 border-stone-200/60 dark:border-slate-600/40 hover:bg-gradient-to-br hover:from-amber-50/50 hover:to-orange-50/30 dark:hover:from-amber-900/20 dark:hover:to-orange-900/10 hover:border-amber-200 dark:hover:border-amber-700/50 hover:scale-105 hover:shadow-lg'
+                            ? 'bg-gradient-to-br from-emerald-50 to-stone-50/50 dark:from-emerald-900/30 dark:to-stone-900/20 border-emerald-400 dark:border-emerald-600 scale-110 shadow-xl shadow-emerald-200/50 dark:shadow-emerald-900/20 -translate-y-1' 
+                            : 'bg-white/60 dark:bg-slate-700/40 border-stone-200/60 dark:border-slate-600/40 hover:bg-gradient-to-br hover:from-stone-50/50 hover:to-emerald-50/30 dark:hover:from-stone-900/20 dark:hover:to-emerald-900/10 hover:border-stone-300 dark:hover:border-stone-600/50 hover:scale-105 hover:shadow-lg'
                         }`}
                       >
                         <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
                           isActive 
-                            ? 'text-amber-600 dark:text-amber-400 scale-110' 
-                            : 'text-stone-500 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 group-hover:scale-110'
+                            ? 'text-emerald-600 dark:text-emerald-400 scale-110' 
+                            : 'text-stone-500 dark:text-stone-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:scale-110'
                         }`} />
                         <h4 className={`font-semibold text-sm transition-all duration-300 ${
                           isActive 
-                            ? 'text-stone-800 dark:text-amber-50' 
+                            ? 'text-stone-800 dark:text-stone-50' 
                             : 'text-stone-600 dark:text-stone-300 group-hover:text-stone-800 dark:group-hover:text-stone-100'
                         }`}>
                           {step.title}
                         </h4>
                         {isActive && (
-                          <p className="text-xs text-stone-600 dark:text-amber-200/80 mt-2 animate-in fade-in duration-500">
+                          <p className="text-xs text-stone-600 dark:text-stone-300/80 mt-2 animate-in fade-in duration-500">
                             {step.description}
                           </p>
                         )}
@@ -470,7 +470,7 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
+            <Badge className="bg-stone-100 dark:bg-stone-900/30 text-stone-800 dark:text-stone-200 border-stone-300 dark:border-stone-700">
               End-to-End Creative Production
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
@@ -485,7 +485,7 @@ export function LandingPage({
           {/* Process Flow */}
           <div className="relative">
             {/* Connection line */}
-            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-amber-200 via-orange-300 to-red-300 dark:from-amber-600/30 dark:via-orange-600/30 dark:to-red-600/30 hidden lg:block rounded-full"></div>
+            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-emerald-300 via-stone-300 to-amber-300 dark:from-emerald-600/30 dark:via-stone-600/30 dark:to-amber-600/30 hidden lg:block rounded-full"></div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
               {processSteps.map((step, index) => {
@@ -493,17 +493,17 @@ export function LandingPage({
                 return (
                   <div key={index} className="text-center space-y-4 relative group">
                     {/* Step number */}
-                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-full flex items-center justify-center text-sm font-bold text-white lg:block hidden z-20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-full flex items-center justify-center text-sm font-bold text-white lg:block hidden z-20 shadow-lg group-hover:scale-110 transition-transform duration-300">
                       {index + 1}
                     </div>
                     
-                    <div className="w-28 h-28 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto shadow-xl border border-amber-200/60 dark:border-slate-600/50 group-hover:shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer relative z-10 group-hover:rotate-3">
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-orange-50/30 dark:from-amber-900/20 dark:to-orange-900/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <IconComponent className="w-10 h-10 text-amber-600 dark:text-amber-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-all duration-500 relative z-10 group-hover:scale-110" />
+                    <div className="w-28 h-28 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto shadow-xl border border-stone-300/60 dark:border-slate-600/50 group-hover:shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer relative z-10 group-hover:rotate-3">
+                      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/50 to-emerald-50/30 dark:from-stone-900/20 dark:to-emerald-900/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <IconComponent className="w-10 h-10 text-emerald-600 dark:text-emerald-400 group-hover:text-stone-600 dark:group-hover:text-stone-400 transition-all duration-500 relative z-10 group-hover:scale-110" />
                     </div>
                     
                     <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
-                      <h4 className="font-bold text-lg text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">{step.title}</h4>
+                      <h4 className="font-bold text-lg text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">{step.title}</h4>
                       <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{step.description}</p>
                       <p className="text-xs text-stone-500 dark:text-stone-400 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-medium">
                         {step.detail}
@@ -525,7 +525,7 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
+            <Badge className="bg-stone-100 dark:bg-stone-900/30 text-stone-800 dark:text-stone-200 border-stone-300 dark:border-stone-700">
               Revolutionary Creative Technology
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
@@ -541,16 +541,16 @@ export function LandingPage({
             {trustIndicators.map((indicator, index) => {
               const IconComponent = indicator.icon;
               return (
-                <Card key={index} className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border-amber-200/60 dark:border-slate-600/50 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+                <Card key={index} className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border-stone-300/60 dark:border-slate-600/50 hover:shadow-2xl hover:shadow-emerald-200/20 dark:hover:shadow-emerald-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
                   {/* Animated background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-orange-50/0 to-rose-50/0 dark:from-amber-900/0 dark:via-orange-900/0 dark:to-rose-900/0 group-hover:from-amber-50/50 group-hover:via-orange-50/30 group-hover:to-rose-50/20 dark:group-hover:from-amber-900/20 dark:group-hover:via-orange-900/10 dark:group-hover:to-rose-900/5 transition-all duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 via-emerald-50/0 to-amber-50/0 dark:from-stone-900/0 dark:via-emerald-900/0 dark:to-amber-900/0 group-hover:from-stone-50/50 group-hover:via-emerald-50/30 group-hover:to-amber-50/20 dark:group-hover:from-stone-900/20 dark:group-hover:via-emerald-900/10 dark:group-hover:to-amber-900/5 transition-all duration-700"></div>
                   
                   <CardContent className="relative z-10 p-8 text-center space-y-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                       <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <div className="space-y-2">
-                      <div className="text-4xl font-bold bg-gradient-to-r from-stone-800 to-stone-600 dark:from-amber-200 dark:to-amber-400 bg-clip-text text-transparent group-hover:from-amber-600 group-hover:to-orange-600 dark:group-hover:from-amber-100 dark:group-hover:to-orange-200 transition-all duration-500">{indicator.number}</div>
+                      <div className="text-4xl font-bold bg-gradient-to-r from-stone-800 to-stone-600 dark:from-stone-200 dark:to-stone-400 bg-clip-text text-transparent group-hover:from-emerald-600 group-hover:to-stone-600 dark:group-hover:from-emerald-300 dark:group-hover:to-stone-300 transition-all duration-500">{indicator.number}</div>
                       <div className="text-stone-600 dark:text-stone-300 font-semibold group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{indicator.label}</div>
                     </div>
                   </CardContent>
