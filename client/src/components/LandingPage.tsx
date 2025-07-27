@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from './theme-toggle';
+import { FloatingOrbs } from './FloatingOrbs';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -139,6 +140,9 @@ export function LandingPage({
 
   return (
     <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-background">
+
+      {/* Theme-aware floating orbs */}
+      <FloatingOrbs />
 
       {/* Modern Abstract Background System */}
       <div className="absolute inset-0">
