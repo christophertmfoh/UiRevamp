@@ -5,7 +5,7 @@ export async function extractCharacterFromText(textContent: string): Promise<Ext
   
   try {
     const { GoogleGenAI } = await import('@google/genai');
-    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '' });
+    const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_X || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '' });
     
     const prompt = `You are an expert character sheet analyst with 20+ years of experience in literary analysis. Your task is to extract EVERY possible detail about the character from this document. Read between the lines, extract implied information, and be thorough.
 

@@ -3,7 +3,7 @@ import * as path from 'path';
 import { GoogleGenAI } from '@google/genai';
 import mammoth from 'mammoth';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_X || process.env.GEMINI_API_KEY || '' });
 
 export interface ExtractedCharacterData {
   // Identity fields
