@@ -150,12 +150,12 @@ characterRouter.post("/projects/:projectId/characters/generate-from-template", a
           console.log('Generated portrait URL for template character:', portraitUrl);
           // Update character with portrait URL
           await storage.updateCharacter(character.id, {
-            displayImageId: portraitUrl,
-            portraits: [portraitUrl]
+            imageUrl: portraitUrl,
+            portraits: [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}]
           });
           // Add portrait to response
-          character.displayImageId = portraitUrl;
-          character.portraits = [portraitUrl];
+          character.imageUrl = portraitUrl;
+          character.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
         }
       } catch (portraitError) {
         console.error("Error generating portrait for template character:", portraitError);
@@ -204,12 +204,12 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
           console.log('Generated portrait URL for custom character:', portraitUrl);
           // Update character with portrait URL
           await storage.updateCharacter(character.id, {
-            displayImageId: portraitUrl,
-            portraits: [portraitUrl]
+            imageUrl: portraitUrl,
+            portraits: [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}]
           });
           // Add portrait to response
-          character.displayImageId = portraitUrl;
-          character.portraits = [portraitUrl];
+          character.imageUrl = portraitUrl;
+          character.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
         }
       } catch (portraitError) {
         console.error("Error generating portrait:", portraitError);
