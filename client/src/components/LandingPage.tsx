@@ -198,8 +198,8 @@ export function LandingPage({
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <span className="relative z-10 flex items-center">
+                <BookOpen className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                 Your Projects
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
               </span>
             </Button>
           </div>
@@ -238,9 +238,8 @@ export function LandingPage({
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
-                    <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
                     Begin Your Story
-                    <Feather className="ml-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                   </span>
                 </Button>
                 <Button 
@@ -250,9 +249,8 @@ export function LandingPage({
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
-                    <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
                     Browse Stories
-                    <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </Button>
               </div>
@@ -495,8 +493,8 @@ export function LandingPage({
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
+                  <Lightbulb className="mr-4 h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
                   Create Your First Project
-                  <Sparkles className="ml-4 h-6 w-6 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" />
                 </span>
               </Button>
               <Button 
@@ -506,8 +504,8 @@ export function LandingPage({
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <span className="relative z-10 flex items-center">
+                  <Globe className="mr-4 h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
                   Explore Examples
-                  <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Button>
             </div>
