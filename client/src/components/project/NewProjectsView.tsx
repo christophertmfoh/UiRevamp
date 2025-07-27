@@ -32,7 +32,11 @@ import {
   Eye,
   Edit,
   Trash2,
-  ArrowLeft
+  ArrowLeft,
+  Target,
+  Zap,
+  Moon,
+  Sun
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -79,6 +83,32 @@ export function ProjectsView({
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Calculate project progress based on content
+  const calculateProgress = (project: Project) => {
+    let totalSections = 0;
+    let completedSections = 0;
+
+    // Check basic info
+    totalSections += 1;
+    if (project.description && project.description.length > 20) {
+      completedSections += 1;
+    }
+
+    // Check genres
+    totalSections += 1;
+    if (project.genres && project.genres.length > 0) {
+      completedSections += 1;
+    }
+
+    // Check type
+    totalSections += 1;
+    if (project.type && project.type.length > 0) {
+      completedSections += 1;
+    }
+
+    return Math.round((completedSections / totalSections) * 100);
+  };
 
   const handleSettingsAction = async (action: string) => {
     switch (action) {
@@ -181,116 +211,243 @@ export function ProjectsView({
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* Settings Dropdown */}
+            {/* Settings Dropdown with Theme Toggle Inside */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  variant="outline" 
-                  className="border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-4 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl relative overflow-hidden"
                 >
-                  <Settings className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Settings</span>
-                  <ChevronDown className="w-4 h-4 ml-2" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center">
+                    <Settings className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="hidden sm:inline">Settings</span>
+                    <ChevronDown className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform duration-300" />
+                  </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-64 bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border border-stone-200/50 dark:border-stone-700/50 shadow-2xl rounded-2xl">
                 <DropdownMenuLabel>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">{user?.fullName || user?.username}</span>
-                    <span className="text-xs text-gray-500">{user?.email}</span>
+                  <div className="flex flex-col py-2">
+                    <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">{user?.fullName || user?.username}</span>
+                    <span className="text-xs text-stone-600 dark:text-stone-400">{user?.email}</span>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleSettingsAction('account')}>
-                  <User className="w-4 h-4 mr-2" />
-                  Account
+                <DropdownMenuSeparator className="bg-stone-200/50 dark:bg-stone-700/50" />
+                
+                {/* Theme Toggle in Dropdown */}
+                <div className="px-2 py-2">
+                  <div className="flex items-center justify-between p-2 rounded-xl hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-200">
+                    <div className="flex items-center">
+                      <Sun className="w-4 h-4 mr-3 text-stone-600 dark:text-stone-400" />
+                      <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Theme</span>
+                    </div>
+                    <ThemeToggle />
+                  </div>
+                </div>
+                
+                <DropdownMenuSeparator className="bg-stone-200/50 dark:bg-stone-700/50" />
+                <DropdownMenuItem 
+                  onClick={() => handleSettingsAction('account')}
+                  className="rounded-xl mx-2 my-1 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-200"
+                >
+                  <User className="w-4 h-4 mr-3" />
+                  Account Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleSettingsAction('settings')}>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
+                <DropdownMenuItem 
+                  onClick={() => handleSettingsAction('settings')}
+                  className="rounded-xl mx-2 my-1 hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-colors duration-200"
+                >
+                  <Settings className="w-4 h-4 mr-3" />
+                  Preferences
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleSettingsAction('logout')}>
-                  <LogOut className="w-4 h-4 mr-2" />
+                <DropdownMenuSeparator className="bg-stone-200/50 dark:bg-stone-700/50" />
+                <DropdownMenuItem 
+                  onClick={() => handleSettingsAction('logout')}
+                  className="rounded-xl mx-2 my-1 hover:bg-red-100/50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors duration-200"
+                >
+                  <LogOut className="w-4 h-4 mr-3" />
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            
-            <ThemeToggle />
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-8 py-8">
-        {/* Header Section */}
-        <div className="mb-12">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-md dark:shadow-none">
-              <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">Your Creative Universe</span>
+        {/* Hero Header Section */}
+        <div className="mb-16">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* Left Side - Title & Description */}
+            <div className="lg:col-span-8 space-y-8">
+              <div className="space-y-6">
+                <div className="inline-flex items-center space-x-3 px-5 py-3 rounded-full bg-white/90 dark:bg-stone-900/30 border border-stone-400/50 dark:border-stone-700/50 shadow-lg dark:shadow-none backdrop-blur-sm">
+                  <div className="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">Your Creative Universe</span>
+                </div>
+                
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+                  Your{' '}
+                  <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+                    Projects
+                  </span>
+                </h1>
+                
+                <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+                  Your creative command center. Organize, track, and bring your stories to life with intelligent project management designed for storytellers.
+                </p>
+              </div>
+              
+              {/* Quick Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-black text-stone-900 dark:text-stone-50">{filteredProjects.length}</p>
+                      <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Projects</p>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                      <BookOpen className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                        {filteredProjects.filter(p => new Date(p.updatedAt || p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length}
+                      </p>
+                      <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Active</p>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                        {Array.from(new Set(filteredProjects.flatMap(p => p.genres || []))).length}
+                      </p>
+                      <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Genres</p>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm rounded-2xl p-4 border border-stone-300/30 dark:border-stone-700/30 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                        {Math.round(filteredProjects.reduce((acc, p) => acc + (calculateProgress(p) || 0), 0) / Math.max(filteredProjects.length, 1))}%
+                      </p>
+                      <p className="text-xs font-medium text-stone-600 dark:text-stone-400 uppercase tracking-wide">Complete</p>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-              Your{' '}
-              <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                Projects
-              </span>
-            </h1>
-            
-            <p className="text-lg text-stone-800 dark:text-stone-200 max-w-2xl mx-auto leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-              Manage your creative works, track your progress, and bring your stories to life.
-            </p>
+
+            {/* Right Side - Call to Action */}
+            <div className="lg:col-span-4">
+              <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-stone-300/30 dark:border-stone-700/20">
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/20 via-transparent to-amber-50/10 dark:from-emerald-900/10 dark:via-transparent dark:to-amber-900/5 rounded-[2rem]"></div>
+                
+                <div className="relative z-10 text-center space-y-6">
+                  <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
+                    <Sparkles className="w-10 h-10 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight mb-2">Start Creating</h3>
+                    <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">Transform your ideas into compelling narratives with AI-powered tools.</p>
+                  </div>
+                  
+                  <Button 
+                    onClick={onNewProject}
+                    className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden w-full"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span className="relative z-10 flex items-center justify-center">
+                      <Plus className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                      Create New Project
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Controls Section */}
-        <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-          <div className="flex flex-col sm:flex-row gap-4 flex-1">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-400 w-4 h-4" />
-              <Input
-                placeholder="Search projects..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm border-stone-300 dark:border-stone-600"
-              />
-            </div>
-            
-            {/* View Toggle */}
-            <div className="flex border border-stone-300 dark:border-stone-600 rounded-lg bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm">
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className={viewMode === 'grid' ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white' : ''}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className={viewMode === 'list' ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white' : ''}
-              >
-                <List className="w-4 h-4" />
-              </Button>
+        {/* Smart Controls Section */}
+        <div className="mb-12">
+          <div className="bg-white/60 dark:bg-stone-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-2xl border border-stone-300/30 dark:border-stone-700/20">
+            <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+              {/* Left Side - Search & Filters */}
+              <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                {/* Enhanced Search */}
+                <div className="relative flex-1 max-w-lg">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-stone-400" />
+                  </div>
+                  <Input
+                    placeholder="Search projects, descriptions, genres..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-12 pr-4 py-3 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm border-stone-300/50 dark:border-stone-600/50 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all duration-200"
+                  />
+                </div>
+                
+                {/* Results Counter */}
+                {searchTerm && (
+                  <div className="flex items-center px-4 py-3 bg-stone-100 dark:bg-stone-700 rounded-2xl">
+                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                      {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Side - View Toggle */}
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-stone-700 dark:text-stone-300 hidden sm:block">View:</span>
+                <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-2xl p-1 backdrop-blur-sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode('grid')}
+                    className={`rounded-xl px-4 py-2 transition-all duration-200 ${
+                      viewMode === 'grid' 
+                        ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-lg' 
+                        : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                    }`}
+                  >
+                    <Grid3X3 className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">Grid</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode('list')}
+                    className={`rounded-xl px-4 py-2 transition-all duration-200 ${
+                      viewMode === 'list' 
+                        ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-lg' 
+                        : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                    }`}
+                  >
+                    <List className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">List</span>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* New Project Button */}
-          <Button 
-            onClick={onNewProject}
-            className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-6 py-3 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <span className="relative z-10 flex items-center">
-              <Plus className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-              New Project
-            </span>
-          </Button>
         </div>
 
         {/* Projects Grid/List */}
