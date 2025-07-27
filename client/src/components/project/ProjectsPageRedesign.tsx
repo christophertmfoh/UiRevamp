@@ -262,60 +262,34 @@ export function ProjectsPageRedesign({
               </div>
             </div>
 
-            {/* Enhanced Writing Dashboard */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 h-full">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-white" />
+            {/* Writing Stats */}
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-3 h-3 text-white" />
                 </div>
-                <p className="text-base font-semibold text-stone-900 dark:text-stone-100">
+                <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                   Your Writing Journey
                 </p>
               </div>
               
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center p-3 bg-stone-50/50 dark:bg-stone-800/30 rounded-xl">
-                  <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Active Projects</p>
+              <div className="grid grid-cols-4 gap-4">
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">{projects.length}</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Projects</p>
                 </div>
-                <div className="text-center p-3 bg-stone-50/50 dark:bg-stone-800/30 rounded-xl">
-                  <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">47</p>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">47</p>
                   <p className="text-xs text-stone-600 dark:text-stone-400">Characters</p>
                 </div>
-                <div className="text-center p-3 bg-stone-50/50 dark:bg-stone-800/30 rounded-xl">
-                  <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">12k</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Words Written</p>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-stone-900 dark:text-stone-100">12k</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Words</p>
                 </div>
-                <div className="text-center p-3 bg-stone-50/50 dark:bg-stone-800/30 rounded-xl">
-                  <p className="text-2xl font-bold text-emerald-600">98%</p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Creativity Score</p>
+                <div className="text-center">
+                  <p className="text-xl font-bold text-emerald-600">98%</p>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">Creativity</p>
                 </div>
-              </div>
-
-              {/* Writing Streak */}
-              <div className="border-t border-stone-200/50 dark:border-stone-700/50 pt-4 mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Writing Streak</p>
-                  <p className="text-sm font-bold text-emerald-600">7 days</p>
-                </div>
-                <div className="w-full bg-stone-200 dark:bg-stone-700 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '70%' }}></div>
-                </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">Great momentum! Keep it up.</p>
-              </div>
-
-              {/* Today's Goal */}
-              <div className="bg-gradient-to-r from-emerald-50 to-amber-50 dark:from-emerald-950/30 dark:to-amber-950/30 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Target className="w-4 h-4 text-emerald-600" />
-                  <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Today's Goal</p>
-                </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mb-2">Write 500 words</p>
-                <div className="w-full bg-white/50 dark:bg-stone-800/50 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '60%' }}></div>
-                </div>
-                <p className="text-xs text-emerald-600 font-medium mt-1">300/500 words • 60% complete</p>
               </div>
             </div>
           </div>
