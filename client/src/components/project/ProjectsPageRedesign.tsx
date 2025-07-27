@@ -492,7 +492,7 @@ export function ProjectsPageRedesign({
           {/* Centered Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-5 h-5 text-emerald-800 dark:text-white" />
+              <Feather className="w-5 h-5 text-emerald-800 dark:text-foreground" />
             </div>
             <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
@@ -504,7 +504,7 @@ export function ProjectsPageRedesign({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 
-                  className="group gradient-primary text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
+                  className="group gradient-primary text-foreground px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative z-10 flex items-center space-x-2">
@@ -524,7 +524,7 @@ export function ProjectsPageRedesign({
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onLogout} className="text-red-600">
+                <DropdownMenuItem onClick={onLogout} className="text-destructive">
                   <LogOut className="w-4 h-4 mr-2" />
                   Sign Out
                 </DropdownMenuItem>
@@ -533,7 +533,7 @@ export function ProjectsPageRedesign({
             <Button
               size="icon"
               onClick={() => setIsEditMode(!isEditMode)}
-              className="w-10 h-10 gradient-primary text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
+              className="w-10 h-10 gradient-primary text-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
               title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
             >
               {isEditMode ? (
@@ -594,10 +594,10 @@ export function ProjectsPageRedesign({
                     <span className="ml-2 text-sm font-medium text-stone-600 dark:text-stone-400">Project Management</span>
                   </div>
                 )}
-                <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20">
+                <div className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-border/30 dark:border-border/20">
           {/* Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="bg-white/60 dark:bg-card/40 rounded-xl p-4 border border-stone-200/30 dark:border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
@@ -608,12 +608,12 @@ export function ProjectsPageRedesign({
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Library className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Library className="w-5 h-5 text-emerald-800 dark:text-foreground" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="bg-white/60 dark:bg-card/40 rounded-xl p-4 border border-stone-200/30 dark:border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
@@ -624,12 +624,12 @@ export function ProjectsPageRedesign({
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Activity className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Activity className="w-5 h-5 text-emerald-800 dark:text-foreground" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
+            <div className="bg-white/60 dark:bg-card/40 rounded-xl p-4 border border-stone-200/30 dark:border-border/30">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
@@ -640,7 +640,7 @@ export function ProjectsPageRedesign({
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-                  <Sparkles className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <Sparkles className="w-5 h-5 text-emerald-800 dark:text-foreground" />
                 </div>
               </div>
             </div>
@@ -648,15 +648,15 @@ export function ProjectsPageRedesign({
             <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-lg font-black text-emerald-800 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                  <p className="text-lg font-black text-emerald-800 dark:text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                     New Project
                   </p>
-                  <p className="text-xs font-medium text-emerald-700 dark:text-white/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
+                  <p className="text-xs font-medium text-emerald-700 dark:text-foreground/90 mt-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]">
                     Start your journey
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-emerald-300/30 dark:bg-white/20 rounded-lg flex items-center justify-center">
-                  <PlusCircle className="w-5 h-5 text-emerald-800 dark:text-white" />
+                  <PlusCircle className="w-5 h-5 text-emerald-800 dark:text-foreground" />
                 </div>
               </div>
             </div>
@@ -667,20 +667,20 @@ export function ProjectsPageRedesign({
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center">
-                <Search className="h-4 w-4 text-emerald-800 dark:text-white pointer-events-none" />
+                <Search className="h-4 w-4 text-emerald-800 dark:text-foreground pointer-events-none" />
               </div>
               <Input
                 placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-12 pl-14 pr-4 bg-white/80 dark:bg-stone-800/60 border-stone-300/30 dark:border-stone-700/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all duration-300"
+                className="w-full h-12 pl-14 pr-4 glass-card dark:bg-stone-800/60 border-border/30 dark:border-border/30 rounded-2xl text-stone-900 dark:text-stone-100 placeholder:text-stone-500 dark:placeholder:text-stone-400 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500/50 transition-all duration-300"
               />
             </div>
 
             {/* Sort Options */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
+                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-foreground shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
                   <TrendingUp className="w-4 h-4 mr-2" />
                   {sortBy === 'updated' ? 'Recently Updated' : 
                    sortBy === 'created' ? 'Date Created' : 
@@ -710,14 +710,14 @@ export function ProjectsPageRedesign({
             </DropdownMenu>
 
             {/* View Toggle */}
-            <div className="flex items-center bg-white/80 dark:bg-stone-800/60 rounded-2xl p-1 border border-stone-300/30 dark:border-stone-700/30">
+            <div className="flex items-center glass-card dark:bg-stone-800/60 rounded-2xl p-1 border border-border/30 dark:border-border/30">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => updateViewMode('grid')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'grid' 
-                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-foreground shadow-md' 
                     : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
@@ -729,7 +729,7 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('list')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'list' 
-                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-foreground shadow-md' 
                     : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
@@ -767,7 +767,7 @@ export function ProjectsPageRedesign({
               </p>
               <Button 
                 onClick={onNewProject}
-                className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create New Project
@@ -834,18 +834,18 @@ export function ProjectsPageRedesign({
                       }`}
                     >
                       {isEditMode && (
-                        <div className="absolute top-2 right-2 z-10 bg-white/80 dark:bg-stone-800/80 rounded-lg p-1">
+                        <div className="absolute top-2 right-2 z-10 glass-card dark:bg-stone-800/80 rounded-lg p-1">
                           <GripVertical className="w-4 h-4 text-stone-600 dark:text-stone-400" />
                         </div>
                       )}
                       {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
                       {widget.id === 'recent-project' && (
                         projects.length > 0 ? (
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
+            <Card className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 dark:border-border/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
-                  <Badge className="bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white text-xs px-2 py-1 border-0">
+                  <Badge className="bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-foreground text-xs px-2 py-1 border-0">
                     Active
                   </Badge>
                 </div>
@@ -882,14 +882,14 @@ export function ProjectsPageRedesign({
                 <Button 
                   size="sm"
                   onClick={() => onSelectProject(projects[0])}
-                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
+                  className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full mt-auto"
                 >
                   Open Project
                 </Button>
               </CardContent>
             </Card>
           ) : (
-            <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+            <Card className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 dark:border-border/20 h-full">
               <CardContent className="p-5 h-full flex flex-col justify-center">
                 <div className="text-center space-y-3">
                   <div className="w-12 h-12 gradient-icon-container rounded-full flex items-center justify-center mx-auto">
@@ -901,7 +901,7 @@ export function ProjectsPageRedesign({
                     <Button 
                       size="sm"
                       onClick={onNewProject}
-                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                      className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Create Project
                     </Button>
@@ -912,7 +912,7 @@ export function ProjectsPageRedesign({
                         )
                       )}
                       {widget.id === 'writing-progress' && (
-                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                        <Card className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 dark:border-border/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
@@ -926,7 +926,7 @@ export function ProjectsPageRedesign({
                 <Button
                   size="sm"
                   onClick={handleOpenGoalsModal}
-                  className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                  className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                 >
                   Set Goals
                 </Button>
@@ -979,7 +979,7 @@ export function ProjectsPageRedesign({
                 </div>
 
                 {/* Divider line */}
-                <div className="border-t border-stone-200/50 dark:border-stone-700/50 my-3"></div>
+                <div className="border-t border-stone-200/50 dark:border-border/50 my-3"></div>
 
                 {/* Compact Summary */}
                 <div className="flex items-center justify-between text-[10px] text-stone-500 dark:text-stone-400">
@@ -991,7 +991,7 @@ export function ProjectsPageRedesign({
           </Card>
                       )}
                       {widget.id === 'quick-tasks' && (
-                        <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
+                        <Card className="glass-card dark:bg-card/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 dark:border-border/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle className="w-4 h-4 icon-primary" />
@@ -1008,7 +1008,7 @@ export function ProjectsPageRedesign({
                     <Button
                       size="sm"
                       onClick={() => setShowTasksModal(true)}
-                      className="brand-gradient-bg text-white hover:opacity-90 text-xs px-3 py-1"
+                      className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-3 py-1"
                     >
                       Add Tasks
                     </Button>
@@ -1035,7 +1035,7 @@ export function ProjectsPageRedesign({
                   ))
                 )}
               </div>
-              <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50 mt-auto">
+              <div className="pt-3 border-t border-stone-200/50 dark:border-border/50 mt-auto">
                 <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
                   <span>Today's Progress</span>
                   <span>{todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed</span>
@@ -1050,14 +1050,14 @@ export function ProjectsPageRedesign({
                   <Button 
                     size="sm"
                     onClick={() => setShowAddTaskModal(true)}
-                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     Add Task
                   </Button>
                   <Button 
                     size="sm"
                     onClick={() => setShowTasksModal(true)}
-                    className="brand-gradient-bg text-white hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                    className="brand-gradient-bg text-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
                   >
                     View All
                   </Button>
@@ -1078,7 +1078,7 @@ export function ProjectsPageRedesign({
 
       {/* Add Task Modal */}
       <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
-        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-md glass-card dark:bg-card/95 backdrop-blur-xl rounded-[2rem] border border-border/30 dark:border-border/20">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Add New Task
@@ -1097,7 +1097,7 @@ export function ProjectsPageRedesign({
                 placeholder="What do you need to do?"
                 value={newTaskText}
                 onChange={(e) => setNewTaskText(e.target.value)}
-                className="min-h-[100px] resize-none bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl"
+                className="min-h-[100px] resize-none bg-stone-100/60 dark:bg-stone-900/40 border-border dark:border-border rounded-xl"
               />
             </div>
             
@@ -1107,7 +1107,7 @@ export function ProjectsPageRedesign({
                   Priority
                 </label>
                 <Select value={newTaskPriority} onValueChange={(value: 'low' | 'medium' | 'high') => setNewTaskPriority(value)}>
-                  <SelectTrigger className="bg-stone-100/60 dark:bg-stone-900/40 border-stone-300 dark:border-stone-600 rounded-xl">
+                  <SelectTrigger className="bg-stone-100/60 dark:bg-stone-900/40 border-border dark:border-border rounded-xl">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1147,14 +1147,14 @@ export function ProjectsPageRedesign({
               <Button 
                 onClick={handleCreateTask}
                 disabled={!newTaskText.trim()}
-                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
               >
                 Add Task
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => setShowAddTaskModal(false)}
-                className="px-8 border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 rounded-xl"
+                className="px-8 border-2 border-border dark:border-border text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 rounded-xl"
               >
                 Cancel
               </Button>
@@ -1165,7 +1165,7 @@ export function ProjectsPageRedesign({
 
       {/* View All Tasks Modal */}
       <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
-        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card dark:bg-card/95 backdrop-blur-xl rounded-[2rem] border border-border/30 dark:border-border/20">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Tasks & To-Do List
@@ -1197,7 +1197,7 @@ export function ProjectsPageRedesign({
                         setShowTasksModal(false);
                         setShowAddTaskModal(true);
                       }}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white"
+                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-foreground"
                     >
                       Add Your First Task
                     </Button>
@@ -1250,7 +1250,7 @@ export function ProjectsPageRedesign({
                           size="sm"
                           variant="ghost"
                           onClick={() => deleteTaskMutation.mutate(task.id)}
-                          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+                          className="h-8 w-8 p-0 text-destructive hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -1271,7 +1271,7 @@ export function ProjectsPageRedesign({
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Completion Rate</p>
-                  <p className="text-3xl font-black text-amber-600">{taskStats?.completionRate ? Math.round(taskStats.completionRate) : 0}%</p>
+                  <p className="text-3xl font-black text-warning">{taskStats?.completionRate ? Math.round(taskStats.completionRate) : 0}%</p>
                 </div>
               </div>
             </div>
@@ -1281,7 +1281,7 @@ export function ProjectsPageRedesign({
 
       {/* Goals Modal */}
       <Dialog open={showGoalsModal} onOpenChange={setShowGoalsModal}>
-        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-md glass-card dark:bg-card/95 backdrop-blur-xl rounded-[2rem] border border-border/30 dark:border-border/20">
           <DialogHeader>
             <DialogTitle className="text-lg font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Set Writing Goals
@@ -1294,14 +1294,14 @@ export function ProjectsPageRedesign({
           <div className="space-y-4 py-3">
             {/* Compact Goals Grid */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+              <div className="p-3 bg-white/60 dark:bg-card/40 rounded-xl">
                 <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
                   Daily Words
                 </label>
                 <Input 
                   type="number" 
                   placeholder="500" 
-                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  className="h-8 text-sm mb-2 glass-card dark:bg-card/60" 
                   value={tempGoals.dailyWords}
                   onChange={(e) => setTempGoals({...tempGoals, dailyWords: parseInt(e.target.value) || 0})}
                 />
@@ -1311,14 +1311,14 @@ export function ProjectsPageRedesign({
                 <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.words}/{tempGoals.dailyWords} words</p>
               </div>
               
-              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+              <div className="p-3 bg-white/60 dark:bg-card/40 rounded-xl">
                 <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
                   Daily Minutes
                 </label>
                 <Input 
                   type="number" 
                   placeholder="60" 
-                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  className="h-8 text-sm mb-2 glass-card dark:bg-card/60" 
                   value={tempGoals.dailyMinutes}
                   onChange={(e) => setTempGoals({...tempGoals, dailyMinutes: parseInt(e.target.value) || 0})}
                 />
@@ -1330,7 +1330,7 @@ export function ProjectsPageRedesign({
             </div>
 
             {/* Streak Goal Compact */}
-            <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+            <div className="p-3 bg-white/60 dark:bg-card/40 rounded-xl">
               <div className="flex items-center justify-between mb-2">
                 <label className="text-xs font-medium text-stone-700 dark:text-stone-300">
                   Streak Goal
@@ -1341,7 +1341,7 @@ export function ProjectsPageRedesign({
                   <Input 
                     type="number" 
                     placeholder="30" 
-                    className="w-14 h-7 text-center text-sm bg-white/80 dark:bg-slate-800/60" 
+                    className="w-14 h-7 text-center text-sm glass-card dark:bg-card/60" 
                     value={tempGoals.streakDays}
                     onChange={(e) => setTempGoals({...tempGoals, streakDays: parseInt(e.target.value) || 0})}
                   />
@@ -1354,18 +1354,18 @@ export function ProjectsPageRedesign({
             </div>
 
             {/* Coming Soon Note */}
-            <div className="p-3 bg-stone-100/60 dark:bg-stone-700/20 rounded-xl border border-dashed border-stone-300 dark:border-stone-600">
+            <div className="p-3 bg-stone-100/60 dark:bg-stone-700/20 rounded-xl border border-dashed border-border dark:border-border">
               <p className="text-xs text-stone-600 dark:text-stone-400 text-center">
                 <span className="font-medium">Coming Soon:</span> Project-specific goals that sync with your stories
               </p>
             </div>
 
             {/* Compact Action Buttons */}
-            <div className="flex gap-2 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+            <div className="flex gap-2 pt-3 border-t border-stone-200/50 dark:border-border/50">
               <Button 
                 size="sm"
                 onClick={handleSaveGoals}
-                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-foreground text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
                 Save Goals
               </Button>
@@ -1373,7 +1373,7 @@ export function ProjectsPageRedesign({
                 size="sm"
                 variant="outline"
                 onClick={() => setShowGoalsModal(false)}
-                className="px-4 border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 text-xs"
+                className="px-4 border border-border dark:border-border text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 text-xs"
               >
                 Cancel
               </Button>
@@ -1400,16 +1400,16 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
 
   return (
     <Card 
-      className="group bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-1 cursor-pointer overflow-hidden"
+      className="group glass-card dark:bg-stone-900/40 backdrop-blur-xl border-border/20 dark:border-border/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-1 cursor-pointer overflow-hidden"
       onClick={() => onSelect(project)}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-stone-600/5 to-amber-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       <CardHeader className="relative">
         <div className="flex items-start justify-between mb-4">
           <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-            <ProjectIcon className="w-7 h-7 text-white" />
+            <ProjectIcon className="w-7 h-7 text-foreground" />
           </div>
-          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
+          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-foreground border-0">
             {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
           </Badge>
         </div>
@@ -1449,13 +1449,13 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
 
   return (
     <Card 
-      className="group bg-white/80 dark:bg-stone-900/40 backdrop-blur-xl border-stone-300/20 dark:border-stone-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+      className="group glass-card dark:bg-stone-900/40 backdrop-blur-xl border-border/20 dark:border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
       onClick={() => onSelect(project)}
     >
       <CardContent className="p-6">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <ProjectIcon className="w-8 h-8 text-white" />
+            <ProjectIcon className="w-8 h-8 text-foreground" />
           </div>
           
           <div className="flex-1">
@@ -1471,7 +1471,7 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
           </div>
           
           <div className="text-right space-y-2">
-            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
+            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-foreground border-0">
               {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
             </Badge>
             <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 type Theme = 'dark' | 'light' | 'system';
 type ResolvedTheme = 'dark' | 'light';
@@ -7,91 +7,94 @@ type ThemeProviderProps = {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
+  enableSystem?: boolean;
 };
 
 type ThemeProviderState = {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
+  themes: Theme[];
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
 
 // Get system theme preference
 const getSystemTheme = (): ResolvedTheme => {
+  if (typeof window === 'undefined') return 'dark';
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-// Apply theme to DOM using data attribute (more efficient than classes)
+// Apply theme to DOM - FAST, class-only approach
 const applyTheme = (theme: ResolvedTheme) => {
-  const root = window.document.documentElement;
-  root.setAttribute('data-theme', theme);
+  const root = document.documentElement;
   
-  // Also set class for Tailwind dark: utilities
-  if (theme === 'dark') {
-    root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-  }
+  // Remove all theme classes first
+  root.classList.remove('light', 'dark');
+  
+  // Add the current theme class
+  root.classList.add(theme);
 };
 
 export function ThemeProvider({
   children,
   defaultTheme = 'dark',
   storageKey = 'fablecraft-theme',
+  enableSystem = true,
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(() => {
-    // Check localStorage first
-    const stored = localStorage.getItem(storageKey) as Theme | null;
-    return stored || defaultTheme;
+    if (typeof window === 'undefined') return defaultTheme;
+    return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
   });
 
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
-    return theme === 'system' ? getSystemTheme() : theme as ResolvedTheme;
-  });
+  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
+  
+  // Calculate resolved theme
+  const resolvedTheme: ResolvedTheme = theme === 'system' ? systemTheme : (theme as ResolvedTheme);
+  
+  // Available themes
+  const themes: Theme[] = enableSystem ? ['light', 'dark', 'system'] : ['light', 'dark'];
 
   // Handle theme changes
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem(storageKey, newTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(storageKey, newTheme);
+    }
   }, [storageKey]);
 
-  // Apply theme to DOM
+  // Apply theme to DOM when resolved theme changes
   useEffect(() => {
-    const resolved = theme === 'system' ? getSystemTheme() : theme as ResolvedTheme;
-    setResolvedTheme(resolved);
-    applyTheme(resolved);
-  }, [theme]);
+    applyTheme(resolvedTheme);
+  }, [resolvedTheme]);
 
-  // Listen for system theme changes
+  // Listen for system theme changes when in system mode
   useEffect(() => {
-    if (theme !== 'system') return;
+    if (!enableSystem || theme !== 'system') return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     const handleChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? 'dark' : 'light';
-      setResolvedTheme(newTheme);
-      applyTheme(newTheme);
+      setSystemTheme(e.matches ? 'dark' : 'light');
     };
 
-    // Modern browsers
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    } 
-    // Legacy browsers
-    else if (mediaQuery.addListener) {
-      mediaQuery.addListener(handleChange);
-      return () => mediaQuery.removeListener(handleChange);
-    }
-  }, [theme]);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [theme, enableSystem]);
 
-  const value = useMemo(() => ({
+  // Update system theme on mount
+  useEffect(() => {
+    if (enableSystem) {
+      setSystemTheme(getSystemTheme());
+    }
+  }, [enableSystem]);
+
+  const value: ThemeProviderState = {
     theme,
     resolvedTheme,
     setTheme,
-  }), [theme, resolvedTheme, setTheme]);
+    themes,
+  };
 
   return (
     <ThemeProviderContext.Provider value={value}>
@@ -109,3 +112,31 @@ export const useTheme = () => {
 
   return context;
 };
+
+// Utility functions for theme checking
+export const isLightTheme = (resolvedTheme: ResolvedTheme) => resolvedTheme === 'light';
+export const isDarkTheme = (resolvedTheme: ResolvedTheme) => resolvedTheme === 'dark';
+
+// Theme configuration for future expansion
+export const THEME_CONFIG = {
+  themes: {
+    dark: {
+      name: 'Dark',
+      class: 'dark',
+    },
+    light: {
+      name: 'Light', 
+      class: 'light',
+    },
+    system: {
+      name: 'System',
+      class: 'system',
+    },
+  },
+  // Future theme variants can go here
+  variants: {
+    // 'ocean': { name: 'Ocean Blue', class: 'theme-ocean' },
+    // 'forest': { name: 'Forest Green', class: 'theme-forest' },
+    // 'sunset': { name: 'Sunset Orange', class: 'theme-sunset' },
+  }
+} as const;

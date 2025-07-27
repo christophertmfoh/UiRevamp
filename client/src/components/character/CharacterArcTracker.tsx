@@ -131,11 +131,11 @@ export function CharacterArcTracker({ characterName, onUpdateArcs }: CharacterAr
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'planned': return 'bg-gray-200 text-gray-800';
+      case 'planned': return 'bg-muted text-foreground';
       case 'in-progress': return 'bg-blue-200 text-blue-800';
       case 'completed': return 'bg-green-200 text-green-800';
       case 'revised': return 'bg-yellow-200 text-yellow-800';
-      default: return 'bg-gray-200 text-gray-800';
+      default: return 'bg-muted text-foreground';
     }
   };
 
@@ -210,7 +210,7 @@ export function CharacterArcTracker({ characterName, onUpdateArcs }: CharacterAr
                   <div key={milestone.id} className="p-3 border border-border/50 rounded-lg">
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 mt-1">
-                        <div className={`w-6 h-6 rounded-full ${growthType.color} text-white text-xs flex items-center justify-center font-bold`}>
+                        <div className={`w-6 h-6 rounded-full ${growthType.color} text-foreground text-xs flex items-center justify-center font-bold`}>
                           {index + 1}
                         </div>
                       </div>
