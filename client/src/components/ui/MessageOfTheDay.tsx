@@ -13,6 +13,7 @@ interface DailyContent {
     usage: string;
   };
   prompt: string;
+  fact: string;
   timestamp: number;
 }
 
@@ -69,6 +70,17 @@ const writingPrompts = [
   "Someone receives a package with no return address..."
 ];
 
+const writingFacts = [
+  "Agatha Christie is the best-selling novelist of all time with over 2 billion copies sold.",
+  "The most expensive book ever sold was Leonardo da Vinci's Codex Leicester for $30.8 million.",
+  "The word 'bookworm' originated from insects that actually ate through books.",
+  "Dr. Seuss wrote 'Green Eggs and Ham' using only 50 different words to win a bet.",
+  "The longest novel ever written is 'Artamène' with 2.1 million words.",
+  "J.K. Rowling's Harry Potter manuscript was rejected 12 times before being published.",
+  "Stephen King throws away the first draft of Carrie, but his wife rescued it from the trash.",
+  "Mark Twain was the first author to submit a typewritten manuscript."
+];
+
 export function MessageOfTheDay() {
   const [content, setContent] = useState<DailyContent>({
     motivation: '',
@@ -76,10 +88,12 @@ export function MessageOfTheDay() {
     tip: '',
     wordOfDay: { word: '', definition: '', usage: '' },
     prompt: '',
+    fact: '',
     timestamp: Date.now()
   });
   const [isLiked, setIsLiked] = useState(false);
   const [showActions, setShowActions] = useState(false);
+  const [currentSet, setCurrentSet] = useState(0); // 0, 1, or 2 for cycling through content
 
   const getRandomItem = <T,>(array: T[]): T => {
     return array[Math.floor(Math.random() * array.length)];
@@ -92,6 +106,7 @@ export function MessageOfTheDay() {
       tip: getRandomItem(writingTips),
       wordOfDay: getRandomItem(wordsOfTheDay),
       prompt: getRandomItem(writingPrompts),
+      fact: getRandomItem(writingFacts),
       timestamp: Date.now()
     };
     
@@ -135,6 +150,15 @@ export function MessageOfTheDay() {
     
     // Generate new content
     refreshContent();
+  }, []);
+
+  // Cycle through content sets every 15 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSet((prev) => (prev + 1) % 3);
+    }, 15000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -190,69 +214,138 @@ export function MessageOfTheDay() {
         </div>
         
         <div className="flex-grow space-y-3 overflow-y-auto">
-          {/* Motivation */}
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
-            </div>
-            <p className="text-xs text-stone-700 dark:text-stone-300 italic">
-              "{content.motivation}"
-            </p>
-          </div>
+          {currentSet === 0 && (
+            <>
+              {/* Motivation */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                  "{content.motivation}"
+                </p>
+              </div>
 
-          {/* Writing Joke */}
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Smile className="h-3 w-3 text-amber-600" />
-              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITER'S HUMOR</p>
-            </div>
-            <p className="text-xs text-stone-700 dark:text-stone-300">
-              {content.joke}
-            </p>
-          </div>
+              {/* Writing Joke */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Smile className="h-3 w-3 text-amber-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITER'S HUMOR</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300">
+                  {content.joke}
+                </p>
+              </div>
 
-          {/* Writing Tip */}
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Lightbulb className="h-3 w-3 text-amber-600" />
-              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">PRO TIP</p>
-            </div>
-            <p className="text-xs text-stone-700 dark:text-stone-300">
-              {content.tip}
-            </p>
-          </div>
+              {/* Writing Tip */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Lightbulb className="h-3 w-3 text-amber-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">PRO TIP</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300">
+                  {content.tip}
+                </p>
+              </div>
+            </>
+          )}
 
-          {/* Word of the Day */}
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <BookOpen className="h-3 w-3 text-emerald-600" />
-              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
-            </div>
-            <p className="text-xs">
-              <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
-              <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
-            </p>
-            <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
-          </div>
+          {currentSet === 1 && (
+            <>
+              {/* Word of the Day */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <BookOpen className="h-3 w-3 text-emerald-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
+                </div>
+                <p className="text-xs">
+                  <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
+                  <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
+                </p>
+                <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+              </div>
 
-          {/* Quick Prompt */}
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <PenTool className="h-3 w-3 text-amber-600" />
-              <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">QUICK PROMPT</p>
-            </div>
-            <p className="text-xs text-stone-700 dark:text-stone-300 italic">
-              {content.prompt}
-            </p>
-          </div>
+              {/* Quick Prompt */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <PenTool className="h-3 w-3 text-amber-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">QUICK PROMPT</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                  {content.prompt}
+                </p>
+              </div>
+
+              {/* Writing Fact */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="h-3 w-3 text-emerald-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITING FACT</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300">
+                  {content.fact}
+                </p>
+              </div>
+            </>
+          )}
+
+          {currentSet === 2 && (
+            <>
+              {/* Motivation */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">MOTIVATION</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300 italic">
+                  "{content.motivation}"
+                </p>
+              </div>
+
+              {/* Writing Fact */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="h-3 w-3 text-emerald-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WRITING FACT</p>
+                </div>
+                <p className="text-xs text-stone-700 dark:text-stone-300">
+                  {content.fact}
+                </p>
+              </div>
+
+              {/* Word of the Day */}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <BookOpen className="h-3 w-3 text-emerald-600" />
+                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300">WORD OF THE DAY</p>
+                </div>
+                <p className="text-xs">
+                  <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
+                  <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
+                </p>
+                <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+              </div>
+            </>
+          )}
         </div>
         
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
           <span className="text-[10px] text-stone-500 dark:text-stone-400">
-            Updates every 12 hours
+            Cycles every 15 seconds
           </span>
-          <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full animate-pulse"></div>
+          <div className="flex items-center gap-1">
+            {[0, 1, 2].map((index) => (
+              <div
+                key={index}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  currentSet === index
+                    ? 'bg-gradient-to-br from-emerald-600 to-amber-600 w-2 h-2'
+                    : 'bg-stone-300 dark:bg-stone-600'
+                }`}
+              ></div>
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>
