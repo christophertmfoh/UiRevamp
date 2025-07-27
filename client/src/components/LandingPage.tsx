@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { 
-  Zap, 
+  Feather, 
   BookOpen, 
-  Users, 
-  MapPin, 
-  Scroll, 
+  Users,
   Edit3, 
-  Clapperboard, 
-  Eye, 
-  Music,
   ArrowRight,
-  Sparkles,
   Globe,
+  Sparkles,
+  Brain,
+  CheckCircle,
+  TrendingUp,
+  Award,
+  Star,
+  Zap,
   Target,
+  Compass,
   Palette,
-  PenTool
+  Moon,
+  Sun,
+  Lightbulb,
+  FileText,
+  Image
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -29,49 +34,52 @@ interface LandingPageProps {
   setGuideMode: (mode: boolean) => void;
 }
 
-const features = [
-  {
-    icon: Sparkles,
-    title: "Brainstorm",
-    description: "Generate endless story ideas with AI-powered creative assistance and narrative inspiration.",
-    color: "candlelight-glow"
+
+
+const processSteps = [
+  { 
+    icon: Sparkles, 
+    title: "Ideate", 
+    description: "Start with your creative vision",
+    detail: "AI transforms initial concepts into comprehensive project foundations"
   },
-  {
-    icon: Globe,
-    title: "World Bible",
-    description: "Build comprehensive universes with characters, factions, items, and deep lore systems.",
-    color: "ember-accent"
+  { 
+    icon: Users, 
+    title: "World Bible", 
+    description: "Build intelligent story worlds",
+    detail: "Characters, locations, cultures, factions, items - all interconnected with AI"
   },
-  {
-    icon: Target,
-    title: "Outline",
-    description: "Structure your narrative with classic story beats, three-act structure, or custom frameworks.",
-    color: "caramel-warm"
+  { 
+    icon: Globe, 
+    title: "Document AI", 
+    description: "Import existing creative work",
+    detail: "Upload character sheets, extract 50+ attributes automatically"
   },
-  {
-    icon: Edit3,
-    title: "Manuscript",
-    description: "Write novels and screenplays with AI assistance, formatting tools, and seamless revision tracking.",
-    color: "leather-texture"
+  { 
+    icon: Compass, 
+    title: "Smart Outlining", 
+    description: "AI-assisted story structure",
+    detail: "Intelligent narrative planning drawing from your world bible"
   },
-  {
-    icon: Clapperboard,
-    title: "Storyboard",
-    description: "Visualize scenes and sequences with collaborative storyboarding and scene planning tools.",
-    color: "candlelight-glow"
+  { 
+    icon: Edit3, 
+    title: "Context Writing", 
+    description: "Write with world bible integration",
+    detail: "Manuscript creation with AI assistance and bi-directional sync"
   },
-  {
-    icon: Eye,
-    title: "Pre-Visualization",
-    description: "Create 3D scene previews, camera movements, and visual narrative planning.",
-    color: "ember-accent"
-  },
-  {
-    icon: Music,
-    title: "Score & Audio",
-    description: "Integrate music, sound effects, and audio elements to complete your multimedia story.",
-    color: "caramel-warm"
+  { 
+    icon: Palette, 
+    title: "Visual Production", 
+    description: "Generate multimedia content",
+    detail: "Consistent visuals, storyboards, audio for novels, screenplays, comics"
   }
+];
+
+const trustIndicators = [
+  { number: "15+", label: "Tools Replaced", icon: Target },
+  { number: "50+", label: "AI-Extracted Attributes", icon: Brain },
+  { number: "3", label: "Media Formats", icon: Palette },
+  { number: "100%", label: "Workflow Integration", icon: CheckCircle }
 ];
 
 export function LandingPage({ 
@@ -81,295 +89,389 @@ export function LandingPage({
   guideMode, 
   setGuideMode 
 }: LandingPageProps) {
-  const [storyIdea, setStoryIdea] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const handleGenerateStoryIdea = async () => {
-    if (!storyIdea.trim()) return;
-    
-    setIsGenerating(true);
-    // TODO: Implement AI story generation
-    setTimeout(() => {
-      setIsGenerating(false);
-      // Navigate to project creation with generated idea
-      onNewProject();
-    }, 2000);
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentStep(prev => (prev + 1) % processSteps.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/50">
-      {/* Header */}
-      <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            {/* Left side - empty for balance */}
-            <div className="w-40"></div>
-            
-            {/* Center - Brand */}
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-accent/20 to-accent/5 rounded-xl flex items-center justify-center border border-accent/20">
-                <BookOpen className="h-6 w-6 text-accent" />
-              </div>
-              <h1 className="font-display text-3xl text-foreground leading-none tracking-tight">Fablecraft</h1>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
+      {/* Warm texture overlay */}
+      <div className="absolute inset-0 opacity-30 bg-repeat bg-center" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }}></div>
+      <div className="absolute inset-0 opacity-30 bg-repeat bg-center dark:block hidden" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.01'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }}></div>
+      
+      {/* Ambient lighting */}
+      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-orange-300/20 dark:from-amber-500/10 dark:to-orange-600/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/20 to-red-300/15 dark:from-orange-500/5 dark:to-red-600/3 rounded-full blur-2xl"></div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 px-8 py-6">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 dark:from-amber-400 dark:to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <Feather className="w-6 h-6 text-white" />
             </div>
-            
-            {/* Right side - Projects button */}
-            <div className="w-40 flex justify-end">
-              <Button 
-                variant="outline" 
-                onClick={() => onNavigate('projects')}
-                className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300"
-              >
-                Your Projects
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
+            <span className="text-2xl font-bold text-stone-800 dark:text-amber-100">
+              Fablecraft
+            </span>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsDark(!isDark)}
+              className="w-10 h-10 p-0 rounded-xl text-stone-600 dark:text-amber-200 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
+            >
+              {isDark ? (
+                <Sun className="h-5 w-5 text-amber-600 dark:text-amber-300" />
+              ) : (
+                <Moon className="h-5 w-5 text-stone-600" />
+              )}
+            </Button>
+            <Button 
+              onClick={() => onNavigate('projects')}
+              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-400 px-6 py-2 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
+            >
+              Your Projects
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-32">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-12">
-            {/* Main Hero */}
+      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
+        <div className="grid lg:grid-cols-12 gap-16 items-center">
+          {/* Main Content */}
+          <div className="lg:col-span-7 space-y-10">
             <div className="space-y-8">
-              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
-                <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-accent">AI-Powered Creative Writing Studio</span>
+              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50">
+                <div className="w-2 h-2 bg-orange-500 dark:bg-orange-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-amber-800 dark:text-amber-200">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="font-display text-6xl md:text-7xl lg:text-8xl text-foreground leading-[0.9] tracking-tight">
-                Craft Stories That
-                <span className="block bg-gradient-to-r from-accent via-accent/80 to-accent/60 bg-clip-text text-transparent">
-                  Captivate Worlds
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-stone-800 dark:text-amber-50 leading-[0.95] tracking-tight">
+                AI-Powered Creative Suite
+                <span className="block bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 bg-clip-text text-transparent">
+                  Idea to Final Media
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-                Transform fleeting ideas into rich, immersive narratives. Build characters, craft worlds, 
-                and weave tales with AI-powered tools designed for storytellers.
+              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed">
+                Transform any creative idea into complete multimedia production - novels, screenplays, 
+                graphic novels with generated visuals, audio, and video. One platform. One workflow.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+              <div className="flex flex-col sm:flex-row gap-6 pt-6">
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 text-lg font-medium"
+                  className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
-                  Start Creating
-                  <Sparkles className="ml-2 h-5 w-5" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center">
+                    Begin Your Story
+                    <Sparkles className="ml-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                  </span>
                 </Button>
                 <Button 
-                  variant="ghost" 
+                  variant="outline"
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="text-muted-foreground hover:text-foreground px-8 py-4 text-lg"
+                  className="group border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
                 >
-                  View Examples
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <span className="flex items-center">
+                    See Examples
+                    <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
                 </Button>
               </div>
             </div>
-
-            {/* Feature Preview Cards */}
-            <div className="grid md:grid-cols-3 gap-8 pt-20">
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-blue-600/10 rounded-xl flex items-center justify-center mb-6">
-                  <Users className="h-6 w-6 text-blue-500" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">AI Character Creation</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Generate detailed, nuanced characters with AI assistance. From personality traits to backstories, 
-                  craft memorable personas that drive your narrative.
-                </p>
-              </div>
-
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-xl flex items-center justify-center mb-6">
-                  <Globe className="h-6 w-6 text-purple-500" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">World Building</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Design immersive worlds with interconnected cultures and histories. 
-                  Build the foundation for epic adventures.
-                </p>
-              </div>
-
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-accent/30 transition-all duration-300">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-green-600/10 rounded-xl flex items-center justify-center mb-6">
-                  <PenTool className="h-6 w-6 text-green-500" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Story Organization</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Keep your creative vision organized with project-based workflows. 
-                  Track character arcs, plot threads, and world details seamlessly.
-                </p>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Story Idea Generator - Prominent */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative">
-            {/* Glow effect */}
-            <div className="absolute inset-0 candlelight-glow rounded-2xl opacity-20 blur-xl"></div>
-            
-            <Card className="creative-card p-12 relative border-2 border-accent/30">
-              <div className="text-center space-y-8">
-                <div className="space-y-4">
-                  <div className="w-16 h-16 candlelight-glow rounded-2xl flex items-center justify-center mx-auto">
-                    <Sparkles className="h-8 w-8" />
-                  </div>
-                  <h3 className="font-display text-3xl text-foreground">Ready to Start Writing?</h3>
-                  <p className="text-muted-foreground font-literary text-lg max-w-2xl mx-auto">
-                    Begin your creative journey with a new project or continue working on existing stories
-                  </p>
+          {/* Process Preview */}
+          <div className="lg:col-span-5">
+            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-8 border border-amber-200/60 dark:border-slate-600/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
+              {/* Subtle gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-transparent to-orange-50/30 dark:from-amber-900/10 dark:via-transparent dark:to-orange-900/5 rounded-3xl"></div>
+              
+              <div className="relative z-10 text-center space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
+                  <Brain className="w-10 h-10 text-white" />
                 </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
                 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button 
-                    onClick={() => onNewProject()}
-                    size="lg"
-                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4 text-lg font-medium"
-                  >
-                    Create New Project
-                    <Sparkles className="ml-3 h-5 w-5" />
-                  </Button>
-                  <Button 
-                    onClick={() => onNavigate('projects')}
-                    variant="outline"
-                    size="lg"
-                    className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 px-8 py-4 text-lg"
-                  >
-                    View Projects
-                    <ArrowRight className="ml-3 h-5 w-5" />
-                  </Button>
+                <div className="grid grid-cols-2 gap-4">
+                  {processSteps.map((step, index) => {
+                    const IconComponent = step.icon;
+                    const isActive = index === currentStep;
+                    
+                    return (
+                      <div
+                        key={index}
+                        className={`p-5 rounded-2xl border transition-all duration-700 cursor-pointer group ${
+                          isActive 
+                            ? 'bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/30 dark:to-orange-900/20 border-amber-300 dark:border-amber-600 scale-110 shadow-xl shadow-amber-200/50 dark:shadow-amber-900/20 -translate-y-1' 
+                            : 'bg-white/60 dark:bg-slate-700/40 border-stone-200/60 dark:border-slate-600/40 hover:bg-gradient-to-br hover:from-amber-50/50 hover:to-orange-50/30 dark:hover:from-amber-900/20 dark:hover:to-orange-900/10 hover:border-amber-200 dark:hover:border-amber-700/50 hover:scale-105 hover:shadow-lg'
+                        }`}
+                      >
+                        <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
+                          isActive 
+                            ? 'text-amber-600 dark:text-amber-400 scale-110' 
+                            : 'text-stone-500 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 group-hover:scale-110'
+                        }`} />
+                        <h4 className={`font-semibold text-sm transition-all duration-300 ${
+                          isActive 
+                            ? 'text-stone-800 dark:text-amber-50' 
+                            : 'text-stone-600 dark:text-stone-300 group-hover:text-stone-800 dark:group-hover:text-stone-100'
+                        }`}>
+                          {step.title}
+                        </h4>
+                        {isActive && (
+                          <p className="text-xs text-stone-600 dark:text-amber-200/80 mt-2 animate-in fade-in duration-500">
+                            {step.description}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features - Long Rectangular Layout */}
-      <section className="container mx-auto px-6 py-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center space-y-4 mb-16">
-            <div className="w-12 h-12 ember-accent rounded-xl flex items-center justify-center mx-auto mb-6">
-              <Palette className="h-6 w-6" />
-            </div>
-            <h3 className="font-display text-4xl text-foreground">Your Creative Toolkit</h3>
-            <p className="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
-              Every tool you need to bring your stories to life, from concept to completion
+      {/* Complete Process Pipeline */}
+      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
+        <div className="text-center space-y-16">
+          <div className="space-y-6">
+            <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
+              End-to-End Creative Production
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
+              From Idea to Final Media
+            </h2>
+            <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
+              Our intelligent 6-stage pipeline replaces 15+ scattered tools. Create novels, screenplays, 
+              graphic novels with generated visuals, audio, and video - all in one unified workflow.
             </p>
           </div>
-          
-          <div className="space-y-6">
-            {features.map((feature, index) => {
-              const IconComponent = feature.icon;
-              return (
-                <div key={index} className="relative">
-                  {/* Connection line to next feature */}
-                  {index < features.length - 1 && (
-                    <div className="absolute left-8 top-full w-0.5 h-6 bg-gradient-to-b from-accent/30 to-transparent z-10"></div>
-                  )}
-                  
-                  <Card className="creative-card group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 cursor-pointer relative overflow-hidden">
-                    {/* Subtle glow on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="p-8 flex items-center space-x-6 relative">
-                      <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
-                        <IconComponent className="h-8 w-8" />
-                      </div>
-                      <div className="flex-1 space-y-2">
-                        <h4 className="font-title text-2xl text-foreground group-hover:text-accent transition-colors duration-300">
-                          {feature.title}
-                        </h4>
-                        <p className="font-literary text-muted-foreground leading-relaxed text-lg">
-                          {feature.description}
-                        </p>
-                      </div>
+
+          {/* Process Flow */}
+          <div className="relative">
+            {/* Connection line */}
+            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-amber-200 via-orange-300 to-red-300 dark:from-amber-600/30 dark:via-orange-600/30 dark:to-red-600/30 hidden lg:block rounded-full"></div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+              {processSteps.map((step, index) => {
+                const IconComponent = step.icon;
+                return (
+                  <div key={index} className="text-center space-y-4 relative group">
+                    {/* Step number */}
+                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-full flex items-center justify-center text-sm font-bold text-white lg:block hidden z-20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      {index + 1}
                     </div>
-                  </Card>
-                </div>
+                    
+                    <div className="w-28 h-28 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto shadow-xl border border-amber-200/60 dark:border-slate-600/50 group-hover:shadow-2xl group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 cursor-pointer relative z-10 group-hover:rotate-3">
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-orange-50/30 dark:from-amber-900/20 dark:to-orange-900/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <IconComponent className="w-10 h-10 text-amber-600 dark:text-amber-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-all duration-500 relative z-10 group-hover:scale-110" />
+                    </div>
+                    
+                    <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
+                      <h4 className="font-bold text-lg text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">{step.title}</h4>
+                      <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{step.description}</p>
+                      <p className="text-xs text-stone-500 dark:text-stone-400 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-medium">
+                        {step.detail}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+      {/* Trust & Social Proof */}
+      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
+        <div className="text-center space-y-16">
+          <div className="space-y-6">
+            <Badge className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-200 dark:border-amber-700">
+              Revolutionary Creative Technology
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
+              The Creative Industry's First True End-to-End Suite
+            </h2>
+            <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
+              Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
+              platform that understands your entire creative process from world-building to visual production.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            {trustIndicators.map((indicator, index) => {
+              const IconComponent = indicator.icon;
+              return (
+                <Card key={index} className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border-amber-200/60 dark:border-slate-600/50 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-orange-50/0 to-rose-50/0 dark:from-amber-900/0 dark:via-orange-900/0 dark:to-rose-900/0 group-hover:from-amber-50/50 group-hover:via-orange-50/30 group-hover:to-rose-50/20 dark:group-hover:from-amber-900/20 dark:group-hover:via-orange-900/10 dark:group-hover:to-rose-900/5 transition-all duration-700"></div>
+                  
+                  <CardContent className="relative z-10 p-8 text-center space-y-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                      <IconComponent className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-4xl font-bold bg-gradient-to-r from-stone-800 to-stone-600 dark:from-amber-200 dark:to-amber-400 bg-clip-text text-transparent group-hover:from-amber-600 group-hover:to-orange-600 dark:group-hover:from-amber-100 dark:group-hover:to-orange-200 transition-all duration-500">{indicator.number}</div>
+                      <div className="text-stone-600 dark:text-stone-300 font-semibold group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{indicator.label}</div>
+                    </div>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
+
+          {/* Key Benefits */}
+          <div className="grid md:grid-cols-3 gap-8 pt-16">
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-orange-50/0 dark:from-amber-900/0 dark:to-orange-900/0 group-hover:from-amber-50/50 group-hover:to-orange-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-orange-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 dark:from-yellow-500 dark:via-amber-600 dark:to-orange-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <CheckCircle className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">World Bible Intelligence</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe.
+                </p>
+              </div>
+            </div>
+            
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-orange-50/0 dark:from-amber-900/0 dark:to-orange-900/0 group-hover:from-amber-50/50 group-hover:to-orange-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-orange-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <TrendingUp className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">Document AI Extraction</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  Upload character sheets and documents - our AI extracts 50+ attributes automatically with intelligent field mapping.
+                </p>
+              </div>
+            </div>
+            
+            <div className="group text-center space-y-6 p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-amber-200/50 dark:border-amber-600/20 hover:shadow-2xl hover:shadow-amber-200/20 dark:hover:shadow-amber-900/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/0 to-red-50/0 dark:from-orange-900/0 dark:to-red-900/0 group-hover:from-orange-50/50 group-hover:to-red-50/30 dark:group-hover:from-orange-900/20 dark:group-hover:to-red-900/10 transition-all duration-700"></div>
+              
+              <div className="relative z-10 space-y-6">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-400 via-red-500 to-red-600 dark:from-orange-500 dark:via-red-600 dark:to-red-700 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <Award className="w-10 h-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50 group-hover:text-orange-700 dark:group-hover:text-orange-300 transition-colors duration-300">Visual Production Ready</h3>
+                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
+                  Generate consistent character visuals, storyboards, and multimedia content for novels, screenplays, and graphic novels.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="container mx-auto px-6 py-24">
-        <div className="max-w-4xl mx-auto">
-          {/* Visual Guide Leading to CTA */}
-          <div className="flex justify-center mb-12">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="flex space-x-2">
-                <div className="w-2 h-2 bg-accent rounded-full animate-ping"></div>
-                <div className="w-2 h-2 bg-accent rounded-full animate-ping delay-150"></div>
-                <div className="w-2 h-2 bg-accent rounded-full animate-ping delay-300"></div>
-              </div>
-              <div className="w-1 h-8 bg-gradient-to-b from-accent to-transparent rounded-full"></div>
-            </div>
-          </div>
+      {/* Final CTA */}
+      <section className="relative z-10 max-w-5xl mx-auto px-8 py-32">
+        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-amber-50 via-orange-50/80 to-red-50/60 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 border border-amber-200/50 dark:border-slate-600/50 shadow-2xl">
+          {/* Background texture */}
+          <div className="absolute inset-0 opacity-20 bg-repeat bg-center" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}></div>
           
-          <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <div className="w-16 h-16 candlelight-glow rounded-2xl flex items-center justify-center mx-auto">
-                <BookOpen className="h-8 w-8" />
+          {/* Floating elements */}
+          <div className="absolute top-8 right-8 w-32 h-32 bg-gradient-to-br from-amber-300/20 to-orange-400/10 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-8 left-8 w-24 h-24 bg-gradient-to-br from-orange-300/20 to-red-400/10 rounded-full blur-xl"></div>
+          
+          <div className="relative z-10 text-center space-y-12 p-16">
+            <div className="space-y-8">
+              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-full flex items-center justify-center mx-auto shadow-2xl hover:shadow-3xl hover:scale-110 hover:rotate-6 transition-all duration-500 cursor-pointer">
+                <Zap className="w-12 h-12 text-white" />
               </div>
-              <h3 className="font-display text-4xl text-foreground">Begin Your Journey</h3>
-              <p className="font-literary text-xl text-muted-foreground max-w-2xl mx-auto">
-                Join storytellers worldwide in crafting the next generation of immersive narratives
+              <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-stone-800 via-amber-700 to-orange-700 dark:from-amber-200 dark:via-orange-300 dark:to-red-300 bg-clip-text text-transparent leading-tight">
+                Start Your Creative Revolution
+              </h2>
+              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto leading-relaxed">
+                Ready to transform any creative idea into complete multimedia production? 
+                Join the first true end-to-end AI creative suite that replaces 15+ scattered tools.
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <div className="group">
-                <Button 
-                  onClick={onNewProject}
-                  size="lg"
-                  className="candlelight-glow text-lg px-10 py-4 min-w-[240px] group-hover:scale-105 transition-transform duration-300"
-                >
-                  <BookOpen className="mr-3 h-5 w-5" />
-                  Begin Your Journey
-                </Button>
-                <div className="mt-2 text-sm text-muted-foreground text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Create your first project
-                </div>
-              </div>
-              
-              <div className="group">
-                <Button 
-                  onClick={() => onNavigate('projects')}
-                  variant="outline"
-                  size="lg"
-                  className="creative-card hover:candlelight-glow transition-all duration-300 text-lg px-10 py-4 min-w-[240px] group-hover:scale-105"
-                >
-                  <ArrowRight className="mr-3 h-5 w-5" />
-                  View Your Projects
-                </Button>
-                <div className="mt-2 text-sm text-muted-foreground text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Continue existing work
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-8 justify-center">
+              <Button 
+                onClick={() => onNewProject()}
+                size="lg"
+                className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-16 py-6 text-xl font-bold shadow-2xl hover:shadow-3xl hover:scale-110 hover:-translate-y-2 transition-all duration-500 rounded-2xl relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  Create Your First Project
+                  <Sparkles className="ml-4 h-6 w-6 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" />
+                </span>
+              </Button>
+              <Button 
+                onClick={() => onNavigate('projects')}
+                variant="outline"
+                size="lg"
+                className="group border-2 border-amber-400 dark:border-amber-500/60 text-amber-700 dark:text-amber-200 bg-white dark:bg-slate-800/50 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-500 rounded-2xl backdrop-blur-sm"
+              >
+                <span className="flex items-center">
+                  Explore Examples
+                  <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+                </span>
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 py-12">
-        <div className="container mx-auto px-6">
-          <div className="text-center">
-            <p className="text-muted-foreground font-literary">
-              Crafted for storytellers, by storytellers
-            </p>
+      <footer className="relative z-10 border-t border-amber-200/50 dark:border-slate-700/50 py-20 px-8 bg-gradient-to-t from-amber-50/30 to-transparent dark:from-slate-900/50 dark:to-transparent">
+        <div className="max-w-7xl mx-auto text-center space-y-8">
+          <div className="flex items-center justify-center space-x-4 group cursor-pointer">
+            <div className="w-14 h-14 bg-gradient-to-br from-amber-500 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-500 dark:to-red-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+              <Feather className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
+            </div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-stone-800 to-amber-700 dark:from-amber-200 dark:to-orange-300 bg-clip-text text-transparent group-hover:from-amber-600 group-hover:to-orange-600 dark:group-hover:from-amber-100 dark:group-hover:to-orange-200 transition-all duration-300">
+              Fablecraft
+            </span>
+          </div>
+          <p className="text-xl text-stone-600 dark:text-stone-300 font-medium">
+            Where every story finds its voice
+          </p>
+          <div className="flex items-center justify-center space-x-2 text-sm text-stone-500 dark:text-stone-400">
+            <span>Made with</span>
+            <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-full animate-pulse"></div>
+            <span>for storytellers everywhere</span>
           </div>
         </div>
       </footer>
