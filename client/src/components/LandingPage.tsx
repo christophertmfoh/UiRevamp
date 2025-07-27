@@ -97,13 +97,18 @@ export function LandingPage({
 }: LandingPageProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [isHoveringSteps, setIsHoveringSteps] = useState(false);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentStep(prev => (prev + 1) % processSteps.length);
+      // Only auto-cycle if not hovering
+      if (!isHoveringSteps) {
+        setCurrentStep(prev => (prev + 1) % processSteps.length);
+      }
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isHoveringSteps]);
 
   // Parallax scrolling effect
   useEffect(() => {
@@ -315,14 +320,23 @@ export function LandingPage({
                 </div>
                 <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-stone-50">Your Writing Journey</h3>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div 
+                  className="grid grid-cols-2 gap-4"
+                  onMouseEnter={() => setIsHoveringSteps(true)}
+                  onMouseLeave={() => {
+                    setIsHoveringSteps(false);
+                    setHoveredStep(null);
+                  }}
+                >
                   {processSteps.map((step, index) => {
                     const IconComponent = step.icon;
-                    const isActive = index === currentStep;
+                    // Use hoveredStep if hovering, otherwise use currentStep
+                    const isActive = isHoveringSteps ? index === hoveredStep : index === currentStep;
                     
                     return (
                       <div
                         key={index}
+                        onMouseEnter={() => setHoveredStep(index)}
                         className={`p-5 rounded-2xl border transition-all duration-700 cursor-pointer group ${
                           isActive 
                             ? 'bg-gradient-to-br from-emerald-50 to-stone-50/50 dark:from-emerald-900/30 dark:to-stone-900/20 border-emerald-400 dark:border-emerald-600 scale-110 shadow-xl shadow-emerald-200/50 dark:shadow-emerald-900/20 -translate-y-1' 
