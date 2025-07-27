@@ -268,9 +268,9 @@ export function LandingPage({
                 <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black font-serif text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-                Where Stories
-                <span className="block bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] mt-2">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-stone-900 dark:text-stone-50 leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+                Where Stories{' '}
+                <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                   Come to Life
                 </span>
               </h1>
@@ -312,15 +312,15 @@ export function LandingPage({
 
           {/* Process Preview */}
           <div className="lg:col-span-5">
-            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg rounded-3xl p-8 border border-stone-300/60 dark:border-slate-600/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
+            <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden border border-white/20 dark:border-slate-700/20">
               {/* Subtle gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-stone-50/50 via-transparent to-emerald-50/30 dark:from-stone-900/10 dark:via-transparent dark:to-emerald-900/5 rounded-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-stone-50/20 via-transparent to-emerald-50/10 dark:from-stone-900/10 dark:via-transparent dark:to-emerald-900/5 rounded-[2rem]"></div>
               
               <div className="relative z-10 text-center space-y-6">
                 <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
                   <PenTool className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">Your Writing Journey</h3>
+                <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-tight">Your Writing Journey</h3>
                 
                 <div 
                   className="grid grid-cols-2 gap-4"
@@ -339,10 +339,10 @@ export function LandingPage({
                       <div
                         key={index}
                         onMouseEnter={() => setHoveredStep(index)}
-                        className={`p-5 rounded-2xl border transition-all duration-700 cursor-pointer group ${
+                        className={`p-5 rounded-2xl transition-all duration-700 cursor-pointer group ${
                           isActive 
-                            ? 'bg-gradient-to-br from-emerald-50 to-stone-50/50 dark:from-emerald-900/30 dark:to-stone-900/20 border-emerald-400 dark:border-emerald-600 scale-110 shadow-xl shadow-emerald-200/50 dark:shadow-emerald-900/20 -translate-y-1' 
-                            : 'bg-white/60 dark:bg-slate-700/40 border-stone-200/60 dark:border-slate-600/40 hover:bg-gradient-to-br hover:from-stone-50/50 hover:to-emerald-50/30 dark:hover:from-stone-900/20 dark:hover:to-emerald-900/10 hover:border-stone-300 dark:hover:border-stone-600/50 hover:scale-105 hover:shadow-lg'
+                            ? 'bg-gradient-to-br from-emerald-50/80 to-stone-50/60 dark:from-emerald-900/40 dark:to-stone-900/30 scale-110 shadow-2xl shadow-emerald-200/30 dark:shadow-emerald-900/20 -translate-y-1 border border-emerald-400/30 dark:border-emerald-600/30' 
+                            : 'bg-white/40 dark:bg-slate-700/30 border border-stone-200/30 dark:border-slate-600/30 hover:bg-gradient-to-br hover:from-stone-50/60 hover:to-emerald-50/40 dark:hover:from-stone-900/30 dark:hover:to-emerald-900/20 hover:border-stone-300/40 dark:hover:border-stone-600/40 hover:scale-105 hover:shadow-lg'
                         }`}
                       >
                         <IconComponent className={`w-6 h-6 mb-3 transition-all duration-500 ${
