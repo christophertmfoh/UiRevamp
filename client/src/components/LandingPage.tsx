@@ -241,14 +241,14 @@ export function LandingPage({
                   </span>
                 </Button>
                 <Button 
-                  variant="outline"
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="group border-2 border-stone-400 dark:border-stone-500/40 text-stone-700 dark:text-stone-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-stone-50 hover:to-emerald-50 dark:hover:from-stone-900/20 dark:hover:to-emerald-900/20 hover:border-emerald-600 dark:hover:border-emerald-500 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
-                  <span className="flex items-center">
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span className="relative z-10 flex items-center">
                     <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    Browse Stories
+                    Your Projects
                     <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </Button>
@@ -498,12 +498,12 @@ export function LandingPage({
               </Button>
               <Button 
                 onClick={() => onNavigate('projects')}
-                variant="outline"
                 size="lg"
-                className="group border-2 border-stone-400 dark:border-stone-500/60 text-stone-700 dark:text-stone-200 bg-white dark:bg-slate-800/50 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-600 dark:hover:border-emerald-500 px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-500 rounded-2xl backdrop-blur-sm"
+                className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-16 py-6 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
               >
-                <span className="flex items-center">
-                  Explore Examples
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  Your Projects
                   <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Button>
