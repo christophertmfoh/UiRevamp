@@ -456,6 +456,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Transform extracted data to match database schema
       const characterData: any = {
+        id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         projectId,
         name: extractedData.name || 'Unnamed Character',
         // Identity fields (all text fields)
