@@ -76,6 +76,7 @@ export function ProjectsPageRedesign({
   });
   const [scrollY, setScrollY] = useState(0);
   const [showTasksModal, setShowTasksModal] = useState(false);
+  const [showGoalsModal, setShowGoalsModal] = useState(false);
 
   // Helper functions to update preferences and save to localStorage
   const updateViewMode = (mode: 'grid' | 'list') => {
@@ -254,6 +255,26 @@ export function ProjectsPageRedesign({
                     <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
                     <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
                   </div>
+                  
+                  {/* Project Details */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-stone-500 dark:text-stone-400">Type:</span>
+                      <span className="text-stone-700 dark:text-stone-300 font-medium">{projects[0]?.type || 'Creative Project'}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-stone-500 dark:text-stone-400">Genre:</span>
+                      <span className="text-stone-700 dark:text-stone-300 font-medium">
+                        {typeof projects[0]?.genre === 'string' ? projects[0].genre : 
+                         (Array.isArray(projects[0]?.genre) && projects[0].genre[0]) || 'Unspecified'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-stone-500 dark:text-stone-400">Progress:</span>
+                      <span className="text-emerald-600 font-medium">75% Complete</span>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
                     <Clock className="w-3 h-3" />
                     <span>Updated {new Date(projects[0]?.createdAt || Date.now()).toLocaleDateString()}</span>
@@ -271,9 +292,21 @@ export function ProjectsPageRedesign({
           ) : (
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
               <CardContent className="p-5 h-full flex flex-col justify-center">
-                <div className="text-center">
-                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
-                  <p className="text-xs text-stone-600 dark:text-stone-400">Create your first project to get started!</p>
+                <div className="text-center space-y-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center mx-auto">
+                    <PlusCircle className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
+                    <p className="text-xs text-stone-600 dark:text-stone-400 mb-3">Create your first project to get started!</p>
+                    <Button 
+                      size="sm"
+                      onClick={onNewProject}
+                      className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                    >
+                      Create Project
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -282,13 +315,22 @@ export function ProjectsPageRedesign({
           {/* Writing Progress */}
           <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full">
             <CardContent className="p-5 h-full flex flex-col">
-              <div className="flex items-center justify-center gap-3 mb-5">
-                <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-3 h-3 text-white" />
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-white" />
+                  </div>
+                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+                    Writing Progress
+                  </p>
                 </div>
-                <p className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Writing Progress
-                </p>
+                <Button
+                  size="sm"
+                  onClick={() => setShowGoalsModal(true)}
+                  className="bg-gradient-to-r from-emerald-600 to-amber-600 hover:from-emerald-500 hover:to-amber-500 text-white text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                >
+                  Set Goals
+                </Button>
               </div>
               
               <div className="flex-grow space-y-5">
@@ -314,6 +356,14 @@ export function ProjectsPageRedesign({
                     <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '60%' }}></div>
                   </div>
                   <p className="text-xs text-stone-600 dark:text-stone-400 mt-1.5">300/500 words • 60% complete</p>
+                </div>
+
+                {/* Writing Sessions Today */}
+                <div className="pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+                  <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+                    <span>Sessions Today</span>
+                    <span>2 sessions • 45 minutes</span>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -569,7 +619,7 @@ export function ProjectsPageRedesign({
 
       {/* Tasks Modal */}
       <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
-        <DialogContent className="max-w-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-3xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Writing Tasks & Goals
@@ -582,63 +632,86 @@ export function ProjectsPageRedesign({
           <div className="space-y-6 py-4">
             {/* Today's Tasks */}
             <div className="space-y-4">
-              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-emerald-600" />
-                Today's Tasks
-              </h3>
-              <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-emerald-600" />
+                  Today's Tasks
+                </h3>
+                <Button size="sm" variant="outline" className="text-xs">
+                  <PlusCircle className="w-3 h-3 mr-1" />
+                  Add Task
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
-                  { text: "Develop main characters", status: "pending", priority: "high" },
-                  { text: "Outline chapter structure", status: "in-progress", priority: "medium" },
-                  { text: "Review plot points", status: "pending", priority: "low" },
-                  { text: "Write 500 words", status: "pending", priority: "high" },
-                  { text: "Character relationship mapping", status: "completed", priority: "medium" }
+                  { text: "Develop main characters", status: "pending", priority: "high", time: "30 min" },
+                  { text: "Outline chapter structure", status: "in-progress", priority: "medium", time: "45 min" },
+                  { text: "Review plot points", status: "pending", priority: "low", time: "20 min" },
+                  { text: "Write 500 words", status: "pending", priority: "high", time: "60 min" },
+                  { text: "Character relationship mapping", status: "completed", priority: "medium", time: "30 min" },
+                  { text: "Research historical context", status: "pending", priority: "low", time: "40 min" }
                 ].map((task, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                    <div className={`w-2 h-2 rounded-full ${
-                      task.status === 'completed' ? 'bg-emerald-600' :
-                      task.status === 'in-progress' ? 'bg-amber-600' : 
-                      'bg-stone-400'
-                    }`}></div>
-                    <span className={`flex-1 text-sm ${
-                      task.status === 'completed' ? 
-                      'text-stone-500 dark:text-stone-400 line-through' : 
-                      'text-stone-700 dark:text-stone-300'
-                    }`}>
-                      {task.text}
-                    </span>
-                    <Badge variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'} className="text-xs">
-                      {task.priority}
-                    </Badge>
+                  <div key={index} className="group flex items-center gap-3 p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl hover:bg-white/80 dark:hover:bg-slate-700/60 transition-all duration-200">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="p-0 w-5 h-5"
+                      onClick={() => {/* Toggle completion */}}
+                    >
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                        task.status === 'completed' ? 'bg-emerald-600 border-emerald-600' :
+                        task.status === 'in-progress' ? 'bg-amber-600 border-amber-600' : 
+                        'border-stone-400 hover:border-emerald-500'
+                      }`}>
+                        {task.status === 'completed' && <CheckCircle className="w-3 h-3 text-white" />}
+                      </div>
+                    </Button>
+                    <div className="flex-1">
+                      <span className={`text-sm font-medium ${
+                        task.status === 'completed' ? 
+                        'text-stone-500 dark:text-stone-400 line-through' : 
+                        'text-stone-700 dark:text-stone-300'
+                      }`}>
+                        {task.text}
+                      </span>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant={task.priority === 'high' ? 'destructive' : task.priority === 'medium' ? 'default' : 'secondary'} className="text-xs">
+                          {task.priority}
+                        </Badge>
+                        <span className="text-xs text-stone-500 dark:text-stone-400">{task.time}</span>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Writing Goals */}
+            {/* Weekly Progress */}
             <div className="space-y-4">
               <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                 <Target className="w-5 h-5 text-amber-600" />
-                Weekly Goals
+                Weekly Progress
               </h3>
-              <div className="space-y-3">
-                <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                  <div className="flex justify-between items-center mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <div className="flex justify-between items-center mb-3">
                     <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Words Written</span>
                     <span className="text-xs text-stone-500 dark:text-stone-400">1,250 / 3,000</span>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '42%' }}></div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-3 mb-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '42%' }}></div>
                   </div>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">42% complete • 1,750 words remaining</p>
                 </div>
-                <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Characters Developed</span>
-                    <span className="text-xs text-stone-500 dark:text-stone-400">3 / 5</span>
+                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300">Tasks Completed</span>
+                    <span className="text-xs text-stone-500 dark:text-stone-400">8 / 12</span>
                   </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '60%' }}></div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-3 mb-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '67%' }}></div>
                   </div>
+                  <p className="text-xs text-stone-600 dark:text-stone-400">67% complete • 4 tasks remaining</p>
                 </div>
               </div>
             </div>
@@ -648,15 +721,144 @@ export function ProjectsPageRedesign({
               <Button 
                 className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
               >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Task
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Create New Task
               </Button>
               <Button 
                 variant="outline"
                 className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300"
+                onClick={() => setShowGoalsModal(true)}
               >
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
+                <Target className="w-4 h-4 mr-2" />
+                Manage Goals
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Goals Modal */}
+      <Dialog open={showGoalsModal} onOpenChange={setShowGoalsModal}>
+        <DialogContent className="max-w-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+              Set Writing Goals
+            </DialogTitle>
+            <DialogDescription className="text-stone-600 dark:text-stone-400">
+              Define your writing targets and track your progress dynamically.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Daily Goals */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-emerald-600" />
+                Daily Goals
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300 block mb-2">
+                    Daily Word Count Target
+                  </label>
+                  <Input 
+                    type="number" 
+                    placeholder="500" 
+                    className="mb-3 bg-white/80 dark:bg-slate-800/60" 
+                    defaultValue="500"
+                  />
+                  <div className="text-xs text-stone-600 dark:text-stone-400">
+                    Current: 300 words (60% complete)
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2 mt-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                </div>
+                
+                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300 block mb-2">
+                    Writing Time Goal (minutes)
+                  </label>
+                  <Input 
+                    type="number" 
+                    placeholder="60" 
+                    className="mb-3 bg-white/80 dark:bg-slate-800/60" 
+                    defaultValue="60"
+                  />
+                  <div className="text-xs text-stone-600 dark:text-stone-400">
+                    Today: 45 minutes (75% complete)
+                  </div>
+                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2 mt-2">
+                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '75%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Streak Goals */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <Target className="w-5 h-5 text-amber-600" />
+                Writing Streak Goals
+              </h3>
+              
+              <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                    Target Streak (days)
+                  </label>
+                  <Input 
+                    type="number" 
+                    placeholder="30" 
+                    className="w-20 h-8 text-center bg-white/80 dark:bg-slate-800/60" 
+                    defaultValue="30"
+                  />
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-stone-600 dark:text-stone-400">Current Streak</span>
+                  <span className="text-lg font-bold text-emerald-600">7 days</span>
+                </div>
+                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '23%' }}></div>
+                </div>
+                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">23% to goal • Keep writing daily!</p>
+              </div>
+            </div>
+
+            {/* Project-Specific Goals */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-stone-600" />
+                Project Goals (Dynamic)
+              </h3>
+              
+              <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl border-2 border-dashed border-stone-300 dark:border-stone-600">
+                <div className="text-center space-y-2">
+                  <p className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                    Future Feature: Smart Project Tracking
+                  </p>
+                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                    Goals will automatically sync with your active projects, tracking chapters, characters, and milestones dynamically.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 border-t border-stone-200/50 dark:border-stone-700/50">
+              <Button 
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+              >
+                <Target className="w-4 h-4 mr-2" />
+                Save Goals
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => setShowGoalsModal(false)}
+                className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300"
+              >
+                Cancel
               </Button>
             </div>
           </div>

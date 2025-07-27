@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Lightbulb, Sparkles, RefreshCw, Heart, Share2 } from 'lucide-react';
 
 interface Message {
   text: string;
@@ -21,10 +22,37 @@ const defaultMessages: Message[] = [
 
 export function MessageOfTheDay() {
   const [currentMessage, setCurrentMessage] = useState<Message>(defaultMessages[0]);
+  const [isLiked, setIsLiked] = useState(false);
+  const [showActions, setShowActions] = useState(false);
+
+  const refreshMessage = () => {
+    const now = Date.now();
+    const randomMessage = defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
+    const newMessage: Message = {
+      ...randomMessage,
+      timestamp: now
+    };
+    
+    setCurrentMessage(newMessage);
+    localStorage.setItem('fablecraft_message_of_day', JSON.stringify(newMessage));
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Daily Writing Inspiration',
+        text: currentMessage.text,
+        url: window.location.origin
+      });
+    } else {
+      navigator.clipboard.writeText(currentMessage.text);
+    }
+  };
 
   useEffect(() => {
     // Check if we have a stored message and timestamp
     const stored = localStorage.getItem('fablecraft_message_of_day');
+    const storedLike = localStorage.getItem('fablecraft_message_liked');
     const now = Date.now();
     
     if (stored) {
@@ -33,6 +61,7 @@ export function MessageOfTheDay() {
         // Check if message is less than 12 hours old (12 * 60 * 60 * 1000 = 43200000)
         if (now - parsed.timestamp < 43200000) {
           setCurrentMessage(parsed);
+          setIsLiked(storedLike === 'true');
           return;
         }
       } catch (e) {
@@ -42,14 +71,9 @@ export function MessageOfTheDay() {
     
     // Generate new message (for now, pick random from defaults)
     // TODO: In future, this would call AI service every 12 hours
-    const randomMessage = defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
-    const newMessage: Message = {
-      ...randomMessage,
-      timestamp: now
-    };
-    
-    setCurrentMessage(newMessage);
-    localStorage.setItem('fablecraft_message_of_day', JSON.stringify(newMessage));
+    refreshMessage();
+    setIsLiked(false);
+    localStorage.removeItem('fablecraft_message_liked');
   }, []);
 
   const getIcon = () => {
@@ -77,18 +101,64 @@ export function MessageOfTheDay() {
   };
 
   return (
-    <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20">
-      <CardContent className="p-5">
-        <div className="flex items-center gap-3 mb-3">
-          {getIcon()}
-          <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
-            {getLabel()}
-          </h3>
+    <Card 
+      className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 h-full group hover:shadow-2xl transition-all duration-300"
+      onMouseEnter={() => setShowActions(true)}
+      onMouseLeave={() => setShowActions(false)}
+    >
+      <CardContent className="p-5 h-full flex flex-col">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            {getIcon()}
+            <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+              {getLabel()}
+            </h3>
+          </div>
+          <div className={`flex items-center gap-1 transition-opacity duration-200 ${showActions ? 'opacity-100' : 'opacity-0'}`}>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLiked(!isLiked);
+                localStorage.setItem('fablecraft_message_liked', (!isLiked).toString());
+              }}
+              className="h-7 w-7 p-0 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+            >
+              <Heart className={`w-3 h-3 transition-colors ${isLiked ? 'text-red-500 fill-red-500' : 'text-stone-400'}`} />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleShare();
+              }}
+              className="h-7 w-7 p-0 hover:bg-amber-100 dark:hover:bg-amber-900/30"
+            >
+              <Share2 className="w-3 h-3 text-stone-400" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                refreshMessage();
+              }}
+              className="h-7 w-7 p-0 hover:bg-stone-100 dark:hover:bg-stone-700/30"
+            >
+              <RefreshCw className="w-3 h-3 text-stone-400" />
+            </Button>
+          </div>
         </div>
-        <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">
-          {currentMessage.text}
-        </p>
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
+        
+        <div className="flex-grow">
+          <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed">
+            {currentMessage.text}
+          </p>
+        </div>
+        
+        <div className="flex items-center justify-between mt-auto pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
           <span className="text-xs text-stone-500 dark:text-stone-400">
             Updates every 12 hours
           </span>
