@@ -52,6 +52,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { Project } from '@/lib/types';
 import { taskService, goalsService } from '@/lib/services/taskService';
@@ -541,6 +542,7 @@ export function ProjectsPageRedesign({
                 <Lock className="w-4 h-4" />
               )}
             </Button>
+            <ThemeToggle />
           </div>
         </div>
       </nav>
