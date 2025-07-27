@@ -418,6 +418,7 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 - Prefers working solutions with proper error handling and fallbacks
 - Does not have OpenAI subscription - use only free/available services
 - Prefers clean code without unnecessary explanatory comments that could complicate future development
+- **SYSTEMATIC DIAGNOSTICS APPROACH**: Always use LSP diagnostics proactively before making changes to identify TypeScript errors and code issues systematically
 - **DESIGN INSPIRATION NOTED**: Interested in Apple/A24/Neon Studios aesthetic (clean minimalism, sophisticated color palettes, bold typography) while maintaining cozy feel and current colors - implement after character system completion
 - **PROFESSIONAL UI STANDARDS**: No emojis in interface elements - prefers serious, professional interface design
 - **CONTEXTUAL SORTING**: Values meaningful sort options based on character attributes (completion, role, race, class) rather than superficial categories
