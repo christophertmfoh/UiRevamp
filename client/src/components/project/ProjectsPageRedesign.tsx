@@ -189,8 +189,8 @@ export function ProjectsPageRedesign({
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
         {/* Page Header */}
         <div className="text-center mb-12 space-y-4">
-          <h1 className="text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
-            Your <span className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">Projects</span>
+          <h1 className="text-5xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+            Your Projects
           </h1>
           <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
             Organize, track, and bring your stories to life with intelligent project management.
@@ -378,7 +378,7 @@ export function ProjectsPageRedesign({
               </p>
               <Button 
                 onClick={onNewProject}
-                className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create New Project
@@ -427,7 +427,7 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
           <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
             <ProjectIcon className="w-7 h-7 text-white" />
           </div>
-          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-900/30 dark:to-amber-900/30 text-stone-700 dark:text-stone-300 border-0">
+          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
             {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
           </Badge>
         </div>
@@ -489,7 +489,7 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
           </div>
           
           <div className="text-right space-y-2">
-            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-900/30 dark:to-amber-900/30 text-stone-700 dark:text-stone-300 border-0">
+            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
               {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
             </Badge>
             <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
