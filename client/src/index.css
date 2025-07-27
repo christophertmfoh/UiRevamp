@@ -87,26 +87,26 @@ body {
 }
 
 :root {
-  /* Inspired by cozy writing interface - warmer, richer tones */
-  --background: hsl(25, 12%, 6%);              /* Deep chocolate brown */
-  --foreground: hsl(35, 8%, 88%);              /* Warm cream text */
-  --muted: hsl(28, 10%, 12%);                  /* Rich dark brown */
-  --muted-foreground: hsl(32, 6%, 65%);       /* Muted warm gray */
-  --popover: hsl(28, 12%, 10%);               /* Deep warm brown */
-  --popover-foreground: hsl(35, 8%, 88%);
-  --card: hsl(28, 12%, 10%);                  /* Deep warm brown */
-  --card-foreground: hsl(35, 8%, 88%);
-  --border: hsl(30, 8%, 18%);                 /* Subtle warm border */
-  --input: hsl(28, 10%, 12%);                 /* Input background */
-  --primary: hsl(35, 35%, 45%);               /* Warm caramel */
-  --primary-foreground: hsl(25, 12%, 6%);
-  --secondary: hsl(28, 10%, 16%);             /* Secondary brown */
-  --secondary-foreground: hsl(35, 8%, 88%);
-  --accent: hsl(38, 40%, 55%);                /* Golden honey */
-  --accent-foreground: hsl(25, 12%, 6%);
-  --destructive: hsl(0, 45%, 40%);            /* Muted red */
-  --destructive-foreground: hsl(35, 8%, 88%);
-  --ring: hsl(38, 40%, 55%);                  /* Golden ring */
+  /* Light mode - Clean, modern palette */
+  --background: hsl(30, 20%, 98%);              /* Warm white */
+  --foreground: hsl(30, 40%, 15%);              /* Rich dark brown */
+  --muted: hsl(30, 15%, 94%);                   /* Light warm gray */
+  --muted-foreground: hsl(30, 20%, 40%);        /* Muted text */
+  --popover: hsl(30, 20%, 99%);                 /* Almost white */
+  --popover-foreground: hsl(30, 40%, 15%);
+  --card: hsl(30, 18%, 97%);                    /* Soft white */
+  --card-foreground: hsl(30, 40%, 15%);
+  --border: hsl(30, 15%, 88%);                  /* Light border */
+  --input: hsl(30, 15%, 96%);                   /* Input background */
+  --primary: hsl(155, 50%, 40%);                /* Emerald green */
+  --primary-foreground: hsl(30, 20%, 98%);
+  --secondary: hsl(30, 25%, 85%);               /* Light stone */
+  --secondary-foreground: hsl(30, 40%, 15%);
+  --accent: hsl(35, 70%, 50%);                  /* Golden amber */
+  --accent-foreground: hsl(30, 40%, 15%);
+  --destructive: hsl(0, 60%, 50%);              /* Red */
+  --destructive-foreground: hsl(30, 20%, 98%);
+  --ring: hsl(155, 50%, 40%);                   /* Emerald ring */
   --radius: 0.75rem;
   
   /* Creative palette extensions */
@@ -136,26 +136,54 @@ body {
 }
 
 .dark {
-  /* Same as root for now - we'll add light mode later */
-  --background: hsl(32, 20%, 8%);
-  --foreground: hsl(45, 15%, 92%);
-  --muted: hsl(35, 15%, 15%);
-  --muted-foreground: hsl(40, 12%, 70%);
-  --popover: hsl(35, 18%, 12%);
-  --popover-foreground: hsl(45, 15%, 92%);
-  --card: hsl(35, 18%, 12%);
-  --card-foreground: hsl(45, 15%, 92%);
-  --border: hsl(35, 15%, 20%);
-  --input: hsl(35, 15%, 15%);
-  --primary: hsl(32, 45%, 55%);
-  --primary-foreground: hsl(32, 20%, 8%);
-  --secondary: hsl(35, 15%, 18%);
-  --secondary-foreground: hsl(45, 15%, 92%);
-  --accent: hsl(42, 35%, 65%);
-  --accent-foreground: hsl(32, 20%, 8%);
-  --destructive: hsl(0, 50%, 45%);
-  --destructive-foreground: hsl(45, 15%, 92%);
-  --ring: hsl(42, 35%, 65%);
+  /* Dark mode - Modern, sophisticated palette */
+  --background: hsl(30, 10%, 8%);               /* Deep warm black */
+  --foreground: hsl(30, 15%, 90%);              /* Warm light */
+  --muted: hsl(30, 10%, 15%);                   /* Rich dark */
+  --muted-foreground: hsl(30, 10%, 65%);        /* Soft text */
+  --popover: hsl(30, 10%, 12%);                 /* Deep brown */
+  --popover-foreground: hsl(30, 15%, 90%);
+  --card: hsl(30, 10%, 12%);                    /* Card dark */
+  --card-foreground: hsl(30, 15%, 90%);
+  --border: hsl(30, 8%, 22%);                   /* Subtle border */
+  --input: hsl(30, 10%, 15%);                   /* Input dark */
+  --primary: hsl(155, 45%, 45%);                /* Emerald green */
+  --primary-foreground: hsl(30, 20%, 98%);
+  --secondary: hsl(30, 10%, 20%);               /* Secondary */
+  --secondary-foreground: hsl(30, 15%, 90%);
+  --accent: hsl(35, 65%, 55%);                  /* Golden amber */
+  --accent-foreground: hsl(30, 40%, 15%);
+  --destructive: hsl(0, 55%, 45%);              /* Muted red */
+  --destructive-foreground: hsl(30, 15%, 90%);
+  --ring: hsl(155, 45%, 45%);                   /* Emerald ring */
+}
+
+/* Animated blob effect */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
 
 @layer base {

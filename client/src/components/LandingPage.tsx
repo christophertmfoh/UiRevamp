@@ -118,119 +118,65 @@ export function LandingPage({
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
+    <div className="min-h-screen relative transition-all duration-500 overflow-hidden bg-gradient-to-br from-stone-50 via-amber-50/20 to-emerald-50/10 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
 
-      {/* Top to middle gradient overlay */}
-      <div className="absolute inset-x-0 top-0 h-[70vh] bg-gradient-to-b from-stone-50/60 via-stone-50/30 to-transparent dark:from-slate-900/40 dark:via-slate-900/20 dark:to-transparent pointer-events-none z-[1]"></div>
-      
-      {/* Enhanced HD Fantasy/Novel Background with Multi-layer Parallax */}
-      <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
-        {/* Far Background - Mountain Peaks */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 dark:opacity-50"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
-            transform: `translateY(${scrollY * 0.05}px) scale(1.2)`,
-            filter: 'brightness(1.4) contrast(0.85) saturate(0.7) dark:brightness(1.1) dark:contrast(1.2) dark:saturate(1.2)'
-          }}
-        />
-        
-        {/* Mid Background - Forest Layer */}
-        <div 
-          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-30 dark:opacity-40"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
-            transform: `translateY(${scrollY * 0.15}px) scale(1.15)`,
-            filter: 'brightness(1.5) contrast(0.8) saturate(0.6) dark:brightness(1.05) dark:contrast(1.15) dark:saturate(1.15)',
-          }}
-        />
-        
-        {/* Foreground - Misty Forest Floor */}
-        <div 
-          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-20 dark:opacity-35"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
-            transform: `translateY(${scrollY * 0.25}px) scale(1.1)`,
-            filter: 'brightness(1.6) contrast(0.75) saturate(0.5) blur(0.5px) dark:brightness(1.0) dark:contrast(1.1) dark:saturate(1.1)',
-          }}
-        />
-        
-        {/* Earth tone overlay matching forest palette */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-stone-900/10 via-emerald-900/5 to-amber-900/8 dark:from-stone-900/20 dark:via-emerald-900/10 dark:to-amber-900/15"
-          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
-        />
-        
-        {/* Paper texture overlay with parallax */}
-        <div 
-          className="absolute inset-0 opacity-15 dark:opacity-8"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.05'%3E%3Cpath d='M20 20h160v160H20V20zm10 10v140h140V30H30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '120px 120px',
-            transform: `translateY(${scrollY * 0.08}px)`
-          }}
-        />
-        
-        {/* Floating earth tone elements with enhanced parallax */}
-        <div 
-          className="absolute top-1/4 left-1/3 w-40 h-40 bg-emerald-700/8 dark:bg-emerald-600/5 rounded-full blur-3xl"
-          style={{ 
-            transform: `translateY(${scrollY * 0.3}px) rotate(${scrollY * 0.02}deg)`
-          }}
-        ></div>
-        <div 
-          className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-stone-600/10 dark:bg-stone-500/8 rounded-full blur-2xl"
-          style={{ 
-            transform: `translateY(${scrollY * -0.25}px) rotate(${scrollY * -0.03}deg)`
-          }}
-        ></div>
-        <div 
-          className="absolute top-2/3 left-1/6 w-24 h-24 bg-amber-700/8 dark:bg-amber-600/6 rounded-full blur-xl"
-          style={{ 
-            transform: `translateY(${scrollY * 0.35}px) rotate(${scrollY * 0.04}deg)`
-          }}
-        ></div>
-        
+      {/* Modern Abstract Background System */}
+      <div className="absolute inset-0">
+        {/* Light Mode Mesh Gradient */}
+        <div className="absolute inset-0 opacity-100 dark:opacity-0 transition-opacity duration-700">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-amber-50/30 to-stone-50"></div>
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-stone-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
 
-        
-        {/* Ancient scroll decorations */}
+        {/* Dark Mode Mesh Gradient */}
+        <div className="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-700">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-950/20 via-amber-950/10 to-stone-950/20"></div>
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-800/20 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-amber-800/20 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-stone-800/20 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+
+        {/* Noise Texture Overlay */}
         <div 
-          className="absolute top-20 right-20 w-6 h-40 opacity-25 dark:opacity-15"
-          style={{ 
-            transform: `translateY(${scrollY * 0.35}px) rotate(15deg)`,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='120' viewBox='0 0 24 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0v120M6 12l12-6M6 36l12-6M6 60l12-6M6 84l12-6M6 108l12-6' stroke='%23d4a574' stroke-width='0.8' fill='none'/%3E%3C/svg%3E")`
+          className="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            transform: `translateY(${scrollY * 0.05}px)`
           }}
-        ></div>
-        
-        {/* Additional mystical elements */}
-        <div 
-          className="absolute bottom-20 left-20 w-8 h-60 opacity-20 dark:opacity-12"
-          style={{ 
-            transform: `translateY(${scrollY * -0.25}px) rotate(-10deg)`,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='180' viewBox='0 0 32 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 0v180M8 20l16-8M8 50l16-8M8 80l16-8M8 110l16-8M8 140l16-8M8 170l16-8' stroke='%23d4a574' stroke-width='1' fill='none'/%3E%3C/svg%3E")`
-          }}
-        ></div>
+        />
+
+        {/* Animated Geometric Patterns */}
+        <svg className="absolute inset-0 w-full h-full opacity-5 dark:opacity-10" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <circle cx="30" cy="30" r="0.5" fill="currentColor" className="text-stone-900 dark:text-stone-100"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" style={{ transform: `translateY(${scrollY * 0.1}px)` }}/>
+        </svg>
       </div>
-      
-      {/* Ambient story-themed lighting with parallax */}
-      <div 
-        className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/20 to-orange-300/15 dark:from-amber-500/8 dark:to-orange-600/4 rounded-full blur-3xl animate-pulse"
-        style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-      ></div>
-      <div 
-        className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/15 to-red-300/10 dark:from-orange-500/4 dark:to-red-600/2 rounded-full blur-2xl animate-pulse" 
-        style={{ 
-          animationDelay: '1s',
-          transform: `translateY(${scrollY * -0.08}px)`
-        }}
-      ></div>
-      <div 
-        className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-br from-yellow-200/10 to-amber-300/8 dark:from-yellow-400/3 dark:to-amber-500/2 rounded-full blur-3xl animate-pulse" 
-        style={{ 
-          animationDelay: '2s',
-          transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)`
-        }}
-      ></div>
+
+      {/* Floating Orbs with Parallax */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(155, 50%, 60%, 0.1) 0%, transparent 70%)',
+            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(40px)'
+          }}
+        />
+        <div 
+          className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(35, 70%, 60%, 0.1) 0%, transparent 70%)',
+            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(30px)'
+          }}
+        />
+      </div>
 
       {/* Navigation */}
       <nav className="relative z-10 px-8 py-6">
