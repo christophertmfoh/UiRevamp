@@ -739,124 +739,95 @@ export function ProjectsPageRedesign({
 
       {/* Goals Modal */}
       <Dialog open={showGoalsModal} onOpenChange={setShowGoalsModal}>
-        <DialogContent className="max-w-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
+        <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+            <DialogTitle className="text-lg font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
               Set Writing Goals
             </DialogTitle>
-            <DialogDescription className="text-stone-600 dark:text-stone-400">
-              Define your writing targets and track your progress dynamically.
+            <DialogDescription className="text-xs text-stone-600 dark:text-stone-400">
+              Quick targets to keep you motivated
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-6 py-4">
-            {/* Daily Goals */}
-            <div className="space-y-4">
-              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-emerald-600" />
-                Daily Goals
-              </h3>
+          <div className="space-y-4 py-3">
+            {/* Compact Goals Grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+                <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
+                  Daily Words
+                </label>
+                <Input 
+                  type="number" 
+                  placeholder="500" 
+                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  defaultValue="500"
+                />
+                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '60%' }}></div>
+                </div>
+                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">300/500 words</p>
+              </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300 block mb-2">
-                    Daily Word Count Target
-                  </label>
-                  <Input 
-                    type="number" 
-                    placeholder="500" 
-                    className="mb-3 bg-white/80 dark:bg-slate-800/60" 
-                    defaultValue="500"
-                  />
-                  <div className="text-xs text-stone-600 dark:text-stone-400">
-                    Current: 300 words (60% complete)
-                  </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2 mt-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '60%' }}></div>
-                  </div>
+              <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+                <label className="text-xs font-medium text-stone-700 dark:text-stone-300 block mb-1">
+                  Daily Minutes
+                </label>
+                <Input 
+                  type="number" 
+                  placeholder="60" 
+                  className="h-8 text-sm mb-2 bg-white/80 dark:bg-slate-800/60" 
+                  defaultValue="60"
+                />
+                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
+                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-1.5 rounded-full" style={{ width: '75%' }}></div>
                 </div>
-                
-                <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300 block mb-2">
-                    Writing Time Goal (minutes)
-                  </label>
-                  <Input 
-                    type="number" 
-                    placeholder="60" 
-                    className="mb-3 bg-white/80 dark:bg-slate-800/60" 
-                    defaultValue="60"
-                  />
-                  <div className="text-xs text-stone-600 dark:text-stone-400">
-                    Today: 45 minutes (75% complete)
-                  </div>
-                  <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2 mt-2">
-                    <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '75%' }}></div>
-                  </div>
-                </div>
+                <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">45/60 mins</p>
               </div>
             </div>
 
-            {/* Streak Goals */}
-            <div className="space-y-4">
-              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-                <Target className="w-5 h-5 text-amber-600" />
-                Writing Streak Goals
-              </h3>
-              
-              <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl">
-                <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                    Target Streak (days)
-                  </label>
+            {/* Streak Goal Compact */}
+            <div className="p-3 bg-white/60 dark:bg-slate-700/40 rounded-xl">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-medium text-stone-700 dark:text-stone-300">
+                  Streak Goal
+                </label>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-emerald-600">7</span>
+                  <span className="text-xs text-stone-500">/</span>
                   <Input 
                     type="number" 
                     placeholder="30" 
-                    className="w-20 h-8 text-center bg-white/80 dark:bg-slate-800/60" 
+                    className="w-14 h-7 text-center text-sm bg-white/80 dark:bg-slate-800/60" 
                     defaultValue="30"
                   />
+                  <span className="text-xs text-stone-500">days</span>
                 </div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-stone-600 dark:text-stone-400">Current Streak</span>
-                  <span className="text-lg font-bold text-emerald-600">7 days</span>
-                </div>
-                <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-3">
-                  <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-3 rounded-full" style={{ width: '23%' }}></div>
-                </div>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mt-2">23% to goal • Keep writing daily!</p>
+              </div>
+              <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
+                <div className="bg-gradient-to-r from-emerald-600 to-amber-600 h-2 rounded-full" style={{ width: '23%' }}></div>
               </div>
             </div>
 
-            {/* Project-Specific Goals */}
-            <div className="space-y-4">
-              <h3 className="font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-stone-600" />
-                Project Goals (Dynamic)
-              </h3>
-              
-              <div className="p-4 bg-white/60 dark:bg-slate-700/40 rounded-2xl border-2 border-dashed border-stone-300 dark:border-stone-600">
-                <div className="text-center space-y-2">
-                  <p className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                    Future Feature: Smart Project Tracking
-                  </p>
-                  <p className="text-xs text-stone-500 dark:text-stone-400">
-                    Goals will automatically sync with your active projects, tracking chapters, characters, and milestones dynamically.
-                  </p>
-                </div>
-              </div>
+            {/* Coming Soon Note */}
+            <div className="p-3 bg-stone-100/60 dark:bg-stone-700/20 rounded-xl border border-dashed border-stone-300 dark:border-stone-600">
+              <p className="text-xs text-stone-600 dark:text-stone-400 text-center">
+                <span className="font-medium">Coming Soon:</span> Project-specific goals that sync with your stories
+              </p>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-3 pt-4 border-t border-stone-200/50 dark:border-stone-700/50">
+            {/* Compact Action Buttons */}
+            <div className="flex gap-2 pt-3 border-t border-stone-200/50 dark:border-stone-700/50">
               <Button 
-                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+                size="sm"
+                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
-                <Target className="w-4 h-4 mr-2" />
                 Save Goals
               </Button>
               <Button 
+                size="sm"
                 variant="outline"
                 onClick={() => setShowGoalsModal(false)}
-                className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300"
+                className="px-4 border border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 text-xs"
               >
                 Cancel
               </Button>
