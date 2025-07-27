@@ -373,12 +373,12 @@ export function ProjectsView({
           </div>
         </div>
 
-        {/* Perfectly Balanced Control Bar */}
-        <div className="bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-stone-300/30 dark:border-stone-700/20 mb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-center">
+        {/* Compact Symmetrical Control Bar */}
+        <div className="flex justify-center mb-6">
+          <div className="flex items-center gap-4 bg-white/80 dark:bg-stone-800/40 backdrop-blur-xl rounded-2xl p-3 shadow-xl border border-stone-300/30 dark:border-stone-700/20">
             
-            {/* Search Section - Left */}
-            <div className="relative">
+            {/* Search */}
+            <div className="relative w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-stone-400" />
               </div>
@@ -390,81 +390,75 @@ export function ProjectsView({
               />
             </div>
             
-            {/* Sort Section - Center */}
-            <div className="flex items-center justify-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 text-stone-700 dark:text-stone-300 hover:bg-stone-100/80 dark:hover:bg-stone-700/80 rounded-xl px-4 py-2">
-                    <ArrowUpDown className="w-4 h-4 mr-2" />
-                    Sort by {sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}
-                    <ChevronDown className="w-4 h-4 ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-48">
-                  <DropdownMenuItem onClick={() => setSortBy('name')}>
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    Name
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSortBy('updated')}>
-                    <Clock className="w-4 h-4 mr-2" />
-                    Recently Updated
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSortBy('created')}>
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Date Created
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setSortBy('type')}>
-                    <FileText className="w-4 h-4 mr-2" />
-                    Project Type
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            {/* Sort */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="bg-white/80 dark:bg-stone-800/80 border-stone-300/50 dark:border-stone-600/50 text-stone-700 dark:text-stone-300 hover:bg-stone-100/80 dark:hover:bg-stone-700/80 rounded-xl px-4 py-2 min-w-[140px]">
+                  <ArrowUpDown className="w-4 h-4 mr-2" />
+                  {sortBy === 'updated' ? 'Updated' : sortBy === 'created' ? 'Created' : sortBy.charAt(0).toUpperCase() + sortBy.slice(1)}
+                  <ChevronDown className="w-4 h-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-48">
+                <DropdownMenuItem onClick={() => setSortBy('name')}>
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Name
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('updated')}>
+                  <Clock className="w-4 h-4 mr-2" />
+                  Recently Updated
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('created')}>
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Date Created
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy('type')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Project Type
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             
-            {/* View Toggle Section - Right */}
-            <div className="flex justify-end">
-              <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-xl p-1">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  className={`rounded-lg px-3 py-2 transition-all duration-200 ${
-                    viewMode === 'grid' 
-                      ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
-                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-                  }`}
-                >
-                  <Grid3X3 className="w-4 h-4 mr-1" />
-                  Grid
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className={`rounded-lg px-3 py-2 transition-all duration-200 ${
-                    viewMode === 'list' 
-                      ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
-                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
-                  }`}
-                >
-                  <List className="w-4 h-4 mr-1" />
-                  List
-                </Button>
-              </div>
+            {/* View Toggle */}
+            <div className="flex bg-stone-200/50 dark:bg-stone-700/50 rounded-xl p-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                  viewMode === 'grid' 
+                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                }`}
+              >
+                <Grid3X3 className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className={`rounded-lg px-3 py-2 transition-all duration-200 ${
+                  viewMode === 'list' 
+                    ? 'bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 text-white shadow-sm' 
+                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-stone-600/50'
+                }`}
+              >
+                <List className="w-4 h-4" />
+              </Button>
             </div>
           </div>
-          
-          {/* Results Counter */}
-          {searchTerm && (
-            <div className="flex justify-center mt-3">
-              <div className="px-4 py-2 bg-stone-100 dark:bg-stone-700 rounded-xl">
-                <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                  {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''} found
-                </span>
-              </div>
-            </div>
-          )}
         </div>
+        
+        {/* Results Counter */}
+        {searchTerm && (
+          <div className="flex justify-center mb-4">
+            <div className="px-4 py-2 bg-stone-100 dark:bg-stone-700 rounded-xl">
+              <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''} found
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Main Content Area */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
