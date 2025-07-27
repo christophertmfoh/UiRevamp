@@ -72,8 +72,16 @@ export async function generateCharacterWithAI(params: GenerateCharacterParams) {
   // Transform AI-generated data for database compatibility
   const { transformCharacterData } = await import("../utils/characterTransformers");
   
+  // Generate a more robust unique ID to prevent collisions
+  const generateUniqueId = () => {
+    const timestamp = Date.now();
+    const randomPart = Math.random().toString(36).substring(2, 15);
+    const extraRandom = Math.random().toString(36).substring(2, 9);
+    return `char_${timestamp}_${randomPart}_${extraRandom}`;
+  };
+
   const characterData = {
-    id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: generateUniqueId(),
     name: generatedCharacter.name || 'Generated Character',
     projectId,
     ...generatedCharacter

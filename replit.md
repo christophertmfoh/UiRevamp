@@ -13,6 +13,8 @@ Fablecraft is an advanced AI-powered creative writing platform that empowers wri
 ✓ **MISSING ROUTE ADDED** - Implemented `/api/projects/:projectId/characters/generate-from-template` endpoint
 ✓ **COMPREHENSIVE FIELD COVERAGE** - AI generation now populates all character fields correctly
 ✓ **ERROR HANDLING IMPROVED** - Better logging and data validation throughout character creation pipeline
+✓ **DUPLICATE KEY COLLISION FIXED** - Enhanced ID generation with timestamp + dual random parts prevents database constraint violations
+✓ **PARALLEL REQUEST SAFETY** - Multiple simultaneous character creation requests work without collisions
 
 ### July 27, 2025 - **LANDING PAGE VISUAL ENHANCEMENTS COMPLETED**
 ✓ **PARTICLE EFFECTS REMOVED** - Eliminated floating letters, story elements, and ink drops from background for cleaner appearance

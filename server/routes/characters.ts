@@ -228,8 +228,16 @@ characterRouter.post("/projects/:projectId/characters/import", upload.single('fi
     // Transform array fields to strings as expected by database
     const transformedResult = transformCharacterData(result as Record<string, unknown>);
     
+    // Generate a more robust unique ID to prevent collisions
+    const generateUniqueId = () => {
+      const timestamp = Date.now();
+      const randomPart = Math.random().toString(36).substring(2, 15);
+      const extraRandom = Math.random().toString(36).substring(2, 9);
+      return `char_${timestamp}_${randomPart}_${extraRandom}`;
+    };
+
     const character = await storage.createCharacter({
-      id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: generateUniqueId(),
       ...transformedResult,
       projectId
     });
