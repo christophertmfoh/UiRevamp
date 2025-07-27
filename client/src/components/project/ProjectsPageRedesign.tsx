@@ -230,40 +230,12 @@ export function ProjectsPageRedesign({
               </h1>
             </div>
             
-            <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.5] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
+            <p className="text-lg text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto mt-2">
               Organize, track, and bring your stories to life with intelligent project management.
             </p>
-            
-            {/* Quick Actions */}
-            <div className="space-y-3">
-              <p className="text-sm font-semibold text-stone-600 dark:text-stone-400 uppercase tracking-wider">
-                Quick Actions
-              </p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <Button
-                  onClick={onNewProject}
-                  className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 rounded-xl relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                  <span className="relative z-10 flex items-center space-x-2">
-                    <PlusCircle className="w-4 h-4" />
-                    <span>New Project</span>
-                  </span>
-                </Button>
-                
-                <Button
-                  onClick={() => onNavigate('landing')}
-                  variant="outline"
-                  className="border-2 border-stone-300 dark:border-stone-600 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all duration-300 hover:scale-105"
-                >
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  Browse Features
-                </Button>
-              </div>
-            </div>
 
             {/* Writing Progress */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20 h-full flex flex-col justify-between">
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
               <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="w-6 h-6 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center">
                   <Sparkles className="w-3 h-3 text-white" />
