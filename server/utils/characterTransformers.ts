@@ -40,5 +40,21 @@ export function transformCharacterData(data: any): any {
     }
   });
   
+  // Fix timestamp fields - ensure they are proper Date objects
+  if (transformedData.createdAt && typeof transformedData.createdAt === 'string') {
+    transformedData.createdAt = new Date(transformedData.createdAt);
+  }
+  if (transformedData.updatedAt && typeof transformedData.updatedAt === 'string') {
+    transformedData.updatedAt = new Date(transformedData.updatedAt);
+  }
+  
+  // Remove invalid timestamp fields if they exist
+  if (transformedData.createdAt && isNaN(transformedData.createdAt.getTime())) {
+    delete transformedData.createdAt;
+  }
+  if (transformedData.updatedAt && isNaN(transformedData.updatedAt.getTime())) {
+    delete transformedData.updatedAt;
+  }
+  
   return transformedData;
 }
