@@ -194,7 +194,7 @@ export function LandingPage({
             <ThemeToggle />
             <Button 
               onClick={() => onNavigate('projects')}
-              className="bg-white/95 dark:bg-slate-800/80 backdrop-blur-sm border border-stone-400/40 dark:border-stone-600/30 text-stone-800 dark:text-stone-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:border-emerald-500 dark:hover:border-emerald-600 px-6 py-2 shadow-md dark:shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="group bg-gradient-to-r from-emerald-500 to-amber-500 text-white font-semibold hover:from-emerald-600 hover:to-amber-600 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] px-6 py-2 transition-all duration-300 ease-out"
             >
               Your Projects
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -248,7 +248,7 @@ export function LandingPage({
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
                     <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                    Your Projects
+                    Browse Stories
                     <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </Button>
