@@ -113,17 +113,17 @@ const ParticleSystem = () => {
         ctx.globalAlpha = particle.opacity;
         
         if (particle.type === 'letter') {
-          ctx.fillStyle = '#d4af78';
+          ctx.fillStyle = '#10b981'; // emerald-500
           ctx.font = `${particle.size * 6}px serif`;
           ctx.textAlign = 'center';
           ctx.fillText(particle.char || 'A', 0, 0);
         } else if (particle.type === 'ink') {
-          ctx.fillStyle = '#8b5a2b';
+          ctx.fillStyle = '#78716c'; // stone-500
           ctx.beginPath();
           ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          ctx.fillStyle = '#f4d03f';
+          ctx.fillStyle = '#d97706'; // amber-600
           ctx.font = `${particle.size * 4}px serif`;
           ctx.textAlign = 'center';
           ctx.fillText('✦', 0, 0);
@@ -222,37 +222,46 @@ export function LandingPage({
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
       {/* Particle System */}
       <ParticleSystem />
       
-      {/* HD Fantasy/Novel Background with Parallax */}
+      {/* Enhanced HD Fantasy/Novel Background with Multi-layer Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
-        {/* Main HD Background Image - Majestic Mountain Forest */}
+        {/* Far Background - Mountain Peaks */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 dark:opacity-25"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 dark:opacity-30"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
-            transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
-            filter: 'sepia(25%) saturate(110%) hue-rotate(10deg) brightness(0.85)'
+            transform: `translateY(${scrollY * 0.05}px) scale(1.2)`,
+            filter: 'brightness(0.9) contrast(1.1)'
           }}
         />
         
-        {/* Secondary Layer - Mystical Forest Path */}
+        {/* Mid Background - Forest Layer */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-15"
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-35 dark:opacity-25"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
-            transform: `translateY(${scrollY * 0.15}px) scale(1.05)`,
-            filter: 'sepia(35%) saturate(120%) hue-rotate(15deg) brightness(0.7)',
-            mixBlendMode: 'multiply'
+            transform: `translateY(${scrollY * 0.15}px) scale(1.15)`,
+            filter: 'brightness(0.85) contrast(1.05)',
           }}
         />
         
-        {/* Overlay for warm tones */}
+        {/* Foreground - Misty Forest Floor */}
         <div 
-          className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-orange-900/15 to-red-900/10 dark:from-amber-900/30 dark:via-orange-900/20 dark:to-red-900/15"
-          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-25 dark:opacity-20"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
+            transform: `translateY(${scrollY * 0.25}px) scale(1.1)`,
+            filter: 'brightness(0.8) blur(0.5px)',
+          }}
+        />
+        
+        {/* Earth tone overlay matching forest palette */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-stone-900/20 via-emerald-900/10 to-amber-900/15 dark:from-stone-900/30 dark:via-emerald-900/20 dark:to-amber-900/20"
+          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
         />
         
         {/* Paper texture overlay with parallax */}
@@ -265,23 +274,23 @@ export function LandingPage({
           }}
         />
         
-        {/* Floating story elements with enhanced parallax */}
+        {/* Floating earth tone elements with enhanced parallax */}
         <div 
-          className="absolute top-1/4 left-1/3 w-40 h-40 bg-amber-600/8 dark:bg-amber-400/5 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/3 w-40 h-40 bg-emerald-700/8 dark:bg-emerald-600/5 rounded-full blur-3xl"
           style={{ 
-            transform: `translateY(${scrollY * 0.25}px) rotate(12deg)`
+            transform: `translateY(${scrollY * 0.3}px) rotate(${scrollY * 0.02}deg)`
           }}
         ></div>
         <div 
-          className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-orange-500/12 dark:bg-orange-400/8 rounded-full blur-2xl"
+          className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-stone-600/10 dark:bg-stone-500/8 rounded-full blur-2xl"
           style={{ 
-            transform: `translateY(${scrollY * -0.2}px) rotate(-6deg)`
+            transform: `translateY(${scrollY * -0.25}px) rotate(${scrollY * -0.03}deg)`
           }}
         ></div>
         <div 
-          className="absolute top-2/3 left-1/6 w-24 h-24 bg-red-500/10 dark:bg-red-400/6 rounded-full blur-xl"
+          className="absolute top-2/3 left-1/6 w-24 h-24 bg-amber-700/8 dark:bg-amber-600/6 rounded-full blur-xl"
           style={{ 
-            transform: `translateY(${scrollY * 0.3}px) rotate(45deg)`
+            transform: `translateY(${scrollY * 0.35}px) rotate(${scrollY * 0.04}deg)`
           }}
         ></div>
         
@@ -330,10 +339,10 @@ export function LandingPage({
       <nav className="relative z-10 px-8 py-6">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 dark:from-amber-400 dark:to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-stone-600 to-emerald-700 dark:from-stone-500 dark:to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
               <Feather className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold font-serif text-stone-800 dark:text-amber-100">
+            <span className="text-2xl font-bold font-serif text-stone-800 dark:text-stone-100">
               Fablecraft
             </span>
           </div>
@@ -342,7 +351,7 @@ export function LandingPage({
             <ThemeToggle />
             <Button 
               onClick={() => onNavigate('projects')}
-              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-amber-200/60 dark:border-amber-500/30 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-400 px-6 py-2 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-stone-300/60 dark:border-stone-600/30 text-stone-700 dark:text-stone-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:border-emerald-400 dark:hover:border-emerald-600 px-6 py-2 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               Your Projects
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -357,14 +366,14 @@ export function LandingPage({
           {/* Main Content */}
           <div className="lg:col-span-7 space-y-10">
             <div className="space-y-8">
-              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700/50">
-                <div className="w-2 h-2 bg-orange-500 dark:bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-amber-800 dark:text-amber-200">End-to-End Creative Production Suite</span>
+              <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-stone-100/80 dark:bg-stone-900/30 border border-stone-300 dark:border-stone-700/50">
+                <div className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-stone-800 dark:text-stone-200">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-stone-800 dark:text-amber-50 leading-[0.95] tracking-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-stone-800 dark:text-stone-50 leading-[0.95] tracking-tight">
                 Where Stories
-                <span className="block bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent">
                   Come to Life
                 </span>
               </h1>
@@ -379,7 +388,7 @@ export function LandingPage({
                 <Button 
                   size="lg"
                   onClick={() => onNewProject()}
-                  className="group bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 dark:hover:from-amber-500 dark:hover:via-orange-500 dark:hover:to-red-500 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
+                  className="group bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 dark:hover:from-emerald-600 dark:hover:via-stone-600 dark:hover:to-amber-700 text-white px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
@@ -392,7 +401,7 @@ export function LandingPage({
                   variant="outline"
                   size="lg"
                   onClick={() => onNavigate('projects')}
-                  className="group border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
+                  className="group border-2 border-stone-400 dark:border-stone-500/40 text-stone-700 dark:text-stone-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-stone-50 hover:to-emerald-50 dark:hover:from-stone-900/20 dark:hover:to-emerald-900/20 hover:border-emerald-600 dark:hover:border-emerald-500 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
                 >
                   <span className="flex items-center">
                     <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
@@ -411,7 +420,7 @@ export function LandingPage({
               <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-transparent to-orange-50/30 dark:from-amber-900/10 dark:via-transparent dark:to-orange-900/5 rounded-3xl"></div>
               
               <div className="relative z-10 text-center space-y-6">
-                <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
                   <PenTool className="w-10 h-10 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
