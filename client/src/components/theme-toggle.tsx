@@ -40,7 +40,7 @@ export function ThemeToggle() {
   const creativeThemes = availableThemes.filter(t => t.category === 'creative');
   const classicThemes = availableThemes.filter(t => !t.featured && t.category !== 'creative');
 
-  const renderThemeItem = (themeConfig: any) => {
+  const renderThemeItem = (themeConfig: typeof availableThemes[0]) => {
     const Icon = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
     const isSelected = theme === themeConfig.id;
     

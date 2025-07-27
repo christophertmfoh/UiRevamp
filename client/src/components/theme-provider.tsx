@@ -4,7 +4,7 @@ type Theme = 'light' | 'dark' | 'midnight-ink' | 'sunrise-creative' | 'sepia-par
 type ResolvedTheme = Exclude<Theme, 'system'>;
 
 type ThemeConfig = {
-  id: Theme;
+  id: ResolvedTheme;
   name: string;
   description: string;
   mood: string;
@@ -98,29 +98,40 @@ const getSystemTheme = (): 'light' | 'dark' => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-// Apply theme to DOM using class-based switching
+  // Apply theme to DOM using class-based switching
 const applyTheme = (theme: ResolvedTheme) => {
-  const root = window.document.documentElement;
-  
-  // Remove all theme classes
-  const allThemeClasses = THEME_CONFIGS.map(config => config.id).filter(id => id !== 'system');
-  root.classList.remove(...allThemeClasses);
-  
-  // Add the selected theme class
-  if (theme !== 'light') {
-    root.classList.add(theme);
+  try {
+    const root = window.document.documentElement;
+    
+    // Remove all theme classes
+    const allThemeClasses = ['dark', 'midnight-ink', 'sunrise-creative', 'sepia-parchment', 'evergreen-focus', 'obsidian-minimal'];
+    root.classList.remove(...allThemeClasses);
+    
+    // Add the selected theme class
+    if (theme !== 'light') {
+      root.classList.add(theme);
+    }
+    
+    // Maintain backward compatibility with Tailwind's dark: utilities
+    const themeConfig = THEME_CONFIGS.find(config => config.id === theme);
+    if (themeConfig && !themeConfig.isLight) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    
+    // Set data attribute for potential CSS targeting
+    root.setAttribute('data-theme', theme);
+  } catch (error) {
+    console.error('Error applying theme:', error);
+    // Fallback to basic dark/light switching
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
   }
-  
-  // Maintain backward compatibility with Tailwind's dark: utilities
-  const themeConfig = THEME_CONFIGS.find(config => config.id === theme);
-  if (themeConfig && !themeConfig.isLight) {
-    root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
-  }
-  
-  // Set data attribute for potential CSS targeting
-  root.setAttribute('data-theme', theme);
 };
 
 export function ThemeProvider({
@@ -177,6 +188,7 @@ export function ThemeProvider({
 
   // Helper functions
   const getThemeConfig = useCallback((themeId: Theme): ThemeConfig | undefined => {
+    if (themeId === 'system') return undefined;
     return THEME_CONFIGS.find(config => config.id === themeId);
   }, []);
 
