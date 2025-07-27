@@ -89,32 +89,32 @@ body {
 @layer utilities {
   /* Brand Classes - Light mode uses solid mint, dark mode uses gradient */
   .brand-gradient-text {
-    @apply font-black text-[#1F4E3C] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
+    @apply font-black text-[#0F5132] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:bg-clip-text dark:text-transparent;
   }
   
   .brand-gradient-bg {
-    @apply bg-[#C6F6E0] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
+    @apply bg-[#B2F5D4] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
   }
   
   .brand-gradient-border {
-    background: var(--color-brand-bg);
+    background: #B2F5D4;
     @apply dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)];
   }
   
   /* Brand Button - Matches the mint green design */
   .brand-button {
-    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 bg-[#C6F6E0] text-[#1F4E3C] hover:bg-[#B8EDD4] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
+    @apply font-semibold rounded-xl px-6 py-3 transition-all duration-200 bg-[#B2F5D4] text-[#0F5132] hover:bg-[#9FEDC8] dark:bg-gradient-to-r dark:from-[var(--gradient-brand-start)] dark:via-[var(--gradient-brand-middle)] dark:to-[var(--gradient-brand-end)] dark:text-white;
   }
   
   /* Mint Button for Light Mode */
   .mint-button {
-    @apply bg-[#C6F6E0] text-[#1F4E3C] hover:bg-[#B8EDD4];
+    @apply bg-[#B2F5D4] text-[#0F5132] hover:bg-[#9FEDC8];
   }
   
   /* Override ALL gradient styles in light mode */
   :root:not(.dark) [class*="bg-gradient-to-"] {
     background-image: none !important;
-    @apply bg-[#C6F6E0] hover:bg-[#B8EDD4] !important;
+    @apply bg-[#B2F5D4] hover:bg-[#9FEDC8] !important;
   }
   
   /* All buttons with gradient classes in light mode */
@@ -125,17 +125,17 @@ body {
   :root:not(.dark) .btn[class*="to-amber"],
   :root:not(.dark) .btn[class*="via-stone"] {
     background-image: none !important;
-    @apply bg-[#C6F6E0] hover:bg-[#B8EDD4] text-[#1F4E3C] !important;
+    @apply bg-[#B2F5D4] hover:bg-[#9FEDC8] text-[#0F5132] !important;
   }
   
   /* All text with emerald colors in light mode */
   :root:not(.dark) [class*="text-emerald"] {
-    @apply text-[#1F4E3C] !important;
+    @apply text-[#0F5132] !important;
   }
   
   /* All icons in light mode */
   :root:not(.dark) svg {
-    @apply text-[#1F4E3C];
+    @apply text-[#0F5132];
   }
   
   /* Override specific button hover states */
@@ -143,14 +143,14 @@ body {
   :root:not(.dark) button:hover[class*="hover:to-amber"],
   :root:not(.dark) button:hover[class*="hover:via-stone"] {
     background-image: none !important;
-    @apply bg-[#B8EDD4] !important;
+    @apply bg-[#9FEDC8] !important;
   }
   
   /* Genre tags and badges in light mode */
   :root:not(.dark) [class*="bg-emerald"],
   :root:not(.dark) [class*="bg-amber"],
   :root:not(.dark) [class*="bg-stone"] {
-    @apply bg-[#C6F6E0] text-[#1F4E3C] !important;
+    @apply bg-[#B2F5D4] text-[#0F5132] !important;
   }
   
   .mint-button-text {
