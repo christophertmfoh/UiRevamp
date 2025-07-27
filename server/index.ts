@@ -1,43 +1,66 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { performanceMonitor, addMonitoringRoutes } from "./monitoring";
+import { config } from "./config";
 
 const app = express();
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+app.use(express.json({ limit: config.api.requestLimit }));
+app.use(express.urlencoded({ extended: false, limit: config.api.requestLimit }));
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+// Add performance monitoring
+app.use(performanceMonitor.trackRequest());
 
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
+// Optimized logging middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => {
+    const start = Date.now();
+    const path = req.path;
+    let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+    const originalResJson = res.json;
+    res.json = function (bodyJson, ...args) {
+      capturedJsonResponse = bodyJson;
+      return originalResJson.apply(res, [bodyJson, ...args]);
+    };
+
+    res.on("finish", () => {
+      const duration = Date.now() - start;
+      if (path.startsWith("/api")) {
+        let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+        if (capturedJsonResponse) {
+          logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        }
+
+        if (logLine.length > 80) {
+          logLine = logLine.slice(0, 79) + "…";
+        }
+
+        log(logLine);
       }
+    });
 
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
+    next();
   });
-
-  next();
-});
+} else {
+  // Production: minimal logging for errors only
+  app.use((req, res, next) => {
+    const start = Date.now();
+    res.on("finish", () => {
+      const duration = Date.now() - start;
+      if (res.statusCode >= 400 && req.path.startsWith("/api")) {
+        log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
+      }
+    });
+    next();
+  });
+}
 
 (async () => {
   const server = await registerRoutes(app);
+
+  // Add monitoring routes
+  addMonitoringRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

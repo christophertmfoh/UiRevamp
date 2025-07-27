@@ -27,11 +27,36 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    target: 'esnext',
+    minify: 'esbuild',
+    sourcemap: process.env.NODE_ENV === 'development',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks for better caching
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
+          query: ['@tanstack/react-query'],
+          ai: ['@google/genai', '@google/generative-ai'],
+          utils: ['clsx', 'class-variance-authority', 'tailwind-merge'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
+  },
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      '@tanstack/react-query',
+      'clsx',
+      'class-variance-authority'
+    ],
   },
 });

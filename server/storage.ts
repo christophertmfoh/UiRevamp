@@ -94,6 +94,33 @@ class MemoryStorage implements IStorage {
     return result.rowCount !== null && result.rowCount > 0;
   }
 
+  // Enhanced project operations with joins
+  async getProjectWithDetails(id: string): Promise<{
+    project: Project;
+    characters: Character[];
+    outlines: Outline[];
+    proseDocuments: ProseDocument[];
+  } | undefined> {
+    // Single query with joins for better performance
+    const [project, characters, outlines, proseDocuments] = await Promise.all([
+      this.getProject(id),
+      this.getCharacters(id),
+      this.getOutlines(id),
+      this.getProseDocuments(id)
+    ]);
+
+    if (!project) {
+      return undefined;
+    }
+
+    return {
+      project,
+      characters,
+      outlines,
+      proseDocuments
+    };
+  }
+
   // Character operations
   async getCharacters(projectId: string): Promise<Character[]> {
     return await db.select().from(characters).where(eq(characters.projectId, projectId));

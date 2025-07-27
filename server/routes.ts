@@ -50,20 +50,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/projects/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      const project = await storage.getProject(id);
       
-      if (!project) {
-        return res.status(404).json({ error: "Project not found" });
-      }
+      // Set cache headers for better performance
+      res.set('Cache-Control', 'private, max-age=300'); // 5 minutes
       
-      // Fetch related data
-      const [characters, outlines, proseDocuments] = await Promise.all([
+      // Parallel data fetching with optimized query
+      const [project, characters, outlines, proseDocuments] = await Promise.all([
+        storage.getProject(id),
         storage.getCharacters(id),
         storage.getOutlines(id),
         storage.getProseDocuments(id)
       ]);
       
-      // Transform database project to frontend project format
+      if (!project) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
+      // Optimized data transformation
       const transformedProject = {
         id: project.id,
         name: project.name,

@@ -4,6 +4,7 @@
  */
 
 import { GoogleGenAI } from "@google/genai";
+import memoizee from 'memoizee';
 
 // Initialize AI service with fallback API keys
 const getAIService = () => {
@@ -28,18 +29,32 @@ export const AI_CONFIG = {
   ]
 };
 
-// Rate limiting state
+// Enhanced rate limiting with sliding window
 const rateLimitState = {
   requests: [] as number[],
   maxRequests: 8,
-  windowMs: 60000
+  windowMs: 60000,
+  burstLimit: 3,
+  burstWindow: 10000
 };
 
-export function checkRateLimit(): boolean {
+export function checkRateLimit(isBurst = false): boolean {
   const now = Date.now();
+  
+  // Clean old requests
   rateLimitState.requests = rateLimitState.requests.filter(
     time => now - time < rateLimitState.windowMs
   );
+  
+  // Check burst limit
+  if (isBurst) {
+    const recentRequests = rateLimitState.requests.filter(
+      time => now - time < rateLimitState.burstWindow
+    );
+    if (recentRequests.length >= rateLimitState.burstLimit) {
+      return false;
+    }
+  }
   
   if (rateLimitState.requests.length >= rateLimitState.maxRequests) {
     return false;
@@ -47,6 +62,52 @@ export function checkRateLimit(): boolean {
   
   rateLimitState.requests.push(now);
   return true;
+}
+
+// Memoized AI generation for repeated prompts
+export const memoizedAIGeneration = memoizee(
+  async (prompt: string, options = {}) => {
+    const ai = getAIService();
+    const model = ai.getGenerativeModel(AI_CONFIG);
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+  },
+  {
+    maxAge: 1000 * 60 * 15, // 15 minutes cache
+    max: 100, // Cache up to 100 responses
+    promise: true,
+    normalizer: ([prompt]) => prompt.toLowerCase().trim()
+  }
+);
+
+// Batch processing for multiple AI requests
+export async function batchAIGeneration(
+  prompts: string[], 
+  options: { batchSize?: number; delay?: number } = {}
+): Promise<string[]> {
+  const { batchSize = 3, delay = 1000 } = options;
+  const results: string[] = [];
+  
+  for (let i = 0; i < prompts.length; i += batchSize) {
+    const batch = prompts.slice(i, i + batchSize);
+    
+    const batchPromises = batch.map(async (prompt) => {
+      if (!checkRateLimit()) {
+        throw new Error('Rate limit exceeded');
+      }
+      return memoizedAIGeneration(prompt);
+    });
+    
+    const batchResults = await Promise.all(batchPromises);
+    results.push(...batchResults);
+    
+    // Add delay between batches to respect rate limits
+    if (i + batchSize < prompts.length) {
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  
+  return results;
 }
 
 // Enhanced retry logic with exponential backoff
