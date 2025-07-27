@@ -198,7 +198,7 @@ export function MessageOfTheDay() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
             <Sparkles className="w-4 h-4 text-emerald-600" />
-            <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+            <h3 className="font-bold text-foreground text-sm">
               Daily Inspiration
             </h3>
           </div>
@@ -279,7 +279,7 @@ export function MessageOfTheDay() {
                 </div>
                 <p className="text-xs">
                   <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
-                  <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
+                  <span className="text-foreground"> - {content.wordOfDay.definition}</span>
                 </p>
                 <p className="text-[11px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
               </div>

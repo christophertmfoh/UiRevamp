@@ -567,7 +567,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 gradient-primary-br rounded-xl flex items-center justify-center">
                         <Sparkles className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -630,7 +630,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
         <div className="p-6 border-b border-stone-700/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 gradient-primary-br rounded-lg flex items-center justify-center">
                 <PenTool className="w-4 h-4 text-white" />
               </div>
               <div>
@@ -726,7 +726,7 @@ const MainWorkspace = ({ onNavigate }: { onNavigate: (view: string) => void }) =
         <DialogContent className="glass-effect border-slate-700 max-w-2xl" aria-describedby="character-gen-description">
           <DialogHeader>
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 gradient-primary-br rounded-xl flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <DialogTitle className="gradient-text">AI Character Generator</DialogTitle>

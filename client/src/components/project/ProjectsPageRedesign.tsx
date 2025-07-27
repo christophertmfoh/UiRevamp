@@ -482,7 +482,7 @@ export function ProjectsPageRedesign({
             <Button
               variant="ghost"
               onClick={() => onNavigate('landing')}
-              className="group text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100"
+              className="group text-foreground hover:text-stone-900 dark:hover:text-stone-100"
             >
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
               Back
@@ -491,10 +491,10 @@ export function ProjectsPageRedesign({
           
           {/* Centered Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-xl flex items-center justify-center shadow-lg">
               <Feather className="w-5 h-5 text-emerald-800 dark:text-white" />
             </div>
-            <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+            <span className="text-2xl font-black font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               Fablecraft
             </span>
           </div>
@@ -594,8 +594,8 @@ export function ProjectsPageRedesign({
               >
                 {isEditMode && (
                   <div className="flex items-center justify-center mb-2 opacity-50">
-                    <GripVertical className="w-5 h-5 text-stone-600 dark:text-stone-400" />
-                    <span className="ml-2 text-sm font-medium text-stone-600 dark:text-stone-400">Project Management</span>
+                    <GripVertical className="w-5 h-5 text-foreground" />
+                    <span className="ml-2 text-sm font-medium text-foreground">Project Management</span>
                   </div>
                 )}
                 <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20">
@@ -604,14 +604,14 @@ export function ProjectsPageRedesign({
             <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                  <p className="text-2xl font-black text-foreground">
                     {totalProjects}
                   </p>
-                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                  <p className="text-xs font-medium text-foreground mt-1">
                     Total Projects
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-lg flex items-center justify-center shadow-md">
                   <Library className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
@@ -620,14 +620,14 @@ export function ProjectsPageRedesign({
             <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                  <p className="text-2xl font-black text-foreground">
                     {activeProjects}
                   </p>
-                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                  <p className="text-xs font-medium text-foreground mt-1">
                     Active This Week
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-lg flex items-center justify-center shadow-md">
                   <Activity className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
@@ -636,20 +636,20 @@ export function ProjectsPageRedesign({
             <div className="bg-white/60 dark:bg-slate-700/40 rounded-xl p-4 border border-stone-200/30 dark:border-stone-700/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-2xl font-black text-stone-900 dark:text-stone-50">
+                  <p className="text-2xl font-black text-foreground">
                     {uniqueGenres}
                   </p>
-                  <p className="text-xs font-medium text-stone-600 dark:text-stone-400 mt-1">
+                  <p className="text-xs font-medium text-foreground mt-1">
                     Genres Explored
                   </p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-lg flex items-center justify-center shadow-md">
                   <Sparkles className="w-5 h-5 text-emerald-800 dark:text-white" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
+            <div className="bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer" onClick={onNewProject}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-lg font-black text-emerald-800 dark:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
@@ -670,7 +670,7 @@ export function ProjectsPageRedesign({
           <div className="flex flex-col lg:flex-row gap-4 items-center mb-6">
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 rounded-lg flex items-center justify-center">
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-100 to-emerald-200  rounded-lg flex items-center justify-center">
                 <Search className="h-4 w-4 text-emerald-800 dark:text-white pointer-events-none" />
               </div>
               <Input
@@ -684,7 +684,7 @@ export function ProjectsPageRedesign({
             {/* Sort Options */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
+                <Button className="h-12 px-6 bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300  dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl">
                   <TrendingUp className="w-4 h-4 mr-2" />
                   {sortBy === 'updated' ? 'Recently Updated' : 
                    sortBy === 'created' ? 'Date Created' : 
@@ -721,8 +721,8 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('grid')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'grid' 
-                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
-                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200  text-emerald-800 dark:text-white shadow-md' 
+                    : 'text-foreground hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
@@ -733,8 +733,8 @@ export function ProjectsPageRedesign({
                 onClick={() => updateViewMode('list')}
                 className={`px-4 py-2 rounded-xl transition-all duration-300 ${
                   viewMode === 'list' 
-                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white shadow-md' 
-                    : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
+                    ? 'bg-gradient-to-r from-emerald-100 to-emerald-200  text-emerald-800 dark:text-white shadow-md' 
+                    : 'text-foreground hover:text-stone-900 dark:hover:text-stone-100'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -745,7 +745,7 @@ export function ProjectsPageRedesign({
           {/* Results Counter */}
           {searchTerm && (
             <div className="mb-4 text-center">
-              <p className="text-sm text-stone-600 dark:text-stone-400">
+              <p className="text-sm text-foreground">
                 Found <span className="font-semibold text-stone-900 dark:text-stone-100">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''}
               </p>
             </div>
@@ -759,19 +759,19 @@ export function ProjectsPageRedesign({
           ) : filteredProjects.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-24 h-24 bg-gradient-to-br from-emerald-100/50 to-emerald-200/50 dark:from-emerald-600/20 dark:via-stone-600/20 dark:to-amber-700/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <PenTool className="w-12 h-12 text-stone-600 dark:text-stone-400" />
+                <PenTool className="w-12 h-12 text-foreground" />
               </div>
-              <h3 className="text-2xl font-black text-stone-900 dark:text-stone-50 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
+              <h3 className="text-2xl font-black text-foreground mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-tight">
                 {searchTerm ? 'No projects found' : 'Start Your First Story'}
               </h3>
-              <p className="text-stone-800 dark:text-stone-200 mb-6 max-w-md mx-auto font-medium leading-[1.6] drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+              <p className="text-foreground mb-6 max-w-md mx-auto font-medium leading-[1.6] drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
                 {searchTerm 
                   ? 'Try adjusting your search or create a new project.' 
                   : 'Every great story begins with a single idea. Start crafting your narrative today.'}
               </p>
               <Button 
                 onClick={onNewProject}
-                className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-emerald-100 to-emerald-200 hover:from-emerald-200 hover:to-emerald-300  dark:hover:from-emerald-500 dark:hover:via-stone-500 dark:hover:to-amber-600 text-emerald-800 dark:text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create New Project
@@ -814,8 +814,8 @@ export function ProjectsPageRedesign({
               >
                 {isEditMode && (
                   <div className="flex items-center justify-center mb-2 opacity-50">
-                    <GripVertical className="w-5 h-5 text-stone-600 dark:text-stone-400" />
-                    <span className="ml-2 text-sm font-medium text-stone-600 dark:text-stone-400">Dashboard Widgets</span>
+                    <GripVertical className="w-5 h-5 text-foreground" />
+                    <span className="ml-2 text-sm font-medium text-foreground">Dashboard Widgets</span>
                   </div>
                 )}
                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 lg:h-[600px]">
@@ -839,7 +839,7 @@ export function ProjectsPageRedesign({
                     >
                       {isEditMode && (
                         <div className="absolute top-2 right-2 z-10 bg-white/80 dark:bg-stone-800/80 rounded-lg p-1">
-                          <GripVertical className="w-4 h-4 text-stone-600 dark:text-stone-400" />
+                          <GripVertical className="w-4 h-4 text-foreground" />
                         </div>
                       )}
                       {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
@@ -848,15 +848,15 @@ export function ProjectsPageRedesign({
             <Card className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] shadow-xl border border-stone-300/30 dark:border-slate-700/20 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">Recent Project</h3>
-                  <Badge className="bg-gradient-to-r from-emerald-100 to-emerald-200 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-emerald-800 dark:text-white text-xs px-2 py-1 border-0">
+                  <h3 className="font-bold text-foreground text-sm">Recent Project</h3>
+                  <Badge className="bg-gradient-to-r from-emerald-100 to-emerald-200  text-emerald-800 dark:text-white text-xs px-2 py-1 border-0">
                     Active
                   </Badge>
                 </div>
                 <div className="space-y-3 flex-grow">
                   <div>
                     <p className="font-semibold text-stone-900 dark:text-stone-100 text-sm truncate">{projects[0]?.name}</p>
-                    <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
+                    <p className="text-xs text-foreground mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
                   </div>
                   
                   {/* Project Details */}
@@ -900,8 +900,8 @@ export function ProjectsPageRedesign({
                     <PlusCircle className="w-6 h-6 gradient-text" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm mb-2">No Projects Yet</h3>
-                    <p className="text-xs text-stone-600 dark:text-stone-400 mb-3">Create your first project to get started!</p>
+                    <h3 className="font-bold text-foreground text-sm mb-2">No Projects Yet</h3>
+                    <p className="text-xs text-foreground mb-3">Create your first project to get started!</p>
                     <Button 
                       size="sm"
                       onClick={onNewProject}
@@ -999,7 +999,7 @@ export function ProjectsPageRedesign({
             <CardContent className="p-5 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle className="w-4 h-4 icon-primary" />
-                <h3 className="font-bold text-stone-900 dark:text-stone-50 text-sm">
+                <h3 className="font-bold text-foreground text-sm">
                   Quick Tasks
                 </h3>
               </div>
@@ -1084,10 +1084,10 @@ export function ProjectsPageRedesign({
       <Dialog open={showAddTaskModal} onOpenChange={setShowAddTaskModal}>
         <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+            <DialogTitle className="text-2xl font-black gradient-primary bg-clip-text text-transparent">
               Add New Task
             </DialogTitle>
-            <DialogDescription className="text-stone-600 dark:text-stone-400">
+            <DialogDescription className="text-foreground">
               Create a task to track your writing progress
             </DialogDescription>
           </DialogHeader>
@@ -1151,7 +1151,7 @@ export function ProjectsPageRedesign({
               <Button 
                 onClick={handleCreateTask}
                 disabled={!newTaskText.trim()}
-                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
+                className="flex-1 gradient-primary hover:opacity-90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
               >
                 Add Task
               </Button>
@@ -1171,10 +1171,10 @@ export function ProjectsPageRedesign({
       <Dialog open={showTasksModal} onOpenChange={setShowTasksModal}>
         <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+            <DialogTitle className="text-2xl font-black gradient-primary bg-clip-text text-transparent">
               Tasks & To-Do List
             </DialogTitle>
-            <DialogDescription className="text-stone-600 dark:text-stone-400">
+            <DialogDescription className="text-foreground">
               Manage your writing tasks and track progress
             </DialogDescription>
           </DialogHeader>
@@ -1201,7 +1201,7 @@ export function ProjectsPageRedesign({
                         setShowTasksModal(false);
                         setShowAddTaskModal(true);
                       }}
-                      className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white"
+                      className="gradient-primary hover:opacity-90 text-white"
                     >
                       Add Your First Task
                     </Button>
@@ -1270,11 +1270,11 @@ export function ProjectsPageRedesign({
               <h4 className="text-lg font-bold text-stone-700 dark:text-stone-300 mb-4">Weekly Progress</h4>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Tasks Completed</p>
+                  <p className="text-sm text-foreground mb-1">Tasks Completed</p>
                   <p className="text-3xl font-black text-emerald-600">{taskStats?.completedTasks || 0}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-1">Completion Rate</p>
+                  <p className="text-sm text-foreground mb-1">Completion Rate</p>
                   <p className="text-3xl font-black text-amber-600">{taskStats?.completionRate ? Math.round(taskStats.completionRate) : 0}%</p>
                 </div>
               </div>
@@ -1287,10 +1287,10 @@ export function ProjectsPageRedesign({
       <Dialog open={showGoalsModal} onOpenChange={setShowGoalsModal}>
         <DialogContent className="max-w-md bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-[2rem] border border-stone-300/30 dark:border-slate-700/20">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+            <DialogTitle className="text-lg font-black gradient-primary bg-clip-text text-transparent">
               Set Writing Goals
             </DialogTitle>
-            <DialogDescription className="text-xs text-stone-600 dark:text-stone-400">
+            <DialogDescription className="text-xs text-foreground">
               Quick targets to keep you motivated
             </DialogDescription>
           </DialogHeader>
@@ -1327,7 +1327,7 @@ export function ProjectsPageRedesign({
                   onChange={(e) => setTempGoals({...tempGoals, dailyMinutes: parseInt(e.target.value) || 0})}
                 />
                 <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-1.5">
-                  <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                  <div className="gradient-primary h-1.5 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
                 </div>
                 <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-1">{todayProgress.minutes}/{tempGoals.dailyMinutes} mins</p>
               </div>
@@ -1353,13 +1353,13 @@ export function ProjectsPageRedesign({
                 </div>
               </div>
               <div className="w-full bg-stone-200 dark:bg-stone-600 rounded-full h-2">
-                <div className="bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
+                <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / tempGoals.streakDays) * 100, 100)}%` }}></div>
               </div>
             </div>
 
             {/* Coming Soon Note */}
             <div className="p-3 bg-stone-100/60 dark:bg-stone-700/20 rounded-xl border border-dashed border-stone-300 dark:border-stone-600">
-              <p className="text-xs text-stone-600 dark:text-stone-400 text-center">
+              <p className="text-xs text-foreground text-center">
                 <span className="font-medium">Coming Soon:</span> Project-specific goals that sync with your stories
               </p>
             </div>
@@ -1369,7 +1369,7 @@ export function ProjectsPageRedesign({
               <Button 
                 size="sm"
                 onClick={handleSaveGoals}
-                className="flex-1 bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-500 hover:via-stone-500 hover:to-amber-600 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                className="flex-1 gradient-primary hover:opacity-90 text-white text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
                 Save Goals
               </Button>
@@ -1410,17 +1410,17 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-stone-600/5 to-amber-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       <CardHeader className="relative">
         <div className="flex items-start justify-between mb-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+          <div className="w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
             <ProjectIcon className="w-7 h-7 text-white" />
           </div>
-          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
+          <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100  text-stone-700 dark:text-white border-0">
             {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
           </Badge>
         </div>
-        <CardTitle className="text-xl font-bold text-stone-900 dark:text-stone-50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+        <CardTitle className="text-xl font-bold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
           {project.name}
         </CardTitle>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mt-1">
+        <p className="text-sm text-foreground mt-1">
           {project.type || 'Creative Project'}
         </p>
       </CardHeader>
@@ -1458,15 +1458,15 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
     >
       <CardContent className="p-6">
         <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+          <div className="w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
             <ProjectIcon className="w-8 h-8 text-white" />
           </div>
           
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-stone-900 dark:text-stone-50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+            <h3 className="text-xl font-bold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
               {project.name}
             </h3>
-            <p className="text-stone-600 dark:text-stone-400 text-sm">
+            <p className="text-foreground text-sm">
               {project.type || 'Creative Project'}
             </p>
             <p className="text-stone-700 dark:text-stone-300 text-sm mt-1 line-clamp-1">
@@ -1475,7 +1475,7 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
           </div>
           
           <div className="text-right space-y-2">
-            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100 dark:from-emerald-600 dark:via-stone-600 dark:to-amber-700 text-stone-700 dark:text-white border-0">
+            <Badge className="bg-gradient-to-r from-emerald-100 to-amber-100  text-stone-700 dark:text-white border-0">
               {typeof project.genre === 'string' ? project.genre : (Array.isArray(project.genre) && project.genre[0]) || 'Unspecified'}
             </Badge>
             <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">

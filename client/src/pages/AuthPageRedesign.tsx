@@ -212,7 +212,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
               onClick={onBack}
               variant="ghost"
               size="sm"
-              className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
+              className="text-foreground hover:text-stone-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/10 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
@@ -238,7 +238,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-black bg-gradient-to-r from-emerald-600 via-stone-800 to-amber-600 dark:from-emerald-400 dark:via-stone-200 dark:to-amber-400 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] mb-4">
+            <h2 className="text-4xl font-black gradient-primary  bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] mb-4">
               Welcome to Fablecraft
             </h2>
             <p className="text-xl text-body-secondary font-medium leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] tracking-wide">
@@ -288,7 +288,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                   <form onSubmit={loginForm.handleSubmit(onLogin)}>
                     <CardContent className="space-y-6 px-0">
                       <div className="space-y-2">
-                        <Label htmlFor="emailOrUsername" className="text-stone-800 dark:text-stone-200 font-medium">
+                        <Label htmlFor="emailOrUsername" className="text-foreground font-medium">
                           Email or Username
                         </Label>
                         <Input
@@ -303,7 +303,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="password" className="text-stone-800 dark:text-stone-200 font-medium">
+                        <Label htmlFor="password" className="text-foreground font-medium">
                           Password
                         </Label>
                         <Input
@@ -366,8 +366,8 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                   <form onSubmit={signupForm.handleSubmit(onSignup)}>
                     <CardContent className="space-y-6 px-0">
                       <div className="space-y-2">
-                        <Label htmlFor="fullName" className="text-stone-800 dark:text-stone-200 font-medium">
-                          Full Name <span className="text-stone-600 dark:text-stone-400">(Optional)</span>
+                        <Label htmlFor="fullName" className="text-foreground font-medium">
+                          Full Name <span className="text-foreground">(Optional)</span>
                         </Label>
                         <Input
                           id="fullName"
@@ -378,7 +378,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-stone-800 dark:text-stone-200 font-medium">Email</Label>
+                        <Label htmlFor="email" className="text-foreground font-medium">Email</Label>
                         <Input
                           id="email"
                           type="email"
@@ -391,7 +391,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="username" className="text-stone-800 dark:text-stone-200 font-medium">Username</Label>
+                        <Label htmlFor="username" className="text-foreground font-medium">Username</Label>
                         <Input
                           id="username"
                           type="text"
@@ -402,10 +402,10 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         {signupForm.formState.errors.username && (
                           <p className="text-sm text-red-400">{signupForm.formState.errors.username.message}</p>
                         )}
-                        <p className="text-xs text-stone-600 dark:text-stone-400">3-30 characters, letters/numbers/hyphens/underscores only</p>
+                        <p className="text-xs text-foreground">3-30 characters, letters/numbers/hyphens/underscores only</p>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="newPassword" className="text-stone-800 dark:text-stone-200 font-medium">Password</Label>
+                        <Label htmlFor="newPassword" className="text-foreground font-medium">Password</Label>
                         <Input
                           id="newPassword"
                           type="password"

@@ -170,10 +170,10 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 gradient-primary-br rounded-lg flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">F</span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
               Fablecraft
             </h1>
           </div>
@@ -242,7 +242,7 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                 <CardFooter>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800"
+                    className="w-full gradient-primary hover:opacity-80"
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? (
@@ -383,7 +383,7 @@ export function AuthPage({ onAuth, onBack }: AuthPageProps) {
                 <CardFooter>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 hover:from-emerald-700 hover:via-stone-700 hover:to-amber-800"
+                    className="w-full gradient-primary hover:opacity-80"
                     disabled={signupMutation.isPending}
                   >
                     {signupMutation.isPending ? (
