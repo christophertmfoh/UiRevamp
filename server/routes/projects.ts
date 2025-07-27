@@ -76,10 +76,10 @@ projectRouter.get("/:id", async (req, res) => {
         id: doc.id,
         title: doc.title,
         content: doc.content || '',
-        type: doc.type,
+        type: 'prose' as const,
         createdAt: doc.createdAt
       })),
-      settings: project.settings || { aiCraftConfig: { 'story-structure': true, 'character-development': true, 'world-building': true } }
+      settings: { aiCraftConfig: { 'story-structure': true, 'character-development': true, 'world-building': true } }
     };
     
     res.json(transformedProject);
@@ -109,7 +109,7 @@ projectRouter.put("/:id", async (req, res) => {
     // Transform genre to proper array format if needed
     let transformedData = { ...req.body };
     if (transformedData.genre && typeof transformedData.genre === 'string') {
-      transformedData.genre = transformedData.genre.split(',').map(g => g.trim()).filter(Boolean);
+      transformedData.genre = transformedData.genre.split(',').map((g: string) => g.trim()).filter(Boolean);
     }
     
     const project = await storage.updateProject(id, transformedData);
