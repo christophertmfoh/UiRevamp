@@ -218,18 +218,19 @@ export function ProjectsPageRedesign({
         {/* Page Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
           {/* Left Side - Title and Enhanced Content */}
-          <div className="space-y-6">
-            <div className="overflow-visible py-4">
-              <div className="mb-4">
+          <div className="space-y-5">
+            <div className="overflow-visible">
+              <div className="mb-3">
                 <p className="text-lg text-stone-700 dark:text-stone-300 font-medium">
                   Welcome back, {user?.username || 'Writer'}
                 </p>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-relaxed tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] pb-6 mt-[1px] mb-[1px]">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 bg-clip-text text-transparent leading-tight tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-4">
                 Your Projects
               </h1>
             </div>
-            <p className="text-xl text-stone-800 dark:text-stone-200 leading-[1.8] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
+            
+            <p className="text-xl text-stone-800 dark:text-stone-200 leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide">
               Organize, track, and bring your stories to life with intelligent project management.
             </p>
             
@@ -262,16 +263,16 @@ export function ProjectsPageRedesign({
             </div>
 
             {/* Writing Tip */}
-            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-4 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
+            <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-5 shadow-lg border border-stone-300/30 dark:border-slate-700/20">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-full flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-1">
+                  <p className="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-2">
                     Today's Writing Tip
                   </p>
-                  <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                  <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
                     Character development is the backbone of compelling storytelling. Spend time understanding your characters' motivations before diving into plot.
                   </p>
                 </div>
