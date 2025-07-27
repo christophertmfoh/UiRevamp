@@ -239,7 +239,7 @@ export function LandingPage({
             <div className="w-12 h-12 bg-gradient-to-br from-stone-600 to-emerald-700 dark:from-stone-500 dark:to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
               <Feather className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold font-serif text-stone-800 dark:text-stone-100">
+            <span className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
               Fablecraft
             </span>
           </div>
@@ -265,17 +265,17 @@ export function LandingPage({
             <div className="space-y-8">
               <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-stone-100/80 dark:bg-stone-900/30 border border-stone-300 dark:border-stone-700/50">
                 <div className="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-stone-800 dark:text-stone-200">End-to-End Creative Production Suite</span>
+                <span className="text-sm font-bold text-stone-900 dark:text-stone-100 uppercase tracking-wider">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-stone-800 dark:text-stone-50 leading-[0.95] tracking-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black font-serif text-stone-900 dark:text-stone-50 leading-[0.95] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
                 Where Stories
-                <span className="block bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-emerald-600 via-stone-600 to-amber-700 dark:from-emerald-500 dark:via-stone-500 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
                   Come to Life
                 </span>
               </h1>
               
-              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed font-serif">
+              <p className="text-xl text-stone-800 dark:text-stone-200 max-w-2xl leading-relaxed font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
                 From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
                 and graphic novels with AI that understands the art of storytelling. Your imagination, 
                 amplified by intelligence.
@@ -320,7 +320,7 @@ export function LandingPage({
                 <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 via-stone-600 to-amber-700 dark:from-emerald-600 dark:via-stone-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
                   <PenTool className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-stone-50">Your Writing Journey</h3>
+                <h3 className="text-2xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">Your Writing Journey</h3>
                 
                 <div 
                   className="grid grid-cols-2 gap-4"
@@ -350,15 +350,15 @@ export function LandingPage({
                             ? 'text-emerald-600 dark:text-emerald-400 scale-110' 
                             : 'text-stone-500 dark:text-stone-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:scale-110'
                         }`} />
-                        <h4 className={`font-semibold text-sm transition-all duration-300 ${
+                        <h4 className={`font-bold text-sm transition-all duration-300 ${
                           isActive 
-                            ? 'text-stone-800 dark:text-stone-50' 
-                            : 'text-stone-600 dark:text-stone-300 group-hover:text-stone-800 dark:group-hover:text-stone-100'
+                            ? 'text-stone-900 dark:text-stone-50 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]' 
+                            : 'text-stone-700 dark:text-stone-300 group-hover:text-stone-900 dark:group-hover:text-stone-100'
                         }`}>
                           {step.title}
                         </h4>
                         {isActive && (
-                          <p className="text-xs text-stone-600 dark:text-stone-300/80 mt-2 animate-in fade-in duration-500">
+                          <p className="text-xs text-stone-700 dark:text-stone-200 mt-2 animate-in fade-in duration-500 font-medium">
                             {step.description}
                           </p>
                         )}
@@ -376,13 +376,13 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-stone-100 dark:bg-stone-900/30 text-stone-800 dark:text-stone-200 border-stone-300 dark:border-stone-700">
+            <Badge className="bg-stone-100/90 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-stone-400 dark:border-stone-600 font-bold backdrop-blur-md shadow-lg">
               End-to-End Creative Production
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
+            <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)]">
               From Idea to Final Media
             </h2>
-            <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
+            <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
               Our intelligent 6-stage pipeline replaces 15+ scattered tools. Create novels, screenplays, 
               graphic novels with generated visuals, audio, and video - all in one unified workflow.
             </p>
@@ -409,9 +409,9 @@ export function LandingPage({
                     </div>
                     
                     <div className="space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
-                      <h4 className="font-bold text-lg text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">{step.title}</h4>
-                      <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300">{step.description}</p>
-                      <p className="text-xs text-stone-500 dark:text-stone-400 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-medium">
+                      <h4 className="font-black text-lg text-stone-900 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">{step.title}</h4>
+                      <p className="text-sm text-stone-700 dark:text-stone-200 group-hover:text-stone-800 dark:group-hover:text-stone-100 transition-colors duration-300 font-medium">{step.description}</p>
+                      <p className="text-xs text-stone-600 dark:text-stone-300 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 font-semibold">
                         {step.detail}
                       </p>
                     </div>
@@ -431,13 +431,13 @@ export function LandingPage({
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
-            <Badge className="bg-stone-100 dark:bg-stone-900/30 text-stone-800 dark:text-stone-200 border-stone-300 dark:border-stone-700">
+            <Badge className="bg-stone-100/90 dark:bg-stone-900/50 text-stone-900 dark:text-stone-100 border-stone-400 dark:border-stone-600 font-bold backdrop-blur-md shadow-lg">
               Revolutionary Creative Technology
             </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-stone-800 dark:text-stone-100">
+            <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)]">
               The Creative Industry's First True End-to-End Suite
             </h2>
-            <p className="text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto">
+            <p className="text-xl text-stone-800 dark:text-stone-200 max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
               Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
               platform that understands your entire creative process from world-building to visual production.
             </p>
