@@ -5,229 +5,203 @@
 @tailwind utilities;
 
 @layer base {
-  /* Default Light Theme - Fablecraft Light */
+  /* 
+   * Research-Based Theme System for Maximum Engagement & Eye Strain Reduction
+   * Based on 2024-2025 UX/UI studies on color psychology and user engagement
+   * Sources: UX Stack Exchange, Toptal Dark UI Study, Color Psychology Research
+   */
+  
+  /* Theme 1: Off-White Light - Reduces eye strain vs pure white (UX Research 2024) */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 160 84% 39%;
+    --background: 30 15% 97%; /* Off-white instead of pure white */
+    --foreground: 240 15% 15%;
+    --card: 30 15% 98%;
+    --card-foreground: 240 15% 15%;
+    --popover: 30 15% 98%;
+    --popover-foreground: 240 15% 15%;
+    --primary: 212 100% 50%; /* Trust-building blue (Color Psychology) */
     --primary-foreground: 0 0% 98%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 9% 46%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 160 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --secondary: 30 10% 92%;
+    --secondary-foreground: 240 10% 35%;
+    --muted: 30 10% 92%;
+    --muted-foreground: 240 8% 46%;
+    --accent: 142 76% 36%; /* Growth/action green */
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 160 84% 39%;
+    --border: 30 8% 88%;
+    --input: 30 8% 88%;
+    --ring: 212 100% 50%;
     --radius: 0.75rem;
     
-    /* Fablecraft Light Custom Variables */
-    --gradient-brand-start: 160 84% 39%;
-    --gradient-brand-end: 180 60% 60%;
-    --gradient-brand-text: 160 100% 25%;
-    --surface-elevated: 0 0% 98%;
-    --surface-muted: 220 14% 96%;
-    --orb-primary: 160 84% 39%;
-    --orb-secondary: 180 60% 60%;
+    /* Engagement-optimized variables */
+    --gradient-brand-start: 212 100% 50%;
+    --gradient-brand-end: 142 76% 36%;
+    --gradient-brand-text: 212 100% 40%;
+    --surface-elevated: 30 15% 99%;
+    --surface-muted: 30 10% 94%;
+    --orb-primary: 212 100% 50%;
+    --orb-secondary: 142 76% 36%;
   }
 
-  /* Dark Theme - Fablecraft Dark */
+  /* Theme 2: GitHub Dark - High contrast for developer-style engagement */
   .dark {
-    --background: 222 84% 5%;
-    --foreground: 210 40% 98%;
-    --card: 222 84% 5%;
-    --card-foreground: 210 40% 98%;
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 160 84% 39%;
-    --primary-foreground: 222 84% 5%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 160 100% 50%;
-    --accent-foreground: 222 84% 5%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 160 84% 39%;
+    --background: 220 13% 9%; /* GitHub-inspired deep dark */
+    --foreground: 213 31% 91%;
+    --card: 217 19% 13%;
+    --card-foreground: 213 31% 91%;
+    --popover: 217 19% 13%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 212 100% 70%; /* Bright blue for high contrast */
+    --primary-foreground: 220 13% 9%;
+    --secondary: 217 19% 18%;
+    --secondary-foreground: 213 31% 91%;
+    --muted: 217 19% 18%;
+    --muted-foreground: 218 11% 65%;
+    --accent: 142 72% 29%; /* GitHub green */
+    --accent-foreground: 213 31% 91%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 213 31% 91%;
+    --border: 217 19% 18%;
+    --input: 217 19% 18%;
+    --ring: 212 100% 70%;
     
-    /* Fablecraft Dark Custom Variables */
-    --gradient-brand-start: 160 84% 39%;
-    --gradient-brand-end: 195 100% 50%;
-    --gradient-brand-text: 160 100% 50%;
-    --surface-elevated: 217 33% 17%;
-    --surface-muted: 217 33% 12%;
-    --orb-primary: 160 84% 39%;
-    --orb-secondary: 195 100% 50%;
+    /* High-contrast engagement variables */
+    --gradient-brand-start: 212 100% 70%;
+    --gradient-brand-end: 142 72% 29%;
+    --gradient-brand-text: 212 100% 75%;
+    --surface-elevated: 217 19% 15%;
+    --surface-muted: 217 19% 11%;
+    --orb-primary: 212 100% 70%;
+    --orb-secondary: 142 72% 29%;
   }
 
-  /* Midnight Ink Theme */
-  .midnight-ink {
-    --background: 210 100% 6%;
-    --foreground: 210 100% 90%;
-    --card: 210 50% 10%;
-    --card-foreground: 210 100% 90%;
-    --popover: 210 50% 15%;
-    --popover-foreground: 210 100% 90%;
-    --primary: 45 100% 50%;
-    --primary-foreground: 210 100% 6%;
-    --secondary: 210 50% 15%;
-    --secondary-foreground: 210 100% 90%;
-    --muted: 210 50% 15%;
-    --muted-foreground: 210 20% 65%;
-    --accent: 45 100% 50%;
-    --accent-foreground: 210 100% 6%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 100% 90%;
-    --border: 210 50% 20%;
-    --input: 210 50% 15%;
-    --ring: 45 100% 50%;
+  /* Theme 3: Discord Gaming - Deep purples/blues with neon accents for creativity */
+  .discord-gaming {
+    --background: 235 16% 15%; /* Discord-inspired deep blue */
+    --foreground: 220 100% 95%;
+    --card: 235 25% 18%;
+    --card-foreground: 220 100% 95%;
+    --popover: 235 25% 20%;
+    --popover-foreground: 220 100% 95%;
+    --primary: 268 83% 58%; /* Discord blurple */
+    --primary-foreground: 235 16% 15%;
+    --secondary: 235 25% 22%;
+    --secondary-foreground: 220 100% 95%;
+    --muted: 235 25% 22%;
+    --muted-foreground: 220 15% 70%;
+    --accent: 326 100% 74%; /* Electric pink accent */
+    --accent-foreground: 235 16% 15%;
+    --destructive: 0 100% 67%;
+    --destructive-foreground: 220 100% 95%;
+    --border: 235 25% 25%;
+    --input: 235 25% 20%;
+    --ring: 268 83% 58%;
     
-    /* Midnight Ink Custom Variables */
-    --gradient-brand-start: 45 100% 50%;
-    --gradient-brand-end: 40 85% 75%;
-    --gradient-brand-text: 45 100% 50%;
-    --surface-elevated: 210 50% 15%;
-    --surface-muted: 210 50% 12%;
-    --orb-primary: 45 100% 50%;
-    --orb-secondary: 40 85% 75%;
+    /* Gaming engagement variables */
+    --gradient-brand-start: 268 83% 58%;
+    --gradient-brand-end: 326 100% 74%;
+    --gradient-brand-text: 268 83% 65%;
+    --surface-elevated: 235 25% 22%;
+    --surface-muted: 235 25% 12%;
+    --orb-primary: 268 83% 58%;
+    --orb-secondary: 326 100% 74%;
   }
 
-  /* Sunrise Creative Theme */
-  .sunrise-creative {
-    --background: 260 25% 11%;
-    --foreground: 320 100% 95%;
-    --card: 260 35% 15%;
-    --card-foreground: 320 100% 95%;
-    --popover: 260 35% 20%;
-    --popover-foreground: 320 100% 95%;
-    --primary: 300 100% 50%;
-    --primary-foreground: 260 25% 11%;
-    --secondary: 260 35% 20%;
-    --secondary-foreground: 320 100% 95%;
-    --muted: 260 35% 20%;
-    --muted-foreground: 260 15% 65%;
-    --accent: 25 100% 50%;
-    --accent-foreground: 260 25% 11%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 320 100% 95%;
-    --border: 260 35% 25%;
-    --input: 260 35% 20%;
-    --ring: 300 100% 50%;
+  /* Theme 4: Notion Focus - Clean pastels optimized for productivity */
+  .notion-focus {
+    --background: 240 6% 97%; /* Notion-like soft background */
+    --foreground: 240 10% 15%;
+    --card: 240 8% 98%;
+    --card-foreground: 240 10% 15%;
+    --popover: 240 8% 98%;
+    --popover-foreground: 240 10% 15%;
+    --primary: 201 96% 32%; /* Notion blue */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 5% 92%;
+    --secondary-foreground: 240 8% 40%;
+    --muted: 240 5% 92%;
+    --muted-foreground: 240 6% 50%;
+    --accent: 162 73% 46%; /* Soft green for focus */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5% 88%;
+    --input: 240 5% 88%;
+    --ring: 201 96% 32%;
     
-    /* Sunrise Creative Custom Variables */
-    --gradient-brand-start: 300 100% 50%;
-    --gradient-brand-end: 25 100% 50%;
-    --gradient-brand-text: 25 100% 50%;
-    --surface-elevated: 260 35% 20%;
-    --surface-muted: 260 35% 15%;
-    --orb-primary: 300 100% 50%;
-    --orb-secondary: 25 100% 50%;
+    /* Productivity-focused variables */
+    --gradient-brand-start: 201 96% 32%;
+    --gradient-brand-end: 162 73% 46%;
+    --gradient-brand-text: 201 96% 28%;
+    --surface-elevated: 240 8% 99%;
+    --surface-muted: 240 5% 94%;
+    --orb-primary: 201 96% 32%;
+    --orb-secondary: 162 73% 46%;
   }
 
-  /* Sepia Parchment Theme */
-  .sepia-parchment {
-    --background: 60 56% 91%;
-    --foreground: 30 40% 20%;
-    --card: 48 30% 85%;
-    --card-foreground: 30 40% 20%;
-    --popover: 48 30% 88%;
-    --popover-foreground: 30 40% 20%;
-    --primary: 350 100% 25%;
-    --primary-foreground: 60 56% 91%;
-    --secondary: 48 20% 80%;
-    --secondary-foreground: 30 40% 25%;
-    --muted: 48 20% 80%;
-    --muted-foreground: 30 20% 45%;
-    --accent: 30 80% 25%;
-    --accent-foreground: 60 56% 91%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 60 56% 91%;
-    --border: 48 20% 75%;
-    --input: 48 20% 80%;
-    --ring: 350 100% 25%;
-    
-    /* Sepia Parchment Custom Variables */
-    --gradient-brand-start: 350 100% 25%;
-    --gradient-brand-end: 30 80% 25%;
-    --gradient-brand-text: 350 100% 25%;
-    --surface-elevated: 48 30% 88%;
-    --surface-muted: 48 20% 83%;
-    --orb-primary: 350 100% 25%;
-    --orb-secondary: 30 80% 25%;
-  }
-
-  /* Evergreen Focus Theme */
-  .evergreen-focus {
-    --background: 150 100% 10%;
-    --foreground: 120 20% 90%;
-    --card: 150 50% 15%;
-    --card-foreground: 120 20% 90%;
-    --popover: 150 50% 20%;
-    --popover-foreground: 120 20% 90%;
-    --primary: 120 70% 55%;
-    --primary-foreground: 150 100% 10%;
-    --secondary: 150 50% 20%;
-    --secondary-foreground: 120 20% 90%;
-    --muted: 150 50% 20%;
-    --muted-foreground: 150 20% 65%;
-    --accent: 100 60% 75%;
-    --accent-foreground: 150 100% 10%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 120 20% 90%;
-    --border: 150 50% 25%;
-    --input: 150 50% 20%;
-    --ring: 120 70% 55%;
-    
-    /* Evergreen Focus Custom Variables */
-    --gradient-brand-start: 120 70% 55%;
-    --gradient-brand-end: 100 60% 75%;
-    --gradient-brand-text: 120 70% 55%;
-    --surface-elevated: 150 50% 20%;
-    --surface-muted: 150 50% 15%;
-    --orb-primary: 120 70% 55%;
-    --orb-secondary: 100 60% 75%;
-  }
-
-  /* Obsidian Minimal Theme */
-  .obsidian-minimal {
-    --background: 0 0% 13%;
-    --foreground: 0 0% 83%;
-    --card: 0 0% 20%;
-    --card-foreground: 0 0% 83%;
-    --popover: 0 0% 25%;
-    --popover-foreground: 0 0% 83%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 25%;
-    --secondary-foreground: 0 0% 83%;
-    --muted: 0 0% 25%;
+  /* Theme 5: Spotify Energy - Bright green system for dynamic engagement */
+  .spotify-energy {
+    --background: 0 0% 7%; /* Spotify black */
+    --foreground: 0 0% 95%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 141 73% 42%; /* Spotify green */
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
-    --accent: 221 83% 53%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 83%;
-    --border: 0 0% 30%;
-    --input: 0 0% 25%;
-    --ring: 221 83% 53%;
+    --accent: 60 100% 50%; /* Electric yellow accent */
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 86% 59%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 141 73% 42%;
     
-    /* Obsidian Minimal Custom Variables - No gradients, single accent */
-    --gradient-brand-start: 221 83% 53%;
-    --gradient-brand-end: 221 83% 53%;
-    --gradient-brand-text: 221 83% 53%;
-    --surface-elevated: 0 0% 25%;
-    --surface-muted: 0 0% 18%;
-    --orb-primary: 221 83% 53%;
-    --orb-secondary: 221 83% 53%;
+    /* High-energy engagement variables */
+    --gradient-brand-start: 141 73% 42%;
+    --gradient-brand-end: 60 100% 50%;
+    --gradient-brand-text: 141 73% 45%;
+    --surface-elevated: 0 0% 13%;
+    --surface-muted: 0 0% 9%;
+    --orb-primary: 141 73% 42%;
+    --orb-secondary: 60 100% 50%;
+  }
+
+  /* Theme 6: Mocha Luxury - 2025 Pantone trend with gold accents */
+  .mocha-luxury {
+    --background: 30 20% 85%; /* Mocha Mousse base */
+    --foreground: 30 40% 15%;
+    --card: 30 25% 88%;
+    --card-foreground: 30 40% 15%;
+    --popover: 30 25% 88%;
+    --popover-foreground: 30 40% 15%;
+    --primary: 45 90% 55%; /* Gold accent */
+    --primary-foreground: 30 20% 85%;
+    --secondary: 30 15% 80%;
+    --secondary-foreground: 30 40% 25%;
+    --muted: 30 15% 80%;
+    --muted-foreground: 30 25% 45%;
+    --accent: 25 95% 48%; /* Warm copper */
+    --accent-foreground: 30 20% 85%;
+    --destructive: 0 80% 58%;
+    --destructive-foreground: 30 20% 85%;
+    --border: 30 15% 75%;
+    --input: 30 15% 75%;
+    --ring: 45 90% 55%;
+    
+    /* Luxury aesthetic variables */
+    --gradient-brand-start: 45 90% 55%;
+    --gradient-brand-end: 25 95% 48%;
+    --gradient-brand-text: 45 90% 45%;
+    --surface-elevated: 30 25% 90%;
+    --surface-muted: 30 15% 82%;
+    --orb-primary: 45 90% 55%;
+    --orb-secondary: 25 95% 48%;
   }
 
   * {

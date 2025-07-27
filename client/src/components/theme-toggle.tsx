@@ -25,56 +25,62 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 
+/* 
+ * Research-Based Theme Configuration (2024-2025 UX/UI Studies)
+ * Based on eye strain reduction, color psychology, and user engagement research
+ * Sources: UX Stack Exchange, Toptal Dark UI, Discord/GitHub/Notion/Spotify analysis
+ */
 const themeConfig = {
   light: {
-    name: 'Fablecraft Light',
+    name: 'Off-White Light',
     icon: Sun,
-    description: 'Clean, airy, modern SaaS feel',
-    category: 'Featured'
+    description: 'Reduces eye strain vs pure white (UX Research 2024)',
+    category: 'Essential',
+    engagement: 'Trust & Productivity'
   },
   dark: {
-    name: 'Fablecraft Dark',
+    name: 'GitHub Dark',
     icon: Moon,
-    description: 'Strong, focused, modern dark mode',
-    category: 'Featured'
+    description: 'High contrast for developer-style engagement',
+    category: 'Essential',
+    engagement: 'Focus & Development'
   },
   system: {
-    name: 'Follow System',
+    name: 'System Auto',
     icon: Monitor,
-    description: 'Automatically match your device',
-    category: 'Featured'
+    description: 'Auto-adapts to your device preference',
+    category: 'Essential',
+    engagement: 'Personalized Experience'
   },
-  'midnight-ink': {
-    name: 'Midnight Ink',
-    icon: Star,
-    description: 'Premium, intellectual, magical',
-    category: 'Creative Collection'
-  },
-  'sunrise-creative': {
-    name: 'Sunrise Creative',
-    icon: Sunrise,
-    description: 'High-energy, inspiring, vibrant',
-    category: 'Creative Collection'
-  },
-  'sepia-parchment': {
-    name: 'Sepia Parchment',
-    icon: Scroll,
-    description: 'Vintage, academic, warm',
-    category: 'Creative Collection'
-  },
-  'evergreen-focus': {
-    name: 'Evergreen Focus',
-    icon: TreePine,
-    description: 'Natural, calm, restorative',
-    category: 'Classic'
-  },
-  'obsidian-minimal': {
-    name: 'Obsidian Minimal',
+  'discord-gaming': {
+    name: 'Discord Gaming',
     icon: Square,
-    description: 'Distraction-free, zen',
-    category: 'Classic'
+    description: 'Deep purples/blues with neon accents for creativity',
+    category: 'High Engagement',
+    engagement: 'Gaming & Creative Energy'
+  },
+  'notion-focus': {
+    name: 'Notion Focus',
+    icon: Scroll,
+    description: 'Clean pastels optimized for productivity',
+    category: 'High Engagement',
+    engagement: 'Reading & Focus'  
+  },
+  'spotify-energy': {
+    name: 'Spotify Energy',
+    icon: Star,
+    description: 'Bright green system for dynamic engagement',
+    category: 'High Engagement',
+    engagement: 'Dynamic & Energetic'
+  },
+  'mocha-luxury': {
+    name: 'Mocha Luxury',
+    icon: TreePine,
+    description: '2025 Pantone trend with gold accents',
+    category: 'Premium',
+    engagement: 'Luxury & Sophistication'
   }
-}
+} as const;
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()

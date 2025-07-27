@@ -326,11 +326,10 @@ export default function App() {
           'light', 
           'dark', 
           'system', 
-          'midnight-ink', 
-          'sunrise-creative', 
-          'sepia-parchment', 
-          'evergreen-focus', 
-          'obsidian-minimal'
+          'discord-gaming', 
+          'notion-focus', 
+          'spotify-energy', 
+          'mocha-luxury'
         ]}
       >
         <div className="min-h-screen bg-background flex items-center justify-center">
@@ -407,11 +406,10 @@ export default function App() {
         'light', 
         'dark', 
         'system', 
-        'midnight-ink', 
-        'sunrise-creative', 
-        'sepia-parchment', 
-        'evergreen-focus', 
-        'obsidian-minimal'
+        'discord-gaming', 
+        'notion-focus', 
+        'spotify-energy', 
+        'mocha-luxury'
       ]}
     >
       <QueryClientProvider client={queryClient}>
