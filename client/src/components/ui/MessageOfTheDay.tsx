@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Sparkles, RefreshCw, BookOpen, PenTool, Smile, ChevronRight } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 interface DailyContent {
   motivation: string;
@@ -82,6 +83,7 @@ const writingFacts = [
 ];
 
 export function MessageOfTheDay() {
+  const { token } = useAuth();
   const [content, setContent] = useState<DailyContent>({
     motivation: '',
     joke: '',
@@ -103,7 +105,6 @@ export function MessageOfTheDay() {
     
     setIsGenerating(true);
     try {
-      const token = localStorage.getItem('auth_token');
       const response = await fetch('/api/daily-content/generate', {
         method: 'POST',
         headers: {
@@ -236,10 +237,10 @@ export function MessageOfTheDay() {
               {/* Motivation */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-emerald-600 to-amber-600 rounded-full"></div>
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Motivation</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-snug">
+                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-normal">
                   "{content.motivation}"
                 </p>
               </div>
@@ -247,10 +248,10 @@ export function MessageOfTheDay() {
               {/* Writing Joke */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Smile className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writer's Humor</p>
+                  <Smile className="h-3.5 w-3.5 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writer's Humor</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-snug">
+                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
                   {content.joke}
                 </p>
               </div>
@@ -258,10 +259,10 @@ export function MessageOfTheDay() {
               {/* Writing Tip */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Pro Tip</p>
+                  <Lightbulb className="h-3.5 w-3.5 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Pro Tip</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-snug">
+                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
                   {content.tip}
                 </p>
               </div>
@@ -273,23 +274,23 @@ export function MessageOfTheDay() {
               {/* Word of the Day */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <BookOpen className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
+                  <BookOpen className="h-3.5 w-3.5 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Word of the Day</p>
                 </div>
                 <p className="text-xs">
                   <span className="font-semibold text-emerald-600">{content.wordOfDay.word}</span>
                   <span className="text-stone-600 dark:text-stone-400"> - {content.wordOfDay.definition}</span>
                 </p>
-                <p className="text-[10px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
+                <p className="text-[11px] text-stone-500 dark:text-stone-500 italic">{content.wordOfDay.usage}</p>
               </div>
 
               {/* Quick Prompt */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <PenTool className="h-3 w-3 text-amber-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Quick Prompt</p>
+                  <PenTool className="h-3.5 w-3.5 text-amber-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Quick Prompt</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-snug">
+                <p className="text-xs text-stone-700 dark:text-stone-300 italic leading-normal">
                   {content.prompt}
                 </p>
               </div>
@@ -297,10 +298,10 @@ export function MessageOfTheDay() {
               {/* Writing Fact */}
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-3 w-3 text-emerald-600" />
-                  <p className="text-[10px] font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
+                  <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+                  <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wide">Writing Fact</p>
                 </div>
-                <p className="text-xs text-stone-700 dark:text-stone-300 leading-snug">
+                <p className="text-xs text-stone-700 dark:text-stone-300 leading-normal">
                   {content.fact}
                 </p>
               </div>
