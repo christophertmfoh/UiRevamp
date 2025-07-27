@@ -215,18 +215,6 @@ export function ProjectsPageRedesign({
 
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-12">
-        {/* Centered Fablecraft Branding */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 via-stone-600 to-amber-700 rounded-xl flex items-center justify-center shadow-lg">
-              <Feather className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-3xl font-black font-serif text-stone-900 dark:text-stone-50 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
-              Fablecraft
-            </span>
-          </div>
-        </div>
-
         {/* Page Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 py-8">
           {/* Left Side - Title and Enhanced Content */}
