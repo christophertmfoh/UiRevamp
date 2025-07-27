@@ -32,26 +32,11 @@ export function ThemeToggle() {
   };
 
   const handleThemeChange = (newTheme: Theme) => {
-    console.log('🔘 Theme toggle clicked:', newTheme);
     try {
-      console.log('🔘 About to call setTheme...');
       setTheme(newTheme);
-      console.log('🔘 setTheme call completed');
     } catch (error) {
-      console.error('🔘 Theme toggle error:', error);
-      console.error('🔘 Toggle error stack:', error?.stack);
+      console.error('Theme toggle error:', error);
     }
-  };
-
-  // TEMPORARY: Simple test button
-  const testDarkMode = () => {
-    console.log('🔘 Test button clicked - switching to dark');
-    handleThemeChange('dark');
-  };
-
-  const testLightMode = () => {
-    console.log('🔘 Test button clicked - switching to light');
-    handleThemeChange('light');
   };
 
   // Group themes by category
@@ -60,181 +45,170 @@ export function ThemeToggle() {
   const classicThemes = availableThemes.filter(t => !t.featured && t.category !== 'creative');
 
   return (
-    <div className="flex gap-2">
-      {/* TEMPORARY TEST BUTTONS */}
-      <Button onClick={testDarkMode} size="sm" variant="outline">
-        Test Dark
-      </Button>
-      <Button onClick={testLightMode} size="sm" variant="outline">
-        Test Light
-      </Button>
-      
-      {/* ORIGINAL DROPDOWN */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-9 w-9 px-0 hover:bg-accent/10 text-primary"
-          >
-            {getCurrentIcon()}
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent 
-          align="end" 
-          className="w-72 bg-card/95 border-border/30 backdrop-blur-xl"
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-9 w-9 px-0 hover:bg-accent/10 text-primary"
         >
-          <div className="p-2">
-            <DropdownMenuLabel className="text-sm font-semibold text-foreground flex items-center space-x-2">
-              <Palette className="h-4 w-4 text-primary" />
-              <span>Choose Your Theme</span>
-            </DropdownMenuLabel>
+          {getCurrentIcon()}
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent 
+        align="end" 
+        className="w-72 bg-card/95 border-border/30 backdrop-blur-xl"
+      >
+        <div className="p-2">
+          <DropdownMenuLabel className="text-sm font-semibold text-foreground flex items-center space-x-2">
+            <Palette className="h-4 w-4 text-primary" />
+            <span>Choose Your Theme</span>
+          </DropdownMenuLabel>
+        </div>
+        
+        <DropdownMenuSeparator />
+        
+        {/* Featured Themes */}
+        <div className="px-2 py-1">
+          <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
+            Featured
           </div>
-          
-          <DropdownMenuSeparator />
-          
-          {/* Featured Themes */}
-          <div className="px-2 py-1">
-            <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-              Featured
-            </div>
-            {featuredThemes.map(themeConfig => {
-              const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
-              const isSelected = theme === themeConfig.id;
-              
-              return (
-                <DropdownMenuItem
-                  key={themeConfig.id}
-                  onClick={() => handleThemeChange(themeConfig.id)}
-                  className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
-                      <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                        {themeConfig.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {themeConfig.mood}
-                      </span>
-                    </div>
+          {featuredThemes.map(themeConfig => {
+            const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
+            const isSelected = theme === themeConfig.id;
+            
+            return (
+              <DropdownMenuItem
+                key={themeConfig.id}
+                onClick={() => handleThemeChange(themeConfig.id)}
+                className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
+                    <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
                   </div>
-                  {isSelected && (
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                  )}
-                </DropdownMenuItem>
-              );
-            })}
-          </div>
-          
-          <DropdownMenuSeparator />
-          
-          {/* Creative Themes */}
-          <div className="px-2 py-1">
-            <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-              Creative Collection
-            </div>
-            {creativeThemes.map(themeConfig => {
-              const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
-              const isSelected = theme === themeConfig.id;
-              
-              return (
-                <DropdownMenuItem
-                  key={themeConfig.id}
-                  onClick={() => handleThemeChange(themeConfig.id)}
-                  className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
-                      <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                        {themeConfig.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {themeConfig.mood}
-                      </span>
-                    </div>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                      {themeConfig.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {themeConfig.mood}
+                    </span>
                   </div>
-                  {isSelected && (
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                  )}
-                </DropdownMenuItem>
-              );
-            })}
-          </div>
-          
-          <DropdownMenuSeparator />
-          
-          {/* Classic Themes */}
-          <div className="px-2 py-1">
-            <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-              Classic
-            </div>
-            {classicThemes.map(themeConfig => {
-              const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
-              const isSelected = theme === themeConfig.id;
-              
-              return (
-                <DropdownMenuItem
-                  key={themeConfig.id}
-                  onClick={() => handleThemeChange(themeConfig.id)}
-                  className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
-                      <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                        {themeConfig.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {themeConfig.mood}
-                      </span>
-                    </div>
-                  </div>
-                  {isSelected && (
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                  )}
-                </DropdownMenuItem>
-              );
-            })}
-          </div>
-          
-          <DropdownMenuSeparator />
-          
-          {/* System Theme */}
-          <div className="px-2 py-1">
-            <DropdownMenuItem
-              onClick={() => handleThemeChange('system')}
-              className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
-            >
-              <div className="flex items-center space-x-3">
-                <div className={`p-1.5 rounded-md ${theme === 'system' ? 'bg-primary/20' : 'bg-muted/50'}`}>
-                  <Monitor className={`h-4 w-4 ${theme === 'system' ? 'text-primary' : 'text-muted-foreground'}`} />
                 </div>
-                <div className="flex flex-col">
-                  <span className={`text-sm font-medium ${theme === 'system' ? 'text-primary' : 'text-foreground'}`}>
-                    System
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    Follow OS preference
-                  </span>
+                {isSelected && (
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </div>
+        
+        <DropdownMenuSeparator />
+        
+        {/* Creative Themes */}
+        <div className="px-2 py-1">
+          <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
+            Creative Collection
+          </div>
+          {creativeThemes.map(themeConfig => {
+            const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
+            const isSelected = theme === themeConfig.id;
+            
+            return (
+              <DropdownMenuItem
+                key={themeConfig.id}
+                onClick={() => handleThemeChange(themeConfig.id)}
+                className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
+                    <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                      {themeConfig.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {themeConfig.mood}
+                    </span>
+                  </div>
                 </div>
+                {isSelected && (
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </div>
+        
+        <DropdownMenuSeparator />
+        
+        {/* Classic Themes */}
+        <div className="px-2 py-1">
+          <div className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
+            Classic
+          </div>
+          {classicThemes.map(themeConfig => {
+            const IconComponent = themeIcons[themeConfig.id as keyof typeof themeIcons] || Palette;
+            const isSelected = theme === themeConfig.id;
+            
+            return (
+              <DropdownMenuItem
+                key={themeConfig.id}
+                onClick={() => handleThemeChange(themeConfig.id)}
+                className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted/50'}`}>
+                    <IconComponent className={`h-4 w-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className={`text-sm font-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                      {themeConfig.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {themeConfig.mood}
+                    </span>
+                  </div>
+                </div>
+                {isSelected && (
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                )}
+              </DropdownMenuItem>
+            );
+          })}
+        </div>
+        
+        <DropdownMenuSeparator />
+        
+        {/* System Theme */}
+        <div className="px-2 py-1">
+          <DropdownMenuItem
+            onClick={() => handleThemeChange('system')}
+            className="flex items-center justify-between hover:bg-accent/10 cursor-pointer py-3 px-4"
+          >
+            <div className="flex items-center space-x-3">
+              <div className={`p-1.5 rounded-md ${theme === 'system' ? 'bg-primary/20' : 'bg-muted/50'}`}>
+                <Monitor className={`h-4 w-4 ${theme === 'system' ? 'text-primary' : 'text-muted-foreground'}`} />
               </div>
-              {theme === 'system' && (
-                <div className="w-2 h-2 rounded-full bg-primary" />
-              )}
-            </DropdownMenuItem>
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+              <div className="flex flex-col">
+                <span className={`text-sm font-medium ${theme === 'system' ? 'text-primary' : 'text-foreground'}`}>
+                  System
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Follow OS preference
+                </span>
+              </div>
+            </div>
+            {theme === 'system' && (
+              <div className="w-2 h-2 rounded-full bg-primary" />
+            )}
+          </DropdownMenuItem>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 

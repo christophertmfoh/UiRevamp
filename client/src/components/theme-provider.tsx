@@ -186,28 +186,22 @@ export function ThemeProvider({
   // Handle theme changes with debouncing
   const setTheme = (newTheme: Theme) => {
     if (isChanging) {
-      console.log('🎨 Theme change blocked - already changing');
       return;
     }
     
-    console.log('🎨 Theme change requested:', newTheme);
     setIsChanging(true);
     
     try {
       setThemeState(newTheme);
       
       const resolved = newTheme === 'system' ? getSystemTheme() : newTheme as ResolvedTheme;
-      console.log('🎨 Resolved theme:', resolved);
       setResolvedTheme(resolved);
       
       // Apply immediately
-      console.log('🎨 Applying theme...');
       applyTheme(resolved);
-      console.log('🎨 Theme applied successfully');
       
     } catch (error) {
-      console.error('🎨 Theme setting failed:', error);
-      console.error('🎨 Error stack:', error?.stack);
+      console.error('Theme setting failed:', error);
     } finally {
       // Reset the changing flag after a short delay
       setTimeout(() => setIsChanging(false), 100);
