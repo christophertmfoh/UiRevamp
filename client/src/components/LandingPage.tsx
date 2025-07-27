@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { ThemeToggle } from './theme-toggle';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -227,42 +227,42 @@ export function LandingPage({
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border border-stone-300/30 dark:border-stone-700/30 shadow-2xl rounded-xl mt-2">
+                  <DropdownMenuContent align="end" className="w-56 bg-card/95 backdrop-blur-xl border border-border/30 shadow-2xl rounded-xl mt-2">
                     <DropdownMenuItem 
                       onClick={() => onNavigate('projects')}
-                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
                     >
-                      <BookOpen className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <BookOpen className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Your Projects</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Account clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
                     >
-                      <User className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <User className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Account</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Community clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
                     >
-                      <Users className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <Users className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Community</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Settings clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
                     >
-                      <Settings className="mr-3 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <Settings className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Settings</span>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator className="my-2 border-stone-300/30 dark:border-stone-700/30" />
+                    <DropdownMenuSeparator className="my-2 border-border/30" />
                     <DropdownMenuItem 
                       onClick={onLogout}
-                      className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/20 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-destructive/10 py-3 px-4 rounded-lg transition-colors"
                     >
-                      <LogOut className="mr-3 h-4 w-4 text-red-600 dark:text-red-400" />
-                      <span className="font-medium text-red-600 dark:text-red-400">Sign Out</span>
+                      <LogOut className="mr-3 h-4 w-4 text-destructive" />
+                      <span className="font-medium text-destructive">Sign Out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
