@@ -100,6 +100,11 @@ body {
     @apply bg-gradient-to-r from-[var(--gradient-brand-start)] via-[var(--gradient-brand-middle)] to-[var(--gradient-brand-end)] hover:opacity-90 transition-opacity duration-300;
   }
   
+  /* Vignette gradient overlay for dark mode */
+  .vignette-gradient {
+    background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(16, 185, 129, 0.1) 70%, rgba(251, 191, 36, 0.1) 100%);
+  }
+  
   /* Destructive gradient for dangerous actions */
   .destructive-gradient-text {
     @apply bg-gradient-to-r from-[var(--gradient-destructive-start)] to-[var(--gradient-destructive-end)] bg-clip-text text-transparent;

@@ -550,7 +550,9 @@ export function ProjectsPageRedesign({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
         {/* Page Header */}
-        <div className="bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6">
+        <div className="relative bg-white/80 dark:bg-slate-800/40 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border border-stone-300/30 dark:border-slate-700/20 mb-6 overflow-hidden">
+          {/* Vignette gradient overlay - only visible in dark mode */}
+          <div className="absolute inset-0 vignette-gradient opacity-0 dark:opacity-100 pointer-events-none rounded-[2rem]"></div>
           <div className="text-center">
             <div className="overflow-visible">
               <div className="mb-2">
