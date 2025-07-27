@@ -226,54 +226,90 @@ export function LandingPage({
       {/* Particle System */}
       <ParticleSystem />
       
-      {/* Parallax Background Layers */}
+      {/* HD Fantasy/Novel Background with Parallax */}
       <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
-        {/* Paper texture with parallax */}
+        {/* Main HD Background Image */}
         <div 
-          className="absolute inset-0 opacity-20 dark:opacity-10"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 dark:opacity-20"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.03'%3E%3Cpath d='M20 20h160v160H20V20zm10 10v140h140V30H30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '100px 100px',
-            transform: `translateY(${scrollY * 0.1}px)`
+            backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80')`,
+            transform: `translateY(${scrollY * 0.1}px) scale(1.1)`,
+            filter: 'sepia(20%) saturate(120%) hue-rotate(15deg) brightness(0.8)'
           }}
         />
         
-        {/* Floating story elements with parallax */}
+        {/* Secondary Layer - Ancient Library */}
         <div 
-          className="absolute top-1/4 left-1/3 w-32 h-32 bg-amber-600/5 dark:bg-amber-400/3 rounded-full blur-2xl"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15 dark:opacity-10"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=2856&q=80')`,
+            transform: `translateY(${scrollY * 0.15}px) scale(1.05)`,
+            filter: 'sepia(30%) saturate(130%) hue-rotate(10deg) brightness(0.6)',
+            mixBlendMode: 'multiply'
+          }}
+        />
+        
+        {/* Overlay for warm tones */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-orange-900/15 to-red-900/10 dark:from-amber-900/30 dark:via-orange-900/20 dark:to-red-900/15"
+          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+        />
+        
+        {/* Paper texture overlay with parallax */}
+        <div 
+          className="absolute inset-0 opacity-15 dark:opacity-8"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.05'%3E%3Cpath d='M20 20h160v160H20V20zm10 10v140h140V30H30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '120px 120px',
+            transform: `translateY(${scrollY * 0.08}px)`
+          }}
+        />
+        
+        {/* Floating story elements with enhanced parallax */}
+        <div 
+          className="absolute top-1/4 left-1/3 w-40 h-40 bg-amber-600/8 dark:bg-amber-400/5 rounded-full blur-3xl"
           style={{ 
-            transform: `translateY(${scrollY * 0.2}px) rotate(12deg)`
+            transform: `translateY(${scrollY * 0.25}px) rotate(12deg)`
           }}
         ></div>
         <div 
-          className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-orange-500/10 dark:bg-orange-400/5 rounded-full blur-xl"
+          className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-orange-500/12 dark:bg-orange-400/8 rounded-full blur-2xl"
           style={{ 
-            transform: `translateY(${scrollY * -0.15}px) rotate(-6deg)`
+            transform: `translateY(${scrollY * -0.2}px) rotate(-6deg)`
           }}
         ></div>
         <div 
-          className="absolute top-2/3 left-1/6 w-16 h-16 bg-red-500/8 dark:bg-red-400/4 rounded-full blur-lg"
+          className="absolute top-2/3 left-1/6 w-24 h-24 bg-red-500/10 dark:bg-red-400/6 rounded-full blur-xl"
           style={{ 
-            transform: `translateY(${scrollY * 0.25}px) rotate(45deg)`
+            transform: `translateY(${scrollY * 0.3}px) rotate(45deg)`
           }}
         ></div>
         
         {/* Manuscript lines with subtle parallax */}
         <div 
-          className="absolute inset-0 opacity-10 dark:opacity-5"
+          className="absolute inset-0 opacity-8 dark:opacity-4"
           style={{
             backgroundImage: `linear-gradient(to bottom, transparent 0%, transparent 48%, #d4a574 49%, #d4a574 51%, transparent 52%, transparent 100%)`,
-            backgroundSize: '100% 40px',
-            transform: `translateY(${scrollY * 0.05}px)`
+            backgroundSize: '100% 45px',
+            transform: `translateY(${scrollY * 0.06}px)`
           }}
         />
         
         {/* Ancient scroll decorations */}
         <div 
-          className="absolute top-20 right-20 w-4 h-32 opacity-20 dark:opacity-10"
+          className="absolute top-20 right-20 w-6 h-40 opacity-25 dark:opacity-15"
           style={{ 
-            transform: `translateY(${scrollY * 0.3}px) rotate(15deg)`,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='100' viewBox='0 0 20 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0v100M5 10l10-5M5 30l10-5M5 50l10-5M5 70l10-5M5 90l10-5' stroke='%23d4a574' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`
+            transform: `translateY(${scrollY * 0.35}px) rotate(15deg)`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='24' height='120' viewBox='0 0 24 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0v120M6 12l12-6M6 36l12-6M6 60l12-6M6 84l12-6M6 108l12-6' stroke='%23d4a574' stroke-width='0.8' fill='none'/%3E%3C/svg%3E")`
+          }}
+        ></div>
+        
+        {/* Additional mystical elements */}
+        <div 
+          className="absolute bottom-20 left-20 w-8 h-60 opacity-20 dark:opacity-12"
+          style={{ 
+            transform: `translateY(${scrollY * -0.25}px) rotate(-10deg)`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='180' viewBox='0 0 32 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 0v180M8 20l16-8M8 50l16-8M8 80l16-8M8 110l16-8M8 140l16-8M8 170l16-8' stroke='%23d4a574' stroke-width='1' fill='none'/%3E%3C/svg%3E")`
           }}
         ></div>
       </div>
