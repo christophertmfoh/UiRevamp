@@ -55,6 +55,19 @@ characterRouter.post("/characters", async (req, res) => {
     // Transform data using shared utility
     const transformedData = transformCharacterData(characterData);
     
+    // Generate unique ID to prevent collisions
+    const generateUniqueId = () => {
+      const timestamp = Date.now();
+      const randomPart = Math.random().toString(36).substring(2, 15);
+      const extraRandom = Math.random().toString(36).substring(2, 9);
+      return `char_${timestamp}_${randomPart}_${extraRandom}`;
+    };
+    
+    // Add ID if not present
+    if (!transformedData.id) {
+      transformedData.id = generateUniqueId();
+    }
+    
     console.log('Creating character with transformed data:', transformedData);
     const character = await storage.createCharacter(transformedData as any);
     res.status(201).json(character);
@@ -135,6 +148,14 @@ characterRouter.post("/projects/:projectId/characters/generate-from-template", a
         const portraitUrl = await generateCharacterPortrait(character);
         if (portraitUrl) {
           console.log('Generated portrait URL for template character:', portraitUrl);
+          // Update character with portrait URL
+          await storage.updateCharacter(character.id, {
+            displayImageId: portraitUrl,
+            portraits: [portraitUrl]
+          });
+          // Add portrait to response
+          character.displayImageId = portraitUrl;
+          character.portraits = [portraitUrl];
         }
       } catch (portraitError) {
         console.error("Error generating portrait for template character:", portraitError);
@@ -180,8 +201,15 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       try {
         const portraitUrl = await generateCharacterPortrait(character);
         if (portraitUrl) {
-          // Store portrait URL in character data (displayImageId expects integer ID)
-          console.log('Generated portrait URL:', portraitUrl);
+          console.log('Generated portrait URL for custom character:', portraitUrl);
+          // Update character with portrait URL
+          await storage.updateCharacter(character.id, {
+            displayImageId: portraitUrl,
+            portraits: [portraitUrl]
+          });
+          // Add portrait to response
+          character.displayImageId = portraitUrl;
+          character.portraits = [portraitUrl];
         }
       } catch (portraitError) {
         console.error("Error generating portrait:", portraitError);

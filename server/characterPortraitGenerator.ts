@@ -25,7 +25,7 @@ export async function generateCharacterPortrait(character: Partial<Character>): 
       aiEngine: 'gemini' // Use Gemini for consistent generation
     });
 
-    console.log('Portrait generated successfully');
+    console.log('Portrait generated successfully:', result);
     return result.url;
 
   } catch (error) {

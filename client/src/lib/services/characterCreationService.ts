@@ -132,27 +132,12 @@ export class CharacterCreationService {
   ): Promise<Partial<Character>> {
     console.log('Creating manual character with automatic portrait');
     
-    try {
-      const response = await fetch(`/api/projects/${projectId}/characters/create-manual`, {
-        method: 'POST',
-        body: JSON.stringify(characterData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create manual character');
-      }
-
-      const enhancedCharacterData = await response.json();
-      console.log('Manual character created with portrait:', enhancedCharacterData.imageUrl ? 'Yes' : 'No');
-      
-      return enhancedCharacterData;
-    } catch (error) {
-      console.error('Manual character creation failed:', error);
-      throw error;
-    }
+    // For manual creation, just return the character data as-is
+    // Portrait can be generated separately if needed
+    return {
+      ...characterData,
+      projectId
+    };
   }
 
   /**

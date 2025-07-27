@@ -117,7 +117,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log('Character image generation request:', req.body);
       const imageUrl = await generateCharacterImage(req.body);
-      res.json({ imageUrl });
+      res.json(imageUrl); // Return the object directly, not wrapped in { imageUrl }
     } catch (error: unknown) {
       console.error("Error generating character image:", error);
       const errorMessage = error instanceof Error ? error.message : String(error);

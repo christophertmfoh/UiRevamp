@@ -49,10 +49,10 @@ export function transformCharacterData(data: Record<string, unknown>): Record<st
   }
   
   // Remove invalid timestamp fields if they exist
-  if (transformedData.createdAt && isNaN(transformedData.createdAt.getTime())) {
+  if (transformedData.createdAt && transformedData.createdAt instanceof Date && isNaN(transformedData.createdAt.getTime())) {
     delete transformedData.createdAt;
   }
-  if (transformedData.updatedAt && isNaN(transformedData.updatedAt.getTime())) {
+  if (transformedData.updatedAt && transformedData.updatedAt instanceof Date && isNaN(transformedData.updatedAt.getTime())) {
     delete transformedData.updatedAt;
   }
   
