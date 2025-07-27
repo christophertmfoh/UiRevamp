@@ -6,7 +6,6 @@ export const taskService = {
   // Get all tasks for the current user
   async getTasks(): Promise<Task[]> {
     const response = await fetch('/api/tasks', {
-      headers: getAuthHeaders(),
       credentials: 'include',
     });
     
