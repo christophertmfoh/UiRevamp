@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,7 +24,10 @@ import {
   Sun,
   Lightbulb,
   FileText,
-  Image
+  Image,
+  Bookmark,
+  Library,
+  PenTool
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -37,42 +40,153 @@ interface LandingPageProps {
 
 
 
+// Particle system component
+const ParticleSystem = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Story particles - floating letters, words, ink drops
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      opacity: number;
+      size: number;
+      type: 'letter' | 'ink' | 'star';
+      char?: string;
+      rotation: number;
+      rotationSpeed: number;
+    }> = [];
+    
+    const storyElements = ['A', 'B', 'C', '✦', '✧', '✩', '✪', '◦', '•', '·', '"', '"', "'", "'"];
+    
+    // Initialize particles
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random() * 0.6 + 0.1,
+        size: Math.random() * 3 + 1,
+        type: Math.random() > 0.7 ? 'letter' : Math.random() > 0.5 ? 'ink' : 'star',
+        char: storyElements[Math.floor(Math.random() * storyElements.length)],
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02
+      });
+    }
+    
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.rotation += particle.rotationSpeed;
+        
+        // Wrap around edges
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+        
+        // Draw particle
+        ctx.save();
+        ctx.translate(particle.x, particle.y);
+        ctx.rotate(particle.rotation);
+        ctx.globalAlpha = particle.opacity;
+        
+        if (particle.type === 'letter') {
+          ctx.fillStyle = '#d4af78';
+          ctx.font = `${particle.size * 6}px serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText(particle.char || 'A', 0, 0);
+        } else if (particle.type === 'ink') {
+          ctx.fillStyle = '#8b5a2b';
+          ctx.beginPath();
+          ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = '#f4d03f';
+          ctx.font = `${particle.size * 4}px serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText('✦', 0, 0);
+        }
+        
+        ctx.restore();
+      });
+      
+      requestAnimationFrame(animate);
+    };
+    
+    animate();
+    
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+  
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ background: 'transparent' }}
+    />
+  );
+};
+
 const processSteps = [
   { 
-    icon: Sparkles, 
-    title: "Ideate", 
-    description: "Start with your creative vision",
-    detail: "AI transforms initial concepts into comprehensive project foundations"
+    icon: Lightbulb, 
+    title: "Ideation", 
+    description: "From spark to story seed",
+    detail: "Transform fleeting inspiration into rich narrative foundations with AI guidance"
   },
   { 
-    icon: Users, 
-    title: "World Bible", 
-    description: "Build intelligent story worlds",
-    detail: "Characters, locations, cultures, factions, items - all interconnected with AI"
+    icon: Library, 
+    title: "World Crafting", 
+    description: "Build living story universes",
+    detail: "Characters, places, cultures - all interconnected in your digital story bible"
   },
   { 
-    icon: Globe, 
-    title: "Document AI", 
-    description: "Import existing creative work",
-    detail: "Upload character sheets, extract 50+ attributes automatically"
+    icon: BookOpen, 
+    title: "Manuscript Import", 
+    description: "Breathe life into existing work",
+    detail: "Upload character sheets and documents - AI extracts deep story insights"
   },
   { 
     icon: Compass, 
-    title: "Smart Outlining", 
-    description: "AI-assisted story structure",
-    detail: "Intelligent narrative planning drawing from your world bible"
+    title: "Story Architecture", 
+    description: "Blueprint your narrative",
+    detail: "AI-assisted plotting that weaves through your carefully crafted world"
   },
   { 
-    icon: Edit3, 
-    title: "Context Writing", 
-    description: "Write with world bible integration",
-    detail: "Manuscript creation with AI assistance and bi-directional sync"
+    icon: PenTool, 
+    title: "Contextual Writing", 
+    description: "Write within living worlds",
+    detail: "Every word informed by your story bible - characters, places, history at your fingertips"
   },
   { 
     icon: Palette, 
-    title: "Visual Production", 
-    description: "Generate multimedia content",
-    detail: "Consistent visuals, storyboards, audio for novels, screenplays, comics"
+    title: "Visual Storytelling", 
+    description: "Pictures worth a thousand words",
+    detail: "Generate consistent artwork, storyboards, and multimedia from your narrative"
   }
 ];
 
@@ -91,6 +205,7 @@ export function LandingPage({
   setGuideMode 
 }: LandingPageProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -99,19 +214,89 @@ export function LandingPage({
     return () => clearInterval(interval);
   }, []);
 
+  // Parallax scrolling effect
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500">
-      {/* Warm texture overlay */}
-      <div className="absolute inset-0 opacity-30 bg-repeat bg-center" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-      }}></div>
-      <div className="absolute inset-0 opacity-30 bg-repeat bg-center dark:block hidden" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.01'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-      }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/50 to-red-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative transition-all duration-500 overflow-hidden">
+      {/* Particle System */}
+      <ParticleSystem />
       
-      {/* Ambient lighting */}
-      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-orange-300/20 dark:from-amber-500/10 dark:to-orange-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/20 to-red-300/15 dark:from-orange-500/5 dark:to-red-600/3 rounded-full blur-2xl"></div>
+      {/* Parallax Background Layers */}
+      <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
+        {/* Paper texture with parallax */}
+        <div 
+          className="absolute inset-0 opacity-20 dark:opacity-10"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.03'%3E%3Cpath d='M20 20h160v160H20V20zm10 10v140h140V30H30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '100px 100px',
+            transform: `translateY(${scrollY * 0.1}px)`
+          }}
+        />
+        
+        {/* Floating story elements with parallax */}
+        <div 
+          className="absolute top-1/4 left-1/3 w-32 h-32 bg-amber-600/5 dark:bg-amber-400/3 rounded-full blur-2xl"
+          style={{ 
+            transform: `translateY(${scrollY * 0.2}px) rotate(12deg)`
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-orange-500/10 dark:bg-orange-400/5 rounded-full blur-xl"
+          style={{ 
+            transform: `translateY(${scrollY * -0.15}px) rotate(-6deg)`
+          }}
+        ></div>
+        <div 
+          className="absolute top-2/3 left-1/6 w-16 h-16 bg-red-500/8 dark:bg-red-400/4 rounded-full blur-lg"
+          style={{ 
+            transform: `translateY(${scrollY * 0.25}px) rotate(45deg)`
+          }}
+        ></div>
+        
+        {/* Manuscript lines with subtle parallax */}
+        <div 
+          className="absolute inset-0 opacity-10 dark:opacity-5"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, transparent 0%, transparent 48%, #d4a574 49%, #d4a574 51%, transparent 52%, transparent 100%)`,
+            backgroundSize: '100% 40px',
+            transform: `translateY(${scrollY * 0.05}px)`
+          }}
+        />
+        
+        {/* Ancient scroll decorations */}
+        <div 
+          className="absolute top-20 right-20 w-4 h-32 opacity-20 dark:opacity-10"
+          style={{ 
+            transform: `translateY(${scrollY * 0.3}px) rotate(15deg)`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='100' viewBox='0 0 20 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0v100M5 10l10-5M5 30l10-5M5 50l10-5M5 70l10-5M5 90l10-5' stroke='%23d4a574' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`
+          }}
+        ></div>
+      </div>
+      
+      {/* Ambient story-themed lighting with parallax */}
+      <div 
+        className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-amber-200/20 to-orange-300/15 dark:from-amber-500/8 dark:to-orange-600/4 rounded-full blur-3xl animate-pulse"
+        style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+      ></div>
+      <div 
+        className="absolute bottom-32 right-32 w-80 h-80 bg-gradient-to-br from-orange-200/15 to-red-300/10 dark:from-orange-500/4 dark:to-red-600/2 rounded-full blur-2xl animate-pulse" 
+        style={{ 
+          animationDelay: '1s',
+          transform: `translateY(${scrollY * -0.08}px)`
+        }}
+      ></div>
+      <div 
+        className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-br from-yellow-200/10 to-amber-300/8 dark:from-yellow-400/3 dark:to-amber-500/2 rounded-full blur-3xl animate-pulse" 
+        style={{ 
+          animationDelay: '2s',
+          transform: `translate(-50%, -50%) translateY(${scrollY * 0.15}px)`
+        }}
+      ></div>
 
       {/* Navigation */}
       <nav className="relative z-10 px-8 py-6">
@@ -120,7 +305,7 @@ export function LandingPage({
             <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 dark:from-amber-400 dark:to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
               <Feather className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-stone-800 dark:text-amber-100">
+            <span className="text-2xl font-bold font-serif text-stone-800 dark:text-amber-100">
               Fablecraft
             </span>
           </div>
@@ -149,16 +334,17 @@ export function LandingPage({
                 <span className="text-sm font-medium text-amber-800 dark:text-amber-200">End-to-End Creative Production Suite</span>
               </div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-stone-800 dark:text-amber-50 leading-[0.95] tracking-tight">
-                AI-Powered Creative Suite
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-stone-800 dark:text-amber-50 leading-[0.95] tracking-tight">
+                Where Stories
                 <span className="block bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-400 dark:to-red-400 bg-clip-text text-transparent">
-                  Idea to Final Media
+                  Come to Life
                 </span>
               </h1>
               
-              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed">
-                Transform any creative idea into complete multimedia production - novels, screenplays, 
-                graphic novels with generated visuals, audio, and video. One platform. One workflow.
+              <p className="text-xl text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed font-serif">
+                From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
+                and graphic novels with AI that understands the art of storytelling. Your imagination, 
+                amplified by intelligence.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 pt-6">
@@ -169,8 +355,9 @@ export function LandingPage({
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <span className="relative z-10 flex items-center">
+                    <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
                     Begin Your Story
-                    <Sparkles className="ml-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                    <Feather className="ml-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                   </span>
                 </Button>
                 <Button 
@@ -180,7 +367,8 @@ export function LandingPage({
                   className="group border-2 border-amber-400 dark:border-amber-500/40 text-amber-700 dark:text-amber-200 bg-white/80 dark:bg-slate-800/50 hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50 dark:hover:from-amber-900/20 dark:hover:to-orange-900/20 hover:border-amber-500 dark:hover:border-amber-400 px-10 py-5 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-0.5 rounded-2xl backdrop-blur-sm"
                 >
                   <span className="flex items-center">
-                    See Examples
+                    <BookOpen className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                    Browse Stories
                     <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </Button>
@@ -196,9 +384,9 @@ export function LandingPage({
               
               <div className="relative z-10 text-center space-y-6">
                 <div className="w-20 h-20 bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 dark:from-amber-500 dark:via-orange-600 dark:to-red-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-3">
-                  <Brain className="w-10 h-10 text-white" />
+                  <PenTool className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
+                <h3 className="text-2xl font-bold font-serif text-stone-800 dark:text-amber-50">Your Writing Journey</h3>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {processSteps.map((step, index) => {
