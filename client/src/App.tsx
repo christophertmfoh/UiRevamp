@@ -6,7 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-// import { PerformanceDashboard } from './components/dev/PerformanceDashboard'; // Disabled to save memory
+import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
 // import { backupManager } from './lib/backup/replitBackup'; // Disabled to save memory
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
@@ -150,7 +150,7 @@ export default function App() {
   //   }
   // }, []);
 
-  // Fetch projects function
+  // Fetch projects function with proper error handling
   const fetchProjects = async () => {
     try {
       if (!isAuthenticated || !user) return;
@@ -167,9 +167,17 @@ export default function App() {
       if (response.ok) {
         const projectsData = await response.json();
         setProjects(projectsData);
+      } else {
+        // Don't log errors for expected 401/403 responses
+        if (response.status !== 401 && response.status !== 403) {
+          console.warn('Projects fetch failed:', response.status);
+        }
       }
     } catch (error) {
-      console.error('Failed to fetch projects:', error);
+      // Only log actual network errors, not auth failures
+      if (error.name !== 'AbortError') {
+        console.warn('Projects fetch error:', error.message);
+      }
     }
   };
 
@@ -537,8 +545,8 @@ export default function App() {
           </ToastProvider>
         </QueryClientProvider>
         
-        {/* Replit-Optimized Performance Dashboard (Development Only) - DISABLED FOR MEMORY */}
-        {/* <PerformanceDashboard /> */}
+        {/* Replit-Optimized Performance Dashboard (Development Only) */}
+        {process.env.NODE_ENV === 'development' && <PerformanceDashboard />}
       </ThemeProvider>
     </ErrorBoundary>
   );

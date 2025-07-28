@@ -3,7 +3,10 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    const error = new Error(`${res.status}: ${text}`);
+    // Add more context to help identify the source
+    error.name = `HTTPError_${res.status}`;
+    throw error;
   }
 }
 
@@ -49,16 +52,22 @@ export const getQueryFn: <T>(options: {
       headers["Authorization"] = `Bearer ${token}`;
     }
     
-    const res = await fetch(queryKey.join("/") as string, {
-      headers,
-    });
+    try {
+      const res = await fetch(queryKey.join("/") as string, {
+        headers,
+      });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
+
+      await throwIfResNotOk(res);
+      return await res.json();
+    } catch (error) {
+      // Add URL context to help debug which endpoint is failing
+      error.url = queryKey.join("/");
+      throw error;
     }
-
-    await throwIfResNotOk(res);
-    return await res.json();
   };
 
 export const queryClient = new QueryClient({
@@ -70,6 +79,8 @@ export const queryClient = new QueryClient({
       staleTime: 300000, // 5 minutes instead of Infinity to allow garbage collection
       gcTime: 300000, // 5 minutes cache (renamed from cacheTime in v5)
       retry: false,
+      refetchOnMount: false, // Prevent automatic refetching
+      refetchOnReconnect: false, // Prevent automatic refetching on reconnect
     },
     mutations: {
       retry: false,

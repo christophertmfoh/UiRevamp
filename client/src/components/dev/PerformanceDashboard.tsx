@@ -58,9 +58,17 @@ export const PerformanceDashboard: React.FC = () => {
       const performance = window.performance;
       const memory = (performance as any).memory;
       
-      // Server health check for uptime
-      const healthResponse = await fetch('/api/health');
-      const healthData = await healthResponse.json();
+      // Server health check for uptime with proper error handling
+      let healthData = { uptime: 0 };
+      try {
+        const healthResponse = await fetch('/api/health');
+        if (healthResponse.ok) {
+          healthData = await healthResponse.json();
+        }
+      } catch (error) {
+        // Silently handle fetch errors to prevent promise rejection spam
+        healthData = { uptime: 0 };
+      }
 
       // Calculate render performance
       const renderEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];

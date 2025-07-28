@@ -18,10 +18,25 @@ export const initializeGlobalErrorHandler = () => {
       lastErrorReset = currentTime;
     }
     
-    // Silently prevent rejections to save memory
-    if (errorCount < 3) { // Only log first 3 for debugging
+    // Log detailed error information to identify root cause
+    if (errorCount < MAX_ERRORS_PER_MINUTE) {
       const reason = event.reason;
-      console.warn('Promise rejection silenced:', typeof reason);
+      
+      // Detailed logging to find the source
+      if (reason && reason.message) {
+        console.warn('🔍 Promise rejection:', reason.message);
+        if (reason.url) {
+          console.warn('Failed URL:', reason.url);
+        }
+        if (reason.name && reason.name.includes('HTTPError')) {
+          console.warn('HTTP Error details:', reason.name);
+        }
+      } else if (reason && typeof reason === 'object') {
+        console.warn('🔍 Promise rejection (object):', JSON.stringify(reason, null, 2));
+      } else {
+        console.warn('🔍 Promise rejection:', reason);
+      }
+      
       errorCount++;
     }
     
