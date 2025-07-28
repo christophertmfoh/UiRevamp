@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Clock, Pencil, Trash2, Plus } from 'lucide-react';
+import { Clock, Pencil, Trash2, Plus, Calendar, AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface Task {
   id: string;
@@ -30,6 +30,14 @@ interface Task {
   priority: 'low' | 'medium' | 'high';
   estimatedTime: number;
   createdAt: string;
+  dueDate?: string;
+  projectId?: string;
+}
+
+interface Project {
+  id: string;
+  name: string;
+  color: string;
 }
 
 interface Goals {
@@ -47,6 +55,8 @@ interface Progress {
 interface TaskStats {
   completedTasks: number;
   completionRate: number;
+  weeklyTrend: number;
+  productivityScore: number;
 }
 
 interface ProjectModalsProps {
@@ -59,13 +69,18 @@ interface ProjectModalsProps {
   setNewTaskPriority: (priority: 'low' | 'medium' | 'high') => void;
   newTaskEstimatedTime: number;
   setNewTaskEstimatedTime: (time: number) => void;
+  selectedProject: string;
+  setSelectedProject: (projectId: string) => void;
   onCreateTask: () => Promise<void>;
   editingTask: Task | null;
+  projects: Project[];
 
   // Tasks Modal
   showTasksModal: boolean;
   onCloseTasksModal: () => void;
   todayTasks: Task[];
+  overdueTasks: Task[];
+  upcomingTasks: Task[];
   isLoadingTasks: boolean;
   taskStats: TaskStats;
   onToggleTaskCompletion: (task: Task) => Promise<void>;
@@ -82,6 +97,7 @@ interface ProjectModalsProps {
   
   // Additional handlers
   onShowAddTaskModal: () => void;
+  parseTaskInput: (input: string) => { text: string; dueDate?: string; priority?: 'low' | 'medium' | 'high'; estimatedTime?: number };
 }
 
 export const ProjectModals = React.memo(function ProjectModals({
@@ -94,13 +110,18 @@ export const ProjectModals = React.memo(function ProjectModals({
   setNewTaskPriority,
   newTaskEstimatedTime,
   setNewTaskEstimatedTime,
+  selectedProject,
+  setSelectedProject,
   onCreateTask,
   editingTask,
+  projects,
 
   // Tasks Modal props
   showTasksModal,
   onCloseTasksModal,
   todayTasks,
+  overdueTasks,
+  upcomingTasks,
   isLoadingTasks,
   taskStats,
   onToggleTaskCompletion,
@@ -117,11 +138,25 @@ export const ProjectModals = React.memo(function ProjectModals({
   
   // Additional handlers
   onShowAddTaskModal,
+  parseTaskInput,
 }: ProjectModalsProps) {
   const { toast, announce } = useToastActions();
   const { focusFirstElement } = useFocusManagement();
   const { addAriaAttributes } = useAriaAttributes();
   const { validateTouchTargets } = useTouchTargets();
+
+  // Natural language preview state
+  const [nlpPreview, setNlpPreview] = useState<{ text: string; dueDate?: string; priority?: 'low' | 'medium' | 'high'; estimatedTime?: number } | null>(null);
+
+  // Update NLP preview when task text changes
+  React.useEffect(() => {
+    if (newTaskText.trim()) {
+      const preview = parseTaskInput(newTaskText);
+      setNlpPreview(preview);
+    } else {
+      setNlpPreview(null);
+    }
+  }, [newTaskText, parseTaskInput]);
 
   // Enhanced task creation handler with proper feedback
   const handleCreateTask = async () => {
@@ -256,6 +291,7 @@ export const ProjectModals = React.memo(function ProjectModals({
       setNewTaskText('');
       setNewTaskPriority('medium');
       setNewTaskEstimatedTime(30);
+      setSelectedProject('inbox');
     } catch (error) {
       console.error('Error creating sample tasks:', error);
       toast.error('Failed to create sample tasks. Please try again.');
@@ -274,6 +310,27 @@ export const ProjectModals = React.memo(function ProjectModals({
       default:
         return null;
     }
+  };
+
+  // Format due date for display
+  const formatDueDate = (dueDate: string) => {
+    const date = new Date(dueDate);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+      return 'Today';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+      return 'Tomorrow';
+    } else {
+      return date.toLocaleDateString();
+    }
+  };
+
+  // Check if task is overdue
+  const isOverdue = (task: Task) => {
+    return task.dueDate && new Date(task.dueDate) < new Date() && task.status === 'pending';
   };
 
   return (
@@ -297,7 +354,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                 Task Description
               </label>
               <Textarea
-                placeholder="What do you need to do?"
+                placeholder="e.g., 'Write chapter outline tomorrow urgent 30 min'"
                 value={newTaskText}
                 onChange={(e) => setNewTaskText(e.target.value)}
                 className="min-h-[100px] resize-none surface-elevated border-border rounded-xl"
@@ -306,11 +363,61 @@ export const ProjectModals = React.memo(function ProjectModals({
                 required
               />
               <p id="task-description-help" className="text-xs text-muted-foreground mt-1">
-                Enter a clear description of what you want to accomplish
+                Use natural language: Try "tomorrow", "urgent", "30 min", etc.
               </p>
+              
+              {/* Natural Language Preview */}
+              {nlpPreview && (nlpPreview.dueDate || nlpPreview.priority || nlpPreview.estimatedTime) && (
+                <div className="p-3 bg-accent/10 rounded-lg border border-border/30">
+                  <p className="text-xs font-medium text-foreground/80 mb-2">Smart Detection:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {nlpPreview.dueDate && (
+                      <Badge variant="outline" className="text-xs">
+                        <Calendar className="w-3 h-3 mr-1" />
+                        {formatDueDate(nlpPreview.dueDate)}
+                      </Badge>
+                    )}
+                    {nlpPreview.priority && (
+                      <Badge variant="outline" className="text-xs">
+                        Priority: {nlpPreview.priority}
+                      </Badge>
+                    )}
+                    {nlpPreview.estimatedTime && (
+                      <Badge variant="outline" className="text-xs">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {nlpPreview.estimatedTime} min
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground/80">
+                  Project
+                </label>
+                <Select value={selectedProject} onValueChange={setSelectedProject}>
+                  <SelectTrigger className="surface-elevated border-border rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {projects.map((project) => (
+                      <SelectItem key={project.id} value={project.id}>
+                        <div className="flex items-center gap-2">
+                          <div 
+                            className="w-3 h-3 rounded-full" 
+                            style={{ backgroundColor: project.color }}
+                          />
+                          {project.name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground/80">
                   Priority
@@ -326,27 +433,27 @@ export const ProjectModals = React.memo(function ProjectModals({
                   </SelectContent>
                 </Select>
               </div>
-              
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground/80 flex items-center justify-between">
-                  <span>Estimated Time</span>
-                  <span className="text-xs text-black dark:text-white">{newTaskEstimatedTime} min</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="range"
-                    min="5"
-                    max="120"
-                    step="5"
-                    value={newTaskEstimatedTime}
-                    onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value))}
-                    className="w-full h-10 appearance-none bg-muted rounded-xl cursor-pointer
-                      [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
-                      [&::-webkit-slider-thumb]:gradient-primary [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
-                      [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0
-                      [&::-moz-range-thumb]:gradient-primary [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer"
-                  />
-                </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground/80 flex items-center justify-between">
+                <span>Estimated Time</span>
+                <span className="text-xs text-black dark:text-white">{newTaskEstimatedTime} min</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="5"
+                  max="120"
+                  step="5"
+                  value={newTaskEstimatedTime}
+                  onChange={(e) => setNewTaskEstimatedTime(parseInt(e.target.value))}
+                  className="w-full h-10 appearance-none bg-muted rounded-xl cursor-pointer
+                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 
+                    [&::-webkit-slider-thumb]:gradient-primary [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
+                    [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0
+                    [&::-moz-range-thumb]:gradient-primary [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer"
+                />
               </div>
             </div>
             
@@ -374,7 +481,7 @@ export const ProjectModals = React.memo(function ProjectModals({
       {/* View All Tasks Modal */}
       <ErrorBoundary isolate>
         <Dialog open={showTasksModal} onOpenChange={onCloseTasksModal}>
-        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
+        <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -396,6 +503,69 @@ export const ProjectModals = React.memo(function ProjectModals({
           </DialogHeader>
           
           <div className="space-y-6 py-4">
+            {/* Productivity Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 surface-elevated rounded-xl">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-foreground/80">Productivity Score</p>
+                  <Badge variant={taskStats.productivityScore >= 80 ? "default" : taskStats.productivityScore >= 60 ? "secondary" : "destructive"} className="text-xs">
+                    {Math.round(taskStats.productivityScore)}%
+                  </Badge>
+                </div>
+              </div>
+              <div className="p-4 surface-elevated rounded-xl">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-foreground/80">Weekly Trend</p>
+                  <div className="flex items-center gap-1">
+                    {taskStats.weeklyTrend > 0 ? (
+                      <TrendingUp className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <TrendingDown className="w-4 h-4 text-red-500" />
+                    )}
+                    <span className="text-xs text-foreground/80">
+                      {taskStats.weeklyTrend > 0 ? '+' : ''}{Math.round(taskStats.weeklyTrend)}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 surface-elevated rounded-xl">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-medium text-foreground/80">Completion Rate</p>
+                  <span className="text-sm font-bold text-black dark:text-white">
+                    {Math.round(taskStats.completionRate)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Overdue Tasks Warning */}
+            {overdueTasks.length > 0 && (
+              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="w-4 h-4 text-destructive" />
+                  <h4 className="font-medium text-destructive">Overdue Tasks ({overdueTasks.length})</h4>
+                </div>
+                <div className="space-y-2">
+                  {overdueTasks.slice(0, 3).map((task) => (
+                    <div key={task.id} className="flex items-center gap-3 p-2 bg-background/50 rounded-lg">
+                      <Checkbox
+                        checked={false}
+                        onCheckedChange={() => handleToggleTask(task)}
+                        className="h-4 w-4"
+                      />
+                      <span className="text-sm text-foreground/80 flex-1">{task.text}</span>
+                      <Badge variant="destructive" className="text-xs">
+                        Due {formatDueDate(task.dueDate!)}
+                      </Badge>
+                    </div>
+                  ))}
+                  {overdueTasks.length > 3 && (
+                    <p className="text-xs text-muted-foreground">+{overdueTasks.length - 3} more overdue tasks</p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Today's Tasks */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -440,12 +610,23 @@ export const ProjectModals = React.memo(function ProjectModals({
                         <p className={`font-medium ${task.status === 'completed' ? 'line-through text-muted-foreground/70' : 'text-foreground/80'}`}>
                           {task.text}
                         </p>
-                        <div className="flex items-center gap-4 mt-2">
+                        <div className="flex items-center gap-4 mt-2 flex-wrap">
                           <span className="text-xs text-muted-foreground">
                             <Clock className="w-3 h-3 inline mr-1" />
                             {task.estimatedTime} min
                           </span>
+                          {task.dueDate && (
+                            <Badge variant={isOverdue(task) ? "destructive" : "outline"} className="text-xs">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {formatDueDate(task.dueDate)}
+                            </Badge>
+                          )}
                           {getPriorityBadge(task.priority)}
+                          {task.projectId && task.projectId !== 'inbox' && (
+                            <Badge variant="outline" className="text-xs">
+                              {projects.find(p => p.id === task.projectId)?.name || 'Unknown'}
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
@@ -473,27 +654,33 @@ export const ProjectModals = React.memo(function ProjectModals({
                 )}
               </div>
             </div>
-            
-            {/* Progress Summary */}
-            <div className="gradient-primary p-5 rounded-xl bg-opacity-10">
-              <h4 className="text-lg font-bold text-foreground/80 mb-4">Daily Progress</h4>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="text-center">
-                  <p className="text-sm text-foreground mb-1">Tasks Completed</p>
-                  <p className="text-3xl font-black text-black dark:text-white">{taskStats?.completedTasks || 0}</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-sm text-foreground mb-1">Completion Rate</p>
-                  <p className="text-3xl font-black text-black dark:text-white">{taskStats?.completionRate ? Math.round(taskStats.completionRate) : 0}%</p>
+
+            {/* Upcoming Tasks */}
+            {upcomingTasks.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="text-lg font-bold text-foreground/80">Upcoming Tasks</h3>
+                <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                  {upcomingTasks.slice(0, 5).map((task) => (
+                    <div key={task.id} className="flex items-center gap-3 p-3 surface-muted rounded-lg">
+                      <Calendar className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm text-foreground/80 flex-1">{task.text}</span>
+                      <Badge variant="outline" className="text-xs">
+                        {formatDueDate(task.dueDate!)}
+                      </Badge>
+                    </div>
+                  ))}
+                  {upcomingTasks.length > 5 && (
+                    <p className="text-xs text-muted-foreground text-center">+{upcomingTasks.length - 5} more upcoming tasks</p>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
       </ErrorBoundary>
 
-      {/* Goals Modal */}
+      {/* Goals Modal - keeping existing implementation */}
       <ErrorBoundary isolate>
         <Dialog open={showGoalsModal} onOpenChange={onCloseGoalsModal}>
         <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">

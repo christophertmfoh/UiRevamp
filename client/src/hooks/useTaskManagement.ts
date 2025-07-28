@@ -11,6 +11,17 @@ interface Task {
   createdAt: string;
   completedAt?: string;
   projectId?: string;
+  dueDate?: string;
+  recurring?: 'daily' | 'weekly' | 'monthly' | null;
+  labels?: string[];
+  location?: string;
+}
+
+interface Project {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: string;
 }
 
 interface Goals {
@@ -32,12 +43,78 @@ interface TaskStats {
   completionRate: number;
   totalEstimatedTime: number;
   completedEstimatedTime: number;
+  weeklyTrend: number;
+  productivityScore: number;
 }
 
 // localStorage keys
 const TASKS_STORAGE_KEY = 'fablecraft_tasks';
+const PROJECTS_STORAGE_KEY = 'fablecraft_projects';
 const GOALS_STORAGE_KEY = 'fablecraft_goals';
 const PROGRESS_STORAGE_KEY = 'fablecraft_progress';
+
+// Natural Language Processing for task creation
+const parseNaturalLanguage = (input: string): { text: string; dueDate?: string; priority?: 'low' | 'medium' | 'high'; estimatedTime?: number } => {
+  let text = input.trim();
+  let dueDate: string | undefined;
+  let priority: 'low' | 'medium' | 'high' | undefined;
+  let estimatedTime: number | undefined;
+
+  // Parse due dates
+  const datePatterns = [
+    { pattern: /\btomorrow\b/i, offset: 1 },
+    { pattern: /\btoday\b/i, offset: 0 },
+    { pattern: /\bin (\d+) days?\b/i, offset: (match: RegExpMatchArray) => parseInt(match[1]) },
+    { pattern: /\bin (\d+) weeks?\b/i, offset: (match: RegExpMatchArray) => parseInt(match[1]) * 7 },
+    { pattern: /\bnext week\b/i, offset: 7 },
+    { pattern: /\bmonda?y\b/i, offset: (today: Date) => (1 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\btuesda?y\b/i, offset: (today: Date) => (2 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\bwednesda?y\b/i, offset: (today: Date) => (3 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\bthursda?y\b/i, offset: (today: Date) => (4 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\bfrida?y\b/i, offset: (today: Date) => (5 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\bsaturda?y\b/i, offset: (today: Date) => (6 - today.getDay() + 7) % 7 || 7 },
+    { pattern: /\bsunda?y\b/i, offset: (today: Date) => (0 - today.getDay() + 7) % 7 || 7 },
+  ];
+
+  for (const { pattern, offset } of datePatterns) {
+    const match = text.match(pattern);
+    if (match) {
+      const today = new Date();
+      const offsetDays = typeof offset === 'function' ? offset(today) : offset;
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + offsetDays);
+      dueDate = targetDate.toISOString();
+      text = text.replace(pattern, '').trim();
+      break;
+    }
+  }
+
+  // Parse priority
+  if (/\b(urgent|important|high|!!)\b/i.test(text)) {
+    priority = 'high';
+    text = text.replace(/\b(urgent|important|high|!!)\b/i, '').trim();
+  } else if (/\b(medium|normal|!)\b/i.test(text)) {
+    priority = 'medium';
+    text = text.replace(/\b(medium|normal|!)\b/i, '').trim();
+  } else if (/\b(low|later)\b/i.test(text)) {
+    priority = 'low';
+    text = text.replace(/\b(low|later)\b/i, '').trim();
+  }
+
+  // Parse estimated time
+  const timeMatch = text.match(/\b(\d+)\s*(min|minutes?|hrs?|hours?)\b/i);
+  if (timeMatch) {
+    const num = parseInt(timeMatch[1]);
+    const unit = timeMatch[2].toLowerCase();
+    estimatedTime = unit.startsWith('h') ? num * 60 : num;
+    text = text.replace(timeMatch[0], '').trim();
+  }
+
+  // Clean up extra spaces
+  text = text.replace(/\s+/g, ' ').trim();
+
+  return { text, dueDate, priority, estimatedTime };
+};
 
 // Task persistence utilities
 const loadTasksFromStorage = (): Task[] => {
@@ -55,6 +132,32 @@ const saveTasksToStorage = (tasks: Task[]): void => {
     localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
   } catch (error) {
     console.error('Error saving tasks to localStorage:', error);
+  }
+};
+
+const loadProjectsFromStorage = (): Project[] => {
+  try {
+    const saved = localStorage.getItem(PROJECTS_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [
+      { id: 'inbox', name: 'Inbox', color: '#666666', createdAt: new Date().toISOString() },
+      { id: 'writing', name: 'Writing', color: '#3b82f6', createdAt: new Date().toISOString() },
+      { id: 'research', name: 'Research', color: '#10b981', createdAt: new Date().toISOString() }
+    ];
+  } catch (error) {
+    console.error('Error loading projects from localStorage:', error);
+    return [
+      { id: 'inbox', name: 'Inbox', color: '#666666', createdAt: new Date().toISOString() },
+      { id: 'writing', name: 'Writing', color: '#3b82f6', createdAt: new Date().toISOString() },
+      { id: 'research', name: 'Research', color: '#10b981', createdAt: new Date().toISOString() }
+    ];
+  }
+};
+
+const saveProjectsToStorage = (projects: Project[]): void => {
+  try {
+    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+  } catch (error) {
+    console.error('Error saving projects to localStorage:', error);
   }
 };
 
@@ -136,16 +239,48 @@ const isToday = (dateString: string): boolean => {
   return taskDate === today;
 };
 
+const isOverdue = (task: Task): boolean => {
+  if (!task.dueDate) return false;
+  return new Date(task.dueDate) < new Date() && task.status === 'pending';
+};
+
 const calculateTaskStats = (tasks: Task[]): TaskStats => {
   const todayTasks = tasks.filter(task => isToday(task.createdAt));
   const completedTasks = todayTasks.filter(task => task.status === 'completed');
+  const overdueTasks = tasks.filter(isOverdue);
+  
+  // Calculate weekly trend
+  const lastWeek = tasks.filter(task => {
+    const taskDate = new Date(task.createdAt);
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    return taskDate >= weekAgo && task.status === 'completed';
+  });
+  
+  const weekBefore = tasks.filter(task => {
+    const taskDate = new Date(task.createdAt);
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    return taskDate >= twoWeeksAgo && taskDate < weekAgo && task.status === 'completed';
+  });
+  
+  const weeklyTrend = weekBefore.length > 0 ? ((lastWeek.length - weekBefore.length) / weekBefore.length) * 100 : 0;
+  
+  // Calculate productivity score (0-100)
+  const completionRate = todayTasks.length > 0 ? (completedTasks.length / todayTasks.length) * 100 : 0;
+  const overduesPenalty = overdueTasks.length * 10;
+  const productivityScore = Math.max(0, Math.min(100, completionRate - overduesPenalty));
   
   return {
     completedTasks: completedTasks.length,
     totalTasks: todayTasks.length,
     completionRate: todayTasks.length > 0 ? (completedTasks.length / todayTasks.length) * 100 : 0,
     totalEstimatedTime: todayTasks.reduce((sum, task) => sum + task.estimatedTime, 0),
-    completedEstimatedTime: completedTasks.reduce((sum, task) => sum + task.estimatedTime, 0)
+    completedEstimatedTime: completedTasks.reduce((sum, task) => sum + task.estimatedTime, 0),
+    weeklyTrend,
+    productivityScore
   };
 };
 
@@ -160,6 +295,7 @@ interface UseTaskManagementReturn {
   newTaskPriority: 'low' | 'medium' | 'high';
   newTaskEstimatedTime: number;
   editingTask: Task | null;
+  selectedProject: string;
   
   // Goals states
   tempGoals: Goals;
@@ -168,8 +304,11 @@ interface UseTaskManagementReturn {
   // Data
   todayTasks: Task[];
   allTasks: Task[];
+  projects: Project[];
   isLoadingTasks: boolean;
   taskStats: TaskStats;
+  overdueTasks: Task[];
+  upcomingTasks: Task[];
   
   // Actions
   setShowAddTaskModal: (show: boolean) => void;
@@ -178,6 +317,7 @@ interface UseTaskManagementReturn {
   setNewTaskText: (text: string) => void;
   setNewTaskPriority: (priority: 'low' | 'medium' | 'high') => void;
   setNewTaskEstimatedTime: (time: number) => void;
+  setSelectedProject: (projectId: string) => void;
   setTempGoals: (goals: Goals) => void;
   
   // Handlers
@@ -190,9 +330,15 @@ interface UseTaskManagementReturn {
   handleCloseAddTaskModal: () => void;
   handleCloseTasksModal: () => void;
   handleCloseGoalsModal: () => void;
+  handleCreateProject: (name: string, color: string) => Promise<void>;
   
   // Progress tracking
   updateProgress: (words?: number, minutes?: number) => void;
+  
+  // Smart features
+  getTaskSuggestions: () => string[];
+  getTaskInsights: () => any;
+  parseTaskInput: (input: string) => { text: string; dueDate?: string; priority?: 'low' | 'medium' | 'high'; estimatedTime?: number };
 }
 
 export function useTaskManagement(): UseTaskManagementReturn {
@@ -205,38 +351,46 @@ export function useTaskManagement(): UseTaskManagementReturn {
   const [newTaskText, setNewTaskText] = useState('');
   const [newTaskPriority, setNewTaskPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState(30);
+  const [selectedProject, setSelectedProject] = useState('inbox');
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   // Data states
   const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isLoadingTasks, setIsLoadingTasks] = useState(true);
   
   // Goals and progress states
   const [tempGoals, setTempGoals] = useState<Goals>(loadGoalsFromStorage);
   const [todayProgress, setTodayProgress] = useState<Progress>(loadProgressFromStorage);
 
-  // Load tasks on mount
+  // Load data on mount
   useEffect(() => {
-    const loadTasks = async () => {
+    const loadData = async () => {
       setIsLoadingTasks(true);
       try {
         const tasks = loadTasksFromStorage();
+        const projectsData = loadProjectsFromStorage();
         setAllTasks(tasks);
+        setProjects(projectsData);
       } catch (error) {
-        console.error('Error loading tasks:', error);
+        console.error('Error loading data:', error);
       } finally {
         setIsLoadingTasks(false);
       }
     };
     
-    loadTasks();
+    loadData();
   }, []);
 
   // Computed values
   const todayTasks = allTasks.filter(task => isToday(task.createdAt));
+  const overdueTasks = allTasks.filter(isOverdue);
+  const upcomingTasks = allTasks.filter(task => 
+    task.dueDate && new Date(task.dueDate) > new Date() && task.status === 'pending'
+  ).sort((a, b) => new Date(a.dueDate!).getTime() - new Date(b.dueDate!).getTime());
   const taskStats = calculateTaskStats(allTasks);
 
-  // Task handlers
+  // Enhanced task creation with natural language processing
   const handleCreateTask = useCallback(async (): Promise<void> => {
     if (!newTaskText.trim()) return;
 
@@ -246,7 +400,8 @@ export function useTaskManagement(): UseTaskManagementReturn {
         ...editingTask,
         text: newTaskText.trim(),
         priority: newTaskPriority,
-        estimatedTime: newTaskEstimatedTime
+        estimatedTime: newTaskEstimatedTime,
+        projectId: selectedProject
       };
 
       const updatedTasks = allTasks.map(task => 
@@ -255,14 +410,19 @@ export function useTaskManagement(): UseTaskManagementReturn {
       setAllTasks(updatedTasks);
       saveTasksToStorage(updatedTasks);
     } else {
+      // Parse natural language input
+      const parsed = parseNaturalLanguage(newTaskText);
+      
       // Create new task
       const newTask: Task = {
         id: `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        text: newTaskText.trim(),
+        text: parsed.text,
         status: 'pending',
-        priority: newTaskPriority,
-        estimatedTime: newTaskEstimatedTime,
-        createdAt: new Date().toISOString()
+        priority: parsed.priority || newTaskPriority,
+        estimatedTime: parsed.estimatedTime || newTaskEstimatedTime,
+        createdAt: new Date().toISOString(),
+        projectId: selectedProject,
+        dueDate: parsed.dueDate,
       };
 
       const updatedTasks = [...allTasks, newTask];
@@ -274,8 +434,9 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setNewTaskText('');
     setNewTaskPriority('medium');
     setNewTaskEstimatedTime(30);
+    setSelectedProject('inbox');
     setEditingTask(null);
-  }, [newTaskText, newTaskPriority, newTaskEstimatedTime, allTasks, editingTask]);
+  }, [newTaskText, newTaskPriority, newTaskEstimatedTime, selectedProject, allTasks, editingTask]);
 
   const handleToggleTaskCompletion = useCallback(async (task: Task): Promise<void> => {
     const updatedTask: Task = {
@@ -332,8 +493,22 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setNewTaskText(task.text);
     setNewTaskPriority(task.priority);
     setNewTaskEstimatedTime(task.estimatedTime);
+    setSelectedProject(task.projectId || 'inbox');
     setShowAddTaskModal(true);
   }, []);
+
+  const handleCreateProject = useCallback(async (name: string, color: string): Promise<void> => {
+    const newProject: Project = {
+      id: `project_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: name.trim(),
+      color,
+      createdAt: new Date().toISOString()
+    };
+
+    const updatedProjects = [...projects, newProject];
+    setProjects(updatedProjects);
+    saveProjectsToStorage(updatedProjects);
+  }, [projects]);
 
   const handleSaveGoals = useCallback(async (): Promise<void> => {
     saveGoalsToStorage(tempGoals);
@@ -351,6 +526,7 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setNewTaskText('');
     setNewTaskPriority('medium');
     setNewTaskEstimatedTime(30);
+    setSelectedProject('inbox');
   }, []);
 
   const handleCloseTasksModal = useCallback(() => {
@@ -379,13 +555,11 @@ export function useTaskManagement(): UseTaskManagementReturn {
     
     // Word milestone achieved
     if (todayProgress.words < currentGoals.dailyWords && newProgress.words >= currentGoals.dailyWords) {
-      // This would trigger a celebration notification in a real app
       console.log('🎉 Daily word goal achieved!');
     }
     
     // Time milestone achieved
     if (todayProgress.minutes < currentGoals.dailyMinutes && newProgress.minutes >= currentGoals.dailyMinutes) {
-      // This would trigger a celebration notification in a real app
       console.log('⏰ Daily time goal achieved!');
     }
   }, [todayProgress]);
@@ -451,6 +625,10 @@ export function useTaskManagement(): UseTaskManagementReturn {
     };
   }, [allTasks, todayProgress]);
 
+  const parseTaskInput = useCallback((input: string) => {
+    return parseNaturalLanguage(input);
+  }, []);
+
   return {
     // Modal states
     showAddTaskModal,
@@ -462,6 +640,7 @@ export function useTaskManagement(): UseTaskManagementReturn {
     newTaskPriority,
     newTaskEstimatedTime,
     editingTask,
+    selectedProject,
     
     // Goals states
     tempGoals,
@@ -470,8 +649,11 @@ export function useTaskManagement(): UseTaskManagementReturn {
     // Data
     todayTasks,
     allTasks,
+    projects,
     isLoadingTasks,
     taskStats,
+    overdueTasks,
+    upcomingTasks,
     
     // Actions
     setShowAddTaskModal,
@@ -480,6 +662,7 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setNewTaskText,
     setNewTaskPriority,
     setNewTaskEstimatedTime,
+    setSelectedProject,
     setTempGoals,
     
     // Handlers
@@ -492,12 +675,14 @@ export function useTaskManagement(): UseTaskManagementReturn {
     handleCloseAddTaskModal,
     handleCloseTasksModal,
     handleCloseGoalsModal,
+    handleCreateProject,
     
     // Progress tracking
     updateProgress,
     
     // Smart features
     getTaskSuggestions,
-    getTaskInsights
+    getTaskInsights,
+    parseTaskInput
   };
 }
