@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useTaskManagement, type Task } from '@/hooks/useTaskManagement';
 import { 
   CheckCircle, 
   Plus, 
@@ -20,79 +21,28 @@ import {
   ChevronUp
 } from 'lucide-react';
 
-// Enhanced task interface with proper typing
-interface QuickTask {
-  id: string;
-  text: string;
-  completed: boolean;
-  priority: 'low' | 'medium' | 'high';
-  estimatedMinutes: number;
-  createdAt: string;
-  completedAt?: string;
-  category: 'writing' | 'editing' | 'research' | 'planning' | 'other';
-  streak?: number;
-}
 
-interface TaskStats {
-  totalTasks: number;
-  completedTasks: number;
-  completionRate: number;
-  totalMinutes: number;
-  averageCompletionTime: number;
-  streak: number;
-  todayFocus: string;
-}
-
-// Smart task suggestions based on writing context
-const SMART_SUGGESTIONS = [
-  { text: 'Write 500 words for current chapter', category: 'writing' as const, estimatedMinutes: 25, priority: 'high' as const },
-  { text: 'Edit yesterday\'s writing', category: 'editing' as const, estimatedMinutes: 20, priority: 'medium' as const },
-  { text: 'Research character background', category: 'research' as const, estimatedMinutes: 15, priority: 'medium' as const },
-  { text: 'Outline next scene', category: 'planning' as const, estimatedMinutes: 10, priority: 'medium' as const },
-  { text: 'Review plot consistency', category: 'editing' as const, estimatedMinutes: 30, priority: 'low' as const },
-  { text: 'Develop character dialogue', category: 'writing' as const, estimatedMinutes: 20, priority: 'high' as const },
-  { text: 'Research setting details', category: 'research' as const, estimatedMinutes: 25, priority: 'low' as const },
-  { text: 'Plan chapter transitions', category: 'planning' as const, estimatedMinutes: 15, priority: 'medium' as const },
-];
-
-const STORAGE_KEY = 'quickTasksWidget_v2';
 
 interface QuickTasksWidgetProps {
   onShowTasksModal: () => void;
 }
 
-// Natural language parsing for smart task creation
-const parseTaskInput = (input: string) => {
-  const text = input.toLowerCase();
-  
-  // Priority detection
-  let priority: 'low' | 'medium' | 'high' = 'medium';
-  if (text.includes('urgent') || text.includes('important') || text.includes('asap')) priority = 'high';
-  if (text.includes('low priority') || text.includes('when possible')) priority = 'low';
-  
-  // Time estimation
-  let estimatedMinutes = 20; // default
-  const timeMatch = text.match(/(\d+)\s*(min|minute|minutes|hour|hours|h)/);
-  if (timeMatch) {
-    const value = parseInt(timeMatch[1]);
-    const unit = timeMatch[2];
-    estimatedMinutes = unit.startsWith('h') ? value * 60 : value;
-  }
-  
-  // Category detection
-  let category: QuickTask['category'] = 'other';
-  if (text.includes('write') || text.includes('draft') || text.includes('words')) category = 'writing';
-  if (text.includes('edit') || text.includes('revise') || text.includes('review')) category = 'editing';
-  if (text.includes('research') || text.includes('look up') || text.includes('study')) category = 'research';
-  if (text.includes('plan') || text.includes('outline') || text.includes('organize')) category = 'planning';
-  
-  return { priority, estimatedMinutes, category };
-};
-
 export const QuickTasksWidget = React.memo(function QuickTasksWidget({ 
   onShowTasksModal 
 }: QuickTasksWidgetProps) {
-  const [tasks, setTasks] = useState<QuickTask[]>([]);
+  // Use centralized task management
+  const {
+    todayTasks,
+    taskStats,
+    smartSuggestions,
+    createTask,
+    updateTask,
+    deleteTask,
+    toggleTaskCompletion,
+    createTaskFromSuggestion
+  } = useTaskManagement();
+
+  // Local UI state only
   const [newTaskText, setNewTaskText] = useState('');
   const [showAddTask, setShowAddTask] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -100,153 +50,37 @@ export const QuickTasksWidget = React.memo(function QuickTasksWidget({
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
 
-  // Load tasks from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setTasks(parsed);
-      } catch (error) {
-        console.error('Error loading quick tasks:', error);
-      }
-    }
-  }, []);
-
-  // Save tasks to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks]);
-
-  // Calculate smart statistics
-  const stats: TaskStats = useMemo(() => {
-    const totalTasks = tasks.length;
-    const completedTasks = tasks.filter(t => t.completed).length;
-    const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-    
-    const totalMinutes = tasks
-      .filter(t => t.completed)
-      .reduce((sum, t) => sum + t.estimatedMinutes, 0);
-    
-    const averageCompletionTime = completedTasks > 0 ? totalMinutes / completedTasks : 0;
-    
-    // Calculate streak (consecutive days with completed tasks)
-    const today = new Date().toDateString();
-    const yesterdayCompleted = tasks.some(t => {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      return new Date(t.createdAt).toDateString() === yesterday.toDateString() && t.completed;
-    });
-    const todayCompleted = tasks.some(t => 
-      new Date(t.createdAt).toDateString() === today && t.completed
-    );
-    
-    const streak = todayCompleted ? (yesterdayCompleted ? 2 : 1) : 0;
-    
-    // Determine today's focus based on most common category
-    const categoryCount = tasks.reduce((acc, task) => {
-      acc[task.category] = (acc[task.category] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    const todayFocus = Object.entries(categoryCount).sort(([,a], [,b]) => b - a)[0]?.[0] || 'writing';
-    
-    return {
-      totalTasks,
-      completedTasks,
-      completionRate,
-      totalMinutes,
-      averageCompletionTime,
-      streak,
-      todayFocus
-    };
-  }, [tasks]);
-
-  // Today's tasks for main display
-  const todayTasks = useMemo(() => {
-    const today = new Date().toDateString();
-    return tasks.filter(task => 
-      new Date(task.createdAt).toDateString() === today
-    ).sort((a, b) => {
-      // Sort by: incomplete first, then by priority, then by creation time
-      if (a.completed !== b.completed) return a.completed ? 1 : -1;
-      const priorityOrder = { high: 3, medium: 2, low: 1 };
-      if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-        return priorityOrder[b.priority] - priorityOrder[a.priority];
-      }
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    });
-  }, [tasks]);
-
-  // Smart task suggestions based on user patterns
-  const smartSuggestions = useMemo(() => {
-    return SMART_SUGGESTIONS
-      .filter(suggestion => !tasks.some(task => 
-        task.text.toLowerCase().includes(suggestion.text.toLowerCase().split(' ')[0])
-      ))
-      .slice(0, 3);
-  }, [tasks]);
-
   const handleAddTask = useCallback(() => {
     if (!newTaskText.trim()) return;
 
-    const parsed = parseTaskInput(newTaskText);
-    const newTask: QuickTask = {
-      id: `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      text: newTaskText.trim(),
-      completed: false,
-      createdAt: new Date().toISOString(),
-      ...parsed
-    };
-
-    setTasks(prev => [newTask, ...prev]);
+    createTask({ text: newTaskText.trim() });
     setNewTaskText('');
     setShowAddTask(false);
     setShowSuggestions(false);
-  }, [newTaskText]);
+  }, [newTaskText, createTask]);
 
   const handleToggleTask = useCallback((taskId: string) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { 
-            ...task, 
-            completed: !task.completed,
-            completedAt: !task.completed ? new Date().toISOString() : undefined
-          }
-        : task
-    ));
-  }, []);
+    toggleTaskCompletion(taskId);
+  }, [toggleTaskCompletion]);
 
   const handleDeleteTask = useCallback((taskId: string) => {
-    setTasks(prev => prev.filter(task => task.id !== taskId));
-  }, []);
+    deleteTask(taskId);
+  }, [deleteTask]);
 
   const handleEditTask = useCallback((taskId: string, newText: string) => {
     if (!newText.trim()) return;
     
-    setTasks(prev => prev.map(task => 
-      task.id === taskId ? { ...task, text: newText.trim() } : task
-    ));
+    updateTask(taskId, { text: newText.trim() });
     setEditingTaskId(null);
     setEditText('');
-  }, []);
+  }, [updateTask]);
 
-  const handleSuggestionClick = useCallback((suggestion: typeof SMART_SUGGESTIONS[0]) => {
-    const newTask: QuickTask = {
-      id: `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      text: suggestion.text,
-      completed: false,
-      createdAt: new Date().toISOString(),
-      priority: suggestion.priority,
-      estimatedMinutes: suggestion.estimatedMinutes,
-      category: suggestion.category
-    };
-
-    setTasks(prev => [newTask, ...prev]);
+  const handleSuggestionClick = useCallback((suggestion: any) => {
+    createTaskFromSuggestion(suggestion);
     setShowSuggestions(false);
-  }, []);
+  }, [createTaskFromSuggestion]);
 
-  const getPriorityColor = (priority: QuickTask['priority']) => {
+  const getPriorityColor = (priority: Task['priority']) => {
     switch (priority) {
       case 'high': return 'text-red-500 dark:text-red-400';
       case 'medium': return 'text-yellow-500 dark:text-yellow-400';
@@ -254,7 +88,7 @@ export const QuickTasksWidget = React.memo(function QuickTasksWidget({
     }
   };
 
-  const getCategoryIcon = (category: QuickTask['category']) => {
+  const getCategoryIcon = (category: Task['category']) => {
     switch (category) {
       case 'writing': return <Edit3 className="w-3 h-3" />;
       case 'editing': return <CheckCircle className="w-3 h-3" />;
@@ -274,17 +108,17 @@ export const QuickTasksWidget = React.memo(function QuickTasksWidget({
           <div className="flex items-center gap-3">
             <div className="relative">
               <CheckCircle className="w-4 h-4 text-primary" />
-              {stats.streak > 0 && (
+              {taskStats.streak > 0 && (
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-[8px] text-white font-bold">{stats.streak}</span>
+                  <span className="text-[8px] text-white font-bold">{taskStats.streak}</span>
                 </div>
               )}
             </div>
             <div>
               <h3 className="font-bold text-foreground text-sm">Quick Tasks</h3>
-              {stats.totalTasks > 0 && (
+              {taskStats.totalTasks > 0 && (
                 <p className="text-[10px] text-muted-foreground">
-                  {Math.round(stats.completionRate)}% done • {stats.totalMinutes}min total
+                  {Math.round(taskStats.completionRate)}% done • {taskStats.totalMinutes}min total
                 </p>
               )}
             </div>
@@ -314,21 +148,21 @@ export const QuickTasksWidget = React.memo(function QuickTasksWidget({
         </div>
 
         {/* Progress overview */}
-        {stats.totalTasks > 0 && (
+        {taskStats.totalTasks > 0 && (
           <div className="mb-4">
             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
               <span>Today's Progress</span>
-              <span>{stats.completedTasks}/{todayTasks.length}</span>
+              <span>{taskStats.completedTasks}/{todayTasks.length}</span>
             </div>
             <div className="w-full bg-muted rounded-full h-1.5 mb-2">
               <div 
                 className="gradient-primary h-1.5 rounded-full transition-all duration-500 ease-out" 
                 style={{ 
-                  width: `${todayTasks.length > 0 ? (stats.completedTasks / todayTasks.length * 100) : 0}%` 
+                  width: `${todayTasks.length > 0 ? (taskStats.completedTasks / todayTasks.length * 100) : 0}%` 
                 }}
               />
             </div>
-            {stats.completionRate >= 80 && (
+            {taskStats.completionRate >= 80 && (
               <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
                 <TrendingUp className="w-3 h-3" />
                 <span>Great momentum!</span>
