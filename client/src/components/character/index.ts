@@ -5,5 +5,5 @@ export { CharacterDetailView } from './CharacterDetailView';
 
 export { CharacterFormExpanded } from './CharacterFormExpanded';
 export { CharacterManager } from './CharacterManager';
-export { CharacterPortraitModal } from './CharacterPortraitModal';
+export { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 export { CharacterUnifiedView } from './CharacterUnifiedView';
