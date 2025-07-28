@@ -30,7 +30,7 @@ import {
   Scroll
 } from 'lucide-react';
 import { useToastActions } from '@/components/ui/Toast';
-import { LoadingButton, LoadingSkeleton } from '@/components/ui/LoadingStates';
+import { LoadingSkeleton } from '@/components/ui/LoadingStates';
 
 interface ProjectCreationWizardProps {
   isOpen: boolean;
@@ -345,40 +345,43 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
-            <LoadingButton
+            <Button
               onClick={async () => {
                 if (isSubmitting) return;
                 setIsSubmitting(true);
                 
                 try {
-                  await toast.promise(
-                    onCreate({
-                      name: projectName,
-                      type: projectType,
-                      genres: selectedGenres,
-                      description,
-                      synopsis
-                    }),
-                    {
-                      loading: 'Creating your project...',
-                      success: `🎉 "${projectName}" created successfully!`,
-                      error: 'Failed to create project. Please try again.'
-                    }
-                  );
+                  await onCreate({
+                    name: projectName,
+                    type: projectType,
+                    genres: selectedGenres,
+                    description,
+                    synopsis
+                  });
+                  toast.success(`🎉 "${projectName}" created successfully!`);
                   handleClose();
                 } catch (error) {
                   console.error('Project creation failed:', error);
+                  toast.error('Failed to create project. Please try again.');
                 } finally {
                   setIsSubmitting(false);
                 }
               }}
               disabled={!projectName.trim() || isSubmitting}
-              loading={isSubmitting}
               className="gradient-primary hover:opacity-90 text-white flex items-center"
             >
-              {isSubmitting ? 'Creating...' : 'Create Project'}
-              {!isSubmitting && <Sparkles className="w-4 h-4 ml-2" />}
-            </LoadingButton>
+              {isSubmitting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                  Creating...
+                </>
+              ) : (
+                <>
+                  Create Project
+                  <Sparkles className="w-4 h-4 ml-2" />
+                </>
+              )}
+            </Button>
           )}
         </div>
       </div>
