@@ -198,6 +198,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Simple performance/health endpoint for Replit dashboard
+  app.get("/api/health", (req, res) => {
+    const uptime = process.uptime();
+    const memoryUsage = process.memoryUsage();
+    
+    res.json({
+      status: "healthy",
+      uptime: Math.round(uptime),
+      memory: {
+        rss: Math.round(memoryUsage.rss / 1024 / 1024), // MB
+        heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024), // MB
+        heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024), // MB
+      },
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString()
+    });
+  });
+
   // Apply error handler middleware
   app.use(errorHandler);
   

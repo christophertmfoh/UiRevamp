@@ -9,9 +9,10 @@ import type {
   EntityArc,
   EntityRelationship,
   EntityInsights
+} from '../types';
 
-// Legacy Character import for backward compatibility
-type LegacyCharacter = import('../types').Character;
+// Legacy Character import for backward compatibility  
+import type { Character as LegacyCharacter } from '../types';
 
 // Main Character interface (consolidated from scattered definitions)
 // Extends both our enhanced base and maintains compatibility with legacy interface

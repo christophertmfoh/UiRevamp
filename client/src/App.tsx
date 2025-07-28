@@ -6,6 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
@@ -462,6 +463,9 @@ export default function App() {
             </TooltipProvider>
           </ToastProvider>
         </QueryClientProvider>
+        
+        {/* Replit-Optimized Performance Dashboard (Development Only) */}
+        <PerformanceDashboard />
       </ThemeProvider>
     </ErrorBoundary>
   );

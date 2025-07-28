@@ -293,62 +293,75 @@ export const useCacheStore = create<CacheState>((set, get) => ({
   },
 }));
 
-// Performance Monitoring
+// Simple Performance Monitoring (Replit-Optimized)
 interface PerformanceState {
   metrics: {
     pageLoadTime: number;
-    renderTime: number;
-    apiCallTimes: Record<string, number[]>;
     errorCount: number;
-    memoryUsage: number[];
+    lastApiCall: { endpoint: string; time: number; timestamp: Date } | null;
   };
   
   // Actions
   recordPageLoad: (time: number) => void;
-  recordRender: (time: number) => void;
   recordApiCall: (endpoint: string, time: number) => void;
-  recordError: () => void;
-  recordMemoryUsage: (usage: number) => void;
+  recordError: (error?: string) => void;
   getMetrics: () => any;
+  logPerformanceInfo: () => void;
 }
 
 export const usePerformanceStore = create<PerformanceState>((set, get) => ({
   metrics: {
     pageLoadTime: 0,
-    renderTime: 0,
-    apiCallTimes: {},
     errorCount: 0,
-    memoryUsage: [],
+    lastApiCall: null,
   },
   
-  recordPageLoad: (time) => set((state) => ({
-    metrics: { ...state.metrics, pageLoadTime: time }
-  })),
+  recordPageLoad: (time) => {
+    set((state) => ({
+      metrics: { ...state.metrics, pageLoadTime: time }
+    }));
+    
+    // Simple console logging for development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`📊 Page loaded in ${time}ms`);
+    }
+  },
   
-  recordRender: (time) => set((state) => ({
-    metrics: { ...state.metrics, renderTime: time }
-  })),
-  
-  recordApiCall: (endpoint, time) => set((state) => ({
-    metrics: {
-      ...state.metrics,
-      apiCallTimes: {
-        ...state.metrics.apiCallTimes,
-        [endpoint]: [...(state.metrics.apiCallTimes[endpoint] || []), time].slice(-10) // Keep last 10
+  recordApiCall: (endpoint, time) => {
+    const timestamp = new Date();
+    set((state) => ({
+      metrics: {
+        ...state.metrics,
+        lastApiCall: { endpoint, time, timestamp }
       }
+    }));
+    
+    // Log slow API calls in development
+    if (process.env.NODE_ENV === 'development' && time > 1000) {
+      console.warn(`🐌 Slow API call: ${endpoint} took ${time}ms`);
     }
-  })),
+  },
   
-  recordError: () => set((state) => ({
-    metrics: { ...state.metrics, errorCount: state.metrics.errorCount + 1 }
-  })),
-  
-  recordMemoryUsage: (usage) => set((state) => ({
-    metrics: {
-      ...state.metrics,
-      memoryUsage: [...state.metrics.memoryUsage, usage].slice(-20) // Keep last 20
+  recordError: (error = 'Unknown error') => {
+    set((state) => ({
+      metrics: { ...state.metrics, errorCount: state.metrics.errorCount + 1 }
+    }));
+    
+    // Simple error logging for development
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`🚨 Error #${get().metrics.errorCount}: ${error}`);
     }
-  })),
+  },
   
   getMetrics: () => get().metrics,
+  
+  logPerformanceInfo: () => {
+    const metrics = get().metrics;
+    console.log('🎯 Fablecraft Performance Summary:', {
+      'Page Load': `${metrics.pageLoadTime}ms`,
+      'Errors': metrics.errorCount,
+      'Last API Call': metrics.lastApiCall ? 
+        `${metrics.lastApiCall.endpoint} (${metrics.lastApiCall.time}ms)` : 'None'
+    });
+  }
 }));

@@ -184,26 +184,27 @@ export const bundleConfig = {
   ]
 };
 
-// Performance monitoring hook for lazy loading
+// Simple lazy loading tracking (Replit-Optimized)
 export const useLazyLoadingMetrics = () => {
-  const [metrics, setMetrics] = React.useState({
-    componentsLoaded: 0,
-    loadTime: 0,
-    bundleSize: 0
-  });
+  const [loadedComponents, setLoadedComponents] = React.useState<string[]>([]);
 
   const trackComponentLoad = React.useCallback((componentName: string, loadTime: number) => {
-    setMetrics(prev => ({
-      ...prev,
-      componentsLoaded: prev.componentsLoaded + 1,
-      loadTime: prev.loadTime + loadTime
-    }));
+    setLoadedComponents(prev => [...prev, componentName]);
     
-    // Log performance metrics
+    // Simple development logging for Replit hot-reload optimization  
     if (process.env.NODE_ENV === 'development') {
-      console.log(`🚀 Lazy loaded ${componentName} in ${loadTime}ms`);
+      console.log(`⚡ Lazy loaded: ${componentName} (${loadTime}ms) - Total: ${loadedComponents.length + 1}`);
+      
+      // Warn about slow components that might affect hot-reload
+      if (loadTime > 500) {
+        console.warn(`🐌 ${componentName} took ${loadTime}ms - consider optimizing for faster hot-reload`);
+      }
     }
-  }, []);
+  }, [loadedComponents.length]);
 
-  return { metrics, trackComponentLoad };
+  return { 
+    loadedComponents,
+    totalLoaded: loadedComponents.length,
+    trackComponentLoad 
+  };
 };

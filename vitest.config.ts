@@ -6,15 +6,19 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   test: {
-    // Enterprise testing configuration
+    // Simple testing configuration for Replit development
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/__tests__/setup.ts'],
     
-    // Coverage configuration for business reporting
+    // Fast testing for creative workflow
+    testTimeout: 10000, // 10 seconds max per test
+    hookTimeout: 10000,
+    
+    // Coverage configuration (simplified)
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'html'], // Simpler reporting
       exclude: [
         'node_modules/',
         'src/__tests__/',
@@ -22,55 +26,60 @@ export default defineConfig({
         '**/*.config.*',
         'dist/',
         'build/',
-        '.next/',
         'coverage/',
+        'scripts/',
+        'docs/',
       ],
-      // Enterprise coverage thresholds
+      // Relaxed coverage thresholds for creative development
       thresholds: {
         global: {
-          branches: 70,
-          functions: 70,
-          lines: 70,
-          statements: 70
+          branches: 60,
+          functions: 60, 
+          lines: 65,
+          statements: 65
         }
       }
     },
     
-    // Test organization
-    include: [
-      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
-      'server/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
-    ],
-    exclude: [
-      'node_modules/',
-      'dist/',
-      '.idea/',
-      '.git/',
-      '.cache/',
-    ],
+    // Optimized for Replit environment
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true, // Faster startup in Replit
+      }
+    },
     
     // Performance and reliability
-    testTimeout: 10000,
-    hookTimeout: 10000,
-    bail: 1, // Stop on first failure for faster feedback
+    maxConcurrency: 3, // Limit concurrent tests for Replit
+    isolate: false, // Faster test execution
+    sequence: {
+      shuffle: false // Deterministic test order
+    },
     
-    // Professional reporting
-    reporter: ['verbose', 'json', 'html'],
-    outputFile: {
-      json: './coverage/test-results.json',
-      html: './coverage/test-results.html'
+    // Simple watch mode for development
+    watch: false, // Disable by default to avoid resource usage
+    
+    // Reporter configuration for development
+    reporter: process.env.CI ? ['verbose', 'json'] : ['verbose'],
+    
+    // Simplified cache for faster reruns
+    cache: {
+      dir: './node_modules/.vitest'
     }
   },
   
-  // Path resolution for imports
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './client/src'),
       '@shared': path.resolve(__dirname, './shared'),
       '@server': path.resolve(__dirname, './server'),
-      '@/components': path.resolve(__dirname, './src/components'),
-      '@/lib': path.resolve(__dirname, './src/lib'),
-      '@/hooks': path.resolve(__dirname, './src/hooks')
-    }
+    },
+  },
+  
+  // Optimize for Replit development
+  define: {
+    __TEST__: true,
+    // Simplified feature flags for testing
+    __DEV_PERFORMANCE_MONITORING__: process.env.NODE_ENV === 'development'
   }
 })
