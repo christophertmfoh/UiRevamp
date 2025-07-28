@@ -9,15 +9,9 @@ import {
   PenTool, 
   Smile, 
   ChevronRight,
-  Heart,
-  Share2,
-  Bookmark,
-  Volume2,
-  VolumeX,
   Pause,
   Play,
-  Zap,
-  TrendingUp,
+  Copy,
   Brain
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
@@ -40,15 +34,8 @@ interface DailyContent {
   timestamp: number;
 }
 
-interface ContentMetrics {
-  views: number;
-  likes: number;
-  shares: number;
-  lastViewed: number;
-}
-
-// Enhanced fallback content with better variety
-const ENHANCED_FALLBACKS = {
+// High-quality fallback content for writers
+const WRITER_FALLBACKS = {
   motivations: [
     "Every master was once a beginner. Every pro was once an amateur.",
     "Your story matters. The world needs your unique voice.",
@@ -81,89 +68,68 @@ const ENHANCED_FALLBACKS = {
   ]
 };
 
-const WORD_POOLS = {
-  literary: [
-    { word: "Denouement", definition: "The final resolution of a story", usage: "Perfect for describing story endings" },
-    { word: "Bildungsroman", definition: "A coming-of-age story", usage: "Use for character development arcs" },
-    { word: "Verisimilitude", definition: "The appearance of truth", usage: "Essential for believable fiction" }
-  ],
-  atmospheric: [
-    { word: "Petrichor", definition: "Scent of earth after rain", usage: "Creates vivid sensory descriptions" },
-    { word: "Crepuscular", definition: "Relating to twilight", usage: "Perfect for moody scene-setting" },
-    { word: "Lambent", definition: "Softly glowing light", usage: "Describes gentle illumination" }
-  ],
-  emotional: [
-    { word: "Saudade", definition: "Bittersweet longing", usage: "Captures complex emotional states" },
-    { word: "Hiraeth", definition: "Homesickness for a lost place", usage: "Expresses deep nostalgic yearning" },
-    { word: "Schadenfreude", definition: "Joy from others' misfortune", usage: "For complex character motivations" }
-  ]
-};
+const LITERARY_WORDS = [
+  { word: "Denouement", definition: "The final resolution of a story", usage: "Perfect for describing story endings" },
+  { word: "Bildungsroman", definition: "A coming-of-age story", usage: "Use for character development arcs" },
+  { word: "Verisimilitude", definition: "The appearance of truth", usage: "Essential for believable fiction" },
+  { word: "Petrichor", definition: "Scent of earth after rain", usage: "Creates vivid sensory descriptions" },
+  { word: "Crepuscular", definition: "Relating to twilight", usage: "Perfect for moody scene-setting" },
+  { word: "Saudade", definition: "Bittersweet longing", usage: "Captures complex emotional states" }
+];
 
 export function MessageOfTheDay() {
   const { token } = useAuth();
   const { toast } = useToastActions();
   
-  // Core state
+  // Core state only
   const [content, setContent] = useState<DailyContent | null>(null);
   const [currentSet, setCurrentSet] = useState(0);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<number>(0);
-  
-  // Enhanced UX state
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [metrics, setMetrics] = useState<ContentMetrics>({
-    views: 0,
-    likes: 0,
-    shares: 0,
-    lastViewed: 0
-  });
-  
-  // Error handling
   const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-  const MAX_RETRIES = 3;
 
-  // Memoized content sections for performance
+  // Content sections for organized display
   const contentSections = useMemo(() => [
     {
-      id: 'motivation-set',
+      id: 'inspiration',
+      title: 'Daily Inspiration',
       items: [
         { type: 'motivation', icon: Sparkles, label: 'Motivation', key: 'motivation' },
-        { type: 'joke', icon: Smile, label: 'Writer\'s Humor', key: 'joke' },
-        { type: 'tip', icon: Lightbulb, label: 'Pro Tip', key: 'tip' }
+        { type: 'tip', icon: Lightbulb, label: 'Writing Tip', key: 'tip' },
+        { type: 'joke', icon: Smile, label: 'Writer\'s Humor', key: 'joke' }
       ]
     },
     {
-      id: 'knowledge-set', 
+      id: 'knowledge',
+      title: 'Learning & Practice', 
       items: [
         { type: 'word', icon: BookOpen, label: 'Word of the Day', key: 'wordOfDay' },
-        { type: 'prompt', icon: PenTool, label: 'Quick Prompt', key: 'prompt' },
-        { type: 'fact', icon: Brain, label: 'Writing Fact', key: 'fact' }
+        { type: 'prompt', icon: PenTool, label: 'Writing Prompt', key: 'prompt' },
+        { type: 'fact', icon: Brain, label: 'Writer\'s Fact', key: 'fact' }
       ]
     }
   ], []);
 
-  // Enhanced content fetching with retry logic
+  // Intelligent content fetching with proper error handling
   const fetchContent = useCallback(async (forceRefresh = false) => {
-    if (isGenerating) return;
+    if (isLoading) return;
     
     const now = Date.now();
     const timeSinceLastRefresh = now - lastRefresh;
     const MIN_REFRESH_INTERVAL = 30 * 1000; // 30 seconds
     
     if (!forceRefresh && timeSinceLastRefresh < MIN_REFRESH_INTERVAL) {
-      toast.info(`Please wait ${Math.ceil((MIN_REFRESH_INTERVAL - timeSinceLastRefresh) / 1000)}s before refreshing`);
+      const waitTime = Math.ceil((MIN_REFRESH_INTERVAL - timeSinceLastRefresh) / 1000);
+      toast.info(`Please wait ${waitTime}s before refreshing`);
       return;
     }
 
-    setIsGenerating(true);
+    setIsLoading(true);
     setError(null);
     
     try {
-      console.log('🎨 Fetching daily inspirations...');
+      console.log('🎨 Fetching daily writing inspiration...');
       
       const response = await fetch('/api/daily-content/generate', {
         method: 'POST',
@@ -174,101 +140,96 @@ export function MessageOfTheDay() {
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(`Failed to fetch content: ${response.status}`);
       }
       
       const newContent: DailyContent = await response.json();
       
-      // Validate content structure
       if (!newContent || !newContent.motivation) {
-        throw new Error('Invalid content structure received');
+        throw new Error('Invalid content received');
       }
       
       setContent(newContent);
       setLastRefresh(now);
-      setRetryCount(0);
       
-      // Update metrics
-      setMetrics(prev => ({
-        ...prev,
-        views: prev.views + 1,
-        lastViewed: now
-      }));
-      
-      // Store in localStorage with timestamp
+      // Cache with metadata for offline usage
       const contentWithMeta = {
         ...newContent,
         fetchedAt: now,
-        userId: token ? 'authenticated' : 'anonymous'
+        version: '1.0'
       };
-      localStorage.setItem('fablecraft_daily_content', JSON.stringify(contentWithMeta));
+      localStorage.setItem('fablecraft_daily_inspiration', JSON.stringify(contentWithMeta));
       
-      console.log('✅ Daily content updated successfully');
-      toast.success('Fresh inspiration delivered!');
+      console.log('✅ Fresh inspiration loaded');
+      if (forceRefresh) {
+        toast.success('Fresh inspiration delivered!');
+      }
       
     } catch (error) {
-      console.error('❌ Failed to fetch daily content:', error);
-      setError(error instanceof Error ? error.message : 'Failed to load content');
-      setRetryCount(prev => prev + 1);
+      console.error('❌ Failed to fetch inspiration:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load');
       
-      // Use fallback content if we don't have any
-      if (!content && retryCount < MAX_RETRIES) {
+      // Use fallback if no content exists
+      if (!content) {
         const fallbackContent = generateFallbackContent();
         setContent(fallbackContent);
-        toast.warning('Using offline content. Check your connection.');
-      } else if (retryCount >= MAX_RETRIES) {
-        toast.error('Unable to fetch fresh content. Please try again later.');
+        toast.warning('Using offline inspiration. Check your connection.');
+      } else {
+        toast.error('Unable to refresh. Using cached content.');
       }
     } finally {
-      setIsGenerating(false);
+      setIsLoading(false);
     }
-  }, [token, isGenerating, lastRefresh, content, retryCount, toast]);
+  }, [token, isLoading, lastRefresh, content, toast]);
 
-  // Generate high-quality fallback content
+  // Generate quality fallback content
   const generateFallbackContent = useCallback((): DailyContent => {
     const getRandomItem = <T,>(array: T[]): T => 
       array[Math.floor(Math.random() * array.length)];
     
-    const wordCategory = getRandomItem(Object.keys(WORD_POOLS));
-    const wordData = getRandomItem(WORD_POOLS[wordCategory as keyof typeof WORD_POOLS]);
+    const wordData = getRandomItem(LITERARY_WORDS);
     
     return {
-      motivation: getRandomItem(ENHANCED_FALLBACKS.motivations),
-      joke: getRandomItem(ENHANCED_FALLBACKS.jokes),
-      tip: getRandomItem(ENHANCED_FALLBACKS.tips),
+      motivation: getRandomItem(WRITER_FALLBACKS.motivations),
+      joke: getRandomItem(WRITER_FALLBACKS.jokes),
+      tip: getRandomItem(WRITER_FALLBACKS.tips),
       wordOfDay: wordData,
-      prompt: getRandomItem(ENHANCED_FALLBACKS.prompts),
-      fact: getRandomItem(ENHANCED_FALLBACKS.facts),
-      personalizedHint: "Focus on showing emotions through actions, not just words.",
+      prompt: getRandomItem(WRITER_FALLBACKS.prompts),
+      fact: getRandomItem(WRITER_FALLBACKS.facts),
       timestamp: Date.now()
     };
   }, []);
 
-  // Auto-advance content sets
+  // Auto-advance content sets for better UX
   useEffect(() => {
-    if (!isAutoPlay || isPaused) return;
+    if (!isAutoPlay || !content) return;
     
     const interval = setInterval(() => {
       setCurrentSet(prev => (prev + 1) % contentSections.length);
-    }, 15000); // 15 seconds
+    }, 20000); // 20 seconds - slower, less distracting
     
     return () => clearInterval(interval);
-  }, [isAutoPlay, isPaused, contentSections.length]);
+  }, [isAutoPlay, contentSections.length, content]);
 
   // Initialize content on mount
   useEffect(() => {
     const initializeContent = async () => {
-      // Try to load from localStorage first
+      // Try cached content first
       try {
-        const stored = localStorage.getItem('fablecraft_daily_content');
+        const stored = localStorage.getItem('fablecraft_daily_inspiration');
         if (stored) {
           const parsed = JSON.parse(stored);
           const age = Date.now() - (parsed.fetchedAt || parsed.timestamp || 0);
-          const isStale = age > (12 * 60 * 60 * 1000); // 12 hours
+          const isStale = age > (8 * 60 * 60 * 1000); // 8 hours
           
           if (!isStale && parsed.motivation) {
             setContent(parsed);
-            console.log('📋 Loaded cached daily content');
+            console.log('📋 Loaded cached inspiration');
+            
+            // Still fetch fresh content in background if it's been a while
+            if (age > (4 * 60 * 60 * 1000)) { // 4+ hours old
+              setTimeout(() => fetchContent(), 2000);
+            }
             return;
           }
         }
@@ -283,108 +244,103 @@ export function MessageOfTheDay() {
     initializeContent();
   }, [fetchContent]);
 
-  // Enhanced user interactions
-  const handleLike = useCallback(() => {
-    setIsLiked(prev => !prev);
-    setMetrics(prev => ({
-      ...prev,
-      likes: prev.likes + (isLiked ? -1 : 1)
-    }));
-    
-    if (!isLiked) {
-      toast.success('Added to your favorites!');
-    }
-  }, [isLiked, toast]);
-
-  const handleShare = useCallback(async () => {
-    if (!content) return;
-    
-    const shareText = `Daily Writer's Inspiration:\n"${content.motivation}"\n\nWord of the Day: ${content.wordOfDay.word} - ${content.wordOfDay.definition}`;
-    
+  // Copy content to clipboard - actually useful feature
+  const copyToClipboard = useCallback(async (text: string, label: string) => {
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Daily Writer\'s Inspiration',
-          text: shareText,
-          url: window.location.href
-        });
-      } else {
-        await navigator.clipboard.writeText(shareText);
-        toast.success('Inspiration copied to clipboard!');
-      }
-      
-      setMetrics(prev => ({ ...prev, shares: prev.shares + 1 }));
+      await navigator.clipboard.writeText(text);
+      toast.success(`${label} copied to clipboard!`);
     } catch (error) {
-      console.error('Share failed:', error);
-      toast.error('Failed to share content');
+      console.error('Copy failed:', error);
+      toast.error('Failed to copy text');
     }
-  }, [content, toast]);
+  }, [toast]);
 
-  const handleBookmark = useCallback(() => {
-    setIsBookmarked(prev => !prev);
-    // In production, this would save to user's bookmarks
-    toast.success(isBookmarked ? 'Removed from bookmarks' : 'Bookmarked for later!');
-  }, [isBookmarked, toast]);
-
-  // Render content item with enhanced styling
+  // Render individual content items
   const renderContentItem = useCallback((item: any, value: any) => {
     const Icon = item.icon;
     
     if (item.type === 'word' && content?.wordOfDay) {
       return (
-        <div key={item.type} className="space-y-2">
+        <div key={item.type} className="space-y-3">
           <div className="flex items-center gap-2">
-            <Icon className="h-3.5 w-3.5 text-primary" />
+            <Icon className="h-4 w-4 text-primary" />
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               {item.label}
             </p>
           </div>
-          <div className="bg-accent/5 rounded-lg p-3 border border-border/20">
-            <p className="text-sm">
-              <span className="font-bold text-primary text-base">{content.wordOfDay.word}</span>
-              <span className="text-muted-foreground ml-2">- {content.wordOfDay.definition}</span>
-            </p>
-            <p className="text-xs text-muted-foreground/80 italic mt-1">
-              💡 {content.wordOfDay.usage}
-            </p>
-            {content.wordOfDay.pronunciation && (
-              <p className="text-xs text-muted-foreground/60 mt-1">
-                🔊 {content.wordOfDay.pronunciation}
-              </p>
-            )}
+          <div className="bg-accent/10 rounded-lg p-4 border border-border/30">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-base font-bold text-primary mb-1">
+                  {content.wordOfDay.word}
+                </p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  {content.wordOfDay.definition}
+                </p>
+                <p className="text-xs text-muted-foreground/80 italic">
+                  💡 {content.wordOfDay.usage}
+                </p>
+              </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => copyToClipboard(content.wordOfDay.word, 'Word')}
+                className="h-8 w-8 p-0 hover:bg-accent/20"
+                title="Copy word"
+              >
+                <Copy className="w-3 h-3" />
+              </Button>
+            </div>
           </div>
         </div>
       );
     }
     
     return (
-      <div key={item.type} className="space-y-1.5">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 gradient-primary rounded-full" />
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            {item.label}
+      <div key={item.type} className="space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 gradient-primary rounded-full" />
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              {item.label}
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => copyToClipboard(
+              item.type === 'motivation' ? `"${value}"` : value, 
+              item.label
+            )}
+            className="h-6 w-6 p-0 hover:bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"
+            title={`Copy ${item.label.toLowerCase()}`}
+          >
+            <Copy className="w-3 h-3" />
+          </Button>
+        </div>
+        <div className="group">
+          <p className={`text-sm leading-relaxed ${
+            item.type === 'motivation' 
+              ? 'text-foreground italic font-medium' 
+              : 'text-muted-foreground'
+          }`}>
+            {item.type === 'motivation' ? `"${value}"` : value}
           </p>
         </div>
-        <p className={`text-xs leading-relaxed ${
-          item.type === 'motivation' 
-            ? 'text-foreground italic font-medium' 
-            : 'text-muted-foreground'
-        }`}>
-          {item.type === 'motivation' ? `"${value}"` : value}
-        </p>
       </div>
     );
-  }, [content]);
+  }, [content, copyToClipboard]);
 
+  // Loading state
   if (!content) {
     return (
       <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
-        <CardContent className="p-5 h-full flex flex-col items-center justify-center">
+        <CardContent className="p-6 h-full flex flex-col items-center justify-center">
           <div className="w-8 h-8 gradient-primary rounded-full flex items-center justify-center mb-3">
             <Sparkles className="w-4 h-4 text-primary-foreground animate-pulse" />
           </div>
           <p className="text-sm text-muted-foreground text-center">
-            {isGenerating ? 'Crafting your daily inspiration...' : 'Loading inspirations...'}
+            {isLoading ? 'Loading your daily inspiration...' : 'Preparing writing inspiration...'}
           </p>
           {error && (
             <p className="text-xs text-destructive text-center mt-2">
@@ -398,36 +354,31 @@ export function MessageOfTheDay() {
 
   return (
     <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full group hover:shadow-2xl transition-all duration-300">
-      <CardContent className="p-5 h-full flex flex-col">
-        {/* Enhanced Header */}
-        <div className="flex items-center justify-between mb-4">
+      <CardContent className="p-6 h-full flex flex-col">
+        {/* Clean, focused header */}
+        <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <Sparkles className="w-4 h-4 text-primary" />
-              {metrics.views > 0 && (
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              )}
-            </div>
+            <Sparkles className="w-5 h-5 text-primary" />
             <div>
-              <h3 className="font-bold text-foreground text-sm">Daily Inspiration</h3>
-              {content.personalizedHint && (
-                <p className="text-xs text-muted-foreground">Personalized for you</p>
-              )}
+              <h3 className="font-bold text-foreground text-base">Daily Inspiration</h3>
+              <p className="text-xs text-muted-foreground">
+                {contentSections[currentSet]?.title}
+              </p>
             </div>
           </div>
           
-          {/* Action Buttons */}
+          {/* Minimal, useful controls */}
           <div className="flex items-center gap-1">
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => setIsPaused(!isPaused)}
-              className="h-7 w-7 p-0 hover:bg-accent/10"
-              title={isPaused ? 'Resume auto-advance' : 'Pause auto-advance'}
+              onClick={() => setIsAutoPlay(!isAutoPlay)}
+              className="h-8 w-8 p-0 hover:bg-accent/10"
+              title={isAutoPlay ? 'Pause auto-advance' : 'Resume auto-advance'}
             >
-              {isPaused ? 
-                <Play className="w-3 h-3 text-muted-foreground" /> :
-                <Pause className="w-3 h-3 text-muted-foreground" />
+              {isAutoPlay ? 
+                <Pause className="w-3.5 h-3.5 text-muted-foreground" /> :
+                <Play className="w-3.5 h-3.5 text-muted-foreground" />
               }
             </Button>
             
@@ -435,109 +386,65 @@ export function MessageOfTheDay() {
               size="sm"
               variant="ghost"
               onClick={() => fetchContent(true)}
-              disabled={isGenerating}
-              className="h-7 w-7 p-0 hover:bg-accent/10 disabled:opacity-50"
-              title="Refresh content"
+              disabled={isLoading}
+              className="h-8 w-8 p-0 hover:bg-accent/10 disabled:opacity-50"
+              title="Get fresh inspiration"
             >
-              <RefreshCw className={`w-3 h-3 text-muted-foreground ${isGenerating ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-muted-foreground ${isLoading ? 'animate-spin' : ''}`} />
             </Button>
             
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setCurrentSet((prev) => (prev + 1) % contentSections.length)}
-              className="h-7 w-7 p-0 hover:bg-accent/10"
-              title="Next set"
+              className="h-8 w-8 p-0 hover:bg-accent/10"
+              title="Next section"
             >
-              <ChevronRight className="w-3 h-3 text-muted-foreground" />
+              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
             </Button>
           </div>
         </div>
 
-        {/* Content Display */}
-        <div className="flex-grow space-y-4 overflow-hidden">
-          <div className="transition-all duration-500 ease-in-out">
+        {/* Content display */}
+        <div className="flex-grow space-y-4">
+          <div className="transition-all duration-500 ease-in-out space-y-4">
             {contentSections[currentSet]?.items.map(item => {
               const value = item.key === 'wordOfDay' ? content.wordOfDay : content[item.key as keyof DailyContent];
               return renderContentItem(item, value);
             })}
           </div>
 
-          {/* Personalized Hint */}
-          {content.personalizedHint && currentSet === 1 && (
-            <div className="bg-primary/5 rounded-lg p-3 border border-primary/20">
-              <div className="flex items-center gap-2 mb-1">
-                <Zap className="h-3 w-3 text-primary" />
-                <p className="text-xs font-semibold text-primary uppercase tracking-wide">
-                  Personal Tip
+          {/* Personalized hint if available */}
+          {content.personalizedHint && (
+            <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 mt-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Lightbulb className="h-4 w-4 text-primary" />
+                <p className="text-sm font-semibold text-primary">
+                  Personal Writing Tip
                 </p>
               </div>
-              <p className="text-xs text-foreground/80">
+              <p className="text-sm text-foreground/80">
                 {content.personalizedHint}
               </p>
             </div>
           )}
         </div>
 
-        {/* Enhanced Footer */}
-        <div className="mt-4 space-y-3">
-          {/* Interaction Buttons */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={handleLike}
-                className={`h-7 px-2 hover:bg-accent/10 ${isLiked ? 'text-red-500' : 'text-muted-foreground'}`}
-              >
-                <Heart className={`w-3 h-3 mr-1 ${isLiked ? 'fill-current' : ''}`} />
-                <span className="text-xs">{metrics.likes}</span>
-              </Button>
-              
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={handleShare}
-                className="h-7 px-2 hover:bg-accent/10 text-muted-foreground"
-              >
-                <Share2 className="w-3 h-3 mr-1" />
-                <span className="text-xs">{metrics.shares}</span>
-              </Button>
-              
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={handleBookmark}
-                className={`h-7 px-2 hover:bg-accent/10 ${isBookmarked ? 'text-primary' : 'text-muted-foreground'}`}
-              >
-                <Bookmark className={`w-3 h-3 ${isBookmarked ? 'fill-current' : ''}`} />
-              </Button>
-            </div>
-            
-            {metrics.views > 0 && (
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <TrendingUp className="w-3 h-3" />
-                <span>{metrics.views} views</span>
-              </div>
-            )}
-          </div>
-
-          {/* Navigation Dots */}
-          <div className="flex justify-center">
-            <div className="flex items-center gap-1">
-              {contentSections.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSet(index)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                    currentSet === index
-                      ? 'gradient-primary w-6 h-1.5'
-                      : 'bg-muted hover:bg-muted-foreground/50'
-                  }`}
-                  aria-label={`View content set ${index + 1}`}
-                />
-              ))}
-            </div>
+        {/* Simple navigation dots */}
+        <div className="flex justify-center mt-5">
+          <div className="flex items-center gap-2">
+            {contentSections.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSet(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentSet === index
+                    ? 'gradient-primary w-6 h-2'
+                    : 'bg-muted hover:bg-muted-foreground/50'
+                }`}
+                aria-label={`View ${contentSections[index].title}`}
+              />
+            ))}
           </div>
         </div>
       </CardContent>
