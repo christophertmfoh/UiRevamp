@@ -1,0 +1,19 @@
+[vite] connecting...
+[vite] connected.
+Global error handler initialized
+Account clicked - not implemented yet
+🎲 Generating fresh inspiration...
+✅ Fresh content ready immediately
+Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+Project creation failed: No authentication token
+at t.value (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Project creation failed: 
+Error {}
+message: "No authentication token"
+stack: "Error: No authentication token↵ at handleProjectCreated (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/src/App.tsx:174:25)↵ at onClick (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/src/components/project/ProjectCreationWizard.tsx:661:23)↵ at HTMLUnknownElement.callCallback2 (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:3674:22)↵ at Object.invokeGuardedCallbackDev (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:3699:24)↵ at invokeGuardedCallback (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:3733:39)↵ at invokeGuardedCallbackAndCatchFirstError (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:3736:33)↵ at executeDispatch (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:7014:11)↵ at processDispatchQueueItemsInOrder (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:7034:15)↵ at processDispatchQueue (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:7043:13)↵ at dispatchEventsForPlugins (https://bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev:5173/node_modules/.vite/deps/chunk-F3OYNICX.js?v=f2299a9f:7051:11)"
+get stack: ƒ ()
+set stack: ƒ ()
+[[Prototype]]: Object
