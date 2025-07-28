@@ -288,6 +288,7 @@ export default function App() {
           <LandingPage 
             onNavigate={setView}
             onNewProject={() => setModal({ type: 'new', project: null })}
+            onAuth={() => setView('auth')}
             isAuthenticated={isAuthenticated}
             user={user}
             onLogout={handleLogout}
