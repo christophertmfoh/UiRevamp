@@ -1,10 +1,14 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import metricsRouter, { metricsMiddleware } from "./routes/metrics";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+
+// Add metrics middleware for all requests
+app.use(metricsMiddleware);
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -37,6 +41,13 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Add metrics endpoint before other routes
+  app.use('/api/metrics', metricsRouter);
+  
+  // Add performance endpoint
+  const performanceRouter = await import('./routes/performance');
+  app.use('/api/performance', performanceRouter.default);
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
