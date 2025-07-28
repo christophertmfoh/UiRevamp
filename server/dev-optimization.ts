@@ -62,6 +62,12 @@ export const devCacheMiddleware = (ttl: number = 30000) => {
       return next();
     }
     
+    // Clear cache on mutations to ensure data consistency
+    if (req.method !== 'GET' && req.path.includes('/api/projects')) {
+      devCache.clear();
+      console.log('🗑️ Cleared project cache after mutation');
+    }
+    
     // Only cache GET requests
     if (req.method !== 'GET') {
       return next();

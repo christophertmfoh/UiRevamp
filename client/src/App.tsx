@@ -265,27 +265,31 @@ export default function App() {
 
       if (response.ok) {
         const newProject = await response.json();
-        
-        // Force immediate refresh from server for data consistency
-        await fetchProjects();
-        
-        // Find the newly created project in the refreshed list
-        const refreshedProjects = await fetch('/api/projects', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }).then(res => res.json());
-        
-        // Filter to only user's projects for security
-        const userProjects = refreshedProjects.filter((project: any) => project.userId === user?.id);
-        setProjects(userProjects);
-        
         console.log(`✅ Project created successfully: "${newProject.name}" (${newProject.type})`);
         
-        // Set the newly created project as active
-        const createdProject = refreshedProjects.find((p: any) => p.id === newProject.id);
-        if (createdProject) {
-          setActiveProject(createdProject);
-        }
+        // Immediately add the new project to the list for instant UI feedback
+        setProjects(prev => {
+          // Check if project already exists to avoid duplicates
+          const exists = prev.find(p => p.id === newProject.id);
+          return exists ? prev : [...prev, newProject];
+        });
         
+        // Also trigger a background refresh to ensure data consistency
+        setTimeout(async () => {
+          try {
+            const refreshedProjects = await fetch('/api/projects', {
+              headers: { 'Authorization': `Bearer ${token}` }
+            }).then(res => res.json());
+            
+            const userProjects = refreshedProjects.filter((project: any) => project.userId === user?.id);
+            setProjects(userProjects);
+          } catch (error) {
+            console.warn('Background refresh failed:', error);
+          }
+        }, 500);
+        
+        // Set the newly created project as active and navigate
+        setActiveProject(newProject);
         setView('dashboard');
         setModal({ type: null, project: null });
       } else {
