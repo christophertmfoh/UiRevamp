@@ -111,9 +111,30 @@ export function MessageOfTheDay() {
     }
   ], []);
 
+  // Generate quality fallback content
+  const generateFallbackContent = useCallback((): DailyContent => {
+    const getRandomItem = <T,>(array: T[]): T => 
+      array[Math.floor(Math.random() * array.length)];
+    
+    const wordData = getRandomItem(LITERARY_WORDS);
+    
+    return {
+      motivation: getRandomItem(WRITER_FALLBACKS.motivations),
+      joke: getRandomItem(WRITER_FALLBACKS.jokes),
+      tip: getRandomItem(WRITER_FALLBACKS.tips),
+      wordOfDay: wordData,
+      prompt: getRandomItem(WRITER_FALLBACKS.prompts),
+      fact: getRandomItem(WRITER_FALLBACKS.facts),
+      timestamp: Date.now()
+    };
+  }, []);
+
   // Intelligent content fetching with proper error handling
   const fetchContent = useCallback(async (forceRefresh = false) => {
-    if (isLoading) return;
+    if (isLoading) {
+      console.log('⏳ Already loading, skipping duplicate request');
+      return;
+    }
     
     const now = Date.now();
     const timeSinceLastRefresh = now - lastRefresh;
@@ -128,6 +149,14 @@ export function MessageOfTheDay() {
     setIsLoading(true);
     setError(null);
     
+    // Add timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      console.warn('⚠️ Request timeout, resetting loading state');
+      setIsLoading(false);
+      setError('Request timeout');
+      toast.error('Request timed out. Please try again.');
+    }, 15000); // 15 second timeout
+    
     try {
       console.log('🎨 Fetching daily writing inspiration...');
       
@@ -138,6 +167,9 @@ export function MessageOfTheDay() {
           'Content-Type': 'application/json'
         }
       });
+      
+      // Clear timeout on successful response
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error(`Failed to fetch content: ${response.status}`);
@@ -166,6 +198,9 @@ export function MessageOfTheDay() {
       }
       
     } catch (error) {
+      // Clear timeout on error
+      clearTimeout(timeoutId);
+      
       console.error('❌ Failed to fetch inspiration:', error);
       setError(error instanceof Error ? error.message : 'Failed to load');
       
@@ -178,27 +213,12 @@ export function MessageOfTheDay() {
         toast.error('Unable to refresh. Using cached content.');
       }
     } finally {
+      // Ensure loading state is always reset
       setIsLoading(false);
     }
-  }, [token, isLoading, lastRefresh, content, toast]);
+  }, [token, lastRefresh, content, toast, generateFallbackContent]);
 
-  // Generate quality fallback content
-  const generateFallbackContent = useCallback((): DailyContent => {
-    const getRandomItem = <T,>(array: T[]): T => 
-      array[Math.floor(Math.random() * array.length)];
-    
-    const wordData = getRandomItem(LITERARY_WORDS);
-    
-    return {
-      motivation: getRandomItem(WRITER_FALLBACKS.motivations),
-      joke: getRandomItem(WRITER_FALLBACKS.jokes),
-      tip: getRandomItem(WRITER_FALLBACKS.tips),
-      wordOfDay: wordData,
-      prompt: getRandomItem(WRITER_FALLBACKS.prompts),
-      fact: getRandomItem(WRITER_FALLBACKS.facts),
-      timestamp: Date.now()
-    };
-  }, []);
+
 
   // Auto-advance content sets for better UX
   useEffect(() => {
@@ -237,12 +257,13 @@ export function MessageOfTheDay() {
         console.warn('Failed to parse cached content:', e);
       }
       
-      // Fetch fresh content
+      // Fetch fresh content only on initial mount
       await fetchContent();
     };
     
     initializeContent();
-  }, [fetchContent]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   // Copy content to clipboard - actually useful feature
   const copyToClipboard = useCallback(async (text: string, label: string) => {
