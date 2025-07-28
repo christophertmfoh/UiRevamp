@@ -14,9 +14,7 @@ import {
   User, 
   Settings, 
   LogOut, 
-  ChevronDown,
-  Lock,
-  Unlock
+  ChevronDown
 } from 'lucide-react';
 
 interface User {
@@ -25,18 +23,14 @@ interface User {
 
 interface ProjectsHeaderProps {
   user: User | null;
-  isEditMode: boolean;
   onNavigate: (view: string) => void;
   onLogout: () => void;
-  onToggleEditMode: () => void;
 }
 
 export const ProjectsHeader = React.memo(function ProjectsHeader({
   user,
-  isEditMode,
   onNavigate,
-  onLogout,
-  onToggleEditMode
+  onLogout
 }: ProjectsHeaderProps) {
   return (
     <nav className="relative z-10 px-8 py-4 border-b border-border/20 backdrop-blur-xl bg-background/80">
@@ -94,18 +88,7 @@ export const ProjectsHeader = React.memo(function ProjectsHeader({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            size="icon"
-            onClick={onToggleEditMode}
-            className="w-10 h-10 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
-            title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
-          >
-            {isEditMode ? (
-              <Unlock className="w-4 h-4" />
-            ) : (
-              <Lock className="w-4 h-4" />
-            )}
-          </Button>
+
           <ThemeToggle />
         </div>
       </div>

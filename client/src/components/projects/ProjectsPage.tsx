@@ -12,6 +12,7 @@ import { useWidgetManagement } from '@/hooks/useWidgetManagement';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Lock, Unlock } from 'lucide-react';
 import { 
   LoadingSkeleton, 
   LoadingStatsCard, 
@@ -79,10 +80,6 @@ export const ProjectsPage = React.memo(function ProjectsPage({
   const widgetManagement = useWidgetManagement();
 
   // Memoized handlers
-  const handleToggleEditMode = useCallback(() => {
-    setIsEditMode(prev => !prev);
-  }, []);
-
   const handleSearchChange = useCallback((query: string) => {
     setSearchQuery(query);
   }, [setSearchQuery]);
@@ -159,10 +156,8 @@ export const ProjectsPage = React.memo(function ProjectsPage({
       {/* Header */}
       <ProjectsHeader
         user={user}
-        isEditMode={isEditMode}
         onNavigate={onNavigate}
         onLogout={onLogout}
-        onToggleEditMode={handleToggleEditMode}
       />
 
       {/* Main Content */}
@@ -240,7 +235,21 @@ export const ProjectsPage = React.memo(function ProjectsPage({
         {/* Dashboard Widgets Section */}
         <div className="mt-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-heading-2 text-foreground">Dashboard</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-heading-2 text-foreground">Dashboard</h2>
+              <Button
+                size="icon"
+                onClick={() => setIsEditMode(!isEditMode)}
+                className="w-8 h-8 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
+                title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
+              >
+                {isEditMode ? (
+                  <Unlock className="w-3 h-3" />
+                ) : (
+                  <Lock className="w-3 h-3" />
+                )}
+              </Button>
+            </div>
             {isEditMode && (
               <Button
                 size="sm"
