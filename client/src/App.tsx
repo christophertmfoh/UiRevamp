@@ -161,7 +161,8 @@ export default function App() {
     try {
       if (!isAuthenticated || !user) return;
       
-      const token = localStorage.getItem('token');
+      // Get token from Zustand store first, fallback to localStorage
+      const token = useAuth.getState().token || localStorage.getItem('token');
       if (!token) return;
 
       const response = await fetch('/api/projects', {
@@ -208,7 +209,8 @@ export default function App() {
   // Project creation handler with proper refresh
   const handleProjectCreated = async (projectData: any) => {
     try {
-      const token = localStorage.getItem('token');
+      // Get token from Zustand store (more reliable than localStorage)
+      const token = useAuth.getState().token || localStorage.getItem('token');
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('/api/projects', {
@@ -314,8 +316,12 @@ export default function App() {
         createdAt: new Date().toISOString(),
         isActive: true
       };
+      
+      // Store token in localStorage for consistency
+      localStorage.setItem('token', userData.token);
+      
       await login(user, userData.token);
-      setView('landing');
+      setView('projects'); // Go directly to projects after login
     } catch (error) {
       console.error('Authentication failed:', error instanceof Error ? error.message : error);
     }
