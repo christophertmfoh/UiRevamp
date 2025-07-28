@@ -16,7 +16,7 @@ const getAIService = () => {
 
 // Standard AI configuration for consistent results
 export const AI_CONFIG = {
-  model: "gemini-2.5-flash",
+  model: "gemini-1.5-flash",
   temperature: 0.8,
   maxOutputTokens: 200,
   candidateCount: 1,

@@ -159,6 +159,7 @@ export function MessageOfTheDay() {
     
     try {
       console.log('🎨 Fetching daily writing inspiration...');
+      console.log('🔗 Using token:', token ? 'Available' : 'Missing');
       
       const response = await fetch('/api/daily-content/generate', {
         method: 'POST',
@@ -171,14 +172,25 @@ export function MessageOfTheDay() {
       // Clear timeout on successful response
       clearTimeout(timeoutId);
       
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
+      
       if (!response.ok) {
-        throw new Error(`Failed to fetch content: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ Server error response:', errorText);
+        throw new Error(`Server error ${response.status}: ${errorText}`);
       }
       
       const newContent: DailyContent = await response.json();
+      console.log('📦 Received content:', {
+        motivation: newContent?.motivation?.substring(0, 30),
+        wordOfDay: newContent?.wordOfDay?.word,
+        timestamp: newContent?.timestamp
+      });
       
       if (!newContent || !newContent.motivation) {
-        throw new Error('Invalid content received');
+        console.error('❌ Invalid content structure:', newContent);
+        throw new Error('Invalid content received from server');
       }
       
       setContent(newContent);

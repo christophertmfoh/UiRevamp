@@ -106,7 +106,13 @@ async function generateDailyContent(userId: string, existingContent?: DailyConte
     const word = getRandomUnusedWord();
     console.log(`📚 Selected word: ${word}`);
 
+    // Test AI connection first
+    console.log('🔧 Testing AI connection...');
+    const testResponse = await generateWithRetry('Test', 1, { maxOutputTokens: 10, temperature: 0.5 });
+    console.log('✅ AI connection successful:', testResponse.substring(0, 20));
+
     // Generate content efficiently in parallel
+    console.log('🚀 Starting parallel content generation...');
     const [motivation, joke, tip, prompt, fact, definition, usage] = await Promise.all([
       generateWithRetry(AI_PROMPTS.motivation(existingContent?.motivation), 2, { maxOutputTokens: 100, temperature: 0.9 }),
       generateWithRetry(AI_PROMPTS.joke(), 2, { maxOutputTokens: 120, temperature: 0.8 }),
@@ -117,8 +123,22 @@ async function generateDailyContent(userId: string, existingContent?: DailyConte
       generateWithRetry(AI_PROMPTS.wordUsage(word), 2, { maxOutputTokens: 100, temperature: 0.7 })
     ]);
 
+    console.log('📝 Content generation results:', {
+      motivation: motivation?.substring(0, 30),
+      joke: joke?.substring(0, 30),
+      tip: tip?.substring(0, 30),
+      prompt: prompt?.substring(0, 30),
+      fact: fact?.substring(0, 30),
+      definition: definition?.substring(0, 20),
+      usage: usage?.substring(0, 20)
+    });
+
     // Clean up responses
     const cleanText = (text: string, maxLength: number): string => {
+      if (!text || typeof text !== 'string') {
+        console.warn('⚠️ Invalid text input:', text);
+        return 'Content generation failed';
+      }
       return text
         .replace(/^["']|["']$/g, '') // Remove quotes
         .trim()
@@ -145,6 +165,11 @@ async function generateDailyContent(userId: string, existingContent?: DailyConte
 
   } catch (error) {
     console.error('❌ Failed to generate AI content:', error);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack?.substring(0, 200)
+    });
     throw error;
   }
 }
@@ -206,24 +231,41 @@ const getFallbackContent = (): DailyContent => {
 
 // Main API endpoint - clean and focused
 router.post('/generate', authenticateToken, async (req, res) => {
+  const startTime = Date.now();
+  const userId = req.user?.id || 'anonymous';
+  
   try {
-    const userId = req.user?.id || 'anonymous';
+    console.log(`📥 Daily content request from user ${userId}`);
+    
     const cacheKey = `daily_inspiration_${userId}`;
     
     // Check cache first
     const cached = contentCache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp) < CACHE_DURATION) {
-      console.log(`📋 Serving cached content for user ${userId}`);
+      console.log(`📋 Serving cached content for user ${userId} (${Date.now() - startTime}ms)`);
       return res.json(cached.content);
+    }
+
+    // Check environment variables
+    const hasApiKey = !!(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
+    console.log('🔑 API Key available:', hasApiKey);
+    
+    if (!hasApiKey) {
+      console.warn('⚠️ No AI API key found, using fallback content');
+      const fallback = getFallbackContent();
+      return res.status(200).json(fallback);
     }
 
     // Generate new content
     let content: DailyContent;
     try {
+      console.log('🚀 Starting AI content generation...');
       const existingContent = cached?.content;
       content = await generateDailyContent(userId, existingContent);
-    } catch (error) {
-      console.warn('🔄 AI generation failed, using fallback content');
+      console.log(`✅ AI generation successful (${Date.now() - startTime}ms)`);
+    } catch (aiError) {
+      console.error('🔄 AI generation failed:', aiError.message);
+      console.log('📦 Using high-quality fallback content');
       content = getFallbackContent();
     }
 
@@ -236,22 +278,37 @@ router.post('/generate', authenticateToken, async (req, res) => {
 
     // Clean old cache entries periodically
     if (contentCache.size > 100) {
+      let cleaned = 0;
       for (const [key, value] of contentCache.entries()) {
         if (Date.now() - value.timestamp > CACHE_DURATION) {
           contentCache.delete(key);
+          cleaned++;
         }
+      }
+      if (cleaned > 0) {
+        console.log(`🧹 Cleaned ${cleaned} old cache entries`);
       }
     }
 
-    console.log(`🎯 Delivered fresh inspiration to user ${userId}`);
+    console.log(`🎯 Delivered inspiration to user ${userId} (${Date.now() - startTime}ms total)`);
     res.json(content);
 
   } catch (error) {
     console.error('💥 Daily content API error:', error);
+    console.error('Error stack:', error.stack);
     
     // Always return something useful
-    const fallback = getFallbackContent();
-    res.status(200).json(fallback);
+    try {
+      const fallback = getFallbackContent();
+      console.log(`🆘 Emergency fallback delivered to user ${userId}`);
+      res.status(200).json(fallback);
+    } catch (fallbackError) {
+      console.error('💀 Even fallback failed:', fallbackError);
+      res.status(500).json({ 
+        error: 'Service temporarily unavailable',
+        message: 'Please try again later'
+      });
+    }
   }
 });
 
