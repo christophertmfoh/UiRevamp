@@ -1,29 +1,29 @@
 /**
- * Standardized Error Handling Utilities
- * Consistent error handling patterns for all entity components
+ * Error Handling Utilities - Senior Dev Pattern
+ * Centralized error handling with proper TypeScript support
  */
 
-import { toast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/Toast';
 
+// ===== ERROR INTERFACES =====
 export interface EntityError {
   message: string;
-  code?: string;
-  field?: string;
   context?: Record<string, any>;
+}
+
+export interface APIError {
+  message: string;
+  status: number;
+  code?: string;
 }
 
 export interface ValidationError {
   field: string;
   message: string;
-  value?: any;
+  code: string;
 }
 
-export interface APIError {
-  message: string;
-  status?: number;
-  endpoint?: string;
-  method?: string;
-}
+// ===== ERROR HANDLER FUNCTIONS =====
 
 /**
  * Standard error handler for entity operations
@@ -36,91 +36,104 @@ export function handleEntityError(error: unknown, operation: string, entityType:
 
   if (error instanceof Error) {
     entityError.message = error.message;
-    entityError.code = 'OPERATION_ERROR';
+    entityError.context = { 
+      ...entityError.context, 
+      originalError: error.message,
+      stack: error.stack?.substring(0, 200)
+    };
   } else if (typeof error === 'string') {
     entityError.message = error;
-    entityError.code = 'STRING_ERROR';
   } else if (error && typeof error === 'object') {
     const errorObj = error as any;
-    entityError.message = errorObj.message || errorObj.error || `Failed to ${operation} ${entityType}`;
-    entityError.code = errorObj.code || 'UNKNOWN_ERROR';
-    entityError.field = errorObj.field;
+    entityError.message = errorObj.message || entityObj.toString();
+    entityError.context = { ...entityError.context, ...errorObj };
   }
 
-  console.error(`Entity ${operation} error:`, error);
+  // Log error in development
+  if (process.env.NODE_ENV === 'development') {
+    console.error('🚨 Entity Error:', entityError);
+  }
+
   return entityError;
 }
 
 /**
- * Handle API request errors with consistent formatting
+ * Convert unknown error to API error format
  */
-export function handleAPIError(error: unknown, endpoint: string, method: string = 'GET'): APIError {
-  const apiError: APIError = {
-    message: `Request failed: ${method} ${endpoint}`,
-    endpoint,
-    method
-  };
-
-  if (error instanceof Response) {
-    apiError.status = error.status;
-    apiError.message = `HTTP ${error.status}: ${error.statusText}`;
-  } else if (error instanceof Error) {
-    apiError.message = error.message;
-  } else if (typeof error === 'string') {
-    apiError.message = error;
+export function toAPIError(error: unknown, defaultMessage: string = 'An error occurred'): APIError {
+  if (error && typeof error === 'object' && 'status' in error) {
+    const apiError = error as any;
+    return {
+      message: apiError.message || defaultMessage,
+      status: apiError.status || 500,
+      code: apiError.code
+    };
   }
 
-  console.error(`API ${method} ${endpoint} error:`, error);
-  return apiError;
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      status: 500,
+      code: 'INTERNAL_ERROR'
+    };
+  }
+
+  return {
+    message: typeof error === 'string' ? error : defaultMessage,
+    status: 500,
+    code: 'UNKNOWN_ERROR'
+  };
 }
 
 /**
- * Handle form validation errors
+ * Create toast notification function (for use in components)
  */
-export function handleValidationError(field: string, value: any, rule: string): ValidationError {
-  const validationMessages: Record<string, (field: string, value: any) => string> = {
-    required: (field) => `${field} is required`,
-    minLength: (field, value) => `${field} must be at least ${value} characters`,
-    maxLength: (field, value) => `${field} must be no more than ${value} characters`,
-    email: (field) => `${field} must be a valid email address`,
-    url: (field) => `${field} must be a valid URL`,
-    number: (field) => `${field} must be a valid number`,
-    array: (field) => `${field} must be a valid array`
-  };
-
-  const messageGenerator = validationMessages[rule] || ((field) => `${field} is invalid`);
-  
+export function createToastNotification() {
+  // This returns a function that can be used with the toast context
   return {
-    field,
-    message: messageGenerator(field, value),
-    value
+    error: (title: string, description?: string) => ({
+      type: 'error' as const,
+      title,
+      description
+    }),
+    success: (title: string, description?: string) => ({
+      type: 'success' as const,
+      title,
+      description
+    }),
+    warning: (title: string, description?: string) => ({
+      type: 'warning' as const,
+      title,
+      description
+    }),
+    info: (title: string, description?: string) => ({
+      type: 'info' as const,
+      title,
+      description
+    })
   };
 }
 
 /**
  * Display error toast with consistent styling
+ * NOTE: This must be called from within a component that has access to useToast
  */
 export function displayErrorToast(error: EntityError | APIError | ValidationError | string, title?: string) {
   const message = typeof error === 'string' ? error : error.message;
   const toastTitle = title || 'Error';
-
-  toast({
-    variant: 'destructive',
-    title: toastTitle,
-    description: message,
-  });
+  
+  // Return toast data that can be used with addToast
+  return createToastNotification().error(toastTitle, message);
 }
 
 /**
  * Display success toast with consistent styling
  */
 export function displaySuccessToast(message: string, title: string = 'Success') {
-  toast({
-    variant: 'default',
-    title,
-    description: message,
-  });
+  return createToastNotification().success(title, message);
 }
+
+// ===== SPECIALIZED ERROR HANDLERS =====
 
 /**
  * Enhanced error handler for AI operations
@@ -130,22 +143,9 @@ export function handleAIError(error: unknown, operation: string, fieldKey?: stri
   
   // Add specific AI error context
   if (fieldKey) {
-    aiError.field = fieldKey;
-    aiError.context = { ...aiError.context, fieldKey, operation };
+    aiError.context = { ...aiError.context, fieldKey };
   }
-
-  // Check for common AI service errors
-  if (aiError.message.includes('rate limit')) {
-    aiError.code = 'RATE_LIMIT';
-    aiError.message = 'AI service is temporarily unavailable. Please try again in a moment.';
-  } else if (aiError.message.includes('safety')) {
-    aiError.code = 'SAFETY_FILTER';
-    aiError.message = 'Content was blocked by safety filters. Please try a different approach.';
-  } else if (aiError.message.includes('timeout')) {
-    aiError.code = 'TIMEOUT';
-    aiError.message = 'AI enhancement timed out. Please try again.';
-  }
-
+  
   return aiError;
 }
 
@@ -157,74 +157,93 @@ export function handleImageError(error: unknown, operation: string): EntityError
   
   // Add specific image error context
   if (imageError.message.includes('format')) {
-    imageError.code = 'INVALID_FORMAT';
-    imageError.message = 'Unsupported image format. Please use JPG, PNG, or WebP.';
-  } else if (imageError.message.includes('size')) {
-    imageError.code = 'FILE_TOO_LARGE';
-    imageError.message = 'Image file is too large. Please choose a smaller image.';
-  } else if (imageError.message.includes('upload')) {
-    imageError.code = 'UPLOAD_FAILED';
-    imageError.message = 'Failed to upload image. Please check your connection and try again.';
+    imageError.context = { 
+      ...imageError.context, 
+      suggestion: 'Please check that the image format is supported (JPG, PNG, GIF)' 
+    };
   }
-
+  
   return imageError;
 }
 
+// ===== ERROR BOUNDARY HELPERS =====
+
 /**
- * Create error boundary for component error handling
+ * Create error boundary configuration
  */
 export function createErrorBoundary(componentName: string) {
   return {
     componentDidCatch(error: Error, errorInfo: any) {
       const boundaryError = handleEntityError(error, 'render', componentName);
       console.error(`Error boundary caught error in ${componentName}:`, boundaryError);
-      displayErrorToast(boundaryError, `${componentName} Error`);
+      
+      // Return error data for toast notification
+      return displayErrorToast(boundaryError, `${componentName} Error`);
     }
   };
 }
 
+// ===== ASYNC OPERATION HELPERS =====
+
 /**
- * Utility to safely execute async operations with error handling
+ * Safe async operation wrapper
  */
-export async function safeAsync<T>(
+export async function safeAsyncOperation<T>(
   operation: () => Promise<T>,
-  errorHandler?: (error: unknown) => void,
-  entityType: string = 'entity'
-): Promise<T | null> {
+  entityType: string = 'operation',
+  errorHandler?: (error: EntityError) => void
+): Promise<{ data: T | null; error: EntityError | null }> {
   try {
-    return await operation();
+    const data = await operation();
+    return { data, error: null };
   } catch (error) {
     const entityError = handleEntityError(error, 'execute', entityType);
     
     if (errorHandler) {
       errorHandler(entityError);
-    } else {
-      console.error(entityError);
     }
     
-    return null;
+    return { data: null, error: entityError };
   }
 }
 
 /**
  * Form submission error handler
  */
-export function handleFormSubmissionError(error: unknown, entityType: string) {
+export function handleFormSubmissionError(error: unknown, entityType: string): { 
+  generalError: EntityError; 
+  fieldErrors: Record<string, string>;
+  toastData: ReturnType<typeof displayErrorToast>;
+} {
   const submissionError = handleEntityError(error, 'save', entityType);
   const fieldErrors: Record<string, string> = {};
 
   // Extract field-specific errors if available
-  if (submissionError.context && typeof submissionError.context === 'object') {
-    const context = submissionError.context as any;
-    if (context.validationErrors && Array.isArray(context.validationErrors)) {
-      context.validationErrors.forEach((validationError: ValidationError) => {
+  if (error && typeof error === 'object') {
+    const errorObj = error as any;
+    if (errorObj.validationErrors) {
+      errorObj.validationErrors.forEach((validationError: ValidationError) => {
         fieldErrors[validationError.field] = validationError.message;
       });
     }
   }
 
-  // Show general error toast
-  displayErrorToast(submissionError, `Failed to Save ${entityType}`);
+  // Create toast data
+  const toastData = displayErrorToast(submissionError, `Failed to Save ${entityType}`);
   
-  return fieldErrors;
+  return { generalError: submissionError, fieldErrors, toastData };
+}
+
+// ===== TYPE GUARDS =====
+
+export function isEntityError(error: any): error is EntityError {
+  return error && typeof error === 'object' && 'message' in error && !('status' in error);
+}
+
+export function isAPIError(error: any): error is APIError {
+  return error && typeof error === 'object' && 'message' in error && 'status' in error;
+}
+
+export function isValidationError(error: any): error is ValidationError {
+  return error && typeof error === 'object' && 'field' in error && 'message' in error && 'code' in error;
 }

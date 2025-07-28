@@ -77,58 +77,61 @@ class MockStorage {
   }
 
   private initializeSeedData(): void {
-    // Create a demo user
+    // Create a demo user with proper schema compliance
     const demoUser: User = {
       id: 'demo-user-1',
       username: 'demo',
       email: 'demo@fablecraft.io',
       passwordHash: 'mock-hash',
+      fullName: 'Demo User',
       isActive: true,
       createdAt: new Date(),
       updatedAt: new Date(),
+      lastLoginAt: null,
     };
     this.data.users.set(demoUser.id, demoUser);
 
     // Create demo projects
     const demoProjects: Project[] = [
+      // Demo projects with schema-compliant structure
       {
         id: 'demo-project-1',
-        userId: demoUser.id,
+        userId: 'demo-user-1',
         name: 'The Chronicles of Aethermoor',
-        type: 'novel',
+        type: 'novel' as const,
         description: 'An epic fantasy adventure in a world where magic and technology collide.',
         genre: ['Fantasy', 'Adventure'],
         manuscriptNovel: '',
         manuscriptScreenplay: '',
         synopsis: 'In a realm where ancient magic meets steampunk innovation, young Lyra discovers she holds the key to preventing an interdimensional war.',
         createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
-        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+        lastModified: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
       },
       {
         id: 'demo-project-2',
-        userId: demoUser.id,
+        userId: 'demo-user-1',
         name: 'Midnight in Neo Tokyo',
-        type: 'screenplay',
+        type: 'screenplay' as const,
         description: 'A cyberpunk thriller set in the neon-lit streets of future Tokyo.',
         genre: ['Sci-Fi', 'Thriller'],
         manuscriptNovel: '',
         manuscriptScreenplay: '',
         synopsis: 'Detective Kane must navigate the digital underworld to solve a series of murders that blur the line between reality and virtual reality.',
         createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 14 days ago
-        updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+        lastModified: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
       },
       {
         id: 'demo-project-3',
-        userId: demoUser.id,
+        userId: 'demo-user-1',
         name: 'The Last Library',
-        type: 'novel',
+        type: 'novel' as const,
         description: 'A post-apocalyptic tale about preserving knowledge and human culture.',
         genre: ['Post-Apocalyptic', 'Drama'],
         manuscriptNovel: '',
         manuscriptScreenplay: '',
         synopsis: 'After civilization falls, a group of librarians becomes the guardians of human knowledge, protecting books and stories from those who would destroy them.',
         createdAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000), // 21 days ago
-        updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+        lastModified: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
       }
     ];
 
@@ -242,14 +245,21 @@ class MockStorage {
     const now = new Date();
     
     const newCharacter: Character = {
+      // Set default values for all fields to match schema
+      goals: null,
+      values: null,
+      class: null,
+      title: null,
+      children: null,
+      // Apply provided character data
       ...character,
+      // Override with generated/computed values
       id,
       createdAt: now,
       updatedAt: now,
     };
-    
+
     this.data.characters.set(id, newCharacter);
-    console.log(`👤 Created character: ${newCharacter.name} (${id})`);
     return newCharacter;
   }
 
@@ -432,7 +442,115 @@ class MockStorage {
 
   async getImageAssets(projectId: string): Promise<ImageAsset[]> {
     await this.simulateLatency();
-    return Array.from(this.data.imageAssets.values()).filter(i => i.projectId === projectId);
+    // Filter by entities that belong to the project
+    const projectEntities = Array.from(this.data.characters.values())
+      .filter(char => char.projectId === projectId)
+      .map(char => char.id);
+      
+    return Array.from(this.data.imageAssets.values()).filter(
+      asset => projectEntities.includes(asset.entityId)
+    );
+  }
+
+  // ===== OUTLINE CRUD METHODS =====
+  
+  async createOutline(outline: InsertOutline): Promise<Outline> {
+    await this.simulateLatency();
+    
+    const id = this.generateId();
+    const now = new Date();
+    
+    const newOutline: Outline = {
+      ...outline,
+      id,
+      createdAt: now,
+    };
+
+    this.data.outlines.set(id, newOutline);
+    return newOutline;
+  }
+
+  async updateOutline(id: string, updates: Partial<Outline>): Promise<Outline> {
+    await this.simulateLatency();
+    
+    const existing = this.data.outlines.get(id);
+    if (!existing) {
+      throw new Error(`Outline with id ${id} not found`);
+    }
+
+    const updated = { ...existing, ...updates };
+    this.data.outlines.set(id, updated);
+    return updated;
+  }
+
+  async deleteOutline(id: string): Promise<void> {
+    await this.simulateLatency();
+    
+    if (!this.data.outlines.has(id)) {
+      throw new Error(`Outline with id ${id} not found`);
+    }
+    
+    this.data.outlines.delete(id);
+  }
+
+  // ===== PROSE DOCUMENT CRUD METHODS =====
+  
+  async createProseDocument(document: InsertProseDocument): Promise<ProseDocument> {
+    await this.simulateLatency();
+    
+    const id = this.generateId();
+    const now = new Date();
+    
+    const newDocument: ProseDocument = {
+      ...document,
+      id,
+      createdAt: now,
+      lastModified: now,
+      // Ensure tags is properly typed
+      tags: document.tags || null,
+    };
+
+    this.data.proseDocuments.set(id, newDocument);
+    return newDocument;
+  }
+
+  async updateProseDocument(id: string, updates: Partial<ProseDocument>): Promise<ProseDocument> {
+    await this.simulateLatency();
+    
+    const existing = this.data.proseDocuments.get(id);
+    if (!existing) {
+      throw new Error(`Prose document with id ${id} not found`);
+    }
+
+    const updated = { 
+      ...existing, 
+      ...updates, 
+      lastModified: new Date() 
+    };
+    this.data.proseDocuments.set(id, updated);
+    return updated;
+  }
+
+  async deleteProseDocument(id: string): Promise<void> {
+    await this.simulateLatency();
+    
+    if (!this.data.proseDocuments.has(id)) {
+      throw new Error(`Prose document with id ${id} not found`);
+    }
+    
+    this.data.proseDocuments.delete(id);
+  }
+
+  // ===== USER LOGIN TRACKING =====
+  
+  async updateUserLastLogin(userId: string): Promise<void> {
+    await this.simulateLatency();
+    
+    const user = this.data.users.get(userId);
+    if (user) {
+      user.lastLoginAt = new Date();
+      this.data.users.set(userId, user);
+    }
   }
 
   async getProjectSettings(projectId: string): Promise<ProjectSettings | null> {

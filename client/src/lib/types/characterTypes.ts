@@ -1,240 +1,194 @@
 /**
- * Character-Specific Type Definitions
- * Consolidated character types using base types as foundation
+ * Enhanced Character Types - Senior Dev Pattern
+ * Comprehensive character system with backward compatibility
  */
 
-import type { 
-  EnhancedEntityFields, 
-  BaseTemplate,
-  EntityArc,
-  EntityRelationship,
-  EntityInsights
-} from '../types';
-
-// Legacy Character import for backward compatibility  
 import type { Character as LegacyCharacter } from '../types';
 
-// Main Character interface (consolidated from scattered definitions)
-// Extends both our enhanced base and maintains compatibility with legacy interface
-export interface Character extends EnhancedEntityFields, Omit<LegacyCharacter, keyof EnhancedEntityFields> {
+// ===== BASE ENTITY INTERFACES =====
+export interface BaseEntity {
+  id: string;
+  projectId: string;
+  createdAt: Date;
+  updatedAt?: Date | null;
+}
+
+export interface EnhancedEntityFields {
+  // Metadata
+  tags?: string[];
+  notes?: string;
+  isArchived?: boolean;
+  
+  // AI Enhancement
+  aiGenerated?: boolean;
+  lastAIUpdate?: Date;
+  
+  // Relationships
+  relationships?: string[];
+  
+  // Completion tracking
+  completionPercentage?: number;
+  lastModified?: Date;
+}
+
+// ===== CHARACTER INTERFACES =====
+export interface Character extends BaseEntity, EnhancedEntityFields {
   // Identity Section
   name: string;
   nicknames?: string;
   title?: string;
-  race?: string;
+  aliases?: string;
+  role?: string;
+  
+  // Demographics
   age?: string;
-  gender?: string;
+  race?: string;
+  ethnicity?: string;
+  birthdate?: string;
+  zodiacSign?: string;
+  
+  // Professional
   class?: string;
   profession?: string;
-  role?: string;
-  archetype?: string;
+  occupation?: string;
   
-  // Physical Section
+  // Physical Description
+  physicalDescription?: string;
   height?: string;
   weight?: string;
-  build?: string;
   eyeColor?: string;
   hairColor?: string;
-  hairStyle?: string;
-  skinTone?: string;
-  distinguishingMarks?: string;
-  clothing?: string;
-  accessories?: string;
-  posture?: string;
-  mannerisms?: string;
-  speech?: string;
-  voice?: string;
+  distinguishingFeatures?: string;
   
-  // Personality Section
-  personalityTraits?: string[];
-  temperament?: string;
-  quirks?: string;
-  likes?: string;
-  dislikes?: string;
+  // Personality & Psychology
+  personality?: string;
+  traits?: string[];
   values?: string;
-  beliefs?: string;
-  fears?: string;
-  secrets?: string;
   goals?: string;
-  motivations?: string;
-  flaws?: string;
-  
-  // Background Section
-  backstory?: string;
-  childhood?: string;
-  education?: string;
-  family?: string;
-  pastEvents?: string;
-  
-  // Skills Section
-  abilities?: string[];
-  skills?: string[];
-  talents?: string[];
+  fears?: string;
   strengths?: string;
   weaknesses?: string;
   
-  // Story Section
-  storyFunction?: string;
-  conflictSources?: string;
-  relationships?: EntityRelationship[];
-  arcs?: EntityArc[];
+  // Background & History
+  backstory?: string;
+  familyBackground?: string;
+  education?: string;
+  keyEvents?: string;
   
-  // Meta Section
-  archetypes?: string[];
-  themes?: string[];
+  // Skills & Abilities
+  skills?: string[];
+  talents?: string;
+  abilities?: string;
+  languages?: string[];
+  
+  // Relationships
+  familyMembers?: string;
+  allies?: string;
+  enemies?: string;
+  romanticInterests?: string;
+  
+  // Story Integration
+  motivations?: string;
+  characterArc?: string;
+  plotRole?: string;
   symbolism?: string;
-  inspiration?: string;
-  writerNotes?: string;
   
-  // Enhanced fields
-  portraits?: CharacterPortrait[];
-  displayImageId?: string;
-  insights?: EntityInsights;
+  // Additional Fields
+  equipment?: string;
+  belongings?: string;
+  secrets?: string;
+  quirks?: string;
+  habits?: string;
+  speech?: string;
+  mannerisms?: string;
   
-  // Legacy fields for backward compatibility
+  // World-specific
+  species?: string;
+  faction?: string;
+  location?: string;
+  
+  // Visual Assets
+  portraits?: string[];
+  images?: string[];
+  
+  // Legacy compatibility
   description?: string;
-  imageUrl?: string;
+  children?: string;
 }
 
-// Character-specific portrait structure
-export interface CharacterPortrait {
+// ===== ENHANCED CHARACTER TYPES =====
+export interface EnhancedCharacter extends Character {
+  // Enhanced features for Phase 2 optimizations
+  version: number;
+  templates?: string[];
+  aiInsights?: {
+    personalityAnalysis?: string;
+    archetypeMatch?: string;
+    developmentSuggestions?: string[];
+    consistencyScore?: number;
+  };
+  
+  // Performance tracking (Phase 2 optimization)
+  loadTime?: number;
+  lastAccessed?: Date;
+  accessCount?: number;
+}
+
+// ===== FORM & VALIDATION TYPES =====
+export interface CharacterFormData extends Partial<Character> {
+  // Required fields for forms
+  name: string;
+  projectId: string;
+}
+
+export interface CharacterValidationError {
+  field: keyof Character;
+  message: string;
+  severity: 'error' | 'warning' | 'info';
+}
+
+export interface CharacterTemplate {
   id: string;
-  imageUrl: string;
-  isMain: boolean;
+  name: string;
+  description: string;
+  category: 'fantasy' | 'sci-fi' | 'modern' | 'historical' | 'custom';
+  baseData: Partial<Character>;
+  requiredFields: (keyof Character)[];
+  suggestedFields: (keyof Character)[];
+}
+
+// ===== RELATIONSHIP TYPES =====
+export interface CharacterRelationship {
+  id: string;
+  sourceCharacterId: string;
+  targetCharacterId: string;
+  relationshipType: 'family' | 'friend' | 'enemy' | 'romantic' | 'professional' | 'mentor' | 'other';
   description?: string;
-  style?: string;
-  createdAt: string;
+  strength: 1 | 2 | 3 | 4 | 5; // 1 = weak, 5 = very strong
+  isPublic: boolean;
+  notes?: string;
 }
 
-// Character template (extends base template)
-export interface CharacterTemplate extends BaseTemplate<Character> {
-  category: 'fantasy' | 'modern' | 'scifi' | 'romance' | 'thriller' | 'universal';
-  icon?: string;
-  popularity?: number;
+// ===== UTILITY TYPES =====
+export type CharacterField = keyof Character;
+export type RequiredCharacterFields = 'id' | 'projectId' | 'name';
+export type OptionalCharacterFields = Exclude<CharacterField, RequiredCharacterFields>;
+
+// ===== LEGACY COMPATIBILITY =====
+// Maintain compatibility with existing code that expects the old Character type
+export type LegacyCharacterCompat = LegacyCharacter;
+
+// ===== TYPE GUARDS =====
+export function isEnhancedCharacter(character: Character | EnhancedCharacter): character is EnhancedCharacter {
+  return 'version' in character && typeof character.version === 'number';
 }
 
-// Character-specific generation options
-export interface CharacterGenerationOptions {
-  entityType: 'characters';
-  prompt: string;
-  context?: string;
-  style?: 'realistic' | 'fantasy' | 'anime' | 'cartoon';
-  parameters?: {
-    age?: string;
-    gender?: string;
-    race?: string;
-    profession?: string;
-    personality?: string[];
-    setting?: string;
-  };
-  projectContext?: {
-    projectId: string;
-    existingCharacters?: Character[];
-    worldContext?: string;
-  };
-}
-
-// Character relationship types (extends base relationship)
-export interface CharacterRelationship extends EntityRelationship {
-  targetEntityType: 'characters';
-  type: 'family' | 'romantic' | 'friend' | 'enemy' | 'ally' | 'mentor' | 'rival' | 'professional';
-}
-
-// Character arc types (extends base arc)
-export interface CharacterArc extends EntityArc {
-  characterId: string;
-  arcType: 'character-growth' | 'redemption' | 'fall' | 'discovery' | 'romance' | 'revenge';
-  psychologicalChange: string;
-  externalChange: string;
-}
-
-// Character statistics
-export interface CharacterStatistics {
-  total: number;
-  byRole: Record<string, number>;
-  byArchetype: Record<string, number>;
-  byCompleteness: {
-    wellDeveloped: number;
-    inProgress: number;
-    needWork: number;
-  };
-  averageCompleteness: number;
-  recentlyUpdated: number;
-  withPortraits: number;
-  withRelationships: number;
-  withArcs: number;
-}
-
-// Character form data (for form handling)
-export interface CharacterFormData {
-  [key: string]: string | string[] | number | boolean | undefined;
-}
-
-// Character validation errors
-export interface CharacterValidationErrors {
-  [fieldKey: string]: string;
-}
-
-// Character export data
-export interface CharacterExportData {
-  basic: Character;
-  relationships: CharacterRelationship[];
-  arcs: CharacterArc[];
-  portraits: CharacterPortrait[];
-  insights: EntityInsights | null;
-}
-
-// Character import mapping
-export interface CharacterImportMapping {
-  [csvColumn: string]: keyof Character;
-}
-
-// Character search filters
-export interface CharacterFilters {
-  search?: string;
-  role?: string[];
-  archetype?: string[];
-  race?: string[];
-  completeness?: {
-    min: number;
-    max: number;
-  };
-  hasPortrait?: boolean;
-  hasRelationships?: boolean;
-  hasArcs?: boolean;
-  recentlyUpdated?: boolean;
-  tags?: string[];
-}
-
-// Character sort options
-export type CharacterSortOption = 
-  | 'alphabetical' 
-  | 'recently-added' 
-  | 'recently-edited' 
-  | 'completeness' 
-  | 'role'
-  | 'archetype';
-
-// Character view modes
-export type CharacterViewMode = 'grid' | 'list' | 'table' | 'relationship-map';
-
-// Character AI enhancement request
-export interface CharacterAIEnhancementRequest {
-  characterId: string;
-  fieldKey: keyof Character;
-  fieldLabel: string;
-  currentValue: any;
-  character: Character;
-  fieldOptions?: string[];
-  enhancementType?: 'expand' | 'improve' | 'suggest' | 'generate';
-}
-
-// Character AI enhancement response
-export interface CharacterAIEnhancementResponse {
-  success: boolean;
-  enhancedValue: any;
-  suggestions?: string[];
-  warnings?: string[];
-  confidence: number;
-  reasoning?: string;
+export function isValidCharacter(obj: any): obj is Character {
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    typeof obj.id === 'string' &&
+    typeof obj.projectId === 'string' &&
+    typeof obj.name === 'string'
+  );
 }

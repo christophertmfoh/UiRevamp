@@ -1,47 +1,68 @@
 /**
- * Universal API Utilities
- * Generic API patterns and query helpers for all entity types
+ * API Utility Functions - Senior Dev Pattern
+ * Type-safe API interactions with proper error handling
  */
 
-import { useQuery, useMutation, useQueryClient, type UseQueryOptions, type UseMutationOptions } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
-import type { BaseEntity } from './entityUtils';
 
-// Generic entity queries
-export function useEntityList<T extends BaseEntity>(
-  projectId: string,
-  entityType: string,
-  options?: Partial<UseQueryOptions<T[]>>
-) {
-  return useQuery<T[]>({
-    queryKey: ['/api/projects', projectId, entityType],
-    ...options,
-  });
+// ===== TYPES =====
+export interface BaseEntity {
+  id: string;
+  projectId: string;
+  createdAt: Date;
+  updatedAt?: Date | null;
 }
 
-export function useEntity<T extends BaseEntity>(
-  entityType: string,
-  entityId: string,
-  options?: Partial<UseQueryOptions<T>>
-) {
-  return useQuery<T>({
-    queryKey: ['/api', entityType, entityId],
-    enabled: !!entityId,
-    ...options,
-  });
+export interface PaginatedResponse<T> {
+  entities: T[];
+  total: number;
+  page: number;
+  totalPages: number;
 }
 
-// Generic entity mutations
+// ===== HELPER FUNCTIONS =====
+
+/**
+ * Parse Response to JSON with proper error handling
+ */
+async function parseResponse<T>(response: Response): Promise<T> {
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`HTTP ${response.status}: ${errorText || response.statusText}`);
+  }
+  
+  const data = await response.json();
+  return data as T;
+}
+
+/**
+ * Make API request and parse JSON response
+ */
+async function makeAPIRequest<T>(
+  method: string,
+  url: string,
+  data?: unknown
+): Promise<T> {
+  const response = await apiRequest(method, url, data);
+  return parseResponse<T>(response);
+}
+
+// ===== ENTITY CRUD HOOKS =====
+
+/**
+ * Hook for creating entities with proper typing
+ */
 export function useCreateEntity<T extends BaseEntity>(
-  projectId: string,
   entityType: string,
+  projectId: string,
   options?: Partial<UseMutationOptions<T, Error, Partial<T>>>
 ) {
   const queryClient = useQueryClient();
   
   return useMutation<T, Error, Partial<T>>({
     mutationFn: async (data: Partial<T>) => {
-      return await apiRequest('POST', `/api/projects/${projectId}/${entityType}`, {
+      return makeAPIRequest<T>('POST', `/api/projects/${projectId}/${entityType}`, {
         ...data,
         projectId,
       });
@@ -56,6 +77,9 @@ export function useCreateEntity<T extends BaseEntity>(
   });
 }
 
+/**
+ * Hook for updating entities with proper typing
+ */
 export function useUpdateEntity<T extends BaseEntity>(
   entityType: string,
   options?: Partial<UseMutationOptions<T, Error, { id: string; data: Partial<T> }>>
@@ -64,15 +88,15 @@ export function useUpdateEntity<T extends BaseEntity>(
   
   return useMutation<T, Error, { id: string; data: Partial<T> }>({
     mutationFn: async ({ id, data }) => {
-      return await apiRequest('PUT', `/api/${entityType}/${id}`, data);
+      return makeAPIRequest<T>('PUT', `/api/${entityType}/${id}`, data);
     },
     onSuccess: (data, variables, context) => {
       // Invalidate both the list and individual entity queries
       queryClient.invalidateQueries({ 
-        queryKey: ['/api', entityType, variables.id] 
+        queryKey: ['/api', entityType] 
       });
       queryClient.invalidateQueries({ 
-        queryKey: ['/api/projects', data.projectId, entityType] 
+        queryKey: ['/api', entityType, variables.id] 
       });
       options?.onSuccess?.(data, variables, context);
     },
@@ -80,283 +104,263 @@ export function useUpdateEntity<T extends BaseEntity>(
   });
 }
 
-// Helper function to invalidate entity queries
-function createInvalidateQueries(queryClient: any, entityType: string) {
-  return (projectId: string) => {
-    queryClient.invalidateQueries({ 
-      queryKey: ['/api/projects', projectId, entityType] 
-    });
-  };
-}
-
+/**
+ * Hook for deleting entities
+ */
 export function useDeleteEntity(
   entityType: string,
   options?: Partial<UseMutationOptions<void, Error, { id: string; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
-  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<void, Error, { id: string; projectId: string }>({
     mutationFn: async ({ id }) => {
-      return await apiRequest('DELETE', `/api/${entityType}/${id}`);
+      await makeAPIRequest<void>('DELETE', `/api/${entityType}/${id}`);
     },
     onSuccess: (data, variables, context) => {
-      invalidateQueries(variables.projectId);
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', variables.projectId, entityType] 
+      });
       options?.onSuccess?.(data, variables, context);
     },
     ...options,
   });
 }
 
-// Generic bulk operations
-export function useBulkDeleteEntities(
+/**
+ * Hook for batch deleting entities
+ */
+export function useBatchDeleteEntities<T extends BaseEntity>(
   entityType: string,
   options?: Partial<UseMutationOptions<void, Error, { ids: string[]; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
-  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<void, Error, { ids: string[]; projectId: string }>({
     mutationFn: async ({ ids }) => {
-      return await apiRequest('DELETE', `/api/${entityType}/bulk`, { ids });
+      await makeAPIRequest<void>('POST', `/api/${entityType}/batch-delete`, { ids });
     },
     onSuccess: (data, variables, context) => {
-      invalidateQueries(variables.projectId);
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', variables.projectId, entityType] 
+      });
       options?.onSuccess?.(data, variables, context);
     },
     ...options,
   });
 }
 
-export function useBulkUpdateEntities<T extends BaseEntity>(
+/**
+ * Hook for batch updating entities
+ */
+export function useBatchUpdateEntities<T extends BaseEntity>(
   entityType: string,
   options?: Partial<UseMutationOptions<T[], Error, { ids: string[]; data: Partial<T>; projectId: string }>>
 ) {
   const queryClient = useQueryClient();
-  const invalidateQueries = createInvalidateQueries(queryClient, entityType);
   
   return useMutation<T[], Error, { ids: string[]; data: Partial<T>; projectId: string }>({
     mutationFn: async ({ ids, data }) => {
-      return await apiRequest('PATCH', `/api/${entityType}/bulk`, { ids, data });
+      return makeAPIRequest<T[]>('PUT', `/api/${entityType}/batch-update`, { ids, data });
     },
     onSuccess: (data, variables, context) => {
-      invalidateQueries(variables.projectId);
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', variables.projectId, entityType] 
+      });
       options?.onSuccess?.(data, variables, context);
     },
     ...options,
   });
 }
 
-// Generic AI enhancement
-export function useEntityAIEnhancement<T extends BaseEntity>(
+// ===== QUERY HOOKS =====
+
+/**
+ * Hook for fetching entity lists with pagination
+ */
+export function useEntityList<T extends BaseEntity>(
   entityType: string,
-  options?: Partial<UseMutationOptions<any, Error, {
-    entityId: string;
-    fieldKey: string;
-    fieldLabel: string;
-    currentValue: any;
-    entity: T;
-    fieldOptions?: string[];
-  }>>
+  projectId: string,
+  {
+    page = 1,
+    limit = 50,
+    search,
+    filters,
+    ...queryOptions
+  }: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    filters?: Record<string, any>;
+  } & Partial<UseQueryOptions<PaginatedResponse<T>>> = {}
 ) {
-  return useMutation<any, Error, {
-    entityId: string;
-    fieldKey: string;
-    fieldLabel: string;
-    currentValue: any;
-    entity: T;
-    fieldOptions?: string[];
-  }>({
-    mutationFn: async ({ entityId, fieldKey, fieldLabel, currentValue, entity, fieldOptions }) => {
-      const response = await apiRequest('POST', `/api/${entityType}/${entityId}/enhance-field`, {
-        entity,
-        fieldKey,
-        fieldLabel,
-        currentValue,
-        fieldOptions
+  return useQuery<PaginatedResponse<T>>({
+    queryKey: ['/api/projects', projectId, entityType, { page, limit, search, filters }],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        ...(search && { search }),
+        ...(filters && { filters: JSON.stringify(filters) })
       });
-      return await response.json();
+      
+      return makeAPIRequest<PaginatedResponse<T>>(
+        'GET', 
+        `/api/projects/${projectId}/${entityType}?${params}`
+      );
     },
+    ...queryOptions,
+  });
+}
+
+/**
+ * Hook for fetching a single entity
+ */
+export function useEntity<T extends BaseEntity>(
+  entityType: string,
+  entityId: string,
+  options?: Partial<UseQueryOptions<T>>
+) {
+  return useQuery<T>({
+    queryKey: ['/api', entityType, entityId],
+    queryFn: () => makeAPIRequest<T>('GET', `/api/${entityType}/${entityId}`),
     ...options,
   });
 }
 
-// Generic image operations
-export function useEntityImageUpload(
+// ===== SPECIALIZED HOOKS =====
+
+/**
+ * Hook for uploading and generating images
+ */
+export function useImageUpload(
   entityType: string,
-  options?: Partial<UseMutationOptions<string, Error, { entityId: string; file: File }>>
+  entityId: string,
+  options?: Partial<UseMutationOptions<{ imageUrl: string }, Error, File>>
 ) {
   const queryClient = useQueryClient();
   
-  return useMutation<string, Error, { entityId: string; file: File }>({
-    mutationFn: async ({ entityId, file }) => {
+  return useMutation<{ imageUrl: string }, Error, File>({
+    mutationFn: async (file: File) => {
       const formData = new FormData();
       formData.append('image', file);
+      formData.append('entityType', entityType);
+      formData.append('entityId', entityId);
       
-      const response = await fetch(`/api/${entityType}/${entityId}/upload-image`, {
+      const response = await fetch('/api/upload-image', {
         method: 'POST',
         body: formData,
       });
       
       if (!response.ok) {
-        throw new Error('Failed to upload image');
+        throw new Error(`Upload failed: ${response.statusText}`);
       }
       
-      const result = await response.json();
-      return result.imageUrl;
+      return response.json();
     },
-    onSuccess: (imageUrl, variables, context) => {
-      // Invalidate entity queries to refresh with new image
+    onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ 
-        queryKey: ['/api', entityType, variables.entityId] 
+        queryKey: ['/api', entityType, entityId] 
       });
-      options?.onSuccess?.(imageUrl, variables, context);
+      options?.onSuccess?.(data, variables, context);
     },
     ...options,
   });
 }
 
-export function useEntityImageGeneration(
+/**
+ * Hook for AI-powered entity generation
+ */
+export function useAIGeneration<T>(
+  prompt: string,
   entityType: string,
-  options?: Partial<UseMutationOptions<string, Error, {
-    entityId: string;
-    prompt: string;
-    style?: string;
-  }>>
+  options?: Partial<UseMutationOptions<T, Error, { prompt: string; context?: any }>>
 ) {
-  const queryClient = useQueryClient();
-  
-  return useMutation<string, Error, {
-    entityId: string;
-    prompt: string;
-    style?: string;
-  }>({
-    mutationFn: async ({ entityId, prompt, style }) => {
-      const response = await apiRequest('POST', `/api/${entityType}/${entityId}/generate-image`, {
+  return useMutation<T, Error, { prompt: string; context?: any }>({
+    mutationFn: async ({ prompt, context }) => {
+      return makeAPIRequest<T>('POST', '/api/ai/generate', {
         prompt,
-        style,
+        entityType,
+        context,
       });
-      return response.imageUrl;
-    },
-    onSuccess: (imageUrl, variables, context) => {
-      queryClient.invalidateQueries({ 
-        queryKey: ['/api', entityType, variables.entityId] 
-      });
-      options?.onSuccess?.(imageUrl, variables, context);
     },
     ...options,
   });
 }
 
-// Generic search and filtering
-export function useEntitySearch<T extends BaseEntity>(
-  projectId: string,
-  entityType: string,
-  searchParams: {
-    query?: string;
-    filters?: Record<string, any>;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-    page?: number;
-    limit?: number;
-  },
-  options?: Partial<UseQueryOptions<{
-    entities: T[];
-    total: number;
-    page: number;
-    totalPages: number;
-  }>>
+// ===== UTILITY FUNCTIONS =====
+
+/**
+ * Optimistic update helper
+ */
+export function createOptimisticUpdate<T extends BaseEntity>(
+  queryClient: any,
+  queryKey: any[],
+  updater: (old: T[] | undefined) => T[]
 ) {
-  return useQuery({
-    queryKey: ['/api/projects', projectId, entityType, 'search', searchParams],
-    queryFn: async () => {
-      const searchParamsString = new URLSearchParams(
-        Object.entries(searchParams).reduce((acc, [key, value]) => {
-          if (value !== undefined && value !== null && value !== '') {
-            acc[key] = typeof value === 'object' ? JSON.stringify(value) : String(value);
-          }
-          return acc;
-        }, {} as Record<string, string>)
-      ).toString();
-      
-      return await apiRequest('GET', `/api/projects/${projectId}/${entityType}/search?${searchParamsString}`);
-    },
-    enabled: !!projectId,
-    ...options,
-  });
+  return queryClient.setQueryData<T[]>(queryKey, updater);
 }
 
-// Generic export functionality
-export function useEntityExport(
-  entityType: string,
-  options?: Partial<UseMutationOptions<Blob, Error, {
-    projectId: string;
-    entityIds?: string[];
-    format: 'csv' | 'json' | 'xlsx';
-    includeImages?: boolean;
-  }>>
-) {
-  return useMutation<Blob, Error, {
-    projectId: string;
-    entityIds?: string[];
-    format: 'csv' | 'json' | 'xlsx';
-    includeImages?: boolean;
-  }>({
-    mutationFn: async ({ projectId, entityIds, format, includeImages }) => {
-      const response = await fetch(`/api/projects/${projectId}/${entityType}/export`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          entityIds,
-          format,
-          includeImages,
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to export entities');
-      }
-      
-      return await response.blob();
-    },
-    ...options,
-  });
-}
-
-// Generic cache utilities
+/**
+ * Invalidate related queries helper
+ */
 export function invalidateEntityQueries(
-  queryClient: ReturnType<typeof useQueryClient>,
+  queryClient: any,
   entityType: string,
   projectId?: string,
   entityId?: string
 ) {
-  if (entityId) {
-    queryClient.invalidateQueries({ 
-      queryKey: ['/api', entityType, entityId] 
-    });
-  }
+  const invalidations = [
+    queryClient.invalidateQueries({ queryKey: ['/api', entityType] }),
+  ];
   
   if (projectId) {
-    queryClient.invalidateQueries({ 
-      queryKey: ['/api/projects', projectId, entityType] 
-    });
+    invalidations.push(
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', projectId, entityType] 
+      })
+    );
   }
   
-  // Invalidate search queries
-  queryClient.invalidateQueries({ 
-    queryKey: ['/api/projects', projectId, entityType, 'search'] 
-  });
+  if (entityId) {
+    invalidations.push(
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api', entityType, entityId] 
+      })
+    );
+  }
+  
+  return Promise.all(invalidations);
 }
 
-export function prefetchEntity<T extends BaseEntity>(
-  queryClient: ReturnType<typeof useQueryClient>,
-  entityType: string,
-  entityId: string
-) {
-  return queryClient.prefetchQuery<T>({
-    queryKey: ['/api', entityType, entityId],
-    queryFn: () => apiRequest('GET', `/api/${entityType}/${entityId}`),
-  });
+// ===== ERROR HANDLING =====
+
+/**
+ * Extract error message from API response
+ */
+export function extractErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  
+  if (typeof error === 'string') {
+    return error;
+  }
+  
+  if (error && typeof error === 'object' && 'message' in error) {
+    return String((error as any).message);
+  }
+  
+  return 'An unexpected error occurred';
+}
+
+/**
+ * Check if error is a validation error
+ */
+export function isValidationError(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    error.message.includes('validation') ||
+    (error && typeof error === 'object' && 'status' in error && (error as any).status === 400)
+  );
 }

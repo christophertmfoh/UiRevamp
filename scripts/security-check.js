@@ -203,35 +203,57 @@ class SecurityChecker {
   }
 
   checkDockerSecurity() {
-    if (fs.existsSync('Dockerfile')) {
-      try {
-        const dockerContent = fs.readFileSync('Dockerfile', 'utf8');
-        
-        // Check for security best practices
-        if (!dockerContent.includes('USER ') || dockerContent.includes('USER root')) {
-          this.addIssue({
-            file: 'Dockerfile',
-            line: 1,
-            severity: 'high',
-            category: 'docker',
-            description: 'Dockerfile runs as root user',
-            match: 'Missing non-root USER directive'
-          });
-        }
+    // Docker removed in Phase 1 - Replit environment doesn't use Docker
+    // Instead, check for Replit-specific security considerations
+    this.checkReplitSecurity();
+  }
 
-        if (dockerContent.includes('ADD ') && dockerContent.includes('http')) {
-          this.addIssue({
-            file: 'Dockerfile',
-            line: 1,
-            severity: 'medium',
-            category: 'docker',
-            description: 'Dockerfile uses ADD with URL (prefer COPY)',
-            match: 'ADD with HTTP URL'
+  checkReplitSecurity() {
+    // Check for exposed secrets in Replit environment
+    const replitFiles = ['.replit', 'replit.nix'];
+    
+    replitFiles.forEach(file => {
+      if (fs.existsSync(file)) {
+        try {
+          const content = fs.readFileSync(file, 'utf8');
+          
+          // Check for hardcoded secrets in Replit config
+          const secretPatterns = [
+            /api[_-]?key\s*=\s*['"]\w+['"]/i,
+            /secret\s*=\s*['"]\w+['"]/i,
+            /password\s*=\s*['"]\w+['"]/i,
+            /token\s*=\s*['"]\w+['"]/i
+          ];
+          
+          secretPatterns.forEach(pattern => {
+            const matches = content.match(pattern);
+            if (matches) {
+              this.addIssue({
+                file,
+                line: 1,
+                severity: 'high',
+                category: 'replit-security',
+                description: 'Potential hardcoded secret in Replit config',
+                match: matches[0].substring(0, 50)
+              });
+            }
           });
+        } catch (error) {
+          this.warnings.push(`Could not scan ${file}: ${error.message}`);
         }
-      } catch (error) {
-        this.warnings.push(`Could not scan Dockerfile: ${error.message}`);
       }
+    });
+
+    // Check for proper environment variable usage
+    if (fs.existsSync('.env.example') && !fs.existsSync('.env')) {
+      this.addIssue({
+        file: '.env',
+        line: 1,
+        severity: 'medium',
+        category: 'replit-security',
+        description: 'Missing .env file - copy from .env.example',
+        match: 'Environment setup incomplete'
+      });
     }
   }
 

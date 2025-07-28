@@ -57,20 +57,13 @@ export function transformCharacterData(data: Record<string, unknown>): Record<st
     delete transformedData.updatedAt;
   }
   
-  // Handle portraits array - compress images before storage
+  // Handle portraits array processing with proper typing
   if (transformedData.portraits) {
-    if (typeof transformedData.portraits === 'string') {
-      try {
-        transformedData.portraits = JSON.parse(transformedData.portraits);
-      } catch {
-        transformedData.portraits = [];
-      }
-    }
     if (!Array.isArray(transformedData.portraits)) {
       transformedData.portraits = [];
     }
-    // Compress portraits before storage
-    transformedData.portraits = processPortraitsForStorage(transformedData.portraits);
+    // Compress portraits before storage with proper type assertion
+    transformedData.portraits = processPortraitsForStorage(transformedData.portraits as any[]);
   }
 
   return transformedData;
