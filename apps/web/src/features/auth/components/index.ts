@@ -1,1 +1,1 @@
-export { default as AuthPage } from './AuthPage'
+export { AuthPageRedesign as AuthPage } from './AuthPage'

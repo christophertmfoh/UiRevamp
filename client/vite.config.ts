@@ -10,7 +10,15 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "..", "apps", "web", "src"),
+      "@/components": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "components"),
+      "@/ui": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "components", "ui"),
+      "@/features": path.resolve(__dirname, "..", "apps", "web", "src", "features"),
+      "@/hooks": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "hooks"),
+      "@/lib": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "lib"),
+      "@/utils": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "utils"),
+      "@/types": path.resolve(__dirname, "..", "apps", "web", "src", "shared", "types"),
+      "@/assets": path.resolve(__dirname, "..", "attached_assets"),
       "@shared": path.resolve(__dirname, "..", "shared"),
     },
   },

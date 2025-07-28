@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ThemeProvider } from "@/components/theme-provider"
-import { TooltipProvider } from "@/ui"
+import { ThemeProvider } from "./shared/components/theme-provider"
+import { TooltipProvider } from "./shared/components/ui/tooltip"
 import { Router } from "wouter"
 
 const queryClient = new QueryClient({
@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="system" storageKey="fablecraft-theme">
+      <ThemeProvider defaultTheme="system">
         <TooltipProvider>
           <Router>
             <div className="min-h-screen bg-background text-foreground">
