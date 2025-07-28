@@ -18,9 +18,11 @@ import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImp
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
-// Initialize ResizeObserver fix early
+// Initialize ResizeObserver fix before any components mount
 import { initializeResizeObserverFix } from './utils/resizeObserverFix';
-initializeResizeObserverFix();
+if (typeof window !== 'undefined') {
+  initializeResizeObserverFix();
+}
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
