@@ -438,6 +438,32 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setEditingTask(null);
   }, [newTaskText, newTaskPriority, newTaskEstimatedTime, selectedProject, allTasks, editingTask]);
 
+  // Progress tracking with smart insights
+  const updateProgress = useCallback((words: number = 0, minutes: number = 0) => {
+    const newProgress: Progress = {
+      ...todayProgress,
+      words: todayProgress.words + words,
+      minutes: todayProgress.minutes + minutes,
+      lastUpdateDate: new Date().toDateString()
+    };
+
+    setTodayProgress(newProgress);
+    saveProgressToStorage(newProgress);
+    
+    // Check for milestone achievements
+    const currentGoals = loadGoalsFromStorage();
+    
+    // Word milestone achieved
+    if (todayProgress.words < currentGoals.dailyWords && newProgress.words >= currentGoals.dailyWords) {
+      console.log('🎉 Daily word goal achieved!');
+    }
+    
+    // Time milestone achieved
+    if (todayProgress.minutes < currentGoals.dailyMinutes && newProgress.minutes >= currentGoals.dailyMinutes) {
+      console.log('⏰ Daily time goal achieved!');
+    }
+  }, [todayProgress]);
+
   const handleToggleTaskCompletion = useCallback(async (task: Task): Promise<void> => {
     const updatedTask: Task = {
       ...task,
@@ -537,32 +563,6 @@ export function useTaskManagement(): UseTaskManagementReturn {
     setShowGoalsModal(false);
     setTempGoals(loadGoalsFromStorage());
   }, []);
-
-  // Progress tracking with smart insights
-  const updateProgress = useCallback((words: number = 0, minutes: number = 0) => {
-    const newProgress: Progress = {
-      ...todayProgress,
-      words: todayProgress.words + words,
-      minutes: todayProgress.minutes + minutes,
-      lastUpdateDate: new Date().toDateString()
-    };
-
-    setTodayProgress(newProgress);
-    saveProgressToStorage(newProgress);
-    
-    // Check for milestone achievements
-    const currentGoals = loadGoalsFromStorage();
-    
-    // Word milestone achieved
-    if (todayProgress.words < currentGoals.dailyWords && newProgress.words >= currentGoals.dailyWords) {
-      console.log('🎉 Daily word goal achieved!');
-    }
-    
-    // Time milestone achieved
-    if (todayProgress.minutes < currentGoals.dailyMinutes && newProgress.minutes >= currentGoals.dailyMinutes) {
-      console.log('⏰ Daily time goal achieved!');
-    }
-  }, [todayProgress]);
 
   // Smart task suggestions based on completion patterns
   const getTaskSuggestions = useCallback((): string[] => {
