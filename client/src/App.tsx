@@ -182,13 +182,13 @@ export default function App() {
   //   }
   // }, []);
 
-  // Fetch projects function with proper error handling
+  // Fetch projects function with proper error handling and user filtering
   const fetchProjects = async () => {
     try {
       if (!isAuthenticated || !user) return;
       
       // Get token from Zustand store first, fallback to localStorage
-      const token = useAuth.getState().token || localStorage.getItem('token');
+      const token = useAuth.getState().token || localStorage.getItem('fablecraft_token') || localStorage.getItem('token');
       if (!token) return;
 
       const response = await fetch('/api/projects', {
@@ -199,7 +199,10 @@ export default function App() {
 
       if (response.ok) {
         const projectsData = await response.json();
-        setProjects(projectsData);
+        // Filter projects to only show current user's projects for data integrity
+        const userProjects = projectsData.filter((project: any) => project.userId === user.id);
+        setProjects(userProjects);
+        console.log(`📊 Loaded ${userProjects.length} projects for user: ${user.username}`);
       } else {
         // Don't log errors for expected 401/403 responses
         if (response.status !== 401 && response.status !== 403) {
@@ -263,16 +266,31 @@ export default function App() {
       if (response.ok) {
         const newProject = await response.json();
         
-        // Add to projects list immediately for instant feedback
-        setProjects(prev => [...prev, newProject]);
+        // Force immediate refresh from server for data consistency
+        await fetchProjects();
         
-        // Set as active project and navigate
-        setActiveProject(newProject);
+        // Find the newly created project in the refreshed list
+        const refreshedProjects = await fetch('/api/projects', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }).then(res => res.json());
+        
+        // Filter to only user's projects for security
+        const userProjects = refreshedProjects.filter((project: any) => project.userId === user?.id);
+        setProjects(userProjects);
+        
+        console.log(`✅ Project created successfully: "${newProject.name}" (${newProject.type})`);
+        
+        // Set the newly created project as active
+        const createdProject = refreshedProjects.find((p: any) => p.id === newProject.id);
+        if (createdProject) {
+          setActiveProject(createdProject);
+        }
+        
         setView('dashboard');
         setModal({ type: null, project: null });
-        
-        // Refresh projects list to ensure sync with server
-        await fetchProjects();
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create project');
       }
     } catch (error) {
       console.error('Project creation failed:', error instanceof Error ? error.message : error);

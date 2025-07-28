@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   name: string;
   title?: string;
-  type: 'novel' | 'screenplay' | 'comic';
+  type: 'novel' | 'screenplay' | 'comic' | 'dnd-campaign' | 'poetry';
   description?: string;
   synopsis?: string;
   genre?: string | string[];
