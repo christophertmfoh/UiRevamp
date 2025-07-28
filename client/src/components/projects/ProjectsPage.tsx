@@ -305,6 +305,9 @@ export const ProjectsPage = React.memo(function ProjectsPage({
         setTempGoals={taskManagement.setTempGoals}
         todayProgress={taskManagement.todayProgress}
         onSaveGoals={taskManagement.handleSaveGoals}
+        
+        // Additional handlers
+        onShowAddTaskModal={() => taskManagement.setShowAddTaskModal(true)}
       />
     </div>
   );

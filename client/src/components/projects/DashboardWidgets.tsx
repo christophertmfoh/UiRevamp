@@ -8,7 +8,8 @@ import {
   Sparkles, 
   CheckCircle, 
   GripVertical,
-  Clock
+  Clock,
+  Plus
 } from 'lucide-react';
 
 type WidgetType = 'daily-inspiration' | 'recent-project' | 'writing-progress' | 'quick-tasks';
@@ -171,6 +172,11 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   <div className="pt-3 border-t border-border/30 mt-auto">
                     <Button 
                       size="sm"
+                      onClick={() => {
+                        // For now, we'll show a helpful message
+                        // In a real app, this would navigate to the project editor
+                        alert(`Opening "${projects[0]?.name || 'Recent Project'}" for editing!\n\nThis would typically navigate to the project's writing interface.`);
+                      }}
                       className="w-full gradient-primary text-primary-foreground hover:opacity-90 text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       Continue Writing
@@ -188,6 +194,10 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   <p className="text-xs text-muted-foreground mb-4">Create your first project to see it here</p>
                   <Button 
                     size="sm"
+                    onClick={() => {
+                      // This would typically open the project creation wizard
+                      alert('Opening Project Creation Wizard!\n\nThis would typically open the project creation modal or navigate to a project setup page.');
+                    }}
                     className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2"
                   >
                     Create Project
@@ -282,11 +292,23 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
           {widget.id === 'quick-tasks' && (
             <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
               <CardContent className="p-5 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-5">
-                  <CheckCircle className="w-4 h-4 text-primary" />
-                  <h3 className="font-bold text-foreground text-sm">
-                    Quick Tasks
-                  </h3>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-primary" />
+                    <h3 className="font-bold text-foreground text-sm">
+                      Quick Tasks
+                    </h3>
+                  </div>
+                  {todayTasks.length > 0 && (
+                    <Button
+                      size="sm"
+                      onClick={onShowAddTaskModal}
+                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-2 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
+                    >
+                      <Plus className="w-3 h-3 mr-1" />
+                      Add
+                    </Button>
+                  )}
                 </div>
                 <div className="space-y-3 text-sm mb-5 flex-grow overflow-y-auto">
                   {isLoadingTasks ? (
@@ -306,22 +328,43 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     todayTasks.slice(0, 3).map((task) => (
                       <div 
                         key={task.id} 
-                        className="flex items-center gap-3 cursor-pointer hover:bg-accent/10 p-1 rounded-lg transition-colors duration-200"
-                        onClick={() => onToggleTaskCompletion(task)}
+                        className="flex items-center gap-3 hover:bg-accent/10 p-2 rounded-lg transition-colors duration-200"
                       >
                         <Checkbox 
                           checked={task.status === 'completed'}
-                          className="h-4 w-4"
-                          onClick={(e) => e.stopPropagation()}
+                          onCheckedChange={() => onToggleTaskCompletion(task)}
+                          className="h-4 w-4 flex-shrink-0"
                         />
-                        <span className={`text-foreground/80 flex-1 ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
-                          {task.text}
-                        </span>
-                        {task.priority === 'high' && (
-                          <Badge variant="destructive" className="text-[10px] px-1 py-0 h-4">High</Badge>
-                        )}
+                        <div className="flex-1 min-w-0">
+                          <span className={`text-foreground/80 text-xs leading-tight block ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
+                            {task.text}
+                          </span>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[10px] text-muted-foreground">
+                              {task.estimatedTime} min
+                            </span>
+                            {task.priority === 'high' && (
+                              <Badge variant="destructive" className="text-[9px] px-1 py-0 h-3 leading-none">High</Badge>
+                            )}
+                            {task.priority === 'medium' && (
+                              <Badge variant="default" className="text-[9px] px-1 py-0 h-3 leading-none">Med</Badge>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     ))
+                  )}
+                  {todayTasks.length > 3 && (
+                    <div className="text-center">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={onShowTasksModal}
+                        className="text-xs text-muted-foreground hover:text-foreground"
+                      >
+                        +{todayTasks.length - 3} more tasks
+                      </Button>
+                    </div>
                   )}
                 </div>
                 <div className="pt-3 border-t border-border/30 mt-auto">
@@ -331,7 +374,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   </div>
                   <div className="w-full bg-muted rounded-full h-1.5 mb-3">
                     <div 
-                      className="gradient-primary h-1.5 rounded-full" 
+                      className="gradient-primary h-1.5 rounded-full transition-all duration-300" 
                       style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
                     ></div>
                   </div>

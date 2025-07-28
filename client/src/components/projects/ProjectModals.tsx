@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Clock, Pencil, Trash2 } from 'lucide-react';
+import { Clock, Pencil, Trash2, Plus } from 'lucide-react';
 
 interface Task {
   id: string;
@@ -79,6 +79,9 @@ interface ProjectModalsProps {
   setTempGoals: (goals: Goals) => void;
   todayProgress: Progress;
   onSaveGoals: () => Promise<void>;
+  
+  // Additional handlers
+  onShowAddTaskModal: () => void;
 }
 
 export const ProjectModals = React.memo(function ProjectModals({
@@ -111,88 +114,165 @@ export const ProjectModals = React.memo(function ProjectModals({
   setTempGoals,
   todayProgress,
   onSaveGoals,
+  
+  // Additional handlers
+  onShowAddTaskModal,
 }: ProjectModalsProps) {
-  const toast = useToastActions();
-  const { trapFocus, restoreFocus } = useFocusManagement();
-  const { announce } = useScreenReader();
-  const { setAriaExpanded, setAriaLabel } = useAriaAttributes();
+  const { toast, announce } = useToastActions();
+  const { focusFirstElement } = useFocusManagement();
+  const { addAriaAttributes } = useAriaAttributes();
   const { validateTouchTargets } = useTouchTargets();
 
-  // Enhanced handlers with toast notifications and optimistic updates
+  // Enhanced task creation handler with proper feedback
   const handleCreateTask = async () => {
-    if (!newTaskText.trim()) return;
+    if (!newTaskText.trim()) {
+      toast.error('Please enter a task description');
+      return;
+    }
 
     try {
-      // Optimistic update - immediately show task as created
-      const optimisticTask = {
-        id: `temp-${Date.now()}`,
-        text: newTaskText,
-        priority: newTaskPriority,
-        estimatedTime: newTaskEstimatedTime,
-        status: 'pending' as const,
-        createdAt: new Date().toISOString()
-      };
-
-      // Show loading toast
-      const promise = onCreateTask();
+      await onCreateTask();
       
-      // Use toast promise wrapper for automatic loading/success/error handling
-      await toast.promise(promise, {
-        loading: editingTask ? 'Updating task...' : 'Creating task...',
-        success: editingTask ? 'Task updated successfully!' : 'Task created successfully!',
-        error: editingTask ? 'Failed to update task' : 'Failed to create task'
-      });
-
-      // Screen reader announcement
-      announce(editingTask ? 'Task updated' : 'New task created', 'polite');
+      if (editingTask) {
+        toast.success('Task updated successfully!');
+        announce('Task updated');
+      } else {
+        toast.success('Task added successfully!');
+        announce('New task added');
+      }
+      
       onCloseAddTaskModal();
     } catch (error) {
-      // Error is automatically handled by toast.promise
-      console.error('Task creation failed:', error);
+      console.error('Error creating/updating task:', error);
+      toast.error('Failed to save task. Please try again.');
     }
   };
 
-  const handleToggleTask = async (taskId: string, currentStatus: string) => {
+  // Enhanced task toggle handler with proper feedback
+  const handleToggleTask = async (task: Task) => {
     try {
-      const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
-      const isCompleting = newStatus === 'completed';
+      await onToggleTaskCompletion(task);
       
-      // Optimistic update
-      await toast.promise(onToggleTaskCompletion(taskId), {
-        loading: isCompleting ? 'Completing task...' : 'Reopening task...',
-        success: isCompleting ? '🎉 Task completed!' : 'Task reopened',
-        error: isCompleting ? 'Failed to complete task' : 'Failed to reopen task'
-      });
-
-      // Screen reader announcement
-      announce(isCompleting ? 'Task completed' : 'Task reopened', 'polite');
+      const action = task.status === 'completed' ? 'uncompleted' : 'completed';
+      
+      if (action === 'completed') {
+        // Celebration for task completion
+        const celebrations = [
+          '🎉 Task completed! Great work!',
+          '✅ Another one done! Keep it up!',
+          '🚀 Task finished! You\'re on fire!',
+          '⭐ Excellent! Task completed!',
+          '💪 Well done! Task checked off!'
+        ];
+        const celebration = celebrations[Math.floor(Math.random() * celebrations.length)];
+        toast.success(celebration);
+        announce(`Task completed: ${task.text}`);
+        
+        // Check if this completes a milestone
+        const remainingTasks = todayTasks.filter(t => t.id !== task.id && t.status === 'pending');
+        if (remainingTasks.length === 0 && todayTasks.length > 1) {
+          setTimeout(() => {
+            toast.success('🏆 All tasks completed for today! Amazing work!', { duration: 5000 });
+            announce('All daily tasks completed');
+          }, 1000);
+        }
+      } else {
+        toast.success('Task reopened');
+        announce(`Task reopened: ${task.text}`);
+      }
     } catch (error) {
-      console.error('Task toggle failed:', error);
+      console.error('Error toggling task:', error);
+      toast.error('Failed to update task. Please try again.');
     }
   };
 
-  const handleDeleteTask = async (taskId: string) => {
+  // Enhanced task deletion handler with confirmation
+  const handleDeleteTask = async (taskId: string, taskText: string) => {
+    if (!confirm(`Are you sure you want to delete "${taskText}"?`)) {
+      return;
+    }
+
     try {
-      await toast.promise(onDeleteTask(taskId), {
-        loading: 'Deleting task...',
-        success: 'Task deleted successfully',
-        error: 'Failed to delete task'
-      });
+      await onDeleteTask(taskId);
+      toast.success('Task deleted successfully!');
+      announce('Task deleted');
     } catch (error) {
-      console.error('Task deletion failed:', error);
+      console.error('Error deleting task:', error);
+      toast.error('Failed to delete task. Please try again.');
     }
   };
 
+  // Enhanced goals saving handler
   const handleSaveGoals = async () => {
     try {
-      await toast.promise(onSaveGoals(), {
-        loading: 'Saving goals...',
-        success: '🎯 Goals updated successfully!',
-        error: 'Failed to save goals'
-      });
+      await onSaveGoals();
+      toast.success('Goals updated successfully!');
+      announce('Writing goals updated');
       onCloseGoalsModal();
     } catch (error) {
-      console.error('Goals save failed:', error);
+      console.error('Error saving goals:', error);
+      toast.error('Failed to save goals. Please try again.');
+    }
+  };
+
+  // Add task from empty state
+  const handleAddTaskFromEmpty = () => {
+    onCloseTasksModal();
+    onShowAddTaskModal();
+  };
+
+  // Quick start with sample tasks
+  const handleQuickStart = async () => {
+    const sampleTasks = [
+      {
+        text: "Write opening paragraph for Chapter 1",
+        priority: 'high' as const,
+        estimatedTime: 25
+      },
+      {
+        text: "Research character backstory",
+        priority: 'medium' as const,
+        estimatedTime: 15
+      },
+      {
+        text: "Outline next scene",
+        priority: 'low' as const,
+        estimatedTime: 10
+      }
+    ];
+
+    try {
+      for (const taskData of sampleTasks) {
+        setNewTaskText(taskData.text);
+        setNewTaskPriority(taskData.priority);
+        setNewTaskEstimatedTime(taskData.estimatedTime);
+        await onCreateTask();
+      }
+      
+      toast.success('Sample tasks created! Start completing them to track your progress.');
+      announce('Sample writing tasks created');
+      
+      // Reset form after all tasks are created
+      setNewTaskText('');
+      setNewTaskPriority('medium');
+      setNewTaskEstimatedTime(30);
+    } catch (error) {
+      console.error('Error creating sample tasks:', error);
+      toast.error('Failed to create sample tasks. Please try again.');
+    }
+  };
+
+  // Get priority badge variant
+  const getPriorityBadge = (priority: 'low' | 'medium' | 'high') => {
+    switch (priority) {
+      case 'high':
+        return <Badge variant="destructive" className="text-xs">High Priority</Badge>;
+      case 'medium':
+        return <Badge variant="default" className="text-xs">Medium</Badge>;
+      case 'low':
+        return <Badge variant="secondary" className="text-xs">Low Priority</Badge>;
+      default:
+        return null;
     }
   };
 
@@ -240,9 +320,9 @@ export const ProjectModals = React.memo(function ProjectModals({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="low">Low Priority</SelectItem>
+                    <SelectItem value="medium">Medium Priority</SelectItem>
+                    <SelectItem value="high">High Priority</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -296,12 +376,23 @@ export const ProjectModals = React.memo(function ProjectModals({
         <Dialog open={showTasksModal} onOpenChange={onCloseTasksModal}>
         <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black text-foreground">
-              Tasks & To-Do List
-            </DialogTitle>
-            <DialogDescription className="text-foreground">
-              Manage your writing tasks and track progress
-            </DialogDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <DialogTitle className="text-2xl font-black text-foreground">
+                  Tasks & To-Do List
+                </DialogTitle>
+                <DialogDescription className="text-foreground">
+                  Manage your writing tasks and track progress
+                </DialogDescription>
+              </div>
+              <Button
+                onClick={onShowAddTaskModal}
+                className="gradient-primary text-primary-foreground hover:opacity-90 text-sm px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-xl"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Task
+              </Button>
+            </div>
           </DialogHeader>
           
           <div className="space-y-6 py-4">
@@ -319,24 +410,30 @@ export const ProjectModals = React.memo(function ProjectModals({
                   <div className="text-center py-8 text-sm text-muted-foreground">Loading tasks...</div>
                 ) : todayTasks.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-sm text-muted-foreground mb-3">No tasks for today. Add one above!</p>
-                    <Button
-                      size="sm"
-                      onClick={() => {
-                        onCloseTasksModal();
-                        // This should trigger opening the add task modal from parent
-                      }}
-                      className="gradient-primary hover:opacity-90 text-primary-foreground"
-                    >
-                      Add Your First Task
-                    </Button>
+                    <p className="text-sm text-muted-foreground mb-3">No tasks for today. Add one to get started!</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Button
+                        onClick={handleAddTaskFromEmpty}
+                        className="gradient-primary hover:opacity-90 text-primary-foreground text-sm px-6 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-xl"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Your First Task
+                      </Button>
+                      <Button
+                        onClick={handleQuickStart}
+                        variant="outline"
+                        className="border-border text-foreground hover:bg-accent/10 text-sm px-6 py-2 font-medium transition-all duration-300 rounded-xl"
+                      >
+                        🚀 Quick Start (3 sample tasks)
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   todayTasks.map((task) => (
                     <div key={task.id} className="flex items-start gap-3 p-4 surface-muted rounded-xl hover:bg-accent/20 transition-colors">
                       <Checkbox
                         checked={task.status === 'completed'}
-                        onCheckedChange={() => handleToggleTask(task.id, task.status)}
+                        onCheckedChange={() => handleToggleTask(task)}
                         className="mt-0.5 h-5 w-5"
                       />
                       <div className="flex-grow">
@@ -348,15 +445,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                             <Clock className="w-3 h-3 inline mr-1" />
                             {task.estimatedTime} min
                           </span>
-                          {task.priority === 'high' && (
-                            <Badge variant="destructive" className="text-xs">High Priority</Badge>
-                          )}
-                          {task.priority === 'medium' && (
-                            <Badge variant="default" className="text-xs">Medium</Badge>
-                          )}
-                          {task.priority === 'low' && (
-                            <Badge variant="secondary" className="text-xs">Low</Badge>
-                          )}
+                          {getPriorityBadge(task.priority)}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
@@ -365,14 +454,16 @@ export const ProjectModals = React.memo(function ProjectModals({
                           variant="ghost"
                           onClick={() => onEditTask(task)}
                           className="h-8 w-8 p-0 hover:bg-accent/20 rounded-lg"
+                          title="Edit task"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => handleDeleteTask(task.id)}
+                          onClick={() => handleDeleteTask(task.id, task.text)}
                           className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+                          title="Delete task"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -385,7 +476,7 @@ export const ProjectModals = React.memo(function ProjectModals({
             
             {/* Progress Summary */}
             <div className="gradient-primary p-5 rounded-xl bg-opacity-10">
-              <h4 className="text-lg font-bold text-foreground/80 mb-4">Weekly Progress</h4>
+              <h4 className="text-lg font-bold text-foreground/80 mb-4">Daily Progress</h4>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <p className="text-sm text-foreground mb-1">Tasks Completed</p>
