@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -6,7 +6,15 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { AppContent } from './components/AppContent';
+import { useAuth } from './hooks/useAuth';
+import type { Project } from './lib/types';
+import { LandingPage } from './components/LandingPage';
+import { ProjectsPage } from './components/projects/ProjectsPage';
+import { ProjectDashboard } from './components/project/ProjectDashboard';
+import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
+import { AuthPageRedesign } from './pages/AuthPageRedesign';
+import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
+import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
@@ -109,9 +117,23 @@ const applyScrollbarStyles = () => {
   document.head.appendChild(style);
 };
 
+type View = 'landing' | 'auth' | 'projects' | 'dashboard';
+type ModalType = 'new' | 'edit' | 'rename' | 'delete' | 'goals' | 'tasks' | 'importManuscript' | 'import' | null;
+
+interface Modal {
+  type: ModalType;
+  project: Project | null;
+}
+
 export default function App() {
+  const { user, isAuthenticated, isLoading, login, logout } = useAuth();
+  const [view, setView] = useState<View>('landing');
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [modal, setModal] = useState<Modal>({ type: null, project: null });
+  const [guideMode, setGuideMode] = useState(false);
+
   // Initialize scrollbar styling
-  React.useEffect(() => {
+  useEffect(() => {
     applyScrollbarStyles();
     
     const timer = setTimeout(() => {
@@ -120,6 +142,188 @@ export default function App() {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Simple project handlers without toast (for now)
+  const handleProjectCreated = async (projectData: any) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No authentication token');
+
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          id: Date.now().toString(),
+          userId: user?.id || '',
+          name: projectData.name,
+          type: projectData.type,
+          description: projectData.description || '',
+          genre: projectData.genres || [],
+          manuscriptNovel: '',
+          manuscriptScreenplay: '',
+          synopsis: projectData.synopsis || ''
+        }),
+      });
+
+      if (response.ok) {
+        const newProject = await response.json();
+        setActiveProject(newProject);
+        setView('dashboard');
+        setModal({ type: null, project: null });
+      }
+    } catch (error) {
+      console.error('Project creation failed:', error);
+    }
+  };
+
+  const handleUpdateProject = async (updatedProject: Project) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No authentication token');
+
+      const response = await fetch(`/api/projects/${updatedProject.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedProject),
+      });
+
+      if (response.ok) {
+        const updated = await response.json();
+        if (activeProject?.id === updated.id) {
+          setActiveProject(updated);
+        }
+        setModal({ type: null, project: null });
+      }
+    } catch (error) {
+      console.error('Project update failed:', error);
+    }
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No authentication token');
+
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        if (activeProject?.id === projectId) {
+          setActiveProject(null);
+          setView('projects');
+        }
+        setModal({ type: null, project: null });
+      }
+    } catch (error) {
+      console.error('Project deletion failed:', error);
+    }
+  };
+
+  const handleSelectProject = (project: Project) => {
+    setActiveProject(project);
+    setView('dashboard');
+  };
+
+  const handleAuth = async (userData: { username: string; token: string }) => {
+    try {
+      await login(userData.username, userData.token);
+      setView('landing');
+    } catch (error) {
+      console.error('Authentication failed:', error);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setView('landing');
+    setActiveProject(null);
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <ThemeProvider 
+        attribute="class" 
+        defaultTheme="dark" 
+        enableSystem
+        themes={[
+          'light', 
+          'dark',
+          'system',
+          'arctic-focus',
+          'golden-hour',
+          'midnight-ink',
+          'forest-manuscript',
+          'starlit-prose',
+          'coffee-house'
+        ]}
+      >
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </ThemeProvider>
+    );
+  }
+
+  const renderView = () => {
+    switch(view) {
+      case 'auth':
+        return (
+          <AuthPageRedesign 
+            onAuth={handleAuth}
+            onBack={() => setView('landing')}
+          />
+        );
+      case 'landing':
+        return (
+          <LandingPage 
+            onNavigate={setView}
+            onNewProject={() => setModal({ type: 'new', project: null })}
+            isAuthenticated={isAuthenticated}
+            user={user}
+            onLogout={handleLogout}
+          />
+        );
+      case 'projects':
+        return (
+          <ProjectsPage
+            onNavigate={setView}
+            onNewProject={() => setModal({ type: 'new', project: null })}
+            onSelectProject={handleSelectProject}
+            onLogout={handleLogout}
+            user={user}
+          />
+        );
+      case 'dashboard':
+        if (!activeProject) {
+          return null;
+        }
+        return (
+          <ProjectDashboard
+            project={activeProject}
+            onBack={() => { setView('projects'); setActiveProject(null); }}
+            onUpdateProject={handleUpdateProject}
+            onOpenModal={(modalInfo) => setModal(modalInfo)}
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
+            guideMode={guideMode}
+            setGuideMode={setGuideMode}
+          />
+        );
+    }
+  };
 
   return (
     <ErrorBoundary>
@@ -142,8 +346,54 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <TooltipProvider>
-              <Toaster />
-              <AppContent />
+              <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
+                <FloatingOrbs />
+                <Toaster />
+                {renderView()}
+          
+                {/* Modals */}
+                {modal.type === 'new' && (
+                  <ProjectCreationWizard 
+                    isOpen={true}
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onCreate={handleProjectCreated}
+                  />
+                )}
+                {modal.type === 'edit' && modal.project && (
+                  <ProjectModal 
+                    projectToEdit={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                  />
+                )}
+                {modal.type === 'rename' && modal.project && (
+                  <ProjectModal 
+                    projectToEdit={modal.project} 
+                    isRenameOnly={true} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                  />
+                )}
+                {modal.type === 'delete' && modal.project && (
+                  <ConfirmDeleteModal 
+                    project={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onDelete={handleDeleteProject} 
+                  />
+                )}
+                {modal.type === 'importManuscript' && (
+                  <ImportManuscriptModal 
+                    projectToUpdate={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onUpdateProject={handleUpdateProject} 
+                    onCreateProject={handleProjectCreated} 
+                  />
+                )}
+                {modal.type === 'import' && (
+                  <IntelligentImportModal
+                    onProjectCreated={handleProjectCreated}
+                    onClose={() => setModal({ type: null, project: null })}
+                  />
+                )}
+              </div>
             </TooltipProvider>
           </ToastProvider>
         </QueryClientProvider>
