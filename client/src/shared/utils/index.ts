@@ -1,4 +1,2 @@
-// Shared Utils Barrel Export
-export * from '../../lib/utils';
-export * from '../../utils/memoryOptimizer';
-export { cn } from '../../lib/utils';
+// Barrel exports for utilities - 2025 React standards
+export { suppressResizeObserverError } from './resizeObserver';

@@ -1,5 +1,3 @@
-// Shared Hooks Barrel Export
-export { useAuth } from '../../hooks/useAuth';
-export { useMemoryOptimizedState } from '../../hooks/useMemoryOptimizedState';
-export { useOptimizedScroll } from '../../hooks/useOptimizedScroll';
-export { useAccessibility } from '../../hooks/useAccessibility';
+// Barrel exports for custom hooks - 2025 React standards
+export { useOptimizedScroll } from './useOptimizedScroll';
+export { useStableMount } from './useStableMount';

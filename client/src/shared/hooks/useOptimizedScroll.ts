@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * Senior-level optimized scroll hook
@@ -6,8 +6,6 @@ import { useEffect, useState, useCallback } from 'react';
  */
 export function useOptimizedScroll() {
   const [scrollY, setScrollY] = useState(0);
-  
-
   
   useEffect(() => {
     // Use passive listeners for better performance

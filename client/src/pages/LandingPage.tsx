@@ -1,20 +1,20 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
-import { useOptimizedScroll } from '../shared/hooks/useOptimizedScroll';
-import { useStableMount } from '../shared/hooks/useStableMount';
-import { Button } from '../shared/components/ui/button';
-import { Card, CardContent } from '../shared/components/ui/card';
-import { ThemeToggle } from '../shared/components/theme-toggle';
-import { FloatingOrbs } from '../shared/components/FloatingOrbs';
-import { HeroSection } from './landing/HeroSection';
-import { CTASection } from './landing/CTASection';
-import {
+import { useOptimizedScroll, useStableMount } from '../shared/hooks';
+import { 
+  Button, 
+  Card, 
+  CardContent,
+  ThemeToggle,
+  FloatingOrbs,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../shared/components/ui/dropdown-menu';
+  DropdownMenuTrigger
+} from '../shared/components';
+import { HeroSection } from './landing/HeroSection';
+import { CTASection } from './landing/CTASection';
 import { 
   Feather, 
   BookOpen, 
@@ -268,9 +268,6 @@ export function LandingPage({
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <ThemeToggle />
-            
             {/* Authentication Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
@@ -339,6 +336,9 @@ export function LandingPage({
                 </span>
               </Button>
             )}
+            
+            {/* Theme Toggle */}
+            <ThemeToggle />
           </div>
         </div>
       </nav>
