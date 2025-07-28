@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { Project } from '@/lib/types';
+import type { Project } from '@shared/schema';
 import { FloatingOrbs } from '../FloatingOrbs';
 import { ProjectsHeader } from './ProjectsHeader';
 import { ProjectsFilters } from './ProjectsFilters';
@@ -33,6 +33,8 @@ interface ProjectsPageProps {
   onLogout: () => void;
   onSelectProject: (project: Project) => void;
   onNewProject: () => void;
+  projects: Project[];
+  isLoading: boolean;
 }
 
 export const ProjectsPage = React.memo(function ProjectsPage({
@@ -40,19 +42,15 @@ export const ProjectsPage = React.memo(function ProjectsPage({
   onNavigate,
   onLogout,
   onSelectProject,
-  onNewProject
+  onNewProject,
+  projects,
+  isLoading
 }: ProjectsPageProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { scrollY } = useOptimizedScroll();
 
-  // Mock data - replace with actual API call
-  const { data: projects = [], isLoading } = useQuery({
-    queryKey: ['projects'],
-    queryFn: async () => {
-      // Replace with actual API call
-      return [];
-    },
-  });
+  // Projects data is passed from parent App component
+  // No need for a separate API call here since data is already fetched
 
   // Custom hook for projects logic
   const {
