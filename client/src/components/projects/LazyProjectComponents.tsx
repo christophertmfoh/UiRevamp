@@ -2,11 +2,12 @@ import React, { Suspense, lazy } from 'react';
 import { LoadingSkeleton, LoadingCard } from '@/components/ui/LoadingStates';
 
 // Lazy load heavy components for code splitting
-const VirtualizedProjectsList = lazy(() => 
-  import('./VirtualizedProjectsList').then(module => ({ 
-    default: module.VirtualizedProjectsList 
-  }))
-);
+// Temporarily disabled due to react-window dependency issue
+// const VirtualizedProjectsList = lazy(() => 
+//   import('./VirtualizedProjectsList').then(module => ({ 
+//     default: module.VirtualizedProjectsList 
+//   }))
+// );
 
 const ProjectModals = lazy(() => 
   import('./ProjectModals').then(module => ({ 
@@ -63,19 +64,20 @@ export const LazyProjectsList = React.memo(function LazyProjectsList({
   // Dynamically choose between virtualized and normal list
   const shouldUseVirtualization = enableVirtualization && props.projects.length > 20;
 
-  if (shouldUseVirtualization) {
-    return (
-      <Suspense fallback={
-        <div className="space-y-4">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <LoadingCard key={i} />
-          ))}
-        </div>
-      }>
-        <VirtualizedProjectsList {...props} />
-      </Suspense>
-    );
-  }
+  // Temporarily disabled virtualization due to react-window dependency issue
+  // if (shouldUseVirtualization) {
+  //   return (
+  //     <Suspense fallback={
+  //       <div className="space-y-4">
+  //         {Array.from({ length: 6 }).map((_, i) => (
+  //           <LoadingCard key={i} />
+  //         ))}
+  //       </div>
+  //     }>
+  //       <VirtualizedProjectsList {...props} />
+  //     </Suspense>
+  //   );
+  // }
 
   // Fallback to regular list for smaller datasets
   const ProjectsList = lazy(() => 

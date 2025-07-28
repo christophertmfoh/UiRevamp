@@ -5,4 +5,4 @@
 ⚠️  DATABASE_URL not set. Using mock database for development.
 ⚠️  Features requiring database will be limited.
 ⚠️  OPENAI_API_KEY not set. Image generation features will be disabled.
-11:21:01 AM [express] serving on port 5000
+11:23:36 AM [express] serving on port 5000
