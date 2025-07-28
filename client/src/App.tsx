@@ -8,12 +8,6 @@ import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
-import { LandingPage } from './components/LandingPage';
-import { ProjectsPage } from './components/projects/ProjectsPage';
-import { ProjectDashboard } from './components/project/ProjectDashboard';
-import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
-import { AuthPageRedesign } from './pages/AuthPageRedesign';
-import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -126,11 +120,16 @@ interface Modal {
 }
 
 export default function App() {
-  const { user, isAuthenticated, isLoading, login, logout } = useAuth();
+  const { user, isAuthenticated, isLoading, login, logout, checkAuth } = useAuth();
   const [view, setView] = useState<View>('landing');
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
+
+  // Initialize auth check
+  useEffect(() => {
+    checkAuth();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Initialize scrollbar styling
   useEffect(() => {
@@ -277,52 +276,24 @@ export default function App() {
   }
 
   const renderView = () => {
-    switch(view) {
-      case 'auth':
-        return (
-          <AuthPageRedesign 
-            onAuth={handleAuth}
-            onBack={() => setView('landing')}
-          />
-        );
-      case 'landing':
-        return (
-          <LandingPage 
-            onNavigate={setView}
-            onNewProject={() => setModal({ type: 'new', project: null })}
-            isAuthenticated={isAuthenticated}
-            user={user}
-            onLogout={handleLogout}
-          />
-        );
-      case 'projects':
-        return (
-          <ProjectsPage
-            onNavigate={setView}
-            onNewProject={() => setModal({ type: 'new', project: null })}
-            onSelectProject={handleSelectProject}
-            onLogout={handleLogout}
-            user={user}
-          />
-        );
-      case 'dashboard':
-        if (!activeProject) {
-          return null;
-        }
-        return (
-          <ProjectDashboard
-            project={activeProject}
-            onBack={() => { setView('projects'); setActiveProject(null); }}
-            onUpdateProject={handleUpdateProject}
-            onOpenModal={(modalInfo) => setModal(modalInfo)}
-            onLogout={handleLogout}
-            user={user}
-            isAuthenticated={isAuthenticated}
-            guideMode={guideMode}
-            setGuideMode={setGuideMode}
-          />
-        );
-    }
+    // Simple loading test - just render a basic view first
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-foreground mb-4">FableCraft</h1>
+          <p className="text-muted-foreground mb-4">Loading: {view}</p>
+          <p className="text-sm text-muted-foreground">User: {user?.username || 'Not logged in'}</p>
+          <p className="text-sm text-muted-foreground">Auth: {isAuthenticated ? 'Yes' : 'No'}</p>
+          <p className="text-sm text-muted-foreground">Loading: {isLoading ? 'Yes' : 'No'}</p>
+          <button 
+            onClick={() => setView('landing')} 
+            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded"
+          >
+            Test Navigation
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -350,49 +321,6 @@ export default function App() {
                 <FloatingOrbs />
                 <Toaster />
                 {renderView()}
-          
-                {/* Modals */}
-                {modal.type === 'new' && (
-                  <ProjectCreationWizard 
-                    isOpen={true}
-                    onClose={() => setModal({ type: null, project: null })} 
-                    onCreate={handleProjectCreated}
-                  />
-                )}
-                {modal.type === 'edit' && modal.project && (
-                  <ProjectModal 
-                    projectToEdit={modal.project} 
-                    onClose={() => setModal({ type: null, project: null })} 
-                  />
-                )}
-                {modal.type === 'rename' && modal.project && (
-                  <ProjectModal 
-                    projectToEdit={modal.project} 
-                    isRenameOnly={true} 
-                    onClose={() => setModal({ type: null, project: null })} 
-                  />
-                )}
-                {modal.type === 'delete' && modal.project && (
-                  <ConfirmDeleteModal 
-                    project={modal.project} 
-                    onClose={() => setModal({ type: null, project: null })} 
-                    onDelete={handleDeleteProject} 
-                  />
-                )}
-                {modal.type === 'importManuscript' && (
-                  <ImportManuscriptModal 
-                    projectToUpdate={modal.project} 
-                    onClose={() => setModal({ type: null, project: null })} 
-                    onUpdateProject={handleUpdateProject} 
-                    onCreateProject={handleProjectCreated} 
-                  />
-                )}
-                {modal.type === 'import' && (
-                  <IntelligentImportModal
-                    onProjectCreated={handleProjectCreated}
-                    onClose={() => setModal({ type: null, project: null })}
-                  />
-                )}
               </div>
             </TooltipProvider>
           </ToastProvider>
