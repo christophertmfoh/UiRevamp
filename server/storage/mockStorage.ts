@@ -309,7 +309,7 @@ class MockStorage {
   async getUserByEmail(email: string): Promise<User | null> {
     await this.simulateLatency();
     
-    for (const user of this.data.users.values()) {
+    for (const user of Array.from(this.data.users.values())) {
       if (user.email === email) {
         return user;
       }
@@ -321,7 +321,7 @@ class MockStorage {
   async getUserByUsername(username: string): Promise<User | null> {
     await this.simulateLatency();
     
-    for (const user of this.data.users.values()) {
+    for (const user of Array.from(this.data.users.values())) {
       if (user.username === username) {
         return user;
       }

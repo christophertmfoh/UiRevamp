@@ -592,7 +592,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      if (isValidFileType(file)) {
+      if (file && isValidFileType(file)) {
         setFile(file);
         if (!projectName) {
           setProjectName(file.name.replace(/\.[^/.]+$/, ''));

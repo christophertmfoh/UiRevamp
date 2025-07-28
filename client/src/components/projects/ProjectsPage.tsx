@@ -33,7 +33,7 @@ interface ProjectsPageProps {
   onLogout: () => void;
   onSelectProject: (project: Project) => void;
   onNewProject: () => void;
-  projects: Project[];
+  projects: Project[] | null;
   isLoading: boolean;
 }
 
@@ -43,14 +43,14 @@ export const ProjectsPage = React.memo(function ProjectsPage({
   onLogout,
   onSelectProject,
   onNewProject,
-  projects,
+  projects: projectsData,
   isLoading
 }: ProjectsPageProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { scrollY } = useOptimizedScroll();
 
-  // Projects data is passed from parent App component
-  // No need for a separate API call here since data is already fetched
+  // Handle null projects data safely
+  const projects = projectsData || [];
 
   // Custom hook for projects logic
   const {
