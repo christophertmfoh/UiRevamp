@@ -226,28 +226,28 @@ export function LandingPage({
                   <DropdownMenuContent align="end" className="w-56 bg-card/95 backdrop-blur-xl border border-border/30 shadow-2xl rounded-xl mt-2">
                     <DropdownMenuItem 
                       onClick={() => onNavigate('projects')}
-                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
                     >
                       <BookOpen className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Your Projects</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Account clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
                     >
                       <User className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Account</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Community clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
                     >
                       <Users className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Community</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => console.log('Settings clicked - not implemented yet')}
-                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors"
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
                     >
                       <Settings className="mr-3 h-4 w-4 text-primary" />
                       <span className="font-medium">Settings</span>
