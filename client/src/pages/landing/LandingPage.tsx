@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { ThemeToggle } from './theme-toggle';
-import { FloatingOrbs } from './FloatingOrbs';
-import { HeroSection } from './landing/HeroSection';
-import { CTASection } from './landing/CTASection';
+import { ThemeToggle } from '../../components/theme-toggle';
+import { FloatingOrbs } from '../../components/FloatingOrbs';
+import { HeroSection } from './HeroSection';
+import { CTASection } from './CTASection';
 import {
   DropdownMenu,
   DropdownMenuContent,

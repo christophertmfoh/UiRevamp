@@ -10,7 +10,7 @@ import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
 // import { backupManager } from './lib/backup/replitBackup'; // Disabled to save memory
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
-import { LandingPage } from './components/LandingPage';
+import { LandingPage } from './pages/landing';
 import { ProjectsPage } from './components/projects/ProjectsPage';
 import { ProjectDashboard } from './components/project/ProjectDashboard';
 import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
