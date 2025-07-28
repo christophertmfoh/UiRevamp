@@ -10,6 +10,7 @@ import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectsPage } from './components/projects/ProjectsPage';
+import { ProjectDashboard } from './components/project/ProjectDashboard';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -297,6 +298,37 @@ export default function App() {
             onSelectProject={handleSelectProject}
             onLogout={handleLogout}
             user={user}
+          />
+        );
+      case 'dashboard':
+        // Create a test project for dashboard testing
+        const testProject = {
+          id: 'test-123',
+          name: 'Test Project',
+          type: 'novel',
+          description: 'A test project for debugging',
+          genre: ['fantasy'],
+          manuscript: { novel: '', screenplay: '' },
+          synopsis: 'Test synopsis',
+          characters: [],
+          locations: [],
+          worldBuilding: { cultures: [], languages: [], religions: [] },
+          plotOutline: { acts: [], scenes: [] },
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        } as Project;
+        
+        return (
+          <ProjectDashboard
+            project={testProject}
+            onBack={() => setView('projects')}
+            onUpdateProject={handleUpdateProject}
+            onOpenModal={(modalInfo) => setModal(modalInfo)}
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
+            guideMode={guideMode}
+            setGuideMode={setGuideMode}
           />
         );
       default:
