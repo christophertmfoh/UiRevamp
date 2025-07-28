@@ -1,6 +1,5 @@
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import SecurityLogger from './utils/securityLogger';
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 let openai: OpenAI | null = null;
@@ -19,7 +18,7 @@ function getGeminiClient(): GoogleGenerativeAI {
     throw new Error('Gemini API key is not configured. Please add GEMINI_X, GOOGLE_API_KEY_2, GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
   }
   
-  SecurityLogger.logAPIKeyValidation('openai', !!apiKey, !!apiKey);
+  console.log('Using API key:', apiKey.substring(0, 10) + '...');
   return new GoogleGenerativeAI(apiKey);
 }
 

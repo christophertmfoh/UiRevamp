@@ -1,9 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
-import SecurityLogger from './utils/securityLogger';
 
 // Log which API key is being used for debugging
 const apiKey = process.env.GEMINI_X || process.env.GOOGLE_API_KEY_NEW || process.env.GOOGLE_API_KEY4 || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
-SecurityLogger.logAPIKeyValidation('gemini', !!apiKey, !!apiKey);
+console.log(`Character enhancement using API key: ${apiKey ? apiKey.substring(0, 10) + '...' : 'NONE'}`);
 
 const ai = new GoogleGenAI({ apiKey });
 
@@ -207,7 +206,7 @@ Return a JSON object with ALL requested fields filled. Every field must have a m
       const result = response.text;
       if (result) {
         const categoryData = JSON.parse(result);
-        SecurityLogger.dev(`Enhanced ${category.name} fields`, { fieldCount: Object.keys(categoryData).length });
+        console.log(`✓ Enhanced ${category.name} fields:`, Object.keys(categoryData));
         
         // Merge category enhancements with working data
         workingData = {
@@ -227,6 +226,6 @@ Return a JSON object with ALL requested fields filled. Every field must have a m
   }
   
   console.log('\n=== Character Enhancement Complete ===');
-  SecurityLogger.dev('Character enhancement completed', { fieldCount: Object.keys(workingData).length });
+  console.log('Final enhanced data keys:', Object.keys(workingData));
   return workingData;
 }

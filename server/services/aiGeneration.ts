@@ -4,22 +4,22 @@
  */
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import SecurityLogger from '../utils/securityLogger';
 
 // Initialize AI service with correct API key
 const getAIService = () => {
   const apiKey = process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-  
-  const keyPresent = !!apiKey;
-  const isValid = keyPresent && apiKey.length >= 32;
-  
-  SecurityLogger.logAPIKeyValidation('gemini', isValid, keyPresent);
+  console.log('🔑 Checking API keys:', {
+    GEMINI_X: !!process.env.GEMINI_X,
+    GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
+    GEMINI_API_KEY: !!process.env.GEMINI_API_KEY
+  });
   
   if (!apiKey) {
-    SecurityLogger.error('No AI API key found in environment variables');
+    console.error('❌ No AI API key found in environment variables');
     throw new Error('No AI API key available');
   }
   
+  console.log('✅ Using API key:', apiKey.substring(0, 10) + '...');
   return new GoogleGenerativeAI(apiKey);
 };
 

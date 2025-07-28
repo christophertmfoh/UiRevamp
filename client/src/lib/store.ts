@@ -1,68 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Performance Monitoring Types
-interface PerformanceMetric {
-  name: string;
-  value: number;
-  timestamp: number;
-}
-
-interface PerformanceAlert {
-  type: 'warning' | 'error' | 'info';
-  metric: string;
-  value: number;
-  threshold: number;
-  message: string;
-  timestamp: number;
-}
-
-// Performance Store State
-interface PerformanceState {
-  isMonitoringEnabled: boolean;
-  metrics: PerformanceMetric[];
-  alerts: PerformanceAlert[];
-  
-  // Actions
-  setMonitoringEnabled: (enabled: boolean) => void;
-  addMetric: (name: string, value: number) => void;
-  addAlert: (alert: PerformanceAlert) => void;
-  clearOldMetrics: () => void;
-  clearOldAlerts: () => void;
-}
-
-// Replace complex performance store with this simpler version:
-export const usePerformanceStore = create<PerformanceState>()(
-  (set, get) => ({
-    isMonitoringEnabled: import.meta.env.DEV, // Only in development
-    metrics: [],
-    alerts: [],
-    
-    setMonitoringEnabled: (enabled) => set({ isMonitoringEnabled: enabled }),
-    
-    addMetric: (name, value) => set((state) => ({
-      metrics: [
-        ...state.metrics.slice(-20), // Keep only last 20 (was 100)
-        { name, value, timestamp: Date.now() }
-      ]
-    })),
-    
-    addAlert: (alert) => {
-      // Simple console alert for Replit
-      console.warn('⚠️ Performance Alert:', alert.message);
-      set((state) => ({
-        alerts: [
-          ...state.alerts.slice(-10), // Keep only last 10 (was 50)
-          alert
-        ]
-      }));
-    },
-    
-    clearOldMetrics: () => set({ metrics: [] }),
-    clearOldAlerts: () => set({ alerts: [] })
-  })
-);
-
 // Global Application State
 interface AppState {
   // UI State

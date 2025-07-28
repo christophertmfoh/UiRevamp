@@ -7,15 +7,11 @@ import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAuth } from './hooks/useAuth';
-import { usePerformanceMonitoring } from './lib/hooks/usePerformanceMonitoring';
-import { usePerformanceStore } from './lib/store';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
-import { 
-  LazyProjectsPageRedesign as ProjectsPage,
-  LazyProjectDashboard as ProjectDashboard,
-  LazyProjectCreationWizard as ProjectCreationWizard
-} from './components/lazy/LazyComponents';
+import { ProjectsPage } from './components/projects/ProjectsPage';
+import { ProjectDashboard } from './components/project/ProjectDashboard';
+import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
@@ -135,45 +131,11 @@ export default function App() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
-  
-  // Performance monitoring integration
-  const { isMonitoringEnabled } = usePerformanceStore();
-  const { trackComponentMount, trackApiCall } = usePerformanceMonitoring();
 
   // Initialize auth check
   useEffect(() => {
     checkAuth();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Initialize performance monitoring
-  useEffect(() => {
-    if (!isMonitoringEnabled) return;
-    
-    // Track app initialization
-    trackComponentMount('App', performance.timeOrigin);
-    
-    // Wrap fetch for API call tracking
-    const originalFetch = window.fetch;
-    window.fetch = async (...args) => {
-      const startTime = performance.now();
-      const url = args[0]?.toString() || 'unknown';
-      
-      try {
-        const response = await originalFetch(...args);
-        const endTime = performance.now();
-        trackApiCall(url, endTime - startTime);
-        return response;
-      } catch (error) {
-        const endTime = performance.now();
-        trackApiCall(url, endTime - startTime);
-        throw error;
-      }
-    };
-    
-    return () => {
-      window.fetch = originalFetch;
-    };
-  }, [isMonitoringEnabled, trackComponentMount, trackApiCall]);
 
   // Initialize scrollbar styling
   useEffect(() => {

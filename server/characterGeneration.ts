@@ -1,6 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { Project, Character } from '../shared/schema';
-import SecurityLogger from './utils/securityLogger';
 
 interface CharacterGenerationOptions {
   characterType: string;
@@ -24,7 +23,7 @@ function getGeminiClient(): GoogleGenerativeAI {
     throw new Error('Gemini API key is not configured. Please add GOOGLE_API_KEY_1, GOOGLE_API_KEY or GEMINI_API_KEY to your environment variables.');
   }
   
-  SecurityLogger.logAPIKeyValidation('gemini', true, true);
+  console.log('Server: Initializing Gemini client with API key found');
   return new GoogleGenerativeAI(apiKey);
 }
 
