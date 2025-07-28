@@ -1,8 +1,8 @@
 /**
- * Enterprise Test Setup Configuration
+ * Replit-Native Test Configuration
  * 
- * This file configures the testing environment for professional
- * enterprise-grade testing with proper mocking and utilities.
+ * Simple test environment setup optimized for fast creative development iteration
+ * with essential mocking and utilities.
  */
 
 import '@testing-library/jest-dom'

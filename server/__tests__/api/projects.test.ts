@@ -1,5 +1,5 @@
 /**
- * Enterprise API Integration Tests - Projects
+ * Replit-Native API Integration Tests - Projects
  * 
  * Testing the projects API endpoints that are currently working
  * with the professional storage factory implementation.
@@ -35,7 +35,7 @@ const createTestApp = () => {
   return app
 }
 
-describe('Projects API - Enterprise Tests', () => {
+describe('Projects API - Replit Development Tests', () => {
   let app: express.Application
 
   beforeAll(async () => {
@@ -261,7 +261,7 @@ describe('Projects API - Enterprise Tests', () => {
     })
   })
 
-  describe('API Performance - Enterprise Standards', () => {
+  describe('API Performance - Replit Standards', () => {
     it('should respond to GET requests within acceptable time', async () => {
       vi.mocked(storage.getProjects).mockResolvedValue([testUtils.mockProject])
 
@@ -271,7 +271,7 @@ describe('Projects API - Enterprise Tests', () => {
         .expect(200)
       const endTime = Date.now()
 
-      // Should respond within 1 second (enterprise standard)
+              // Should respond within 1 second (creative development standard)
       expect(endTime - startTime).toBeLessThan(1000)
     })
 

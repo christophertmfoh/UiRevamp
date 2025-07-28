@@ -78,7 +78,7 @@ These variables are primarily used in development:
 
 ## 🟢 Production Variables
 
-Additional variables for production deployments:
+Additional variables for deployed environments:
 
 ### Monitoring & Logging
 
@@ -193,16 +193,16 @@ CORS_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
 RATE_LIMIT_MAX=1000
 ```
 
-### Docker (`.env.docker`)
+### Development (`.env.development`)
 
 ```bash
 # Database
 POSTGRES_DB=fablecraft
 POSTGRES_USER=fablecraft
-POSTGRES_PASSWORD=fablecraft-docker-password
+POSTGRES_PASSWORD=fablecraft-dev-password
 
 # Application
-DATABASE_URL=postgresql://fablecraft:fablecraft-docker-password@postgres:5432/fablecraft
+DATABASE_URL=postgresql://fablecraft:fablecraft-dev-password@localhost:5432/fablecraft
 REDIS_URL=redis://redis:6379
 
 # AI Services
@@ -210,7 +210,7 @@ GEMINI_API_KEY=your-gemini-api-key
 OPENAI_API_KEY=your-openai-api-key
 
 # Security
-JWT_SECRET=docker-jwt-secret-32-characters-minimum
+JWT_SECRET=replit-jwt-secret-32-characters-minimum
 
 # Monitoring
 # Grafana removed in Phase 3 - Using Replit-native monitoring

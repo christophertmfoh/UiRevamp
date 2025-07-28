@@ -6,11 +6,11 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-green.svg)](#testing)
 
-> Enterprise-grade creative writing platform with AI integration, advanced project management, and collaborative features.
+> Creative writing platform optimized for Replit development with AI integration, intuitive project management, and collaborative features.
 
 ## 🚀 **Overview**
 
-FableCraft is a sophisticated web application designed for professional writers, publishing houses, and creative teams. Built with modern enterprise architecture, it provides comprehensive tools for novel writing, screenplay development, character management, and collaborative storytelling.
+FableCraft is a creative development environment designed for writers, storytellers, and creative teams. Built with modern Replit-native architecture, it provides intuitive tools for novel writing, screenplay development, character management, and collaborative storytelling.
 
 ### **Key Features**
 
@@ -20,7 +20,7 @@ FableCraft is a sophisticated web application designed for professional writers,
 - 📖 **Story Structure Tools** - Outline management and narrative architecture
 - 🎨 **Professional Theming** - 7 custom themes optimized for writing environments
 - 📊 **Progress Tracking** - Goals, metrics, and productivity analytics
-- 🔒 **Enterprise Security** - Professional authentication and data protection
+- 🔒 **Development Security** - Secure authentication and data protection for creative workflow
 
 ## 🏗️ **Architecture**
 

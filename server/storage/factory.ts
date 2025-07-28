@@ -1,29 +1,24 @@
 /**
- * Professional Storage Factory - Enterprise Pattern
+ * Replit-Native Storage Adapter
  * 
- * This factory automatically routes all storage operations to either 
- * mock storage (development) or real database storage (production)
- * without requiring individual method modifications.
+ * Simple storage routing optimized for creative development workflow.
+ * Automatically uses mock storage for fast iteration in Replit environment.
  */
 
 import { mockStorage } from './mockStorage';
 
-const isDevelopment = process.env.NODE_ENV === 'development';
-const usesMockDatabase = !process.env.DATABASE_URL || process.env.DATABASE_URL.includes('mock');
+const isReplitEnvironment = !!process.env.REPL_ID || process.env.NODE_ENV === 'development';
 
 /**
- * Create storage adapter that automatically routes based on environment
+ * Create storage adapter optimized for creative development workflow
  */
 export function createStorageAdapter() {
-  if (isDevelopment && usesMockDatabase) {
-    console.log('🎭 StorageFactory: Using MockStorage for all operations');
+  if (isReplitEnvironment) {
+    console.log('🎨 Replit Storage: Using MockStorage for creative development');
     return mockStorage;
   }
   
-  console.log('🔗 StorageFactory: Using DatabaseStorage for all operations');
-  
-  // In production, this would return the real database storage
-  // For now, return mockStorage as fallback to ensure functionality
-  console.warn('⚠️ Production database not configured, falling back to MockStorage');
+  // For deployed environments, could connect to real database
+  console.log('📊 Production Storage: Using MockStorage (real database not configured)');
   return mockStorage;
 }

@@ -1,7 +1,7 @@
 /**
- * Enterprise Server Test Setup
+ * Replit-Native Test Setup
  * 
- * Configuration for server-side API and integration testing
+ * Simple test configuration optimized for creative development workflow
  */
 
 import { beforeAll, afterAll, vi } from 'vitest'
