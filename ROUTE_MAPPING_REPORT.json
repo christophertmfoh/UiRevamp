@@ -1,0 +1,2770 @@
+{
+  "timestamp": "2025-07-28T21:41:45.051Z",
+  "routes": [],
+  "components": [
+    [
+      "App",
+      {
+        "file": "client/src/App.tsx",
+        "exports": [
+          "App"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "./lib/queryClient",
+          "@/components/ui/tooltip",
+          "./components/theme-provider",
+          "./components/ui/Toast",
+          "./components/ui/ErrorBoundary",
+          "./components/dev/PerformanceDashboard",
+          "./lib/backup/replitBackup",
+          "./hooks/useAuth",
+          "./pages/landing",
+          "./components/projects/ProjectsPage",
+          "./components/project/ProjectDashboard",
+          "./components/project/ProjectCreationWizard",
+          "./components/Modals",
+          "./pages/AuthPageRedesign",
+          "./components/FloatingOrbs",
+          "./utils/resizeObserverFix"
+        ],
+        "apiCalls": [
+          "/api/projects"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "FloatingOrbs",
+      {
+        "file": "client/src/components/FloatingOrbs.tsx",
+        "exports": [
+          "FloatingOrbs"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectModal",
+      {
+        "file": "client/src/components/Modals.tsx",
+        "exports": [
+          "ProjectModal",
+          "ConfirmDeleteModal",
+          "ImportManuscriptModal",
+          "IntelligentImportModal"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/dialog",
+          "lucide-react",
+          "@/components/ui/Toast",
+          "@/lib/queryClient"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST",
+          "GET"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "ConfirmDeleteModal",
+      {
+        "file": "client/src/components/Modals.tsx",
+        "exports": [
+          "ProjectModal",
+          "ConfirmDeleteModal",
+          "ImportManuscriptModal",
+          "IntelligentImportModal"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/dialog",
+          "lucide-react",
+          "@/components/ui/Toast",
+          "@/lib/queryClient"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST",
+          "GET"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "ImportManuscriptModal",
+      {
+        "file": "client/src/components/Modals.tsx",
+        "exports": [
+          "ProjectModal",
+          "ConfirmDeleteModal",
+          "ImportManuscriptModal",
+          "IntelligentImportModal"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/dialog",
+          "lucide-react",
+          "@/components/ui/Toast",
+          "@/lib/queryClient"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST",
+          "GET"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "IntelligentImportModal",
+      {
+        "file": "client/src/components/Modals.tsx",
+        "exports": [
+          "ProjectModal",
+          "ConfirmDeleteModal",
+          "ImportManuscriptModal",
+          "IntelligentImportModal"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/dialog",
+          "lucide-react",
+          "@/components/ui/Toast",
+          "@/lib/queryClient"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST",
+          "GET"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "AIAssistModal",
+      {
+        "file": "client/src/components/character/AIAssistModal.tsx",
+        "exports": [
+          "AIAssistModal"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/checkbox",
+          "@/components/ui/badge",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterArcTracker",
+      {
+        "file": "client/src/components/character/CharacterArcTracker.tsx",
+        "exports": [
+          "CharacterArcTracker"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/dialog",
+          "@/components/ui/progress",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterCard",
+      {
+        "file": "client/src/components/character/CharacterCard.tsx",
+        "exports": [
+          "CharacterCard"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/button",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterCreationLaunch",
+      {
+        "file": "client/src/components/character/CharacterCreationLaunch.tsx",
+        "exports": [
+          "CharacterCreationLaunch"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterDetailAccordion",
+      {
+        "file": "client/src/components/character/CharacterDetailAccordion.tsx",
+        "exports": [
+          "CharacterDetailAccordion"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/button",
+          "@/components/ui/accordion",
+          "lucide-react",
+          "@/lib/config/fieldConfig"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterDetailView",
+      {
+        "file": "client/src/components/character/CharacterDetailView.tsx",
+        "exports": [
+          "CharacterDetailView"
+        ],
+        "imports": [
+          "./CharacterFormExpanded",
+          "./CharacterUnifiedViewPremium",
+          "./CharacterGuidedCreation"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterDocumentUpload",
+      {
+        "file": "client/src/components/character/CharacterDocumentUpload.tsx",
+        "exports": [
+          "CharacterDocumentUpload"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "lucide-react",
+          "@/components/ui/badge"
+        ],
+        "apiCalls": [
+          "/api/characters/import-document"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterFormExpanded",
+      {
+        "file": "client/src/components/character/CharacterFormExpanded.tsx",
+        "exports": [
+          "CharacterFormExpanded"
+        ],
+        "imports": [
+          "react",
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/tabs",
+          "@/components/ui/select",
+          "lucide-react",
+          "@/lib/queryClient",
+          "@/lib/config/fieldConfig",
+          "./FieldAIAssist"
+        ],
+        "apiCalls": [
+          "/api/projects"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterGenerationModal",
+      {
+        "file": "client/src/components/character/CharacterGenerationModal.tsx",
+        "exports": [
+          "CharacterGenerationModal"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/dialog",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/tabs",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterGuidedCreation",
+      {
+        "file": "client/src/components/character/CharacterGuidedCreation.tsx",
+        "exports": [
+          "CharacterGuidedCreation"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/progress",
+          "lucide-react",
+          "@/lib/queryClient",
+          "nanoid"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterInsights",
+      {
+        "file": "client/src/components/character/CharacterInsights.tsx",
+        "exports": [
+          "CharacterInsights"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/progress",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterManager",
+      {
+        "file": "client/src/components/character/CharacterManager.tsx",
+        "exports": [
+          "CharacterManager"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/dropdown-menu",
+          "lucide-react",
+          "@/lib/queryClient",
+          "./CharacterDetailView",
+          "./CharacterPortraitModalImproved",
+          "./CharacterGenerationModal",
+          "./CharacterTemplates",
+          "./CharacterCreationLaunch",
+          "./CharacterDocumentUpload",
+          "@/lib/services/characterCreationService"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "DELETE",
+          "PUT",
+          "POST"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterOnboarding",
+      {
+        "file": "client/src/components/character/CharacterOnboarding.tsx",
+        "exports": [
+          "CharacterOnboarding"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterPortraitModal",
+      {
+        "file": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "exports": [
+          "CharacterPortraitModal"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/select",
+          "@/components/ui/tabs",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "lucide-react",
+          "@tanstack/react-query"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "/api/characters",
+          "/api/generate-character-image"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterRelationships",
+      {
+        "file": "client/src/components/character/CharacterRelationships.tsx",
+        "exports": [
+          "CharacterRelationships"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/select",
+          "@/components/ui/textarea",
+          "@/components/ui/dialog",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterTemplates",
+      {
+        "file": "client/src/components/character/CharacterTemplates.tsx",
+        "exports": [
+          "CharacterTemplates"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/dialog",
+          "@/components/ui/scroll-area",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterUnifiedView",
+      {
+        "file": "client/src/components/character/CharacterUnifiedView.tsx",
+        "exports": [
+          "CharacterUnifiedView"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/tabs",
+          "@/components/ui/select",
+          "lucide-react",
+          "@/lib/queryClient",
+          "@/lib/config/fieldConfig",
+          "./CharacterPortraitModalImproved",
+          "./CharacterRelationships",
+          "./CharacterArcTracker",
+          "./CharacterInsights",
+          "../ui/loading-modal",
+          "./FieldRenderer"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT",
+          "POST"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterUnifiedViewPremium",
+      {
+        "file": "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+        "exports": [
+          "CharacterUnifiedViewPremium"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/tabs",
+          "@/components/ui/select",
+          "lucide-react",
+          "@/lib/queryClient",
+          "./CharacterPortraitModalImproved",
+          "@/components/ui/loading-modal",
+          "./AIAssistModal",
+          "./FieldAIAssist"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "FieldAIAssist",
+      {
+        "file": "client/src/components/character/FieldAIAssist.tsx",
+        "exports": [
+          "FieldAIAssist"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/tooltip",
+          "lucide-react",
+          "@/lib/queryClient"
+        ],
+        "apiCalls": [
+          "POST"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "FieldRenderer",
+      {
+        "file": "client/src/components/character/shared/FieldRenderer.tsx",
+        "exports": [
+          "FieldRenderer"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/input",
+          "@/components/ui/textarea",
+          "@/components/ui/label",
+          "@/components/ui/badge",
+          "@/components/ui/select",
+          "../FieldAIAssist",
+          "@/lib/config/fieldConfig",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ImagePreviewModal",
+      {
+        "file": "client/src/components/character/ImagePreviewModal.tsx",
+        "exports": [
+          "ImagePreviewModal"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "RelationshipSelect",
+      {
+        "file": "client/src/components/character/RelationshipSelects.tsx",
+        "exports": [
+          "RelationshipSelect",
+          "STRENGTH",
+          "STATUS"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/label",
+          "@/components/ui/select",
+          "@/lib/types"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "STRENGTH",
+      {
+        "file": "client/src/components/character/RelationshipSelects.tsx",
+        "exports": [
+          "RelationshipSelect",
+          "STRENGTH",
+          "STATUS"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/label",
+          "@/components/ui/select",
+          "@/lib/types"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "STATUS",
+      {
+        "file": "client/src/components/character/RelationshipSelects.tsx",
+        "exports": [
+          "RelationshipSelect",
+          "STRENGTH",
+          "STATUS"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/label",
+          "@/components/ui/select",
+          "@/lib/types"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CharacterProgress",
+      {
+        "file": "client/src/components/character/shared/CharacterProgress.tsx",
+        "exports": [
+          "CharacterProgress",
+          "QuickProgress"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/progress",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "QuickProgress",
+      {
+        "file": "client/src/components/character/shared/CharacterProgress.tsx",
+        "exports": [
+          "CharacterProgress",
+          "QuickProgress"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/progress",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "FormSection",
+      {
+        "file": "client/src/components/character/shared/FormSection.tsx",
+        "exports": [
+          "FormSection"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/collapsible",
+          "lucide-react",
+          "./FieldRenderer",
+          "@/lib/config/fieldConfig",
+          "./CharacterProgress"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CreativeDebugPanel",
+      {
+        "file": "client/src/components/dev/CreativeDebugPanel.tsx",
+        "exports": [
+          "CreativeDebugPanel"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/scroll-area",
+          "@/components/ui/collapsible",
+          "lucide-react",
+          "@/hooks/useCreativeDebugger"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LiveWritingPreview",
+      {
+        "file": "client/src/components/dev/LiveWritingPreview.tsx",
+        "exports": [
+          "LiveWritingPreview",
+          "CompactWritingPreview"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/progress",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CompactWritingPreview",
+      {
+        "file": "client/src/components/dev/LiveWritingPreview.tsx",
+        "exports": [
+          "LiveWritingPreview",
+          "CompactWritingPreview"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/progress",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "PerformanceDashboard",
+      {
+        "file": "client/src/components/dev/PerformanceDashboard.tsx",
+        "exports": [
+          "PerformanceDashboard"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/button",
+          "@/components/ui/progress",
+          "lucide-react",
+          "@/hooks/useMemoryMonitor"
+        ],
+        "apiCalls": [
+          "/api/health"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "QuickActionsPanel",
+      {
+        "file": "client/src/components/dev/QuickActionsPanel.tsx",
+        "exports": [
+          "QuickActionsPanel",
+          "QuickActionsFAB"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/tooltip",
+          "lucide-react",
+          "@/components/writing/LazyWritingComponents"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "QuickActionsFAB",
+      {
+        "file": "client/src/components/dev/QuickActionsPanel.tsx",
+        "exports": [
+          "QuickActionsPanel",
+          "QuickActionsFAB"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/tooltip",
+          "lucide-react",
+          "@/components/writing/LazyWritingComponents"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "WritingMetrics",
+      {
+        "file": "client/src/components/dev/WritingMetrics.tsx",
+        "exports": [
+          "WritingMetrics"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/tabs",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsView",
+      {
+        "file": "client/src/components/project/ProjectsView.tsx",
+        "exports": [
+          "ProjectsView"
+        ],
+        "imports": [
+          "react",
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/select",
+          "@/components/ui/progress",
+          "../theme-toggle",
+          "lucide-react",
+          "@/components/ui/dropdown-menu",
+          "date-fns"
+        ],
+        "apiCalls": [
+          "/api/projects"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectCreationWizard",
+      {
+        "file": "client/src/components/project/ProjectCreationWizard.tsx",
+        "exports": [
+          "ProjectCreationWizard"
+        ],
+        "imports": [
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/textarea",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "lucide-react",
+          "@/components/ui/Toast",
+          "@/components/ui/LoadingStates"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectDashboard",
+      {
+        "file": "client/src/components/project/ProjectDashboard.tsx",
+        "exports": [
+          "ProjectDashboard"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/progress",
+          "../theme-toggle",
+          "lucide-react",
+          "../world"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsPageRedesign",
+      {
+        "file": "client/src/components/project/ProjectsPageRedesign.tsx",
+        "exports": [
+          "ProjectsPageRedesign"
+        ],
+        "imports": [
+          "../FloatingOrbs",
+          "@tanstack/react-query",
+          "@/lib/queryClient",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/card",
+          "lucide-react",
+          "@/components/ui/badge",
+          "@/components/ui/dropdown-menu",
+          "@/components/ui/dialog",
+          "@/components/theme-toggle",
+          "@/components/ui/MessageOfTheDay",
+          "@/lib/types",
+          "@/lib/services/taskService",
+          "@/components/ui/checkbox",
+          "@/components/ui/Toast",
+          "@/components/ui/select",
+          "@/components/ui/textarea"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "tasks",
+          "goals"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "DashboardWidgets",
+      {
+        "file": "client/src/components/projects/DashboardWidgets.tsx",
+        "exports": [
+          "DashboardWidgets"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/MessageOfTheDay",
+          "./QuickTasksWidget",
+          "@/hooks/useTaskManagement",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LazyProjectsList",
+      {
+        "file": "client/src/components/projects/LazyProjectComponents.tsx",
+        "exports": [
+          "LazyProjectsList",
+          "LazyProjectModals"
+        ],
+        "imports": [
+          "@/components/ui/LoadingStates",
+          "@/hooks/useComponentPreloader"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LazyProjectModals",
+      {
+        "file": "client/src/components/projects/LazyProjectComponents.tsx",
+        "exports": [
+          "LazyProjectsList",
+          "LazyProjectModals"
+        ],
+        "imports": [
+          "@/components/ui/LoadingStates",
+          "@/hooks/useComponentPreloader"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectModals",
+      {
+        "file": "client/src/components/projects/ProjectModals.tsx",
+        "exports": [
+          "ProjectModals"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/textarea",
+          "@/components/ui/badge",
+          "@/components/ui/checkbox",
+          "@/components/ui/Toast",
+          "@/hooks/useAccessibility",
+          "@/components/ui/ErrorBoundary",
+          "@/hooks/useTaskManagement",
+          "@/components/ui/dialog",
+          "@/components/ui/select",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsFilters",
+      {
+        "file": "client/src/components/projects/ProjectsFilters.tsx",
+        "exports": [
+          "ProjectsFilters"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/dropdown-menu",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsHeader",
+      {
+        "file": "client/src/components/projects/ProjectsHeader.tsx",
+        "exports": [
+          "ProjectsHeader"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/button",
+          "@/components/theme-toggle",
+          "@/components/ui/dropdown-menu",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsList",
+      {
+        "file": "client/src/components/projects/ProjectsList.tsx",
+        "exports": [
+          "ProjectsList"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/LoadingStates",
+          "@/components/ui/EmptyStates",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsPage",
+      {
+        "file": "client/src/components/projects/ProjectsPage.tsx",
+        "exports": [
+          "ProjectsPage"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "../FloatingOrbs",
+          "./ProjectsHeader",
+          "./ProjectsFilters",
+          "./ProjectsStats",
+          "./LazyProjectComponents",
+          "./DashboardWidgets",
+          "@/hooks/useProjectsLogic",
+          "@/hooks/useTaskManagement",
+          "@/hooks/useWidgetManagement",
+          "@/hooks/useOptimizedScroll",
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "lucide-react",
+          "@/components/ui/LoadingStates"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ProjectsStats",
+      {
+        "file": "client/src/components/projects/ProjectsStats.tsx",
+        "exports": [
+          "ProjectsStats"
+        ],
+        "imports": [
+          "react",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "QuickTasksWidget",
+      {
+        "file": "client/src/components/projects/QuickTasksWidget.tsx",
+        "exports": [
+          "QuickTasksWidget"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/badge",
+          "@/components/ui/checkbox",
+          "@/hooks/useTaskManagement",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ThemeProvider",
+      {
+        "file": "client/src/components/theme-provider.tsx",
+        "exports": [
+          "ThemeProvider"
+        ],
+        "imports": [
+          "next-themes"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ThemeToggle",
+      {
+        "file": "client/src/components/theme-toggle.tsx",
+        "exports": [
+          "ThemeToggle"
+        ],
+        "imports": [
+          "lucide-react",
+          "next-themes",
+          "@/components/ui/button",
+          "@/components/ui/dropdown-menu"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "EmptyState",
+      {
+        "file": "client/src/components/ui/EmptyStates.tsx",
+        "exports": [
+          "EmptyState",
+          "EmptyProjectsState",
+          "EmptySearchState",
+          "ErrorState"
+        ],
+        "imports": [
+          "react",
+          "lucide-react",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "EmptyProjectsState",
+      {
+        "file": "client/src/components/ui/EmptyStates.tsx",
+        "exports": [
+          "EmptyState",
+          "EmptyProjectsState",
+          "EmptySearchState",
+          "ErrorState"
+        ],
+        "imports": [
+          "react",
+          "lucide-react",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "EmptySearchState",
+      {
+        "file": "client/src/components/ui/EmptyStates.tsx",
+        "exports": [
+          "EmptyState",
+          "EmptyProjectsState",
+          "EmptySearchState",
+          "ErrorState"
+        ],
+        "imports": [
+          "react",
+          "lucide-react",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ErrorState",
+      {
+        "file": "client/src/components/ui/EmptyStates.tsx",
+        "exports": [
+          "EmptyState",
+          "EmptyProjectsState",
+          "EmptySearchState",
+          "ErrorState"
+        ],
+        "imports": [
+          "react",
+          "lucide-react",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "AsyncErrorBoundary",
+      {
+        "file": "client/src/components/ui/ErrorBoundary.tsx",
+        "exports": [
+          "ErrorBoundary",
+          "AsyncErrorBoundary",
+          "ComponentErrorFallback",
+          "PageErrorFallback"
+        ],
+        "imports": [
+          "lucide-react",
+          "@/lib/store"
+        ],
+        "apiCalls": [
+          "/api/errors"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "ComponentErrorFallback",
+      {
+        "file": "client/src/components/ui/ErrorBoundary.tsx",
+        "exports": [
+          "ErrorBoundary",
+          "AsyncErrorBoundary",
+          "ComponentErrorFallback",
+          "PageErrorFallback"
+        ],
+        "imports": [
+          "lucide-react",
+          "@/lib/store"
+        ],
+        "apiCalls": [
+          "/api/errors"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "PageErrorFallback",
+      {
+        "file": "client/src/components/ui/ErrorBoundary.tsx",
+        "exports": [
+          "ErrorBoundary",
+          "AsyncErrorBoundary",
+          "ComponentErrorFallback",
+          "PageErrorFallback"
+        ],
+        "imports": [
+          "lucide-react",
+          "@/lib/store"
+        ],
+        "apiCalls": [
+          "/api/errors"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingSkeleton",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingSpinner",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingDots",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingCard",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingProjectCard",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingStatsCard",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingHeader",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingTable",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingButton",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingGrid",
+      {
+        "file": "client/src/components/ui/LoadingStates.tsx",
+        "exports": [
+          "LoadingSkeleton",
+          "LoadingSpinner",
+          "LoadingDots",
+          "LoadingCard",
+          "LoadingProjectCard",
+          "LoadingStatsCard",
+          "LoadingHeader",
+          "LoadingTable",
+          "LoadingButton",
+          "LoadingGrid"
+        ],
+        "imports": [
+          "react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "MessageOfTheDay",
+      {
+        "file": "client/src/components/ui/MessageOfTheDay.tsx",
+        "exports": [
+          "MessageOfTheDay"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "lucide-react",
+          "@/hooks/useAuth"
+        ],
+        "apiCalls": [
+          "/api/daily-content/generate"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "ToastProvider",
+      {
+        "file": "client/src/components/ui/Toast.tsx",
+        "exports": [
+          "ToastProvider"
+        ],
+        "imports": [
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Accordion",
+      {
+        "file": "client/src/components/ui/accordion.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "AlertDialog",
+      {
+        "file": "client/src/components/ui/alert-dialog.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Alert",
+      {
+        "file": "client/src/components/ui/alert.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "AspectRatio",
+      {
+        "file": "client/src/components/ui/aspect-ratio.tsx",
+        "exports": [],
+        "imports": [],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Avatar",
+      {
+        "file": "client/src/components/ui/avatar.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Badge",
+      {
+        "file": "client/src/components/ui/badge.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Breadcrumb",
+      {
+        "file": "client/src/components/ui/breadcrumb.tsx",
+        "exports": [],
+        "imports": [
+          "@radix-ui/react-slot",
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Button",
+      {
+        "file": "client/src/components/ui/button.tsx",
+        "exports": [],
+        "imports": [
+          "@radix-ui/react-slot",
+          "class-variance-authority",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Calendar",
+      {
+        "file": "client/src/components/ui/calendar.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "react-day-picker",
+          "@/lib/utils",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Card",
+      {
+        "file": "client/src/components/ui/card.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ChartContainer",
+      {
+        "file": "client/src/components/ui/chart.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Checkbox",
+      {
+        "file": "client/src/components/ui/checkbox.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Collapsible",
+      {
+        "file": "client/src/components/ui/collapsible.tsx",
+        "exports": [],
+        "imports": [],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Command",
+      {
+        "file": "client/src/components/ui/command.tsx",
+        "exports": [],
+        "imports": [
+          "@radix-ui/react-dialog",
+          "cmdk",
+          "lucide-react",
+          "@/lib/utils",
+          "@/components/ui/dialog"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ContextMenu",
+      {
+        "file": "client/src/components/ui/context-menu.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Dialog",
+      {
+        "file": "client/src/components/ui/dialog.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Drawer",
+      {
+        "file": "client/src/components/ui/drawer.tsx",
+        "exports": [],
+        "imports": [
+          "vaul",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "DropdownMenu",
+      {
+        "file": "client/src/components/ui/dropdown-menu.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "HoverCard",
+      {
+        "file": "client/src/components/ui/hover-card.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "InputOTP",
+      {
+        "file": "client/src/components/ui/input-otp.tsx",
+        "exports": [],
+        "imports": [
+          "input-otp",
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Input",
+      {
+        "file": "client/src/components/ui/input.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Label",
+      {
+        "file": "client/src/components/ui/label.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LoadingModal",
+      {
+        "file": "client/src/components/ui/loading-modal.tsx",
+        "exports": [
+          "LoadingModal"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/dialog",
+          "@/components/ui/button",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Menubar",
+      {
+        "file": "client/src/components/ui/menubar.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Pagination",
+      {
+        "file": "client/src/components/ui/pagination.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils",
+          "@/components/ui/button"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Popover",
+      {
+        "file": "client/src/components/ui/popover.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Progress",
+      {
+        "file": "client/src/components/ui/progress.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "RadioGroup",
+      {
+        "file": "client/src/components/ui/radio-group.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ResizablePanelGroup",
+      {
+        "file": "client/src/components/ui/resizable.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ScrollArea",
+      {
+        "file": "client/src/components/ui/scroll-area.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Select",
+      {
+        "file": "client/src/components/ui/select.tsx",
+        "exports": [],
+        "imports": [
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Separator",
+      {
+        "file": "client/src/components/ui/separator.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Sheet",
+      {
+        "file": "client/src/components/ui/sheet.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "lucide-react",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Sidebar",
+      {
+        "file": "client/src/components/ui/sidebar.tsx",
+        "exports": [],
+        "imports": [
+          "@radix-ui/react-slot",
+          "class-variance-authority",
+          "lucide-react",
+          "@/hooks/use-mobile",
+          "@/lib/utils",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/separator",
+          "@/components/ui/sheet",
+          "@/components/ui/skeleton",
+          "@/components/ui/tooltip"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Skeleton",
+      {
+        "file": "client/src/components/ui/skeleton.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Slider",
+      {
+        "file": "client/src/components/ui/slider.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Switch",
+      {
+        "file": "client/src/components/ui/switch.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Table",
+      {
+        "file": "client/src/components/ui/table.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Tabs",
+      {
+        "file": "client/src/components/ui/tabs.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Textarea",
+      {
+        "file": "client/src/components/ui/textarea.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "ToggleGroup",
+      {
+        "file": "client/src/components/ui/toggle-group.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "@/lib/utils",
+          "@/components/ui/toggle"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Toggle",
+      {
+        "file": "client/src/components/ui/toggle.tsx",
+        "exports": [],
+        "imports": [
+          "class-variance-authority",
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Tooltip",
+      {
+        "file": "client/src/components/ui/tooltip.tsx",
+        "exports": [],
+        "imports": [
+          "@/lib/utils"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "WorldBible",
+      {
+        "file": "client/src/components/world/WorldBible.tsx",
+        "exports": [
+          "WorldBible"
+        ],
+        "imports": [
+          "@tanstack/react-query",
+          "@/components/ui/button",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "@/components/ui/input",
+          "@/components/ui/textarea",
+          "@/components/ui/scroll-area",
+          "@/components/ui/separator",
+          "@/lib/queryClient",
+          "lucide-react",
+          "../character/CharacterManager"
+        ],
+        "apiCalls": [
+          "/api/projects",
+          "PUT"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "LazyWritingEditor",
+      {
+        "file": "client/src/components/writing/LazyWritingComponents.tsx",
+        "exports": [
+          "LazyWritingEditor",
+          "LazyStoryOutlineEditor",
+          "LazyWritingMetrics"
+        ],
+        "imports": [
+          "@/components/ui/LoadingStates",
+          "@/hooks/useComponentPreloader"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LazyStoryOutlineEditor",
+      {
+        "file": "client/src/components/writing/LazyWritingComponents.tsx",
+        "exports": [
+          "LazyWritingEditor",
+          "LazyStoryOutlineEditor",
+          "LazyWritingMetrics"
+        ],
+        "imports": [
+          "@/components/ui/LoadingStates",
+          "@/hooks/useComponentPreloader"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LazyWritingMetrics",
+      {
+        "file": "client/src/components/writing/LazyWritingComponents.tsx",
+        "exports": [
+          "LazyWritingEditor",
+          "LazyStoryOutlineEditor",
+          "LazyWritingMetrics"
+        ],
+        "imports": [
+          "@/components/ui/LoadingStates",
+          "@/hooks/useComponentPreloader"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "StoryOutlineEditor",
+      {
+        "file": "client/src/components/writing/StoryOutlineEditor.tsx",
+        "exports": [
+          "StoryOutlineEditor"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "WritingEditor",
+      {
+        "file": "client/src/components/writing/WritingEditor.tsx",
+        "exports": [
+          "WritingEditor"
+        ],
+        "imports": [
+          "@/hooks/useCreativeDebugger",
+          "@/utils/memoryOptimizer",
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "AuthPage",
+      {
+        "file": "client/src/pages/AuthPage.tsx",
+        "exports": [
+          "AuthPage"
+        ],
+        "imports": [
+          "react-hook-form",
+          "@hookform/resolvers/zod",
+          "zod",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/card",
+          "@/components/ui/tabs",
+          "lucide-react",
+          "@/components/ui/alert",
+          "@tanstack/react-query",
+          "@/components/theme-toggle"
+        ],
+        "apiCalls": [
+          "/api/auth/signup",
+          "/api/auth/login"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "AuthPageRedesign",
+      {
+        "file": "client/src/pages/AuthPageRedesign.tsx",
+        "exports": [
+          "AuthPageRedesign"
+        ],
+        "imports": [
+          "react-hook-form",
+          "@hookform/resolvers/zod",
+          "zod",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/label",
+          "@/components/ui/card",
+          "@/components/ui/tabs",
+          "lucide-react",
+          "@/components/ui/alert",
+          "@tanstack/react-query",
+          "@/components/theme-toggle"
+        ],
+        "apiCalls": [
+          "/api/auth/signup",
+          "/api/auth/login"
+        ],
+        "assets": []
+      }
+    ],
+    [
+      "DebugDemo",
+      {
+        "file": "client/src/pages/DebugDemo.tsx",
+        "exports": [
+          "DebugDemo"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/dev/CreativeErrorBoundary",
+          "@/components/dev/CreativeDebugPanel",
+          "@/components/writing/WritingEditor",
+          "@/components/writing/StoryOutlineEditor",
+          "@/hooks/useCreativeDebugger",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "CTASection",
+      {
+        "file": "client/src/pages/landing/CTASection.tsx",
+        "exports": [
+          "CTASection"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/button",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "FeatureCards",
+      {
+        "file": "client/src/pages/landing/FeatureCards.tsx",
+        "exports": [
+          "FeatureCards"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/card",
+          "@/components/ui/badge",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "HeroSection",
+      {
+        "file": "client/src/pages/landing/HeroSection.tsx",
+        "exports": [
+          "HeroSection"
+        ],
+        "imports": [
+          "react",
+          "@/components/ui/button",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "LandingPage",
+      {
+        "file": "client/src/pages/landing/LandingPage.tsx",
+        "exports": [
+          "LandingPage"
+        ],
+        "imports": [
+          "@/components/ui/button",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "../../components/theme-toggle",
+          "../../components/FloatingOrbs",
+          "./HeroSection",
+          "./CTASection",
+          "@/components/ui/dropdown-menu",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "NotFound",
+      {
+        "file": "client/src/pages/not-found.tsx",
+        "exports": [
+          "NotFound"
+        ],
+        "imports": [
+          "@/components/ui/card",
+          "lucide-react"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ],
+    [
+      "Workspace",
+      {
+        "file": "client/src/pages/workspace.tsx",
+        "exports": [
+          "Workspace"
+        ],
+        "imports": [
+          "lucide-react",
+          "../lib/useDebouncedSave",
+          "../lib/services",
+          "../lib/config",
+          "../lib/utils",
+          "@/components/ui/button",
+          "@/components/ui/input",
+          "@/components/ui/textarea",
+          "@/components/ui/label",
+          "@/components/ui/dialog",
+          "@/components/ui/badge",
+          "@/components/ui/card",
+          "@/components/ui/tabs",
+          "@/components/ui/select",
+          "@/components/ui/checkbox",
+          "@/components/ui/separator",
+          "@/components/ui/scroll-area",
+          "@/components/ui/sheet"
+        ],
+        "apiCalls": [],
+        "assets": []
+      }
+    ]
+  ],
+  "assets": [
+    [
+      "Pasted--MANUAL-PHASE-1-EXECUTION-GUIDE-Step-1-Open-Terminal-in-Replit-Step-2-Execute-Deletions-Na-1753723049854_1753723049854.txt",
+      {
+        "path": "attached_assets/Pasted--MANUAL-PHASE-1-EXECUTION-GUIDE-Step-1-Open-Terminal-in-Replit-Step-2-Execute-Deletions-Na-1753723049854_1753723049854.txt",
+        "size": 19883,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Pasted--MANUAL-PHASE-4-EXECUTION-GUIDE-PRESERVE-ARCHITECTURAL-EXCELLENCE-Step-1-Architectural-Pattern-1753723318843_1753723318843.txt",
+      {
+        "path": "attached_assets/Pasted--MANUAL-PHASE-4-EXECUTION-GUIDE-PRESERVE-ARCHITECTURAL-EXCELLENCE-Step-1-Architectural-Pattern-1753723318843_1753723318843.txt",
+        "size": 5808,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Pasted--OPTION-B-SELECTIVE-ENTERPRISE-CLEANUP-COMPREHENSIVE-FIX-LIST-PHASE-1-REMOVE-PLATFORM-INC-1753722327026_1753722327027.txt",
+      {
+        "path": "attached_assets/Pasted--OPTION-B-SELECTIVE-ENTERPRISE-CLEANUP-COMPREHENSIVE-FIX-LIST-PHASE-1-REMOVE-PLATFORM-INC-1753722327026_1753722327027.txt",
+        "size": 4786,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Pasted--OPTION-B-SELECTIVE-ENTERPRISE-CLEANUP-COMPREHENSIVE-FIX-LIST-PHASE-1-REMOVE-PLATFORM-INC-1753725566136_1753725566137.txt",
+      {
+        "path": "attached_assets/Pasted--OPTION-B-SELECTIVE-ENTERPRISE-CLEANUP-COMPREHENSIVE-FIX-LIST-PHASE-1-REMOVE-PLATFORM-INC-1753725566136_1753725566137.txt",
+        "size": 34407,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Pasted--vite-connecting-vite-connected-Global-error-handler-initialized-Account-clicked-not-imp-1753735742324_1753735742324.txt",
+      {
+        "path": "attached_assets/Pasted--vite-connecting-vite-connected-Global-error-handler-initialized-Account-clicked-not-imp-1753735742324_1753735742324.txt",
+        "size": 2801,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Pasted-Still-getting-HTTP-502-errors-across-all-tools-terminal-file-reading-directory-listing-The-back-1753721903595_1753721903609.txt",
+      {
+        "path": "attached_assets/Pasted-Still-getting-HTTP-502-errors-across-all-tools-terminal-file-reading-directory-listing-The-back-1753721903595_1753721903609.txt",
+        "size": 3232,
+        "type": ".txt"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163055_1753734847510.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163055_1753734847510.png",
+        "size": 589014,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163102_1753734847510.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163102_1753734847510.png",
+        "size": 601284,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163109_1753734847509.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163109_1753734847509.png",
+        "size": 586875,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163116_1753734847509.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163116_1753734847509.png",
+        "size": 495472,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163125_1753734847509.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163125_1753734847509.png",
+        "size": 497549,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163136_1753734847508.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163136_1753734847508.png",
+        "size": 305608,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163145_1753734847508.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163145_1753734847508.png",
+        "size": 565497,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163153_1753734847508.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163153_1753734847508.png",
+        "size": 524707,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163158_1753734847507.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163158_1753734847507.png",
+        "size": 520184,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163208_1753734847507.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163208_1753734847507.png",
+        "size": 580935,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163216_1753734847507.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163216_1753734847507.png",
+        "size": 254027,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163222_1753734847506.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163222_1753734847506.png",
+        "size": 272043,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163228_1753734847506.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163228_1753734847506.png",
+        "size": 264297,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163256_1753734847505.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163256_1753734847505.png",
+        "size": 354129,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163303_1753734847505.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163303_1753734847505.png",
+        "size": 146014,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163311_1753734847505.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163311_1753734847505.png",
+        "size": 444795,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163319_1753734847504.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163319_1753734847504.png",
+        "size": 229486,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163323_1753734847504.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163323_1753734847504.png",
+        "size": 149189,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163330_1753734847503.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163330_1753734847503.png",
+        "size": 138907,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 163346_1753734847502.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 163346_1753734847502.png",
+        "size": 138146,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 164038_1753735255597.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 164038_1753735255597.png",
+        "size": 363924,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 164050_1753735255596.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 164050_1753735255596.png",
+        "size": 74126,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 170108_1753736472790.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 170108_1753736472790.png",
+        "size": 381466,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 170714_1753736838486.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 170714_1753736838486.png",
+        "size": 393419,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 171558_1753737362532.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 171558_1753737362532.png",
+        "size": 221094,
+        "type": ".png"
+      }
+    ],
+    [
+      "Screenshot 2025-07-28 172108_1753737674315.png",
+      {
+        "path": "attached_assets/Screenshot 2025-07-28 172108_1753737674315.png",
+        "size": 23342,
+        "type": ".png"
+      }
+    ]
+  ],
+  "summary": {
+    "totalRoutes": 0,
+    "totalComponents": 133,
+    "totalAssets": 32
+  }
+}
