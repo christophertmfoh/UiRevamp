@@ -73,8 +73,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ user: req.user });
   });
 
-  // Mount modular routers with optional auth
-  app.use("/api/projects", optionalAuth, projectRouter);
+  // Mount modular routers with required auth for security
+  app.use("/api/projects", authenticateToken, projectRouter);
   app.use("/api", optionalAuth, characterRouter);
   app.use("/api", optionalAuth, outlineRouter);
   app.use("/api", optionalAuth, proseRouter);

@@ -5,10 +5,16 @@ import { storage } from "../storage";
 
 export const projectRouter = Router();
 
-// Get all projects
+// Get all projects for the authenticated user
 projectRouter.get("/", async (req, res) => {
   try {
-    const projects = await storage.getProjects();
+    // Get projects for the authenticated user only
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+    
+    const projects = await storage.getProjects(userId);
     res.json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);

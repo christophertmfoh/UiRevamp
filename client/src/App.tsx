@@ -199,10 +199,9 @@ export default function App() {
 
       if (response.ok) {
         const projectsData = await response.json();
-        // Filter projects to only show current user's projects for data integrity
-        const userProjects = projectsData.filter((project: any) => project.userId === user.id);
-        setProjects(userProjects);
-        console.log(`📊 Loaded ${userProjects.length} projects for user: ${user.username}`);
+        // Server now filters by user ID, so we can trust the response
+        setProjects(projectsData);
+        console.log(`📊 Loaded ${projectsData.length} projects for user: ${user.username}`);
       } else {
         // Don't log errors for expected 401/403 responses
         if (response.status !== 401 && response.status !== 403) {
@@ -281,8 +280,8 @@ export default function App() {
               headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => res.json());
             
-            const userProjects = refreshedProjects.filter((project: any) => project.userId === user?.id);
-            setProjects(userProjects);
+            // Server now filters by user ID, so we can trust the response
+            setProjects(refreshedProjects);
           } catch (error) {
             console.warn('Background refresh failed:', error);
           }
