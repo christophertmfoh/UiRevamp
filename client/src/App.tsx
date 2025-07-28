@@ -588,7 +588,7 @@ export default function App() {
             onSelectProject={handleSelectProject}
             onLogout={handleLogout}
             user={user}
-            projects={projects}
+            projects={projects || []}
             isLoading={!isAuthenticated || isLoading}
           />
         );

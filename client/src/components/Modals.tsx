@@ -37,7 +37,7 @@ export function ProjectModal({
 }: ProjectModalProps) {
   const [name, setName] = useState(projectToEdit?.name || '');
   const [description, setDescription] = useState(projectToEdit?.description || '');
-  const [type, setType] = useState<'novel' | 'screenplay' | 'comic'>(projectToEdit?.type || 'novel');
+  const [type, setType] = useState<'novel' | 'screenplay' | 'comic' | 'dnd-campaign' | 'poetry'>(projectToEdit?.type || 'novel');
   const [genres, setGenres] = useState<string[]>(
     Array.isArray(projectToEdit?.genre) ? projectToEdit.genre : projectToEdit?.genre ? [projectToEdit.genre] : []
   );
@@ -415,10 +415,8 @@ export function ImportManuscriptModal({
       if (projectToUpdate && onUpdateProject) {
         onUpdateProject({
           ...projectToUpdate,
-          manuscript: {
-            ...projectToUpdate.manuscript,
-            novel: text
-          },
+          manuscriptNovel: text,
+          manuscriptScreenplay: projectToUpdate.manuscriptScreenplay,
           lastModified: new Date()
         });
       } else if (onCreateProject) {
@@ -576,7 +574,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
       const file = files[0];
-      if (isValidFileType(file)) {
+      if (file && isValidFileType(file)) {
         setFile(file);
         if (!projectName) {
           setProjectName(file.name.replace(/\.[^/.]+$/, ''));
