@@ -1,14 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { Button } from '../shared/components/ui/button';
+import { Badge } from '../shared/components/ui/badge';
+import { Card, CardContent } from '../shared/components/ui/card';
+import { FloatingOrbs } from '../shared/components/FloatingOrbs';
+import { HeroSection } from './landing/HeroSection';
+import { CTASection } from './landing/CTASection';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../shared/components/ui/dropdown-menu';
 import { 
-  PenTool, Sparkles, FolderPlus, Lightbulb, Users, BookOpen, 
-  FileText, Bot, Feather, ArrowRight, CheckCircle, Brain,
-  Target, Palette, Compass, Edit3, Library, TrendingUp, Award, Star
+  Feather, 
+  BookOpen, 
+  Users,
+  Edit3, 
+  ArrowRight,
+  Sparkles,
+  Brain,
+  CheckCircle,
+  TrendingUp,
+  Award,
+  Star,
+  Target,
+  Compass,
+  Palette,
+  Moon,
+  Sun,
+  Lightbulb,
+  FileText,
+  Image,
+  Bookmark,
+  Library,
+  PenTool,
+  ChevronDown,
+  User,
+  Settings,
+  LogOut,
+  UserCircle
 } from 'lucide-react';
-import { Button } from "../shared/components/ui/button";
-import { Card, CardContent } from "../shared/components/ui/card";
-import { Badge } from "../shared/components/ui/badge";
-import { FloatingOrbs } from "../shared/components/FloatingOrbs";
+
+interface LandingPageProps {
+  onNavigate?: (view: string) => void;
+  onNewProject?: () => void;
+  onUploadManuscript?: () => void;
+  onAuth?: () => void;
+  onLogout?: () => Promise<void>;
+  user?: any;
+  isAuthenticated?: boolean;
+  guideMode?: boolean;
+  setGuideMode?: (mode: boolean) => void;
+}
 
 const processSteps = [
   { 
@@ -56,7 +101,17 @@ const trustIndicators = [
   { number: "100%", label: "Workflow Integration", icon: CheckCircle }
 ];
 
-export function LandingPage() {
+export function LandingPage({ 
+  onNavigate = () => {}, 
+  onNewProject = () => {}, 
+  onUploadManuscript = () => {}, 
+  onAuth = () => {},
+  onLogout = async () => {},
+  user = null,
+  isAuthenticated = false,
+  guideMode = false, 
+  setGuideMode = () => {}
+}: LandingPageProps = {}) {
   const [, setLocation] = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [scrollY, setScrollY] = useState(0);
@@ -64,11 +119,32 @@ export function LandingPage() {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
   const handleNavigate = (path: string) => {
-    setLocation(path);
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      setLocation(path);
+    }
+  };
+
+  const handleNewProject = () => {
+    if (onNewProject) {
+      onNewProject();
+    } else {
+      setLocation('/workspace');
+    }
+  };
+
+  const handleNavigateToProjects = () => {
+    if (onNavigate) {
+      onNavigate('projects');
+    } else {
+      setLocation('/projects');
+    }
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // Only auto-cycle if not hovering
       if (!isHoveringSteps) {
         setCurrentStep(prev => (prev + 1) % processSteps.length);
       }
@@ -76,6 +152,7 @@ export function LandingPage() {
     return () => clearInterval(interval);
   }, [isHoveringSteps]);
 
+  // Parallax scrolling effect
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
@@ -84,7 +161,7 @@ export function LandingPage() {
 
   return (
     <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-background">
-      
+
       {/* Theme-aware floating orbs */}
       <FloatingOrbs />
 
@@ -118,72 +195,116 @@ export function LandingPage() {
         </svg>
       </div>
 
+      {/* Floating Orbs with Parallax */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div 
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-primary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(40px)'
+          }}
+        />
+        <div 
+          className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-secondary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(30px)'
+          }}
+        />
+      </div>
+
       {/* Navigation */}
-      <nav className="relative z-20 flex items-center justify-between p-6 lg:p-8 backdrop-blur-sm bg-background/80">
-        <div className="flex items-center space-x-3 group cursor-pointer">
-          <div className="w-12 h-12 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-            <Feather className="w-6 h-6 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+      <nav className="relative z-10 px-6 sm:px-8 py-4 sm:py-6">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg">
+              <Feather className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <span className="text-2xl font-black font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+              Fablecraft
+            </span>
           </div>
-          <span className="text-2xl font-bold font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-            Fablecraft
-          </span>
+          
+          <div className="flex items-center space-x-4">
+            {/* Authentication Buttons */}
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      className="group gradient-primary text-primary-foreground px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <span className="relative z-10 flex items-center">
+                        <UserCircle className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                        Welcome {user?.username || 'User'}
+                        <ChevronDown className="ml-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-300" />
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-card/95 backdrop-blur-xl border border-border/30 shadow-2xl rounded-xl mt-2">
+                    <DropdownMenuItem 
+                      onClick={() => handleNavigate('projects')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <BookOpen className="mr-3 h-4 w-4 text-primary" />
+                      <span className="font-medium">Your Projects</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Account clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <User className="mr-3 h-4 w-4 text-primary" />
+                      <span className="font-medium">Account</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Community clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <Users className="mr-3 h-4 w-4 text-primary" />
+                      <span className="font-medium">Community</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Settings clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <Settings className="mr-3 h-4 w-4 text-primary" />
+                      <span className="font-medium">Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="my-2 border-border/30" />
+                    <DropdownMenuItem 
+                      onClick={onLogout}
+                      className="cursor-pointer hover:bg-destructive/10 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <LogOut className="mr-3 h-4 w-4 text-destructive" />
+                      <span className="font-medium text-destructive">Sign Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <Button 
+                onClick={onAuth}
+                className="group gradient-primary text-primary-foreground px-6 py-2 font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 rounded-2xl relative overflow-hidden hover:opacity-90"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <span className="relative z-10 flex items-center">
+                  <Users className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  Sign Up / Sign In
+                </span>
+              </Button>
+            )}
+          </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-20 lg:py-24">
-        <div className="text-center space-y-8 lg:space-y-12 max-w-5xl mx-auto">
-          <div className="space-y-8 lg:space-y-12">
-            {/* Badge */}
-            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
-              <span className="text-sm font-bold text-muted-foreground uppercase tracking-[0.15em]">
-                End-to-End Creative Production Suite
-              </span>
-            </div>
-            
-            {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 text-foreground drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-              Where Stories{' '}
-              <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                Come to Life
-              </span>
-            </h1>
-            
-            {/* Description */}
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-relaxed">
-              From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
-              and graphic novels with AI that understands the art of storytelling. Your imagination, 
-              amplified by intelligence.
-            </p>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 pt-8 justify-center">
-              <Button 
-                size="lg"
-                onClick={() => handleNavigate('/workspace')}
-                className="group relative gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl rounded-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-2"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-                <span className="relative z-10 flex items-center">
-                  <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                  Begin Your Story
-                </span>
-              </Button>
-              <Button 
-                size="lg"
-                variant="outline"
-                className="group px-10 py-5 text-lg font-semibold border-2 border-border hover:border-primary/50 rounded-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-1"
-              >
-                <span className="relative z-10 flex items-center">
-                  <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                  Browse Stories
-                </span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection 
+        onNewProject={handleNewProject}
+        onNavigateToProjects={handleNavigateToProjects}
+      />
 
       {/* Trust Indicators */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-16">
@@ -239,6 +360,12 @@ export function LandingPage() {
           ))}
         </div>
       </section>
+
+      {/* CTA Section */}
+      <CTASection 
+        onNewProject={handleNewProject}
+        onNavigateToProjects={handleNavigateToProjects}
+      />
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-border py-20 px-8 bg-gradient-to-t from-muted/30 to-transparent">
