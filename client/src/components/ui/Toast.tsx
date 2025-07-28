@@ -183,7 +183,7 @@ function ToastItem({
 
 // Convenience hook for common toast patterns
 export function useToastActions() {
-  const { addToast } = useToast();
+  const { addToast, removeToast } = useToast();
 
   const success = useCallback((title: string, description?: string) => {
     addToast({ type: 'success', title, description });
