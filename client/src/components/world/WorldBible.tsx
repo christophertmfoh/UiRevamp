@@ -34,7 +34,7 @@ import {
   MoreHorizontal,
   ArrowUpDown
 } from 'lucide-react';
-import type { Project, Character } from '../../lib/types';
+import type { Project, Character } from '@/lib/types';
 import { CharacterManager } from '../character/CharacterManager';
 
 interface WorldBibleProps {

@@ -17,9 +17,7 @@ export default defineConfig({
             ['babel-plugin-transform-remove-console', { exclude: ['error', 'warn'] }]
           ] : [])
         ]
-      },
-      // Fast refresh for Replit hot-reload
-      fastRefresh: true
+      }
     }),
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&

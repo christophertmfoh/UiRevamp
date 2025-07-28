@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';

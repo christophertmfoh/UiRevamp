@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 import { CharacterFormExpanded } from './CharacterFormExpanded';
 import { CharacterUnifiedViewPremium } from './CharacterUnifiedViewPremium';
 import { CharacterGuidedCreation } from './CharacterGuidedCreation';

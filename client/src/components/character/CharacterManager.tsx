@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character, Project } from '../../lib/types';
+import type { Character, Project } from '@/lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';

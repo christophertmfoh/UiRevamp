@@ -655,7 +655,7 @@ function ProjectCard({ project, onSelect }: { project: Project; onSelect: (proje
             Updated {new Date(project.createdAt).toLocaleDateString()}
           </div>
           <Badge variant="secondary" className="gradient-primary text-stone-700 dark:text-stone-300">
-            {project.genres?.[0] || 'Unspecified'}
+            {Array.isArray(project.genre) ? project.genre[0] : project.genre || 'Unspecified'}
           </Badge>
         </div>
       </CardContent>
@@ -701,10 +701,10 @@ function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (p
         <div className="text-right space-y-2">
           <div className="flex items-center text-xs text-stone-500 dark:text-stone-400">
             <Clock className="w-3 h-3 mr-1" />
-            {new Date(project.updatedAt || project.createdAt).toLocaleDateString()}
+            {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
           </div>
           <Badge variant="secondary" className="gradient-primary text-stone-700 dark:text-stone-300">
-            {project.genres?.[0] || 'Unspecified'}
+            {Array.isArray(project.genre) ? project.genre[0] : project.genre || 'Unspecified'}
           </Badge>
         </div>
 

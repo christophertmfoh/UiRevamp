@@ -81,7 +81,7 @@ export const FeatureCards = React.memo(function FeatureCards({ className = '' }:
         </div>
 
         {/* Key Benefits */}
-        <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'}}>
+        <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'} as React.CSSProperties}>
           {keyBenefits.map((benefit, index) => {
             const IconComponent = benefit.icon;
             return (

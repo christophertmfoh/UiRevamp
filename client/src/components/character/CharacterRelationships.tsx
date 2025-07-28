@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Plus, Users, Heart, Sword, Shield, Link, Trash2, Edit, UserPlus } from 'lucide-react';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 
 interface Relationship {
   id: string;

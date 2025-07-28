@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Edit, Trash2, User, ChevronRight } from 'lucide-react';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 
 interface CharacterCardProps {
   character: Character;

@@ -24,7 +24,7 @@ import {
   Save
 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 import { nanoid } from 'nanoid';
 
 interface CharacterGuidedCreationProps {

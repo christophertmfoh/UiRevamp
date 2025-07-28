@@ -9,8 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
+import type { Character } from '@/lib/types';
+import { CHARACTER_SECTIONS, getFieldsBySection } from '@/lib/config/fieldConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {

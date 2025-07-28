@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Brain, Heart, Zap, Shield, Target, TrendingUp, Users, BookOpen } from 'lucide-react';
-import type { Character } from '../../lib/types';
+import type { Character } from '@/lib/types';
 
 interface CharacterInsightsProps {
   character: Character;

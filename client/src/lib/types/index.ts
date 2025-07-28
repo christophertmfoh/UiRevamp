@@ -12,14 +12,7 @@ export type {
   ProseDocument,
   ProjectSettings,
   ImageAsset,
-  CharacterRelationship,
-  InsertProject,
-  InsertCharacter,
-  InsertOutline,
-  InsertProseDocument,
-  InsertCharacterRelationship,
-  InsertImageAsset,
-  InsertProjectSettings
+  CharacterRelationship
 } from '../types';
 
 // ===== ENHANCED CHARACTER TYPES =====
@@ -134,4 +127,4 @@ export interface FormFieldConfig {
 
 // ===== REEXPORT COMMONLY USED TYPES =====
 // This prevents import path confusion across the app
-export type { User, Session } from '../types';
+// Note: User and Session types are defined in useAuth hook
