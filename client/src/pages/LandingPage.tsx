@@ -1,18 +1,18 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
-import { useOptimizedScroll, useStableMount } from '../shared/hooks';
-import { 
-  Button, 
-  Card, 
-  CardContent,
-  ThemeToggle,
-  FloatingOrbs,
+import { useOptimizedScroll } from '../shared/hooks/useOptimizedScroll';
+import { useStableMount } from '../shared/hooks/useStableMount';
+import { Button } from '../shared/components/ui/button';
+import { Card, CardContent } from '../shared/components/ui/card';
+import { ThemeToggle } from '../shared/components/theme-toggle';
+import { FloatingOrbs } from '../shared/components/FloatingOrbs';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '../shared/components';
+  DropdownMenuTrigger,
+} from '../shared/components/ui/dropdown-menu';
 import { HeroSection } from './landing/HeroSection';
 import { CTASection } from './landing/CTASection';
 import { 

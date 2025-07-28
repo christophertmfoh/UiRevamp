@@ -3,6 +3,8 @@ import { ThemeProvider } from "./shared/components/theme-provider"
 import { Router, Route, Switch } from "wouter"
 import { LandingPage } from "./pages/LandingPage"
 import { suppressResizeObserverError } from "./shared/utils/resizeObserver"
+import { Suspense } from "react"
+import { LazyWorkspace } from "./shared/components/ui/lazy-loading"
 import './index.css'
 
 // Suppress ResizeObserver errors on app load
@@ -27,13 +29,13 @@ function App() {
               <LandingPage />
             </Route>
             <Route path="/workspace">
-              <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-                <div className="text-center">
-                  <h1 className="text-2xl font-bold mb-4">Workspace</h1>
-                  <p className="text-muted-foreground">Coming soon...</p>
-                  <a href="/" className="text-primary hover:text-primary/80 mt-4 inline-block">Return to Home</a>
+              <Suspense fallback={
+                <div className="min-h-screen bg-background flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                 </div>
-              </div>
+              }>
+                <LazyWorkspace />
+              </Suspense>
             </Route>
             <Route>
               <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
