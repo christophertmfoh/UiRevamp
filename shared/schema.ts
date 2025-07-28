@@ -59,7 +59,7 @@ export const projects = pgTable("projects", {
   type: text("type", { enum: ['novel', 'screenplay', 'comic', 'dnd-campaign', 'poetry'] }).notNull(),
   description: text("description"),
   synopsis: text("synopsis"),
-  genre: text("genre").array().default([]),
+  genre: text("genre").array().default(sql`'{}'`),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   lastModified: timestamp("last_modified").defaultNow().notNull(),
   manuscriptNovel: text("manuscript_novel").default(''),

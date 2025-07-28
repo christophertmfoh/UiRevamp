@@ -1,22 +1,24 @@
 export interface Project {
   id: string;
   name: string;
-  title?: string;
   type: 'novel' | 'screenplay' | 'comic' | 'dnd-campaign' | 'poetry';
-  description?: string;
-  synopsis?: string;
-  genre?: string | string[];
-  tone?: string;
+  description?: string | null;
+  synopsis?: string | null;
+  genre?: string[] | null;
   createdAt: Date;
   lastModified: Date;
-  manuscript: {
+  userId: string;
+  manuscriptNovel?: string | null;
+  manuscriptScreenplay?: string | null;
+  // Optional extended properties for rich client-side functionality
+  manuscript?: {
     novel: string;
     screenplay: string;
   };
-  outline: OutlineNode[];
-  characters: Character[];
-  proseDocuments: ProseDocument[];
-  settings: ProjectSettings;
+  outline?: OutlineNode[];
+  characters?: Character[];
+  proseDocuments?: ProseDocument[];
+  settings?: ProjectSettings;
 }
 
 export interface OutlineNode {
