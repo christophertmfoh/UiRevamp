@@ -17,7 +17,7 @@ export interface Toast {
 
 interface ToastContextType {
   toasts: Toast[];
-  addToast: (toast: Omit<Toast, 'id'>) => void;
+  addToast: (toast: Omit<Toast, 'id'>) => string;
   removeToast: (id: string) => void;
   clearAll: () => void;
 }
@@ -48,6 +48,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         removeToast(id);
       }, duration);
     }
+    
+    return id; // Return the ID so it can be used for manual removal
   }, []);
 
   const removeToast = useCallback((id: string) => {
@@ -211,10 +213,8 @@ export function useToastActions() {
       error?: string | ((error: any) => string);
     } = {}
   ) => {
-    const loadingToast = Math.random().toString(36).substr(2, 9);
-    
-    // Show loading toast
-    addToast({
+    // Show loading toast and get its ID for removal
+    const loadingToastId = addToast({
       type: 'info',
       title: loading,
       duration: 0 // Don't auto-dismiss
@@ -223,7 +223,10 @@ export function useToastActions() {
     try {
       const result = await promise;
       
-      // Show success toast
+      // Remove loading toast
+      removeToast(loadingToastId);
+      
+      // Show success toast with auto-dismiss
       const successText = typeof successMessage === 'function' 
         ? successMessage(result) 
         : successMessage;
@@ -231,7 +234,10 @@ export function useToastActions() {
       success(successText);
       return result;
     } catch (err) {
-      // Show error toast
+      // Remove loading toast
+      removeToast(loadingToastId);
+      
+      // Show error toast with auto-dismiss
       const errorText = typeof errorMessage === 'function' 
         ? errorMessage(err) 
         : errorMessage;
@@ -239,7 +245,7 @@ export function useToastActions() {
       error(errorText);
       throw err;
     }
-  }, [addToast, success, error]);
+  }, [addToast, removeToast, success, error]);
 
   return { success, error, warning, info, promise };
 }

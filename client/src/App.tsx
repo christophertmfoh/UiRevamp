@@ -148,7 +148,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Simple project handlers without toast (for now)
+  // Project creation handler with proper refresh
   const handleProjectCreated = async (projectData: any) => {
     try {
       const token = localStorage.getItem('token');
@@ -175,12 +175,21 @@ export default function App() {
 
       if (response.ok) {
         const newProject = await response.json();
+        
+        // Add to projects list immediately for instant feedback
+        setProjects(prev => [...prev, newProject]);
+        
+        // Set as active project and navigate
         setActiveProject(newProject);
         setView('dashboard');
         setModal({ type: null, project: null });
+        
+        // Refresh projects list to ensure sync with server
+        await fetchProjects();
       }
     } catch (error) {
       console.error('Project creation failed:', error);
+      throw error; // Re-throw so wizard can handle the error
     }
   };
 
