@@ -1,13 +1,9 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import reactSwc from "../node_modules/@vitejs/plugin-react-swc/index.js";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    runtimeErrorOverlay(),
-  ],
+  plugins: [reactSwc()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
