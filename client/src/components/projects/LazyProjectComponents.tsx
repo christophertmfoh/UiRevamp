@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { LoadingSkeleton, LoadingCard } from '@/components/ui/LoadingStates';
 
-// Lazy load heavy components for code splitting
-// VirtualizedProjectsList removed due to react-window dependency issues
+// Replit-optimized lazy loading for creative development
+// Simple code splitting aligned with Phase 1-4 enterprise cleanup
 
 const ProjectModals = lazy(() => 
   import('./ProjectModals').then(module => ({ 

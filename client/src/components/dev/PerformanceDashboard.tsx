@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Activity, Clock, Zap, AlertTriangle, Download, Upload, Database, Wifi, Save, FileText } from 'lucide-react';
 
 /**
- * Phase 3: Complete Replit-Native Development Dashboard
- * Integrated performance monitoring, backup system, and creative workflow tools
+ * Replit-Native Development Dashboard
+ * Simple performance monitoring for creative development workflow
+ * Aligned with Phase 1-4 enterprise cleanup objectives
  */
 export const PerformanceDashboard: React.FC = () => {
   const performance = usePerformanceStore();
@@ -22,30 +23,25 @@ export const PerformanceDashboard: React.FC = () => {
   // Simple performance metrics for development
   const metrics = performance.getMetrics();
   
-  // Enhanced memory tracking for Replit
+  // Simple memory tracking for development (Phase 2 simplified)
   const getSystemInfo = () => {
     try {
       const nav = navigator as any;
       return {
         memory: nav.memory ? {
           used: Math.round(nav.memory.usedJSHeapSize / 1024 / 1024),
-          total: Math.round(nav.memory.totalJSHeapSize / 1024 / 1024),
-          limit: Math.round(nav.memory.jsHeapSizeLimit / 1024 / 1024)
-        } : null,
-        connection: nav.connection ? {
-          type: nav.connection.effectiveType || 'unknown',
-          downlink: nav.connection.downlink || 0
+          total: Math.round(nav.memory.totalJSHeapSize / 1024 / 1024)
         } : null,
         cores: nav.hardwareConcurrency || 'unknown'
       };
     } catch {
-      return { memory: null, connection: null, cores: 'unknown' };
+      return { memory: null, cores: 'unknown' };
     }
   };
 
   const systemInfo = getSystemInfo();
 
-  // Health check function (Phase 3 replacement for Prometheus)
+  // Simple health check for development (replaces enterprise monitoring)
   const performHealthCheck = async () => {
     try {
       const start = Date.now();
@@ -76,7 +72,7 @@ export const PerformanceDashboard: React.FC = () => {
     }
   }, []);
 
-  // Export performance data (Phase 3 creative workflow feature)
+  // Export performance data for creative workflow debugging
   const exportPerformanceData = () => {
     const exportData = {
       timestamp: new Date().toISOString(),
