@@ -276,46 +276,9 @@ export const ProjectsPage = React.memo(function ProjectsPage({
       </div>
 
       {/* Lazy Loaded Modals */}
-              <LazyProjectModals
-          // Add Task Modal
-          showAddTaskModal={taskManagement.showAddTaskModal}
-          onCloseAddTaskModal={taskManagement.handleCloseAddTaskModal}
-          newTaskText={taskManagement.newTaskText}
-          setNewTaskText={taskManagement.setNewTaskText}
-          newTaskPriority={taskManagement.newTaskPriority}
-          setNewTaskPriority={taskManagement.setNewTaskPriority}
-          newTaskEstimatedTime={taskManagement.newTaskEstimatedTime}
-          setNewTaskEstimatedTime={taskManagement.setNewTaskEstimatedTime}
-          selectedProject={taskManagement.selectedProject}
-          setSelectedProject={taskManagement.setSelectedProject}
-          onCreateTask={taskManagement.handleCreateTask}
-          editingTask={taskManagement.editingTask}
-          projects={taskManagement.projects}
-
-          // Tasks Modal
-          showTasksModal={taskManagement.showTasksModal}
-          onCloseTasksModal={taskManagement.handleCloseTasksModal}
-          todayTasks={taskManagement.todayTasks}
-          overdueTasks={taskManagement.overdueTasks}
-          upcomingTasks={taskManagement.upcomingTasks}
-          isLoadingTasks={taskManagement.isLoadingTasks}
-          taskStats={taskManagement.taskStats}
-          onToggleTaskCompletion={taskManagement.handleToggleTaskCompletion}
-          onEditTask={taskManagement.handleEditTask}
-          onDeleteTask={taskManagement.handleDeleteTask}
-
-          // Goals Modal
-          showGoalsModal={taskManagement.showGoalsModal}
-          onCloseGoalsModal={taskManagement.handleCloseGoalsModal}
-          tempGoals={taskManagement.tempGoals}
-          setTempGoals={taskManagement.setTempGoals}
-          todayProgress={taskManagement.todayProgress}
-          onSaveGoals={taskManagement.handleSaveGoals}
-          
-          // Additional handlers
-          onShowAddTaskModal={() => taskManagement.setShowAddTaskModal(true)}
-          parseTaskInput={taskManagement.parseTaskInput}
-        />
+      <LazyProjectModals
+        projects={projects}
+      />
     </div>
   );
 });
