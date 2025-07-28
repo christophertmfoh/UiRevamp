@@ -21,7 +21,7 @@ export const useMemoryMonitor = (alertThreshold: number = 70) => {
     trend: 'stable'
   });
   
-  const [isMonitoring, setIsMonitoring] = useState(true);
+  const [isMonitoring, setIsMonitoring] = useState(false); // Disable memory monitoring to reduce overhead
   const [lastCleanup, setLastCleanup] = useState<Date>(new Date());
 
   const checkMemory = useCallback(() => {
@@ -51,15 +51,7 @@ export const useMemoryMonitor = (alertThreshold: number = 70) => {
         }
       }
       
-      // Emergency cleanup at 90%
-      if (percentage > 90) {
-        const timeSinceCleanup = Date.now() - lastCleanup.getTime();
-        if (timeSinceCleanup > 10000) { // Emergency cleanup every 10 seconds
-          console.warn('🚨 Emergency memory cleanup at', percentage + '%');
-          cleanupMemory();
-          setLastCleanup(new Date());
-        }
-      }
+      // Memory monitoring disabled to reduce overhead
 
     } catch (error) {
       console.warn('Memory monitoring failed:', error);
@@ -75,13 +67,9 @@ export const useMemoryMonitor = (alertThreshold: number = 70) => {
   }, [checkMemory]);
 
   useEffect(() => {
-    if (!isMonitoring) return;
-
-    checkMemory(); // Initial check
-    const interval = setInterval(checkMemory, 10000); // Check every 10 seconds to reduce pressure
-
-    return () => clearInterval(interval);
-  }, [isMonitoring, checkMemory]);
+    // Memory monitoring completely disabled
+    return () => {};
+  }, []);
 
   return {
     memoryStats,

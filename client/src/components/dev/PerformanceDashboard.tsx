@@ -32,7 +32,10 @@ interface CreativeMetrics {
 }
 
 export const PerformanceDashboard: React.FC = () => {
-  const { memoryStats, forceCleanup, isHighUsage } = useMemoryMonitor(70);
+  // Disable memory monitoring completely to reduce overhead
+  const memoryStats = { used: 0, total: 0, percentage: 0, trend: 'stable' as const };
+  const forceCleanup = () => {};
+  const isHighUsage = false;
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     memory: { used: 0, total: 0, percentage: 0 },
     renderTime: 0,
@@ -49,7 +52,7 @@ export const PerformanceDashboard: React.FC = () => {
     lastSave: null
   });
 
-  const [isCollecting, setIsCollecting] = useState(true); // Re-enable now that we've fixed the root cause
+  const [isCollecting, setIsCollecting] = useState(false); // Disable to reduce memory pressure
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const collectMetrics = useCallback(async () => {
