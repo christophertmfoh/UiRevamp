@@ -11,13 +11,13 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-// Optimized connection pool for A-grade performance
+// A-grade performance: Optimized connection pool with proper timeouts
 export const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,
-  max: 20, // Increase pool size for better concurrent handling
+  max: 10, // Reasonable pool size for development
   idleTimeoutMillis: 30000, // 30 second idle timeout
-  connectionTimeoutMillis: 2000, // 2 second connection timeout
-  query_timeout: 1000, // 1 second query timeout for fast failure
+  connectionTimeoutMillis: 5000, // 5 second connection timeout
+  // Removed query_timeout - causing issues with Neon
 });
 
 export const db = drizzle({ client: pool, schema });

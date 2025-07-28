@@ -19,30 +19,66 @@ import type { IStorage } from "../storage";
 export class DatabaseStorage implements IStorage {
   // User operations
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user || undefined;
+    const start = performance.now();
+    try {
+      const [user] = await db.select().from(users).where(eq(users.email, email));
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.getUserByEmail: ${duration.toFixed(2)}ms`);
+      return user || undefined;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.getUserByEmail failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    const start = performance.now();
+    try {
+      const [user] = await db.select().from(users).where(eq(users.username, username));
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.getUserByUsername: ${duration.toFixed(2)}ms`);
+      return user || undefined;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.getUserByUsername failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async getUserById(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    const start = performance.now();
+    try {
+      const [user] = await db.select().from(users).where(eq(users.id, id));
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.getUserById: ${duration.toFixed(2)}ms`);
+      return user || undefined;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.getUserById failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async createUser(user: InsertUser): Promise<User> {
-    const newUser = {
-      id: nanoid(),
-      ...user,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const [created] = await db.insert(users).values(newUser).returning();
-    return created;
+    const start = performance.now();
+    try {
+      const newUser = {
+        id: nanoid(),
+        ...user,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      
+      const [created] = await db.insert(users).values(newUser).returning();
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.createUser: ${duration.toFixed(2)}ms`);
+      return created;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.createUser failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async updateUserLastLogin(id: string): Promise<void> {
@@ -83,27 +119,54 @@ export class DatabaseStorage implements IStorage {
 
   // Project operations
   async getProjects(userId?: string): Promise<Project[]> {
-    if (userId) {
-      return await db.select().from(projects).where(eq(projects.userId, userId));
+    const start = performance.now();
+    try {
+      const results = userId 
+        ? await db.select().from(projects).where(eq(projects.userId, userId))
+        : await db.select().from(projects);
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.getProjects: ${duration.toFixed(2)}ms (${results.length} projects)`);
+      return results;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.getProjects failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
     }
-    return await db.select().from(projects);
   }
 
   async getProject(id: string): Promise<Project | undefined> {
-    const [project] = await db.select().from(projects).where(eq(projects.id, id));
-    return project || undefined;
+    const start = performance.now();
+    try {
+      const [project] = await db.select().from(projects).where(eq(projects.id, id));
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.getProject: ${duration.toFixed(2)}ms`);
+      return project || undefined;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.getProject failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async createProject(project: any): Promise<Project> {
-    const newProject = {
-      id: nanoid(),
-      ...project,
-      createdAt: new Date(),
-      lastModified: new Date()
-    };
-    
-    const [created] = await db.insert(projects).values(newProject).returning();
-    return created;
+    const start = performance.now();
+    try {
+      const newProject = {
+        id: nanoid(),
+        ...project,
+        createdAt: new Date(),
+        lastModified: new Date()
+      };
+      
+      const [created] = await db.insert(projects).values(newProject).returning();
+      const duration = performance.now() - start;
+      console.log(`⚡ DatabaseStorage.createProject: ${duration.toFixed(2)}ms`);
+      return created;
+    } catch (error) {
+      const duration = performance.now() - start;
+      console.error(`❌ DatabaseStorage.createProject failed after ${duration.toFixed(2)}ms`, error);
+      throw error;
+    }
   }
 
   async updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined> {

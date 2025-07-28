@@ -7,8 +7,14 @@ import {
   performanceMonitoring, 
   memoryMonitoring 
 } from "./dev-optimization";
+import { securityHeaders, rateLimiting } from "./middleware/security";
 
 const app = express();
+
+// Enterprise security middleware - MUST come first
+app.use(securityHeaders);
+app.use(rateLimiting());
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
