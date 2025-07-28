@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateToken } from '../auth';
+import { optionalAuth } from '../auth';
 import { generateWithRetry, checkRateLimit, testAIConnection } from '../services/aiGeneration';
 
 const router = Router();
@@ -229,18 +229,7 @@ const getFallbackContent = (): DailyContent => {
   };
 };
 
-// Optional authentication middleware
-const optionalAuth = (req: any, res: any, next: any) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader) {
-    // If auth header is provided, validate it
-    authenticateToken(req, res, next);
-  } else {
-    // If no auth header, continue without user info
-    req.user = null;
-    next();
-  }
-};
+// Using proper optionalAuth middleware from auth.ts - handles tokens gracefully
 
 // Main API endpoint - clean and focused
 router.post('/generate', optionalAuth, async (req, res) => {
