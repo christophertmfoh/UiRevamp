@@ -229,8 +229,21 @@ const getFallbackContent = (): DailyContent => {
   };
 };
 
+// Optional authentication middleware
+const optionalAuth = (req: any, res: any, next: any) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    // If auth header is provided, validate it
+    authenticateToken(req, res, next);
+  } else {
+    // If no auth header, continue without user info
+    req.user = null;
+    next();
+  }
+};
+
 // Main API endpoint - clean and focused
-router.post('/generate', authenticateToken, async (req, res) => {
+router.post('/generate', optionalAuth, async (req, res) => {
   const startTime = Date.now();
   const userId = req.user?.id || 'anonymous';
   

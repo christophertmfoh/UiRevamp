@@ -15,7 +15,7 @@ import {
   Brain
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { useToastActions } from '@/components/ui/Toast';
+// import { useToastActions } from '@/components/ui/Toast';
 
 interface DailyContent {
   motivation: string;
@@ -79,7 +79,15 @@ const LITERARY_WORDS = [
 
 export function MessageOfTheDay() {
   const { token } = useAuth();
-  const { toast } = useToastActions();
+  // const { toast } = useToastActions();
+  
+  // Simple toast replacement for debugging
+  const toast = {
+    info: (msg: string) => console.log('ℹ️', msg),
+    success: (msg: string) => console.log('✅', msg),
+    warning: (msg: string) => console.warn('⚠️', msg),
+    error: (msg: string) => console.error('❌', msg)
+  };
   
   // Core state only
   const [content, setContent] = useState<DailyContent | null>(null);
@@ -166,12 +174,18 @@ export function MessageOfTheDay() {
       console.log('🎨 Fetching daily writing inspiration...');
       console.log('🔗 Using token:', token ? 'Available' : 'Missing');
       
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json'
+      };
+      
+      // Only add auth header if token exists
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
       const response = await fetch('/api/daily-content/generate', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+        headers
       });
       
       // Clear timeout on successful response
