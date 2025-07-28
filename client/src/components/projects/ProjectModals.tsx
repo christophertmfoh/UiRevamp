@@ -203,7 +203,7 @@ export const ProjectModals = React.memo(function ProjectModals({
         <Dialog open={showAddTaskModal} onOpenChange={onCloseAddTaskModal}>
         <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black gradient-primary-text">
+            <DialogTitle className="text-2xl font-black text-foreground">
               {editingTask ? 'Edit Task' : 'Add New Task'}
             </DialogTitle>
             <DialogDescription className="text-foreground">
@@ -296,7 +296,7 @@ export const ProjectModals = React.memo(function ProjectModals({
         <Dialog open={showTasksModal} onOpenChange={onCloseTasksModal}>
         <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black gradient-primary-text">
+            <DialogTitle className="text-2xl font-black text-foreground">
               Tasks & To-Do List
             </DialogTitle>
             <DialogDescription className="text-foreground">
@@ -407,7 +407,7 @@ export const ProjectModals = React.memo(function ProjectModals({
         <Dialog open={showGoalsModal} onOpenChange={onCloseGoalsModal}>
         <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black gradient-primary-text">
+            <DialogTitle className="text-lg font-black text-foreground">
               Set Writing Goals
             </DialogTitle>
             <DialogDescription className="text-xs text-foreground">
