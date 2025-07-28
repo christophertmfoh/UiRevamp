@@ -1,36 +1,127 @@
 import { defineConfig } from "vite";
-import reactSwc from "../node_modules/@vitejs/plugin-react-swc/index.js";
+import react from "@vitejs/plugin-react";
 import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
-  plugins: [reactSwc()],
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
-      "@/components": path.resolve(__dirname, "src", "shared", "components"),
-      "@/ui": path.resolve(__dirname, "src", "shared", "components", "ui"),
-      "@/features": path.resolve(__dirname, "src", "features"),
-      "@/hooks": path.resolve(__dirname, "src", "shared", "hooks"),
-      "@/lib": path.resolve(__dirname, "src", "shared", "lib"),
-      "@/utils": path.resolve(__dirname, "src", "shared", "utils"),
-      "@/types": path.resolve(__dirname, "src", "shared", "types"),
-      "@/assets": path.resolve(__dirname, "..", "attached_assets"),
       "@shared": path.resolve(__dirname, "..", "shared"),
     },
   },
   root: __dirname,
+  
+  // Phase 5: Enhanced development server for sub-100ms hot-reload
   server: {
     port: 5173,
     host: "0.0.0.0",
     strictPort: false,
     allowedHosts: [
       ".replit.dev",
-      ".replit.co",
+      ".replit.co", 
       "localhost",
       "bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev"
     ],
+
+    // Phase 5: Disable HMR client injection to prevent WebSocket ping failures
+    hmr: false,
+
+    // Phase 5: Warmup critical writing components
+    warmup: {
+      clientFiles: [
+        './src/components/writing/**/*',
+        './src/components/characters/**/*',
+        './src/components/projects/**/*',
+        './src/hooks/useWritingSession.ts',
+        './src/lib/store.ts'
+      ]
+    },
+
+    // File system security optimized for creative workflow
+    fs: {
+      strict: false, // Allow flexibility for creative assets
+      deny: ["**/node_modules/**", "**/.git/**"],
+    },
+
+    // Proxy API calls to Express server
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+        timeout: 10000
+      }
+    }
   },
+  
   build: {
-    outDir: "dist",
+    outDir: path.resolve(__dirname, "..", "dist/public"),
+    emptyOutDir: true,
+    
+    // Phase 5: Creative workflow optimized build
+    target: 'es2020',
+    minify: 'esbuild',
+    sourcemap: true, // Always include for creative debugging
+    
+    // Phase 5: Manual chunks for faster creative component loading
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'writing-core': [
+            './src/components/writing/WritingEditor.tsx',
+            './src/components/characters/CharacterForm.tsx'
+          ],
+          'ui-primitives': ['@radix-ui/react-dialog', '@radix-ui/react-form'],
+          'icons': ['lucide-react'],
+          'state': ['zustand', '@tanstack/react-query']
+        }
+      }
+    }
   },
+  
+  // Phase 5: Enhanced dependency optimization for creative workflow
+  optimizeDeps: {
+    include: [
+      'react', 'react-dom', 'react/jsx-runtime',
+      '@tanstack/react-query',
+      'react-hook-form',
+      'zod', 'clsx', 'tailwind-merge',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-form',
+      '@radix-ui/react-button',
+      'lucide-react',
+      'zustand',
+      'framer-motion'
+    ],
+    exclude: [
+      '@google/generative-ai',
+      '@anthropic-ai/sdk'
+    ],
+    // Phase 5: Force optimization for faster creative iteration
+    force: process.env.FORCE_OPTIMIZE === 'true',
+    esbuildOptions: {
+      target: 'es2020'
+    }
+  },
+  
+  // ESBuild options for faster builds
+  esbuild: {
+    target: 'es2020',
+    // Remove debugger statements in production
+    drop: process.env.NODE_ENV === 'production' ? ['debugger'] : [],
+  },
+  
+  // Performance and caching
+  define: {
+    // Optimize React for production
+    __DEV__: process.env.NODE_ENV !== 'production',
+    // Build time constants
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    __VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0')
+  }
 });

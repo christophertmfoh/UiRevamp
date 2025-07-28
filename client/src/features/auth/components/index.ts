@@ -1,1 +1,0 @@
-export { AuthPageRedesign as AuthPage } from './AuthPage'

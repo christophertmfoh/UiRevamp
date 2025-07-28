@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from '../../shared/components/ui/button';
-import { Badge } from '../../shared/components/ui/badge';
-import { Card, CardContent } from '../../shared/components/ui/card';
-import { ThemeToggle } from '../../shared/components/theme-toggle';
-import { FloatingOrbs } from '../../shared/components/FloatingOrbs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { ThemeToggle } from '../../components/theme-toggle';
+import { FloatingOrbs } from '../../components/FloatingOrbs';
 import { HeroSection } from './HeroSection';
 import { CTASection } from './CTASection';
 import {
@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../shared/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { 
   Feather, 
   BookOpen, 
