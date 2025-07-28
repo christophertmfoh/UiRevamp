@@ -264,10 +264,6 @@ export const ProjectsPage = React.memo(function ProjectsPage({
           <DashboardWidgets
             widgets={widgetManagement.widgets}
             projects={projects}
-            todayTasks={taskManagement.todayTasks}
-            isLoadingTasks={taskManagement.isLoadingTasks}
-            actualGoals={taskManagement.tempGoals}
-            todayProgress={taskManagement.todayProgress}
             isEditMode={isEditMode}
             draggedWidget={widgetManagement.draggedWidget}
             dragOverWidget={widgetManagement.dragOverWidget}
@@ -275,10 +271,6 @@ export const ProjectsPage = React.memo(function ProjectsPage({
             onWidgetDragOver={widgetManagement.handleWidgetDragOver}
             onWidgetDrop={widgetManagement.handleWidgetDrop}
             onWidgetDragLeave={widgetManagement.handleWidgetDragLeave}
-            onOpenGoalsModal={taskManagement.handleOpenGoalsModal}
-            onShowTasksModal={() => taskManagement.setShowTasksModal(true)}
-            onShowAddTaskModal={() => taskManagement.setShowAddTaskModal(true)}
-            onToggleTaskCompletion={taskManagement.handleToggleTaskCompletion}
           />
         </div>
       </div>

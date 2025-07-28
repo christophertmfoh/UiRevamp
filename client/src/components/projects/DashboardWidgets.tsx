@@ -3,14 +3,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { QuickTasksWidget } from './QuickTasksWidget';
+import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { 
     Sparkles, 
     CheckCircle, 
     GripVertical,
     Clock
   } from 'lucide-react';
-
-
 
 type WidgetType = 'daily-inspiration' | 'recent-project' | 'writing-progress' | 'quick-tasks';
 
@@ -30,34 +29,9 @@ interface Project {
   [key: string]: any;
 }
 
-interface Task {
-  id: string;
-  text: string;
-  status: 'pending' | 'completed';
-  priority: 'low' | 'medium' | 'high';
-  estimatedTime: number;
-  createdAt: string;
-}
-
-interface Goals {
-  dailyWords: number;
-  dailyMinutes: number;
-  streakDays: number;
-}
-
-interface Progress {
-  words: number;
-  minutes: number;
-  currentStreak: number;
-}
-
 interface DashboardWidgetsProps {
   widgets: DashboardWidget[];
   projects: Project[];
-  todayTasks: Task[];
-  isLoadingTasks: boolean;
-  actualGoals: Goals;
-  todayProgress: Progress;
   isEditMode: boolean;
   draggedWidget: WidgetType | null;
   dragOverWidget: WidgetType | null;
@@ -65,19 +39,11 @@ interface DashboardWidgetsProps {
   onWidgetDragOver: (e: React.DragEvent, widgetId: WidgetType) => void;
   onWidgetDrop: (e: React.DragEvent, targetWidgetId: WidgetType) => void;
   onWidgetDragLeave: () => void;
-  onOpenGoalsModal: () => void;
-  onShowTasksModal: () => void;
-  onShowAddTaskModal: () => void;
-  onToggleTaskCompletion: (task: Task) => void;
 }
 
 export const DashboardWidgets = React.memo(function DashboardWidgets({
   widgets,
   projects,
-  todayTasks,
-  isLoadingTasks,
-  actualGoals,
-  todayProgress,
   isEditMode,
   draggedWidget,
   dragOverWidget,
@@ -85,11 +51,15 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
   onWidgetDragOver,
   onWidgetDrop,
   onWidgetDragLeave,
-  onOpenGoalsModal,
-  onShowTasksModal,
-  onShowAddTaskModal,
-  onToggleTaskCompletion,
 }: DashboardWidgetsProps) {
+  
+  // Use centralized task management
+  const {
+    goals,
+    progress,
+    setShowGoalsModal,
+    setShowTasksModal
+  } = useTaskManagement();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -209,7 +179,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   </div>
                   <Button
                     size="sm"
-                    onClick={onOpenGoalsModal}
+                    onClick={() => setShowGoalsModal(true)}
                     className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                   >
                     Set Goals
@@ -222,13 +192,13 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     <div className="flex items-center justify-between mb-1.5">
                       <p className="text-xs font-medium text-foreground/80">Daily Words</p>
                       <p className="text-xs font-semibold">
-                        <span className="text-primary">{todayProgress.words}</span>
-                        <span className="text-muted-foreground">/{actualGoals.dailyWords}</span>
-                        <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.words / actualGoals.dailyWords) * 100)}%)</span>
+                        <span className="text-primary">{progress.words}</span>
+                        <span className="text-muted-foreground">/{goals.dailyWords}</span>
+                        <span className="text-muted-foreground/70 ml-1">({Math.round((progress.words / goals.dailyWords) * 100)}%)</span>
                       </p>
                     </div>
                     <div className="w-full bg-muted rounded-full h-2">
-                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((todayProgress.words / actualGoals.dailyWords) * 100, 100)}%` }}></div>
+                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((progress.words / goals.dailyWords) * 100, 100)}%` }}></div>
                     </div>
                   </div>
 
@@ -237,13 +207,13 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     <div className="flex items-center justify-between mb-1.5">
                       <p className="text-xs font-medium text-foreground/80">Writing Time</p>
                       <p className="text-xs font-semibold">
-                        <span className="text-primary">{todayProgress.minutes}</span>
-                        <span className="text-muted-foreground">/{actualGoals.dailyMinutes} min</span>
-                        <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.minutes / actualGoals.dailyMinutes) * 100)}%)</span>
+                        <span className="text-primary">{progress.minutes}</span>
+                        <span className="text-muted-foreground">/{goals.dailyMinutes} min</span>
+                        <span className="text-muted-foreground/70 ml-1">({Math.round((progress.minutes / goals.dailyMinutes) * 100)}%)</span>
                       </p>
                     </div>
                     <div className="w-full bg-muted rounded-full h-2">
-                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((todayProgress.minutes / actualGoals.dailyMinutes) * 100, 100)}%` }}></div>
+                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((progress.minutes / goals.dailyMinutes) * 100, 100)}%` }}></div>
                     </div>
                   </div>
 
@@ -252,13 +222,13 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     <div className="flex items-center justify-between mb-1.5">
                       <p className="text-xs font-medium text-foreground/80">Writing Streak</p>
                       <p className="text-xs font-semibold">
-                        <span className="text-primary">{todayProgress.currentStreak}</span>
-                        <span className="text-muted-foreground">/{actualGoals.streakDays} days</span>
-                        <span className="text-muted-foreground/70 ml-1">({Math.round((todayProgress.currentStreak / actualGoals.streakDays) * 100)}%)</span>
+                        <span className="text-primary">{progress.currentStreak}</span>
+                        <span className="text-muted-foreground">/{goals.streakDays} days</span>
+                        <span className="text-muted-foreground/70 ml-1">({Math.round((progress.currentStreak / goals.streakDays) * 100)}%)</span>
                       </p>
                     </div>
                     <div className="w-full bg-muted rounded-full h-2">
-                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((todayProgress.currentStreak / actualGoals.streakDays) * 100, 100)}%` }}></div>
+                      <div className="gradient-primary h-2 rounded-full" style={{ width: `${Math.min((progress.currentStreak / goals.streakDays) * 100, 100)}%` }}></div>
                     </div>
                   </div>
 
@@ -268,7 +238,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   {/* Compact Summary */}
                   <div className="flex items-center justify-between text-[10px] text-muted-foreground">
                     <span>2 writing sessions today</span>
-                    <span>Next milestone in {Math.max(0, actualGoals.dailyWords - todayProgress.words)} words</span>
+                    <span>Next milestone in {Math.max(0, goals.dailyWords - progress.words)} words</span>
                   </div>
                 </div>
               </CardContent>
@@ -277,7 +247,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
 
           {/* Quick Tasks Widget - OPTIMIZED VERSION */}
           {widget.id === 'quick-tasks' && (
-            <QuickTasksWidget onShowTasksModal={onShowTasksModal} />
+            <QuickTasksWidget onShowTasksModal={() => setShowTasksModal(true)} />
           )}
         </div>
       ))}
