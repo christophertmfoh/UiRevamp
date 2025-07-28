@@ -2,7 +2,13 @@ import OpenAI from "openai";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let openai: OpenAI | null = null;
+
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+} else {
+  console.warn("⚠️  OPENAI_API_KEY not set. Image generation features will be disabled.");
+}
 
 // Initialize Gemini client (same as character generation)
 function getGeminiClient(): GoogleGenerativeAI {
@@ -23,7 +29,7 @@ interface CharacterImageRequest {
 }
 
 async function generateWithOpenAI(params: CharacterImageRequest): Promise<{ url: string }> {
-  if (!process.env.OPENAI_API_KEY) {
+  if (!openai || !process.env.OPENAI_API_KEY) {
     throw new Error("OpenAI API key not configured");
   }
 
