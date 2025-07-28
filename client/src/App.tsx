@@ -4,6 +4,8 @@ import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from './components/theme-provider';
+import { ToastProvider } from './components/ui/Toast';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
@@ -413,28 +415,30 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider 
-      attribute="class" 
-      defaultTheme="dark" 
-      enableSystem
-      themes={[
-        'light', 
-        'dark',
-        'system',
-        'arctic-focus',
-        'golden-hour',
-        'midnight-ink',
-        'forest-manuscript',
-        'starlit-prose',
-        'coffee-house'
-      ]}
-    >
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
-            <FloatingOrbs />
-            <Toaster />
-            {renderView()}
+    <ErrorBoundary>
+      <ThemeProvider 
+        attribute="class" 
+        defaultTheme="dark" 
+        enableSystem
+        themes={[
+          'light', 
+          'dark',
+          'system',
+          'arctic-focus',
+          'golden-hour',
+          'midnight-ink',
+          'forest-manuscript',
+          'starlit-prose',
+          'coffee-house'
+        ]}
+      >
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <TooltipProvider>
+              <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
+                <FloatingOrbs />
+                <Toaster />
+                {renderView()}
           
           {/* Modals */}
           {modal.type === 'new' && (
@@ -478,9 +482,11 @@ export default function App() {
               onClose={() => setModal({ type: null, project: null })}
             />
           )}
-        </div>
-      </TooltipProvider>
-    </QueryClientProvider>
-    </ThemeProvider>
+              </div>
+            </TooltipProvider>
+          </ToastProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }

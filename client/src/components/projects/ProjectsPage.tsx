@@ -11,6 +11,12 @@ import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { useWidgetManagement } from '@/hooks/useWidgetManagement';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { Card } from '@/components/ui/card';
+import { 
+  LoadingSkeleton, 
+  LoadingStatsCard, 
+  LoadingHeader, 
+  LoadingGrid 
+} from '@/components/ui/LoadingStates';
 
 interface User {
   username?: string;
@@ -161,34 +167,62 @@ export const ProjectsPage = React.memo(function ProjectsPage({
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-8">
         {/* Page Header - Improved spacing and alignment */}
-        <div className="text-center mb-8">
-          <p className="text-lg text-muted-foreground font-medium mb-2">
-            Welcome back, {user?.username || 'Writer'}
-          </p>
-          <h1 className="text-4xl lg:text-5xl font-black text-foreground leading-tight tracking-tight mb-4">
-            Your Projects
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Organize, track, and bring your stories to life with intelligent project management.
-          </p>
-        </div>
+        {isLoading ? (
+          <LoadingHeader className="mb-8" />
+        ) : (
+          <div className="text-center mb-8">
+            <p className="text-lg text-muted-foreground font-medium mb-2">
+              Welcome back, {user?.username || 'Writer'}
+            </p>
+            <h1 className="text-4xl lg:text-5xl font-black text-foreground leading-tight tracking-tight mb-4">
+              Your Projects
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Organize, track, and bring your stories to life with intelligent project management.
+            </p>
+          </div>
+        )}
 
         {/* Stats Section */}
-        <ProjectsStats
-          totalProjects={projectStats.total}
-          completedProjects={projectStats.active}
-          onNewProject={onNewProject}
-        />
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <LoadingStatsCard key={index} />
+            ))}
+          </div>
+        ) : (
+          <ProjectsStats
+            totalProjects={projectStats.total}
+            completedProjects={projectStats.active}
+            onNewProject={onNewProject}
+          />
+        )}
 
         {/* Filters Section */}
-        <ProjectsFilters
-          searchQuery={searchQuery}
-          viewMode={viewMode}
-          sortBy={sortBy}
-          onSearchChange={handleSearchChange}
-          onViewModeChange={handleViewModeChange}
-          onSortChange={handleSortChange}
-        />
+        {isLoading ? (
+          <div className="mb-8">
+            <div className="surface-elevated rounded-xl p-4 border border-border/30 backdrop-blur-sm">
+              <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
+                <div className="relative flex-1">
+                  <LoadingSkeleton height="44px" width="100%" rounded="lg" />
+                </div>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <LoadingSkeleton height="44px" width="140px" rounded="lg" />
+                  <LoadingSkeleton height="44px" width="80px" rounded="lg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ProjectsFilters
+            searchQuery={searchQuery}
+            viewMode={viewMode}
+            sortBy={sortBy}
+            onSearchChange={handleSearchChange}
+            onViewModeChange={handleViewModeChange}
+            onSortChange={handleSortChange}
+          />
+        )}
 
         {/* Projects List Section */}
         <LazyProjectsList
