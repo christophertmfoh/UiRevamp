@@ -41,7 +41,7 @@ type SignupData = z.infer<typeof signupSchema>;
 type LoginData = z.infer<typeof loginSchema>;
 
 interface AuthPageProps {
-  onAuth: (user: any, token: string) => void;
+  onAuth: (userData: { username: string; token: string }) => void;
   onBack: () => void;
 }
 
@@ -117,9 +117,11 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
       return await response.json();
     },
     onSuccess: (result) => {
+      // Store token with consistent key name for App.tsx
+      localStorage.setItem('token', result.token);
       localStorage.setItem('fablecraft_token', result.token);
       localStorage.setItem('fablecraft_user', JSON.stringify(result.user));
-      onAuth(result.user, result.token);
+      onAuth({ username: result.user.username, token: result.token });
     },
     onError: (error: any) => {
       setError(error.message || 'Signup failed');
@@ -142,9 +144,11 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
       return await response.json();
     },
     onSuccess: (result) => {
+      // Store token with consistent key name for App.tsx
+      localStorage.setItem('token', result.token);
       localStorage.setItem('fablecraft_token', result.token);
       localStorage.setItem('fablecraft_user', JSON.stringify(result.user));
-      onAuth(result.user, result.token);
+      onAuth({ username: result.user.username, token: result.token });
     },
     onError: (error: any) => {
       setError(error.message || 'Login failed');
