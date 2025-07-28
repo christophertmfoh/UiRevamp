@@ -1,16 +1,25 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { 
-  Sparkles, 
-  CheckCircle, 
-  GripVertical,
-  Clock,
-  Plus
-} from 'lucide-react';
+    Sparkles, 
+    CheckCircle, 
+    GripVertical,
+    Clock,
+    Plus,
+    X
+  } from 'lucide-react';
+
+// Simple task interface for the Quick Tasks widget
+interface QuickTask {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: string;
+}
 
 type WidgetType = 'daily-inspiration' | 'recent-project' | 'writing-progress' | 'quick-tasks';
 
@@ -90,63 +99,153 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
   onShowAddTaskModal,
   onToggleTaskCompletion,
 }: DashboardWidgetsProps) {
+
+  // Local state for Quick Tasks widget
+  const [quickTasks, setQuickTasks] = useState<QuickTask[]>([]);
+  const [newTaskText, setNewTaskText] = useState('');
+  const [showAddTask, setShowAddTask] = useState(false);
+
+  // Load tasks from localStorage on mount
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('quickTasks');
+    if (savedTasks) {
+      try {
+        setQuickTasks(JSON.parse(savedTasks));
+      } catch (error) {
+        console.error('Error loading quick tasks:', error);
+      }
+    }
+  }, []);
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('quickTasks', JSON.stringify(quickTasks));
+  }, [quickTasks]);
+
+  // Add a new task
+  const handleAddTask = () => {
+    if (!newTaskText.trim()) return;
+
+    const newTask: QuickTask = {
+      id: `task_${Date.now()}`,
+      text: newTaskText.trim(),
+      completed: false,
+      createdAt: new Date().toISOString()
+    };
+
+    setQuickTasks(prev => [...prev, newTask]);
+    setNewTaskText('');
+    setShowAddTask(false);
+  };
+
+  // Toggle task completion
+  const handleToggleTask = (taskId: string) => {
+    setQuickTasks(prev => prev.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ));
+  };
+
+  // Delete a task
+  const handleDeleteTask = (taskId: string) => {
+    setQuickTasks(prev => prev.filter(task => task.id !== taskId));
+  };
+
+  // Create sample tasks for demonstration
+  const handleCreateSampleTasks = () => {
+    const sampleTasks: QuickTask[] = [
+      {
+        id: `sample_1_${Date.now()}`,
+        text: 'Write opening paragraph for Chapter 1',
+        completed: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: `sample_2_${Date.now()}`,
+        text: 'Edit previous chapter',
+        completed: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: `sample_3_${Date.now()}`,
+        text: 'Research character background',
+        completed: false,
+        createdAt: new Date().toISOString()
+      }
+    ];
+
+    setQuickTasks(prev => [...prev, ...sampleTasks]);
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 lg:h-[600px]">
-      {widgets.sort((a, b) => a.order - b.order).map((widget) => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {widgets.map((widget) => (
         <div
           key={widget.id}
+          className={`relative ${isEditMode ? 'cursor-move' : ''} ${
+            draggedWidget === widget.id ? 'opacity-50' : ''
+          } ${dragOverWidget === widget.id ? 'ring-2 ring-primary' : ''}`}
           draggable={isEditMode}
           onDragStart={(e) => onWidgetDragStart(e, widget.id)}
           onDragOver={(e) => onWidgetDragOver(e, widget.id)}
           onDrop={(e) => onWidgetDrop(e, widget.id)}
           onDragLeave={onWidgetDragLeave}
-          className={`transition-all duration-300 relative ${
-            isEditMode ? 'cursor-move' : ''
-          } ${
-            dragOverWidget === widget.id && draggedWidget !== widget.id
-              ? 'ring-2 ring-amber-400 ring-opacity-50 scale-[1.02]'
-              : ''
-          } ${
-            draggedWidget === widget.id ? 'opacity-50' : ''
-          }`}
         >
           {isEditMode && (
-            <div className="absolute top-2 right-2 z-10 bg-card/80 rounded-lg p-1">
-              <GripVertical className="w-4 h-4 text-foreground" />
+            <div className="absolute top-2 right-2 z-10 bg-background/80 backdrop-blur-sm rounded-lg p-1">
+              <GripVertical className="w-4 h-4 text-muted-foreground" />
             </div>
           )}
 
           {/* Daily Inspiration Widget */}
-          {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
+          {widget.id === 'daily-inspiration' && (
+            <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
+              <CardContent className="p-5 h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <h3 className="font-bold text-foreground text-sm">
+                    Daily Inspiration
+                  </h3>
+                </div>
+                <div className="flex-grow mb-4">
+                  <blockquote className="text-sm italic text-foreground/80 leading-relaxed">
+                    "The first draft of anything is shit. But you have to start somewhere, and that somewhere is with putting words on paper."
+                  </blockquote>
+                  <cite className="text-xs text-muted-foreground block mt-3">— Ernest Hemingway</cite>
+                </div>
+                <Button 
+                  size="sm"
+                  className="gradient-primary text-primary-foreground hover:opacity-90 text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
+                >
+                  Get New Quote
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Recent Project Widget */}
           {widget.id === 'recent-project' && (
             projects.length > 0 ? (
-              <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 hover:shadow-2xl transition-all duration-300 hover:scale-105 h-full">
+              <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
                 <CardContent className="p-5 h-full flex flex-col">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-foreground text-sm">Recent Project</h3>
-                    <Badge className="gradient-primary text-primary-foreground text-xs px-2 py-1 border-0">
-                      Active
-                    </Badge>
+                  <div className="flex items-center gap-3 mb-4">
+                    <CheckCircle className="w-4 h-4 text-primary" />
+                    <h3 className="font-bold text-foreground text-sm">
+                      Recent Project
+                    </h3>
                   </div>
-                  <div className="space-y-3 flex-grow">
-                    <div>
-                      <p className="font-semibold text-foreground text-sm truncate">{projects[0]?.name}</p>
-                      <p className="text-xs text-foreground mt-1 line-clamp-2 leading-relaxed">{projects[0]?.description || 'No description available'}</p>
-                    </div>
+                  <div className="flex-grow mb-4">
+                    <h4 className="font-semibold text-foreground text-base mb-2">
+                      {projects[0]?.name || 'Untitled Project'}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
+                      {projects[0]?.description || 'No description available'}
+                    </p>
                     
-                    {/* Project Details */}
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-muted-foreground">Type:</span>
-                        <span className="text-foreground/80 font-medium">{projects[0]?.type || 'Creative Project'}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-muted-foreground">Genre:</span>
                         <span className="text-foreground/80 font-medium">
-                          {typeof projects[0]?.genre === 'string' ? projects[0].genre : 
-                           (Array.isArray(projects[0]?.genre) && projects[0].genre[0]) || 'Unspecified'}
+                          {projects[0]?.type || 'Unknown'}
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-xs">
@@ -157,8 +256,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                       </div>
                     </div>
 
-                    {/* Progress Bar */}
-                    <div className="space-y-1">
+                    <div className="space-y-1 mt-3">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-muted-foreground">Progress:</span>
                         <span className="text-foreground/80 font-medium">23%</span>
@@ -173,8 +271,6 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     <Button 
                       size="sm"
                       onClick={() => {
-                        // For now, we'll show a helpful message
-                        // In a real app, this would navigate to the project editor
                         alert(`Opening "${projects[0]?.name || 'Recent Project'}" for editing!\n\nThis would typically navigate to the project's writing interface.`);
                       }}
                       className="w-full gradient-primary text-primary-foreground hover:opacity-90 text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
@@ -195,7 +291,6 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                   <Button 
                     size="sm"
                     onClick={() => {
-                      // This would typically open the project creation wizard
                       alert('Opening Project Creation Wizard!\n\nThis would typically open the project creation modal or navigate to a project setup page.');
                     }}
                     className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2"
@@ -288,7 +383,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
             </Card>
           )}
 
-          {/* Quick Tasks Widget */}
+          {/* Quick Tasks Widget - WORKING VERSION */}
           {widget.id === 'quick-tasks' && (
             <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
               <CardContent className="p-5 h-full flex flex-col">
@@ -299,10 +394,10 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                       Quick Tasks
                     </h3>
                   </div>
-                  {todayTasks.length > 0 && (
+                  {quickTasks.length > 0 && (
                     <Button
                       size="sm"
-                      onClick={onShowAddTaskModal}
+                      onClick={() => setShowAddTask(true)}
                       className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-2 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
                     >
                       <Plus className="w-3 h-3 mr-1" />
@@ -310,90 +405,139 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                     </Button>
                   )}
                 </div>
+                
                 <div className="space-y-3 text-sm mb-5 flex-grow overflow-y-auto">
-                  {isLoadingTasks ? (
-                    <div className="text-center text-muted-foreground text-xs">Loading tasks...</div>
-                  ) : todayTasks.length === 0 ? (
-                    <div className="text-center text-muted-foreground text-xs">
+                  {quickTasks.length === 0 ? (
+                    <div className="text-center text-muted-foreground text-xs space-y-3">
                       <p className="mb-2">No tasks for today yet</p>
+                      
                       <Button
                         size="sm"
-                        onClick={onShowTasksModal}
+                        onClick={handleCreateSampleTasks}
+                        className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1 mb-2"
+                      >
+                        🚀 Add Sample Tasks
+                      </Button>
+                      
+                      <Button
+                        size="sm"
+                        onClick={() => setShowAddTask(true)}
                         className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1"
                       >
-                        Add Tasks
+                        Add Your First Task
                       </Button>
                     </div>
                   ) : (
-                    todayTasks.slice(0, 3).map((task) => (
-                      <div 
-                        key={task.id} 
-                        className="flex items-center gap-3 hover:bg-accent/10 p-2 rounded-lg transition-colors duration-200"
-                      >
-                        <Checkbox 
-                          checked={task.status === 'completed'}
-                          onCheckedChange={() => onToggleTaskCompletion(task)}
-                          className="h-4 w-4 flex-shrink-0"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <span className={`text-foreground/80 text-xs leading-tight block ${task.status === 'completed' ? 'line-through opacity-60' : ''}`}>
-                            {task.text}
-                          </span>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-[10px] text-muted-foreground">
-                              {task.estimatedTime} min
-                            </span>
-                            {task.priority === 'high' && (
-                              <Badge variant="destructive" className="text-[9px] px-1 py-0 h-3 leading-none">High</Badge>
-                            )}
-                            {task.priority === 'medium' && (
-                              <Badge variant="default" className="text-[9px] px-1 py-0 h-3 leading-none">Med</Badge>
-                            )}
+                    <>
+                      {showAddTask && (
+                        <div className="p-3 bg-accent/10 rounded-lg border border-border/30 space-y-2">
+                          <Input
+                            placeholder="Add a quick task..."
+                            value={newTaskText}
+                            onChange={(e) => setNewTaskText(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
+                            className="text-xs"
+                            autoFocus
+                          />
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              onClick={handleAddTask}
+                              disabled={!newTaskText.trim()}
+                              className="text-xs gradient-primary text-primary-foreground hover:opacity-90"
+                            >
+                              Add
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setShowAddTask(false);
+                                setNewTaskText('');
+                              }}
+                              className="text-xs"
+                            >
+                              Cancel
+                            </Button>
                           </div>
                         </div>
-                      </div>
-                    ))
-                  )}
-                  {todayTasks.length > 3 && (
-                    <div className="text-center">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={onShowTasksModal}
-                        className="text-xs text-muted-foreground hover:text-foreground"
-                      >
-                        +{todayTasks.length - 3} more tasks
-                      </Button>
-                    </div>
+                      )}
+                      
+                      {quickTasks.slice(0, 4).map((task) => (
+                        <div 
+                          key={task.id} 
+                          className="flex items-center gap-3 hover:bg-accent/10 p-2 rounded-lg transition-colors duration-200 group"
+                        >
+                          <Checkbox 
+                            checked={task.completed}
+                            onCheckedChange={() => handleToggleTask(task.id)}
+                            className="h-4 w-4 flex-shrink-0"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <span className={`text-foreground/80 text-xs leading-tight block ${task.completed ? 'line-through opacity-60' : ''}`}>
+                              {task.text}
+                            </span>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleDeleteTask(task.id)}
+                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                      
+                      {quickTasks.length > 4 && (
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground">
+                            +{quickTasks.length - 4} more tasks
+                          </p>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
+                
                 <div className="pt-3 border-t border-border/30 mt-auto">
                   <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
                     <span>Today's Progress</span>
-                    <span>{todayTasks.filter(t => t.status === 'completed').length}/{todayTasks.length} completed</span>
+                    <span>{quickTasks.filter(t => t.completed).length}/{quickTasks.length} completed</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-1.5 mb-3">
                     <div 
                       className="gradient-primary h-1.5 rounded-full transition-all duration-300" 
-                      style={{ width: `${todayTasks.length > 0 ? (todayTasks.filter(t => t.status === 'completed').length / todayTasks.length * 100) : 0}%` }}
+                      style={{ width: `${quickTasks.length > 0 ? (quickTasks.filter(t => t.completed).length / quickTasks.length * 100) : 0}%` }}
                     ></div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      size="sm"
-                      onClick={onShowAddTaskModal}
-                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
-                    >
-                      Add Task
-                    </Button>
-                    <Button 
-                      size="sm"
-                      onClick={onShowTasksModal}
-                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
-                    >
-                      View All
-                    </Button>
-                  </div>
+                  
+                  {quickTasks.length === 0 ? (
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground mb-2">
+                        Create tasks to track your writing progress
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      {!showAddTask && (
+                        <Button 
+                          size="sm"
+                          onClick={() => setShowAddTask(true)}
+                          className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                        >
+                          Add Task
+                        </Button>
+                      )}
+                      <Button 
+                        size="sm"
+                        onClick={onShowTasksModal}
+                        className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
+                      >
+                        View All
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
