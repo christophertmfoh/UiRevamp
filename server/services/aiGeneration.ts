@@ -5,12 +5,21 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Initialize AI service with fallback API keys
+// Initialize AI service with correct API key
 const getAIService = () => {
-  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  console.log('🔑 Checking API keys:', {
+    GEMINI_X: !!process.env.GEMINI_X,
+    GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
+    GEMINI_API_KEY: !!process.env.GEMINI_API_KEY
+  });
+  
   if (!apiKey) {
+    console.error('❌ No AI API key found in environment variables');
     throw new Error('No AI API key available');
   }
+  
+  console.log('✅ Using API key:', apiKey.substring(0, 10) + '...');
   return new GoogleGenerativeAI(apiKey);
 };
 
@@ -27,6 +36,31 @@ export const AI_CONFIG = {
     { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
   ]
 };
+
+// Test function to verify AI setup
+export async function testAIConnection(): Promise<boolean> {
+  try {
+    console.log('🧪 Testing AI connection...');
+    const ai = getAIService();
+    const model = ai.getGenerativeModel({ model: AI_CONFIG.model });
+    
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: 'Say "AI test successful"' }] }],
+      generationConfig: {
+        temperature: 0.1,
+        maxOutputTokens: 20,
+      }
+    });
+    
+    const response = await result.response;
+    const text = response.text();
+    console.log('🎉 AI test response:', text);
+    return text.toLowerCase().includes('test') || text.toLowerCase().includes('successful');
+  } catch (error) {
+    console.error('❌ AI test failed:', error.message);
+    return false;
+  }
+}
 
 // Rate limiting state
 const rateLimitState = {

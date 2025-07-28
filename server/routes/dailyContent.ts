@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticateToken } from '../auth';
-import { generateWithRetry, checkRateLimit } from '../services/aiGeneration';
+import { generateWithRetry, checkRateLimit, testAIConnection } from '../services/aiGeneration';
 
 const router = Router();
 
@@ -260,8 +260,13 @@ router.post('/generate', optionalAuth, async (req, res) => {
     }
 
     // Check environment variables
-    const hasApiKey = !!(process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
-    console.log('🔑 API Key available:', hasApiKey);
+    const hasApiKey = !!(process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
+    console.log('🔑 API Key check:', {
+      GEMINI_X: !!process.env.GEMINI_X,
+      GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
+      GEMINI_API_KEY: !!process.env.GEMINI_API_KEY,
+      hasApiKey
+    });
     
     if (!hasApiKey) {
       console.warn('⚠️ No AI API key found, using fallback content');
@@ -269,16 +274,25 @@ router.post('/generate', optionalAuth, async (req, res) => {
       return res.status(200).json(fallback);
     }
 
+    // Test AI connection first
+    const aiWorking = await testAIConnection();
+    console.log('🔬 AI system status:', aiWorking ? 'WORKING' : 'FAILED');
+
     // Generate new content
     let content: DailyContent;
-    try {
-      console.log('🚀 Starting AI content generation...');
-      const existingContent = cached?.content;
-      content = await generateDailyContent(userId, existingContent);
-      console.log(`✅ AI generation successful (${Date.now() - startTime}ms)`);
-    } catch (aiError) {
-      console.error('🔄 AI generation failed:', aiError.message);
-      console.log('📦 Using high-quality fallback content');
+    if (aiWorking) {
+      try {
+        console.log('🚀 Starting AI content generation...');
+        const existingContent = cached?.content;
+        content = await generateDailyContent(userId, existingContent);
+        console.log(`✅ AI generation successful (${Date.now() - startTime}ms)`);
+      } catch (aiError) {
+        console.error('🔄 AI generation failed despite test:', aiError.message);
+        console.log('📦 Using high-quality fallback content');
+        content = getFallbackContent();
+      }
+    } else {
+      console.log('🔄 AI not working, using high-quality fallback content');
       content = getFallbackContent();
     }
 
@@ -333,6 +347,32 @@ router.get('/health', (req, res) => {
     usedWordsCount: usedWords.size,
     timestamp: Date.now()
   });
+});
+
+// AI system test endpoint
+router.get('/test-ai', async (req, res) => {
+  try {
+    console.log('🧪 Manual AI test requested');
+    const aiWorking = await testAIConnection();
+    const hasApiKey = !!(process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
+    
+    res.json({
+      aiWorking,
+      hasApiKey,
+      apiKeys: {
+        GEMINI_X: !!process.env.GEMINI_X,
+        GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
+        GEMINI_API_KEY: !!process.env.GEMINI_API_KEY
+      },
+      timestamp: Date.now()
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      aiWorking: false,
+      timestamp: Date.now()
+    });
+  }
 });
 
 export const dailyContentRouter = router;

@@ -8,10 +8,16 @@ async function testAI() {
   console.log('🧪 Testing AI System...\n');
   
   // Check API key
-  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+  console.log('🔍 Environment check:', {
+    GEMINI_X: !!process.env.GEMINI_X,
+    GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
+    GEMINI_API_KEY: !!process.env.GEMINI_API_KEY
+  });
+  
   if (!apiKey) {
     console.error('❌ No API key found in environment variables');
-    console.log('Expected: GOOGLE_API_KEY or GEMINI_API_KEY');
+    console.log('Expected: GEMINI_X, GOOGLE_API_KEY, or GEMINI_API_KEY');
     process.exit(1);
   }
   
