@@ -400,28 +400,15 @@ export default function App() {
           />
         );
       case 'dashboard':
-        // Create a test project for dashboard testing
-        const testProject: Project = {
-          id: 'test-123',
-          name: 'Test Project',
-          type: 'novel' as const,
-          description: 'A test project for debugging',
-          synopsis: 'Test synopsis',
-          genre: ['fantasy'],
-          createdAt: new Date(),
-          lastModified: new Date(),
-          manuscript: { novel: '', screenplay: '' },
-          outline: [],
-          characters: [],
-          proseDocuments: [],
-          settings: {
-            aiCraftConfig: {}
-          }
-        };
+        if (!activeProject) {
+          // If no active project, redirect to projects
+          setView('projects');
+          return null;
+        }
         
         return (
           <ProjectDashboard
-            project={testProject}
+            project={activeProject}
             onBack={() => setView('projects')}
             onUpdateProject={handleUpdateProject}
             onOpenModal={handleOpenModal}
