@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
 import { 
     Sparkles, 
     CheckCircle, 
@@ -197,30 +198,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
           )}
 
           {/* Daily Inspiration Widget */}
-          {widget.id === 'daily-inspiration' && (
-            <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
-              <CardContent className="p-5 h-full flex flex-col">
-                <div className="flex items-center gap-3 mb-4">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <h3 className="font-bold text-foreground text-sm">
-                    Daily Inspiration
-                  </h3>
-                </div>
-                <div className="flex-grow mb-4">
-                  <blockquote className="text-sm italic text-foreground/80 leading-relaxed">
-                    "The first draft of anything is shit. But you have to start somewhere, and that somewhere is with putting words on paper."
-                  </blockquote>
-                  <cite className="text-xs text-muted-foreground block mt-3">— Ernest Hemingway</cite>
-                </div>
-                <Button 
-                  size="sm"
-                  className="gradient-primary text-primary-foreground hover:opacity-90 text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg w-full"
-                >
-                  Get New Quote
-                </Button>
-              </CardContent>
-            </Card>
-          )}
+          {widget.id === 'daily-inspiration' && <MessageOfTheDay />}
 
           {/* Recent Project Widget */}
           {widget.id === 'recent-project' && (
