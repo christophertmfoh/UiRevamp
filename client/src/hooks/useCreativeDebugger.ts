@@ -45,8 +45,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
   }));
 
   const [isDebugMode, setIsDebugMode] = useState(() => 
-    process.env.NODE_ENV === 'development' || 
-    localStorage.getItem('creative-debug') === 'true'
+    localStorage.getItem('creative-debug') === 'true' // Removed auto-enable in development
   );
 
   // Log creative action with performance metrics (debounced for memory efficiency)
@@ -69,7 +68,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     };
 
     setSession(prev => {
-      const newActions = [...prev.actions, debugInfo].slice(-25); // Reduced from 50 to 25 for memory
+      const newActions = [...prev.actions, debugInfo].slice(-15); // Further reduced to 15 for memory
       const actionCount = newActions.length;
       const avgRenderTime = newActions.reduce((sum, a) => sum + (a.performance?.renderTime || 0), 0) / actionCount;
       const peakMemory = Math.max(prev.performance.peakMemory, debugInfo.performance?.memory || 0);
@@ -85,11 +84,9 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       };
     });
 
-    // Console logging for development (reduced verbosity)
-    if (process.env.NODE_ENV === 'development' && Math.random() < 0.3) { // Log only 30% of actions
-      console.log(`🎨 [${context}] ${action}`, {
-        timestamp: timestamp.toLocaleTimeString()
-      });
+    // Console logging for development (minimal verbosity)
+    if (process.env.NODE_ENV === 'development' && Math.random() < 0.1) { // Log only 10% of actions
+      console.log(`🎨 ${action}`);
     }
   }, 100), [context, isDebugMode]);
 
@@ -103,7 +100,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
 
     setSession(prev => ({
       ...prev,
-      errors: [...prev.errors, errorInfo].slice(-5) // Reduced from 10 to 5 for memory
+      errors: [...prev.errors, errorInfo].slice(-3) // Further reduced to 3 for memory
     }));
 
     // Enhanced error logging for creative workflow

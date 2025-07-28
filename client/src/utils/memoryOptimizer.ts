@@ -30,25 +30,38 @@ export const throttle = <T extends (...args: any[]) => void>(
   };
 };
 
-// Memory cleanup utility
+// Aggressive memory cleanup utility
 export const cleanupMemory = () => {
-  // Clear any cached performance entries older than 5 minutes
-  const fiveMinutesAgo = Date.now() - 300000;
-  
   try {
-    const entries = performance.getEntriesByType('resource');
-    entries.forEach((entry, index) => {
-      if (entry.startTime < fiveMinutesAgo) {
-        // Can't directly remove, but we can clear references
-      }
-    });
+    // Clear all performance entries
+    if (performance.clearResourceTimings) {
+      performance.clearResourceTimings();
+    }
     
-    // Force garbage collection if available (development only)
+    // Clear all marks and measures
+    if (performance.clearMarks) {
+      performance.clearMarks();
+    }
+    if (performance.clearMeasures) {
+      performance.clearMeasures();
+    }
+    
+    // Clear console if too many logs
+    if (console.clear && Math.random() < 0.1) {
+      console.clear();
+    }
+    
+    // Force garbage collection if available
     if (typeof window !== 'undefined' && (window as any).gc) {
       (window as any).gc();
     }
     
-    console.log('Memory cleanup completed');
+    // Clear any cached DOM queries
+    document.querySelectorAll('[data-memory-cache]').forEach(el => {
+      el.removeAttribute('data-memory-cache');
+    });
+    
+    console.log('🧹 Aggressive memory cleanup completed');
   } catch (error) {
     console.warn('Memory cleanup failed:', error);
   }

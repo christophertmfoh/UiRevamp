@@ -13,7 +13,7 @@ interface MemoryStats {
   trend: 'stable' | 'increasing' | 'decreasing';
 }
 
-export const useMemoryMonitor = (alertThreshold: number = 80) => {
+export const useMemoryMonitor = (alertThreshold: number = 70) => {
   const [memoryStats, setMemoryStats] = useState<MemoryStats>({
     used: 0,
     total: 0,
@@ -45,7 +45,17 @@ export const useMemoryMonitor = (alertThreshold: number = 80) => {
       // Auto-cleanup when memory usage is high
       if (percentage > alertThreshold) {
         const timeSinceCleanup = Date.now() - lastCleanup.getTime();
-        if (timeSinceCleanup > 60000) { // Cleanup at most once per minute
+        if (timeSinceCleanup > 30000) { // More frequent cleanup: every 30 seconds
+          cleanupMemory();
+          setLastCleanup(new Date());
+        }
+      }
+      
+      // Emergency cleanup at 90%
+      if (percentage > 90) {
+        const timeSinceCleanup = Date.now() - lastCleanup.getTime();
+        if (timeSinceCleanup > 10000) { // Emergency cleanup every 10 seconds
+          console.warn('🚨 Emergency memory cleanup at', percentage + '%');
           cleanupMemory();
           setLastCleanup(new Date());
         }
@@ -68,7 +78,7 @@ export const useMemoryMonitor = (alertThreshold: number = 80) => {
     if (!isMonitoring) return;
 
     checkMemory(); // Initial check
-    const interval = setInterval(checkMemory, 10000); // Check every 10 seconds
+    const interval = setInterval(checkMemory, 5000); // Check every 5 seconds for faster response
 
     return () => clearInterval(interval);
   }, [isMonitoring, checkMemory]);

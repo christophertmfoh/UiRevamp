@@ -32,7 +32,7 @@ interface CreativeMetrics {
 }
 
 export const PerformanceDashboard: React.FC = () => {
-  const { memoryStats, forceCleanup, isHighUsage } = useMemoryMonitor(85);
+  const { memoryStats, forceCleanup, isHighUsage } = useMemoryMonitor(70);
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     memory: { used: 0, total: 0, percentage: 0 },
     renderTime: 0,
@@ -49,7 +49,7 @@ export const PerformanceDashboard: React.FC = () => {
     lastSave: null
   });
 
-  const [isCollecting, setIsCollecting] = useState(true);
+  const [isCollecting, setIsCollecting] = useState(false); // Start paused to save memory
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const collectMetrics = useCallback(async () => {
@@ -104,8 +104,8 @@ export const PerformanceDashboard: React.FC = () => {
       // Initial collection
       collectMetrics();
       
-      // Collect every 5 seconds to reduce memory pressure
-      interval = setInterval(collectMetrics, 5000);
+      // Collect every 8 seconds to reduce memory pressure further
+      interval = setInterval(collectMetrics, 8000);
     }
 
     return () => {
