@@ -3,7 +3,7 @@
  * Consolidates all AI generation functionality with consistent patterns
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize AI service with fallback API keys
 const getAIService = () => {
@@ -11,7 +11,7 @@ const getAIService = () => {
   if (!apiKey) {
     throw new Error('No AI API key available');
   }
-  return new GoogleGenAI({ apiKey });
+  return new GoogleGenerativeAI(apiKey);
 };
 
 // Standard AI configuration for consistent results
@@ -57,42 +57,42 @@ export async function generateWithRetry(
 ): Promise<string> {
   const ai = getAIService();
   const config = { ...AI_CONFIG, ...customConfig };
-  const safetySettings = [...config.safetySettings];
+  const model = ai.getGenerativeModel({ model: config.model });
   
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       console.log(`AI attempt ${attempt + 1}/${maxRetries}`);
       
-      const response = await ai.models.generateContent({
-        model: config.model,
-        config: {
+      const result = await model.generateContent({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
           temperature: config.temperature,
           maxOutputTokens: config.maxOutputTokens,
           candidateCount: config.candidateCount,
-          safetySettings: safetySettings
         },
-        contents: prompt,
+        safetySettings: config.safetySettings
       });
 
-      const content = response.text?.trim() || '';
+      const response = await result.response;
+      const content = response.text()?.trim() || '';
       
       // Handle safety filter blocking
       if (response.candidates?.[0]?.finishReason === 'SAFETY') {
         console.log(`Response blocked by safety filters, trying simpler prompt`);
         
         const safePrompt = `Generate appropriate content: ${prompt.substring(0, 100)}`;
-        const safeResponse = await ai.models.generateContent({
-          model: config.model,
-          config: { 
+        const safeResult = await model.generateContent({
+          contents: [{ role: 'user', parts: [{ text: safePrompt }] }],
+          generationConfig: { 
             temperature: 0.7, 
             maxOutputTokens: 100,
             candidateCount: 1,
-            safetySettings: safetySettings
           },
-          contents: safePrompt,
+          safetySettings: config.safetySettings
         });
         
-        const safeContent = safeResponse.text?.trim() || '';
+        const safeResponse = await safeResult.response;
+        const safeContent = safeResponse.text()?.trim() || '';
         if (safeContent) return safeContent;
       }
       
