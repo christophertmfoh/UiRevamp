@@ -1,4 +1,3 @@
-// Projects Feature Barrel Export
-export * from '../../components/project';
-export * from '../../components/projects';
-export { useProjectsLogic } from '../../hooks/useProjectsLogic';
+export * from './components'
+export * from './services'
+export * from './types'
