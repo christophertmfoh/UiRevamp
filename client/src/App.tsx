@@ -11,6 +11,7 @@ import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
 import { ProjectsPage } from './components/projects/ProjectsPage';
 import { ProjectDashboard } from './components/project/ProjectDashboard';
+import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -354,9 +355,15 @@ export default function App() {
                </button>
                <button 
                  onClick={() => setView('dashboard')} 
-                 className="mt-4 px-4 py-2 bg-accent text-accent-foreground rounded"
+                 className="mt-4 px-4 py-2 bg-accent text-accent-foreground rounded mr-2"
                >
                  Test Dashboard
+               </button>
+               <button 
+                 onClick={() => setModal({ type: 'new', project: null })} 
+                 className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded"
+               >
+                 Test Modal
                </button>
             </div>
           </div>
@@ -389,6 +396,15 @@ export default function App() {
                 <FloatingOrbs />
                 <Toaster />
                 {renderView()}
+          
+                {/* Test ProjectCreationWizard Modal */}
+                {modal.type === 'new' && (
+                  <ProjectCreationWizard 
+                    isOpen={true}
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onCreate={handleProjectCreated}
+                  />
+                )}
               </div>
             </TooltipProvider>
           </ToastProvider>
