@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Activity, Zap, Clock, MemoryStick, Gauge, RefreshCw } from 'lucide-react';
+import { Activity, Zap, Clock, MemoryStick, Gauge, RefreshCw, Trash2 } from 'lucide-react';
+import { useMemoryMonitor } from '@/hooks/useMemoryMonitor';
 
 /**
  * Phase 5 Component 3: Simple Performance Insights
@@ -31,6 +32,7 @@ interface CreativeMetrics {
 }
 
 export const PerformanceDashboard: React.FC = () => {
+  const { memoryStats, forceCleanup, isHighUsage } = useMemoryMonitor(85);
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     memory: { used: 0, total: 0, percentage: 0 },
     renderTime: 0,
@@ -68,11 +70,11 @@ export const PerformanceDashboard: React.FC = () => {
       const componentCount = document.querySelectorAll('[data-radix-popper-content-wrapper], [class*="react"], [class*="component"]').length;
 
       setMetrics({
-        memory: memory ? {
+        memory: memoryStats.used > 0 ? memoryStats : (memory ? {
           used: Math.round(memory.usedJSHeapSize / (1024 * 1024)),
           total: Math.round(memory.totalJSHeapSize / (1024 * 1024)),
           percentage: Math.round((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100)
-        } : { used: 0, total: 0, percentage: 0 },
+        } : { used: 0, total: 0, percentage: 0 }),
         renderTime: Math.round(renderTime),
         componentCount,
         hotReloadLatency: Math.round(Math.random() * 50 + 30), // Simulated HMR latency
@@ -102,8 +104,8 @@ export const PerformanceDashboard: React.FC = () => {
       // Initial collection
       collectMetrics();
       
-      // Collect every 3 seconds for real-time insights
-      interval = setInterval(collectMetrics, 3000);
+      // Collect every 5 seconds to reduce memory pressure
+      interval = setInterval(collectMetrics, 5000);
     }
 
     return () => {
@@ -161,6 +163,18 @@ export const PerformanceDashboard: React.FC = () => {
                 <RefreshCw className="w-4 h-4" />
                 Refresh
               </Button>
+
+              {isHighUsage && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={forceCleanup}
+                  className="flex items-center gap-1 text-orange-600 border-orange-300"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clean Memory
+                </Button>
+              )}
             </div>
           </div>
           

@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { debounce } from '@/utils/memoryOptimizer';
 
 /**
  * Phase 5 Component 4: Creative Debugger Hook
@@ -48,8 +49,8 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     localStorage.getItem('creative-debug') === 'true'
   );
 
-  // Log creative action with performance metrics
-  const logAction = useCallback((action: string, data?: any) => {
+  // Log creative action with performance metrics (debounced for memory efficiency)
+  const logAction = useCallback(debounce((action: string, data?: any) => {
     if (!isDebugMode) return;
 
     const timestamp = new Date();
@@ -60,7 +61,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       timestamp,
       context,
       action,
-      data,
+      data: data ? JSON.parse(JSON.stringify(data)) : undefined, // Deep clone to prevent memory leaks
       performance: {
         renderTime,
         memory: Math.round(memory / (1024 * 1024)) // Convert to MB
@@ -68,7 +69,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     };
 
     setSession(prev => {
-      const newActions = [...prev.actions, debugInfo].slice(-50); // Keep last 50 actions
+      const newActions = [...prev.actions, debugInfo].slice(-25); // Reduced from 50 to 25 for memory
       const actionCount = newActions.length;
       const avgRenderTime = newActions.reduce((sum, a) => sum + (a.performance?.renderTime || 0), 0) / actionCount;
       const peakMemory = Math.max(prev.performance.peakMemory, debugInfo.performance?.memory || 0);
@@ -84,15 +85,13 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       };
     });
 
-    // Console logging for development
-    if (process.env.NODE_ENV === 'development') {
+    // Console logging for development (reduced verbosity)
+    if (process.env.NODE_ENV === 'development' && Math.random() < 0.3) { // Log only 30% of actions
       console.log(`🎨 [${context}] ${action}`, {
-        data,
-        performance: debugInfo.performance,
         timestamp: timestamp.toLocaleTimeString()
       });
     }
-  }, [context, isDebugMode]);
+  }, 100), [context, isDebugMode]);
 
   // Log error with creative context
   const logError = useCallback((error: Error, additionalContext?: string) => {
@@ -104,7 +103,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
 
     setSession(prev => ({
       ...prev,
-      errors: [...prev.errors, errorInfo].slice(-10) // Keep last 10 errors
+      errors: [...prev.errors, errorInfo].slice(-5) // Reduced from 10 to 5 for memory
     }));
 
     // Enhanced error logging for creative workflow

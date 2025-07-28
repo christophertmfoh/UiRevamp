@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useCreativeDebugger } from '@/hooks/useCreativeDebugger';
+import { debounce } from '@/utils/memoryOptimizer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,15 +38,22 @@ export const WritingEditor: React.FC<WritingEditorProps> = ({
     setWordCount(words);
   }, []);
 
+  const debouncedLogAction = useCallback(
+    debounce((contentLength: number, wordCount: number) => {
+      logAction('content_changed', { contentLength, wordCount });
+    }, 500),
+    [logAction]
+  );
+
   const handleContentChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
     setContent(newContent);
     updateWordCount(newContent);
-    logAction('content_changed', { 
-      contentLength: newContent.length,
-      wordCount: newContent.trim().split(/\s+/).filter(word => word.length > 0).length
-    });
-  }, [updateWordCount, logAction]);
+    
+    // Debounced logging to reduce memory pressure
+    const words = newContent.trim().split(/\s+/).filter(word => word.length > 0).length;
+    debouncedLogAction(newContent.length, words);
+  }, [updateWordCount, debouncedLogAction]);
 
   const handleSave = useCallback(async () => {
     if (isSaving) return;
