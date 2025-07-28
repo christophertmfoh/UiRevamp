@@ -28,7 +28,7 @@ export default defineConfig({
       "bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev"
     ],
 
-    // Phase 5: Disabled HMR to prevent promise rejection spam
+    // Phase 5: Disable HMR client injection to prevent WebSocket ping failures
     hmr: false,
 
     // Phase 5: Warmup critical writing components

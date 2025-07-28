@@ -8,9 +8,9 @@ const MAX_ERRORS_PER_MINUTE = 10;
 let lastErrorReset = Date.now();
 
 export const initializeGlobalErrorHandler = () => {
-  // Handle unhandled promise rejections - silently prevent console spam
+  // Handle unhandled promise rejections
   window.addEventListener('unhandledrejection', (event) => {
-    // Completely suppress all promise rejection noise during development
+    // Completely prevent all promise rejection console noise during development
     event.preventDefault();
   });
 
