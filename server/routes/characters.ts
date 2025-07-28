@@ -44,10 +44,11 @@ characterRouter.get("/projects/:projectId/characters", async (req, res) => {
 });
 
 // Create character
-characterRouter.post("/characters", async (req, res) => {
+characterRouter.post("/projects/:projectId/characters", async (req, res) => {
   try {
+    const { projectId } = req.params;
     const characterData = {
-      projectId: req.body.projectId,
+      projectId: projectId,
       name: req.body.name || 'Unnamed Character',
       ...req.body
     };
