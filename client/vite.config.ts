@@ -21,6 +21,12 @@ export default defineConfig({
     port: 5173,
     host: "0.0.0.0",
     strictPort: false,
+    allowedHosts: [
+      ".replit.dev",
+      ".replit.co", 
+      "localhost",
+      "bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev"
+    ],
 
     // Phase 5: Stable HMR for creative workflow
     hmr: {
