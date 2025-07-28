@@ -141,9 +141,35 @@ export default function App() {
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
 
-  // Initialize auth check
+  // Initialize auth check on app load
   useEffect(() => {
-    checkAuth();
+    const initializeAuth = async () => {
+      // Check if we have stored user data and token
+      const storedUser = localStorage.getItem('fablecraft_user');
+      const storedToken = localStorage.getItem('fablecraft_token');
+      
+      if (storedUser && storedToken) {
+        try {
+          const user = JSON.parse(storedUser);
+          // Restore auth state directly without API call for better UX
+          login(user, storedToken);
+          
+          // Optional: Verify token is still valid with server
+          await checkAuth();
+        } catch (error) {
+          console.error('Failed to restore auth state:', error);
+          // Clear invalid stored data
+          localStorage.removeItem('fablecraft_user');
+          localStorage.removeItem('fablecraft_token');
+          localStorage.removeItem('token');
+        }
+      } else {
+        // No stored auth, just check current state
+        await checkAuth();
+      }
+    };
+    
+    initializeAuth();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Phase 3: Initialize auto-backup system for creative workflow (DISABLED FOR MEMORY)
@@ -210,8 +236,12 @@ export default function App() {
   const handleProjectCreated = async (projectData: any) => {
     try {
       // Get token from Zustand store (more reliable than localStorage)
-      const token = useAuth.getState().token || localStorage.getItem('token');
-      if (!token) throw new Error('No authentication token');
+      const token = useAuth.getState().token || localStorage.getItem('fablecraft_token');
+      if (!token) {
+        // If no token, redirect to auth
+        setView('auth');
+        throw new Error('Please log in to create projects');
+      }
 
       const response = await fetch('/api/projects', {
         method: 'POST',
@@ -305,21 +335,33 @@ export default function App() {
 
   const handleAuth = async (userData: { username: string; token: string }) => {
     try {
-      // Create a User object from the userData
-      const user = {
-        id: userData.username, // Temporary - should be actual user ID
-        email: userData.username, // Temporary - should be actual email
-        username: userData.username,
-        fullName: userData.username,
-        createdAt: new Date().toISOString(),
-        isActive: true
-      };
+      // Get the full user data from localStorage (stored by AuthPageRedesign)
+      const storedUser = localStorage.getItem('fablecraft_user');
+      const fullUser = storedUser ? JSON.parse(storedUser) : null;
       
-      // Store token in localStorage for consistency
-      localStorage.setItem('token', userData.token);
-      
-      await login(user, userData.token);
-      setView('projects'); // Go directly to projects after login
+      if (fullUser) {
+        // Use the complete user object from the API response
+        const user = {
+          id: fullUser.id,
+          email: fullUser.email,
+          username: fullUser.username,
+          fullName: fullUser.fullName || fullUser.username,
+          createdAt: fullUser.createdAt,
+          updatedAt: fullUser.updatedAt,
+          lastLoginAt: fullUser.lastLoginAt,
+          isActive: fullUser.isActive
+        };
+        
+        // Store token with both keys for compatibility
+        localStorage.setItem('token', userData.token);
+        localStorage.setItem('fablecraft_token', userData.token);
+        
+        // Call Zustand login method to update auth state
+        login(user, userData.token);
+        setView('projects'); // Go directly to projects after login
+      } else {
+        console.error('No user data found in storage');
+      }
     } catch (error) {
       console.error('Authentication failed:', error instanceof Error ? error.message : error);
     }
