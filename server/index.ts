@@ -47,19 +47,15 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  console.log('🔍 Environment check:', { NODE_ENV: process.env.NODE_ENV, appEnv: app.get("env") });
-  
-  // In development mode with separate client server, skip Vite setup
-  if (process.env.NODE_ENV === "development") {
-    log("Development mode: Skipping Vite setup (using separate client server)");
-  } else {
-    // Only import Vite functions in production
+  // In development: ONLY serve API, no Vite integration
+  // In production: Setup Vite for serving static files
+  if (process.env.NODE_ENV !== "development") {
+    log("Production mode: Setting up Vite for static file serving");
     const { setupVite, serveStatic } = await import("./vite");
     await setupVite(app, server);
     serveStatic(app);
+  } else {
+    log("Development mode: API-only server (client runs separately on 5173)");
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
