@@ -360,6 +360,10 @@
     }
   }
 
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
   /* Animation delay utilities */
   .animation-delay-2000 {
     animation-delay: 2s;
@@ -381,6 +385,14 @@
   }
 
   .gradient-primary-text {
+    background: linear-gradient(135deg, hsl(var(--gradient-brand-start)), hsl(var(--gradient-brand-end)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: hsl(var(--gradient-brand-text)); /* Fallback for accessibility */
+  }
+
+  .brand-gradient-text {
     background: linear-gradient(135deg, hsl(var(--gradient-brand-start)), hsl(var(--gradient-brand-end)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
