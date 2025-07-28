@@ -1,6 +1,6 @@
 {
   "name": "rest-express",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -25,7 +25,16 @@
     "generate-secrets": "node scripts/generate-secrets.js",
     "security-scan": "npm audit --audit-level=moderate && node scripts/security-check.js",
     "health-check": "node scripts/health-check.js",
-    "setup:dev": "npm run generate-secrets && cp .env.example .env.development && npm run validate-env"
+    "setup:dev": "npm run generate-secrets && cp .env.example .env.development && npm run validate-env",
+    "dev:fast": "FORCE_OPTIMIZE=true concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "dev:performance": "NODE_ENV=development npm run dev",
+    "dev:clean": "rm -rf dist node_modules/.vite && npm run dev",
+    "build:analyze": "npm run build && npx vite-bundle-analyzer dist/stats.json",
+    "replit:setup": "npm install && npm run generate-secrets && npm run validate-env",
+    "replit:health": "curl -s http://localhost:5000/api/health | jq .",
+    "replit:backup": "node -e \"console.log('Use the backup feature in the performance dashboard!')\"",
+    "replit:clean": "rm -rf dist .vite node_modules/.cache && echo 'Cleaned build artifacts'",
+    "replit:optimize": "npm run replit:clean && npm install && npm run dev:fast"
   },
   "dependencies": {
     "@google/genai": "^1.11.0",
