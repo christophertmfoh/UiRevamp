@@ -8,9 +8,12 @@ const MAX_ERRORS_PER_MINUTE = 10;
 let lastErrorReset = Date.now();
 
 export const initializeGlobalErrorHandler = () => {
-  // Handle unhandled promise rejections
+  // Handle unhandled promise rejections - now properly fixed at source
   window.addEventListener('unhandledrejection', (event) => {
-    // Completely prevent all promise rejection console noise during development
+    const reason = event.reason;
+    
+    // Only log genuine application errors since auth flow is now fixed
+    console.error('Unhandled promise rejection:', reason?.message || reason);
     event.preventDefault();
   });
 

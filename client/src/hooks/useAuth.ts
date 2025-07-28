@@ -90,10 +90,16 @@ export const useAuth = create<AuthState>()(
               isLoading: false 
             });
           } else {
-            throw new Error('Auth check failed');
+            // Silently clear invalid tokens without throwing
+            set({ 
+              user: null, 
+              token: null, 
+              isAuthenticated: false,
+              isLoading: false 
+            });
           }
         } catch (error) {
-          // Token is invalid, clear auth state
+          // Network error or invalid token - silently clear auth state
           set({ 
             user: null, 
             token: null, 
