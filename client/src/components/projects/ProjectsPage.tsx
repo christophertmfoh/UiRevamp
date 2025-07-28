@@ -159,28 +159,19 @@ export const ProjectsPage = React.memo(function ProjectsPage({
       />
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 py-8">
-        {/* Page Header */}
-        <Card className="relative surface-elevated backdrop-blur-xl rounded-[2rem] p-6 shadow-xl border-border/30 mb-6 overflow-hidden">
-          {/* Vignette gradient overlay - only visible in dark mode */}
-          <div className="absolute inset-0 vignette-gradient opacity-0 dark:opacity-100 pointer-events-none rounded-[2rem]"></div>
-          <div className="text-center">
-            <div className="overflow-visible">
-              <div className="mb-2">
-                <p className="text-lg text-muted-foreground font-medium">
-                  Welcome back, {user?.username || 'Writer'}
-                </p>
-              </div>
-              <h1 className="text-heading-1 text-foreground leading-[1.3] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
-                Your Projects
-              </h1>
-            </div>
-            
-            <p className="text-body-large text-muted-foreground leading-[1.6] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] tracking-wide max-w-lg mx-auto">
-              Organize, track, and bring your stories to life with intelligent project management.
-            </p>
-          </div>
-        </Card>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-8">
+        {/* Page Header - Improved spacing and alignment */}
+        <div className="text-center mb-8">
+          <p className="text-lg text-muted-foreground font-medium mb-2">
+            Welcome back, {user?.username || 'Writer'}
+          </p>
+          <h1 className="text-4xl lg:text-5xl font-black text-foreground leading-tight tracking-tight mb-4">
+            Your Projects
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Organize, track, and bring your stories to life with intelligent project management.
+          </p>
+        </div>
 
         {/* Stats Section */}
         <ProjectsStats
