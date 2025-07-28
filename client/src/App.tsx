@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "./shared/components/theme-provider"
 import { Router, Route, Switch } from "wouter"
 import { LandingPage } from "./pages/LandingPage"
-import { WorkspacePage } from "./pages/WorkspacePage"
+// import { WorkspacePage } from "./pages/WorkspacePage.tsx"
 import './index.css'
 
 const queryClient = new QueryClient({
@@ -20,8 +20,18 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <Router>
           <Switch>
-            <Route path="/" component={LandingPage} />
-            <Route path="/workspace" component={WorkspacePage} />
+            <Route path="/">
+              <LandingPage />
+            </Route>
+            <Route path="/workspace">
+              <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold mb-4">Workspace</h1>
+                  <p className="text-muted-foreground">Coming soon...</p>
+                  <a href="/" className="text-primary hover:text-primary/80 mt-4 inline-block">Return to Home</a>
+                </div>
+              </div>
+            </Route>
             <Route>
               <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
                 <div className="text-center">
