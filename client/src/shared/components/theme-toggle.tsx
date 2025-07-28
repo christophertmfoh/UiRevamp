@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuLabel,
-} from './ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu'
 
 /* 
  * FABLECRAFT THEME SYSTEM v2.0
@@ -111,9 +111,7 @@ export function ThemeToggle() {
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    // Delay mounting to prevent hydration issues
-    const timer = setTimeout(() => setMounted(true), 100);
-    return () => clearTimeout(timer);
+    setMounted(true)
   }, [])
 
   if (!mounted) {
