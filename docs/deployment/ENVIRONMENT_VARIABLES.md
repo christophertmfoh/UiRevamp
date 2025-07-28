@@ -20,8 +20,6 @@ These variables MUST be set in production environments:
 | Variable | Description | Example | Notes |
 |----------|-------------|---------|-------|
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/dbname` | **CRITICAL**: Never commit to version control |
-| `POSTGRES_DB` | Database name | `fablecraft_prod` | Used by Docker PostgreSQL container |
-| `POSTGRES_USER` | Database username | `fablecraft_user` | Used by Docker PostgreSQL container |
 | `POSTGRES_PASSWORD` | Database password | `secure_random_password` | **CRITICAL**: Use strong passwords |
 
 ### Authentication & Security
@@ -88,7 +86,7 @@ Additional variables for production deployments:
 |----------|-------------|---------|-------|
 | `LOG_LEVEL` | Logging level | `info` | Values: `error`, `warn`, `info`, `debug` |
 | `SENTRY_DSN` | Error tracking DSN | `undefined` | For production error monitoring |
-| `PROMETHEUS_PORT` | Metrics port | `9090` | For performance monitoring |
+| `REPLIT_ENV` | Replit environment detection | `true` | Automatic in Replit environment |
 
 ### SSL & Security
 
@@ -215,7 +213,7 @@ OPENAI_API_KEY=your-openai-api-key
 JWT_SECRET=docker-jwt-secret-32-characters-minimum
 
 # Monitoring
-GRAFANA_PASSWORD=admin
+# Grafana removed in Phase 3 - Using Replit-native monitoring
 ```
 
 ## 🚀 Quick Setup Commands

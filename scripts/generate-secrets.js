@@ -88,9 +88,7 @@ class SecretGenerator {
     this.secrets.INTERNAL_API_KEY = this.generateAlphanumeric(40);
     console.log(`${colors.green}✓${colors.reset} INTERNAL_API_KEY: ${colors.yellow}[GENERATED]${colors.reset}`);
 
-    // Grafana Admin Password (Strong password)
-    this.secrets.GRAFANA_PASSWORD = this.generatePassword(16);
-    console.log(`${colors.green}✓${colors.reset} GRAFANA_PASSWORD: ${colors.yellow}[GENERATED]${colors.reset}`);
+    // Phase 3: Grafana removed - Replit-native monitoring instead
 
     console.log(`\n${colors.cyan}📋 Security Information:${colors.reset}`);
     console.log(`  • JWT_SECRET: ${this.secrets.JWT_SECRET.length} characters (Base64)`);
@@ -98,7 +96,6 @@ class SecretGenerator {
     console.log(`  • POSTGRES_PASSWORD: ${this.secrets.POSTGRES_PASSWORD.length} characters (Strong)`);
     console.log(`  • SESSION_SECRET: ${this.secrets.SESSION_SECRET.length} characters (Base64)`);
     console.log(`  • INTERNAL_API_KEY: ${this.secrets.INTERNAL_API_KEY.length} characters (Alphanumeric)`);
-    console.log(`  • GRAFANA_PASSWORD: ${this.secrets.GRAFANA_PASSWORD.length} characters (Strong)`);
   }
 
   updateEnvFile(envFile) {

@@ -157,16 +157,19 @@ npx vite preview --outDir coverage
 - **Husky**: Pre-commit hooks
 - **Vitest**: Fast testing framework
 
-## 🚀 **Deployment**
+## 🚀 **Development & Deployment**
 
-### **Production Deployment**
+### **Replit Development Environment**
 
 ```bash
-# Build for production
-npm run build
+# Quick development setup
+npm run dev
 
-# Start production server
-npm start
+# Performance-optimized development
+npm run dev:performance
+
+# Build for testing
+npm run build
 ```
 
 ### **Environment Variables**
@@ -179,14 +182,17 @@ npm start
 | `NODE_ENV` | Environment (development/production) | Yes |
 | `PORT` | Server port (default: 5000) | No |
 
-### **Docker Support**
+### **Replit Development**
 
 ```bash
-# Build Docker image
-docker build -t fablecraft .
+# One-command setup for Replit
+npm run replit:setup
 
-# Run with Docker Compose
-docker-compose up -d
+# Optimized development with performance monitoring
+npm run dev:performance
+
+# Clean slate optimization
+npm run replit:optimize
 ```
 
 ## 🔒 **Security**

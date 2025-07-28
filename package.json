@@ -29,7 +29,7 @@
     "dev:fast": "FORCE_OPTIMIZE=true concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "dev:performance": "NODE_ENV=development npm run dev",
     "dev:clean": "rm -rf dist node_modules/.vite && npm run dev",
-    "build:analyze": "npm run build && npx vite-bundle-analyzer dist/stats.json",
+    "build:analyze": "npm run build && echo '📊 Build complete! Check dist/ folder for output files.'",
     "replit:setup": "npm install && npm run generate-secrets && npm run validate-env",
     "replit:health": "curl -s http://localhost:5000/api/health | jq .",
     "replit:backup": "node -e \"console.log('Use the backup feature in the performance dashboard!')\"",

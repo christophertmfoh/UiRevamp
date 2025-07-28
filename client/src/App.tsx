@@ -7,6 +7,7 @@ import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
+import { backupManager } from './lib/backup/replitBackup';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
@@ -137,6 +138,16 @@ export default function App() {
   useEffect(() => {
     checkAuth();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Phase 3: Initialize auto-backup system for creative workflow
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      const cleanup = backupManager.scheduleAutoBackups();
+      console.log('💾 Auto-backup system initialized (every 10 minutes)');
+      
+      return cleanup; // Cleanup function to clear interval
+    }
+  }, []);
 
   // Initialize scrollbar styling
   useEffect(() => {
