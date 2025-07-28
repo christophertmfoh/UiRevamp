@@ -64,6 +64,7 @@ export function UniversalEntityManager({
   // Fetch entities using the universal API pattern
   const { data: entities = [], isLoading } = useQuery<any[]>({
     queryKey: ['/api/projects', projectId, config.entityType],
+    enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
   });
 
   // Create entity mutation

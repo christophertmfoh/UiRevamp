@@ -49,7 +49,7 @@ export const PerformanceDashboard: React.FC = () => {
     lastSave: null
   });
 
-  const [isCollecting, setIsCollecting] = useState(false); // Start paused to save memory
+  const [isCollecting, setIsCollecting] = useState(true); // Enable to debug the fetch failures
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const collectMetrics = useCallback(async () => {
@@ -58,7 +58,7 @@ export const PerformanceDashboard: React.FC = () => {
       const performance = window.performance;
       const memory = (performance as any).memory;
       
-      // Server health check for uptime with proper error handling
+      // Server health check for uptime
       let healthData = { uptime: 0 };
       try {
         const healthResponse = await fetch('/api/health');
@@ -66,7 +66,7 @@ export const PerformanceDashboard: React.FC = () => {
           healthData = await healthResponse.json();
         }
       } catch (error) {
-        // Silently handle fetch errors to prevent promise rejection spam
+        // Silently handle fetch errors
         healthData = { uptime: 0 };
       }
 

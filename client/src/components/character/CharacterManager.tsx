@@ -49,14 +49,17 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
     queryKey: ['/api/projects', projectId, 'characters'],
+    enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
   });
 
   const { data: project } = useQuery<Project>({
     queryKey: ['/api/projects', projectId],
+    enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
   });
 
   const { data: locations = [] } = useQuery<any[]>({
     queryKey: ['/api/projects', projectId, 'locations'],
+    enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
   });
 
   // Auto-select character if selectedCharacterId is provided
