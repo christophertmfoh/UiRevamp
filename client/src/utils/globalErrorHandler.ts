@@ -18,9 +18,10 @@ export const initializeGlobalErrorHandler = () => {
       lastErrorReset = currentTime;
     }
     
-    // Limit error logging to prevent spam
-    if (errorCount < MAX_ERRORS_PER_MINUTE) {
-      console.warn('Unhandled promise rejection:', event.reason);
+    // Silently prevent rejections to save memory
+    if (errorCount < 3) { // Only log first 3 for debugging
+      const reason = event.reason;
+      console.warn('Promise rejection silenced:', typeof reason);
       errorCount++;
     }
     

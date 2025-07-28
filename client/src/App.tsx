@@ -6,8 +6,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
-import { backupManager } from './lib/backup/replitBackup';
+// import { PerformanceDashboard } from './components/dev/PerformanceDashboard'; // Disabled to save memory
+// import { backupManager } from './lib/backup/replitBackup'; // Disabled to save memory
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
@@ -140,15 +140,15 @@ export default function App() {
     checkAuth();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Phase 3: Initialize auto-backup system for creative workflow
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      const cleanup = backupManager.scheduleAutoBackups();
-      console.log('💾 Auto-backup system initialized (every 10 minutes)');
-      
-      return cleanup; // Cleanup function to clear interval
-    }
-  }, []);
+  // Phase 3: Initialize auto-backup system for creative workflow (DISABLED FOR MEMORY)
+  // useEffect(() => {
+  //   if (process.env.NODE_ENV === 'development') {
+  //     const cleanup = backupManager.scheduleAutoBackups();
+  //     console.log('💾 Auto-backup system initialized (every 10 minutes)');
+  //     
+  //     return cleanup; // Cleanup function to clear interval
+  //   }
+  // }, []);
 
   // Fetch projects function
   const fetchProjects = async () => {
@@ -537,8 +537,8 @@ export default function App() {
           </ToastProvider>
         </QueryClientProvider>
         
-        {/* Replit-Optimized Performance Dashboard (Development Only) */}
-        <PerformanceDashboard />
+        {/* Replit-Optimized Performance Dashboard (Development Only) - DISABLED FOR MEMORY */}
+        {/* <PerformanceDashboard /> */}
       </ThemeProvider>
     </ErrorBoundary>
   );

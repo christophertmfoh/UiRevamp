@@ -21,7 +21,7 @@ export const useMemoryMonitor = (alertThreshold: number = 70) => {
     trend: 'stable'
   });
   
-  const [isMonitoring, setIsMonitoring] = useState(true);
+  const [isMonitoring, setIsMonitoring] = useState(false); // Disabled by default to save memory
   const [lastCleanup, setLastCleanup] = useState<Date>(new Date());
 
   const checkMemory = useCallback(() => {
