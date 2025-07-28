@@ -360,6 +360,21 @@
     }
   }
 
+  @keyframes float-up {
+    0%, 100% { 
+      transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+    }
+    25% { 
+      transform: translate(-50%, -50%) scale(1.05) rotate(90deg); 
+    }
+    50% { 
+      transform: translate(-50%, -50%) scale(1.1) rotate(180deg); 
+    }
+    75% { 
+      transform: translate(-50%, -50%) scale(0.95) rotate(270deg); 
+    }
+  }
+
   .animate-blob {
     animation: blob 7s infinite;
   }
