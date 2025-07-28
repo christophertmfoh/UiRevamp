@@ -77,13 +77,13 @@ export const ProjectModals = React.memo(function ProjectModals({
   const [nlpPreview, setNlpPreview] = useState<any>(null);
 
   // Toast for user feedback
-  const { toast, announce } = useToastActions();
+  const { toast, announce: announceToast } = useToastActions();
 
   // Accessibility hooks
-  const { createFocusTrap } = useFocusManagement();
-  const { announceToScreenReader } = useScreenReader();
-  const { getAriaAttributes } = useAriaAttributes();
-  const { validateTouchTargets } = useTouchTargets();
+  const { trapFocus } = useFocusManagement();
+  const { announce } = useScreenReader();
+  const { setAriaLabel, setAriaDescribedBy } = useAriaAttributes();
+  const { validateTouchTarget } = useTouchTargets();
 
   // Update tempGoals when goals change
   React.useEffect(() => {
@@ -261,7 +261,8 @@ export const ProjectModals = React.memo(function ProjectModals({
                   value={newTaskText}
                   onChange={(e) => setNewTaskText(e.target.value)}
                   className="resize-none min-h-[80px] bg-background/80 border-border/50 focus:border-primary/50"
-                  {...getAriaAttributes('taskDescription', 'Enter a description for your task')}
+                  aria-label="Task description"
+                  aria-describedby="task-description-help"
                   required
                 />
               </div>
@@ -508,7 +509,11 @@ export const ProjectModals = React.memo(function ProjectModals({
                                 {formatDueDate(task.dueDate)}
                               </Badge>
                             )}
-                            <Badge variant={task.priority}>
+                            <Badge variant={
+                              task.priority === 'high' ? 'destructive' : 
+                              task.priority === 'medium' ? 'default' : 
+                              'secondary'
+                            }>
                               {task.priority}
                             </Badge>
                             {task.projectId && task.projectId !== 'inbox' && (
