@@ -20,13 +20,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: "0.0.0.0",
-    allowedHosts: [".replit.dev", "localhost"],
+    strictPort: false,
 
-    // Phase 5: Optimized HMR for creative workflow
+    // Phase 5: Stable HMR for creative workflow
     hmr: {
       overlay: false, // Reduce visual interruption during writing
-      clientPort: 443, // Use HTTPS port for Replit
-      port: 5173
+      port: 5173,
+      host: "0.0.0.0"
     },
 
     // Phase 5: Warmup critical writing components
