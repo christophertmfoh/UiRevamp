@@ -248,7 +248,7 @@ export default function App() {
       const token = useAuth.getState().token || localStorage.getItem('fablecraft_token');
       if (!token) {
         // If no token, redirect to auth
-        setView('auth');
+        setView('auth');  // Use setView directly to avoid circular dependency
         throw new Error('Please log in to create projects');
       }
 
@@ -296,7 +296,7 @@ export default function App() {
         
         // Set the newly created project as active and navigate
         setActiveProject(newProject);
-        setView('dashboard');
+        setView('dashboard');  // Use setView directly to avoid circular dependency
         setModal({ type: null, project: null });
       } else {
         const error = await response.json();
@@ -347,7 +347,7 @@ export default function App() {
       if (response.ok) {
         if (activeProject?.id === projectId) {
           setActiveProject(null);
-          navigateToView('projects');
+          setView('projects');  // Use setView directly to avoid circular dependency
         }
         setModal({ type: null, project: null });
       }
@@ -358,7 +358,7 @@ export default function App() {
 
   const handleSelectProject = (project: Project) => {
     setActiveProject(project);
-    navigateToView('dashboard');
+    setView('dashboard');  // Use setView directly to avoid circular dependency
   };
 
   const handleAuth = async (userData: { username: string; token: string }) => {
@@ -386,7 +386,7 @@ export default function App() {
         
         // Call Zustand login method to update auth state
         login(user, userData.token);
-        navigateToView('projects'); // Go directly to projects after login
+        setView('projects'); // Go directly to projects after login
       } else {
         console.error('No user data found in storage');
       }
@@ -473,7 +473,7 @@ export default function App() {
     };
   }, [view]);
 
-  // Project restoration on dashboard refresh
+  // Project restoration on dashboard refresh - ALWAYS called
   useEffect(() => {
     if (view === 'dashboard' && !activeProject && projects.length > 0) {
       // Try to restore project from URL params or localStorage
@@ -486,11 +486,11 @@ export default function App() {
           setActiveProject(project);
         } else {
           // Project not found, redirect to projects
-          navigateToView('projects');
+          setView('projects');
         }
       } else {
         // No project specified, redirect to projects
-        navigateToView('projects');
+        setView('projects');
       }
     }
   }, [view, activeProject, projects]);
@@ -511,7 +511,7 @@ export default function App() {
   // Logout handler that returns Promise
   const handleLogout = async () => {
     await logout();
-    navigateToView('landing');
+    setView('landing');
     setActiveProject(null);
     setProjects([]);
   };
@@ -555,7 +555,7 @@ export default function App() {
       case 'dashboard':
         if (!activeProject) {
           // If no active project, redirect to projects
-          navigateToView('projects');
+          setView('projects');
           return null;
         }
         
