@@ -245,7 +245,7 @@ export default function App() {
         await fetchProjects();
       }
     } catch (error) {
-      console.error('Project creation failed:', error);
+      console.error('Project creation failed:', error instanceof Error ? error.message : error);
       throw error; // Re-throw so wizard can handle the error
     }
   };
@@ -272,7 +272,7 @@ export default function App() {
         setModal({ type: null, project: null });
       }
     } catch (error) {
-      console.error('Project update failed:', error);
+      console.error('Project update failed:', error instanceof Error ? error.message : error);
     }
   };
 
@@ -294,7 +294,7 @@ export default function App() {
         setModal({ type: null, project: null });
       }
     } catch (error) {
-      console.error('Project deletion failed:', error);
+      console.error('Project deletion failed:', error instanceof Error ? error.message : error);
     }
   };
 
@@ -317,7 +317,7 @@ export default function App() {
       await login(user, userData.token);
       setView('landing');
     } catch (error) {
-      console.error('Authentication failed:', error);
+      console.error('Authentication failed:', error instanceof Error ? error.message : error);
     }
   };
 
