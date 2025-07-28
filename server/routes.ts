@@ -198,6 +198,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Root route to guide users to the correct frontend URL
+  app.get("/", (req, res) => {
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>FableCraft API Server</title>
+        <style>
+          body { font-family: system-ui; padding: 2rem; text-align: center; background: #f5f5f5; }
+          .container { max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; }
+          .button { display: inline-block; padding: 12px 24px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; margin: 8px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>🎭 FableCraft API Server</h1>
+          <p>You've reached the backend API server on port 5000.</p>
+          <p>The FableCraft web application runs on a different port.</p>
+          <p><strong>To access the application:</strong></p>
+          <a href="http://localhost:5173" class="button">Open FableCraft App (Port 5173)</a>
+          <br>
+          <small>In Replit, use the web preview to access the application.</small>
+        </div>
+      </body>
+      </html>
+    `);
+  });
+
   // Simple performance/health endpoint for Replit dashboard
   app.get("/api/health", (req, res) => {
     const uptime = process.uptime();

@@ -5,17 +5,7 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
   plugins: [
-    react({
-      // Enable React optimization features
-      babel: {
-        plugins: [
-          // Remove console.log in production
-          ...(process.env.NODE_ENV === 'production' ? [
-            ['babel-plugin-transform-remove-console', { exclude: ['error', 'warn'] }]
-          ] : [])
-        ]
-      }
-    }),
+    react(),
     runtimeErrorOverlay(),
   ],
   resolve: {
