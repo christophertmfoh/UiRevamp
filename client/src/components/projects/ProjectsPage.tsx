@@ -278,7 +278,7 @@ export const ProjectsPage = React.memo(function ProjectsPage({
       <LazyProjectModals
         // Add Task Modal
         showAddTaskModal={taskManagement.showAddTaskModal}
-        onCloseAddTaskModal={() => taskManagement.setShowAddTaskModal(false)}
+        onCloseAddTaskModal={taskManagement.handleCloseAddTaskModal}
         newTaskText={taskManagement.newTaskText}
         setNewTaskText={taskManagement.setNewTaskText}
         newTaskPriority={taskManagement.newTaskPriority}
@@ -290,7 +290,7 @@ export const ProjectsPage = React.memo(function ProjectsPage({
 
         // Tasks Modal
         showTasksModal={taskManagement.showTasksModal}
-        onCloseTasksModal={() => taskManagement.setShowTasksModal(false)}
+        onCloseTasksModal={taskManagement.handleCloseTasksModal}
         todayTasks={taskManagement.todayTasks}
         isLoadingTasks={taskManagement.isLoadingTasks}
         taskStats={taskManagement.taskStats}
@@ -300,7 +300,7 @@ export const ProjectsPage = React.memo(function ProjectsPage({
 
         // Goals Modal
         showGoalsModal={taskManagement.showGoalsModal}
-        onCloseGoalsModal={() => taskManagement.setShowGoalsModal(false)}
+        onCloseGoalsModal={taskManagement.handleCloseGoalsModal}
         tempGoals={taskManagement.tempGoals}
         setTempGoals={taskManagement.setTempGoals}
         todayProgress={taskManagement.todayProgress}

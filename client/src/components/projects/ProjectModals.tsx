@@ -59,7 +59,7 @@ interface ProjectModalsProps {
   setNewTaskPriority: (priority: 'low' | 'medium' | 'high') => void;
   newTaskEstimatedTime: number;
   setNewTaskEstimatedTime: (time: number) => void;
-  onCreateTask: () => void;
+  onCreateTask: () => Promise<void>;
   editingTask: Task | null;
 
   // Tasks Modal
@@ -67,10 +67,10 @@ interface ProjectModalsProps {
   onCloseTasksModal: () => void;
   todayTasks: Task[];
   isLoadingTasks: boolean;
-  taskStats: TaskStats | null;
-  onToggleTaskCompletion: (task: Task) => void;
+  taskStats: TaskStats;
+  onToggleTaskCompletion: (task: Task) => Promise<void>;
   onEditTask: (task: Task) => void;
-  onDeleteTask: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => Promise<void>;
 
   // Goals Modal
   showGoalsModal: boolean;
@@ -78,7 +78,7 @@ interface ProjectModalsProps {
   tempGoals: Goals;
   setTempGoals: (goals: Goals) => void;
   todayProgress: Progress;
-  onSaveGoals: () => void;
+  onSaveGoals: () => Promise<void>;
 }
 
 export const ProjectModals = React.memo(function ProjectModals({

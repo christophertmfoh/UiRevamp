@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
 
@@ -9,6 +9,8 @@ interface Task {
   priority: 'low' | 'medium' | 'high';
   estimatedTime: number;
   createdAt: string;
+  completedAt?: string;
+  projectId?: string;
 }
 
 interface Goals {
@@ -21,12 +23,131 @@ interface Progress {
   words: number;
   minutes: number;
   currentStreak: number;
+  lastUpdateDate: string;
 }
 
 interface TaskStats {
   completedTasks: number;
+  totalTasks: number;
   completionRate: number;
+  totalEstimatedTime: number;
+  completedEstimatedTime: number;
 }
+
+// localStorage keys
+const TASKS_STORAGE_KEY = 'fablecraft_tasks';
+const GOALS_STORAGE_KEY = 'fablecraft_goals';
+const PROGRESS_STORAGE_KEY = 'fablecraft_progress';
+
+// Task persistence utilities
+const loadTasksFromStorage = (): Task[] => {
+  try {
+    const saved = localStorage.getItem(TASKS_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch (error) {
+    console.error('Error loading tasks from localStorage:', error);
+    return [];
+  }
+};
+
+const saveTasksToStorage = (tasks: Task[]): void => {
+  try {
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+  } catch (error) {
+    console.error('Error saving tasks to localStorage:', error);
+  }
+};
+
+const loadGoalsFromStorage = (): Goals => {
+  try {
+    const saved = localStorage.getItem(GOALS_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {
+      dailyWords: 500,
+      dailyMinutes: 60,
+      streakDays: 30
+    };
+  } catch (error) {
+    console.error('Error loading goals from localStorage:', error);
+    return {
+      dailyWords: 500,
+      dailyMinutes: 60,
+      streakDays: 30
+    };
+  }
+};
+
+const saveGoalsToStorage = (goals: Goals): void => {
+  try {
+    localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(goals));
+  } catch (error) {
+    console.error('Error saving goals to localStorage:', error);
+  }
+};
+
+const loadProgressFromStorage = (): Progress => {
+  try {
+    const saved = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    const today = new Date().toDateString();
+    const defaultProgress = {
+      words: 0,
+      minutes: 0,
+      currentStreak: 0,
+      lastUpdateDate: today
+    };
+    
+    if (!saved) return defaultProgress;
+    
+    const progress = JSON.parse(saved);
+    
+    // Reset daily progress if it's a new day
+    if (progress.lastUpdateDate !== today) {
+      return {
+        ...progress,
+        words: 0,
+        minutes: 0,
+        lastUpdateDate: today
+      };
+    }
+    
+    return progress;
+  } catch (error) {
+    console.error('Error loading progress from localStorage:', error);
+    return {
+      words: 0,
+      minutes: 0,
+      currentStreak: 0,
+      lastUpdateDate: new Date().toDateString()
+    };
+  }
+};
+
+const saveProgressToStorage = (progress: Progress): void => {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+  } catch (error) {
+    console.error('Error saving progress to localStorage:', error);
+  }
+};
+
+// Utility functions
+const isToday = (dateString: string): boolean => {
+  const taskDate = new Date(dateString).toDateString();
+  const today = new Date().toDateString();
+  return taskDate === today;
+};
+
+const calculateTaskStats = (tasks: Task[]): TaskStats => {
+  const todayTasks = tasks.filter(task => isToday(task.createdAt));
+  const completedTasks = todayTasks.filter(task => task.status === 'completed');
+  
+  return {
+    completedTasks: completedTasks.length,
+    totalTasks: todayTasks.length,
+    completionRate: todayTasks.length > 0 ? (completedTasks.length / todayTasks.length) * 100 : 0,
+    totalEstimatedTime: todayTasks.reduce((sum, task) => sum + task.estimatedTime, 0),
+    completedEstimatedTime: completedTasks.reduce((sum, task) => sum + task.estimatedTime, 0)
+  };
+};
 
 interface UseTaskManagementReturn {
   // Modal states
@@ -46,8 +167,9 @@ interface UseTaskManagementReturn {
   
   // Data
   todayTasks: Task[];
+  allTasks: Task[];
   isLoadingTasks: boolean;
-  taskStats: TaskStats | null;
+  taskStats: TaskStats;
   
   // Actions
   setShowAddTaskModal: (show: boolean) => void;
@@ -60,11 +182,17 @@ interface UseTaskManagementReturn {
   
   // Handlers
   handleOpenGoalsModal: () => void;
-  handleCreateTask: () => void;
+  handleCreateTask: () => Promise<void>;
   handleEditTask: (task: Task) => void;
-  handleSaveGoals: () => void;
-  handleToggleTaskCompletion: (task: Task) => void;
-  handleDeleteTask: (taskId: string) => void;
+  handleSaveGoals: () => Promise<void>;
+  handleToggleTaskCompletion: (task: Task) => Promise<void>;
+  handleDeleteTask: (taskId: string) => Promise<void>;
+  handleCloseAddTaskModal: () => void;
+  handleCloseTasksModal: () => void;
+  handleCloseGoalsModal: () => void;
+  
+  // Progress tracking
+  updateProgress: (words?: number, minutes?: number) => void;
 }
 
 export function useTaskManagement(): UseTaskManagementReturn {
@@ -79,142 +207,130 @@ export function useTaskManagement(): UseTaskManagementReturn {
   const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState(30);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
-  // Goals states - Load from localStorage with defaults
-  const [tempGoals, setTempGoals] = useState<Goals>(() => {
-    const saved = localStorage.getItem('writingGoals');
-    return saved ? JSON.parse(saved) : {
-      dailyWords: 500,
-      dailyMinutes: 60,
-      streakDays: 30
+  // Data states
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [isLoadingTasks, setIsLoadingTasks] = useState(true);
+  
+  // Goals and progress states
+  const [tempGoals, setTempGoals] = useState<Goals>(loadGoalsFromStorage);
+  const [todayProgress, setTodayProgress] = useState<Progress>(loadProgressFromStorage);
+
+  // Load tasks on mount
+  useEffect(() => {
+    const loadTasks = async () => {
+      setIsLoadingTasks(true);
+      try {
+        const tasks = loadTasksFromStorage();
+        setAllTasks(tasks);
+      } catch (error) {
+        console.error('Error loading tasks:', error);
+      } finally {
+        setIsLoadingTasks(false);
+      }
     };
-  });
-
-  // Mock progress data - replace with actual tracking
-  const todayProgress: Progress = {
-    words: 150,
-    minutes: 25,
-    currentStreak: 7
-  };
-
-  // Fetch tasks data
-  const { data: todayTasks = [], isLoading: isLoadingTasks } = useQuery({
-    queryKey: ['tasks', 'today'],
-    queryFn: async () => {
-      // Replace with actual API call
-      return [] as Task[];
-    },
-  });
-
-  // Fetch task stats
-  const { data: taskStats = null } = useQuery({
-    queryKey: ['tasks', 'stats'],
-    queryFn: async () => {
-      // Replace with actual API call
-      return {
-        completedTasks: 12,
-        completionRate: 85
-      } as TaskStats;
-    },
-  });
-
-  // Create task mutation
-  const createTaskMutation = useMutation({
-    mutationFn: async (taskData: Omit<Task, 'id' | 'createdAt'>) => {
-      // Replace with actual API call
-      const newTask: Task = {
-        ...taskData,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString()
-      };
-      return newTask;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      setNewTaskText('');
-      setNewTaskPriority('medium');
-      setNewTaskEstimatedTime(30);
-      setEditingTask(null);
-      setShowAddTaskModal(false);
-    },
-  });
-
-  // Update task mutation
-  const updateTaskMutation = useMutation({
-    mutationFn: async (task: Task) => {
-      // Replace with actual API call
-      return task;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-    },
-  });
-
-  // Delete task mutation
-  const deleteTaskMutation = useMutation({
-    mutationFn: async (taskId: string) => {
-      // Replace with actual API call
-      return taskId;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-    },
-  });
-
-  // Handlers
-  const handleOpenGoalsModal = useCallback(() => {
-    const saved = localStorage.getItem('writingGoals');
-    if (saved) {
-      setTempGoals(JSON.parse(saved));
-    }
-    setShowGoalsModal(true);
+    
+    loadTasks();
   }, []);
 
-  const handleCreateTask = useCallback(() => {
+  // Computed values
+  const todayTasks = allTasks.filter(task => isToday(task.createdAt));
+  const taskStats = calculateTaskStats(allTasks);
+
+  // Task handlers
+  const handleCreateTask = useCallback(async (): Promise<void> => {
     if (!newTaskText.trim()) return;
 
-    if (editingTask) {
-      // Update existing task
-      updateTaskMutation.mutate({
-        ...editingTask,
-        text: newTaskText,
-        priority: newTaskPriority,
-        estimatedTime: newTaskEstimatedTime
-      });
-    } else {
-      // Create new task
-      createTaskMutation.mutate({
-        text: newTaskText,
-        status: 'pending',
-        priority: newTaskPriority,
-        estimatedTime: newTaskEstimatedTime
-      });
+    const newTask: Task = {
+      id: `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      text: newTaskText.trim(),
+      status: 'pending',
+      priority: newTaskPriority,
+      estimatedTime: newTaskEstimatedTime,
+      createdAt: new Date().toISOString()
+    };
+
+    const updatedTasks = [...allTasks, newTask];
+    setAllTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+
+    // Reset form
+    setNewTaskText('');
+    setNewTaskPriority('medium');
+    setNewTaskEstimatedTime(30);
+    setEditingTask(null);
+  }, [newTaskText, newTaskPriority, newTaskEstimatedTime, allTasks]);
+
+  const handleToggleTaskCompletion = useCallback(async (task: Task): Promise<void> => {
+    const updatedTask: Task = {
+      ...task,
+      status: task.status === 'completed' ? 'pending' : 'completed',
+      completedAt: task.status === 'completed' ? undefined : new Date().toISOString()
+    };
+
+    const updatedTasks = allTasks.map(t => t.id === task.id ? updatedTask : t);
+    setAllTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+
+    // Update progress if task was completed
+    if (updatedTask.status === 'completed') {
+      const estimatedMinutes = Math.round(updatedTask.estimatedTime);
+      updateProgress(0, estimatedMinutes);
     }
-  }, [newTaskText, newTaskPriority, newTaskEstimatedTime, editingTask, createTaskMutation, updateTaskMutation]);
+  }, [allTasks]);
+
+  const handleDeleteTask = useCallback(async (taskId: string): Promise<void> => {
+    const updatedTasks = allTasks.filter(task => task.id !== taskId);
+    setAllTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+  }, [allTasks]);
 
   const handleEditTask = useCallback((task: Task) => {
     setEditingTask(task);
     setNewTaskText(task.text);
     setNewTaskPriority(task.priority);
     setNewTaskEstimatedTime(task.estimatedTime);
-    setShowTasksModal(false);
     setShowAddTaskModal(true);
   }, []);
 
-  const handleSaveGoals = useCallback(() => {
-    localStorage.setItem('writingGoals', JSON.stringify(tempGoals));
-    setShowGoalsModal(false);
+  const handleSaveGoals = useCallback(async (): Promise<void> => {
+    saveGoalsToStorage(tempGoals);
   }, [tempGoals]);
 
-  const handleToggleTaskCompletion = useCallback((task: Task) => {
-    updateTaskMutation.mutate({
-      ...task,
-      status: task.status === 'completed' ? 'pending' : 'completed'
-    });
-  }, [updateTaskMutation]);
+  const handleOpenGoalsModal = useCallback(() => {
+    setTempGoals(loadGoalsFromStorage());
+    setShowGoalsModal(true);
+  }, []);
 
-  const handleDeleteTask = useCallback((taskId: string) => {
-    deleteTaskMutation.mutate(taskId);
-  }, [deleteTaskMutation]);
+  // Modal close handlers
+  const handleCloseAddTaskModal = useCallback(() => {
+    setShowAddTaskModal(false);
+    setEditingTask(null);
+    setNewTaskText('');
+    setNewTaskPriority('medium');
+    setNewTaskEstimatedTime(30);
+  }, []);
+
+  const handleCloseTasksModal = useCallback(() => {
+    setShowTasksModal(false);
+  }, []);
+
+  const handleCloseGoalsModal = useCallback(() => {
+    setShowGoalsModal(false);
+    setTempGoals(loadGoalsFromStorage());
+  }, []);
+
+  // Progress tracking
+  const updateProgress = useCallback((words: number = 0, minutes: number = 0) => {
+    const newProgress: Progress = {
+      ...todayProgress,
+      words: todayProgress.words + words,
+      minutes: todayProgress.minutes + minutes,
+      lastUpdateDate: new Date().toDateString()
+    };
+
+    setTodayProgress(newProgress);
+    saveProgressToStorage(newProgress);
+  }, [todayProgress]);
 
   return {
     // Modal states
@@ -234,6 +350,7 @@ export function useTaskManagement(): UseTaskManagementReturn {
     
     // Data
     todayTasks,
+    allTasks,
     isLoadingTasks,
     taskStats,
     
@@ -253,5 +370,11 @@ export function useTaskManagement(): UseTaskManagementReturn {
     handleSaveGoals,
     handleToggleTaskCompletion,
     handleDeleteTask,
+    handleCloseAddTaskModal,
+    handleCloseTasksModal,
+    handleCloseGoalsModal,
+    
+    // Progress tracking
+    updateProgress
   };
 }
