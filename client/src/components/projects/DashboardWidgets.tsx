@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
 import { MessageOfTheDay } from '@/components/ui/MessageOfTheDay';
+import { QuickTasksWidget } from './QuickTasksWidget';
 import { 
     Sparkles, 
     CheckCircle, 
     GripVertical,
-    Clock,
-    Plus,
-    X
+    Clock
   } from 'lucide-react';
 
-// Simple task interface for the Quick Tasks widget
-interface QuickTask {
-  id: string;
-  text: string;
-  completed: boolean;
-  createdAt: string;
-}
+
 
 type WidgetType = 'daily-inspiration' | 'recent-project' | 'writing-progress' | 'quick-tasks';
 
@@ -100,82 +90,6 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
   onShowAddTaskModal,
   onToggleTaskCompletion,
 }: DashboardWidgetsProps) {
-
-  // Local state for Quick Tasks widget
-  const [quickTasks, setQuickTasks] = useState<QuickTask[]>([]);
-  const [newTaskText, setNewTaskText] = useState('');
-  const [showAddTask, setShowAddTask] = useState(false);
-
-  // Load tasks from localStorage on mount
-  useEffect(() => {
-    const savedTasks = localStorage.getItem('quickTasks');
-    if (savedTasks) {
-      try {
-        setQuickTasks(JSON.parse(savedTasks));
-      } catch (error) {
-        console.error('Error loading quick tasks:', error);
-      }
-    }
-  }, []);
-
-  // Save tasks to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('quickTasks', JSON.stringify(quickTasks));
-  }, [quickTasks]);
-
-  // Add a new task
-  const handleAddTask = () => {
-    if (!newTaskText.trim()) return;
-
-    const newTask: QuickTask = {
-      id: `task_${Date.now()}`,
-      text: newTaskText.trim(),
-      completed: false,
-      createdAt: new Date().toISOString()
-    };
-
-    setQuickTasks(prev => [...prev, newTask]);
-    setNewTaskText('');
-    setShowAddTask(false);
-  };
-
-  // Toggle task completion
-  const handleToggleTask = (taskId: string) => {
-    setQuickTasks(prev => prev.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
-  };
-
-  // Delete a task
-  const handleDeleteTask = (taskId: string) => {
-    setQuickTasks(prev => prev.filter(task => task.id !== taskId));
-  };
-
-  // Create sample tasks for demonstration
-  const handleCreateSampleTasks = () => {
-    const sampleTasks: QuickTask[] = [
-      {
-        id: `sample_1_${Date.now()}`,
-        text: 'Write opening paragraph for Chapter 1',
-        completed: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: `sample_2_${Date.now()}`,
-        text: 'Edit previous chapter',
-        completed: true,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: `sample_3_${Date.now()}`,
-        text: 'Research character background',
-        completed: false,
-        createdAt: new Date().toISOString()
-      }
-    ];
-
-    setQuickTasks(prev => [...prev, ...sampleTasks]);
-  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -361,164 +275,9 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
             </Card>
           )}
 
-          {/* Quick Tasks Widget - WORKING VERSION */}
+          {/* Quick Tasks Widget - OPTIMIZED VERSION */}
           {widget.id === 'quick-tasks' && (
-            <Card className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 h-full">
-              <CardContent className="p-5 h-full flex flex-col">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-4 h-4 text-primary" />
-                    <h3 className="font-bold text-foreground text-sm">
-                      Quick Tasks
-                    </h3>
-                  </div>
-                  {quickTasks.length > 0 && (
-                    <Button
-                      size="sm"
-                      onClick={() => setShowAddTask(true)}
-                      className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-2 py-1 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
-                    >
-                      <Plus className="w-3 h-3 mr-1" />
-                      Add
-                    </Button>
-                  )}
-                </div>
-                
-                <div className="space-y-3 text-sm mb-5 flex-grow overflow-y-auto">
-                  {quickTasks.length === 0 ? (
-                    <div className="text-center text-muted-foreground text-xs space-y-3">
-                      <p className="mb-2">No tasks for today yet</p>
-                      
-                      <Button
-                        size="sm"
-                        onClick={handleCreateSampleTasks}
-                        className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1 mb-2"
-                      >
-                        🚀 Add Sample Tasks
-                      </Button>
-                      
-                      <Button
-                        size="sm"
-                        onClick={() => setShowAddTask(true)}
-                        className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-3 py-1"
-                      >
-                        Add Your First Task
-                      </Button>
-                    </div>
-                  ) : (
-                    <>
-                      {showAddTask && (
-                        <div className="p-3 bg-accent/10 rounded-lg border border-border/30 space-y-2">
-                          <Input
-                            placeholder="Add a quick task..."
-                            value={newTaskText}
-                            onChange={(e) => setNewTaskText(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
-                            className="text-xs"
-                            autoFocus
-                          />
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              onClick={handleAddTask}
-                              disabled={!newTaskText.trim()}
-                              className="text-xs gradient-primary text-primary-foreground hover:opacity-90"
-                            >
-                              Add
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setShowAddTask(false);
-                                setNewTaskText('');
-                              }}
-                              className="text-xs"
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {quickTasks.slice(0, 4).map((task) => (
-                        <div 
-                          key={task.id} 
-                          className="flex items-center gap-3 hover:bg-accent/10 p-2 rounded-lg transition-colors duration-200 group"
-                        >
-                          <Checkbox 
-                            checked={task.completed}
-                            onCheckedChange={() => handleToggleTask(task.id)}
-                            className="h-4 w-4 flex-shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <span className={`text-foreground/80 text-xs leading-tight block ${task.completed ? 'line-through opacity-60' : ''}`}>
-                              {task.text}
-                            </span>
-                          </div>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => handleDeleteTask(task.id)}
-                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
-                      
-                      {quickTasks.length > 4 && (
-                        <div className="text-center">
-                          <p className="text-xs text-muted-foreground">
-                            +{quickTasks.length - 4} more tasks
-                          </p>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-                
-                <div className="pt-3 border-t border-border/30 mt-auto">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                    <span>Today's Progress</span>
-                    <span>{quickTasks.filter(t => t.completed).length}/{quickTasks.length} completed</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-1.5 mb-3">
-                    <div 
-                      className="gradient-primary h-1.5 rounded-full transition-all duration-300" 
-                      style={{ width: `${quickTasks.length > 0 ? (quickTasks.filter(t => t.completed).length / quickTasks.length * 100) : 0}%` }}
-                    ></div>
-                  </div>
-                  
-                  {quickTasks.length === 0 ? (
-                    <div className="text-center">
-                      <p className="text-xs text-muted-foreground mb-2">
-                        Create tasks to track your writing progress
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="flex gap-2">
-                      {!showAddTask && (
-                        <Button 
-                          size="sm"
-                          onClick={() => setShowAddTask(true)}
-                          className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
-                        >
-                          Add Task
-                        </Button>
-                      )}
-                      <Button 
-                        size="sm"
-                        onClick={onShowTasksModal}
-                        className="gradient-primary text-primary-foreground hover:opacity-90 text-xs px-4 py-2 font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg flex-1"
-                      >
-                        View All
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <QuickTasksWidget onShowTasksModal={onShowTasksModal} />
           )}
         </div>
       ))}
