@@ -2,8 +2,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "./shared/components/theme-provider"
 import { Router, Route, Switch } from "wouter"
 import { LandingPage } from "./pages/LandingPage"
-// import { WorkspacePage } from "./pages/WorkspacePage.tsx"
+import { suppressResizeObserverError } from "./shared/utils/resizeObserver"
 import './index.css'
+
+// Suppress ResizeObserver errors on app load
+suppressResizeObserverError();
 
 const queryClient = new QueryClient({
   defaultOptions: {

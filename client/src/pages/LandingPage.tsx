@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from '../shared/components/ui/button';
-import { Badge } from '../shared/components/ui/badge';
 import { Card, CardContent } from '../shared/components/ui/card';
 import { ThemeToggle } from '../shared/components/theme-toggle';
 import { FloatingOrbs } from '../shared/components/FloatingOrbs';
@@ -18,23 +17,14 @@ import {
   Feather, 
   BookOpen, 
   Users,
-  Edit3, 
-  ArrowRight,
   Sparkles,
   Brain,
   CheckCircle,
-  TrendingUp,
-  Award,
-  Star,
   Target,
   Compass,
   Palette,
-  Moon,
-  Sun,
   Lightbulb,
-  FileText,
   Image,
-  Bookmark,
   Library,
   PenTool,
   ChevronDown,
@@ -138,15 +128,12 @@ export function LandingPage({
   onAuth = () => {},
   onLogout = async () => {},
   user = null,
-  isAuthenticated = false,
-  guideMode = false, 
-  setGuideMode = () => {}
+  isAuthenticated = false
 }: LandingPageProps = {}) {
   const [, setLocation] = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [isHoveringSteps, setIsHoveringSteps] = useState(false);
-  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
 
   const handleNavigate = (path: string) => {
     if (onNavigate) {
@@ -190,10 +177,19 @@ export function LandingPage({
     return () => clearInterval(interval);
   }, [isHoveringSteps]);
 
-  // Parallax scrolling effect
+  // Parallax scrolling effect with throttling
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -470,14 +466,8 @@ export function LandingPage({
               className={`group transition-all duration-500 cursor-pointer border-2 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:-translate-y-2 ${
                 currentStep === index ? 'border-primary shadow-lg scale-105' : 'border-border'
               }`}
-              onMouseEnter={() => {
-                setIsHoveringSteps(true);
-                setHoveredStep(index);
-              }}
-              onMouseLeave={() => {
-                setIsHoveringSteps(false);
-                setHoveredStep(null);
-              }}
+              onMouseEnter={() => setIsHoveringSteps(true)}
+              onMouseLeave={() => setIsHoveringSteps(false)}
             >
               <CardContent className="p-8">
                 <div className="mb-6 w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">

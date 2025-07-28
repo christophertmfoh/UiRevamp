@@ -111,7 +111,9 @@ export function ThemeToggle() {
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    setMounted(true)
+    // Delay mounting to prevent hydration issues
+    const timer = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(timer);
   }, [])
 
   if (!mounted) {
