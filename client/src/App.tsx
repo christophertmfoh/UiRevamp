@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './lib/queryClient';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -6,28 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from './components/theme-provider';
 import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { useAuth } from './hooks/useAuth';
-import type { Project } from './lib/types';
-import { LandingPage } from './components/LandingPage';
-import { ProjectDashboard } from './components/project';
-import { createLazyRoute } from './components/projects/LazyProjectComponents';
-import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
-import { AuthPageRedesign } from './pages/AuthPageRedesign';
-import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
-
-// Create lazy-loaded routes
-const LazyProjectsPage = createLazyRoute(() => 
-  import('./components/projects/ProjectsPage').then(module => ({ 
-    default: module.ProjectsPage 
-  }))
-);
-
-const LazyProjectDashboard = createLazyRoute(() => 
-  import('./components/project').then(module => ({ 
-    default: module.ProjectDashboard 
-  }))
-);
-import { FloatingOrbs } from './components/FloatingOrbs';
+import { AppContent } from './components/AppContent';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
 const applyScrollbarStyles = () => {
@@ -131,288 +110,16 @@ const applyScrollbarStyles = () => {
 };
 
 export default function App() {
-  const [view, setView] = useState('landing'); // landing, projects, dashboard, auth
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [modal, setModal] = useState<{type: string | null; project: Project | null}>({ type: null, project: null });
-  const [guideMode, setGuideMode] = useState(false);
-  
-  const { user, token, isAuthenticated, checkAuth, login, logout, isLoading } = useAuth();
-
-  // Initialize auth on app load
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
-  // Apply scrollbar styles when component mounts and on view changes
-  useEffect(() => {
+  // Initialize scrollbar styling
+  React.useEffect(() => {
     applyScrollbarStyles();
     
-    // Also apply after a brief delay to ensure DOM is ready
     const timer = setTimeout(() => {
       applyScrollbarStyles();
     }, 100);
     
     return () => clearTimeout(timer);
-  }, [view]);
-
-  // Apply scrollbar styles on every render for maximum persistence
-  useEffect(() => {
-    applyScrollbarStyles();
-    
-    // Nuclear option: inject raw CSS after everything loads
-    const forceScrollbarCSS = () => {
-      const css = `
-        html::-webkit-scrollbar { width: 8px !important; background: transparent !important; display: block !important; }
-        html::-webkit-scrollbar-track { background: transparent !important; }
-        html::-webkit-scrollbar-thumb { background: #a0967d !important; border-radius: 6px !important; }
-        html::-webkit-scrollbar-thumb:hover { background: #8b8269 !important; }
-        body::-webkit-scrollbar { width: 8px !important; background: transparent !important; display: block !important; }
-        body::-webkit-scrollbar-track { background: transparent !important; }
-        body::-webkit-scrollbar-thumb { background: #a0967d !important; border-radius: 6px !important; }
-        body::-webkit-scrollbar-thumb:hover { background: #8b8269 !important; }
-      `;
-      
-      const styleEl = document.createElement('style');
-      styleEl.textContent = css;
-      styleEl.setAttribute('data-nuclear-scrollbar', 'true');
-      document.head.appendChild(styleEl);
-    };
-    
-    setTimeout(forceScrollbarCSS, 50);
-    setTimeout(forceScrollbarCSS, 200);
-    setTimeout(forceScrollbarCSS, 500);
-  });
-
-  const handleProjectCreated = async (projectData: any) => {
-    try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          id: Date.now().toString(),
-          userId: user?.id || '',
-          name: projectData.name,
-          type: projectData.type,
-          description: projectData.description || '',
-          genre: projectData.genres || [],
-          manuscriptNovel: '',
-          manuscriptScreenplay: '',
-          synopsis: projectData.synopsis || ''
-        }),
-      });
-
-      if (response.ok) {
-        const newProject = await response.json();
-        // Fetch the full project data with related entities
-        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (fullProjectResponse.ok) {
-          const fullProject = await fullProjectResponse.json();
-          setActiveProject(fullProject);
-          setView('dashboard');
-          setModal({ type: null, project: null });
-        }
-      }
-    } catch (error) {
-      // Handle error silently - user will see no project was created
-    }
-  };
-
-  const handleCreateProjectFromManuscript = async (data: any, fileName: string) => {
-    try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: Date.now().toString(),
-          name: fileName.replace(/\.[^/.]+$/, ''),
-          type: 'novel',
-          description: 'Imported from manuscript',
-          genre: [],
-          manuscriptNovel: data.manuscriptText || '',
-          manuscriptScreenplay: ''
-        }),
-      });
-
-      if (response.ok) {
-        const newProject = await response.json();
-        // Fetch the full project data with related entities
-        const fullProjectResponse = await fetch(`/api/projects/${newProject.id}`);
-        if (fullProjectResponse.ok) {
-          const fullProject = await fullProjectResponse.json();
-          setActiveProject(fullProject);
-          setView('dashboard');
-          setModal({ type: null, project: null });
-        }
-      }
-    } catch (error) {
-      // Handle error silently - user will see no project was created
-    }
-  };
-
-  const handleUpdateProject = async (updatedProject: Project) => {
-    try {
-      const response = await fetch(`/api/projects/${updatedProject.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: updatedProject.name,
-          type: updatedProject.type,
-          description: updatedProject.description,
-          genre: updatedProject.genre,
-          manuscriptNovel: updatedProject.manuscript.novel,
-          manuscriptScreenplay: updatedProject.manuscript.screenplay
-        }),
-      });
-
-      if (response.ok) {
-        const updated = await response.json();
-        if (activeProject && activeProject.id === updatedProject.id) {
-          setActiveProject(updatedProject);
-        }
-        setModal({ type: null, project: null });
-      }
-    } catch (error) {
-      // Handle error silently - user will see no change occurred
-    }
-  };
-
-  const handleDeleteProject = async (projectId: string) => {
-    try {
-      const response = await fetch(`/api/projects/${projectId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setModal({ type: null, project: null });
-        if (activeProject?.id === projectId) {
-          setActiveProject(null);
-          setView('projects');
-        }
-      }
-    } catch (error) {
-      // Handle error silently - user will see project remains
-    }
-  };
-
-  const handleSelectProject = async (project: Project) => {
-    try {
-      // Fetch the full project data
-      const response = await fetch(`/api/projects/${project.id}`);
-      if (response.ok) {
-        const fullProject = await response.json();
-        setActiveProject(fullProject);
-        setView('dashboard');
-      }
-    } catch (error) {
-      // Handle error silently - user remains on current view
-    }
-  };
-
-  const handleAuth = (user: any, token: string) => {
-    login(user, token);
-    setView('projects');
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    setView('landing');
-    setActiveProject(null);
-  };
-
-  // Show loading spinner while checking auth
-  if (isLoading) {
-    return (
-      <ThemeProvider 
-        attribute="class" 
-        defaultTheme="dark" 
-        enableSystem
-        themes={[
-          'light', 
-          'dark',
-          'system',
-          'arctic-focus',
-          'golden-hour',
-          'midnight-ink',
-          'forest-manuscript',
-          'starlit-prose',
-          'coffee-house'
-        ]}
-      >
-        <div className="min-h-screen bg-background flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
-        </div>
-      </ThemeProvider>
-    );
-  }
-
-  const renderView = () => {
-    switch(view) {
-      case 'auth':
-        return (
-          <AuthPageRedesign 
-            onAuth={handleAuth}
-            onBack={() => setView('landing')}
-          />
-        );
-      case 'projects':
-        return (
-          <LazyProjectsPage 
-            onNavigate={setView}
-            onNewProject={() => setModal({ type: 'new', project: null })}
-            onSelectProject={handleSelectProject} 
-            onLogout={handleLogout}
-            user={user}
-          />
-        );
-      case 'dashboard':
-        if (!activeProject) {
-          setView('projects');
-          return null;
-        }
-        return (
-          <LazyProjectDashboard 
-            project={activeProject} 
-            onBack={() => { setView('projects'); setActiveProject(null); }} 
-            onUpdateProject={handleUpdateProject} 
-            onOpenModal={(modalInfo: {type: string | null; project: Project | null}) => setModal(modalInfo)}
-            onLogout={handleLogout}
-            user={user}
-            isAuthenticated={isAuthenticated}
-            guideMode={guideMode}
-            setGuideMode={setGuideMode}
-          />
-        );
-      case 'landing':
-      default:
-        return (
-          <LandingPage 
-            onNavigate={setView} 
-            onNewProject={() => setModal({ type: 'new', project: null })} 
-            onUploadManuscript={() => setModal({ type: 'importManuscript', project: null })}
-            onAuth={() => setView('auth')}
-            onLogout={handleLogout}
-            user={user}
-            isAuthenticated={isAuthenticated}
-            guideMode={guideMode}
-            setGuideMode={setGuideMode}
-          />
-        );
-    }
-  };
+  }, []);
 
   return (
     <ErrorBoundary>
@@ -435,54 +142,8 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
             <TooltipProvider>
-              <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
-                <FloatingOrbs />
-                <Toaster />
-                {renderView()}
-          
-          {/* Modals */}
-          {modal.type === 'new' && (
-            <ProjectCreationWizard 
-              isOpen={true}
-              onClose={() => setModal({ type: null, project: null })} 
-              onCreate={handleProjectCreated}
-            />
-          )}
-          {modal.type === 'edit' && modal.project && (
-            <ProjectModal 
-              projectToEdit={modal.project} 
-              onClose={() => setModal({ type: null, project: null })} 
-            />
-          )}
-          {modal.type === 'rename' && modal.project && (
-            <ProjectModal 
-              projectToEdit={modal.project} 
-              isRenameOnly={true} 
-              onClose={() => setModal({ type: null, project: null })} 
-            />
-          )}
-          {modal.type === 'delete' && modal.project && (
-            <ConfirmDeleteModal 
-              project={modal.project} 
-              onClose={() => setModal({ type: null, project: null })} 
-              onDelete={handleDeleteProject} 
-            />
-          )}
-          {modal.type === 'importManuscript' && (
-            <ImportManuscriptModal 
-              projectToUpdate={modal.project} 
-              onClose={() => setModal({ type: null, project: null })} 
-              onUpdateProject={handleUpdateProject} 
-              onCreateProject={handleCreateProjectFromManuscript} 
-            />
-          )}
-          {modal.type === 'import' && (
-            <IntelligentImportModal
-              onProjectCreated={handleProjectCreated}
-              onClose={() => setModal({ type: null, project: null })}
-            />
-          )}
-              </div>
+              <Toaster />
+              <AppContent />
             </TooltipProvider>
           </ToastProvider>
         </QueryClientProvider>

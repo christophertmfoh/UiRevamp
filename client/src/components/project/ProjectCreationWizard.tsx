@@ -29,6 +29,8 @@ import {
   Feather,
   Scroll
 } from 'lucide-react';
+import { useToastActions } from '@/components/ui/Toast';
+import { LoadingButton, LoadingSkeleton } from '@/components/ui/LoadingStates';
 
 interface ProjectCreationWizardProps {
   isOpen: boolean;
@@ -62,8 +64,10 @@ const projectTypes = [
 ];
 
 export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCreationWizardProps) {
+  const toast = useToastActions();
   const [mode, setMode] = useState<WizardMode>('selection');
   const [step, setStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Manual creation state
   const [projectName, setProjectName] = useState('');
@@ -341,23 +345,40 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
-            <Button
-              onClick={() => {
-                onCreate({
-                  name: projectName,
-                  type: projectType,
-                  genres: selectedGenres,
-                  description,
-                  synopsis
-                });
-                handleClose();
+            <LoadingButton
+              onClick={async () => {
+                if (isSubmitting) return;
+                setIsSubmitting(true);
+                
+                try {
+                  await toast.promise(
+                    onCreate({
+                      name: projectName,
+                      type: projectType,
+                      genres: selectedGenres,
+                      description,
+                      synopsis
+                    }),
+                    {
+                      loading: 'Creating your project...',
+                      success: `🎉 "${projectName}" created successfully!`,
+                      error: 'Failed to create project. Please try again.'
+                    }
+                  );
+                  handleClose();
+                } catch (error) {
+                  console.error('Project creation failed:', error);
+                } finally {
+                  setIsSubmitting(false);
+                }
               }}
-              disabled={!projectName.trim()}
+              disabled={!projectName.trim() || isSubmitting}
+              loading={isSubmitting}
               className="gradient-primary hover:opacity-90 text-white flex items-center"
             >
-              Create Project
-              <Sparkles className="w-4 h-4 ml-2" />
-            </Button>
+              {isSubmitting ? 'Creating...' : 'Create Project'}
+              {!isSubmitting && <Sparkles className="w-4 h-4 ml-2" />}
+            </LoadingButton>
           )}
         </div>
       </div>

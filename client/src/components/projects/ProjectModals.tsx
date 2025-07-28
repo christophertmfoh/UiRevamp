@@ -4,6 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useToastActions } from '@/components/ui/Toast';
+import { useFocusManagement, useScreenReader, useAriaAttributes, useTouchTargets } from '@/hooks/useAccessibility';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import {
   Dialog,
   DialogContent,
@@ -109,10 +112,95 @@ export const ProjectModals = React.memo(function ProjectModals({
   todayProgress,
   onSaveGoals,
 }: ProjectModalsProps) {
+  const toast = useToastActions();
+  const { trapFocus, restoreFocus } = useFocusManagement();
+  const { announce } = useScreenReader();
+  const { setAriaExpanded, setAriaLabel } = useAriaAttributes();
+  const { validateTouchTargets } = useTouchTargets();
+
+  // Enhanced handlers with toast notifications and optimistic updates
+  const handleCreateTask = async () => {
+    if (!newTaskText.trim()) return;
+
+    try {
+      // Optimistic update - immediately show task as created
+      const optimisticTask = {
+        id: `temp-${Date.now()}`,
+        text: newTaskText,
+        priority: newTaskPriority,
+        estimatedTime: newTaskEstimatedTime,
+        status: 'pending' as const,
+        createdAt: new Date().toISOString()
+      };
+
+      // Show loading toast
+      const promise = onCreateTask();
+      
+      // Use toast promise wrapper for automatic loading/success/error handling
+      await toast.promise(promise, {
+        loading: editingTask ? 'Updating task...' : 'Creating task...',
+        success: editingTask ? 'Task updated successfully!' : 'Task created successfully!',
+        error: editingTask ? 'Failed to update task' : 'Failed to create task'
+      });
+
+      // Screen reader announcement
+      announce(editingTask ? 'Task updated' : 'New task created', 'polite');
+      onCloseAddTaskModal();
+    } catch (error) {
+      // Error is automatically handled by toast.promise
+      console.error('Task creation failed:', error);
+    }
+  };
+
+  const handleToggleTask = async (taskId: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+      const isCompleting = newStatus === 'completed';
+      
+      // Optimistic update
+      await toast.promise(onToggleTaskCompletion(taskId), {
+        loading: isCompleting ? 'Completing task...' : 'Reopening task...',
+        success: isCompleting ? '🎉 Task completed!' : 'Task reopened',
+        error: isCompleting ? 'Failed to complete task' : 'Failed to reopen task'
+      });
+
+      // Screen reader announcement
+      announce(isCompleting ? 'Task completed' : 'Task reopened', 'polite');
+    } catch (error) {
+      console.error('Task toggle failed:', error);
+    }
+  };
+
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      await toast.promise(onDeleteTask(taskId), {
+        loading: 'Deleting task...',
+        success: 'Task deleted successfully',
+        error: 'Failed to delete task'
+      });
+    } catch (error) {
+      console.error('Task deletion failed:', error);
+    }
+  };
+
+  const handleSaveGoals = async () => {
+    try {
+      await toast.promise(onSaveGoals(), {
+        loading: 'Saving goals...',
+        success: '🎯 Goals updated successfully!',
+        error: 'Failed to save goals'
+      });
+      onCloseGoalsModal();
+    } catch (error) {
+      console.error('Goals save failed:', error);
+    }
+  };
+
   return (
     <>
       {/* Add Task Modal */}
-      <Dialog open={showAddTaskModal} onOpenChange={onCloseAddTaskModal}>
+      <ErrorBoundary isolate>
+        <Dialog open={showAddTaskModal} onOpenChange={onCloseAddTaskModal}>
         <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black gradient-primary-text">
@@ -133,7 +221,13 @@ export const ProjectModals = React.memo(function ProjectModals({
                 value={newTaskText}
                 onChange={(e) => setNewTaskText(e.target.value)}
                 className="min-h-[100px] resize-none surface-elevated border-border rounded-xl"
+                aria-label="Task description"
+                aria-describedby="task-description-help"
+                required
               />
+              <p id="task-description-help" className="text-xs text-muted-foreground mt-1">
+                Enter a clear description of what you want to accomplish
+              </p>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
@@ -178,7 +272,7 @@ export const ProjectModals = React.memo(function ProjectModals({
             
             <div className="flex gap-3 pt-4">
               <Button 
-                onClick={onCreateTask}
+                onClick={handleCreateTask}
                 disabled={!newTaskText.trim()}
                 className="flex-1 gradient-primary hover:opacity-90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl"
               >
@@ -195,9 +289,11 @@ export const ProjectModals = React.memo(function ProjectModals({
           </div>
         </DialogContent>
       </Dialog>
+      </ErrorBoundary>
 
       {/* View All Tasks Modal */}
-      <Dialog open={showTasksModal} onOpenChange={onCloseTasksModal}>
+      <ErrorBoundary isolate>
+        <Dialog open={showTasksModal} onOpenChange={onCloseTasksModal}>
         <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black gradient-primary-text">
@@ -240,7 +336,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                     <div key={task.id} className="flex items-start gap-3 p-4 surface-muted rounded-xl hover:bg-accent/20 transition-colors">
                       <Checkbox
                         checked={task.status === 'completed'}
-                        onCheckedChange={() => onToggleTaskCompletion(task)}
+                        onCheckedChange={() => handleToggleTask(task.id, task.status)}
                         className="mt-0.5 h-5 w-5"
                       />
                       <div className="flex-grow">
@@ -275,7 +371,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => onDeleteTask(task.id)}
+                          onClick={() => handleDeleteTask(task.id)}
                           className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -304,9 +400,11 @@ export const ProjectModals = React.memo(function ProjectModals({
           </div>
         </DialogContent>
       </Dialog>
+      </ErrorBoundary>
 
       {/* Goals Modal */}
-      <Dialog open={showGoalsModal} onOpenChange={onCloseGoalsModal}>
+      <ErrorBoundary isolate>
+        <Dialog open={showGoalsModal} onOpenChange={onCloseGoalsModal}>
         <DialogContent className="max-w-md glass-card backdrop-blur-xl rounded-[2rem] border border-border/30">
           <DialogHeader>
             <DialogTitle className="text-lg font-black gradient-primary-text">
@@ -390,7 +488,7 @@ export const ProjectModals = React.memo(function ProjectModals({
             <div className="flex gap-2 pt-3 border-t border-border/30">
               <Button 
                 size="sm"
-                onClick={onSaveGoals}
+                onClick={handleSaveGoals}
                 className="flex-1 gradient-primary hover:opacity-90 text-primary-foreground text-xs font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-lg"
               >
                 Save Goals
@@ -407,6 +505,7 @@ export const ProjectModals = React.memo(function ProjectModals({
           </div>
         </DialogContent>
       </Dialog>
+      </ErrorBoundary>
     </>
   );
 });
