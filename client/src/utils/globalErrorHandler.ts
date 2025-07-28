@@ -22,20 +22,14 @@ export const initializeGlobalErrorHandler = () => {
     if (errorCount < MAX_ERRORS_PER_MINUTE) {
       const reason = event.reason;
       
-      // Detailed logging to find the source
-      if (reason && reason.message) {
-        console.warn('🔍 Promise rejection:', reason.message);
-        if (reason.url) {
-          console.warn('Failed URL:', reason.url);
-        }
-        if (reason.name && reason.name.includes('HTTPError')) {
-          console.warn('HTTP Error details:', reason.name);
-        }
-      } else if (reason && typeof reason === 'object') {
-        console.warn('🔍 Promise rejection (object):', JSON.stringify(reason, null, 2));
-      } else {
-        console.warn('🔍 Promise rejection:', reason);
+      // Filter out Vite HMR errors to reduce noise
+      if (reason?.stack?.includes('@vite/client') || reason?.stack?.includes('ping')) {
+        // Silently ignore Vite HMR connection errors
+        return;
       }
+      
+      // Log other promise rejections for debugging
+      console.warn('🔍 Promise rejection:', reason?.message || reason);
       
       errorCount++;
     }

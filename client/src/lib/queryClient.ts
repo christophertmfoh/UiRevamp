@@ -66,6 +66,8 @@ export const getQueryFn: <T>(options: {
     } catch (error) {
       // Add URL context to help debug which endpoint is failing
       error.url = queryKey.join("/");
+      // Temporarily log which URLs are failing to identify the source
+      console.error('🔍 Query failed for URL:', queryKey.join("/"), error.message);
       throw error;
     }
   };

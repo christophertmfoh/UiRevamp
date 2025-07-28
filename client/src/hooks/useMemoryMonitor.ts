@@ -78,7 +78,7 @@ export const useMemoryMonitor = (alertThreshold: number = 70) => {
     if (!isMonitoring) return;
 
     checkMemory(); // Initial check
-    const interval = setInterval(checkMemory, 5000); // Check every 5 seconds for faster response
+    const interval = setInterval(checkMemory, 10000); // Check every 10 seconds to reduce pressure
 
     return () => clearInterval(interval);
   }, [isMonitoring, checkMemory]);

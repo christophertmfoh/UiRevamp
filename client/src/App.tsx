@@ -186,7 +186,7 @@ export default function App() {
     if (isAuthenticated && user) {
       fetchProjects();
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Initialize scrollbar styling
   useEffect(() => {

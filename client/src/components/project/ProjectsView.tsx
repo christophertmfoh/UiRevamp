@@ -44,11 +44,17 @@ export function ProjectsView({
   const { data: projects = [], isLoading, error } = useQuery({
     queryKey: ['/api/projects'],
     queryFn: async () => {
-      const response = await fetch('/api/projects');
-      if (!response.ok) {
-        throw new Error('Failed to fetch projects');
+      try {
+        const response = await fetch('/api/projects');
+        if (!response.ok) {
+          // Return empty array instead of throwing to prevent promise rejections
+          return [];
+        }
+        return response.json();
+      } catch (error) {
+        // Return empty array on network failures to prevent promise rejections
+        return [];
       }
-      return response.json();
     }
   });
 

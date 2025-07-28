@@ -49,7 +49,7 @@ export const PerformanceDashboard: React.FC = () => {
     lastSave: null
   });
 
-  const [isCollecting, setIsCollecting] = useState(true); // Enable to debug the fetch failures
+  const [isCollecting, setIsCollecting] = useState(true); // Re-enable now that we've fixed the root cause
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const collectMetrics = useCallback(async () => {

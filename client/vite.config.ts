@@ -32,7 +32,9 @@ export default defineConfig({
     hmr: {
       overlay: false, // Reduce visual interruption during writing
       port: 5173,
-      host: "0.0.0.0"
+      host: "0.0.0.0",
+      clientPort: 5173, // Ensure client connects to correct port
+      timeout: 60000 // Increase timeout to prevent connection failures
     },
 
     // Phase 5: Warmup critical writing components
