@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
+import { useOptimizedScroll } from '../shared/hooks/useOptimizedScroll';
+import { useStableMount } from '../shared/hooks/useStableMount';
 import { Button } from '../shared/components/ui/button';
 import { Card, CardContent } from '../shared/components/ui/card';
 import { ThemeToggle } from '../shared/components/theme-toggle';
@@ -132,8 +134,11 @@ export function LandingPage({
 }: LandingPageProps = {}) {
   const [, setLocation] = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
   const [isHoveringSteps, setIsHoveringSteps] = useState(false);
+  
+  // Senior-level performance optimizations
+  const isMounted = useStableMount(150);
+  const scrollY = useOptimizedScroll();
 
   const handleNavigate = (path: string) => {
     if (onNavigate) {
@@ -177,21 +182,22 @@ export function LandingPage({
     return () => clearInterval(interval);
   }, [isHoveringSteps]);
 
-  // Parallax scrolling effect with throttling
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Memoized style calculations for performance
+  const parallaxStyles = useMemo(() => ({
+    noiseTransform: `translateY(${scrollY * 0.05}px)`,
+    gridTransform: `translateY(${scrollY * 0.1}px)`,
+    orb1Transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+    orb2Transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`
+  }), [scrollY]);
+
+  // Prevent render until stable mount to avoid ResizeObserver issues
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative transition-all duration-300 overflow-hidden bg-background">
@@ -214,7 +220,7 @@ export function LandingPage({
           className="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-            transform: `translateY(${scrollY * 0.05}px)`
+            transform: parallaxStyles.noiseTransform
           }}
         />
 
@@ -225,7 +231,7 @@ export function LandingPage({
               <circle cx="30" cy="30" r="0.5" fill="currentColor" className="text-foreground/20"/>
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" style={{ transform: `translateY(${scrollY * 0.1}px)` }}/>
+          <rect width="100%" height="100%" fill="url(#grid)" style={{ transform: parallaxStyles.gridTransform }}/>
         </svg>
       </div>
 
@@ -235,7 +241,7 @@ export function LandingPage({
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full"
           style={{
             background: 'radial-gradient(circle, hsl(var(--orb-primary) / 0.1) 0%, transparent 70%)',
-            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+            transform: parallaxStyles.orb1Transform,
             filter: 'blur(40px)'
           }}
         />
@@ -243,7 +249,7 @@ export function LandingPage({
           className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full"
           style={{
             background: 'radial-gradient(circle, hsl(var(--orb-secondary) / 0.1) 0%, transparent 70%)',
-            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
+            transform: parallaxStyles.orb2Transform,
             filter: 'blur(30px)'
           }}
         />
