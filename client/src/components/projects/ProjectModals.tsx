@@ -77,7 +77,7 @@ export const ProjectModals = React.memo(function ProjectModals({
   const [nlpPreview, setNlpPreview] = useState<any>(null);
 
   // Toast for user feedback
-  const { toast, announce: announceToast } = useToastActions();
+  const toast = useToastActions();
 
   // Accessibility hooks
   const { trapFocus } = useFocusManagement();
