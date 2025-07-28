@@ -181,7 +181,7 @@ export default function App() {
       }
     } catch (error) {
       // Only log actual network errors, not auth failures
-      if (error.name !== 'AbortError') {
+      if (error instanceof Error && error.name !== 'AbortError') {
         console.warn('Projects fetch error:', error.message);
       }
     }
