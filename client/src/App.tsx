@@ -135,21 +135,21 @@ interface Modal {
 
 export default function App() {
   const { user, isAuthenticated, isLoading, login, logout, checkAuth } = useAuth();
-  const [view, setView] = useState<View>(() => {
-    // Restore view from URL on page load
-    const path = window.location.pathname;
-    if (path === '/projects') return 'projects';
-    if (path === '/dashboard') return 'dashboard';
-    if (path === '/auth') return 'auth';
-    return 'landing';
-  });
+  const [view, setView] = useState<View>('landing');
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
 
-  // Initialize auth check on app load
+  // Initialize app state and URL restoration
   useEffect(() => {
+    // Restore view from URL on app load
+    const path = window.location.pathname;
+    if (path === '/projects') setView('projects');
+    else if (path === '/dashboard') setView('dashboard');
+    else if (path === '/auth') setView('auth');
+    else setView('landing');
+    
     const initializeAuth = async () => {
       // Check if we have stored user data and token
       const storedUser = localStorage.getItem('fablecraft_user');
