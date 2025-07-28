@@ -30,6 +30,7 @@ import {
   Palette,
   Moon,
   Sun,
+  Lightbulb,
   FileText,
   Image,
   Bookmark,
