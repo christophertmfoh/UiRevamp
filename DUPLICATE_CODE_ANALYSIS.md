@@ -4,11 +4,12 @@
 
 ## CRITICAL DUPLICATES (High Risk)
 
-### 1. Landing Page System
+### 1. Landing Page System (MAJOR DUPLICATE)
 - **ACTIVE**: `client/src/pages/landing/LandingPage.tsx` ✅ (Used in App.tsx)
-- **DUPLICATE**: `client/src/pages/workspace.tsx` ❌ (Completely different workspace system - 700+ lines)
+- **DUPLICATE**: Inside `client/src/pages/workspace.tsx` ❌ (920-line file with embedded LandingPage component)
+- **BROKEN EXPORT**: `client/src/components/index.ts` tries to export `./LandingPage` (doesn't exist)
 
-**Risk Level**: 🔴 HIGH - workspace.tsx is a massive alternate implementation that could cause confusion
+**Risk Level**: 🔴 CRITICAL - workspace.tsx contains a complete alternate landing page implementation
 
 ### 2. Authentication Pages  
 - **ACTIVE**: `client/src/pages/AuthPageRedesign.tsx` ✅ (Used in App.tsx)
