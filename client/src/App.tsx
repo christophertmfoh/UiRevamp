@@ -8,6 +8,7 @@ import { ToastProvider } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
+import { LandingPage } from './components/LandingPage';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -276,24 +277,42 @@ export default function App() {
   }
 
   const renderView = () => {
-    // Simple loading test - just render a basic view first
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-foreground mb-4">FableCraft</h1>
-          <p className="text-muted-foreground mb-4">Loading: {view}</p>
-          <p className="text-sm text-muted-foreground">User: {user?.username || 'Not logged in'}</p>
-          <p className="text-sm text-muted-foreground">Auth: {isAuthenticated ? 'Yes' : 'No'}</p>
-          <p className="text-sm text-muted-foreground">Loading: {isLoading ? 'Yes' : 'No'}</p>
-          <button 
-            onClick={() => setView('landing')} 
-            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded"
-          >
-            Test Navigation
-          </button>
-        </div>
-      </div>
-    );
+    switch(view) {
+      case 'landing':
+        return (
+          <LandingPage 
+            onNavigate={setView}
+            onNewProject={() => setModal({ type: 'new', project: null })}
+            isAuthenticated={isAuthenticated}
+            user={user}
+            onLogout={handleLogout}
+          />
+        );
+      default:
+        // Simple test interface for other views
+        return (
+          <div className="min-h-screen bg-background flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-foreground mb-4">FableCraft</h1>
+              <p className="text-muted-foreground mb-4">Current view: {view}</p>
+              <p className="text-sm text-muted-foreground">User: {user?.username || 'Not logged in'}</p>
+              <p className="text-sm text-muted-foreground">Auth: {isAuthenticated ? 'Yes' : 'No'}</p>
+              <button 
+                onClick={() => setView('landing')} 
+                className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded mr-2"
+              >
+                Go to Landing
+              </button>
+              <button 
+                onClick={() => setView('projects')} 
+                className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded"
+              >
+                Test Projects
+              </button>
+            </div>
+          </div>
+        );
+    }
   };
 
   return (
