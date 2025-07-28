@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowLeft, Save } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '../../lib/types';
-import { CHARACTER_SECTIONS } from '../../lib/config/fieldConfig';
+import { CHARACTER_SECTIONS, getFieldsBySection } from '../../lib/config/fieldConfig';
 import { FieldAIAssist } from './FieldAIAssist';
 
 interface CharacterFormExpandedProps {
@@ -28,7 +28,7 @@ export function CharacterFormExpanded({ projectId, onCancel, onSave, character }
     const initialData: any = {};
     
     CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
+      getFieldsBySection(section.id).forEach((field: any) => {
         const value = (character as any)?.[field.key];
         if (field.type === 'array') {
           initialData[field.key] = Array.isArray(value) ? value.join(', ') : '';
@@ -97,7 +97,7 @@ export function CharacterFormExpanded({ projectId, onCancel, onSave, character }
 
     // Process array fields
     CHARACTER_SECTIONS.forEach(section => {
-      section.fields.forEach(field => {
+      getFieldsBySection(section.id).forEach((field: any) => {
         if (field.type === 'array') {
           const value = formData[field.key];
           processedData[field.key] = typeof value === 'string' 
@@ -274,7 +274,7 @@ export function CharacterFormExpanded({ projectId, onCancel, onSave, character }
                       <p className="text-sm text-muted-foreground">{section.description}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      {section.fields.map(renderField)}
+                      {getFieldsBySection(section.id).map(renderField)}
                     </div>
                   </div>
                 </TabsContent>
