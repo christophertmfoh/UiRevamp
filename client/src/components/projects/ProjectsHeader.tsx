@@ -56,7 +56,7 @@ export const ProjectsHeader = React.memo(function ProjectsHeader({
         {/* Centered Logo */}
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 gradient-primary-br rounded-xl flex items-center justify-center shadow-lg">
-            <Feather className="w-5 h-5 text-primary" />
+            <Feather className="w-5 h-5 text-primary-foreground" />
           </div>
           <span className="text-heading-2 font-serif text-foreground drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
             Fablecraft
@@ -78,17 +78,17 @@ export const ProjectsHeader = React.memo(function ProjectsHeader({
                 </span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-56 bg-card/95 backdrop-blur-xl border border-border/30 shadow-xl">
+              <DropdownMenuItem className="text-foreground hover:bg-accent/10 focus:bg-accent/10 hover:text-foreground focus:text-foreground">
                 <User className="w-4 h-4 mr-2" />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="text-foreground hover:bg-accent/10 focus:bg-accent/10 hover:text-foreground focus:text-foreground">
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onLogout} className="text-red-600">
+              <DropdownMenuItem onClick={onLogout} className="text-destructive hover:text-destructive focus:text-destructive">
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </DropdownMenuItem>
