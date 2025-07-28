@@ -12,6 +12,8 @@ import { LandingPage } from './components/LandingPage';
 import { ProjectsPage } from './components/projects/ProjectsPage';
 import { ProjectDashboard } from './components/project/ProjectDashboard';
 import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
+import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
+import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -332,6 +334,13 @@ export default function App() {
             setGuideMode={setGuideMode}
           />
         );
+      case 'auth':
+        return (
+          <AuthPageRedesign 
+            onAuth={handleAuth}
+            onBack={() => setView('landing')}
+          />
+        );
       default:
         // Simple test interface for other views
         return (
@@ -397,12 +406,46 @@ export default function App() {
                 <Toaster />
                 {renderView()}
           
-                {/* Test ProjectCreationWizard Modal */}
+                {/* All Modals */}
                 {modal.type === 'new' && (
                   <ProjectCreationWizard 
                     isOpen={true}
                     onClose={() => setModal({ type: null, project: null })} 
                     onCreate={handleProjectCreated}
+                  />
+                )}
+                {modal.type === 'edit' && modal.project && (
+                  <ProjectModal 
+                    projectToEdit={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                  />
+                )}
+                {modal.type === 'rename' && modal.project && (
+                  <ProjectModal 
+                    projectToEdit={modal.project} 
+                    isRenameOnly={true} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                  />
+                )}
+                {modal.type === 'delete' && modal.project && (
+                  <ConfirmDeleteModal 
+                    project={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onDelete={handleDeleteProject} 
+                  />
+                )}
+                {modal.type === 'importManuscript' && (
+                  <ImportManuscriptModal 
+                    projectToUpdate={modal.project} 
+                    onClose={() => setModal({ type: null, project: null })} 
+                    onUpdateProject={handleUpdateProject} 
+                    onCreateProject={handleProjectCreated} 
+                  />
+                )}
+                {modal.type === 'import' && (
+                  <IntelligentImportModal
+                    onProjectCreated={handleProjectCreated}
+                    onClose={() => setModal({ type: null, project: null })}
                   />
                 )}
               </div>
