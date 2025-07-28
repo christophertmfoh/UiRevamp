@@ -171,7 +171,12 @@ class MockStorage {
       ...project,
       id,
       createdAt: now,
-      updatedAt: now,
+      lastModified: now,
+      description: project.description ?? null,
+      synopsis: project.synopsis ?? null,
+      genre: project.genre ?? null,
+      manuscriptNovel: project.manuscriptNovel ?? null,
+      manuscriptScreenplay: project.manuscriptScreenplay ?? null,
     };
     
     this.data.projects.set(id, newProject);
@@ -190,7 +195,7 @@ class MockStorage {
       ...existing,
       ...updates,
       id,
-      updatedAt: new Date(),
+      lastModified: new Date(),
     };
     
     this.data.projects.set(id, updated);
@@ -258,6 +263,8 @@ class MockStorage {
       id,
       createdAt: now,
       updatedAt: now,
+      name: character.name ?? null,
+      description: character.description ?? null,
     };
 
     this.data.characters.set(id, newCharacter);
@@ -341,6 +348,9 @@ class MockStorage {
       id,
       createdAt: now,
       updatedAt: now,
+      lastLoginAt: null,
+      fullName: user.fullName ?? null,
+      isActive: user.isActive ?? true,
     };
     
     this.data.users.set(id, newUser);
@@ -465,6 +475,9 @@ class MockStorage {
       ...outline,
       id,
       createdAt: now,
+      description: outline.description ?? null,
+      content: outline.content ?? null,
+      parentId: outline.parentId ?? null,
     };
 
     this.data.outlines.set(id, newOutline);
@@ -507,8 +520,8 @@ class MockStorage {
       id,
       createdAt: now,
       lastModified: now,
-      // Ensure tags is properly typed
-      tags: document.tags || null,
+      tags: document.tags ?? null,
+      content: document.content ?? null,
     };
 
     this.data.proseDocuments.set(id, newDocument);

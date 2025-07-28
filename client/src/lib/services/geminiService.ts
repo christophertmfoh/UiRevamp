@@ -73,10 +73,10 @@ export async function generateCharacterImage(
 }
 
 export async function fleshOutItem(
-  item: Item, 
+  item: any, 
   project: Project, 
   toolId: string
-): Promise<Item> {
+): Promise<any> {
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   return {

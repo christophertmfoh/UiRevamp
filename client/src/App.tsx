@@ -588,7 +588,14 @@ export default function App() {
             onSelectProject={handleSelectProject}
             onLogout={handleLogout}
             user={user}
-            projects={projects || []}
+            projects={(projects || []).map(p => ({
+              ...p,
+              description: p.description ?? null,
+              synopsis: p.synopsis ?? null,
+              genre: p.genre ?? null,
+              manuscriptNovel: p.manuscriptNovel ?? null,
+              manuscriptScreenplay: p.manuscriptScreenplay ?? null
+            }))}
             isLoading={!isAuthenticated || isLoading}
           />
         );

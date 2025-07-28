@@ -45,7 +45,7 @@ export function handleEntityError(error: unknown, operation: string, entityType:
     entityError.message = error;
   } else if (error && typeof error === 'object') {
     const errorObj = error as any;
-    entityError.message = errorObj.message || entityObj.toString();
+    entityError.message = errorObj.message || errorObj.toString();
     entityError.context = { ...entityError.context, ...errorObj };
   }
 

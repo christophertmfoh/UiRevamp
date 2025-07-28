@@ -143,6 +143,11 @@ export function CharacterPortraitModal({
     }
     
     return promptSections.join('. ');
+  }
+
+  // Build comprehensive character description for AI systems
+  const buildCharacterInfo = (character: Character): string => {
+    const allCharacterInfo: string[] = [];
     
     // ABILITIES CATEGORY - All ability fields
     if (character.abilities && Array.isArray(character.abilities) && character.abilities.length > 0) {
@@ -166,7 +171,9 @@ export function CharacterPortraitModal({
     if (character.formativeEvents) allCharacterInfo.push(`formative events: ${character.formativeEvents}`);
     if (character.socialClass) allCharacterInfo.push(`social class: ${character.socialClass}`);
     if (character.occupation) allCharacterInfo.push(`occupation: ${character.occupation}`);
-    if (character.spokenLanguages && Array.isArray(character.spokenLanguages) && character.spokenLanguages.length > 0) {
+    if (character.spokenLanguages && typeof character.spokenLanguages === 'string') {
+      allCharacterInfo.push(`languages: ${character.spokenLanguages}`);
+    } else if (character.spokenLanguages && Array.isArray(character.spokenLanguages) && character.spokenLanguages.length > 0) {
       allCharacterInfo.push(`languages: ${character.spokenLanguages.join(', ')}`);
     }
     
@@ -191,7 +198,7 @@ export function CharacterPortraitModal({
     if (character.notes) allCharacterInfo.push(`notes: ${character.notes}`);
     
     return allCharacterInfo.join(', ');
-  };
+  }
 
   // Helper function to save portraits to character
   const savePortraitsToCharacter = async (updatedPortraits: Array<{id: string, url: string, isMain: boolean}>) => {
