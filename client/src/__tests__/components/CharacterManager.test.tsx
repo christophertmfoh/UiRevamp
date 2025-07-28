@@ -5,18 +5,19 @@
 
 import React from 'react';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
-import { renderWithProviders, characterTestUtils, a11yTestUtils } from '@/utils/testUtils';
+import { vi } from 'vitest';
+import { renderWithProviders, characterTestUtils, a11yTestUtils, performanceTestUtils } from '@/utils/testUtils';
 import { CharacterManager } from '@/components/character/CharacterManager';
 
 // Mock the character service
 const mockCharacterService = {
-  getCharacters: jest.fn(),
-  createCharacter: jest.fn(),
-  updateCharacter: jest.fn(),
-  deleteCharacter: jest.fn(),
+  getCharacters: vi.fn(),
+  createCharacter: vi.fn(),
+  updateCharacter: vi.fn(),
+  deleteCharacter: vi.fn(),
 };
 
-jest.mock('@/lib/api', () => ({
+vi.mock('@/lib/api', () => ({
   characterService: mockCharacterService,
 }));
 
@@ -24,11 +25,11 @@ describe('CharacterManager', () => {
   const defaultProps = {
     projectId: 'test-project-1',
     selectedCharacterId: null,
-    onClearSelection: jest.fn(),
+    onClearSelection: vi.fn(),
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockCharacterService.getCharacters.mockResolvedValue([]);
   });
 

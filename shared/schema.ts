@@ -57,7 +57,7 @@ export const projects = pgTable("projects", {
   userId: text("user_id").references(() => users.id, { onDelete: 'cascade' }).notNull(),
   name: text("name").notNull(),
   type: text("type", { enum: ['novel', 'screenplay', 'comic', 'dnd-campaign', 'poetry'] }).notNull(),
-  description: text("description"),
+  description: text("description").notNull().default(''),
   synopsis: text("synopsis"),
   genre: text("genre").array().default(sql`'{}'`),
   createdAt: timestamp("created_at").defaultNow().notNull(),
