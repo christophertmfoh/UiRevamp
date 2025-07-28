@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import { useOptimizedScroll } from '../shared/hooks/useOptimizedScroll';
 import { useStableMount } from '../shared/hooks/useStableMount';
@@ -453,7 +453,7 @@ export function LandingPage({
           <div className="relative">
             <div className="aspect-square rounded-3xl glass-card p-8 flex items-center justify-center">
               <div className="w-full h-full rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-{React.createElement(processSteps[currentStep].icon, { className: "w-24 h-24 text-primary animate-pulse" })}
+                <processSteps[currentStep].icon className="w-24 h-24 text-primary animate-pulse" />
               </div>
             </div>
           </div>
