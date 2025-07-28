@@ -1,750 +1,250 @@
-# PHASE 6: PRODUCTION STANDARDS REFACTOR
-## Complete Guide for Replit & Cursor IDE Implementation
+# Phase 1-2 Grade A Achievement Plan
+## Enterprise-Grade Senior Dev Standards Implementation
 
-### 🎯 OBJECTIVE
-Transform FableCraft from mixed architecture to production-grade React TypeScript application following 2025 industry standards.
+### Current Grade: B → Target Grade: A
 
----
+#### Missing A-Grade Elements Analysis
 
-## 📋 PHASE 6 COMPLETE TASK LIST
+**❌ Critical Gaps for A-Grade:**
+1. **Automated Test Suite** - No test coverage exists
+2. **Performance Benchmarking** - No lighthouse/web vitals measurement
+3. **CI/CD Integration** - No pipeline automation
+4. **Database Query Optimization** - 1.9s response times unacceptable
+5. **Bundle Optimization Implementation** - 809kB still exceeds limits
+6. **Security Audit** - No vulnerability assessment completed
+7. **Accessibility Compliance** - No WCAG 2.1 testing performed
 
-### PART A: ARCHITECTURAL RESTRUCTURE (Days 1-2)
+#### A-Grade Implementation Strategy
 
-#### A1. PROJECT ROOT CLEANUP ⚡ CRITICAL
-```bash
-# Current messy root structure → Clean monorepo structure
-```
+### 1. Automated Test Suite (Implementable)
 
-**BEFORE:**
-```
-fablecraft/
-├── backend/              # ❌ Mixed structure
-├── client/               # ❌ Unclear boundaries  
-├── server/               # ❌ Duplicate backend
-├── PHASE_*.md           # ❌ Docs in root
-├── REFACTOR_*.md        # ❌ Planning files in root
-└── 15+ other files      # ❌ Root clutter
-```
-
-**AFTER (2025 Standard):**
-```
-fablecraft/
-├── apps/
-│   ├── web/                    # React frontend
-│   │   ├── src/
-│   │   │   ├── features/       # ✅ Feature-first organization
-│   │   │   │   ├── auth/
-│   │   │   │   │   ├── components/
-│   │   │   │   │   ├── hooks/
-│   │   │   │   │   ├── services/
-│   │   │   │   │   ├── types/
-│   │   │   │   │   └── index.ts    # Barrel export
-│   │   │   │   ├── writing/
-│   │   │   │   │   ├── components/
-│   │   │   │   │   │   ├── WritingEditor/
-│   │   │   │   │   │   │   ├── WritingEditor.tsx
-│   │   │   │   │   │   │   ├── WritingEditor.test.tsx
-│   │   │   │   │   │   │   ├── WritingEditor.types.ts
-│   │   │   │   │   │   │   └── index.ts
-│   │   │   │   │   │   ├── DocumentList/
-│   │   │   │   │   │   └── AutoSave/
-│   │   │   │   │   ├── hooks/
-│   │   │   │   │   │   ├── useWritingSession.ts
-│   │   │   │   │   │   ├── useAutoSave.ts
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   ├── services/
-│   │   │   │   │   │   ├── documentApi.ts
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   ├── types/
-│   │   │   │   │   │   ├── document.types.ts
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── characters/
-│   │   │   │   │   ├── components/
-│   │   │   │   │   │   ├── CharacterForm/
-│   │   │   │   │   │   ├── CharacterList/
-│   │   │   │   │   │   └── CharacterProfile/
-│   │   │   │   │   ├── hooks/
-│   │   │   │   │   ├── services/
-│   │   │   │   │   ├── types/
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── projects/
-│   │   │   │   │   ├── components/
-│   │   │   │   │   │   ├── ProjectGrid/
-│   │   │   │   │   │   ├── ProjectCard/
-│   │   │   │   │   │   └── CreateProject/
-│   │   │   │   │   ├── hooks/
-│   │   │   │   │   ├── services/
-│   │   │   │   │   ├── types/
-│   │   │   │   │   └── index.ts
-│   │   │   │   └── ai/
-│   │   │   │       ├── components/
-│   │   │   │       │   ├── AIAssistant/
-│   │   │   │       │   └── ChatInterface/
-│   │   │   │       ├── hooks/
-│   │   │   │       ├── services/
-│   │   │   │       │   ├── geminiApi.ts
-│   │   │   │       │   └── openaiApi.ts
-│   │   │   │       └── index.ts
-│   │   │   ├── shared/             # ✅ Shared across features
-│   │   │   │   ├── components/
-│   │   │   │   │   ├── ui/         # Design system components
-│   │   │   │   │   │   ├── Button/
-│   │   │   │   │   │   ├── Input/
-│   │   │   │   │   │   ├── Modal/
-│   │   │   │   │   │   ├── Toast/
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   ├── layout/
-│   │   │   │   │   │   ├── Header/
-│   │   │   │   │   │   ├── Sidebar/
-│   │   │   │   │   │   ├── Footer/
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── hooks/
-│   │   │   │   │   ├── useTheme.ts
-│   │   │   │   │   ├── useLocalStorage.ts
-│   │   │   │   │   ├── useDebounce.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── utils/
-│   │   │   │   │   ├── api.ts
-│   │   │   │   │   ├── storage.ts
-│   │   │   │   │   ├── validation.ts
-│   │   │   │   │   ├── formatters.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── types/
-│   │   │   │   │   ├── api.types.ts
-│   │   │   │   │   ├── common.types.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── constants/
-│   │   │   │   │   ├── routes.ts
-│   │   │   │   │   ├── config.ts
-│   │   │   │   │   └── index.ts
-│   │   │   │   └── providers/
-│   │   │   │       ├── QueryProvider.tsx
-│   │   │   │       ├── ThemeProvider.tsx
-│   │   │   │       ├── AuthProvider.tsx
-│   │   │   │       └── index.ts
-│   │   │   ├── pages/              # ✅ Route components only
-│   │   │   │   ├── HomePage/
-│   │   │   │   │   ├── HomePage.tsx
-│   │   │   │   │   ├── HomePage.test.tsx
-│   │   │   │   │   └── index.ts
-│   │   │   │   ├── AuthPage/
-│   │   │   │   ├── WorkspacePage/
-│   │   │   │   ├── WritingPage/
-│   │   │   │   └── index.ts
-│   │   │   ├── layouts/
-│   │   │   │   ├── MainLayout.tsx
-│   │   │   │   ├── AuthLayout.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── assets/
-│   │   │   │   ├── images/
-│   │   │   │   ├── icons/
-│   │   │   │   └── fonts/
-│   │   │   ├── styles/
-│   │   │   │   ├── globals.css
-│   │   │   │   ├── components.css
-│   │   │   │   └── themes.css
-│   │   │   ├── App.tsx
-│   │   │   ├── main.tsx
-│   │   │   └── router.tsx
-│   │   ├── public/
-│   │   ├── package.json
-│   │   ├── vite.config.ts
-│   │   ├── tsconfig.json
-│   │   ├── tailwind.config.ts
-│   │   └── README.md
-│   └── api/                       # Express backend
-│       ├── src/
-│       │   ├── routes/
-│       │   ├── services/
-│       │   ├── middleware/
-│       │   ├── types/
-│       │   └── index.ts
-│       ├── package.json
-│       └── tsconfig.json
-├── packages/                      # ✅ Shared packages
-│   ├── shared-types/              # Shared TypeScript types
-│   │   ├── src/
-│   │   │   ├── user.types.ts
-│   │   │   ├── project.types.ts
-│   │   │   └── index.ts
-│   │   ├── package.json
-│   │   └── tsconfig.json
-│   └── ui-components/             # Future: Shared UI library
-├── docs/                          # ✅ Documentation organized
-│   ├── architecture/
-│   ├── development/
-│   ├── deployment/
-│   └── phases/
-├── tools/                         # ✅ Development tools
-│   ├── scripts/
-│   └── configs/
-├── .gitignore
-├── package.json                   # Workspace root
-├── tsconfig.json                  # Base TypeScript config
-├── README.md
-└── replit.md
-```
-
-**🎯 REPLIT/CURSOR COMMANDS:**
-```bash
-# 1. Create new structure
-mkdir -p apps/web/src/{features,shared,pages,layouts,assets,styles}
-mkdir -p apps/api/src/{routes,services,middleware,types}
-mkdir -p packages/shared-types/src
-mkdir -p docs/{architecture,development,deployment,phases}
-mkdir -p tools/{scripts,configs}
-
-# 2. Move current files (will detail in implementation steps)
-# 3. Update all imports
-# 4. Clean up old structure
-```
-
----
-
-#### A2. FEATURE-FIRST ORGANIZATION ⚡ CRITICAL
-
-**TASK: Reorganize by Feature, Not File Type**
-
-**Current Problems:**
+**Unit Tests for Core Components:**
 ```typescript
-// ❌ BAD: Type-based organization
-import { CharacterForm } from '../components/character/CharacterForm'
-import { useAuth } from '../hooks/useAuth'
-import { projectApi } from '../lib/services/projectApi'
+// tests/character/CharacterManager.test.tsx
+import { render, screen } from '@testing-library/react';
+import { CharacterManager } from '@/components/character/CharacterManager';
+
+describe('CharacterManager', () => {
+  test('renders character creation interface', () => {
+    render(<CharacterManager />);
+    expect(screen.getByText(/character creation/i)).toBeInTheDocument();
+  });
+
+  test('preserves all 164+ character fields', () => {
+    // Test field preservation after cleanup
+  });
+});
 ```
 
-**Production Solution:**
+**Integration Tests for User Workflows:**
 ```typescript
-// ✅ GOOD: Feature-based organization
-import { CharacterForm, useCharacterForm } from '@features/characters'
-import { useAuth } from '@features/auth'
-import { useProjects } from '@features/projects'
+// tests/integration/project-workflow.test.tsx
+describe('Project Management Workflow', () => {
+  test('creates, saves, and loads project successfully', async () => {
+    // Test complete CRUD operations
+  });
+});
 ```
 
-**🎯 IMPLEMENTATION STEPS:**
+### 2. Performance Benchmarking (Implementable)
 
-1. **Create Feature Modules:**
-```bash
-# Each feature is self-contained
-mkdir -p apps/web/src/features/{auth,writing,characters,projects,ai}/
-mkdir -p apps/web/src/features/{auth,writing,characters,projects,ai}/{components,hooks,services,types}
-```
-
-2. **Move Components by Domain:**
-```bash
-# Characters feature
-mv client/src/components/character/* apps/web/src/features/characters/components/
-mv client/src/hooks/*Character* apps/web/src/features/characters/hooks/
-
-# Writing feature  
-mv client/src/components/writing/* apps/web/src/features/writing/components/
-mv client/src/hooks/*Writing* apps/web/src/features/writing/hooks/
-
-# Projects feature
-mv client/src/components/project* apps/web/src/features/projects/components/
-mv client/src/hooks/*Project* apps/web/src/features/projects/hooks/
-```
-
-3. **Add Barrel Exports:**
-```typescript
-// apps/web/src/features/characters/index.ts
-export * from './components'
-export * from './hooks'
-export * from './services'
-export * from './types'
-
-// Clean import paths throughout app
-```
-
----
-
-#### A3. TYPESCRIPT ORGANIZATION ⚡ CRITICAL
-
-**TASK: Proper TypeScript Architecture**
-
-**Current Problems:**
-- Types scattered across files
-- No shared type definitions
-- Inconsistent type exports
-
-**Production Solution:**
-```typescript
-// packages/shared-types/src/index.ts
-export interface User {
-  id: string
-  email: string
-  profile: UserProfile
-}
-
-export interface Project {
-  id: string
-  title: string
-  type: ProjectType
-  author: User
-}
-
-// Feature-specific types
-// apps/web/src/features/writing/types/index.ts
-export interface WritingSession {
-  projectId: string
-  startTime: Date
-  wordsWritten: number
-}
-```
-
-**🎯 IMPLEMENTATION STEPS:**
-
-1. **Create Shared Types Package:**
-```bash
-mkdir -p packages/shared-types/src
-# Move all shared interfaces here
-```
-
-2. **Feature-Specific Types:**
-```bash
-# Each feature manages its own types
-mkdir -p apps/web/src/features/*/types
-```
-
-3. **Clean Import Paths:**
-```typescript
-// tsconfig.json paths
-{
-  "paths": {
-    "@features/*": ["src/features/*"],
-    "@shared/*": ["src/shared/*"],
-    "@types/*": ["../../packages/shared-types/src/*"]
-  }
-}
-```
-
----
-
-### PART B: COMPONENT ARCHITECTURE (Days 3-4)
-
-#### B1. COMPONENT STANDARDIZATION ⚡ HIGH
-
-**TASK: Each Component Gets Its Own Folder**
-
-**Production Standard:**
-```
-WritingEditor/
-├── WritingEditor.tsx        # Main component
-├── WritingEditor.test.tsx   # Unit tests
-├── WritingEditor.types.ts   # TypeScript interfaces
-├── WritingEditor.module.css # Styles (if needed)
-├── WritingEditor.stories.tsx # Storybook (future)
-└── index.ts                 # Barrel export
-```
-
-**🎯 IMPLEMENTATION:**
-```bash
-# Convert all major components to this structure
-for component in WritingEditor CharacterForm ProjectCard; do
-  mkdir -p "apps/web/src/features/*/components/$component"
-  # Move and organize files
-done
-```
-
-#### B2. DESIGN SYSTEM EXTRACTION ⚡ HIGH
-
-**TASK: Extract Reusable UI Components**
-
-**Current Problem:**
-```typescript
-// ❌ UI components mixed with business logic
-components/
-├── ui/Button.tsx           # ✅ Good
-├── character/Form.tsx      # ❌ Should be in features/
-├── FloatingOrbs.tsx        # ❌ Where does this belong?
-```
-
-**Production Solution:**
-```typescript
-// ✅ Clear separation
-shared/components/ui/       # Reusable design system
-features/characters/        # Business logic components
-shared/components/layout/   # Layout components
-```
-
-**🎯 IMPLEMENTATION:**
-1. **Extract Design System:**
-```bash
-mkdir -p apps/web/src/shared/components/ui
-# Move Button, Input, Modal, Toast, etc.
-```
-
-2. **Create Component Index:**
-```typescript
-// apps/web/src/shared/components/ui/index.ts
-export { Button } from './Button'
-export { Input } from './Input'
-export { Modal } from './Modal'
-```
-
-#### B3. BARREL EXPORTS EVERYWHERE ⚡ HIGH
-
-**TASK: Clean Import Paths**
-
-**Before:**
-```typescript
-// ❌ Messy relative imports
-import { Button } from '../../../shared/components/ui/Button/Button'
-import { useAuth } from '../../hooks/useAuth'
-import { CharacterForm } from '../components/CharacterForm'
-```
-
-**After:**
-```typescript
-// ✅ Clean barrel exports
-import { Button } from '@shared/ui'
-import { useAuth } from '@features/auth'
-import { CharacterForm } from '@features/characters'
-```
-
-**🎯 IMPLEMENTATION:**
-Create `index.ts` in every folder:
-```bash
-find apps/web/src -type d -exec touch {}/index.ts \;
-# Then populate each with appropriate exports
-```
-
----
-
-### PART C: DEVELOPMENT EXPERIENCE (Days 5-6)
-
-#### C1. PATH MAPPING & IMPORTS ⚡ HIGH
-
-**TASK: Absolute Import Paths**
-
-**tsconfig.json:**
+**Lighthouse Automation:**
 ```json
+// lighthouse.config.js
 {
-  "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@features/*": ["features/*"],
-      "@shared/*": ["shared/*"],
-      "@pages/*": ["pages/*"],
-      "@layouts/*": ["layouts/*"],
-      "@assets/*": ["assets/*"],
-      "@types/*": ["../../packages/shared-types/src/*"]
-    }
+  "extends": "lighthouse:default",
+  "settings": {
+    "output": ["json", "html"],
+    "onlyCategories": ["performance", "accessibility", "best-practices"]
   }
 }
 ```
 
-**vite.config.ts:**
+**Web Vitals Monitoring:**
 ```typescript
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@features': path.resolve(__dirname, 'src/features'),
-      '@shared': path.resolve(__dirname, 'src/shared'),
-      '@pages': path.resolve(__dirname, 'src/pages'),
-      '@types': path.resolve(__dirname, '../packages/shared-types/src')
-    }
-  }
-})
-```
+// client/src/utils/webVitals.ts
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
 
-#### C2. WORKSPACE CONFIGURATION ⚡ HIGH
-
-**TASK: Monorepo Workspace Setup**
-
-**Root package.json:**
-```json
-{
-  "name": "fablecraft",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "dev": "concurrently \"npm:dev:web\" \"npm:dev:api\"",
-    "dev:web": "npm run dev --workspace=apps/web",
-    "dev:api": "npm run dev --workspace=apps/api",
-    "build": "npm run build --workspace=apps/web",
-    "test": "npm run test --workspaces",
-    "type-check": "npm run type-check --workspaces"
-  }
+export function measurePerformance() {
+  getCLS(console.log);
+  getFID(console.log);
+  getFCP(console.log);
+  getLCP(console.log);
+  getTTFB(console.log);
 }
 ```
 
-**🎯 REPLIT WORKFLOW UPDATE:**
-```yaml
-# .replit workflow update needed
-name: "Start Application"
-command: "npm run dev"
-# Will now start both frontend and backend properly
-```
+### 3. Database Query Optimization (Implementable)
 
-#### C3. LINTING & FORMATTING ⚡ MEDIUM
-
-**TASK: Production-Grade Code Quality**
-
-**ESLint Config (eslint.config.js):**
-```javascript
-export default [
-  {
-    files: ['**/*.{ts,tsx}'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'error',
-      'react-hooks/exhaustive-deps': 'error',
-      'import/order': ['error', {
-        'groups': [
-          'builtin',
-          'external', 
-          'internal',
-          'parent',
-          'sibling'
-        ],
-        'pathGroups': [
-          {
-            'pattern': '@features/**',
-            'group': 'internal',
-            'position': 'before'
-          },
-          {
-            'pattern': '@shared/**', 
-            'group': 'internal',
-            'position': 'before'
-          }
-        ]
-      }]
-    }
-  }
-]
-```
-
----
-
-### PART D: PERFORMANCE & PRODUCTION (Days 7-8)
-
-#### D1. CODE SPLITTING & LAZY LOADING ⚡ HIGH
-
-**TASK: Optimize Bundle Size**
-
-**Route-Based Code Splitting:**
+**Query Performance Analysis:**
 ```typescript
-// apps/web/src/router.tsx
-import { lazy, Suspense } from 'react'
-
-const WritingPage = lazy(() => import('@pages/WritingPage'))
-const CharactersPage = lazy(() => import('@pages/CharactersPage'))
-
-export const AppRouter = () => (
-  <Router>
-    <Suspense fallback={<PageSpinner />}>
-      <Routes>
-        <Route path="/writing" element={<WritingPage />} />
-        <Route path="/characters" element={<CharactersPage />} />
-      </Routes>
-    </Suspense>
-  </Router>
-)
+// server/utils/queryProfiler.ts
+export function profileQuery(queryName: string) {
+  return (target: any, propertyName: string, descriptor: PropertyDescriptor) => {
+    const method = descriptor.value;
+    descriptor.value = async function (...args: any[]) {
+      const start = performance.now();
+      const result = await method.apply(this, args);
+      const end = performance.now();
+      console.log(`${queryName}: ${end - start}ms`);
+      return result;
+    };
+  };
+}
 ```
 
-**Feature-Based Code Splitting:**
+**Connection Pool Optimization:**
 ```typescript
-// Dynamic imports for large features
-const CharacterForm = lazy(() => 
-  import('@features/characters').then(m => ({ default: m.CharacterForm }))
-)
+// server/db.ts enhancement
+export const pool = new Pool({ 
+  connectionString: process.env.DATABASE_URL,
+  max: 20, // Increase pool size
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 ```
 
-#### D2. TESTING ARCHITECTURE ⚡ MEDIUM
+### 4. Bundle Optimization Implementation (Implementable)
 
-**TASK: Comprehensive Testing Setup**
-
-**Test Structure:**
-```
-__tests__/
-├── setup.ts                    # Test configuration
-├── utils.tsx                   # Test utilities
-└── mocks/                      # API mocks
-features/
-├── auth/
-│   └── __tests__/
-│       ├── useAuth.test.ts
-│       └── LoginForm.test.tsx
-└── writing/
-    └── __tests__/
-        ├── WritingEditor.test.tsx
-        └── useWritingSession.test.ts
-```
-
-**Test Configuration:**
+**Code Splitting Configuration:**
 ```typescript
-// vitest.config.ts
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/__tests__/setup.ts'],
-    alias: {
-      '@features': path.resolve(__dirname, 'src/features'),
-      '@shared': path.resolve(__dirname, 'src/shared')
-    }
-  }
-})
-```
-
-#### D3. BUILD OPTIMIZATION ⚡ HIGH
-
-**TASK: Production Build Configuration**
-
-**Vite Build Optimization:**
-```typescript
-// vite.config.ts
+// vite.config.ts enhancement
 export default defineConfig({
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-form'],
-          'writing-feature': ['./src/features/writing'],
-          'characters-feature': ['./src/features/characters'],
-          'projects-feature': ['./src/features/projects']
+          'character-system': ['./client/src/components/character/**'],
+          'world-bible': ['./client/src/components/world/**'],
+          'ai-services': ['./server/aiExtractor.ts', './server/characterGeneration.ts']
         }
       }
     },
-    sourcemap: true,
-    minify: 'esbuild'
+    chunkSizeWarningLimit: 500
   }
-})
+});
 ```
 
----
+**Lazy Loading Implementation:**
+```typescript
+// client/src/App.tsx enhancement
+const CharacterManager = lazy(() => import('@/components/character/CharacterManager'));
+const WorldBible = lazy(() => import('@/components/world/WorldBible'));
 
-## 🚀 IMPLEMENTATION GUIDE FOR REPLIT/CURSOR
+// Wrap in Suspense boundaries
+<Suspense fallback={<LoadingSpinner />}>
+  <CharacterManager />
+</Suspense>
+```
 
-### Step-by-Step Migration Plan
+### 5. Security Audit Implementation (Implementable)
 
-#### WEEK 1: FOUNDATION (Days 1-2)
+**Dependency Vulnerability Scanning:**
 ```bash
-# Day 1: Create new structure
-mkdir -p apps/web/src/{features,shared,pages,layouts}
-mkdir -p apps/api/src/{routes,services,middleware}
-mkdir -p packages/shared-types/src
-
-# Day 2: Move core files
-# Start with most important components first
+npm audit --audit-level moderate
+npm install --package-lock-only
+snyk test --severity-threshold=medium
 ```
 
-#### WEEK 1: FEATURES (Days 3-4)
-```bash
-# Day 3: Move auth & writing features
-# Day 4: Move characters & projects features
-```
-
-#### WEEK 2: OPTIMIZATION (Days 5-8)
-```bash
-# Day 5-6: Set up import paths and barrel exports
-# Day 7-8: Testing, performance, build optimization
-```
-
-### 🎯 REPLIT-SPECIFIC CONFIGURATION
-
-#### Workspace Setup:
-```json
-// package.json (root)
-{
-  "workspaces": ["apps/*", "packages/*"],
-  "scripts": {
-    "dev": "concurrently \"npm:dev:web\" \"npm:dev:api\"",
-    "replit:setup": "npm install && npm run db:push"
-  }
+**Security Headers Implementation:**
+```typescript
+// server/middleware/security.ts
+export function securityHeaders(req: Request, res: Response, next: NextFunction) {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  next();
 }
 ```
 
-#### Environment Variables:
-```bash
-# .env (apps/web)
-VITE_API_URL=http://localhost:5000
+### 6. Accessibility Compliance (Implementable)
 
-# .env (apps/api) 
-DATABASE_URL=${DATABASE_URL}
-GEMINI_API_KEY=${GEMINI_API_KEY}
+**ARIA Labels and Semantic HTML:**
+```typescript
+// Accessibility improvements for character forms
+<form role="form" aria-labelledby="character-creation-heading">
+  <h2 id="character-creation-heading">Character Creation</h2>
+  <input 
+    aria-label="Character name"
+    aria-required="true"
+    aria-describedby="name-help"
+  />
+</form>
 ```
 
-### 🎯 CURSOR IDE SETUP
-
-#### Settings (cursor-settings.json):
-```json
-{
-  "typescript.preferences.includePackageJsonAutoImports": "on",
-  "typescript.suggest.autoImports": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true,
-    "source.fixAll.eslint": true
-  },
-  "files.associations": {
-    "*.tsx": "typescriptreact"
-  }
-}
+**Keyboard Navigation:**
+```typescript
+// Focus management for modals
+useEffect(() => {
+  const trapFocus = (e: KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      // Implement focus trap logic
+    }
+  };
+  document.addEventListener('keydown', trapFocus);
+  return () => document.removeEventListener('keydown', trapFocus);
+}, []);
 ```
 
-#### Extensions Recommended:
-- TypeScript Importer
-- Auto Rename Tag  
-- ES7+ React/Redux/React-Native snippets
-- Tailwind CSS IntelliSense
+### Implementation Priority Order
 
----
+#### Phase A1: Immediate Wins (2-3 hours)
+1. **Database Query Optimization** - Add connection pooling and query profiling
+2. **Bundle Optimization** - Implement code splitting and lazy loading
+3. **Security Headers** - Add basic security middleware
+4. **Performance Monitoring** - Add web vitals tracking
 
-## 📊 SUCCESS METRICS
+#### Phase A2: Testing Framework (4-5 hours)
+1. **Vitest Configuration** - Set up test environment
+2. **Unit Tests** - Cover critical character and project components
+3. **Integration Tests** - Test complete user workflows
+4. **Test Coverage** - Achieve >80% coverage target
 
-### Before vs After Comparison:
+#### Phase A3: Compliance & Monitoring (2-3 hours)
+1. **Accessibility Audit** - WCAG 2.1 compliance implementation
+2. **Lighthouse Integration** - Automated performance scoring
+3. **Security Scanning** - Dependency vulnerability assessment
+4. **Documentation** - Complete A-grade evidence portfolio
 
-**BEFORE (Current Mess):**
-- ❌ 15+ files in root directory
-- ❌ Mixed client/server structure
-- ❌ Components scattered across folders
-- ❌ Messy relative imports
-- ❌ No clear feature boundaries
-- ❌ Hard to find related code
+### A-Grade Success Metrics
 
-**AFTER (Production Standard):**
-- ✅ Clean monorepo structure
-- ✅ Feature-first organization
-- ✅ Clear component hierarchy
-- ✅ Absolute imports with path mapping
-- ✅ Barrel exports everywhere
-- ✅ Industry-standard patterns
+**Performance Targets:**
+- Bundle size: <500kB (currently 809kB)
+- API response: <500ms (currently 1.9s)
+- Lighthouse score: >90 (performance, accessibility, best practices)
+- Test coverage: >80% (currently 0%)
 
-### Developer Experience Improvements:
-1. **Faster Development** - Find code instantly by feature
-2. **Better Testing** - Co-located tests with components
-3. **Easier Refactoring** - Clear boundaries between features
-4. **Team Collaboration** - Standard structure new devs recognize
-5. **Scalability** - Add new features without touching existing code
+**Quality Targets:**
+- Zero security vulnerabilities (medium+)
+- WCAG 2.1 AA compliance
+- Zero accessibility violations
+- Complete test suite with CI integration
 
----
+**Documentation Targets:**
+- Performance benchmarks with before/after
+- Security audit report
+- Accessibility compliance report
+- Complete test coverage report
 
-## 🎯 FINAL DELIVERABLES
+### Estimated Grade Achievement
 
-1. **Clean project structure** following 2025 React standards
-2. **Feature-based organization** with proper separation
-3. **Barrel exports** for clean import paths  
-4. **TypeScript optimization** with shared types
-5. **Production build** configuration
-6. **Comprehensive testing** setup
-7. **Development tooling** (ESLint, Prettier, etc.)
-8. **Documentation** for new team members
+**With Full Implementation:**
+- **Performance**: A (optimized bundle, fast queries, web vitals)
+- **Testing**: A (>80% coverage, integration tests)
+- **Security**: A (vulnerability scanning, secure headers)
+- **Accessibility**: A (WCAG 2.1 compliance)
+- **Documentation**: A (comprehensive evidence portfolio)
 
-**OUTCOME:** FableCraft will be structured like professional React applications used by companies like Notion, Linear, and Vercel - making it maintainable, scalable, and easy for new developers to contribute to.
+**Overall Phase 1-2 Grade: A (Enterprise Excellence)**
 
----
+### Implementation Decision
 
-## ⚡ PRIORITY EXECUTION ORDER
+**Immediate Action Items:**
+1. Start with database optimization (biggest performance impact)
+2. Implement bundle splitting (reduces main chunk size)
+3. Add basic test suite (critical missing element)
+4. Security headers and vulnerability scanning
+5. Performance monitoring integration
 
-1. **CRITICAL (Do First):** A1, A2, A3 - Basic structure and feature organization
-2. **HIGH (Week 1):** B1, B2, B3 - Component architecture  
-3. **HIGH (Week 2):** C1, C2, D1 - Development experience and performance
-4. **MEDIUM (Polish):** C3, D2, D3 - Code quality and testing
-
-This refactor will transform FableCraft from a hobby project to a production-ready creative writing platform that could be deployed at scale.
+**Would you like me to begin implementing these A-grade improvements, starting with the highest-impact optimizations?**

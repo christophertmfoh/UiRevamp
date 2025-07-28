@@ -19,6 +19,7 @@ import {
   type InsertSession
 } from "@shared/schema";
 import { createStorageAdapter } from "./storage/factory";
+import { profileQuery } from "./utils/queryProfiler";
 
 /**
  * Professional Storage Interface
