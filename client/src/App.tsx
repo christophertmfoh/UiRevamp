@@ -130,6 +130,7 @@ interface Modal {
 export default function App() {
   const { user, isAuthenticated, isLoading, login, logout, checkAuth } = useAuth();
   const [view, setView] = useState<View>('landing');
+  const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
@@ -148,6 +149,36 @@ export default function App() {
       return cleanup; // Cleanup function to clear interval
     }
   }, []);
+
+  // Fetch projects function
+  const fetchProjects = async () => {
+    try {
+      if (!isAuthenticated || !user) return;
+      
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('/api/projects', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const projectsData = await response.json();
+        setProjects(projectsData);
+      }
+    } catch (error) {
+      console.error('Failed to fetch projects:', error);
+    }
+  };
+
+  // Initialize projects when authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetchProjects();
+    }
+  }, [isAuthenticated, user]);
 
   // Initialize scrollbar styling
   useEffect(() => {
@@ -260,18 +291,23 @@ export default function App() {
 
   const handleAuth = async (userData: { username: string; token: string }) => {
     try {
-      await login(userData.username, userData.token);
+      // Create a User object from the userData
+      const user = {
+        id: userData.username, // Temporary - should be actual user ID
+        email: userData.username, // Temporary - should be actual email
+        username: userData.username,
+        fullName: userData.username,
+        createdAt: new Date().toISOString(),
+        isActive: true
+      };
+      await login(user, userData.token);
       setView('landing');
     } catch (error) {
       console.error('Authentication failed:', error);
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    setView('landing');
-    setActiveProject(null);
-  };
+
 
   // Show loading state
   if (isLoading) {
@@ -302,23 +338,39 @@ export default function App() {
     );
   }
 
+  // Navigation helpers to fix type issues
+  const navigateToView = (viewName: string) => {
+    setView(viewName as View);
+  };
+
+  // Logout handler that returns Promise
+  const handleLogout = async () => {
+    await logout();
+    setView('landing');
+    setActiveProject(null);
+    setProjects([]);
+  };
+
   const renderView = () => {
     switch(view) {
       case 'landing':
         return (
           <LandingPage 
-            onNavigate={setView}
+            onNavigate={navigateToView}
             onNewProject={() => setModal({ type: 'new', project: null })}
             onAuth={() => setView('auth')}
             isAuthenticated={isAuthenticated}
             user={user}
             onLogout={handleLogout}
+            onUploadManuscript={() => setModal({ type: 'import', project: null })}
+            guideMode={guideMode}
+            setGuideMode={setGuideMode}
           />
         );
       case 'projects':
         return (
           <ProjectsPage
-            onNavigate={setView}
+            onNavigate={navigateToView}
             onNewProject={() => setModal({ type: 'new', project: null })}
             onSelectProject={handleSelectProject}
             onLogout={handleLogout}
@@ -327,21 +379,23 @@ export default function App() {
         );
       case 'dashboard':
         // Create a test project for dashboard testing
-        const testProject = {
+        const testProject: Project = {
           id: 'test-123',
           name: 'Test Project',
-          type: 'novel',
+          type: 'novel' as const,
           description: 'A test project for debugging',
-          genre: ['fantasy'],
-          manuscript: { novel: '', screenplay: '' },
           synopsis: 'Test synopsis',
+          genre: ['fantasy'],
+          createdAt: new Date(),
+          lastModified: new Date(),
+          manuscript: { novel: '', screenplay: '' },
+          outline: [],
           characters: [],
-          locations: [],
-          worldBuilding: { cultures: [], languages: [], religions: [] },
-          plotOutline: { acts: [], scenes: [] },
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        } as Project;
+          proseDocuments: [],
+          settings: {
+            aiCraftConfig: {}
+          }
+        };
         
         return (
           <ProjectDashboard

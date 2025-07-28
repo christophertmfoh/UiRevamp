@@ -33,6 +33,22 @@ export default defineConfig({
     },
   },
   root: __dirname,
+  
+  // Development server configuration
+  server: {
+    port: 5173,
+    host: "0.0.0.0",
+    
+    // Proxy API calls to Express server
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
+  
   build: {
     outDir: path.resolve(__dirname, "..", "dist/public"),
     emptyOutDir: true,
