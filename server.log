@@ -6,3 +6,7 @@
 ⚠️  Features requiring database will be limited.
 ⚠️  OPENAI_API_KEY not set. Image generation features will be disabled.
 11:23:36 AM [express] serving on port 5000
+11:25:33 AM [vite] page reload src/components/projects/VirtualizedProjectsList.tsx
+11:25:33 AM [vite] page reload src/components/projects/VirtualizedProjectsList.tsx
+11:26:04 AM [vite] hmr update /src/components/projects/LazyProjectComponents.tsx, /src/index.css?v=QLcFVHvIPaYAY9kFLrznn
+/projects/LazyProjectComponents.tsx, /src/index.css?v=_dr2CtV80ZsYbeBGb6JZ8
