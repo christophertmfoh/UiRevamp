@@ -240,8 +240,8 @@ export const ProjectsPage = React.memo(function ProjectsPage({
               <Button
                 size="icon"
                 onClick={() => setIsEditMode(!isEditMode)}
-                className="w-8 h-8 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
-                title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
+                className="w-8 h-8 bg-red-500 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg border-4 border-yellow-400"
+                title={isEditMode ? 'Lock Layout - MOVED TO DASHBOARD!' : 'Customize Layout - MOVED TO DASHBOARD!'}
               >
                 {isEditMode ? (
                   <Unlock className="w-3 h-3" />
