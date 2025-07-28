@@ -1,0 +1,153 @@
+version: '3.8'
+
+services:
+  # === APPLICATION ===
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"  # Client
+      - "5000:5000"  # Server
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL:-mock}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/client/node_modules
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # === DATABASE ===
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fablecraft}
+      POSTGRES_USER: ${POSTGRES_USER:-fablecraft}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fablecraft}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fablecraft}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === REDIS (for caching & sessions) ===
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === NGINX (reverse proxy) ===
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # === MONITORING ===
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - app-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - app-network
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+# === PRODUCTION OVERRIDE ===
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+---
+version: '3.8'
+x-production: &production
+  extends:
+    service: app
+  build:
+    target: production
+  environment:
+    - NODE_ENV=production
+    - DATABASE_URL=${DATABASE_URL}
+    - GEMINI_API_KEY=${GEMINI_API_KEY}
+    - OPENAI_API_KEY=${OPENAI_API_KEY}
+    - JWT_SECRET=${JWT_SECRET}
+    - REDIS_URL=redis://redis:6379
+  volumes: []
+  restart: always
+
+services:
+  app-prod:
+    <<: *production
+    ports:
+      - "5000:5000"
+
+# === VOLUMES ===
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+# === NETWORKS ===
+networks:
+  app-network:
+    driver: bridge
