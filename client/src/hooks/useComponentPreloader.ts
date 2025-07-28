@@ -30,7 +30,7 @@ export const useComponentPreloader = () => {
     const startTime = performance.now();
     
     try {
-      const promise = import(path);
+      const promise = import(/* @vite-ignore */ path);
       preloadPromises.current.set(path, promise);
       preloadedComponents.current.add(path);
       
