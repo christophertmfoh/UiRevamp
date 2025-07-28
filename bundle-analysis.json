@@ -1,12 +1,12 @@
 {
-  "timestamp": "2025-07-28T12:49:55.931Z",
-  "analysisTime": 26,
+  "timestamp": "2025-07-28T13:05:18.484Z",
+  "analysisTime": 36,
   "metrics": {
-    "totalFiles": 148,
-    "totalSize": 1246893,
-    "avgSize": 8425,
-    "totalComplexity": 3358,
-    "avgComplexity": 22.7,
+    "totalFiles": 150,
+    "totalSize": 1272159,
+    "avgSize": 8481,
+    "totalComplexity": 3451,
+    "avgComplexity": 23,
     "largeFiles": [
       {
         "path": "components/character/CharacterUnifiedViewPremium.tsx",
@@ -2369,8 +2369,8 @@
     ],
     "typeDistribution": {
       "other": 12,
-      "component": 108,
-      "hook": 9,
+      "component": 109,
+      "hook": 10,
       "service": 6,
       "types": 2,
       "utility": 7,
@@ -2920,7 +2920,7 @@
       "type": "bundle-size",
       "priority": "high",
       "title": "Large bundle size detected",
-      "description": "Total source size is 1218KB. Consider code splitting and lazy loading.",
+      "description": "Total source size is 1242KB. Consider code splitting and lazy loading.",
       "actions": [
         "Implement React.lazy() for route components",
         "Use dynamic imports for heavy libraries",
@@ -3486,6 +3486,19 @@
         "reexports": 0
       },
       "complexity": 1,
+      "type": "component"
+    },
+    {
+      "path": "components/lazy/LazyComponents.tsx",
+      "size": 8023,
+      "lines": 276,
+      "imports": 2,
+      "exports": {
+        "default": false,
+        "named": 32,
+        "reexports": 0
+      },
+      "complexity": 21,
       "type": "component"
     },
     {
@@ -4581,6 +4594,19 @@
       "type": "hook"
     },
     {
+      "path": "lib/hooks/usePerformanceMonitoring.ts",
+      "size": 15253,
+      "lines": 465,
+      "imports": 2,
+      "exports": {
+        "default": false,
+        "named": 3,
+        "reexports": 0
+      },
+      "complexity": 71,
+      "type": "hook"
+    },
+    {
       "path": "lib/index.ts",
       "size": 232,
       "lines": 7,
@@ -4686,15 +4712,15 @@
     },
     {
       "path": "lib/store.ts",
-      "size": 9290,
-      "lines": 354,
+      "size": 11280,
+      "lines": 432,
       "imports": 2,
       "exports": {
         "default": false,
-        "named": 5,
+        "named": 6,
         "reexports": 0
       },
-      "complexity": 19,
+      "complexity": 20,
       "type": "other"
     },
     {

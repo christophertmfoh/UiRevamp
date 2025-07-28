@@ -1,6 +1,84 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+// Performance Monitoring Types
+interface PerformanceMetric {
+  name: string;
+  value: number;
+  timestamp: number;
+}
+
+interface PerformanceAlert {
+  type: 'warning' | 'error' | 'info';
+  metric: string;
+  value: number;
+  threshold: number;
+  message: string;
+  timestamp: number;
+}
+
+// Performance Store State
+interface PerformanceState {
+  isMonitoringEnabled: boolean;
+  metrics: PerformanceMetric[];
+  alerts: PerformanceAlert[];
+  
+  // Actions
+  setMonitoringEnabled: (enabled: boolean) => void;
+  addMetric: (name: string, value: number) => void;
+  addAlert: (alert: PerformanceAlert) => void;
+  clearOldMetrics: () => void;
+  clearOldAlerts: () => void;
+}
+
+// Performance Store
+export const usePerformanceStore = create<PerformanceState>()(
+  persist(
+    (set, get) => ({
+      isMonitoringEnabled: true,
+      metrics: [],
+      alerts: [],
+      
+      setMonitoringEnabled: (enabled) => set({ isMonitoringEnabled: enabled }),
+      
+      addMetric: (name, value) => set((state) => ({
+        metrics: [
+          ...state.metrics.slice(-100), // Keep last 100 metrics
+          { name, value, timestamp: Date.now() }
+        ]
+      })),
+      
+      addAlert: (alert) => set((state) => ({
+        alerts: [
+          ...state.alerts.slice(-50), // Keep last 50 alerts
+          alert
+        ]
+      })),
+      
+      clearOldMetrics: () => set((state) => {
+        const oneHourAgo = Date.now() - (60 * 60 * 1000);
+        return {
+          metrics: state.metrics.filter(m => m.timestamp > oneHourAgo)
+        };
+      }),
+      
+      clearOldAlerts: () => set((state) => {
+        const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+        return {
+          alerts: state.alerts.filter(a => a.timestamp > oneDayAgo)
+        };
+      })
+    }),
+    {
+      name: 'fablecraft-performance',
+      partialize: (state) => ({
+        isMonitoringEnabled: state.isMonitoringEnabled,
+        // Don't persist metrics and alerts for privacy/performance
+      })
+    }
+  )
+);
+
 // Global Application State
 interface AppState {
   // UI State
