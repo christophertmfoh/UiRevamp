@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { Button } from '../shared/components/ui/button';
 import { Badge } from '../shared/components/ui/badge';
 import { Card, CardContent } from '../shared/components/ui/card';
+import { ThemeToggle } from '../shared/components/theme-toggle';
 import { FloatingOrbs } from '../shared/components/FloatingOrbs';
 import { HeroSection } from './landing/HeroSection';
 import { CTASection } from './landing/CTASection';
@@ -40,7 +41,9 @@ import {
   User,
   Settings,
   LogOut,
-  UserCircle
+  UserCircle,
+  Upload,
+  Zap
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -101,6 +104,33 @@ const trustIndicators = [
   { number: "100%", label: "Workflow Integration", icon: CheckCircle }
 ];
 
+const features = [
+  {
+    icon: Brain,
+    title: "AI-Powered Character Development",
+    description: "Import manuscripts and watch AI extract 50+ character attributes automatically",
+    benefit: "Save 15+ hours per character"
+  },
+  {
+    icon: Library,
+    title: "Unified Creative Workspace",
+    description: "Characters, outlines, prose, and visual assets in one interconnected system",
+    benefit: "Replace 5+ scattered tools"
+  },
+  {
+    icon: Zap,
+    title: "Context-Aware Writing Assistant",
+    description: "AI suggestions based on your story bible, characters, and world-building",
+    benefit: "Maintain consistency effortlessly"
+  },
+  {
+    icon: Image,
+    title: "Visual Storytelling Suite",
+    description: "Generate character portraits, scene artwork, and storyboards from your narrative",
+    benefit: "Professional visuals without design skills"
+  }
+];
+
 export function LandingPage({ 
   onNavigate = () => {}, 
   onNewProject = () => {}, 
@@ -139,6 +169,14 @@ export function LandingPage({
       onNavigate('projects');
     } else {
       setLocation('/projects');
+    }
+  };
+
+  const handleUploadManuscript = () => {
+    if (onUploadManuscript) {
+      onUploadManuscript();
+    } else {
+      console.log('Upload manuscript functionality');
     }
   };
 
@@ -228,6 +266,9 @@ export function LandingPage({
           </div>
           
           <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
             {/* Authentication Buttons */}
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
@@ -318,6 +359,96 @@ export function LandingPage({
               <div className="text-sm text-muted-foreground font-medium">{indicator.label}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Everything You Need to Tell Your Story
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Comprehensive tools that work together seamlessly, powered by AI that understands storytelling
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {features.map((feature, index) => (
+            <Card 
+              key={index}
+              className="group transition-all duration-500 cursor-pointer border-2 hover:border-primary/50 hover:shadow-xl hover:scale-105 hover:-translate-y-2"
+            >
+              <CardContent className="p-8">
+                <div className="mb-6 w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">
+                  <feature.icon className="w-8 h-8 text-primary-foreground" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground mb-4">{feature.description}</p>
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                  <Sparkles className="w-4 h-4 text-primary mr-2" />
+                  <span className="text-sm text-primary font-medium">{feature.benefit}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Quick Actions */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+            Start Your Journey Today
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Whether you're starting fresh or importing existing work
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card className="group hover:shadow-xl transition-all duration-500 hover:scale-105">
+            <CardContent className="p-8 text-center">
+              <div className="mb-6 w-20 h-20 gradient-primary-br rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">
+                <PenTool className="w-10 h-10 text-primary-foreground" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3">Start From Scratch</h3>
+              <p className="text-muted-foreground mb-6">
+                Begin with a blank canvas and let AI guide you through character creation, world-building, and story structure
+              </p>
+              <Button 
+                onClick={handleNewProject}
+                className="group gradient-primary text-primary-foreground px-8 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 rounded-xl"
+              >
+                <span className="relative z-10 flex items-center">
+                  <Sparkles className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  Create New Project
+                </span>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="group hover:shadow-xl transition-all duration-500 hover:scale-105">
+            <CardContent className="p-8 text-center">
+              <div className="mb-6 w-20 h-20 gradient-primary-br rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-500">
+                <Upload className="w-10 h-10 text-primary-foreground" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3">Import Existing Work</h3>
+              <p className="text-muted-foreground mb-6">
+                Upload manuscripts, character sheets, or documents and watch AI extract rich story insights automatically
+              </p>
+              <Button 
+                onClick={handleUploadManuscript}
+                variant="outline"
+                className="px-8 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 rounded-xl border-2 hover:border-primary/50"
+              >
+                <span className="flex items-center">
+                  <Upload className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  Upload Manuscript
+                </span>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
