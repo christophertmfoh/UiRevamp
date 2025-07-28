@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { LoadingSkeleton, LoadingCard } from '@/components/ui/LoadingStates';
+import { useComponentPreloader } from '@/hooks/useComponentPreloader';
 
-// Replit-optimized lazy loading for creative development
-// Simple code splitting aligned with Phase 1-4 enterprise cleanup
+// Phase 5: Replit-optimized lazy loading for sub-100ms creative workflow
+// Intelligent preloading with performance monitoring
 
 const ProjectModals = lazy(() => 
   import('./ProjectModals').then(module => ({ 

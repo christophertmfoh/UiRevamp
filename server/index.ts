@@ -1,10 +1,24 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { log } from "./vite";
+import { 
+  devCacheMiddleware, 
+  optimizeStaticAssets, 
+  performanceMonitoring, 
+  memoryMonitoring 
+} from "./dev-optimization";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+
+// Phase 5: Development optimizations for creative workflow
+if (process.env.NODE_ENV === 'development') {
+  app.use(devCacheMiddleware(30000)); // 30 second cache
+  app.use(optimizeStaticAssets());
+  app.use(performanceMonitoring());
+  app.use(memoryMonitoring());
+}
 
 app.use((req, res, next) => {
   const start = Date.now();

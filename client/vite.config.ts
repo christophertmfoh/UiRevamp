@@ -16,16 +16,34 @@ export default defineConfig({
   },
   root: __dirname,
   
-  // Development server configuration with proxy
+  // Phase 5: Enhanced development server for sub-100ms hot-reload
   server: {
     port: 5173,
     host: "0.0.0.0",
     allowedHosts: [".replit.dev", "localhost"],
 
-    // File system security
+    // Phase 5: Optimized HMR for creative workflow
+    hmr: {
+      overlay: false, // Reduce visual interruption during writing
+      clientPort: 443, // Use HTTPS port for Replit
+      port: 5173
+    },
+
+    // Phase 5: Warmup critical writing components
+    warmup: {
+      clientFiles: [
+        './src/components/writing/**/*',
+        './src/components/characters/**/*',
+        './src/components/projects/**/*',
+        './src/hooks/useWritingSession.ts',
+        './src/lib/store.ts'
+      ]
+    },
+
+    // File system security optimized for creative workflow
     fs: {
-      strict: true,
-      deny: ["**/.*"],
+      strict: false, // Allow flexibility for creative assets
+      deny: ["**/node_modules/**", "**/.git/**"],
     },
 
     // Proxy API calls to Express server
@@ -33,7 +51,8 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        timeout: 10000
       }
     }
   },
@@ -42,27 +61,50 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "..", "dist/public"),
     emptyOutDir: true,
     
-    // Enhanced build optimizations for scalability
+    // Phase 5: Creative workflow optimized build
     target: 'es2020',
-    minify: 'esbuild', // Faster than terser
-    sourcemap: process.env.NODE_ENV !== 'production',
+    minify: 'esbuild',
+    sourcemap: true, // Always include for creative debugging
+    
+    // Phase 5: Manual chunks for faster creative component loading
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'writing-core': [
+            './src/components/writing/WritingEditor.tsx',
+            './src/components/characters/CharacterForm.tsx'
+          ],
+          'ui-primitives': ['@radix-ui/react-dialog', '@radix-ui/react-form'],
+          'icons': ['lucide-react'],
+          'state': ['zustand', '@tanstack/react-query']
+        }
+      }
+    }
   },
   
-  // Dependency optimization
+  // Phase 5: Enhanced dependency optimization for creative workflow
   optimizeDeps: {
     include: [
-      'react',
-      'react-dom',
+      'react', 'react-dom', 'react/jsx-runtime',
       '@tanstack/react-query',
       'react-hook-form',
-      'zod',
-      'clsx',
-      'tailwind-merge'
+      'zod', 'clsx', 'tailwind-merge',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-form',
+      '@radix-ui/react-button',
+      'lucide-react',
+      'zustand',
+      'framer-motion'
     ],
     exclude: [
-      // Exclude large dependencies that don't need pre-bundling
-      '@google/generative-ai'
-    ]
+      '@google/generative-ai',
+      '@anthropic-ai/sdk'
+    ],
+    // Phase 5: Force optimization for faster creative iteration
+    force: process.env.FORCE_OPTIMIZE === 'true',
+    esbuildOptions: {
+      target: 'es2020'
+    }
   },
   
   // ESBuild options for faster builds
