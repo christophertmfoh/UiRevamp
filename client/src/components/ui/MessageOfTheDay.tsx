@@ -131,6 +131,9 @@ export function MessageOfTheDay() {
 
   // Intelligent content fetching with proper error handling
   const fetchContent = useCallback(async (forceRefresh = false) => {
+    console.log('🚀 fetchContent called with forceRefresh:', forceRefresh);
+    console.log('Current state:', { isLoading, lastRefresh, content: !!content });
+    
     if (isLoading) {
       console.log('⏳ Already loading, skipping duplicate request');
       return;
@@ -142,10 +145,12 @@ export function MessageOfTheDay() {
     
     if (!forceRefresh && timeSinceLastRefresh < MIN_REFRESH_INTERVAL) {
       const waitTime = Math.ceil((MIN_REFRESH_INTERVAL - timeSinceLastRefresh) / 1000);
+      console.log('⏱️ Rate limited, waiting:', waitTime);
       toast.info(`Please wait ${waitTime}s before refreshing`);
       return;
     }
 
+    console.log('✅ Starting content fetch...');
     setIsLoading(true);
     setError(null);
     
@@ -418,7 +423,11 @@ export function MessageOfTheDay() {
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => fetchContent(true)}
+              onClick={() => {
+                console.log('🔄 Refresh button clicked!');
+                console.log('Current loading state:', isLoading);
+                fetchContent(true);
+              }}
               disabled={isLoading}
               className="h-8 w-8 p-0 hover:bg-accent/10 disabled:opacity-50"
               title="Get fresh inspiration"
@@ -434,6 +443,23 @@ export function MessageOfTheDay() {
               title="Next section"
             >
               <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+            </Button>
+            
+            {/* Debug button - remove after testing */}
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                console.log('🧪 Test fallback button clicked');
+                const fallback = generateFallbackContent();
+                setContent(fallback);
+                setLastRefresh(Date.now());
+                toast.success('Fallback content loaded!');
+              }}
+              className="h-8 w-8 p-0 hover:bg-accent/10 bg-red-500"
+              title="Test fallback content"
+            >
+              <span className="text-xs text-white">T</span>
             </Button>
           </div>
         </div>
