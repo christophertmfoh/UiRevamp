@@ -80,12 +80,17 @@ npm run build
 
 ## Phase 4: Migration to 2025 React System (User Directed)
 
-### Step 11: Identify Core Features to Migrate
-**PRESERVE (Your sophisticated systems):**
-- Character management system (164+ fields, AI templates, portrait studio)
-- World bible system (complex world-building tools)  
-- Projects system (5 project types: novel, screenplay, comic, dnd-campaign, poetry)
-- AI integration (Gemini API, character generation)
+### Step 11: Identify Core Systems to Preserve & Migrate
+**PRESERVE COMPLETELY (Your working application):**
+- **Landing Page System**: `client/src/pages/landing/` (LandingPage.tsx, HeroSection.tsx, CTASection.tsx, FeatureCards.tsx)
+- **Projects System**: `client/src/components/projects/ProjectsPage.tsx` + all associated modals and widgets
+- **Character Management**: Complete system (164+ fields, AI templates, portrait studio, all 15+ character components)
+- **World Bible System**: Full world-building tools and navigation
+- **Authentication**: `AuthPageRedesign.tsx` and all auth logic
+- **AI Integration**: Gemini API, character generation, all AI services
+- **Database Integration**: Full PostgreSQL persistence layer
+- **UI Components**: All shadcn/ui components, theme system, and styling
+- **Assets & Services**: All images, icons, fonts, API services, and utilities
 
 **MODERNIZE:**
 - React 18 patterns
@@ -93,11 +98,29 @@ npm run build
 - Updated component patterns
 - Performance optimizations
 
-### Step 12: Migration Strategy
-**Options:**
-1. **Incremental Migration**: Migrate one system at a time while keeping app running
-2. **Fresh Architecture**: Extract core logic, rebuild with modern patterns
-3. **Hybrid Approach**: Keep working systems, modernize incrementally
+### Step 12: Senior Dev Migration Strategy
+**Recommended Approach: Clean Extraction + Modern Architecture**
+
+**Phase A: Extract Working Systems (Your Current App)**
+- Extract your complete working App.tsx application as the foundation
+- Preserve all landing page components and assets exactly as they are
+- Keep your sophisticated projects system with all modals and functionality
+- Maintain your advanced character management system in its entirety
+- Preserve your world bible system with all world-building tools
+
+**Phase B: Modern React 2025 Patterns**
+- Upgrade to React 18 concurrent features while keeping all functionality
+- Implement modern state management patterns (keep Zustand + React Query)
+- Add performance optimizations (React.memo, useMemo, useCallback where beneficial)
+- Implement error boundaries and loading states throughout
+- Add accessibility improvements and TypeScript strict mode
+
+**Phase C: Architecture Modernization**
+- Implement feature-based folder structure while preserving all components
+- Add barrel exports for cleaner imports
+- Implement proper component composition patterns
+- Add comprehensive testing suite
+- Optimize bundle size and performance metrics
 
 ## Success Metrics
 
@@ -122,9 +145,15 @@ npm run build
 3. **Rollback Plan**: Easy restoration if issues arise
 4. **Feature Verification**: Comprehensive testing of character/world systems
 
-### Preservation Guarantees:
-- Character management system: 100% preserved
-- World bible system: 100% preserved  
-- AI integration: 100% preserved
-- Database integration: 100% preserved
-- User authentication: 100% preserved
+### Senior Dev Preservation Guarantees:
+- **Landing page system**: 100% preserved with all assets and styling
+- **Projects system**: 100% preserved with all CRUD operations and modals
+- **Character management**: 100% preserved with all 23+ AI templates and portrait studio
+- **World bible system**: 100% preserved with complete world-building tools
+- **Authentication system**: 100% preserved with working login/signup flow
+- **AI integration**: 100% preserved with all Gemini API services
+- **Database layer**: 100% preserved with PostgreSQL + Drizzle ORM
+- **UI/UX**: 100% preserved with theme system and responsive design
+- **Performance optimizations**: 100% preserved with all current optimizations
+- **File upload systems**: 100% preserved with character document imports
+- **Export/import features**: 100% preserved with manuscript management
