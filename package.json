@@ -31,7 +31,18 @@
     "docker:dev": "docker-compose up --build",
     "docker:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build",
     "health-check": "node scripts/health-check.js",
-    "setup:dev": "npm run generate-secrets && cp .env.example .env.development && npm run validate-env"
+    "setup:dev": "npm run generate-secrets && cp .env.example .env.development && npm run validate-env",
+    "analyze:bundle": "node scripts/bundle-analyzer.cjs",
+    "test:load": "node scripts/load-test.cjs",
+    "test:performance": "npm run analyze:bundle && npm run test:load",
+    "backup:create": "node scripts/backup-recovery.cjs backup",
+    "backup:restore": "node scripts/backup-recovery.cjs restore",
+    "backup:list": "node scripts/backup-recovery.cjs list",
+    "backup:cleanup": "node scripts/backup-recovery.cjs cleanup",
+    "monitor:start": "docker-compose -f docker-compose.monitoring.yml up -d",
+    "monitor:stop": "docker-compose -f docker-compose.monitoring.yml down",
+    "scale:up": "docker-compose up --scale app=3",
+    "scale:down": "docker-compose up --scale app=1"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0",
