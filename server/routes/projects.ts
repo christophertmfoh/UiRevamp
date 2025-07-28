@@ -92,7 +92,17 @@ projectRouter.get("/:id", async (req, res) => {
 // Create new project
 projectRouter.post("/", async (req, res) => {
   try {
-    const validatedData = insertProjectSchema.parse(req.body);
+    // Extract userId from authenticated user (req.user should be set by auth middleware)
+    const userId = req.user?.id || 'demo-user-1'; // Fallback for development
+    
+    // Prepare project data with generated ID and user ID
+    const projectData = {
+      ...req.body,
+      userId,
+      id: `project_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    };
+    
+    const validatedData = insertProjectSchema.parse(projectData);
     const project = await storage.createProject(validatedData);
     res.status(201).json(project);
   } catch (error) {

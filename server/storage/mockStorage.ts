@@ -78,11 +78,12 @@ class MockStorage {
 
   private initializeSeedData(): void {
     // Create a demo user with proper schema compliance
+    // Password is "demo123" - hashed properly for testing
     const demoUser: User = {
       id: 'demo-user-1',
       username: 'demo',
       email: 'demo@fablecraft.io',
-      passwordHash: 'mock-hash',
+      passwordHash: '$2b$12$qAQ5zlwBtZaHcACRHbuDUeCciqbrz1mklsu9fMiLB/H31p7fVKkju', // "demo123"
       fullName: 'Demo User',
       isActive: true,
       createdAt: new Date(),
