@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useCreativeDebugger } from '@/hooks/useCreativeDebugger';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,8 @@ export const WritingEditor: React.FC<WritingEditorProps> = ({
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [wordCount, setWordCount] = useState(0);
+  
+  const { logAction, logError } = useCreativeDebugger(`writing-editor-${projectId}`);
 
   const updateWordCount = useCallback((text: string) => {
     const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
@@ -38,22 +41,30 @@ export const WritingEditor: React.FC<WritingEditorProps> = ({
     const newContent = e.target.value;
     setContent(newContent);
     updateWordCount(newContent);
-  }, [updateWordCount]);
+    logAction('content_changed', { 
+      contentLength: newContent.length,
+      wordCount: newContent.trim().split(/\s+/).filter(word => word.length > 0).length
+    });
+  }, [updateWordCount, logAction]);
 
   const handleSave = useCallback(async () => {
     if (isSaving) return;
     
     setIsSaving(true);
+    logAction('save_started', { contentLength: content.length, wordCount });
+    
     try {
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate save
       onSave?.(content);
       setLastSaved(new Date());
+      logAction('save_completed', { contentLength: content.length, wordCount });
     } catch (error) {
       console.error('Failed to save:', error);
+      logError(error as Error, 'save_operation');
     } finally {
       setIsSaving(false);
     }
-  }, [content, onSave, isSaving]);
+  }, [content, onSave, isSaving, wordCount, logAction, logError]);
 
   React.useEffect(() => {
     updateWordCount(initialContent);
