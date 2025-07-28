@@ -228,35 +228,18 @@ export const LandingFeature = {
   CTA: LazyCTASection
 };
 
-// Performance monitoring for lazy loading
 export const LazyLoadingMetrics = {
   trackComponentLoad: (componentName: string, loadTime: number) => {
-    if (typeof window !== 'undefined' && window.performance) {
-      // Track component loading performance
-      window.performance.mark(`${componentName}-loaded`);
-      
-      // Log to console in development
-      if (import.meta.env.DEV) {
-        console.log(`🚀 Lazy loaded ${componentName} in ${loadTime}ms`);
-      }
+    if (import.meta.env.DEV) {
+      console.log(`⚡ Lazy loaded: ${componentName} in ${loadTime.toFixed(2)}ms`);
     }
   },
-  
   preloadComponent: async (importFn: () => Promise<any>) => {
+    // Simple preload for Replit
     try {
-      // Preload component during idle time
-      if (typeof requestIdleCallback !== 'undefined') {
-        requestIdleCallback(() => {
-          importFn();
-        });
-      } else {
-        // Fallback for browsers without requestIdleCallback
-        setTimeout(() => {
-          importFn();
-        }, 100);
-      }
+      await importFn();
     } catch (error) {
-      console.warn('Failed to preload component:', error);
+      console.warn('Preload failed:', error);
     }
   }
 };

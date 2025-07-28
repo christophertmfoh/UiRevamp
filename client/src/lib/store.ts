@@ -31,52 +31,36 @@ interface PerformanceState {
   clearOldAlerts: () => void;
 }
 
-// Performance Store
+// Replace complex performance store with this simpler version:
 export const usePerformanceStore = create<PerformanceState>()(
-  persist(
-    (set, get) => ({
-      isMonitoringEnabled: true,
-      metrics: [],
-      alerts: [],
-      
-      setMonitoringEnabled: (enabled) => set({ isMonitoringEnabled: enabled }),
-      
-      addMetric: (name, value) => set((state) => ({
-        metrics: [
-          ...state.metrics.slice(-100), // Keep last 100 metrics
-          { name, value, timestamp: Date.now() }
-        ]
-      })),
-      
-      addAlert: (alert) => set((state) => ({
+  (set, get) => ({
+    isMonitoringEnabled: import.meta.env.DEV, // Only in development
+    metrics: [],
+    alerts: [],
+    
+    setMonitoringEnabled: (enabled) => set({ isMonitoringEnabled: enabled }),
+    
+    addMetric: (name, value) => set((state) => ({
+      metrics: [
+        ...state.metrics.slice(-20), // Keep only last 20 (was 100)
+        { name, value, timestamp: Date.now() }
+      ]
+    })),
+    
+    addAlert: (alert) => {
+      // Simple console alert for Replit
+      console.warn('⚠️ Performance Alert:', alert.message);
+      set((state) => ({
         alerts: [
-          ...state.alerts.slice(-50), // Keep last 50 alerts
+          ...state.alerts.slice(-10), // Keep only last 10 (was 50)
           alert
         ]
-      })),
-      
-      clearOldMetrics: () => set((state) => {
-        const oneHourAgo = Date.now() - (60 * 60 * 1000);
-        return {
-          metrics: state.metrics.filter(m => m.timestamp > oneHourAgo)
-        };
-      }),
-      
-      clearOldAlerts: () => set((state) => {
-        const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
-        return {
-          alerts: state.alerts.filter(a => a.timestamp > oneDayAgo)
-        };
-      })
-    }),
-    {
-      name: 'fablecraft-performance',
-      partialize: (state) => ({
-        isMonitoringEnabled: state.isMonitoringEnabled,
-        // Don't persist metrics and alerts for privacy/performance
-      })
-    }
-  )
+      }));
+    },
+    
+    clearOldMetrics: () => set({ metrics: [] }),
+    clearOldAlerts: () => set({ alerts: [] })
+  })
 );
 
 // Global Application State
