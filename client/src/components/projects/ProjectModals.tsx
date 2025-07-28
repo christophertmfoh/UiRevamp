@@ -389,7 +389,7 @@ export const ProjectModals = React.memo(function ProjectModals({
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <p className="text-sm text-foreground mb-1">Tasks Completed</p>
-                  <p className="text-3xl font-black text-primary">{taskStats?.completedTasks || 0}</p>
+                  <p className="text-3xl font-black text-black dark:text-white">{taskStats?.completedTasks || 0}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-foreground mb-1">Completion Rate</p>
