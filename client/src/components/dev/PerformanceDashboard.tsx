@@ -75,7 +75,7 @@ export const PerformanceDashboard: React.FC = () => {
 
       // Calculate render performance
       const renderEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
-      const renderTime = renderEntries[0]?.loadEventEnd - renderEntries[0]?.domContentLoadedEventStart || 0;
+      const renderTime = (renderEntries[0]?.loadEventEnd || 0) - (renderEntries[0]?.domContentLoadedEventStart || 0);
 
       // Count DOM elements as proxy for component complexity
       const componentCount = document.querySelectorAll('[data-radix-popper-content-wrapper], [class*="react"], [class*="component"]').length;

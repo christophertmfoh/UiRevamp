@@ -80,8 +80,8 @@ const parseTaskInput = (input: string) => {
   let estimatedMinutes = 20; // default
   const timeMatch = text.match(/(\d+)\s*(min|minute|minutes|hour|hours|h)/);
   if (timeMatch) {
-    const value = parseInt(timeMatch[1]);
-    const unit = timeMatch[2];
+    const value = parseInt(timeMatch[1]!);
+    const unit = timeMatch[2]!;
     estimatedMinutes = unit.startsWith('h') ? value * 60 : value;
   }
   
@@ -252,7 +252,7 @@ export function useTaskManagement() {
   const smartSuggestions = useMemo(() => {
     return SMART_SUGGESTIONS
       .filter(suggestion => !allTasks.some(task => 
-        task.text.toLowerCase().includes(suggestion.text.toLowerCase().split(' ')[0])
+        task.text.toLowerCase().includes(suggestion.text.toLowerCase().split(' ')[0]!)
       ))
       .slice(0, 3);
   }, [allTasks]);

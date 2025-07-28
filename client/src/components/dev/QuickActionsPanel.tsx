@@ -218,6 +218,7 @@ export const QuickActionsPanel: React.FC<QuickActionsPanelProps> = ({
       action: async () => {
         console.log('⚡ Preloading writing components...');
         const results = await preloadAllWritingComponents();
+        if (!results) return { type: 'preload', components: 0 };
         return { type: 'preload', components: results.length };
       },
       badge: 'Speed'
@@ -228,7 +229,7 @@ export const QuickActionsPanel: React.FC<QuickActionsPanelProps> = ({
     if (!acc[action.category]) {
       acc[action.category] = [];
     }
-    acc[action.category].push(action);
+    acc[action.category]?.push(action);
     return acc;
   }, {} as Record<string, QuickAction[]>);
 

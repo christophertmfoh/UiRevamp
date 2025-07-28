@@ -63,7 +63,7 @@ export function useDragAndDrop<T extends DragAndDropItem>({
 
     const reorderedItems = [...items];
     const [draggedItemData] = reorderedItems.splice(draggedIndex, 1);
-    reorderedItems.splice(targetIndex, 0, draggedItemData);
+    reorderedItems.splice(targetIndex, 0, draggedItemData!);
 
     // Update order values
     const updatedItems = reorderedItems.map((item, index) => ({

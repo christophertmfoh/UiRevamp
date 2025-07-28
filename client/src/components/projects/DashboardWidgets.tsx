@@ -113,7 +113,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-muted-foreground">Last Updated:</span>
                         <span className="text-foreground/80 font-medium">
-                          {new Date(projects[0]?.createdAt).toLocaleDateString()}
+                          {projects[0]?.createdAt ? new Date(projects[0].createdAt).toLocaleDateString() : 'Unknown'}
                         </span>
                       </div>
                     </div>

@@ -48,7 +48,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   const createMutation = useMutation({
     mutationFn: async (data: Partial<Character>): Promise<Character> => {
       const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, data);
-      return response as Character;
+      return response as unknown as Character;
     },
     onSuccess: (newCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
@@ -59,7 +59,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   const updateMutation = useMutation({
     mutationFn: async (data: Character): Promise<Character> => {
       const response = await apiRequest('PUT', `/api/characters/${data.id}`, data);
-      return response as Character;
+      return response as unknown as Character;
     },
     onSuccess: (updatedCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
@@ -150,7 +150,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   }, [character, formData]);
 
   const completionStats = useMemo(() => {
-    return calculateEntityCompleteness(formData, FIELD_DEFINITIONS);
+    return calculateEntityCompleteness(formData as any, FIELD_DEFINITIONS);
   }, [formData]);
 
   return {

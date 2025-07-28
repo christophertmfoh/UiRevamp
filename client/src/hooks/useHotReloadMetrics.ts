@@ -58,6 +58,8 @@ export const useHotReloadMetrics = () => {
         import.meta.hot?.off('vite:afterUpdate', handleHMRComplete);
       };
     }
+    // Return cleanup function for all code paths
+    return () => {};
   }, []);
 
   // Track component mount/render times
@@ -118,7 +120,7 @@ export const useHotReloadMetrics = () => {
         if (!acc[entry.componentName]) {
           acc[entry.componentName] = [];
         }
-        acc[entry.componentName].push(entry.reloadTime);
+        acc[entry.componentName]!.push(entry.reloadTime);
       }
       return acc;
     }, {} as Record<string, number[]>);

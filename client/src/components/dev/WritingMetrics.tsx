@@ -81,7 +81,7 @@ export const WritingMetrics: React.FC<WritingMetricsProps> = ({
       const mockSessions: WritingSessionData[] = [
         {
           id: '1',
-          date: new Date().toISOString().split('T')[0],
+          date: new Date().toISOString().split('T')[0] || '',
           duration: 45,
           wordCount: 850,
           averageWPM: 19,
@@ -92,7 +92,7 @@ export const WritingMetrics: React.FC<WritingMetricsProps> = ({
         },
         {
           id: '2',
-          date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+          date: new Date(Date.now() - 86400000).toISOString().split('T')[0] || '',
           duration: 30,
           wordCount: 620,
           averageWPM: 21,
@@ -103,7 +103,7 @@ export const WritingMetrics: React.FC<WritingMetricsProps> = ({
         },
         {
           id: '3',
-          date: new Date(Date.now() - 172800000).toISOString().split('T')[0],
+          date: new Date(Date.now() - 172800000).toISOString().split('T')[0] || '',
           duration: 60,
           wordCount: 1200,
           averageWPM: 20,

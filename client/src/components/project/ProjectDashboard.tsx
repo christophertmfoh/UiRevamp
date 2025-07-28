@@ -73,18 +73,18 @@ export function ProjectDashboard({
       label: 'World Bible', 
       icon: Globe, 
       description: 'Develop your characters and story elements',
-      status: project.characters?.length > 0 ? 'active' : 'pending',
-      count: project.characters?.length || 0,
-      progress: Math.min(100, (project.characters?.length || 0) * 10)
+      status: (project?.characters?.length || 0) > 0 ? 'active' : 'pending',
+      count: project?.characters?.length || 0,
+      progress: Math.min(100, (project?.characters?.length || 0) * 10)
     },
     { 
       id: 'outline', 
       label: 'Outline', 
       icon: ScrollText, 
       description: 'Structure your story with detailed plotting',
-      status: project.outline?.length > 0 ? 'active' : 'pending',
-      count: project.outline?.length || 0,
-      progress: Math.min(100, (project.outline?.length || 0) * 20)
+      status: (project?.outline?.length || 0) > 0 ? 'active' : 'pending',
+      count: project?.outline?.length || 0,
+      progress: Math.min(100, (project?.outline?.length || 0) * 20)
     },
     { 
       id: 'manuscript', 

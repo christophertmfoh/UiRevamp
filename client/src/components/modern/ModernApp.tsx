@@ -106,10 +106,10 @@ export function ModernApp({
                       {deferredLocation === '/auth' && <div>Modern Auth Coming Soon</div>}
                       {isStateReady && deferredAuthState && (
                         <>
-                          {deferredLocation === '/projects' && <ProjectsPage />}
-                          {deferredLocation.startsWith('/dashboard') && <ProjectDashboard />}
-                          {deferredLocation.startsWith('/characters') && <CharacterManager />}
-                          {deferredLocation.startsWith('/world') && <WorldBible />}
+                          {deferredLocation === '/projects' && <ProjectsPage user={null} onNavigate={() => {}} onLogout={() => {}} onSelectProject={() => {}} projects={[]} onNewProject={() => {}} isLoading={false} />}
+                          {deferredLocation.startsWith('/dashboard') && <div>Dashboard placeholder</div>}
+                          {deferredLocation.startsWith('/characters') && <CharacterManager projectId="modern-placeholder" />}
+                          {deferredLocation.startsWith('/world') && <div>World Bible placeholder</div>}
                         </>
                       )}
                       

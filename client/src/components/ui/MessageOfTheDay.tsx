@@ -142,8 +142,13 @@ export function MessageOfTheDay() {
 
   // Generate quality content - ALWAYS WORKS
   const generateFreshContent = useCallback((): DailyContent => {
-    const getRandomItem = <T,>(array: T[]): T => 
-      array[Math.floor(Math.random() * array.length)];
+    const getRandomItem = <T,>(array: T[]): T => {
+      const item = array[Math.floor(Math.random() * array.length)];
+      if (!item) {
+        throw new Error('Array is empty');
+      }
+      return item;
+    };
     
     const wordData = getRandomItem(LITERARY_WORDS);
     
@@ -472,7 +477,7 @@ export function MessageOfTheDay() {
                     ? 'gradient-primary w-6 h-2'
                     : 'bg-muted hover:bg-muted-foreground/50'
                 }`}
-                aria-label={`View ${contentSections[index].title}`}
+                aria-label={`View ${contentSections[index]?.title || 'Section'}`}
               />
             ))}
           </div>

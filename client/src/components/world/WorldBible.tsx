@@ -197,7 +197,7 @@ export function WorldBible({ project, onBack }: WorldBibleProps): React.JSX.Elem
       if (draggedIndex !== -1 && targetIndex !== -1) {
         const newOrder = [...currentOrder];
         const [draggedItem] = newOrder.splice(draggedIndex, 1);
-        newOrder.splice(targetIndex, 0, draggedItem);
+        newOrder.splice(targetIndex, 0, draggedItem!);
         setFeaturedCharacterOrder(newOrder);
       }
     }

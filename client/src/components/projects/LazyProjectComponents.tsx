@@ -37,8 +37,13 @@ export const loadIcon = async (iconName: string) => {
   }
   
   // Fallback to PenTool
-  const { default: PenTool } = await iconMap.PenTool();
-  return PenTool;
+  const penToolImporter = iconMap.PenTool;
+  if (penToolImporter) {
+    const { default: PenTool } = await penToolImporter();
+    return PenTool;
+  }
+  // Final fallback to basic div
+  return () => React.createElement('div', { className: 'w-4 h-4 bg-muted rounded' });
 };
 
 // Lazy ProjectsList with intelligent loading
@@ -117,7 +122,7 @@ export const LazyProjectModals = React.memo(function LazyProjectModals(props: La
         </div>
       </div>
     }>
-      <ProjectModals {...props} />
+      <ProjectModals projects={[]} {...props} />
     </Suspense>
   );
 });

@@ -121,7 +121,7 @@ export function CharacterRelationships({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg ${typeInfo?.color || 'bg-gray-500'} text-white`}>
-                <Icon className="h-4 w-4" />
+                {Icon && <Icon className="h-4 w-4" />}
               </div>
               <div>
                 <CardTitle className="text-base">{relationship.targetCharacterName}</CardTitle>

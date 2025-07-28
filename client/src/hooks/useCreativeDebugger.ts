@@ -203,6 +203,8 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       window.addEventListener('keydown', handleKeyPress);
       return () => window.removeEventListener('keydown', handleKeyPress);
     }
+    // Return cleanup function for non-debug mode
+    return () => {};
   }, [isDebugMode, toggleDebugMode, exportDebugData]);
 
   return {

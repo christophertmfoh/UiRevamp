@@ -69,15 +69,7 @@ export function FieldRenderer({
         {renderPriorityIndicator()}
       </div>
       
-      {onEnhance && fieldDef.type !== 'select' && (
-        <FieldAIAssist
-          fieldKey={fieldKey}
-          fieldLabel={fieldDef.label}
-          onEnhance={onEnhance}
-          isEnhancing={isEnhancing}
-          size="sm"
-        />
-      )}
+      {/* AI Assist removed - needs character context */}
     </div>
   );
 

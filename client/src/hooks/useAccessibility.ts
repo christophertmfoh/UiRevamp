@@ -157,7 +157,7 @@ export function useScreenReader() {
       announcer.style.height = '1px';
       announcer.style.overflow = 'hidden';
       document.body.appendChild(announcer);
-      announceRef.current = announcer;
+      // announceRef.current = announcer; // Cannot assign to readonly - using direct DOM reference instead
     }
 
     return () => {

@@ -87,7 +87,7 @@ export function useProjectsLogic({ projects }: UseProjectsLogicProps): UseProjec
       new Date(p.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000
     ).length;
     const uniqueGenres = Array.from(
-      new Set(projects.map((p: Project) => p.genre).filter(Boolean))
+      new Set(projects.map((p: Project) => p.genre).filter((genre): genre is string => Boolean(genre)))
     ).length;
 
     return { total, active, uniqueGenres };
