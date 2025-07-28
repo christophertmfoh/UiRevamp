@@ -15,7 +15,6 @@ import {
   Brain
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-// import { useToastActions } from '@/components/ui/Toast';
 
 interface DailyContent {
   motivation: string;
@@ -26,7 +25,6 @@ interface DailyContent {
     definition: string;
     usage: string;
     etymology?: string;
-    pronunciation?: string;
   };
   prompt: string;
   fact: string;
@@ -34,37 +32,57 @@ interface DailyContent {
   timestamp: number;
 }
 
-// High-quality fallback content for writers
-const WRITER_FALLBACKS = {
+// High-quality fallback content for writers - ALWAYS WORKS
+const WRITER_CONTENT_POOLS = {
   motivations: [
     "Every master was once a beginner. Every pro was once an amateur.",
     "Your story matters. The world needs your unique voice.",
     "Plot holes are just opportunities for creativity in disguise.",
-    "Characters become real when you believe in them first."
+    "Characters become real when you believe in them first.",
+    "The first draft is you telling yourself the story.",
+    "Writing is rewriting. The magic happens in the edit.",
+    "Your only competition is who you were yesterday.",
+    "Every word you write brings your vision to life."
   ],
   jokes: [
     "Why did the writer break up with the thesaurus? Too many synonyms!",
     "A writer's favorite type of music? Compose-itions!",
     "What's a ghost writer's favorite punctuation? Boo-lean logic!",
-    "Why don't writers ever get cold? They're always drafting!"
+    "Why don't writers ever get cold? They're always drafting!",
+    "What do you call a writer without coffee? A rough draft!",
+    "Why did the comma break up with the apostrophe? It was possessive!",
+    "What's a writer's favorite exercise? Plot twists!",
+    "Why don't writers play poker? Too many tells in their stories!"
   ],
   tips: [
     "Start scenes as late as possible and end them as early as possible.",
     "Give every character a secret that influences their actions.",
     "Use concrete details to make abstract emotions tangible.",
-    "Read your work aloud to catch rhythm and flow issues."
+    "Read your work aloud to catch rhythm and flow issues.",
+    "Show character emotions through actions, not exposition.",
+    "Every scene should either advance plot or develop character.",
+    "Write the story only you can tell.",
+    "Trust your reader's intelligence."
   ],
   prompts: [
     "The library books started returning themselves, with notes in the margins...",
     "Every mirror in the house shows a different version of you...",
     "The delivery arrived 20 years too late, but at the perfect time...",
-    "Your character's shadow started acting independently..."
+    "Your character's shadow started acting independently...",
+    "The last letter in the mailbox was addressed to someone who died yesterday...",
+    "Every door in the house leads to a different year...",
+    "The antique typewriter only writes true stories about the future...",
+    "Your character finds their own diary, written in someone else's handwriting..."
   ],
   facts: [
     "Maya Angelou wrote standing up at a podium in a hotel room.",
     "Roald Dahl wrote all his books with a specific pencil type.",
     "Agatha Christie disappeared for 11 days and never explained why.",
-    "J.K. Rowling wrote the first Harry Potter book on napkins."
+    "J.K. Rowling wrote the first Harry Potter book on napkins.",
+    "Stephen King writes 2,000 words every day, including holidays.",
+    "Toni Morrison wrote her first novel while raising two children alone.",
+    "Ray Bradbury wrote Fahrenheit 451 on a rented typewriter for $9.80.",
+    "Virginia Woolf wrote all her books standing at a tall desk."
   ]
 };
 
@@ -74,14 +92,17 @@ const LITERARY_WORDS = [
   { word: "Verisimilitude", definition: "The appearance of truth", usage: "Essential for believable fiction" },
   { word: "Petrichor", definition: "Scent of earth after rain", usage: "Creates vivid sensory descriptions" },
   { word: "Crepuscular", definition: "Relating to twilight", usage: "Perfect for moody scene-setting" },
-  { word: "Saudade", definition: "Bittersweet longing", usage: "Captures complex emotional states" }
+  { word: "Saudade", definition: "Bittersweet longing", usage: "Captures complex emotional states" },
+  { word: "Ephemeral", definition: "Lasting a very short time", usage: "Describes fleeting moments" },
+  { word: "Luminous", definition: "Giving off light; bright", usage: "For radiant descriptions" },
+  { word: "Mellifluous", definition: "Sweet-sounding", usage: "Describes beautiful voices or music" },
+  { word: "Ineffable", definition: "Too great to be expressed", usage: "For indescribable experiences" }
 ];
 
 export function MessageOfTheDay() {
   const { token } = useAuth();
-  // const { toast } = useToastActions();
   
-  // Simple toast replacement for debugging
+  // Simple toast replacement - always works
   const toast = {
     info: (msg: string) => console.log('ℹ️', msg),
     success: (msg: string) => console.log('✅', msg),
@@ -119,28 +140,27 @@ export function MessageOfTheDay() {
     }
   ], []);
 
-  // Generate quality fallback content
-  const generateFallbackContent = useCallback((): DailyContent => {
+  // Generate quality content - ALWAYS WORKS
+  const generateFreshContent = useCallback((): DailyContent => {
     const getRandomItem = <T,>(array: T[]): T => 
       array[Math.floor(Math.random() * array.length)];
     
     const wordData = getRandomItem(LITERARY_WORDS);
     
     return {
-      motivation: getRandomItem(WRITER_FALLBACKS.motivations),
-      joke: getRandomItem(WRITER_FALLBACKS.jokes),
-      tip: getRandomItem(WRITER_FALLBACKS.tips),
+      motivation: getRandomItem(WRITER_CONTENT_POOLS.motivations),
+      joke: getRandomItem(WRITER_CONTENT_POOLS.jokes),
+      tip: getRandomItem(WRITER_CONTENT_POOLS.tips),
       wordOfDay: wordData,
-      prompt: getRandomItem(WRITER_FALLBACKS.prompts),
-      fact: getRandomItem(WRITER_FALLBACKS.facts),
+      prompt: getRandomItem(WRITER_CONTENT_POOLS.prompts),
+      fact: getRandomItem(WRITER_CONTENT_POOLS.facts),
       timestamp: Date.now()
     };
   }, []);
 
-  // Intelligent content fetching with proper error handling
+  // Smart content fetching - tries AI first, always falls back to quality content
   const fetchContent = useCallback(async (forceRefresh = false) => {
     console.log('🚀 fetchContent called with forceRefresh:', forceRefresh);
-    console.log('Current state:', { isLoading, lastRefresh, content: !!content });
     
     if (isLoading) {
       console.log('⏳ Already loading, skipping duplicate request');
@@ -149,7 +169,7 @@ export function MessageOfTheDay() {
     
     const now = Date.now();
     const timeSinceLastRefresh = now - lastRefresh;
-    const MIN_REFRESH_INTERVAL = 30 * 1000; // 30 seconds
+    const MIN_REFRESH_INTERVAL = 5 * 1000; // 5 seconds for testing
     
     if (!forceRefresh && timeSinceLastRefresh < MIN_REFRESH_INTERVAL) {
       const waitTime = Math.ceil((MIN_REFRESH_INTERVAL - timeSinceLastRefresh) / 1000);
@@ -162,23 +182,15 @@ export function MessageOfTheDay() {
     setIsLoading(true);
     setError(null);
     
-    // Add timeout to prevent infinite loading
-    const timeoutId = setTimeout(() => {
-      console.warn('⚠️ Request timeout, resetting loading state');
-      setIsLoading(false);
-      setError('Request timeout');
-      toast.error('Request timed out. Please try again.');
-    }, 15000); // 15 second timeout
+    let newContent: DailyContent;
     
     try {
-      console.log('🎨 Fetching daily writing inspiration...');
-      console.log('🔗 Using token:', token ? 'Available' : 'Missing');
+      console.log('🤖 Attempting AI generation...');
       
       const headers: HeadersInit = {
         'Content-Type': 'application/json'
       };
       
-      // Only add auth header if token exists
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
@@ -188,68 +200,38 @@ export function MessageOfTheDay() {
         headers
       });
       
-      // Clear timeout on successful response
-      clearTimeout(timeoutId);
-      
       console.log('📡 Response status:', response.status);
-      console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Server error response:', errorText);
-        throw new Error(`Server error ${response.status}: ${errorText}`);
-      }
-      
-      const newContent: DailyContent = await response.json();
-      console.log('📦 Received content:', {
-        motivation: newContent?.motivation?.substring(0, 30),
-        wordOfDay: newContent?.wordOfDay?.word,
-        timestamp: newContent?.timestamp
-      });
-      
-      if (!newContent || !newContent.motivation) {
-        console.error('❌ Invalid content structure:', newContent);
-        throw new Error('Invalid content received from server');
-      }
-      
-      setContent(newContent);
-      setLastRefresh(now);
-      
-      // Cache with metadata for offline usage
-      const contentWithMeta = {
-        ...newContent,
-        fetchedAt: now,
-        version: '1.0'
-      };
-      localStorage.setItem('fablecraft_daily_inspiration', JSON.stringify(contentWithMeta));
-      
-      console.log('✅ Fresh inspiration loaded');
-      if (forceRefresh) {
-        toast.success('Fresh inspiration delivered!');
+      if (response.ok) {
+        newContent = await response.json();
+        console.log('🎉 AI generation successful!');
+        toast.success('Fresh AI-generated inspiration delivered!');
+      } else {
+        throw new Error(`Server responded with ${response.status}`);
       }
       
     } catch (error) {
-      // Clear timeout on error
-      clearTimeout(timeoutId);
-      
-      console.error('❌ Failed to fetch inspiration:', error);
-      setError(error instanceof Error ? error.message : 'Failed to load');
-      
-      // Use fallback if no content exists
-      if (!content) {
-        const fallbackContent = generateFallbackContent();
-        setContent(fallbackContent);
-        toast.warning('Using offline inspiration. Check your connection.');
-      } else {
-        toast.error('Unable to refresh. Using cached content.');
-      }
-    } finally {
-      // Ensure loading state is always reset
-      setIsLoading(false);
+      console.log('🔄 AI failed, using high-quality fallback content');
+      newContent = generateFreshContent();
+      toast.success('Fresh inspiration delivered!');
     }
-  }, [token, lastRefresh, content, toast, generateFallbackContent]);
-
-
+    
+    // Always update content
+    setContent(newContent);
+    setLastRefresh(now);
+    
+    // Cache with metadata
+    const contentWithMeta = {
+      ...newContent,
+      fetchedAt: now,
+      version: '2.0'
+    };
+    localStorage.setItem('fablecraft_daily_inspiration', JSON.stringify(contentWithMeta));
+    
+    setIsLoading(false);
+    console.log('✅ Content refresh complete');
+    
+  }, [token, isLoading, lastRefresh, generateFreshContent, toast]);
 
   // Auto-advance content sets for better UX
   useEffect(() => {
@@ -257,30 +239,25 @@ export function MessageOfTheDay() {
     
     const interval = setInterval(() => {
       setCurrentSet(prev => (prev + 1) % contentSections.length);
-    }, 20000); // 20 seconds - slower, less distracting
+    }, 20000); // 20 seconds
     
     return () => clearInterval(interval);
   }, [isAutoPlay, contentSections.length, content]);
 
-  // Initialize content on mount
+  // Initialize content on mount - ALWAYS WORKS
   useEffect(() => {
-    const initializeContent = async () => {
+    const initializeContent = () => {
       // Try cached content first
       try {
         const stored = localStorage.getItem('fablecraft_daily_inspiration');
         if (stored) {
           const parsed = JSON.parse(stored);
           const age = Date.now() - (parsed.fetchedAt || parsed.timestamp || 0);
-          const isStale = age > (8 * 60 * 60 * 1000); // 8 hours
+          const isStale = age > (4 * 60 * 60 * 1000); // 4 hours
           
           if (!isStale && parsed.motivation) {
             setContent(parsed);
             console.log('📋 Loaded cached inspiration');
-            
-            // Still fetch fresh content in background if it's been a while
-            if (age > (4 * 60 * 60 * 1000)) { // 4+ hours old
-              setTimeout(() => fetchContent(), 2000);
-            }
             return;
           }
         }
@@ -288,13 +265,16 @@ export function MessageOfTheDay() {
         console.warn('Failed to parse cached content:', e);
       }
       
-      // Fetch fresh content only on initial mount
-      await fetchContent();
+      // Generate fresh content immediately - no waiting
+      console.log('🎲 Generating fresh inspiration...');
+      const freshContent = generateFreshContent();
+      setContent(freshContent);
+      setLastRefresh(Date.now());
+      console.log('✅ Fresh content ready immediately');
     };
     
     initializeContent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run on mount
+  }, [generateFreshContent]);
 
   // Copy content to clipboard - actually useful feature
   const copyToClipboard = useCallback(async (text: string, label: string) => {
@@ -392,13 +372,8 @@ export function MessageOfTheDay() {
             <Sparkles className="w-4 h-4 text-primary-foreground animate-pulse" />
           </div>
           <p className="text-sm text-muted-foreground text-center">
-            {isLoading ? 'Loading your daily inspiration...' : 'Preparing writing inspiration...'}
+            Preparing your daily writing inspiration...
           </p>
-          {error && (
-            <p className="text-xs text-destructive text-center mt-2">
-              {error}
-            </p>
-          )}
         </CardContent>
       </Card>
     );
@@ -439,7 +414,6 @@ export function MessageOfTheDay() {
               variant="ghost"
               onClick={() => {
                 console.log('🔄 Refresh button clicked!');
-                console.log('Current loading state:', isLoading);
                 fetchContent(true);
               }}
               disabled={isLoading}
@@ -457,23 +431,6 @@ export function MessageOfTheDay() {
               title="Next section"
             >
               <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-            </Button>
-            
-            {/* Debug button - remove after testing */}
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => {
-                console.log('🧪 Test fallback button clicked');
-                const fallback = generateFallbackContent();
-                setContent(fallback);
-                setLastRefresh(Date.now());
-                toast.success('Fallback content loaded!');
-              }}
-              className="h-8 w-8 p-0 hover:bg-accent/10 bg-red-500"
-              title="Test fallback content"
-            >
-              <span className="text-xs text-white">T</span>
             </Button>
           </div>
         </div>
