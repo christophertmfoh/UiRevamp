@@ -11,6 +11,7 @@ import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { useWidgetManagement } from '@/hooks/useWidgetManagement';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { 
   LoadingSkeleton, 
   LoadingStatsCard, 
