@@ -30,13 +30,14 @@ export default defineConfig({
   server: {
     port: 5173,
     host: "0.0.0.0",
-    
+    allowedHosts: [".replit.dev", "localhost"],
+
     // File system security
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
-    
+
     // Proxy API calls to Express server
     proxy: {
       '/api': {
