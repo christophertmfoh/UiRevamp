@@ -113,14 +113,14 @@ export function CharacterRelationships({
 
   const RelationshipCard = ({ relationship }: { relationship: Relationship }) => {
     const typeInfo = getRelationshipTypeInfo(relationship.type);
-    const Icon = typeInfo.icon;
+    const Icon = typeInfo?.icon;
 
     return (
       <Card className="transition-all duration-200 hover:shadow-md border border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${typeInfo.color} text-white`}>
+              <div className={`p-2 rounded-lg ${typeInfo?.color || 'bg-gray-500'} text-white`}>
                 <Icon className="h-4 w-4" />
               </div>
               <div>

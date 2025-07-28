@@ -257,6 +257,7 @@ class MockStorage {
       class: null,
       title: null,
       children: null,
+      development: null,
       // Apply provided character data
       ...character,
       // Override with generated/computed values
@@ -265,6 +266,7 @@ class MockStorage {
       updatedAt: now,
       name: character.name ?? null,
       description: character.description ?? null,
+      development: character.development ?? null,
     };
 
     this.data.characters.set(id, newCharacter);

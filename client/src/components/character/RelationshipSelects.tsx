@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Relationship } from '@/lib/types';
+// import { Relationship } from '@/lib/types'; // Type not currently used
 
 interface RelationshipSelectProps {
   label: string;

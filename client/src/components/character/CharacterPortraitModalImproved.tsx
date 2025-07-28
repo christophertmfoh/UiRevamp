@@ -338,9 +338,9 @@ export function CharacterPortraitModal({
         ...img,
         isMain: index === 0 // Make first image the new main
       }));
-      updateCharacterImageUrl(finalUpdated[0].url, finalUpdated);
+      updateCharacterImageUrl(finalUpdated[0]?.url || '', finalUpdated);
       if (onImageGenerated) {
-        onImageGenerated(finalUpdated[0].url);
+        onImageGenerated(finalUpdated[0]?.url || '');
       }
     } else if (deletedImage?.isMain && updatedGallery.length === 0) {
       // No images left, clear the character image
@@ -386,7 +386,7 @@ export function CharacterPortraitModal({
       nextIndex = currentIndex === portraitGallery.length - 1 ? 0 : currentIndex + 1;
     }
 
-    setSelectedImagePreview(portraitGallery[nextIndex].url);
+    setSelectedImagePreview(portraitGallery[nextIndex]?.url || '');
   };
 
   const handleFileUpload = async (files: FileList | File[]) => {

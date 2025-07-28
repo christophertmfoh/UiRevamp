@@ -592,7 +592,7 @@ export default function App() {
               ...p,
               description: p.description ?? null,
               synopsis: p.synopsis ?? null,
-              genre: p.genre ?? null,
+              genre: p.genre ?? [],
               manuscriptNovel: p.manuscriptNovel ?? null,
               manuscriptScreenplay: p.manuscriptScreenplay ?? null
             }))}

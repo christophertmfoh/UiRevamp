@@ -32,7 +32,7 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
       skills: [],
       talents: [],
       expertise: [],
-      languages: [],
+      // languages: [], // Removed as not in Character schema
       archetypes: [],
       tropes: [],
       tags: []
@@ -46,8 +46,10 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
 
   // Mutations
   const createMutation = useMutation({
-    mutationFn: (data: Partial<Character>) => 
-      apiRequest('POST', `/api/projects/${projectId}/characters`, data),
+    mutationFn: async (data: Partial<Character>): Promise<Character> => {
+      const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, data);
+      return response as Character;
+    },
     onSuccess: (newCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onSave?.(newCharacter);
@@ -55,8 +57,10 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   });
 
   const updateMutation = useMutation({
-    mutationFn: (data: Character) => 
-      apiRequest('PUT', `/api/characters/${data.id}`, data),
+    mutationFn: async (data: Character): Promise<Character> => {
+      const response = await apiRequest('PUT', `/api/characters/${data.id}`, data);
+      return response as Character;
+    },
     onSuccess: (updatedCharacter: Character) => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       onSave?.(updatedCharacter);
@@ -139,8 +143,8 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
     if (!character) return Object.keys(formData).length > 1; // More than just projectId
     
     return Object.keys(formData).some(key => {
-      const formValue = formData[key as keyof Character];
-      const originalValue = character[key as keyof Character];
+      const formValue = (formData as any)[key];
+      const originalValue = (character as any)[key];
       return JSON.stringify(formValue) !== JSON.stringify(originalValue);
     });
   }, [character, formData]);

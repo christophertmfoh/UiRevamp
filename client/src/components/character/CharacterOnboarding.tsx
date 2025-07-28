@@ -197,7 +197,7 @@ export function CharacterOnboarding({ isOpen, onClose, onComplete }: CharacterOn
         <DialogHeader className="pb-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold">
-              {currentStepData.title}
+              {currentStepData?.title || 'Loading...'}
             </DialogTitle>
             <div className="flex gap-1">
               {onboardingSteps.map((_, index) => (
@@ -212,7 +212,7 @@ export function CharacterOnboarding({ isOpen, onClose, onComplete }: CharacterOn
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            {currentStepData.description}
+            {currentStepData?.description || ''}
           </p>
         </DialogHeader>
 
@@ -235,7 +235,7 @@ export function CharacterOnboarding({ isOpen, onClose, onComplete }: CharacterOn
             }
           }}
         >
-          {currentStepData.content}
+          {currentStepData?.content || null}
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-border/30">

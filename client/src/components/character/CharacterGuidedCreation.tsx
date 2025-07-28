@@ -271,6 +271,7 @@ export function CharacterGuidedCreation({
 
   const isStepComplete = (stepIndex: number) => {
     const step = CREATION_STEPS[stepIndex];
+    if (!step) return false;
     const requiredFields = step.fields.filter(field => field.required);
     return requiredFields.every(field => {
       const value = (formData as any)[field.key];
@@ -376,7 +377,7 @@ export function CharacterGuidedCreation({
             <div>
               <h1 className="text-2xl font-bold">Create Character</h1>
               <p className="text-sm text-muted-foreground">
-                Step {currentStepIndex + 1} of {CREATION_STEPS.length}: {currentStep.title}
+                Step {currentStepIndex + 1} of {CREATION_STEPS.length}: {currentStep?.title || 'Loading...'}
               </p>
             </div>
           </div>
@@ -454,17 +455,17 @@ export function CharacterGuidedCreation({
               <CardHeader className="pb-6 bg-gradient-to-r from-accent/5 to-accent/10 rounded-t-lg">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-accent/20 rounded-xl border border-accent/30">
-                    <currentStep.icon className="h-6 w-6 text-accent" />
+                    {currentStep?.icon && <currentStep.icon className="h-6 w-6 text-accent" />}
                   </div>
                   <div>
-                    <CardTitle className="text-2xl text-foreground">{currentStep.title}</CardTitle>
-                    <p className="text-muted-foreground mt-1">{currentStep.description}</p>
+                    <CardTitle className="text-2xl text-foreground">{currentStep?.title || 'Loading...'}</CardTitle>
+                    <p className="text-muted-foreground mt-1">{currentStep?.description || ''}</p>
                   </div>
                 </div>
               </CardHeader>
               
               <CardContent className="space-y-6">
-                {currentStep.fields.map((field) => (
+                {currentStep?.fields?.map((field) => (
                   <div key={field.key} className="space-y-2">
                     <Label className="text-sm font-medium flex items-center gap-2">
                       {field.label}

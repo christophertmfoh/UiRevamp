@@ -26,7 +26,7 @@ describe('CharacterManager', () => {
 
     return (
       <QueryClientProvider client={queryClient}>
-        <CharacterManager />
+        <CharacterManager projectId="test-project-id" />
       </QueryClientProvider>
     );
   };
