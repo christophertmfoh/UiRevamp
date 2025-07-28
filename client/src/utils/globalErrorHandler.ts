@@ -17,12 +17,18 @@ export const initializeGlobalErrorHandler = () => {
     event.preventDefault();
   });
 
-  // Handle general errors
+  // Handle general errors with proper filtering
   window.addEventListener('error', (event) => {
     const currentTime = Date.now();
     
-    // Filter out ResizeObserver errors which are common browser quirks
-    if (event.message?.includes('ResizeObserver')) {
+    // Filter out browser quirks that aren't actionable errors
+    const ignoredErrors = [
+      'ResizeObserver loop completed',
+      'ResizeObserver loop limit exceeded',
+      'Non-Error promise rejection captured'
+    ];
+    
+    if (ignoredErrors.some(ignored => event.message?.includes(ignored))) {
       return;
     }
     
@@ -31,8 +37,8 @@ export const initializeGlobalErrorHandler = () => {
       lastErrorReset = currentTime;
     }
     
-    if (errorCount < MAX_ERRORS_PER_MINUTE) {
-      console.warn('Global error:', event.error);
+    if (errorCount < MAX_ERRORS_PER_MINUTE && event.error) {
+      console.warn('Application error:', event.error);
       errorCount++;
     }
   });
