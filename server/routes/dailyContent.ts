@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { optionalAuth } from '../auth';
 import { generateWithRetry, checkRateLimit, testAIConnection } from '../services/aiGeneration';
+import SecurityLogger from '../utils/securityLogger';
 
 const router = Router();
 
@@ -250,12 +251,7 @@ router.post('/generate', optionalAuth, async (req, res) => {
 
     // Check environment variables
     const hasApiKey = !!(process.env.GEMINI_X || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY);
-    console.log('🔑 API Key check:', {
-      GEMINI_X: !!process.env.GEMINI_X,
-      GOOGLE_API_KEY: !!process.env.GOOGLE_API_KEY,
-      GEMINI_API_KEY: !!process.env.GEMINI_API_KEY,
-      hasApiKey
-    });
+    SecurityLogger.logAPIKeyValidation('gemini', hasApiKey, hasApiKey);
     
     if (!hasApiKey) {
       console.warn('⚠️ No AI API key found, using fallback content');
