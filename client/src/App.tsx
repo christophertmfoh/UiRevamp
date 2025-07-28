@@ -135,7 +135,14 @@ interface Modal {
 
 export default function App() {
   const { user, isAuthenticated, isLoading, login, logout, checkAuth } = useAuth();
-  const [view, setView] = useState<View>('landing');
+  const [view, setView] = useState<View>(() => {
+    // Restore view from URL on page load
+    const path = window.location.pathname;
+    if (path === '/projects') return 'projects';
+    if (path === '/dashboard') return 'dashboard';
+    if (path === '/auth') return 'auth';
+    return 'landing';
+  });
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
@@ -340,7 +347,7 @@ export default function App() {
       if (response.ok) {
         if (activeProject?.id === projectId) {
           setActiveProject(null);
-          setView('projects');
+          navigateToView('projects');
         }
         setModal({ type: null, project: null });
       }
@@ -351,7 +358,7 @@ export default function App() {
 
   const handleSelectProject = (project: Project) => {
     setActiveProject(project);
-    setView('dashboard');
+    navigateToView('dashboard');
   };
 
   const handleAuth = async (userData: { username: string; token: string }) => {
@@ -379,7 +386,7 @@ export default function App() {
         
         // Call Zustand login method to update auth state
         login(user, userData.token);
-        setView('projects'); // Go directly to projects after login
+        navigateToView('projects'); // Go directly to projects after login
       } else {
         console.error('No user data found in storage');
       }
@@ -419,15 +426,92 @@ export default function App() {
     );
   }
 
-  // Navigation helpers to fix type issues
-  const navigateToView = (viewName: string) => {
-    setView(viewName as View);
+  // Navigation handler with URL sync and scroll-to-top
+  const navigateToView = (newView: View | string) => {
+    const viewName = newView as View;
+    
+    // Update URL without page reload
+    const paths: Record<View, string> = {
+      'landing': '/',
+      'projects': '/projects', 
+      'dashboard': '/dashboard',
+      'auth': '/auth'
+    };
+    
+    window.history.pushState({}, '', paths[viewName] || '/');
+    
+    // Scroll to top of page smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Update view state
+    setView(viewName);
   };
+
+  // Handle browser back/forward buttons and refresh
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      let newView: View = 'landing';
+      
+      if (path === '/projects') newView = 'projects';
+      else if (path === '/dashboard') newView = 'dashboard';
+      else if (path === '/auth') newView = 'auth';
+      
+      // Only scroll to top for actual navigation, not initial load
+      if (view !== newView) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      setView(newView);
+    };
+
+    // Listen for back/forward button clicks
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [view]);
+
+  // Project restoration on dashboard refresh
+  useEffect(() => {
+    if (view === 'dashboard' && !activeProject && projects.length > 0) {
+      // Try to restore project from URL params or localStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('project') || localStorage.getItem('activeProjectId');
+      
+      if (projectId) {
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          setActiveProject(project);
+        } else {
+          // Project not found, redirect to projects
+          navigateToView('projects');
+        }
+      } else {
+        // No project specified, redirect to projects
+        navigateToView('projects');
+      }
+    }
+  }, [view, activeProject, projects]);
+
+  // Save active project ID to localStorage for restoration
+  useEffect(() => {
+    if (activeProject) {
+      localStorage.setItem('activeProjectId', activeProject.id);
+      // Also update URL with project ID for bookmarking
+      if (view === 'dashboard') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('project', activeProject.id);
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+  }, [activeProject, view]);
 
   // Logout handler that returns Promise
   const handleLogout = async () => {
     await logout();
-    setView('landing');
+    navigateToView('landing');
     setActiveProject(null);
     setProjects([]);
   };
@@ -447,7 +531,7 @@ export default function App() {
           <LandingPage 
             onNavigate={navigateToView}
             onNewProject={() => setModal({ type: 'new', project: null })}
-            onAuth={() => setView('auth')}
+            onAuth={() => navigateToView('auth')}
             isAuthenticated={isAuthenticated}
             user={user}
             onLogout={handleLogout}
@@ -471,14 +555,14 @@ export default function App() {
       case 'dashboard':
         if (!activeProject) {
           // If no active project, redirect to projects
-          setView('projects');
+          navigateToView('projects');
           return null;
         }
         
         return (
           <ProjectDashboard
             project={activeProject}
-            onBack={() => setView('projects')}
+            onBack={() => navigateToView('projects')}
             onUpdateProject={handleUpdateProject}
             onOpenModal={handleOpenModal}
             onLogout={handleLogout}
@@ -492,7 +576,7 @@ export default function App() {
         return (
           <AuthPageRedesign 
             onAuth={handleAuth}
-            onBack={() => setView('landing')}
+            onBack={() => navigateToView('landing')}
           />
         );
       default:
@@ -505,19 +589,19 @@ export default function App() {
               <p className="text-sm text-muted-foreground">User: {user?.username || 'Not logged in'}</p>
               <p className="text-sm text-muted-foreground">Auth: {isAuthenticated ? 'Yes' : 'No'}</p>
               <button 
-                onClick={() => setView('landing')} 
+                onClick={() => navigateToView('landing')} 
                 className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded mr-2"
               >
                 Go to Landing
               </button>
                              <button 
-                 onClick={() => setView('projects')} 
+                 onClick={() => navigateToView('projects')} 
                  className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded mr-2"
                >
                  Go to Projects
                </button>
                <button 
-                 onClick={() => setView('dashboard')} 
+                 onClick={() => navigateToView('dashboard')} 
                  className="mt-4 px-4 py-2 bg-accent text-accent-foreground rounded mr-2"
                >
                  Test Dashboard
