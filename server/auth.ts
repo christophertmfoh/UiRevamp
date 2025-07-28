@@ -4,8 +4,17 @@ import { Request, Response, NextFunction } from 'express';
 import { storage } from './storage';
 import { insertUserSchema } from '@shared/schema';
 import { z } from 'zod';
+import SecurityLogger from './utils/securityLogger';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
+// Secure JWT secret validation
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production') {
+    SecurityLogger.error('JWT_SECRET is required in production environment');
+    throw new Error('JWT_SECRET is required in production');
+  }
+  SecurityLogger.warn('Using default JWT secret in development - NOT SECURE FOR PRODUCTION');
+}
 const SALT_ROUNDS = 12;
 
 // Extend Request type to include user
@@ -70,13 +79,36 @@ export function verifyToken(token: string): { userId: string } | null {
 export async function authenticateToken(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+  const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
 
   if (!token) {
+    SecurityLogger.logSecurityEvent({
+      eventType: 'UNAUTHORIZED_ACCESS',
+      severity: 'MEDIUM',
+      ipAddress,
+      details: {
+        endpoint: req.path,
+        method: req.method,
+        reason: 'Missing access token'
+      },
+      actionTaken: 'Request blocked'
+    });
     return res.status(401).json({ error: 'Access token required' });
   }
 
   const decoded = verifyToken(token);
   if (!decoded) {
+    SecurityLogger.logSecurityEvent({
+      eventType: 'INVALID_TOKEN',
+      severity: 'HIGH',
+      ipAddress,
+      details: {
+        endpoint: req.path,
+        method: req.method,
+        reason: 'Invalid or expired JWT token'
+      },
+      actionTaken: 'Request blocked'
+    });
     return res.status(401).json({ error: 'Invalid or expired token' });
   }
 
@@ -118,18 +150,38 @@ export async function optionalAuth(req: Request, res: Response, next: NextFuncti
 }
 
 // Sign up function
-export async function signUp(data: z.infer<typeof signupSchema>) {
+export async function signUp(data: z.infer<typeof signupSchema>, ipAddress: string = 'unknown') {
   // Validate input
   const validatedData = signupSchema.parse(data);
 
   // Check if user already exists
   const existingUserByEmail = await storage.getUserByEmail(validatedData.email);
   if (existingUserByEmail) {
+    SecurityLogger.logSecurityEvent({
+      eventType: 'SUSPICIOUS_ACTIVITY',
+      severity: 'LOW',
+      ipAddress,
+      details: {
+        action: 'Registration attempt with existing email',
+        email: validatedData.email
+      },
+      actionTaken: 'Registration blocked'
+    });
     throw new Error('User with this email already exists');
   }
 
   const existingUserByUsername = await storage.getUserByUsername(validatedData.username);
   if (existingUserByUsername) {
+    SecurityLogger.logSecurityEvent({
+      eventType: 'SUSPICIOUS_ACTIVITY',
+      severity: 'LOW',
+      ipAddress,
+      details: {
+        action: 'Registration attempt with existing username',
+        username: validatedData.username
+      },
+      actionTaken: 'Registration blocked'
+    });
     throw new Error('Username already taken');
   }
 
@@ -165,7 +217,7 @@ export async function signUp(data: z.infer<typeof signupSchema>) {
 }
 
 // Sign in function
-export async function signIn(data: z.infer<typeof loginSchema>) {
+export async function signIn(data: z.infer<typeof loginSchema>, ipAddress: string = 'unknown', userAgent: string = 'unknown') {
   // Validate input
   const validatedData = loginSchema.parse(data);
 
@@ -176,16 +228,45 @@ export async function signIn(data: z.infer<typeof loginSchema>) {
     : await storage.getUserByUsername(validatedData.emailOrUsername);
 
   if (!user) {
+    SecurityLogger.logAuthEvent({
+      eventType: 'FAILED_LOGIN',
+      ipAddress,
+      userAgent,
+      metadata: {
+        emailOrUsername: validatedData.emailOrUsername,
+        reason: 'User not found'
+      }
+    });
     throw new Error('Invalid credentials');
   }
 
   if (!user.isActive) {
+    SecurityLogger.logAuthEvent({
+      eventType: 'FAILED_LOGIN',
+      userId: user.id,
+      ipAddress,
+      userAgent,
+      metadata: {
+        emailOrUsername: validatedData.emailOrUsername,
+        reason: 'Account deactivated'
+      }
+    });
     throw new Error('Account is deactivated');
   }
 
   // Verify password
   const isValidPassword = await verifyPassword(validatedData.password, user.passwordHash);
   if (!isValidPassword) {
+    SecurityLogger.logAuthEvent({
+      eventType: 'FAILED_LOGIN',
+      userId: user.id,
+      ipAddress,
+      userAgent,
+      metadata: {
+        emailOrUsername: validatedData.emailOrUsername,
+        reason: 'Invalid password'
+      }
+    });
     throw new Error('Invalid credentials');
   }
 
