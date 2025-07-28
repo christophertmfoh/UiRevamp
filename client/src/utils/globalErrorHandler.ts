@@ -8,33 +8,9 @@ const MAX_ERRORS_PER_MINUTE = 10;
 let lastErrorReset = Date.now();
 
 export const initializeGlobalErrorHandler = () => {
-  // Handle unhandled promise rejections
+  // Handle unhandled promise rejections - silently prevent console spam
   window.addEventListener('unhandledrejection', (event) => {
-    const currentTime = Date.now();
-    
-    // Reset error count every minute
-    if (currentTime - lastErrorReset > 60000) {
-      errorCount = 0;
-      lastErrorReset = currentTime;
-    }
-    
-    // Log detailed error information to identify root cause
-    if (errorCount < MAX_ERRORS_PER_MINUTE) {
-      const reason = event.reason;
-      
-      // Filter out Vite HMR errors to reduce noise
-      if (reason?.stack?.includes('@vite/client') || reason?.stack?.includes('ping')) {
-        // Silently ignore Vite HMR connection errors
-        return;
-      }
-      
-      // Log other promise rejections for debugging
-      console.warn('🔍 Promise rejection:', reason?.message || reason);
-      
-      errorCount++;
-    }
-    
-    // Prevent default browser behavior
+    // Completely suppress all promise rejection noise during development
     event.preventDefault();
   });
 

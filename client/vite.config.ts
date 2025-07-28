@@ -28,14 +28,8 @@ export default defineConfig({
       "bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev"
     ],
 
-    // Phase 5: Stable HMR for creative workflow
-    hmr: {
-      overlay: false, // Reduce visual interruption during writing
-      port: 5173,
-      host: "0.0.0.0",
-      clientPort: 5173, // Ensure client connects to correct port
-      timeout: 60000 // Increase timeout to prevent connection failures
-    },
+    // Phase 5: Disabled HMR to prevent promise rejection spam
+    hmr: false,
 
     // Phase 5: Warmup critical writing components
     warmup: {
