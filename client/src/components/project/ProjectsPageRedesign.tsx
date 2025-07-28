@@ -59,7 +59,7 @@ import { Project } from '@/lib/types';
 import { taskService, goalsService } from '@/lib/services/taskService';
 import type { Task, WritingGoal } from '@shared/schema';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
+import { useToastActions } from '@/components/ui/Toast';
 import {
   Select,
   SelectContent,
@@ -224,7 +224,7 @@ export function ProjectsPageRedesign({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const { toast } = useToast();
+  const toast = useToastActions();
   
   // Save layout to localStorage whenever it changes
   useEffect(() => {
@@ -380,10 +380,10 @@ export function ProjectsPageRedesign({
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', 'today'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', 'stats'] });
-      toast({
-        title: "Task created",
-        description: "Your new task has been added successfully."
-      });
+      toast.success(
+        "Task created",
+        "Your new task has been added successfully."
+      );
     }
   });
   
@@ -393,10 +393,10 @@ export function ProjectsPageRedesign({
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', 'today'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', 'stats'] });
-      toast({
-        title: "Task deleted",
-        description: "The task has been removed."
-      });
+      toast.success(
+        "Task deleted",
+        "The task has been removed."
+      );
     }
   });
   
@@ -405,10 +405,10 @@ export function ProjectsPageRedesign({
       goalsService.updateGoals(goals),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['goals'] });
-      toast({
-        title: "Goals updated",
-        description: "Your writing goals have been saved."
-      });
+      toast.success(
+        "Goals updated",
+        "Your writing goals have been saved."
+      );
     }
   });
   

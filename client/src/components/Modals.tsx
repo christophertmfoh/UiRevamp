@@ -15,7 +15,7 @@ import {
   DialogTitle 
 } from '@/components/ui/dialog';
 import { X, Upload, BookOpen, FileText, AlertTriangle, Feather, Sparkles, FileUp, Globe, Book } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useToastActions } from '@/components/ui/Toast';
 import { apiRequest } from '@/lib/queryClient';
 import type { Project } from '../lib/types';
 
@@ -42,7 +42,7 @@ export function ProjectModal({
   const [outlineTemplate, setOutlineTemplate] = useState<'blank' | 'classic-15-beat' | 'three-act'>('blank');
   const [newGenre, setNewGenre] = useState('');
   
-  const { toast } = useToast();
+  const toast = useToastActions();
   const queryClient = useQueryClient();
 
   const commonGenres = ['Fantasy', 'Science Fiction', 'Mystery', 'Romance', 'Thriller', 'Adventure', 'Horror', 'Historical Fiction', 'Contemporary Fiction', 'Young Adult'];
@@ -98,20 +98,19 @@ export function ProjectModal({
         }
       }
       
-      toast({
-        title: projectToEdit ? "Project Settings Updated" : "Project Created",
-        description: `${name} has been ${projectToEdit ? 'updated' : 'created'} successfully.`,
-      });
+      toast.success(
+        projectToEdit ? "Project Settings Updated" : "Project Created",
+        `${name} has been ${projectToEdit ? 'updated' : 'created'} successfully.`
+      );
       
       onClose();
     },
     onError: (error) => {
       // Handle error through mutation error state
-      toast({
-        title: "Error",
-        description: `Failed to ${projectToEdit ? 'update' : 'create'} project. Please try again.`,
-        variant: "destructive",
-      });
+      toast.error(
+        "Error",
+        `Failed to ${projectToEdit ? 'update' : 'create'} project. Please try again.`
+      );
     },
   });
 
@@ -554,7 +553,7 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
   const [isProcessing, setIsProcessing] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   
-  const { toast } = useToast();
+  const toast = useToastActions();
   const queryClient = useQueryClient();
 
   const handleDrag = (e: React.DragEvent) => {
@@ -581,11 +580,10 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
           setProjectName(file.name.replace(/\.[^/.]+$/, ''));
         }
       } else {
-        toast({
-          title: "Invalid File Type",
-          description: "Please select a TXT, PDF, or DOCX file.",
-          variant: "destructive",
-        });
+        toast.error(
+          "Invalid File Type",
+          "Please select a TXT, PDF, or DOCX file."
+        );
       }
     }
   };
@@ -600,11 +598,10 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
           setProjectName(file.name.replace(/\.[^/.]+$/, ''));
         }
       } else {
-        toast({
-          title: "Invalid File Type",
-          description: "Please select a TXT, PDF, or DOCX file.",
-          variant: "destructive",
-        });
+        toast.error(
+          "Invalid File Type",
+          "Please select a TXT, PDF, or DOCX file."
+        );
       }
     }
   };
@@ -651,10 +648,10 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
 
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
 
-      toast({
-        title: "Document Imported Successfully",
-        description: `${projectName} has been created and populated with your document content.`,
-      });
+      toast.success(
+        "Document Imported Successfully",
+        `${projectName} has been created and populated with your document content.`
+      );
 
       if (onProjectCreated) {
         const projectData = await newProject.json();
@@ -664,11 +661,10 @@ export function IntelligentImportModal({ onClose, onProjectCreated }: Intelligen
       onClose();
     } catch (error) {
       // Handle error through UI feedback
-      toast({
-        title: "Import Failed",
-        description: "Failed to import document. Please try again.",
-        variant: "destructive",
-      });
+      toast.error(
+        "Import Failed",
+        "Failed to import document. Please try again."
+      );
     } finally {
       setIsProcessing(false);
     }
