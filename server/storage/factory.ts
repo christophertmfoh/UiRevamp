@@ -1,24 +1,24 @@
 /**
- * Replit-Native Storage Adapter
+ * Senior Developer Storage Factory
  * 
- * Simple storage routing optimized for creative development workflow.
- * Automatically uses mock storage for fast iteration in Replit environment.
+ * Production-ready storage routing with proper database integration.
+ * Uses real PostgreSQL database when available, falls back to mock for development.
  */
 
 import { mockStorage } from './mockStorage';
-
-const isReplitEnvironment = !!process.env.REPL_ID || process.env.NODE_ENV === 'development';
+import { databaseStorage } from './databaseStorage';
 
 /**
- * Create storage adapter optimized for creative development workflow
+ * Create storage adapter with production-grade database support
  */
 export function createStorageAdapter() {
-  if (isReplitEnvironment) {
-    console.log('🎨 Replit Storage: Using MockStorage for creative development');
-    return mockStorage;
+  // Use real database when DATABASE_URL is available (production pattern)
+  if (process.env.DATABASE_URL) {
+    console.log('🔗 Production Mode: Connecting to real database');
+    return databaseStorage;
   }
   
-  // For deployed environments, could connect to real database
-  console.log('📊 Production Storage: Using MockStorage (real database not configured)');
+  // Fallback to mock storage for development without database
+  console.log('🎨 Development Mode: Using MockStorage (no DATABASE_URL)');
   return mockStorage;
 }
