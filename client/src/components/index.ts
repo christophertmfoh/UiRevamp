@@ -4,7 +4,7 @@ export * from './project';
 export * from './world';
 
 // Core Components
-export { LandingPage } from './LandingPage';
+// LandingPage export removed - import from pages/landing instead
 export { 
   ProjectModal, 
   ConfirmDeleteModal, 
