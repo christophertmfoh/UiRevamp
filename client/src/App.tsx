@@ -9,6 +9,7 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './components/LandingPage';
+import { ProjectsPage } from './components/projects/ProjectsPage';
 import { FloatingOrbs } from './components/FloatingOrbs';
 
 // Force scrollbar styling with JavaScript - comprehensive approach
@@ -288,6 +289,16 @@ export default function App() {
             onLogout={handleLogout}
           />
         );
+      case 'projects':
+        return (
+          <ProjectsPage
+            onNavigate={setView}
+            onNewProject={() => setModal({ type: 'new', project: null })}
+            onSelectProject={handleSelectProject}
+            onLogout={handleLogout}
+            user={user}
+          />
+        );
       default:
         // Simple test interface for other views
         return (
@@ -303,12 +314,18 @@ export default function App() {
               >
                 Go to Landing
               </button>
-              <button 
-                onClick={() => setView('projects')} 
-                className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded"
-              >
-                Test Projects
-              </button>
+                             <button 
+                 onClick={() => setView('projects')} 
+                 className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded mr-2"
+               >
+                 Go to Projects
+               </button>
+               <button 
+                 onClick={() => setView('dashboard')} 
+                 className="mt-4 px-4 py-2 bg-accent text-accent-foreground rounded"
+               >
+                 Test Dashboard
+               </button>
             </div>
           </div>
         );
