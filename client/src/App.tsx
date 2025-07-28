@@ -351,6 +351,14 @@ export default function App() {
     setProjects([]);
   };
 
+  // Modal handler to fix type mismatch
+  const handleOpenModal = (modalInfo: { type: string | null; project: Project | null }) => {
+    setModal({
+      type: modalInfo.type as ModalType,
+      project: modalInfo.project
+    });
+  };
+
   const renderView = () => {
     switch(view) {
       case 'landing':
@@ -402,7 +410,7 @@ export default function App() {
             project={testProject}
             onBack={() => setView('projects')}
             onUpdateProject={handleUpdateProject}
-            onOpenModal={(modalInfo) => setModal(modalInfo)}
+            onOpenModal={handleOpenModal}
             onLogout={handleLogout}
             user={user}
             isAuthenticated={isAuthenticated}

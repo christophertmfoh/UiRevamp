@@ -17,14 +17,6 @@ export default defineConfig({
       }
     }),
     runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
-        ]
-      : []),
   ],
   resolve: {
     alias: {
@@ -34,10 +26,16 @@ export default defineConfig({
   },
   root: __dirname,
   
-  // Development server configuration
+  // Development server configuration with proxy
   server: {
     port: 5173,
     host: "0.0.0.0",
+    
+    // File system security
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
+    },
     
     // Proxy API calls to Express server
     proxy: {
@@ -57,16 +55,6 @@ export default defineConfig({
     target: 'es2020',
     minify: 'esbuild', // Faster than terser
     sourcemap: process.env.NODE_ENV !== 'production',
-  },
-  
-  // Development server optimizations
-  server: {
-    port: 5173,
-    host: "0.0.0.0",
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
-    },
   },
   
   // Dependency optimization

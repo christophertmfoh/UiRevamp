@@ -429,7 +429,7 @@ export function LandingPage({
           </div>
 
           {/* Key Benefits */}
-          <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'}}>
+          <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'} as React.CSSProperties}>
             <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
               <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
               

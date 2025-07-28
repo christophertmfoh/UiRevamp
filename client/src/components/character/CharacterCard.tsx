@@ -182,8 +182,8 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
             {character.skills && character.skills.length > 0 && (
               <span>{character.skills.length} skills</span>
             )}
-            {character.languages && character.languages.length > 0 && (
-              <span>{character.languages.length} languages</span>
+            {character.spokenLanguages && (
+              <span>Languages: {character.spokenLanguages}</span>
             )}
             {character.relationships && character.relationships.length > 0 && (
               <span>{character.relationships.length} relationships</span>

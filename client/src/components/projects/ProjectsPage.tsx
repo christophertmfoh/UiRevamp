@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import type { Project } from '@/lib/types';
 import { FloatingOrbs } from '../FloatingOrbs';
 import { ProjectsHeader } from './ProjectsHeader';
 import { ProjectsFilters } from './ProjectsFilters';
@@ -24,15 +25,7 @@ interface User {
   username?: string;
 }
 
-interface Project {
-  id: string;
-  name: string;
-  type?: string;
-  genre?: string | string[];
-  description?: string;
-  createdAt: string;
-  [key: string]: any;
-}
+// Using centralized Project type from @/lib/types
 
 interface ProjectsPageProps {
   user: User | null;

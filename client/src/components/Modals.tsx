@@ -38,7 +38,9 @@ export function ProjectModal({
   const [name, setName] = useState(projectToEdit?.name || '');
   const [description, setDescription] = useState(projectToEdit?.description || '');
   const [type, setType] = useState<'novel' | 'screenplay' | 'comic'>(projectToEdit?.type || 'novel');
-  const [genres, setGenres] = useState<string[]>(projectToEdit?.genre || []);
+  const [genres, setGenres] = useState<string[]>(
+    Array.isArray(projectToEdit?.genre) ? projectToEdit.genre : projectToEdit?.genre ? [projectToEdit.genre] : []
+  );
   const [outlineTemplate, setOutlineTemplate] = useState<'blank' | 'classic-15-beat' | 'three-act'>('blank');
   const [newGenre, setNewGenre] = useState('');
   
@@ -331,7 +333,7 @@ export function ConfirmDeleteModal({ project, onClose, onDelete }: ConfirmDelete
           <CardContent className="p-4">
             <div className="font-title text-lg">{project.name}</div>
             <div className="text-sm text-muted-foreground">
-              {project.type} • {project.genre.join(', ')}
+              {project.type} • {Array.isArray(project.genre) ? project.genre.join(', ') : project.genre || 'No genre'}
             </div>
             {project.description && (
               <div className="text-sm text-muted-foreground mt-2 font-literary">
