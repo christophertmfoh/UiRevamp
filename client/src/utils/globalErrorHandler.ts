@@ -21,6 +21,11 @@ export const initializeGlobalErrorHandler = () => {
   window.addEventListener('error', (event) => {
     const currentTime = Date.now();
     
+    // Filter out ResizeObserver errors which are common browser quirks
+    if (event.message?.includes('ResizeObserver')) {
+      return;
+    }
+    
     if (currentTime - lastErrorReset > 60000) {
       errorCount = 0;
       lastErrorReset = currentTime;
