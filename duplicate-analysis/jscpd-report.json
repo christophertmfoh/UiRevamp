@@ -1,0 +1,4917 @@
+{
+  "statistics": {
+    "detectionDate": "2025-07-28T22:20:34.202Z",
+    "formats": {
+      "javascript": {
+        "sources": {
+          "client/src/components/character/shared/FormSection.tsx": {
+            "lines": 77,
+            "tokens": 620,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/shared/FieldRenderer.tsx": {
+            "lines": 133,
+            "tokens": 1010,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/shared/CharacterProgress.tsx": {
+            "lines": 60,
+            "tokens": 569,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/LandingPage.tsx": {
+            "lines": 349,
+            "tokens": 3109,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/HeroSection.tsx": {
+            "lines": 36,
+            "tokens": 308,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/FeatureCards.tsx": {
+            "lines": 51,
+            "tokens": 469,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/CTASection.tsx": {
+            "lines": 35,
+            "tokens": 305,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/WritingEditor.tsx": {
+            "lines": 21,
+            "tokens": 118,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/StoryOutlineEditor.tsx": {
+            "lines": 79,
+            "tokens": 649,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/LazyWritingComponents.tsx": {
+            "lines": 76,
+            "tokens": 548,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/world/WorldBible.tsx": {
+            "lines": 370,
+            "tokens": 3232,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/tooltip.tsx": {
+            "lines": 5,
+            "tokens": 21,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/toggle.tsx": {
+            "lines": 1,
+            "tokens": 21,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/toggle-group.tsx": {
+            "lines": 28,
+            "tokens": 203,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/textarea.tsx": {
+            "lines": 4,
+            "tokens": 15,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/tabs.tsx": {
+            "lines": 34,
+            "tokens": 211,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/table.tsx": {
+            "lines": 91,
+            "tokens": 610,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/switch.tsx": {
+            "lines": 10,
+            "tokens": 37,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/slider.tsx": {
+            "lines": 4,
+            "tokens": 15,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/skeleton.tsx": {
+            "lines": 0,
+            "tokens": 8,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/sidebar.tsx": {
+            "lines": 585,
+            "tokens": 3528,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/sheet.tsx": {
+            "lines": 100,
+            "tokens": 633,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/separator.tsx": {
+            "lines": 7,
+            "tokens": 40,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/select.tsx": {
+            "lines": 123,
+            "tokens": 816,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/scroll-area.tsx": {
+            "lines": 27,
+            "tokens": 181,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/resizable.tsx": {
+            "lines": 21,
+            "tokens": 97,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/radio-group.tsx": {
+            "lines": 18,
+            "tokens": 120,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/progress.tsx": {
+            "lines": 4,
+            "tokens": 15,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/popover.tsx": {
+            "lines": 6,
+            "tokens": 27,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/pagination.tsx": {
+            "lines": 89,
+            "tokens": 594,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/navigation-menu.tsx": {
+            "lines": 96,
+            "tokens": 616,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/menubar.tsx": {
+            "lines": 188,
+            "tokens": 1233,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 80,
+            "duplicatedTokens": 545,
+            "percentage": 42.55,
+            "percentageTokens": 44.2,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/loading-modal.tsx": {
+            "lines": 32,
+            "tokens": 252,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/label.tsx": {
+            "lines": 1,
+            "tokens": 16,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/input.tsx": {
+            "lines": 5,
+            "tokens": 21,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/input-otp.tsx": {
+            "lines": 51,
+            "tokens": 396,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/hover-card.tsx": {
+            "lines": 6,
+            "tokens": 27,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/form.tsx": {
+            "lines": 122,
+            "tokens": 918,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/dropdown-menu.tsx": {
+            "lines": 149,
+            "tokens": 983,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/drawer.tsx": {
+            "lines": 88,
+            "tokens": 588,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/dialog.tsx": {
+            "lines": 83,
+            "tokens": 512,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/context-menu.tsx": {
+            "lines": 149,
+            "tokens": 969,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 80,
+            "duplicatedTokens": 545,
+            "percentage": 53.69,
+            "percentageTokens": 56.24,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/command.tsx": {
+            "lines": 120,
+            "tokens": 787,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/checkbox.tsx": {
+            "lines": 8,
+            "tokens": 35,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/chart.tsx": {
+            "lines": 256,
+            "tokens": 1697,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/carousel.tsx": {
+            "lines": 120,
+            "tokens": 755,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/card.tsx": {
+            "lines": 63,
+            "tokens": 436,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/calendar.tsx": {
+            "lines": 3,
+            "tokens": 54,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/button.tsx": {
+            "lines": 1,
+            "tokens": 21,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/breadcrumb.tsx": {
+            "lines": 86,
+            "tokens": 582,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/badge.tsx": {
+            "lines": 0,
+            "tokens": 13,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/avatar.tsx": {
+            "lines": 31,
+            "tokens": 210,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/alert.tsx": {
+            "lines": 26,
+            "tokens": 193,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/alert-dialog.tsx": {
+            "lines": 103,
+            "tokens": 665,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/accordion.tsx": {
+            "lines": 36,
+            "tokens": 266,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/Toast.tsx": {
+            "lines": 110,
+            "tokens": 748,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/MessageOfTheDay.tsx": {
+            "lines": 179,
+            "tokens": 1405,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/LoadingStates.tsx": {
+            "lines": 205,
+            "tokens": 1976,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/ErrorBoundary.tsx": {
+            "lines": 180,
+            "tokens": 1459,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/EmptyStates.tsx": {
+            "lines": 44,
+            "tokens": 254,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/QuickTasksWidget.tsx": {
+            "lines": 243,
+            "tokens": 1844,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsStats.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsPage.tsx": {
+            "lines": 175,
+            "tokens": 1327,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsList.tsx": {
+            "lines": 183,
+            "tokens": 1674,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsHeader.tsx": {
+            "lines": 43,
+            "tokens": 334,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsFilters.tsx": {
+            "lines": 67,
+            "tokens": 439,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectModals.tsx": {
+            "lines": 427,
+            "tokens": 3840,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/LazyProjectComponents.tsx": {
+            "lines": 67,
+            "tokens": 602,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/DashboardWidgets.tsx": {
+            "lines": 182,
+            "tokens": 1841,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectsView.tsx": {
+            "lines": 270,
+            "tokens": 2369,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectDashboard.tsx": {
+            "lines": 180,
+            "tokens": 1592,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectCreationWizard.tsx": {
+            "lines": 356,
+            "tokens": 3109,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/NewProjectsView.tsx": {
+            "lines": 471,
+            "tokens": 4047,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/WritingMetrics.tsx": {
+            "lines": 163,
+            "tokens": 1448,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/QuickActionsPanel.tsx": {
+            "lines": 141,
+            "tokens": 1232,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/PerformanceDashboard.tsx": {
+            "lines": 81,
+            "tokens": 670,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/LiveWritingPreview.tsx": {
+            "lines": 61,
+            "tokens": 630,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/CreativeErrorBoundary.tsx": {
+            "lines": 19,
+            "tokens": 130,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/CreativeDebugPanel.tsx": {
+            "lines": 187,
+            "tokens": 1537,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/RelationshipSelects.tsx": {
+            "lines": 6,
+            "tokens": 65,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/ImagePreviewModal.tsx": {
+            "lines": 35,
+            "tokens": 235,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/FieldRenderer.tsx": {
+            "lines": 87,
+            "tokens": 880,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 96,
+            "duplicatedTokens": 956,
+            "percentage": 110.34,
+            "percentageTokens": 108.64,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/FieldAIAssist.tsx": {
+            "lines": 1,
+            "tokens": 11,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterUnifiedView.tsx": {
+            "lines": 303,
+            "tokens": 2302,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterTemplates.tsx": {
+            "lines": 155,
+            "tokens": 1336,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterRelationships.tsx": {
+            "lines": 298,
+            "tokens": 2564,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterPortraitModalImproved.tsx": {
+            "lines": 464,
+            "tokens": 3707,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 130,
+            "duplicatedTokens": 1080,
+            "percentage": 28.02,
+            "percentageTokens": 29.13,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterOnboarding.tsx": {
+            "lines": 76,
+            "tokens": 544,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterInsights.tsx": {
+            "lines": 76,
+            "tokens": 640,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterGuidedCreation.tsx": {
+            "lines": 204,
+            "tokens": 1636,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterGenerationModal.tsx": {
+            "lines": 267,
+            "tokens": 2232,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterFormExpanded.tsx": {
+            "lines": 139,
+            "tokens": 1165,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 126,
+            "duplicatedTokens": 968,
+            "percentage": 90.65,
+            "percentageTokens": 83.09,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDocumentUpload.tsx": {
+            "lines": 152,
+            "tokens": 1289,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDetailView.tsx": {
+            "lines": 30,
+            "tokens": 182,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDetailAccordion.tsx": {
+            "lines": 257,
+            "tokens": 2308,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterCreationLaunch.tsx": {
+            "lines": 55,
+            "tokens": 469,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterCard.tsx": {
+            "lines": 149,
+            "tokens": 1416,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterArcTracker.tsx": {
+            "lines": 321,
+            "tokens": 3021,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/AIAssistModal.tsx": {
+            "lines": 130,
+            "tokens": 1265,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/workspace.tsx": {
+            "lines": 774,
+            "tokens": 7067,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/DebugDemo.tsx": {
+            "lines": 188,
+            "tokens": 1716,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/AuthPageRedesign.tsx": {
+            "lines": 308,
+            "tokens": 2692,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/AuthPage.tsx": {
+            "lines": 219,
+            "tokens": 2052,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/theme-toggle.tsx": {
+            "lines": 38,
+            "tokens": 262,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/Modals.tsx": {
+            "lines": 711,
+            "tokens": 6164,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/App.tsx": {
+            "lines": 220,
+            "tokens": 1618,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 13964,
+          "tokens": 113722,
+          "sources": 106,
+          "clones": 6,
+          "duplicatedLines": 256,
+          "duplicatedTokens": 2047,
+          "percentage": 1.83,
+          "percentageTokens": 1.8,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "tsx": {
+        "sources": {
+          "client/src/components/character/shared/FormSection.tsx": {
+            "lines": 174,
+            "tokens": 1498,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/shared/FieldRenderer.tsx": {
+            "lines": 200,
+            "tokens": 1535,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/shared/CharacterProgress.tsx": {
+            "lines": 108,
+            "tokens": 1013,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/LandingPage.tsx": {
+            "lines": 506,
+            "tokens": 4245,
+            "sources": 1,
+            "clones": 5,
+            "duplicatedLines": 103,
+            "duplicatedTokens": 866,
+            "percentage": 20.36,
+            "percentageTokens": 20.4,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/HeroSection.tsx": {
+            "lines": 67,
+            "tokens": 557,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 11,
+            "duplicatedTokens": 75,
+            "percentage": 16.42,
+            "percentageTokens": 13.46,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/FeatureCards.tsx": {
+            "lines": 108,
+            "tokens": 931,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 37,
+            "duplicatedTokens": 338,
+            "percentage": 34.26,
+            "percentageTokens": 36.31,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/landing/CTASection.tsx": {
+            "lines": 64,
+            "tokens": 536,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/WritingEditor.tsx": {
+            "lines": 133,
+            "tokens": 1188,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/StoryOutlineEditor.tsx": {
+            "lines": 182,
+            "tokens": 1562,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/writing/LazyWritingComponents.tsx": {
+            "lines": 185,
+            "tokens": 1548,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/world/WorldBible.tsx": {
+            "lines": 616,
+            "tokens": 5845,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/tooltip.tsx": {
+            "lines": 27,
+            "tokens": 197,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/toggle.tsx": {
+            "lines": 42,
+            "tokens": 297,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/toggle-group.tsx": {
+            "lines": 60,
+            "tokens": 436,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/textarea.tsx": {
+            "lines": 21,
+            "tokens": 125,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/tabs.tsx": {
+            "lines": 52,
+            "tokens": 358,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/table.tsx": {
+            "lines": 116,
+            "tokens": 753,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/switch.tsx": {
+            "lines": 26,
+            "tokens": 164,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/slider.tsx": {
+            "lines": 25,
+            "tokens": 187,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/skeleton.tsx": {
+            "lines": 14,
+            "tokens": 79,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/sidebar.tsx": {
+            "lines": 748,
+            "tokens": 4676,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/sheet.tsx": {
+            "lines": 139,
+            "tokens": 874,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/separator.tsx": {
+            "lines": 28,
+            "tokens": 190,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/select.tsx": {
+            "lines": 159,
+            "tokens": 1038,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/scroll-area.tsx": {
+            "lines": 45,
+            "tokens": 331,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/resizable.tsx": {
+            "lines": 44,
+            "tokens": 246,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/radio-group.tsx": {
+            "lines": 41,
+            "tokens": 303,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/progress.tsx": {
+            "lines": 25,
+            "tokens": 192,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/popover.tsx": {
+            "lines": 28,
+            "tokens": 206,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/pagination.tsx": {
+            "lines": 116,
+            "tokens": 786,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/navigation-menu.tsx": {
+            "lines": 127,
+            "tokens": 822,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/menubar.tsx": {
+            "lines": 255,
+            "tokens": 1652,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/loading-modal.tsx": {
+            "lines": 56,
+            "tokens": 443,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/label.tsx": {
+            "lines": 23,
+            "tokens": 185,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/input.tsx": {
+            "lines": 21,
+            "tokens": 133,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/input-otp.tsx": {
+            "lines": 68,
+            "tokens": 562,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/hover-card.tsx": {
+            "lines": 28,
+            "tokens": 199,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/form.tsx": {
+            "lines": 177,
+            "tokens": 1247,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/dropdown-menu.tsx": {
+            "lines": 197,
+            "tokens": 1270,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/drawer.tsx": {
+            "lines": 117,
+            "tokens": 745,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/dialog.tsx": {
+            "lines": 121,
+            "tokens": 736,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/context-menu.tsx": {
+            "lines": 197,
+            "tokens": 1256,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/command.tsx": {
+            "lines": 150,
+            "tokens": 991,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/collapsible.tsx": {
+            "lines": 10,
+            "tokens": 61,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/checkbox.tsx": {
+            "lines": 27,
+            "tokens": 191,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/chart.tsx": {
+            "lines": 364,
+            "tokens": 2477,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/carousel.tsx": {
+            "lines": 259,
+            "tokens": 1745,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/card.tsx": {
+            "lines": 78,
+            "tokens": 553,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/calendar.tsx": {
+            "lines": 67,
+            "tokens": 486,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/button.tsx": {
+            "lines": 55,
+            "tokens": 374,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/breadcrumb.tsx": {
+            "lines": 114,
+            "tokens": 778,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/badge.tsx": {
+            "lines": 35,
+            "tokens": 232,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/avatar.tsx": {
+            "lines": 49,
+            "tokens": 346,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/alert.tsx": {
+            "lines": 58,
+            "tokens": 404,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/alert-dialog.tsx": {
+            "lines": 138,
+            "tokens": 879,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/accordion.tsx": {
+            "lines": 55,
+            "tokens": 431,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/Toast.tsx": {
+            "lines": 250,
+            "tokens": 2066,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/MessageOfTheDay.tsx": {
+            "lines": 482,
+            "tokens": 3990,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/LoadingStates.tsx": {
+            "lines": 232,
+            "tokens": 2164,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/ErrorBoundary.tsx": {
+            "lines": 370,
+            "tokens": 3122,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/EmptyStates.tsx": {
+            "lines": 72,
+            "tokens": 505,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/QuickTasksWidget.tsx": {
+            "lines": 385,
+            "tokens": 3090,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsStats.tsx": {
+            "lines": 84,
+            "tokens": 622,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsPage.tsx": {
+            "lines": 274,
+            "tokens": 2084,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 40,
+            "duplicatedTokens": 361,
+            "percentage": 14.6,
+            "percentageTokens": 17.32,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsList.tsx": {
+            "lines": 246,
+            "tokens": 2181,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 68,
+            "duplicatedTokens": 634,
+            "percentage": 27.64,
+            "percentageTokens": 29.07,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsHeader.tsx": {
+            "lines": 96,
+            "tokens": 666,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectsFilters.tsx": {
+            "lines": 146,
+            "tokens": 1125,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/ProjectModals.tsx": {
+            "lines": 682,
+            "tokens": 5674,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/LazyProjectComponents.tsx": {
+            "lines": 210,
+            "tokens": 2107,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/projects/DashboardWidgets.tsx": {
+            "lines": 255,
+            "tokens": 2375,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectsView.tsx": {
+            "lines": 493,
+            "tokens": 4435,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectDashboard.tsx": {
+            "lines": 331,
+            "tokens": 3011,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/ProjectCreationWizard.tsx": {
+            "lines": 493,
+            "tokens": 4468,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 64,
+            "duplicatedTokens": 382,
+            "percentage": 12.98,
+            "percentageTokens": 8.55,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/project/NewProjectsView.tsx": {
+            "lines": 739,
+            "tokens": 6327,
+            "sources": 1,
+            "clones": 5,
+            "duplicatedLines": 103,
+            "duplicatedTokens": 812,
+            "percentage": 13.94,
+            "percentageTokens": 12.83,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/WritingMetrics.tsx": {
+            "lines": 397,
+            "tokens": 3658,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/QuickActionsPanel.tsx": {
+            "lines": 394,
+            "tokens": 3422,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/PerformanceDashboard.tsx": {
+            "lines": 325,
+            "tokens": 3143,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/LiveWritingPreview.tsx": {
+            "lines": 290,
+            "tokens": 2691,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/CreativeErrorBoundary.tsx": {
+            "lines": 260,
+            "tokens": 2066,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/dev/CreativeDebugPanel.tsx": {
+            "lines": 265,
+            "tokens": 2085,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/RelationshipSelects.tsx": {
+            "lines": 44,
+            "tokens": 441,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/ImagePreviewModal.tsx": {
+            "lines": 84,
+            "tokens": 599,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/FieldRenderer.tsx": {
+            "lines": 123,
+            "tokens": 1208,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 114,
+            "percentage": 13.01,
+            "percentageTokens": 9.44,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/FieldAIAssist.tsx": {
+            "lines": 85,
+            "tokens": 670,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterUnifiedView.tsx": {
+            "lines": 535,
+            "tokens": 4617,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 23,
+            "duplicatedTokens": 195,
+            "percentage": 4.3,
+            "percentageTokens": 4.22,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterTemplates.tsx": {
+            "lines": 728,
+            "tokens": 6025,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 22,
+            "duplicatedTokens": 244,
+            "percentage": 3.02,
+            "percentageTokens": 4.05,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterRelationships.tsx": {
+            "lines": 432,
+            "tokens": 4107,
+            "sources": 1,
+            "clones": 6,
+            "duplicatedLines": 84,
+            "duplicatedTokens": 678,
+            "percentage": 19.44,
+            "percentageTokens": 16.51,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterPortraitModalImproved.tsx": {
+            "lines": 969,
+            "tokens": 9107,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 133,
+            "duplicatedTokens": 1026,
+            "percentage": 13.73,
+            "percentageTokens": 11.27,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterOnboarding.tsx": {
+            "lines": 282,
+            "tokens": 2500,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterInsights.tsx": {
+            "lines": 254,
+            "tokens": 2396,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterGuidedCreation.tsx": {
+            "lines": 535,
+            "tokens": 5940,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterGenerationModal.tsx": {
+            "lines": 416,
+            "tokens": 4120,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 11,
+            "duplicatedTokens": 122,
+            "percentage": 2.64,
+            "percentageTokens": 2.96,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterFormExpanded.tsx": {
+            "lines": 287,
+            "tokens": 2661,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 53,
+            "duplicatedTokens": 402,
+            "percentage": 18.47,
+            "percentageTokens": 15.11,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDocumentUpload.tsx": {
+            "lines": 278,
+            "tokens": 2474,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDetailView.tsx": {
+            "lines": 82,
+            "tokens": 584,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterDetailAccordion.tsx": {
+            "lines": 323,
+            "tokens": 2935,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 54,
+            "duplicatedTokens": 409,
+            "percentage": 16.72,
+            "percentageTokens": 13.94,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterCreationLaunch.tsx": {
+            "lines": 159,
+            "tokens": 1290,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterCard.tsx": {
+            "lines": 199,
+            "tokens": 1911,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/CharacterArcTracker.tsx": {
+            "lines": 499,
+            "tokens": 4791,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/AIAssistModal.tsx": {
+            "lines": 241,
+            "tokens": 2128,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/workspace.tsx": {
+            "lines": 919,
+            "tokens": 8461,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 20,
+            "duplicatedTokens": 186,
+            "percentage": 2.18,
+            "percentageTokens": 2.2,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/not-found.tsx": {
+            "lines": 20,
+            "tokens": 187,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/DebugDemo.tsx": {
+            "lines": 217,
+            "tokens": 1980,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/AuthPageRedesign.tsx": {
+            "lines": 502,
+            "tokens": 4537,
+            "sources": 1,
+            "clones": 9,
+            "duplicatedLines": 198,
+            "duplicatedTokens": 1878,
+            "percentage": 39.44,
+            "percentageTokens": 41.39,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/pages/AuthPage.tsx": {
+            "lines": 417,
+            "tokens": 3962,
+            "sources": 1,
+            "clones": 9,
+            "duplicatedLines": 194,
+            "duplicatedTokens": 1820,
+            "percentage": 46.52,
+            "percentageTokens": 45.94,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/use-mobile.tsx": {
+            "lines": 18,
+            "tokens": 179,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/theme-toggle.tsx": {
+            "lines": 236,
+            "tokens": 1585,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/theme-provider.tsx": {
+            "lines": 15,
+            "tokens": 120,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/Modals.tsx": {
+            "lines": 866,
+            "tokens": 7631,
+            "sources": 1,
+            "clones": 10,
+            "duplicatedLines": 206,
+            "duplicatedTokens": 1680,
+            "percentage": 23.79,
+            "percentageTokens": 22.02,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/FloatingOrbs.tsx": {
+            "lines": 10,
+            "tokens": 85,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/main.tsx": {
+            "lines": 19,
+            "tokens": 88,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/App.tsx": {
+            "lines": 737,
+            "tokens": 5624,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 66,
+            "duplicatedTokens": 608,
+            "percentage": 8.96,
+            "percentageTokens": 10.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 25247,
+          "tokens": 213114,
+          "sources": 112,
+          "clones": 38,
+          "duplicatedLines": 753,
+          "duplicatedTokens": 6415,
+          "percentage": 2.98,
+          "percentageTokens": 3.01,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "typescript": {
+        "sources": {
+          "client/src/components/character/shared/ComponentIndex.ts": {
+            "lines": 21,
+            "tokens": 110,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/character/hooks/useCharacterForm.ts": {
+            "lines": 173,
+            "tokens": 1710,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/uiUtils.ts": {
+            "lines": 455,
+            "tokens": 4181,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/index.ts": {
+            "lines": 12,
+            "tokens": 51,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/formUtils.ts": {
+            "lines": 250,
+            "tokens": 2159,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/errorHandling.ts": {
+            "lines": 248,
+            "tokens": 1932,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/entityUtils.ts": {
+            "lines": 255,
+            "tokens": 2299,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/characterUtils.ts": {
+            "lines": 136,
+            "tokens": 1181,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils/apiUtils.ts": {
+            "lines": 365,
+            "tokens": 2970,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 52,
+            "duplicatedTokens": 362,
+            "percentage": 14.25,
+            "percentageTokens": 12.19,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/types/index.ts": {
+            "lines": 129,
+            "tokens": 823,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/types/characterTypes.ts": {
+            "lines": 193,
+            "tokens": 1303,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/services/taskService.ts": {
+            "lines": 108,
+            "tokens": 996,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/services/imageGeneration.ts": {
+            "lines": 75,
+            "tokens": 625,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/services/geminiService.ts": {
+            "lines": 114,
+            "tokens": 772,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/services/characterGeneration.ts": {
+            "lines": 144,
+            "tokens": 1175,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/services/characterCreationService.ts": {
+            "lines": 232,
+            "tokens": 1632,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/hooks/index.ts": {
+            "lines": 64,
+            "tokens": 238,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/config/index.ts": {
+            "lines": 19,
+            "tokens": 71,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/config/fieldConfig.ts": {
+            "lines": 374,
+            "tokens": 2471,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/config/experienceModes.ts": {
+            "lines": 153,
+            "tokens": 1975,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/backup/replitBackup.ts": {
+            "lines": 333,
+            "tokens": 2580,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/ui/styles.ts": {
+            "lines": 9,
+            "tokens": 55,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/utils/resizeObserverFix.ts": {
+            "lines": 61,
+            "tokens": 439,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/utils/memoryOptimizer.ts": {
+            "lines": 95,
+            "tokens": 839,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/utils/memoryAnalyzer.ts": {
+            "lines": 79,
+            "tokens": 742,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/utils/globalErrorHandler.ts": {
+            "lines": 52,
+            "tokens": 346,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/utils/fetchHandler.ts": {
+            "lines": 67,
+            "tokens": 541,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/utils.ts": {
+            "lines": 34,
+            "tokens": 347,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/useDebouncedSave.ts": {
+            "lines": 12,
+            "tokens": 114,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/types.ts": {
+            "lines": 323,
+            "tokens": 2300,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/store.ts": {
+            "lines": 366,
+            "tokens": 3418,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/security.ts": {
+            "lines": 112,
+            "tokens": 1030,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/queryClient.ts": {
+            "lines": 92,
+            "tokens": 826,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/lib/design-system.ts": {
+            "lines": 90,
+            "tokens": 690,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useWritingSession.ts": {
+            "lines": 348,
+            "tokens": 3036,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useWidgetManagement.ts": {
+            "lines": 110,
+            "tokens": 968,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useTaskManagement.ts": {
+            "lines": 382,
+            "tokens": 4117,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useProjectsLogic.ts": {
+            "lines": 110,
+            "tokens": 1095,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useOptimizedScroll.ts": {
+            "lines": 57,
+            "tokens": 464,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useMemoryOptimizedState.ts": {
+            "lines": 49,
+            "tokens": 404,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useMemoryMonitor.ts": {
+            "lines": 81,
+            "tokens": 700,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useHotReloadMetrics.ts": {
+            "lines": 215,
+            "tokens": 1828,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useDragAndDrop.ts": {
+            "lines": 99,
+            "tokens": 867,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useCreativeDebugger.ts": {
+            "lines": 229,
+            "tokens": 1985,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useComponentPreloader.ts": {
+            "lines": 112,
+            "tokens": 1042,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useAuth.ts": {
+            "lines": 133,
+            "tokens": 963,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/hooks/useAccessibility.ts": {
+            "lines": 344,
+            "tokens": 3209,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "client/src/components/index.ts": {
+            "lines": 12,
+            "tokens": 74,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 7526,
+          "tokens": 63693,
+          "sources": 48,
+          "clones": 2,
+          "duplicatedLines": 26,
+          "duplicatedTokens": 181,
+          "percentage": 0.35,
+          "percentageTokens": 0.28,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 46737,
+      "tokens": 390529,
+      "sources": 266,
+      "clones": 46,
+      "duplicatedLines": 1035,
+      "duplicatedTokens": 8643,
+      "percentage": 2.21,
+      "percentageTokens": 2.21,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "tsx",
+      "lines": 12,
+      "fragment": ">\n              <div className=\"absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500\"></div>\n              <span className=\"relative z-10 flex items-center\">\n                <Library className=\"mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300\" />\n                Browse Stories\n              </span>\n            </Button>\n          </div>\n        </div>\n      </div>\n    </section>\n  )",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/landing/HeroSection.tsx",
+        "start": 56,
+        "end": 67,
+        "startLoc": {
+          "line": 56,
+          "column": 13,
+          "position": 479
+        },
+        "endLoc": {
+          "line": 67,
+          "column": 2,
+          "position": 554
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/landing/LandingPage.tsx",
+        "start": 322,
+        "end": 336,
+        "startLoc": {
+          "line": 322,
+          "column": 15,
+          "position": 2572
+        },
+        "endLoc": {
+          "line": 336,
+          "column": 2,
+          "position": 2650
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 16,
+      "fragment": ">\n      <div className=\"text-center space-y-16\">\n        <div className=\"space-y-6\">\n          <Badge className=\"bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md\">\n            Revolutionary Creative Technology\n          </Badge>\n          <h2 className=\"text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight\">\n            The Creative Industry's First True End-to-End Suite\n          </h2>\n          <p className=\"text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal\">\n            Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent \n            platform that understands your entire creative process from world-building to visual production.\n          </p>\n        </div>\n\n        {",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/landing/FeatureCards.tsx",
+        "start": 37,
+        "end": 52,
+        "startLoc": {
+          "line": 37,
+          "column": 2,
+          "position": 320
+        },
+        "endLoc": {
+          "line": 52,
+          "column": 2,
+          "position": 481
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/landing/LandingPage.tsx",
+        "start": 392,
+        "end": 407,
+        "startLoc": {
+          "line": 392,
+          "column": 2,
+          "position": 3129
+        },
+        "endLoc": {
+          "line": 407,
+          "column": 2,
+          "position": 3290
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 23,
+      "fragment": "style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>\n                \n                <CardContent className=\"relative z-10 p-8 text-center space-y-6\">\n                  <div className=\"w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500\">\n                    <IconComponent className=\"w-8 h-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300\" />\n                  </div>\n                  <div className=\"space-y-2\">\n                    <div className=\"text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-primary group-hover:to-foreground transition-all duration-500\">\n                      {indicator.number}\n                    </div>\n                    <div className=\"text-muted-foreground font-semibold group-hover:text-foreground transition-colors duration-300\">\n                      {indicator.label}\n                    </div>\n                  </div>\n                </CardContent>\n              </Card>\n            );\n          })}\n        </div>\n\n        {/* Key Benefits */}\n        <div className=\"desktop-grid-3 gap-xl pt-3xl stagger-children\" style={{'--stagger-delay': '150ms'} as React.CSSProperties}>\n          {",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/landing/FeatureCards.tsx",
+        "start": 63,
+        "end": 85,
+        "startLoc": {
+          "line": 63,
+          "column": 22,
+          "position": 563
+        },
+        "endLoc": {
+          "line": 85,
+          "column": 2,
+          "position": 740
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/landing/LandingPage.tsx",
+        "start": 415,
+        "end": 433,
+        "startLoc": {
+          "line": 415,
+          "column": 24,
+          "position": 3384
+        },
+        "endLoc": {
+          "line": 433,
+          "column": 2,
+          "position": 3553
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 15,
+      "fragment": ");\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ \n        queryKey: ['/api/projects', variables.projectId, entityType] \n      });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}\n\n/**\n * Hook for batch updating entities\n */",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/lib/utils/apiUtils.ts",
+        "start": 141,
+        "end": 155,
+        "startLoc": {
+          "line": 141,
+          "column": 2,
+          "position": 1195
+        },
+        "endLoc": {
+          "line": 155,
+          "column": 4,
+          "position": 1285
+        }
+      },
+      "secondFile": {
+        "name": "client/src/lib/utils/apiUtils.ts",
+        "start": 118,
+        "end": 132,
+        "startLoc": {
+          "line": 118,
+          "column": 2,
+          "position": 959
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 4,
+          "position": 1049
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 13,
+      "fragment": "});\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ \n        queryKey: ['/api/projects', variables.projectId, entityType] \n      });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}\n\n// ===== QUERY HOOKS =====",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/lib/utils/apiUtils.ts",
+        "start": 164,
+        "end": 176,
+        "startLoc": {
+          "line": 164,
+          "column": 2,
+          "position": 1460
+        },
+        "endLoc": {
+          "line": 176,
+          "column": 27,
+          "position": 1551
+        }
+      },
+      "secondFile": {
+        "name": "client/src/lib/utils/apiUtils.ts",
+        "start": 141,
+        "end": 132,
+        "startLoc": {
+          "line": 141,
+          "column": 2,
+          "position": 1194
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 4,
+          "position": 1049
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 81,
+      "fragment": ")}\n      {...props}\n    />\n  </ContextMenuPrimitive.Portal>\n))\nContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName\n\nconst ContextMenuItem = React.forwardRef<\n  React.ElementRef<typeof ContextMenuPrimitive.Item>,\n  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {\n    inset?: boolean\n  }\n>(({ className, inset, ...props }, ref) => (\n  <ContextMenuPrimitive.Item\n    ref={ref}\n    className={cn(\n      \"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50\",\n      inset && \"pl-8\",\n      className\n    )}\n    {...props}\n  />\n))\nContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName\n\nconst ContextMenuCheckboxItem = React.forwardRef<\n  React.ElementRef<typeof ContextMenuPrimitive.CheckboxItem>,\n  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem>\n>(({ className, children, checked, ...props }, ref) => (\n  <ContextMenuPrimitive.CheckboxItem\n    ref={ref}\n    className={cn(\n      \"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50\",\n      className\n    )}\n    checked={checked}\n    {...props}\n  >\n    <span className=\"absolute left-2 flex h-3.5 w-3.5 items-center justify-center\">\n      <ContextMenuPrimitive.ItemIndicator>\n        <Check className=\"h-4 w-4\" />\n      </ContextMenuPrimitive.ItemIndicator>\n    </span>\n    {children}\n  </ContextMenuPrimitive.CheckboxItem>\n))\nContextMenuCheckboxItem.displayName =\n  ContextMenuPrimitive.CheckboxItem.displayName\n\nconst ContextMenuRadioItem = React.forwardRef<\n  React.ElementRef<typeof ContextMenuPrimitive.RadioItem>,\n  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioItem>\n>(({ className, children, ...props }, ref) => (\n  <ContextMenuPrimitive.RadioItem\n    ref={ref}\n    className={cn(\n      \"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50\",\n      className\n    )}\n    {...props}\n  >\n    <span className=\"absolute left-2 flex h-3.5 w-3.5 items-center justify-center\">\n      <ContextMenuPrimitive.ItemIndicator>\n        <Circle className=\"h-2 w-2 fill-current\" />\n      </ContextMenuPrimitive.ItemIndicator>\n    </span>\n    {children}\n  </ContextMenuPrimitive.RadioItem>\n))\nContextMenuRadioItem.displayName = ContextMenuPrimitive.RadioItem.displayName\n\nconst ContextMenuLabel = React.forwardRef<\n  React.ElementRef<typeof ContextMenuPrimitive.Label>,\n  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label> & {\n    inset?: boolean\n  }\n>(({ className, inset, ...props }, ref) => (\n  <ContextMenuPrimitive.Label\n    ref={ref}\n    className={cn(\n      \"px-2 py-1.5 text-sm font-semibold text-foreground\"",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/ui/context-menu.tsx",
+        "start": 65,
+        "end": 145,
+        "startLoc": {
+          "line": 65,
+          "column": 7,
+          "position": 442
+        },
+        "endLoc": {
+          "line": 145,
+          "column": 52,
+          "position": 987
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/ui/menubar.tsx",
+        "start": 122,
+        "end": 202,
+        "startLoc": {
+          "line": 122,
+          "column": 9,
+          "position": 833
+        },
+        "endLoc": {
+          "line": 202,
+          "column": 36,
+          "position": 1379
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 41,
+      "fragment": "{/* Noise Texture Overlay */}\n        <div \n          className=\"absolute inset-0 opacity-[0.015] dark:opacity-[0.02]\"\n          style={{\n            backgroundImage: `url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")`,\n            transform: `translateY(${scrollY * 0.05}px)`\n          }}\n        />\n\n        {/* Animated Geometric Patterns */}\n        <svg className=\"absolute inset-0 w-full h-full opacity-5 dark:opacity-10\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <pattern id=\"grid\" width=\"60\" height=\"60\" patternUnits=\"userSpaceOnUse\">\n              <circle cx=\"30\" cy=\"30\" r=\"0.5\" fill=\"currentColor\" className=\"text-foreground/20\"/>\n            </pattern>\n          </defs>\n          <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" style={{ transform: `translateY(${scrollY * 0.1}px)` }}/>\n        </svg>\n      </div>\n\n      {/* Floating Orbs with Parallax */}\n      <div className=\"absolute inset-0 overflow-hidden\">\n        <div \n          className=\"absolute top-1/4 left-1/4 w-64 h-64 rounded-full\"\n          style={{\n            background: 'radial-gradient(circle, hsl(var(--orb-primary) / 0.1) 0%, transparent 70%)',\n            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,\n            filter: 'blur(40px)'\n          }}\n        />\n        <div \n          className=\"absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full\"\n          style={{\n            background: 'radial-gradient(circle, hsl(var(--orb-secondary) / 0.1) 0%, transparent 70%)',\n            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,\n            filter: 'blur(30px)'\n          }}\n        />\n      </div>\n\n      {/* Header */",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/projects/ProjectsPage.tsx",
+        "start": 107,
+        "end": 147,
+        "startLoc": {
+          "line": 107,
+          "column": 9,
+          "position": 805
+        },
+        "endLoc": {
+          "line": 147,
+          "column": 13,
+          "position": 1166
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/landing/LandingPage.tsx",
+        "start": 157,
+        "end": 197,
+        "startLoc": {
+          "line": 157,
+          "column": 9,
+          "position": 1162
+        },
+        "endLoc": {
+          "line": 197,
+          "column": 17,
+          "position": 1523
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 21,
+      "fragment": "({ \n  project, \n  onSelect \n}: { \n  project: Project; \n  onSelect: (project: Project) => void \n}) {\n  const getProjectIcon = (type: string) => {\n    switch (type?.toLowerCase()) {\n      case 'novel': return BookOpen;\n      case 'screenplay': return FileText;\n      case 'graphic novel': return Image;\n      default: return PenTool;\n    }\n  };\n\n  const ProjectIcon = getProjectIcon(project.type || '');\n\n  return (\n    <Card \n      className=\"group card-enhanced surface-elevated backdrop-blur-xl border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/projects/ProjectsList.tsx",
+        "start": 92,
+        "end": 112,
+        "startLoc": {
+          "line": 92,
+          "column": 16,
+          "position": 792
+        },
+        "endLoc": {
+          "line": 112,
+          "column": 160,
+          "position": 954
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/projects/ProjectsList.tsx",
+        "start": 37,
+        "end": 57,
+        "startLoc": {
+          "line": 37,
+          "column": 12,
+          "position": 312
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 194,
+          "position": 474
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 13,
+      "fragment": ".</p>\n            </div>\n            <ArrowRight className=\"w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300\" />\n          </div>\n        </Card>\n\n        <Card \n          className=\"group cursor-pointer hover:scale-[1.02] transition-all duration-300 surface-elevated backdrop-blur-xl border-border/30 hover:shadow-2xl\"\n          onClick={() => setMode('upload')}\n        >\n          <div className=\"p-6 flex items-start space-x-4\">\n            <div className=\"w-14 h-14 rounded-xl gradient-primary-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300\">\n              <Upload",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/ProjectCreationWizard.tsx",
+        "start": 147,
+        "end": 159,
+        "startLoc": {
+          "line": 147,
+          "column": 6,
+          "position": 1527
+        },
+        "endLoc": {
+          "line": 159,
+          "column": 7,
+          "position": 1610
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/project/ProjectCreationWizard.tsx",
+        "start": 131,
+        "end": 143,
+        "startLoc": {
+          "line": 131,
+          "column": 7,
+          "position": 1361
+        },
+        "endLoc": {
+          "line": 143,
+          "column": 9,
+          "position": 1444
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 21,
+      "fragment": "</li>\n              </ul>\n            </div>\n          </div>\n        </Card>\n\n        <div className=\"flex justify-between\">\n          <Button\n            variant=\"outline\"\n            onClick={() => setMode('selection')}\n            className=\"flex items-center border-border text-foreground hover:bg-accent/10\"\n          >\n            <ArrowLeft className=\"w-4 h-4 mr-2\" />\n            Back\n          </Button>\n        </div>\n      </div>\n    );\n  };\n\n  return",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/ProjectCreationWizard.tsx",
+        "start": 458,
+        "end": 478,
+        "startLoc": {
+          "line": 458,
+          "column": 11,
+          "position": 4220
+        },
+        "endLoc": {
+          "line": 478,
+          "column": 7,
+          "position": 4328
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/project/ProjectCreationWizard.tsx",
+        "start": 414,
+        "end": 434,
+        "startLoc": {
+          "line": 414,
+          "column": 9,
+          "position": 3809
+        },
+        "endLoc": {
+          "line": 434,
+          "column": 6,
+          "position": 3917
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 16,
+      "fragment": ">\n        </div>\n\n        {/* Noise Texture Overlay */}\n        <div \n          className=\"absolute inset-0 opacity-[0.015] dark:opacity-[0.02]\"\n          style={{\n            backgroundImage: `url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")`,\n            transform: `translateY(${scrollY * 0.05}px)`\n          }}\n        />\n\n        {/* Animated Geometric Patterns */}\n        <svg className=\"absolute inset-0 w-full h-full opacity-5 dark:opacity-10\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <pattern id=\"projects-grid",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/NewProjectsView.tsx",
+        "start": 163,
+        "end": 178,
+        "startLoc": {
+          "line": 163,
+          "column": 4,
+          "position": 1405
+        },
+        "endLoc": {
+          "line": 178,
+          "column": 14,
+          "position": 1497
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/landing/LandingPage.tsx",
+        "start": 155,
+        "end": 169,
+        "startLoc": {
+          "line": 155,
+          "column": 2,
+          "position": 1155
+        },
+        "endLoc": {
+          "line": 169,
+          "column": 5,
+          "position": 1245
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 15,
+      "fragment": "function ProjectCard({ project, onSelect }: { project: Project; onSelect: (project: Project) => void }) {\n  const getProjectIcon = (type: string) => {\n    switch (type?.toLowerCase()) {\n      case 'novel': return BookOpen;\n      case 'screenplay': return FileText;\n      case 'graphic novel': return Image;\n      default: return PenTool;\n    }\n  };\n\n  const ProjectIcon = getProjectIcon(project.type || '');\n\n  return (\n    <Card \n      className=\"group bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm border-stone-300 dark:border-stone-600 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer rounded-2xl overflow-hidden",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/NewProjectsView.tsx",
+        "start": 589,
+        "end": 603,
+        "startLoc": {
+          "line": 589,
+          "column": 1,
+          "position": 5035
+        },
+        "endLoc": {
+          "line": 603,
+          "column": 220,
+          "position": 5190
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/projects/ProjectsList.tsx",
+        "start": 37,
+        "end": 57,
+        "startLoc": {
+          "line": 37,
+          "column": 2,
+          "position": 309
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 194,
+          "position": 474
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 15,
+      "fragment": "function ProjectListItem({ project, onSelect }: { project: Project; onSelect: (project: Project) => void }) {\n  const getProjectIcon = (type: string) => {\n    switch (type?.toLowerCase()) {\n      case 'novel': return BookOpen;\n      case 'screenplay': return FileText;\n      case 'graphic novel': return Image;\n      default: return PenTool;\n    }\n  };\n\n  const ProjectIcon = getProjectIcon(project.type || '');\n\n  return (\n    <Card \n      className=\"group bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm border-stone-300 dark:border-stone-600 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer rounded-2xl p-6",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/NewProjectsView.tsx",
+        "start": 667,
+        "end": 681,
+        "startLoc": {
+          "line": 667,
+          "column": 1,
+          "position": 5693
+        },
+        "endLoc": {
+          "line": 681,
+          "column": 189,
+          "position": 5848
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/projects/ProjectsList.tsx",
+        "start": 92,
+        "end": 57,
+        "startLoc": {
+          "line": 92,
+          "column": 2,
+          "position": 789
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 194,
+          "position": 474
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 31,
+      "fragment": ">\n        </div>\n\n        <DropdownMenu>\n          <DropdownMenuTrigger asChild>\n            <Button variant=\"ghost\" size=\"sm\" className=\"opacity-0 group-hover:opacity-100 transition-opacity duration-300\">\n              <MoreVertical className=\"w-4 h-4\" />\n            </Button>\n          </DropdownMenuTrigger>\n          <DropdownMenuContent align=\"end\">\n            <DropdownMenuItem>\n              <Eye className=\"w-4 h-4 mr-2\" />\n              View\n            </DropdownMenuItem>\n            <DropdownMenuItem>\n              <Edit className=\"w-4 h-4 mr-2\" />\n              Edit\n            </DropdownMenuItem>\n            <DropdownMenuItem>\n              <Share2 className=\"w-4 h-4 mr-2\" />\n              Share\n            </DropdownMenuItem>\n            <DropdownMenuSeparator />\n            <DropdownMenuItem className=\"text-red-600\">\n              <Trash2 className=\"w-4 h-4 mr-2\" />\n              Delete\n            </DropdownMenuItem>\n          </DropdownMenuContent>\n        </DropdownMenu>\n      </div>\n    </Card",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/project/NewProjectsView.tsx",
+        "start": 708,
+        "end": 738,
+        "startLoc": {
+          "line": 708,
+          "column": 6,
+          "position": 6115
+        },
+        "endLoc": {
+          "line": 738,
+          "column": 5,
+          "position": 6320
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/project/NewProjectsView.tsx",
+        "start": 617,
+        "end": 646,
+        "startLoc": {
+          "line": 617,
+          "column": 2,
+          "position": 5318
+        },
+        "endLoc": {
+          "line": 646,
+          "column": 11,
+          "position": 5522
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 17,
+      "fragment": "={field.key}>{field.label}</Label>\n            <Textarea\n              id={field.key}\n              value={value || ''}\n              onChange={(e) => onChange(field.key, e.target.value)}\n              placeholder={`Enter ${field.label.toLowerCase()}...`}\n              className=\"creative-input min-h-[100px] resize-y\"\n            />\n          </div>\n        );\n      \n      case 'select':\n        return (\n          <div className=\"space-y-2\">\n            <Label htmlFor={field.key}>{field.label}</Label>\n            <Select \n              value={value ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/FieldRenderer.tsx",
+        "start": 40,
+        "end": 56,
+        "startLoc": {
+          "line": 40,
+          "column": 8,
+          "position": 375
+        },
+        "endLoc": {
+          "line": 56,
+          "column": 7,
+          "position": 520
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/FieldRenderer.tsx",
+        "start": 26,
+        "end": 42,
+        "startLoc": {
+          "line": 26,
+          "column": 8,
+          "position": 253
+        },
+        "endLoc": {
+          "line": 42,
+          "column": 6,
+          "position": 398
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 33,
+      "fragment": "}\n              className=\"creative-input\"\n            />\n          </div>\n        );\n      \n      default:\n        return (\n          <div className=\"space-y-2\">\n            <Label htmlFor={field.key}>{field.label}</Label>\n            <Input\n              id={field.key}\n              value={value || ''}\n              onChange={(e) => onChange(field.key, e.target.value)}\n              placeholder={`Enter ${field.label.toLowerCase()}...`}\n              className=\"creative-input\"\n            />\n          </div>\n        );\n    }\n  } else {\n    // View mode\n    return (\n      <div className=\"space-y-2\">\n        <Label className=\"text-muted-foreground\">{field.label}</Label>\n        {(!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) ? (\n          <div className=\"text-sm text-muted-foreground italic\">\n            No {field.label.toLowerCase()} added yet\n          </div>\n        ) : Array.isArray(value) ? (\n          <div className=\"flex flex-wrap gap-1\">\n            {value.map((item: string, index: number) => (\n              <Badge key={index",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/FieldRenderer.tsx",
+        "start": 81,
+        "end": 113,
+        "startLoc": {
+          "line": 81,
+          "column": 26,
+          "position": 799
+        },
+        "endLoc": {
+          "line": 113,
+          "column": 6,
+          "position": 1132
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/FieldRenderer.tsx",
+        "start": 31,
+        "end": 40,
+        "startLoc": {
+          "line": 31,
+          "column": 5,
+          "position": 327
+        },
+        "endLoc": {
+          "line": 40,
+          "column": 6,
+          "position": 377
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 18,
+      "fragment": " />\n                  </SelectTrigger>\n                  <SelectContent>\n                    {RELATIONSHIP_TYPES.map((type) => (\n                      <SelectItem key={type.value} value={type.value}>\n                        <div className=\"flex items-center gap-2\">\n                          <type.icon className=\"h-4 w-4\" />\n                          {type.label}\n                        </div>\n                      </SelectItem>\n                    ))}\n                  </SelectContent>\n                </Select>\n              </div>\n\n              <div className=\"grid grid-cols-2 gap-4\">\n                <div>\n                  <Label htmlFor=\"edit-relationship-strength",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 346,
+        "end": 363,
+        "startLoc": {
+          "line": 346,
+          "column": 12,
+          "position": 3432
+        },
+        "endLoc": {
+          "line": 363,
+          "column": 27,
+          "position": 3564
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 241,
+        "end": 258,
+        "startLoc": {
+          "line": 241,
+          "column": 2,
+          "position": 2546
+        },
+        "endLoc": {
+          "line": 258,
+          "column": 22,
+          "position": 2678
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 13,
+      "fragment": " />\n                    </SelectTrigger>\n                    <SelectContent>\n                      <SelectItem value=\"weak\">Weak</SelectItem>\n                      <SelectItem value=\"moderate\">Moderate</SelectItem>\n                      <SelectItem value=\"strong\">Strong</SelectItem>\n                      <SelectItem value=\"intense\">Intense</SelectItem>\n                    </SelectContent>\n                  </Select>\n                </div>\n\n                <div>\n                  <Label htmlFor=\"edit-relationship-status",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 371,
+        "end": 383,
+        "startLoc": {
+          "line": 371,
+          "column": 12,
+          "position": 3633
+        },
+        "endLoc": {
+          "line": 383,
+          "column": 25,
+          "position": 3734
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 264,
+        "end": 276,
+        "startLoc": {
+          "line": 264,
+          "column": 2,
+          "position": 2751
+        },
+        "endLoc": {
+          "line": 276,
+          "column": 20,
+          "position": 2852
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 14,
+      "fragment": " />\n                    </SelectTrigger>\n                    <SelectContent>\n                      <SelectItem value=\"active\">Active</SelectItem>\n                      <SelectItem value=\"past\">Past</SelectItem>\n                      <SelectItem value=\"complicated\">Complicated</SelectItem>\n                      <SelectItem value=\"unknown\">Unknown</SelectItem>\n                    </SelectContent>\n                  </Select>\n                </div>\n              </div>\n\n              <div>\n                <Label htmlFor=\"edit-relationship-description",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 391,
+        "end": 404,
+        "startLoc": {
+          "line": 391,
+          "column": 12,
+          "position": 3803
+        },
+        "endLoc": {
+          "line": 404,
+          "column": 30,
+          "position": 3909
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterRelationships.tsx",
+        "start": 282,
+        "end": 295,
+        "startLoc": {
+          "line": 282,
+          "column": 2,
+          "position": 2925
+        },
+        "endLoc": {
+          "line": 295,
+          "column": 25,
+          "position": 3031
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 66,
+      "fragment": "}>\n          <DialogContent className=\"max-w-md [&>button]:hidden\">\n            <div className=\"flex flex-col items-center text-center space-y-6 py-8\">\n              <div className=\"relative\">\n                <div className=\"w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin\"></div>\n                <Sparkles className=\"w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2\" />\n              </div>\n              \n              <div className=\"space-y-2\">\n                <h3 className=\"text-xl font-bold text-accent\">Generating Portrait</h3>\n                <p className=\"text-muted-foreground\">\n                  Creating a high-quality portrait of {character.name} with AI...\n                </p>\n              </div>\n\n              <div className=\"w-full space-y-2\">\n                <div className=\"h-2 bg-muted rounded-full overflow-hidden\">\n                  <div className=\"h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse\"></div>\n                </div>\n                <p className=\"text-xs text-muted-foreground\">\n                  Using comprehensive character data{artStyle ? `, ${artStyle} style` : ''}{additionalDetails ? `, ${additionalDetails}` : ''} and professional quality enhancement\n                </p>\n              </div>\n            </div>\n          </DialogContent>\n        </Dialog>\n      )}\n\n      {/* Image Preview Modal */}\n      {selectedImagePreview && (\n        <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>\n          <DialogContent className=\"max-w-4xl p-0 bg-transparent border-0 shadow-none [&>button]:hidden\">\n            <div className=\"relative bg-black/90 rounded-lg overflow-hidden\">\n              <img \n                src={selectedImagePreview} \n                alt={`Full size portrait of ${character.name}`}\n                className=\"w-full h-auto max-h-[80vh] object-contain\"\n              />\n              \n              {/* Navigation arrows - only show if more than 1 image */}\n              {portraitGallery.length > 1 && (\n                <>\n                  <Button\n                    variant=\"ghost\"\n                    size=\"sm\"\n                    onClick={() => navigateToImage('prev')}\n                    className=\"absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full\"\n                  >\n                    <ChevronLeft className=\"h-6 w-6\" />\n                  </Button>\n                  <Button\n                    variant=\"ghost\"\n                    size=\"sm\"\n                    onClick={() => navigateToImage('next')}\n                    className=\"absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full\"\n                  >\n                    <ChevronRight className=\"h-6 w-6\" />\n                  </Button>\n                </>\n              )}\n              \n              {/* Custom close button */}\n              <Button\n                variant=\"ghost\"\n                size=\"sm\"\n                onClick={() => setSelectedImagePreview(null)}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "start": 879,
+        "end": 944,
+        "startLoc": {
+          "line": 879,
+          "column": 2,
+          "position": 8374
+        },
+        "endLoc": {
+          "line": 944,
+          "column": 2,
+          "position": 8914
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "start": 783,
+        "end": 852,
+        "startLoc": {
+          "line": 783,
+          "column": 22,
+          "position": 7534
+        },
+        "endLoc": {
+          "line": 852,
+          "column": 2,
+          "position": 8156
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 12,
+      "fragment": "}\n      {isGenerating && (\n        <Dialog open={true} onOpenChange={() => {}}>\n          <DialogContent className=\"max-w-md [&>button]:hidden\">\n            <div className=\"flex flex-col items-center text-center space-y-6 py-8\">\n              <div className=\"relative\">\n                <div className=\"w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin\"></div>\n                <Sparkles className=\"w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2\" />\n              </div>\n              \n              <div className=\"space-y-2\">\n                <h3 className=\"text-xl font-bold text-accent\">Generating Portrait",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "start": 877,
+        "end": 888,
+        "startLoc": {
+          "line": 877,
+          "column": 73,
+          "position": 8344
+        },
+        "endLoc": {
+          "line": 888,
+          "column": 9,
+          "position": 8466
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterTemplates.tsx",
+        "start": 683,
+        "end": 694,
+        "startLoc": {
+          "line": 683,
+          "column": 50,
+          "position": 5580
+        },
+        "endLoc": {
+          "line": 694,
+          "column": 10,
+          "position": 5702
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 62,
+      "fragment": "{/* Image Preview Modal */}\n      {selectedImagePreview && (\n        <Dialog open={!!selectedImagePreview} onOpenChange={() => setSelectedImagePreview(null)}>\n          <DialogContent className=\"max-w-4xl p-0 bg-transparent border-0 shadow-none [&>button]:hidden\">\n            <div className=\"relative bg-black/90 rounded-lg overflow-hidden\">\n              <img \n                src={selectedImagePreview} \n                alt={`Full size portrait of ${character.name}`}\n                className=\"w-full h-auto max-h-[80vh] object-contain\"\n              />\n              \n              {/* Navigation arrows - only show if more than 1 image */}\n              {portraitGallery.length > 1 && (\n                <>\n                  <Button\n                    variant=\"ghost\"\n                    size=\"sm\"\n                    onClick={() => navigateToImage('prev')}\n                    className=\"absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full\"\n                  >\n                    <ChevronLeft className=\"h-6 w-6\" />\n                  </Button>\n                  <Button\n                    variant=\"ghost\"\n                    size=\"sm\"\n                    onClick={() => navigateToImage('next')}\n                    className=\"absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full\"\n                  >\n                    <ChevronRight className=\"h-6 w-6\" />\n                  </Button>\n                </>\n              )}\n              \n              {/* Custom close button */}\n              <Button\n                variant=\"ghost\"\n                size=\"sm\"\n                onClick={() => setSelectedImagePreview(null)}\n                className=\"absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50\"\n              >\n                <X className=\"h-4 w-4\" />\n              </Button>\n              \n              {/* Image counter and info */}\n              <div className=\"absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6\">\n                <div className=\"flex items-center justify-between\">\n                  <div>\n                    <h3 className=\"text-white font-semibold text-lg\">{character.name}</h3>\n                    <p className=\"text-white/80 text-sm\">Character Portrait</p>\n                  </div>\n                  {portraitGallery.length > 1 && (\n                    <div className=\"text-white/80 text-sm\">\n                      {getCurrentImageIndex() + 1} of {portraitGallery.length}\n                    </div>\n                  )}\n                </div>\n              </div>\n            </div>\n          </DialogContent>\n        </Dialog>\n      )}\n    </",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "start": 907,
+        "end": 968,
+        "startLoc": {
+          "line": 907,
+          "column": 7,
+          "position": 8647
+        },
+        "endLoc": {
+          "line": 968,
+          "column": 3,
+          "position": 9099
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+        "start": 815,
+        "end": 877,
+        "startLoc": {
+          "line": 815,
+          "column": 7,
+          "position": 7889
+        },
+        "endLoc": {
+          "line": 877,
+          "column": 2,
+          "position": 8342
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 12,
+      "fragment": "{/* AI Generation Loading Overlay - No X Button */}\n    {isGenerating && (\n      <Dialog open={true} onOpenChange={() => {}}>\n        <DialogContent className=\"max-w-md [&>button]:hidden\">\n          <div className=\"flex flex-col items-center text-center space-y-6 py-8\">\n            <div className=\"relative\">\n              <div className=\"w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin\"></div>\n              <Sparkles className=\"w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2\" />\n            </div>\n            \n            <div className=\"space-y-2\">\n              <h3 className=\"text-xl font-bold text-accent\">AI",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterGenerationModal.tsx",
+        "start": 372,
+        "end": 383,
+        "startLoc": {
+          "line": 372,
+          "column": 5,
+          "position": 3672
+        },
+        "endLoc": {
+          "line": 383,
+          "column": 3,
+          "position": 3794
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterTemplates.tsx",
+        "start": 683,
+        "end": 694,
+        "startLoc": {
+          "line": 683,
+          "column": 9,
+          "position": 5578
+        },
+        "endLoc": {
+          "line": 694,
+          "column": 11,
+          "position": 5700
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 26,
+      "fragment": "} className=\"col-span-2\">\n            <div className=\"flex items-center justify-between mb-2\">\n              <Label htmlFor={field.key}>{field.label} (comma-separated)</Label>\n              {character && (\n                <FieldAIAssist\n                  character={character}\n                  fieldKey={field.key}\n                  fieldLabel={field.label}\n                  currentValue={value}\n                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}\n                  disabled={isEnhancing}\n                />\n              )}\n            </div>\n            <Input\n              id={field.key}\n              value={value}\n              onChange={(e) => updateField(field.key, e.target.value)}\n              placeholder={field.placeholder}\n            />\n          </div>\n        );\n      \n      default: // text\n        return (\n          <div key={field.key",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 176,
+        "end": 201,
+        "startLoc": {
+          "line": 176,
+          "column": 4,
+          "position": 1757
+        },
+        "endLoc": {
+          "line": 201,
+          "column": 4,
+          "position": 1962
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 131,
+        "end": 150,
+        "startLoc": {
+          "line": 131,
+          "column": 3,
+          "position": 1375
+        },
+        "endLoc": {
+          "line": 150,
+          "column": 6,
+          "position": 1540
+        }
+      }
+    },
+    {
+      "format": "javascript",
+      "lines": 39,
+      "fragment": "}\n            />\n          </div>\n        );\n      \n      default: // text\n        return (\n          <div key={field.key}>\n            <div className=\"flex items-center justify-between mb-2\">\n              <Label htmlFor={field.key}>{field.label}</Label>\n              {character && (\n                <FieldAIAssist\n                  character={character}\n                  fieldKey={field.key}\n                  fieldLabel={field.label}\n                  currentValue={value}\n                  onFieldUpdate={(newValue) => updateField(field.key, newValue)}\n                  disabled={isEnhancing}\n                />\n              )}\n            </div>\n            <Input\n              id={field.key}\n              value={value}\n              onChange={(e) => updateField(field.key, e.target.value)}\n              placeholder={field.placeholder}\n            />\n          </div>\n        );\n    }\n  };\n\n  const isLoading = createMutation.isPending || updateMutation.isPending;\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Header */}\n      <div className=\"flex items-center justify-between\">\n        <Button variant=\"ghost\" onClick={onCancel",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 194,
+        "end": 232,
+        "startLoc": {
+          "line": 194,
+          "column": 12,
+          "position": 1927
+        },
+        "endLoc": {
+          "line": 232,
+          "column": 9,
+          "position": 2206
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 165,
+        "end": 150,
+        "startLoc": {
+          "line": 165,
+          "column": 7,
+          "position": 1697
+        },
+        "endLoc": {
+          "line": 150,
+          "column": 6,
+          "position": 1538
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 14,
+      "fragment": ");\n      return response.json();\n    },\n    onSuccess: (savedCharacter) => {\n      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });\n      if (onSave) {\n        onSave(savedCharacter);\n      } else {\n        onCancel();\n      }\n    }\n  });\n\n  const handleSubmit",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 75,
+        "end": 88,
+        "startLoc": {
+          "line": 75,
+          "column": 29,
+          "position": 847
+        },
+        "endLoc": {
+          "line": 88,
+          "column": 13,
+          "position": 944
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 55,
+        "end": 68,
+        "startLoc": {
+          "line": 55,
+          "column": 29,
+          "position": 648
+        },
+        "endLoc": {
+          "line": 68,
+          "column": 15,
+          "position": 745
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 17,
+      "fragment": ">\n                <SelectValue placeholder={field.placeholder} />\n              </SelectTrigger>\n              <SelectContent>\n                {field.options?.map((option: string) => (\n                  <SelectItem key={option} value={option}>\n                    {option}\n                  </SelectItem>\n                ))}\n              </SelectContent>\n            </Select>\n          </div>\n        );\n      \n      case 'array':\n        return (\n          <div key",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 160,
+        "end": 176,
+        "startLoc": {
+          "line": 160,
+          "column": 14,
+          "position": 1637
+        },
+        "endLoc": {
+          "line": 176,
+          "column": 4,
+          "position": 1751
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/FieldRenderer.tsx",
+        "start": 59,
+        "end": 75,
+        "startLoc": {
+          "line": 59,
+          "column": 2,
+          "position": 556
+        },
+        "endLoc": {
+          "line": 75,
+          "column": 10,
+          "position": 678
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 12,
+      "fragment": ";\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Header */}\n      <div className=\"flex items-center justify-between\">\n        <Button variant=\"ghost\" onClick={onCancel} className=\"gap-2\">\n          <ArrowLeft className=\"h-4 w-4\" />\n          Back to Characters\n        </Button>\n        <div className=\"flex gap-2\">\n          <",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterFormExpanded.tsx",
+        "start": 226,
+        "end": 237,
+        "startLoc": {
+          "line": 226,
+          "column": 10,
+          "position": 2158
+        },
+        "endLoc": {
+          "line": 237,
+          "column": 2,
+          "position": 2252
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterUnifiedView.tsx",
+        "start": 259,
+        "end": 270,
+        "startLoc": {
+          "line": 259,
+          "column": 2,
+          "position": 2563
+        },
+        "endLoc": {
+          "line": 270,
+          "column": 2,
+          "position": 2657
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 22,
+      "fragment": "if (showEmptyState) {\n        return (\n          <div>\n            <h4 className=\"font-semibold mb-2 text-foreground\">{label}</h4>\n            <div className=\"text-center py-4 text-muted-foreground\">\n              <div className=\"text-sm\">No {label.toLowerCase()} added yet</div>\n              <Button \n                variant=\"ghost\" \n                size=\"sm\" \n                className=\"mt-1 text-accent hover:text-accent/80 text-xs\"\n                onClick={() => onEdit(character)}\n              >\n                + Add {label}\n              </Button>\n            </div>\n          </div>\n        );\n      }\n      return null;\n    }\n    \n    return",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterDetailAccordion.tsx",
+        "start": 98,
+        "end": 119,
+        "startLoc": {
+          "line": 98,
+          "column": 7,
+          "position": 1008
+        },
+        "endLoc": {
+          "line": 119,
+          "column": 7,
+          "position": 1162
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterDetailAccordion.tsx",
+        "start": 70,
+        "end": 91,
+        "startLoc": {
+          "line": 70,
+          "column": 7,
+          "position": 729
+        },
+        "endLoc": {
+          "line": 91,
+          "column": 3,
+          "position": 883
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 13,
+      "fragment": ");\n  };\n\n  return (\n    <div className=\"space-y-6\">\n      {/* Header */}\n      <div className=\"flex items-center justify-between\">\n        <Button variant=\"ghost\" onClick={onBack} className=\"gap-2\">\n          <ArrowLeft className=\"h-4 w-4\" />\n          Back to Characters\n        </Button>\n        <div className=\"flex gap-2\">\n          <Button ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/character/CharacterDetailAccordion.tsx",
+        "start": 196,
+        "end": 208,
+        "startLoc": {
+          "line": 196,
+          "column": 5,
+          "position": 1926
+        },
+        "endLoc": {
+          "line": 208,
+          "column": 2,
+          "position": 2027
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/character/CharacterUnifiedView.tsx",
+        "start": 258,
+        "end": 238,
+        "startLoc": {
+          "line": 258,
+          "column": 5,
+          "position": 2558
+        },
+        "endLoc": {
+          "line": 238,
+          "column": 13,
+          "position": 2254
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 11,
+      "fragment": " />\n                  </SelectTrigger>\n                  <SelectContent>\n                    <SelectItem value=\"protagonist\">Protagonist</SelectItem>\n                    <SelectItem value=\"antagonist\">Antagonist</SelectItem>\n                    <SelectItem value=\"supporting\">Supporting Character</SelectItem>\n                    <SelectItem value=\"minor\">Minor Character</SelectItem>\n                  </SelectContent>\n                </Select>\n              </div>\n              <",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/workspace.tsx",
+        "start": 754,
+        "end": 764,
+        "startLoc": {
+          "line": 754,
+          "column": 2,
+          "position": 6834
+        },
+        "endLoc": {
+          "line": 764,
+          "column": 2,
+          "position": 6927
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/workspace.tsx",
+        "start": 424,
+        "end": 434,
+        "startLoc": {
+          "line": 424,
+          "column": 12,
+          "position": 3996
+        },
+        "endLoc": {
+          "line": 434,
+          "column": 3,
+          "position": 4089
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 14,
+      "fragment": ");\n      }\n      \n      return await response.json();\n    },\n    onSuccess: (result) => {\n      // Store token with consistent key name for App.tsx\n      localStorage.setItem('token', result.token);\n      localStorage.setItem('fablecraft_token', result.token);\n      localStorage.setItem('fablecraft_user', JSON.stringify(result.user));\n      onAuth({ username: result.user.username, token: result.token });\n    },\n    onError: (error: any) => {\n      setError(error.message || 'Login failed'",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 141,
+        "end": 154,
+        "startLoc": {
+          "line": 141,
+          "column": 15,
+          "position": 1451
+        },
+        "endLoc": {
+          "line": 154,
+          "column": 15,
+          "position": 1591
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 114,
+        "end": 127,
+        "startLoc": {
+          "line": 114,
+          "column": 16,
+          "position": 1173
+        },
+        "endLoc": {
+          "line": 127,
+          "column": 16,
+          "position": 1313
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 35,
+      "fragment": "} from 'lucide-react';\nimport { Alert, AlertDescription } from '@/components/ui/alert';\nimport { useMutation } from '@tanstack/react-query';\nimport { ThemeToggle } from '@/components/theme-toggle';\n\n// Enhanced password validation\nconst passwordSchema = z.string()\n  .min(8, 'Password must be at least 8 characters')\n  .max(128, 'Password must be less than 128 characters')\n  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')\n  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')\n  .regex(/[0-9]/, 'Password must contain at least one number')\n  .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character');\n\n// Validation schemas\nconst signupSchema = z.object({\n  email: z.string().email('Invalid email format'),\n  username: z.string()\n    .min(3, 'Username must be at least 3 characters')\n    .max(30, 'Username must be less than 30 characters')\n    .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, hyphens, and underscores'),\n  password: passwordSchema,\n  fullName: z.string().optional()\n});\n\nconst loginSchema = z.object({\n  emailOrUsername: z.string().min(1, 'Email or username is required'),\n  password: z.string().min(1, 'Password is required')\n});\n\ntype SignupData = z.infer<typeof signupSchema>;\ntype LoginData = z.infer<typeof loginSchema>;\n\ninterface AuthPageProps {\n  onAuth: (user",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 10,
+        "end": 44,
+        "startLoc": {
+          "line": 10,
+          "column": 2,
+          "position": 168
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 5,
+          "position": 489
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 10,
+        "end": 44,
+        "startLoc": {
+          "line": 10,
+          "column": 2,
+          "position": 177
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 9,
+          "position": 498
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 21,
+      "fragment": ") => void;\n  onBack: () => void;\n}\n\n// Password strength checker\nfunction checkPasswordStrength(password: string) {\n  const checks = {\n    length: password.length >= 8,\n    uppercase: /[A-Z]/.test(password),\n    lowercase: /[a-z]/.test(password),\n    number: /[0-9]/.test(password),\n    special: /[^A-Za-z0-9]/.test(password)\n  };\n  \n  const score = Object.values(checks).filter(Boolean).length;\n  let strength = 'Weak';\n  let color = 'text-red-500';\n  \n  if (score >= 5) {\n    strength = 'Strong';\n    color = 'text-green-500'",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 44,
+        "end": 64,
+        "startLoc": {
+          "line": 44,
+          "column": 7,
+          "position": 499
+        },
+        "endLoc": {
+          "line": 64,
+          "column": 17,
+          "position": 680
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 44,
+        "end": 64,
+        "startLoc": {
+          "line": 44,
+          "column": 2,
+          "position": 515
+        },
+        "endLoc": {
+          "line": 64,
+          "column": 15,
+          "position": 696
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 37,
+      "fragment": ");\n\n  const signupForm = useForm<SignupData>({\n    resolver: zodResolver(signupSchema),\n    defaultValues: {\n      email: '',\n      username: '',\n      password: '',\n      fullName: ''\n    }\n  });\n\n  const loginForm = useForm<LoginData>({\n    resolver: zodResolver(loginSchema),\n    defaultValues: {\n      emailOrUsername: '',\n      password: ''\n    }\n  });\n\n  const signupMutation = useMutation({\n    mutationFn: async (data: SignupData) => {\n      const response = await fetch('/api/auth/signup', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify(data)\n      });\n      \n      if (!response.ok) {\n        const error = await response.json();\n        throw new Error(error.error || 'Signup failed');\n      }\n      \n      return await response.json();\n    },\n    onSuccess: (result) => {\n      localStorage",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 76,
+        "end": 112,
+        "startLoc": {
+          "line": 76,
+          "column": 2,
+          "position": 818
+        },
+        "endLoc": {
+          "line": 112,
+          "column": 13,
+          "position": 1102
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 84,
+        "end": 120,
+        "startLoc": {
+          "line": 84,
+          "column": 2,
+          "position": 926
+        },
+        "endLoc": {
+          "line": 120,
+          "column": 52,
+          "position": 1210
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 24,
+      "fragment": ");\n    },\n    onError: (error: any) => {\n      setError(error.message || 'Signup failed');\n    }\n  });\n\n  const loginMutation = useMutation({\n    mutationFn: async (data: LoginData) => {\n      const response = await fetch('/api/auth/login', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify(data)\n      });\n      \n      if (!response.ok) {\n        const error = await response.json();\n        throw new Error(error.error || 'Login failed');\n      }\n      \n      return await response.json();\n    },\n    onSuccess: (result) => {\n      localStorage",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 114,
+        "end": 137,
+        "startLoc": {
+          "line": 114,
+          "column": 6,
+          "position": 1145
+        },
+        "endLoc": {
+          "line": 137,
+          "column": 13,
+          "position": 1351
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 124,
+        "end": 147,
+        "startLoc": {
+          "line": 124,
+          "column": 2,
+          "position": 1282
+        },
+        "endLoc": {
+          "line": 147,
+          "column": 52,
+          "position": 1488
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 12,
+      "fragment": ");\n      }\n      \n      return await response.json();\n    },\n    onSuccess: (result) => {\n      localStorage.setItem('fablecraft_token', result.token);\n      localStorage.setItem('fablecraft_user', JSON.stringify(result.user));\n      onAuth(result.user, result.token);\n    },\n    onError: (error: any) => {\n      setError(error.message || 'Login failed'",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 131,
+        "end": 142,
+        "startLoc": {
+          "line": 131,
+          "column": 15,
+          "position": 1314
+        },
+        "endLoc": {
+          "line": 142,
+          "column": 15,
+          "position": 1425
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 106,
+        "end": 117,
+        "startLoc": {
+          "line": 106,
+          "column": 16,
+          "position": 1065
+        },
+        "endLoc": {
+          "line": 117,
+          "column": 16,
+          "position": 1176
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 19,
+      "fragment": ");\n    },\n    onError: (error: any) => {\n      setError(error.message || 'Login failed');\n    }\n  });\n\n  const onSignup = (data: SignupData) => {\n    setError('');\n    signupMutation.mutate(data);\n  };\n\n  const onLogin = (data: LoginData) => {\n    setError('');\n    loginMutation.mutate(data);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-emerald-50 dark:from-gray-900 dark:via-stone-900 dark:to-gray-800 flex items-center justify-center p-4",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 139,
+        "end": 157,
+        "startLoc": {
+          "line": 139,
+          "column": 6,
+          "position": 1394
+        },
+        "endLoc": {
+          "line": 157,
+          "column": 164,
+          "position": 1528
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 151,
+        "end": 169,
+        "startLoc": {
+          "line": 151,
+          "column": 2,
+          "position": 1560
+        },
+        "endLoc": {
+          "line": 169,
+          "column": 153,
+          "position": 1694
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 16,
+      "fragment": ">\n                    {loginMutation.isPending ? (\n                      <>\n                        <Loader2 className=\"mr-2 h-4 w-4 animate-spin\" />\n                        Signing in...\n                      </>\n                    ) : (\n                      'Sign In'\n                    )}\n                  </Button>\n                </CardFooter>\n              </form>\n            </TabsContent>\n\n            {/* Signup Tab */}\n            <TabsContent value=\"signup\">",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 247,
+        "end": 262,
+        "startLoc": {
+          "line": 247,
+          "column": 19,
+          "position": 2349
+        },
+        "endLoc": {
+          "line": 262,
+          "column": 2,
+          "position": 2437
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 331,
+        "end": 346,
+        "startLoc": {
+          "line": 331,
+          "column": 23,
+          "position": 2906
+        },
+        "endLoc": {
+          "line": 346,
+          "column": 2,
+          "position": 2994
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 27,
+      "fragment": "\">\n                          <div className={`flex items-center gap-1 ${passwordStrength.checks.length ? 'text-green-600' : 'text-gray-400'}`}>\n                            {passwordStrength.checks.length ? <Check className=\"w-3 h-3\" /> : <X className=\"w-3 h-3\" />}\n                            8+ characters\n                          </div>\n                          <div className={`flex items-center gap-1 ${passwordStrength.checks.uppercase ? 'text-green-600' : 'text-gray-400'}`}>\n                            {passwordStrength.checks.uppercase ? <Check className=\"w-3 h-3\" /> : <X className=\"w-3 h-3\" />}\n                            Uppercase letter\n                          </div>\n                          <div className={`flex items-center gap-1 ${passwordStrength.checks.lowercase ? 'text-green-600' : 'text-gray-400'}`}>\n                            {passwordStrength.checks.lowercase ? <Check className=\"w-3 h-3\" /> : <X className=\"w-3 h-3\" />}\n                            Lowercase letter\n                          </div>\n                          <div className={`flex items-center gap-1 ${passwordStrength.checks.number ? 'text-green-600' : 'text-gray-400'}`}>\n                            {passwordStrength.checks.number ? <Check className=\"w-3 h-3\" /> : <X className=\"w-3 h-3\" />}\n                            Number\n                          </div>\n                          <div className={`flex items-center gap-1 ${passwordStrength.checks.special ? 'text-green-600' : 'text-gray-400'}`}>\n                            {passwordStrength.checks.special ? <Check className=\"w-3 h-3\" /> : <X className=\"w-3 h-3\" />}\n                            Special character\n                          </div>\n                        </div>\n                      </div>\n                    )}\n                  </div>\n                </CardContent>\n                <CardFooter>",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/pages/AuthPage.tsx",
+        "start": 357,
+        "end": 383,
+        "startLoc": {
+          "line": 357,
+          "column": 31,
+          "position": 3366
+        },
+        "endLoc": {
+          "line": 383,
+          "column": 2,
+          "position": 3750
+        }
+      },
+      "secondFile": {
+        "name": "client/src/pages/AuthPageRedesign.tsx",
+        "start": 451,
+        "end": 477,
+        "startLoc": {
+          "line": 451,
+          "column": 33,
+          "position": 4008
+        },
+        "endLoc": {
+          "line": 477,
+          "column": 2,
+          "position": 4392
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 18,
+      "fragment": ");\n\n  const handleDrag = (e: React.DragEvent) => {\n    e.preventDefault();\n    e.stopPropagation();\n    if (e.type === \"dragenter\" || e.type === \"dragover\") {\n      setDragActive(true);\n    } else if (e.type === \"dragleave\") {\n      setDragActive(false);\n    }\n  };\n\n  const handleDrop = (e: React.DragEvent) => {\n    e.preventDefault();\n    e.stopPropagation();\n    setDragActive(false);\n    \n    const",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 559,
+        "end": 576,
+        "startLoc": {
+          "line": 559,
+          "column": 2,
+          "position": 5012
+        },
+        "endLoc": {
+          "line": 576,
+          "column": 6,
+          "position": 5164
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 375,
+        "end": 392,
+        "startLoc": {
+          "line": 375,
+          "column": 6,
+          "position": 3487
+        },
+        "endLoc": {
+          "line": 392,
+          "column": 3,
+          "position": 3639
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 17,
+      "fragment": "files.length > 0) {\n      const file = files[0];\n      if (isValidFileType(file)) {\n        setFile(file);\n        if (!projectName) {\n          setProjectName(file.name.replace(/\\.[^/.]+$/, ''));\n        }\n      } else {\n        toast.error(\n          \"Invalid File Type\",\n          \"Please select a TXT, PDF, or DOCX file.\"\n        );\n      }\n    }\n  };\n\n  const isValidFileType",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 595,
+        "end": 611,
+        "startLoc": {
+          "line": 595,
+          "column": 2,
+          "position": 5339
+        },
+        "endLoc": {
+          "line": 611,
+          "column": 16,
+          "position": 5450
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 577,
+        "end": 593,
+        "startLoc": {
+          "line": 577,
+          "column": 2,
+          "position": 5186
+        },
+        "endLoc": {
+          "line": 593,
+          "column": 17,
+          "position": 5297
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 24,
+      "fragment": ">\n\n          {/* File Upload Area */}\n          <div\n            className={`creative-card border-2 border-dashed transition-colors p-8 text-center cursor-pointer ${\n              dragActive ? 'border-accent bg-accent/10' : 'border-border hover:border-accent/50'\n            }`}\n            onDragEnter={handleDrag}\n            onDragLeave={handleDrag}\n            onDragOver={handleDrag}\n            onDrop={handleDrop}\n            onClick={() => document.getElementById('intelligent-file-upload')?.click()}\n          >\n            <Upload className=\"h-12 w-12 mx-auto mb-4 text-muted-foreground\" />\n            {file ? (\n              <div>\n                <div className=\"font-medium text-accent\">{file.name}</div>\n                <div className=\"text-sm text-muted-foreground\">\n                  {(file.size / 1024).toFixed(1)} KB\n                </div>\n              </div>\n            ) : (\n              <div>\n                <div className=\"font-medium mb-2\">Drop your document",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 737,
+        "end": 760,
+        "startLoc": {
+          "line": 737,
+          "column": 4,
+          "position": 6529
+        },
+        "endLoc": {
+          "line": 760,
+          "column": 9,
+          "position": 6716
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 449,
+        "end": 471,
+        "startLoc": {
+          "line": 449,
+          "column": 2,
+          "position": 4084
+        },
+        "endLoc": {
+          "line": 471,
+          "column": 11,
+          "position": 4270
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 29,
+      "fragment": "<div className=\"space-y-2\">\n              <Label className=\"font-medium\">Project Type</Label>\n              <Select value={projectType} onValueChange={(value: 'novel' | 'screenplay' | 'comic') => setProjectType(value)}>\n                <SelectTrigger className=\"creative-card\">\n                  <SelectValue />\n                </SelectTrigger>\n                <SelectContent className=\"creative-card\">\n                  <SelectItem value=\"novel\">\n                    <div className=\"flex items-center\">\n                      <BookOpen className=\"h-4 w-4 mr-2\" />\n                      Novel\n                    </div>\n                  </SelectItem>\n                  <SelectItem value=\"screenplay\">\n                    <div className=\"flex items-center\">\n                      <FileText className=\"h-4 w-4 mr-2\" />\n                      Screenplay\n                    </div>\n                  </SelectItem>\n                  <SelectItem value=\"comic\">\n                    <div className=\"flex items-center\">\n                      <Sparkles className=\"h-4 w-4 mr-2\" />\n                      Comic/Graphic Novel\n                    </div>\n                  </SelectItem>\n                </SelectContent>\n              </Select>\n            </div>\n          </",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 790,
+        "end": 818,
+        "startLoc": {
+          "line": 790,
+          "column": 13,
+          "position": 6945
+        },
+        "endLoc": {
+          "line": 818,
+          "column": 3,
+          "position": 7203
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 168,
+        "end": 196,
+        "startLoc": {
+          "line": 168,
+          "column": 17,
+          "position": 1610
+        },
+        "endLoc": {
+          "line": 196,
+          "column": 2,
+          "position": 1868
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 20,
+      "fragment": ">\n                </div>\n              </CardContent>\n            </Card>\n          )}\n\n          {/* Actions */}\n          <div className=\"flex justify-end space-x-3\">\n            <Button variant=\"outline\" onClick={onClose} disabled={isProcessing}>\n              Cancel\n            </Button>\n            <Button \n              onClick={processDocument} \n              disabled={!file || !projectName.trim() || isProcessing}\n              className=\"candlelight-glow\"\n            >\n              {isProcessing ? (\n                <>\n                  <div className=\"animate-spin h-4 w-4 mr-2 border-2 border-current border-t-transparent rounded-full\" />\n                  Processing Document",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 834,
+        "end": 853,
+        "startLoc": {
+          "line": 834,
+          "column": 4,
+          "position": 7421
+        },
+        "endLoc": {
+          "line": 853,
+          "column": 9,
+          "position": 7553
+        }
+      },
+      "secondFile": {
+        "name": "client/src/components/Modals.tsx",
+        "start": 509,
+        "end": 528,
+        "startLoc": {
+          "line": 509,
+          "column": 7,
+          "position": 4585
+        },
+        "endLoc": {
+          "line": 528,
+          "column": 4,
+          "position": 4707
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 34,
+      "fragment": "const fetchProjects = async () => {\n    try {\n      if (!isAuthenticated || !user) return;\n      \n      // Get token from Zustand store first, fallback to localStorage\n      const token = useAuth.getState().token || localStorage.getItem('fablecraft_token') || localStorage.getItem('token');\n      if (!token) return;\n\n      const response = await fetch('/api/projects', {\n        headers: {\n          'Authorization': `Bearer ${token}`\n        }\n      });\n\n      if (response.ok) {\n        const projectsData = await response.json();\n        // Server now filters by user ID, so we can trust the response\n        setProjects(projectsData);\n        console.log(`📊 Loaded ${projectsData.length} projects for user: ${user.username}`);\n      } else {\n        // Don't log errors for expected 401/403 responses\n        if (response.status !== 401 && response.status !== 403) {\n          console.warn('Projects fetch failed:', response.status);\n        }\n      }\n    } catch (error) {\n      // Only log actual network errors, not auth failures\n      if (error instanceof Error && error.name !== 'AbortError') {\n        console.warn('Projects fetch error:', error.message);\n      }\n    }\n  };\n\n  // Removed duplicate useEffect - already defined at top of component",
+      "tokens": 0,
+      "firstFile": {
+        "name": "client/src/App.tsx",
+        "start": 307,
+        "end": 340,
+        "startLoc": {
+          "line": 307,
+          "column": 3,
+          "position": 2160
+        },
+        "endLoc": {
+          "line": 340,
+          "column": 69,
+          "position": 2464
+        }
+      },
+      "secondFile": {
+        "name": "client/src/App.tsx",
+        "start": 186,
+        "end": 219,
+        "startLoc": {
+          "line": 186,
+          "column": 5,
+          "position": 1157
+        },
+        "endLoc": {
+          "line": 219,
+          "column": 3,
+          "position": 1461
+        }
+      }
+    }
+  ]
+}
