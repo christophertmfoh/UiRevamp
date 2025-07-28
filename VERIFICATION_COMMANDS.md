@@ -1,71 +1,74 @@
-# Professional Verification Commands
+# Senior Dev Verification Commands
+## Enterprise Testing & Validation Protocol
 
-## 1. Check What Files Are Actually Imported
+### Code Quality Verification
 ```bash
-# See what your App.tsx actually imports
-grep -r "import.*from.*pages\|import.*from.*components" client/src/App.tsx
-
-# Find files that import workspace.tsx (should be none)
-find client/src -name "*.tsx" -type f | xargs grep -l "workspace"
-
-# Find files that import ProjectsPageRedesign (should be none)  
-find client/src -name "*.tsx" -type f | xargs grep -l "ProjectsPageRedesign"
-```
-
-## 2. Unused File Detection
-```bash
-# Professional unused file detection
-npx unimported client/src/
-
-# Alternative: Find files not referenced anywhere
-find client/src -name "*.tsx" -type f | while read file; do
-  basename=$(basename "$file" .tsx)
-  if ! grep -r "$basename" client/src/ --include="*.tsx" --include="*.ts" | grep -v "$file:" > /dev/null; then
-    echo "UNUSED: $file"
-  fi
-done
-```
-
-## 3. Duplicate Code Analysis  
-```bash
-# Generate detailed duplicate report
-npx jscpd --min-lines 10 --min-tokens 50 --reporters html,json --output ./analysis client/src/
-
-# View the HTML report
-# Open: analysis/jscpd-report.html in browser
-```
-
-## 4. Bundle Analysis
-```bash  
-# Analyze what's actually bundled (Vite)
-npx vite-bundle-analyzer
-
-# Or check bundle size
+# TypeScript compilation check
 npm run build
-ls -la dist/
+
+# Lint check
+npm run lint
+
+# Type checking
+npx tsc --noEmit
+
+# Dependency analysis
+npx madge --circular client/src
+
+# Dead code detection
+npx unimported
+
+# Duplicate code analysis
+npx jscpd client/src
 ```
 
-## 5. Dependency Analysis
+### Functionality Verification
 ```bash
-# Check for circular dependencies
-npx madge --circular client/src/
+# Start application
+npm run dev
 
-# Full dependency tree
-npx madge client/src/ --image deps.png
+# Test database connection
+curl -X GET http://localhost:5000/api/auth/me
+
+# Test project endpoints
+curl -X GET http://localhost:5000/api/projects
+
+# Test character endpoints  
+curl -X GET http://localhost:5000/api/projects/{PROJECT_ID}/characters
 ```
 
-## 6. ESLint Unused Variables/Imports
+### Performance Verification
 ```bash
-# Check for unused imports/variables
-npx eslint client/src/ --ext .tsx,.ts --rule "no-unused-vars: error"
+# Bundle analysis
+npm run build && npx bundle-analyzer
+
+# Memory usage check
+node --inspect server/index.ts
+
+# Load time measurement
+npm run dev && curl -w "@curl-format.txt" http://localhost:5173/
 ```
 
-## 7. File Size Analysis
+### Security Verification
 ```bash
-# Find largest files (potential duplicates)
-find client/src -name "*.tsx" -exec wc -l {} + | sort -nr | head -20
+# Dependency vulnerability check
+npm audit
 
-# Check specific file sizes
-du -sh client/src/pages/workspace.tsx
-du -sh client/src/components/project/Project*.tsx
+# Security linting
+npx eslint client/src --ext .ts,.tsx
+
+# Package verification
+npm list --depth=0
+```
+
+### Database Verification
+```bash
+# Schema validation
+npm run db:push --dry-run
+
+# Connection test
+npm run db:studio
+
+# Migration check
+npm run db:generate
 ```
