@@ -141,6 +141,8 @@ export default function App() {
   const [modal, setModal] = useState<Modal>({ type: null, project: null });
   const [guideMode, setGuideMode] = useState(false);
 
+  // ALL USEEFFECT HOOKS MUST BE AT THE TOP - BEFORE ANY EARLY RETURNS
+  
   // Initialize app state and URL restoration
   useEffect(() => {
     // Restore view from URL on app load
@@ -178,6 +180,118 @@ export default function App() {
     
     initializeAuth();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Initialize projects when authenticated
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        if (!isAuthenticated || !user) return;
+        
+        // Get token from Zustand store first, fallback to localStorage
+        const token = useAuth.getState().token || localStorage.getItem('fablecraft_token') || localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch('/api/projects', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const projectsData = await response.json();
+          // Server now filters by user ID, so we can trust the response
+          setProjects(projectsData);
+          console.log(`📊 Loaded ${projectsData.length} projects for user: ${user.username}`);
+        } else {
+          // Don't log errors for expected 401/403 responses
+          if (response.status !== 401 && response.status !== 403) {
+            console.warn('Projects fetch failed:', response.status);
+          }
+        }
+      } catch (error) {
+        // Only log actual network errors, not auth failures
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.warn('Projects fetch error:', error.message);
+        }
+      }
+    };
+
+    if (isAuthenticated && user) {
+      fetchProjects();
+    }
+  }, [isAuthenticated, user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Initialize scrollbar styling
+  useEffect(() => {
+    applyScrollbarStyles();
+    
+    const timer = setTimeout(() => {
+      applyScrollbarStyles();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Handle browser back/forward buttons and refresh
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      let newView: View = 'landing';
+      
+      if (path === '/projects') newView = 'projects';
+      else if (path === '/dashboard') newView = 'dashboard';
+      else if (path === '/auth') newView = 'auth';
+      
+      // Only scroll to top for actual navigation, not initial load
+      if (view !== newView) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      setView(newView);
+    };
+
+    // Listen for back/forward button clicks
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [view]);
+
+  // Project restoration on dashboard refresh - ALWAYS called
+  useEffect(() => {
+    if (view === 'dashboard' && !activeProject && projects.length > 0) {
+      // Try to restore project from URL params or localStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('project') || localStorage.getItem('activeProjectId');
+      
+      if (projectId) {
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          setActiveProject(project);
+        } else {
+          // Project not found, redirect to projects
+          setView('projects');
+        }
+      } else {
+        // No project specified, redirect to projects
+        setView('projects');
+      }
+    }
+  }, [view, activeProject, projects]);
+
+  // Save active project ID to localStorage for restoration
+  useEffect(() => {
+    if (activeProject) {
+      localStorage.setItem('activeProjectId', activeProject.id);
+      // Also update URL with project ID for bookmarking
+      if (view === 'dashboard') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('project', activeProject.id);
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+  }, [activeProject, view]);
 
   // Phase 3: Initialize auto-backup system for creative workflow (DISABLED FOR MEMORY)
   // useEffect(() => {
@@ -223,23 +337,7 @@ export default function App() {
     }
   };
 
-  // Initialize projects when authenticated
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      fetchProjects();
-    }
-  }, [isAuthenticated, user]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Initialize scrollbar styling
-  useEffect(() => {
-    applyScrollbarStyles();
-    
-    const timer = setTimeout(() => {
-      applyScrollbarStyles();
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  // Removed duplicate useEffect - already defined at top of component
 
   // Project creation handler with proper refresh
   const handleProjectCreated = async (projectData: any) => {
@@ -447,66 +545,7 @@ export default function App() {
     setView(viewName);
   };
 
-  // Handle browser back/forward buttons and refresh
-  useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname;
-      let newView: View = 'landing';
-      
-      if (path === '/projects') newView = 'projects';
-      else if (path === '/dashboard') newView = 'dashboard';
-      else if (path === '/auth') newView = 'auth';
-      
-      // Only scroll to top for actual navigation, not initial load
-      if (view !== newView) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      
-      setView(newView);
-    };
-
-    // Listen for back/forward button clicks
-    window.addEventListener('popstate', handlePopState);
-    
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [view]);
-
-  // Project restoration on dashboard refresh - ALWAYS called
-  useEffect(() => {
-    if (view === 'dashboard' && !activeProject && projects.length > 0) {
-      // Try to restore project from URL params or localStorage
-      const urlParams = new URLSearchParams(window.location.search);
-      const projectId = urlParams.get('project') || localStorage.getItem('activeProjectId');
-      
-      if (projectId) {
-        const project = projects.find(p => p.id === projectId);
-        if (project) {
-          setActiveProject(project);
-        } else {
-          // Project not found, redirect to projects
-          setView('projects');
-        }
-      } else {
-        // No project specified, redirect to projects
-        setView('projects');
-      }
-    }
-  }, [view, activeProject, projects]);
-
-  // Save active project ID to localStorage for restoration
-  useEffect(() => {
-    if (activeProject) {
-      localStorage.setItem('activeProjectId', activeProject.id);
-      // Also update URL with project ID for bookmarking
-      if (view === 'dashboard') {
-        const url = new URL(window.location.href);
-        url.searchParams.set('project', activeProject.id);
-        window.history.replaceState({}, '', url.toString());
-      }
-    }
-  }, [activeProject, view]);
+  // REMOVED DUPLICATE useEffect hooks - they are already defined at the top of the component
 
   // Logout handler that returns Promise
   const handleLogout = async () => {
