@@ -126,38 +126,24 @@ Preferred communication style: Simple, everyday language.
 - **Security**: JWT auth, bcrypt hashing, API protection ✅ PRESERVED
 - **Type Safety**: Full TypeScript coverage with strict mode ✅ PRESERVED
 
-## Recent Changes (Promise Rejection Issue FIXED - July 28, 2025)
-✅ **Enterprise Cleanup Strategy Successfully Completed**
-- **Phase 1**: Platform-incompatible components removed (Docker, enterprise monitoring)
-- **Phase 2**: Enterprise features simplified (performance monitoring, ESLint from 4106 to 0 errors)
-- **Phase 3**: Replit-native replacements implemented (health endpoints, simple tooling)
-- **Phase 4**: Architectural patterns preserved (188 TypeScript files, 14 error boundaries, 8 theme references)
+## Phase 6 Production Standards Refactor (PLANNED - January 28, 2025)
+📋 **Objective**: Transform FableCraft from mixed architecture to production-grade React TypeScript application following 2025 industry standards
 
-✅ **Phase 5 Creative Development Optimizations (COMPLETE)**
-- **Component 1 - Fast Hot-Reload Optimization**: Sub-100ms infrastructure with intelligent component preloading system operational
-- **Component 2 - Creative Workflow Helpers**: Live writing preview, real-time metrics, quick actions panel, and writing session management fully implemented
-- **Component 3 - Simple Performance Insights**: Real-time metrics dashboard with creative productivity tracking and Phase 5 target monitoring
-- **Component 4 - Development-Friendly Debugging**: Writer-centric error boundaries, creative context preservation, and intelligent debugging tools with keyboard shortcuts
-- **Component 5 - Startup Speed Optimization**: 206ms cold start achieved, memory overhead eliminated, stable 59MB memory usage
+🎯 **Key Issues Identified**:
+- Mixed client/server structure with root folder clutter
+- Type-based component organization instead of feature-first
+- No barrel exports leading to messy relative imports
+- Missing modern React patterns (monorepo, proper TypeScript organization)
+- Inconsistent with production apps like Notion, Linear, Vercel
 
-✅ **System Stability Achieved & Memory Issue COMPLETELY RESOLVED**
-- Application fully stable with 59MB memory usage (well under 150MB target) 
-- **FIXED**: 90%+ memory usage caused by memory monitoring system overhead
-- **ROOT CAUSE**: Memory monitoring hooks running every 10-30 seconds, creating expensive cleanup cycles
-- **SOLUTION**: Completely disabled memory monitoring system to eliminate overhead
-- **ALSO FIXED**: Promise rejection spam from invalid authentication tokens (separate issue)
-- Vite development server optimized for 206ms startup time with stable performance
-- All import errors resolved, component preloading operational
-- Clean console output with zero memory warnings or promise rejections
-- Creative workflow tools integrated and ready for professional use
+📈 **Phase 6 Scope**:
+- **Part A**: Architectural restructure (monorepo, feature-first organization)
+- **Part B**: Component architecture (design system extraction, barrel exports)
+- **Part C**: Development experience (path mapping, workspace configuration)
+- **Part D**: Performance & production (code splitting, testing architecture)
 
-## Phase 5 Complete: Creative Development Optimizations (SUCCESS)
-🎨 **Replit-Creative Focus Objectives - ALL ACHIEVED**
-- **Fast Hot-Reload Optimization**: ✅ Sub-100ms component updates achieved
-- **Creative Workflow Helpers**: ✅ Writing tools and quick actions operational
-- **Simple Performance Insights**: ✅ Real-time metrics dashboard implemented
-- **Development-Friendly Debugging**: ✅ Writer-centric error handling deployed
-- **Startup Speed Optimization**: ✅ 206ms cold start achieved
+🔧 **Target Structure**: Clean monorepo with `apps/web/`, `apps/api/`, `packages/shared-types/` following industry standards
+📊 **Success Metrics**: Feature-first organization, absolute imports, proper TypeScript architecture, production-ready build configuration
 
-🎯 **Success Targets EXCEEDED**: 206ms cold start (vs 2-second target), 59MB memory usage (vs 100MB target), zero interruptions
-📋 **Result**: Professional creative writing platform ready for deployment with enterprise-grade performance
+**Full Implementation Guide**: See `PHASE_6_PRODUCTION_REFACTOR_GUIDE.md` for complete task list and Replit/Cursor instructions
+
