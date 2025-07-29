@@ -148,7 +148,7 @@ export function CharacterAICreationUnified({
         </div>
 
         {/* Main Input Area */}
-        <div className="flex-1 p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="max-w-3xl mx-auto space-y-6">
             {/* Input Card */}
             <Card className="border-2 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20">
