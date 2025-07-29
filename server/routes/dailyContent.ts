@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import { optionalAuth } from '../auth';
-import { generateWithRetry, checkRateLimit, testAIConnection } from '../services/aiGeneration';
+// AI services removed - placeholder content will be used
+const generateWithRetry = async () => "Placeholder content";
+const checkRateLimit = () => true;
+const testAIConnection = async () => false;
 
 const router = Router();
 

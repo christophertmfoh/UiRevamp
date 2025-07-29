@@ -10,7 +10,7 @@ export { CharacterTemplates } from '../CharacterTemplates';
 
 // Utility components
 export { CharacterPortraitModal } from '../CharacterPortraitModalImproved';
-export { CharacterGenerationModal } from '../CharacterGenerationModal';
+// CharacterGenerationModal removed - AI functionality removed
 
 // Shared components are exported from their own files to avoid circular dependencies
 // Import them directly: ./FieldRenderer, ./FormSection, ./CharacterProgress
@@ -19,4 +19,4 @@ export { CharacterGenerationModal } from '../CharacterGenerationModal';
 export { useCharacterForm } from '../hooks/useCharacterForm';
 
 // Types
-export type { CharacterGenerationOptions } from '../CharacterGenerationModal';
+// CharacterGenerationOptions type removed - AI functionality removed

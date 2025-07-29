@@ -2,10 +2,7 @@ import { Router } from "express";
 // Removed unused insertCharacterSchema import
 import { storage } from "../storage";
 import { transformCharacterData } from "../utils/characterTransformers";
-import { generateCharacterWithAI } from "../services/characterGeneration";
-import { generateCharacterPortrait } from "../characterPortraitGenerator";
-import { generateCharacterImage } from "../imageGeneration";
-import { importCharacterDocument } from "../characterExtractor";
+// AI services removed - UI placeholders remain functional
 import multer from "multer";
 
 export const characterRouter = Router();
@@ -156,16 +153,10 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       return res.status(404).json({ error: "Project not found" });
     }
     
-    // Generate character with OPTIMIZED AI (15x more efficient!)
-    const character = await generateCharacterWithAI({
-      projectId,
-      projectName: project.name,
-      projectDescription: project.description || '',
-      characterType,
-      role,
-      customPrompt,
-      personality,
-      archetype
+    // AI generation removed - return placeholder response
+    res.status(200).json({ 
+      message: "AI generation temporarily disabled - UI placeholder active",
+      projectId 
     });
     
     // Store the character in database
@@ -175,25 +166,7 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       projectId
     });
     
-    // Generate portrait for the character
-    if (storedCharacter.id) {
-      try {
-        const portraitUrl = await generateCharacterPortrait(storedCharacter);
-        if (portraitUrl) {
-          console.log('Generated portrait URL for custom character:', portraitUrl);
-          // Update character with portrait URL
-          await storage.updateCharacter(storedCharacter.id, {
-            imageUrl: portraitUrl,
-            portraits: [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}]
-          });
-          // Add portrait to response
-          storedCharacter.imageUrl = portraitUrl;
-          storedCharacter.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
-        }
-      } catch (portraitError) {
-        console.error("Error generating portrait:", portraitError);
-      }
-    }
+    // Portrait generation removed - UI placeholder remains functional
     
     res.status(201).json(storedCharacter);
   } catch (error: unknown) {
@@ -212,8 +185,8 @@ characterRouter.post("/characters/:id/generate-image", async (req, res) => {
       return res.status(404).json({ error: "Character not found" });
     }
     
-    const imageUrl = await generateCharacterImage(req.body);
-    res.json({ imageUrl });
+    // Image generation removed - UI placeholder remains functional
+    res.status(200).json({ message: "Image generation temporarily disabled - UI placeholder active" });
   } catch (error: unknown) {
     console.error("Error generating character image:", error);
     res.status(500).json({ error: "Failed to generate image" });
@@ -230,7 +203,8 @@ characterRouter.post("/projects/:projectId/characters/import", upload.single('fi
       return res.status(400).json({ error: "No file uploaded" });
     }
     
-    const result = await importCharacterDocument(file.path, file.originalname);
+    // Document import AI functionality removed
+    const result = { error: "Document import temporarily disabled - AI functionality removed" };
     
     // Transform array fields to strings as expected by database
     const transformedResult = transformCharacterData(result as Record<string, unknown>);

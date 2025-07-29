@@ -10,8 +10,7 @@ import { errorHandler } from "./middleware/errorHandler";
 import { signUp, signIn, signOut, authenticateToken, optionalAuth, signupSchema, loginSchema } from "./auth";
 import multer from "multer";
 import { storage } from "./storage";
-import { importCharacterDocument } from "./characterExtractor";
-import { generateCharacterImage } from "./imageGeneration";
+// AI imports removed - UI placeholders remain functional
 import { nanoid } from "nanoid";
 
 // Configure multer for character import that hasn't been moved yet
@@ -285,20 +284,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   */
 
-  // Character image generation route (needs to be moved to character router)
+    // Character image generation route - AI removed, UI placeholder remains
   app.post("/api/generate-character-image", async (req, res) => {
-    try {
-      console.log('Character image generation request:', req.body);
-      const imageUrl = await generateCharacterImage(req.body);
-      res.json(imageUrl); // Return the object directly, not wrapped in { imageUrl }
-    } catch (error: unknown) {
-      console.error("Error generating character image:", error);
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      res.status(500).json({ 
-        error: "Failed to generate character image", 
-        details: errorMessage 
-      });
-    }
+    console.log('Image generation disabled - UI placeholder active');
+    res.status(200).json({ message: "Image generation temporarily disabled - UI placeholder active" });
   });
 
   // Character creation route (standard) - DISABLED: Now handled by characterRouter with optionalAuth

@@ -3,4 +3,4 @@
  * Central exports for all service modules
  */
 
-export * from './aiGeneration';
+// AI services removed - UI placeholders remain functional

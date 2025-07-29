@@ -1,3 +1,2 @@
 // Services Module Exports - Centralized exports for better navigation
-export * from './geminiService';
-export * from './characterGeneration';
+// AI services removed - UI placeholders remain functional
