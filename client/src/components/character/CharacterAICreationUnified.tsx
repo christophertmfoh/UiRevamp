@@ -10,6 +10,7 @@ import {
   FileText, Zap, Users, Loader2
 } from 'lucide-react';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
+import { CharacterGenerationLoadingScreen } from './CharacterGenerationLoadingScreen';
 import type { Character } from '@/lib/types';
 
 interface CharacterAICreationUnifiedProps {
@@ -92,18 +93,54 @@ export function CharacterAICreationUnified({
 }: CharacterAICreationUnifiedProps) {
   const [prompt, setPrompt] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [currentStep, setCurrentStep] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [generatedCharacter, setGeneratedCharacter] = useState<Partial<Character> | null>(null);
 
   const generateMutation = useMutation({
     mutationFn: async (promptText: string) => {
-      return await CharacterCreationService.generateFromPrompt(projectId, promptText);
+      return await CharacterCreationService.generateFromPrompt(
+        projectId, 
+        promptText,
+        (step: string, progress: number) => {
+          setCurrentStep(step);
+          setProgress(progress);
+          
+          // Update character preview when we get basic info
+          if (progress >= 40 && step.includes('details')) {
+            // This would normally come from a streaming response
+            // For now, we'll update it at the end
+          }
+        }
+      );
     },
     onSuccess: (character) => {
-      onComplete(character as Character);
+      setGeneratedCharacter(character);
+      setCurrentStep('Complete!');
+      setProgress(100);
+      
+      console.log('🎭 Character generation complete:', {
+        name: character.name,
+        hasImage: !!character.imageUrl,
+        fieldCount: Object.keys(character).length
+      });
+      
+      // Brief delay to show completion, then navigate to full character view
+      setTimeout(() => {
+        onComplete(character);
+      }, 1500);
+    },
+    onError: (error) => {
+      console.error('Character generation failed:', error);
+      setCurrentStep('Generation failed');
+      setProgress(0);
     }
   });
 
   const handleGenerate = () => {
     if (prompt.trim()) {
+      setCurrentStep('Starting generation...');
+      setProgress(0);
       generateMutation.mutate(prompt.trim());
     }
   };
@@ -112,26 +149,17 @@ export function CharacterAICreationUnified({
     setPrompt(examplePrompt);
   };
 
-  if (generateMutation.isPending) {
+  if (generateMutation.isPending || progress > 0) {
     return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full border-4 animate-spin border-border border-t-primary" />
-            <Sparkles className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary" />
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-foreground">Creating Your Character</h3>
-            <p className="text-muted-foreground">
-              AI is bringing your vision to life...
-            </p>
-          </div>
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            This usually takes 15-30 seconds
-          </div>
-        </div>
-      </div>
+      <CharacterGenerationLoadingScreen
+        currentStep={currentStep}
+        progress={progress}
+        character={generatedCharacter ? {
+          name: generatedCharacter.name,
+          species: generatedCharacter.species,
+          occupation: generatedCharacter.occupation
+        } : undefined}
+      />
     );
   }
 
