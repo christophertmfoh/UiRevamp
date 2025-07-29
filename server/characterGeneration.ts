@@ -58,70 +58,127 @@ Your response must be valid JSON in this exact format. Generate vivid, specific 
 ⚠️ CRITICAL: The name you choose in the "name" field MUST be used consistently throughout ALL description fields. Never refer to the character by a different name in any field.
 
 {
+  // ===== IDENTITY SECTION =====
   "name": "Distinctive name that fits the world and hints at character essence",
-  "nicknames": "Meaningful nicknames earned through actions or relationships - include origin stories",
-  "title": "Earned titles, ranks, or epithets that reflect achievements or reputation", 
-  "aliases": "False identities or alternate personas with specific purposes",
-  "role": "Narrative function (protagonist/antagonist/mentor/catalyst/etc) with clear story purpose",
-  "class": "Profession or role that defines their skills, social position, and daily life",
+  "nicknames": "Meaningful nicknames earned through actions or relationships",
+  "pronouns": "Character's pronouns (he/him, she/her, they/them, etc.)",
   "age": "Specific age that explains their capabilities, experience level, and life stage",
-  "race": "Species/ethnicity with cultural implications for worldview and background",
+  "species": "Species/race with cultural implications for worldview and background",
   "gender": "Gender identity that may influence their experiences and perspectives",
-  "oneLine": "Compelling elevator pitch that captures their essence and main conflict",
-  "physicalDescription": "Vivid head-to-toe description showing how their body tells their life story - scars from battles, calluses from work, posture from confidence/trauma, etc.",
+  "occupation": "Current job or primary activity that defines their skills and social position",
+  "title": "Earned titles, ranks, or epithets that reflect achievements or reputation",
+  "birthdate": "When they were born (can be specific date or general timeframe)",
+  "birthplace": "Where they were born - influences accent, early memories, cultural foundation",
+  "currentLocation": "Where they live now - reflects current circumstances and choices",
+  "nationality": "Cultural or national identity that shapes worldview and allegiances",
+
+  // ===== APPEARANCE SECTION =====
   "height": "Specific height with implications for their presence and capabilities",
-  "build": "Body type that reflects their lifestyle, genetics, and life experiences",
-  "eyeColor": "Eye color with emotional or supernatural significance if relevant",
+  "weight": "Weight or build description that reflects lifestyle and health",
+  "bodyType": "Body type that reflects their lifestyle, genetics, and life experiences",
   "hairColor": "Hair color and any changes due to stress, magic, or deliberate styling",
   "hairStyle": "Specific hairstyle that reflects personality, culture, or practical needs",
+  "hairTexture": "Hair texture (straight, wavy, curly, coiled) and condition",
+  "eyeColor": "Eye color with emotional or supernatural significance if relevant",
+  "eyeShape": "Eye shape and expression that reflects personality or heritage",
   "skinTone": "Skin appearance affected by environment, genetics, lifestyle, or magical influences",
-  "distinguishingMarks": "Specific scars, tattoos, birthmarks with stories behind each mark",
-  "clothingStyle": "Fashion choices that reveal class, personality, practical needs, and cultural background",
-  "personalityOverview": "Rich psychological profile revealing the core contradictions and complexities that make them human",
-  "temperament": "Fundamental emotional baseline with triggers that change their behavior dramatically",
-  "personalityTraits": ["specific behavioral patterns", "emotional tendencies", "social behaviors", "moral inclinations", "unique quirks"],
-  "worldview": "Philosophy shaped by formative experiences - how trauma, success, or revelations changed their perspective",
-  "values": "Non-negotiable principles they'll die for versus convenient beliefs they'll abandon under pressure",
-  "goals": "Specific, measurable objectives with deadlines and personal stakes - what happens if they fail?",
-  "motivations": "Deep psychological drivers rooted in childhood, trauma, love, or existential needs",
-  "fears": "Primal terrors that paralyze them and rational concerns that drive smart decisions",
-  "desires": "Secret longings they might never admit - what they'd sacrifice everything to achieve",
-  "vices": "Specific addictions, compulsions, or moral compromises that create vulnerability and conflict",
-  "coreAbilities": "Primary abilities and talents",
-  "skills": ["skill1", "skill2", "skill3", "skill4"],
-  "talents": ["talent1", "talent2", "talent3"],
-  "specialAbilities": "Unique or supernatural abilities",
-  "powers": "Special powers or magical abilities",
-  "strengths": "Character's key strengths and positive traits",
-  "weaknesses": "Vulnerabilities and areas of struggle",
-  "training": "Formal education, apprenticeships, or training",
-  "backstory": "Rich background history explaining how they became who they are",
-  "childhood": "Early life experiences and upbringing",
-  "familyHistory": "Family background and lineage",
-  "education": "Formal and informal learning experiences",
-  "formativeEvents": "Key events that shaped their character",
-  "socialClass": "Economic and social standing",
-  "occupation": "Current job or primary activity",
-  "spokenLanguages": ["language1", "language2"],
-  "family": "Family members and relationships",
-  "friends": "Close friendships and bonds",
-  "allies": "Political or strategic alliances",
-  "enemies": "Adversaries and opponents",
-  "rivals": "Competitive relationships",
-  "mentors": "Teachers and guides",
-  "relationships": "Romantic and significant relationships",
-  "socialCircle": "Broader social connections",
-  "storyFunction": "Role this character serves in the narrative",
-  "personalTheme": "Central theme this character represents",
-  "symbolism": "What this character symbolizes in the story",
-  "inspiration": "Real-world or fictional inspirations",
-  "archetypes": ["archetype1", "archetype2"],
-  "notes": "Additional writer notes and development ideas",
-  "flaws": "Character weaknesses and negative traits that create conflict",
-  "secrets": "Hidden aspects, past events, or knowledge they conceal",
-  "equipment": "Notable possessions, tools, weapons, or gear",
-  "habits": "Daily routines, mannerisms, and behavioral patterns",
-  "quirks": "Unique behavioral traits and eccentricities"
+  "facialFeatures": "Distinctive facial characteristics (nose shape, cheekbones, jaw line, etc.)",
+  "physicalFeatures": "Notable physical characteristics and body language",
+  "scarsMarkings": "Specific scars, tattoos, birthmarks with stories behind each mark",
+  "clothing": "Typical fashion choices that reveal class, personality, and practical needs",
+  "accessories": "Jewelry, tools, or personal items they regularly carry",
+  "generalAppearance": "Overall impression and how they present themselves to the world",
+
+  // ===== PERSONALITY SECTION =====
+  "personalityTraits": ["specific behavioral patterns", "emotional tendencies", "social behaviors", "moral inclinations"],
+  "positiveTraits": ["character strengths", "admirable qualities", "virtues"],
+  "negativeTraits": ["character flaws", "weaknesses", "problematic behaviors"],
+  "quirks": ["unique habits", "amusing eccentricities", "distinctive mannerisms"],
+  "mannerisms": "Physical habits and behavioral patterns in speech and movement",
+  "temperament": "Fundamental emotional baseline with triggers that change their behavior",
+  "emotionalState": "Current emotional condition and mental stability",
+  "sense_of_humor": "Type of humor they enjoy and how they use comedy in social situations",
+  "speech_patterns": "How they speak - accent, vocabulary level, speech quirks, favorite phrases",
+
+  // ===== PSYCHOLOGY SECTION =====
+  "intelligence": "Type and level of intellectual capacity (analytical, creative, emotional, etc.)",
+  "education": "Formal and informal learning experiences and educational background",
+  "mentalHealth": "Psychological well-being, mental conditions, coping mechanisms",
+  "phobias": ["specific fears", "irrational terrors", "trauma responses"],
+  "motivations": ["deep psychological drivers", "what pushes them forward", "core needs"],
+  "goals": ["specific objectives", "what they want to achieve", "deadlines and stakes"],
+  "desires": ["secret longings", "things they crave", "what they'd sacrifice for"],
+  "regrets": ["past mistakes", "missed opportunities", "things they wish they could change"],
+  "secrets": ["hidden knowledge", "concealed past events", "information they protect"],
+  "moral_code": "Ethical principles and moral framework that guides their decisions",
+  "worldview": "Philosophy shaped by formative experiences and how they see reality",
+  "philosophy": "Personal beliefs about life, meaning, and how the world should work",
+
+  // ===== ABILITIES SECTION =====
+  "skills": ["learned abilities", "trained competencies", "professional expertise"],
+  "talents": ["natural gifts", "innate abilities", "things they excel at without training"],
+  "powers": ["supernatural abilities", "magical powers", "extraordinary capabilities"],
+  "weaknesses": ["vulnerabilities", "areas of struggle", "things that hold them back"],
+  "strengths": ["character assets", "reliable capabilities", "what they can depend on"],
+  "combat_skills": ["fighting abilities", "weapon training", "martial expertise"],
+  "magical_abilities": ["spells", "magical knowledge", "supernatural techniques"],
+  "languages": ["spoken languages", "written languages", "communication abilities"],
+  "hobbies": ["personal interests", "leisure activities", "things they enjoy"],
+
+  // ===== BACKGROUND SECTION =====
+  "backstory": "Rich background history explaining how they became who they are today",
+  "childhood": "Early life experiences, upbringing, and formative childhood events",
+  "formative_events": ["key life-changing events", "pivotal moments", "defining experiences"],
+  "trauma": "Significant traumatic experiences and how they've affected the character",
+  "achievements": ["major accomplishments", "proud moments", "successful endeavors"],
+  "failures": ["significant setbacks", "mistakes with consequences", "learning experiences"],
+  "education_background": "Formal schooling, training programs, academic achievements",
+  "work_history": "Career progression, job experiences, professional development",
+  "military_service": "Military experience, rank achieved, combat exposure, discharge status",
+  "criminal_record": "Legal troubles, crimes committed, time served, ongoing legal issues",
+
+  // ===== RELATIONSHIPS SECTION =====
+  "family": ["family members", "family dynamics", "blood relatives and their relationships"],
+  "friends": ["close friendships", "trusted companions", "social bonds"],
+  "enemies": ["adversaries", "people who oppose them", "antagonistic relationships"],
+  "allies": ["political allies", "strategic partnerships", "people who support their goals"],
+  "mentors": ["teachers", "guides", "people who shaped their development"],
+  "romantic_interests": ["past relationships", "current romantic connections", "love interests"],
+  "relationship_status": "Current romantic situation and availability",
+  "social_connections": ["broader network", "acquaintances", "professional contacts"],
+  "children": ["offspring", "adopted children", "parental relationships"],
+  "pets": ["animal companions", "familiar creatures", "beloved animals"],
+
+  // ===== CULTURAL SECTION =====
+  "culture": "Cultural background, traditions, and heritage that shape their identity",
+  "religion": "Religious beliefs, spiritual practices, relationship with the divine",
+  "traditions": ["cultural practices", "family traditions", "ceremonial observances"],
+  "values": ["core values", "non-negotiable principles", "what they believe is important"],
+  "customs": ["social customs", "behavioral expectations", "cultural norms they follow"],
+  "social_class": "Economic and social standing within their society",
+  "political_views": "Political beliefs, affiliations, and stance on governance",
+  "economic_status": "Financial situation, wealth level, economic security",
+
+  // ===== STORY ROLE SECTION =====
+  "role": "Narrative function (Protagonist/Antagonist/Supporting Character/Side Character/Background Character)",
+  "character_arc": "How this character changes and grows throughout the story",
+  "narrative_function": "Specific role they serve in advancing the plot and themes",
+  "story_importance": "Level of importance to the story (Critical/Important/Moderate/Minor)",
+  "first_appearance": "When and how they first appear in the narrative",
+  "last_appearance": "When and how they exit the story (if applicable)",
+  "character_growth": "Areas where they develop and change throughout the story",
+  "internal_conflict": "Inner struggles, personal dilemmas, psychological conflicts",
+  "external_conflict": "Outside forces they must overcome, obstacles they face",
+
+  // ===== META INFORMATION SECTION =====
+  "inspiration": "Real-world or fictional inspirations that informed this character",
+  "creation_notes": "Writer's notes about the character's development and purpose",
+  "character_concept": "Core concept or central idea that defines this character",
+  "design_notes": "Visual design considerations, appearance inspirations",
+  "voice_notes": "How they should sound, speech patterns, vocal characteristics",
+  "themes": ["thematic elements", "symbolic meanings", "story themes they represent"],
+  "symbolism": "What this character symbolizes within the broader narrative",
+  "author_notes": "Additional development ideas, future story potential, creative thoughts"
 }
 
 QUALITY STANDARDS:
@@ -135,7 +192,7 @@ QUALITY STANDARDS:
 CRITICAL REQUIREMENTS:
 1. 🚨 MANDATORY: Create a COMPLETELY UNIQUE character - NO reused names, traits, or details from any previous generation
 2. 🎯 NAME CONSISTENCY: Use the EXACT same name throughout ALL fields - never switch between different names in descriptions
-3. Generate publication-quality, specific content for EVERY SINGLE field above (all 67 fields)  
+3. Generate publication-quality, specific content for EVERY SINGLE field above (all 86 fields across 10 categories)  
 4. NO generic descriptions, placeholder text, or vague statements allowed
 5. Each response should feel like it came from deep character research
 6. Base all content on the user's specific inputs and story context provided below
@@ -144,7 +201,7 @@ CRITICAL REQUIREMENTS:
 9. No trailing commas, no unescaped quotes, no incomplete fields
 10. Every field must have meaningful content - empty strings "" are acceptable only when contextually appropriate
 
-RESPONSE FORMAT: Return ONLY valid JSON with no markdown, no explanations, no additional text - just the complete character object with all 67 fields populated.
+RESPONSE FORMAT: Return ONLY valid JSON with no markdown, no explanations, no additional text - just the complete character object with all 86 fields populated across the 10 defined categories.
 
 ${projectContext}`;
 

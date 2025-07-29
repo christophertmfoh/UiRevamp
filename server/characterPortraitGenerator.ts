@@ -36,12 +36,12 @@ export async function generateCharacterPortrait(character: Partial<Character>): 
 }
 
 /**
- * Builds a comprehensive character description for portrait generation
+ * Builds a comprehensive character description for portrait generation using the new 10-category system
  */
 function buildCharacterPrompt(character: Partial<Character>): string {
   const parts: string[] = [];
 
-  // Identity information
+  // ===== IDENTITY INFORMATION =====
   if (character.name) {
     parts.push(`Character named ${character.name}`);
   }
@@ -50,33 +50,33 @@ function buildCharacterPrompt(character: Partial<Character>): string {
     parts.push(`${character.age} years old`);
   }
 
-  // Gender field check - using the correct field name
-  const genderField = (character as any).gender;
-  if (genderField) {
-    parts.push(`${genderField}`);
+  if (character.gender) {
+    parts.push(`${character.gender}`);
   }
 
-  if (character.race && character.race !== 'Human') {
-    parts.push(`${character.race}`);
+  if (character.species && character.species !== 'Human') {
+    parts.push(`${character.species}`);
   }
 
-  // Physical appearance details
-  if (character.physicalDescription) {
-    parts.push(character.physicalDescription);
+  if (character.pronouns) {
+    parts.push(`pronouns: ${character.pronouns}`);
   }
 
+  // ===== COMPREHENSIVE APPEARANCE DETAILS =====
+  // Physical build and stature
   if (character.height) {
     parts.push(`height: ${character.height}`);
   }
 
-  if (character.build) {
-    parts.push(`build: ${character.build}`);
+  if (character.weight) {
+    parts.push(`weight/build: ${character.weight}`);
   }
 
-  if (character.eyeColor) {
-    parts.push(`${character.eyeColor} eyes`);
+  if (character.bodyType) {
+    parts.push(`body type: ${character.bodyType}`);
   }
 
+  // Detailed hair characteristics
   if (character.hairColor) {
     parts.push(`${character.hairColor} hair`);
   }
@@ -85,64 +85,154 @@ function buildCharacterPrompt(character: Partial<Character>): string {
     parts.push(`hair styled: ${character.hairStyle}`);
   }
 
+  if (character.hairTexture) {
+    parts.push(`${character.hairTexture} hair texture`);
+  }
+
+  // Comprehensive eye details
+  if (character.eyeColor) {
+    parts.push(`${character.eyeColor} eyes`);
+  }
+
+  // Handle both new and legacy field names
+  const eyeShapeField = (character as any).eyeShape;
+  if (eyeShapeField) {
+    parts.push(`${eyeShapeField} eye shape`);
+  }
+
+  // Skin and facial features
   if (character.skinTone) {
     parts.push(`${character.skinTone} skin`);
   }
 
-  if (character.distinguishingMarks && Array.isArray(character.distinguishingMarks)) {
-    const marks = character.distinguishingMarks.join(', ');
-    parts.push(`distinguishing features: ${marks}`);
+  const facialFeaturesField = (character as any).facialFeatures;
+  if (facialFeaturesField) {
+    parts.push(`facial features: ${facialFeaturesField}`);
   }
 
-  if (character.clothingStyle) {
+  const physicalFeaturesField = (character as any).physicalFeatures;
+  if (physicalFeaturesField) {
+    parts.push(`physical characteristics: ${physicalFeaturesField}`);
+  }
+
+  // Legacy physicalDescription field fallback
+  if (character.physicalDescription) {
+    parts.push(`physical description: ${character.physicalDescription}`);
+  }
+
+  // Distinctive markings and scars (handle both new and legacy field names)
+  const scarsMarkingsField = (character as any).scarsMarkings;
+  if (scarsMarkingsField) {
+    parts.push(`distinguishing marks: ${scarsMarkingsField}`);
+  } else if (character.distinguishingMarks && Array.isArray(character.distinguishingMarks)) {
+    const marks = character.distinguishingMarks.join(', ');
+    parts.push(`distinguishing marks: ${marks}`);
+  }
+
+  // Clothing and accessories (handle both new and legacy field names)
+  const clothingField = (character as any).clothing;
+  if (clothingField) {
+    parts.push(`dressed in ${clothingField}`);
+  } else if (character.clothingStyle) {
     parts.push(`dressed in ${character.clothingStyle}`);
   }
 
-  // Personality that affects appearance
+  const accessoriesField = (character as any).accessories;
+  if (accessoriesField) {
+    parts.push(`wearing: ${accessoriesField}`);
+  }
+
+  const generalAppearanceField = (character as any).generalAppearance;
+  if (generalAppearanceField) {
+    parts.push(`overall appearance: ${generalAppearanceField}`);
+  }
+
+  // ===== PERSONALITY-DRIVEN VISUAL ELEMENTS =====
   if (character.temperament) {
-    parts.push(`${character.temperament} temperament`);
+    parts.push(`${character.temperament} temperament visible in expression`);
   }
 
-  // Professional/class information that affects appearance
-  if (character.class) {
-    parts.push(`${character.class}`);
+  if (character.emotionalState) {
+    parts.push(`emotional state: ${character.emotionalState}`);
   }
 
-  if (character.profession || character.occupation) {
-    const job = character.profession || character.occupation;
-    parts.push(`works as ${job}`);
+  if (character.mannerisms) {
+    parts.push(`typical mannerisms: ${character.mannerisms}`);
   }
 
-  // Story role information
+  // ===== PROFESSIONAL/OCCUPATION VISUAL CUES =====
+  if (character.occupation) {
+    parts.push(`works as ${character.occupation}`);
+  }
+
+  if (character.title) {
+    parts.push(`holds title: ${character.title}`);
+  }
+
+  // ===== STORY ROLE VISUAL INFLUENCE =====
   if (character.role) {
     parts.push(`character role: ${character.role}`);
+  }
+
+  const storyImportanceField = (character as any).story_importance;
+  if (storyImportanceField) {
+    parts.push(`story importance: ${storyImportanceField}`);
+  }
+
+  // ===== CULTURAL BACKGROUND VISUAL ELEMENTS =====
+  const cultureField = (character as any).culture;
+  if (cultureField) {
+    parts.push(`cultural background: ${cultureField}`);
+  }
+
+  // Handle both social_class and socialClass field names
+  const socialClassField = (character as any).social_class || character.socialClass;
+  if (socialClassField) {
+    parts.push(`social class: ${socialClassField}`);
   }
 
   return parts.join(', ');
 }
 
 /**
- * Builds style prompts with professional portrait specifications
+ * Builds style prompts with professional portrait specifications based on character traits
  */
 function buildStylePrompt(character: Partial<Character>): string {
   const baseStyle = 'High-quality portrait photography, professional studio lighting, highly detailed facial features, sharp focus, photorealistic quality, dramatic lighting, masterpiece quality, cinematic composition, expressive eyes, realistic proportions';
   
   const styleEnhancements: string[] = [baseStyle];
 
-  // Add genre-appropriate styling based on character class/role
-  if (character.class) {
-    const classLower = character.class.toLowerCase();
+  // Add genre-appropriate styling based on character occupation/role
+  if (character.occupation) {
+    const occupationLower = character.occupation.toLowerCase();
     
-    if (classLower.includes('warrior') || classLower.includes('fighter') || classLower.includes('knight')) {
-      styleEnhancements.push('strong confident pose, battle-hardened appearance');
-    } else if (classLower.includes('mage') || classLower.includes('wizard') || classLower.includes('sorcerer')) {
-      styleEnhancements.push('wise mysterious expression, ethereal lighting');
-    } else if (classLower.includes('rogue') || classLower.includes('thief') || classLower.includes('assassin')) {
-      styleEnhancements.push('shadowy atmospheric lighting, cunning expression');
-    } else if (classLower.includes('healer') || classLower.includes('cleric') || classLower.includes('priest')) {
-      styleEnhancements.push('serene compassionate expression, soft warm lighting');
-    } else if (classLower.includes('noble') || classLower.includes('lord') || classLower.includes('lady')) {
+    if (occupationLower.includes('warrior') || occupationLower.includes('fighter') || occupationLower.includes('knight') || occupationLower.includes('soldier')) {
+      styleEnhancements.push('strong confident pose, battle-hardened appearance, determined expression');
+    } else if (occupationLower.includes('mage') || occupationLower.includes('wizard') || occupationLower.includes('sorcerer') || occupationLower.includes('scholar')) {
+      styleEnhancements.push('wise mysterious expression, ethereal lighting, intellectual bearing');
+    } else if (occupationLower.includes('rogue') || occupationLower.includes('thief') || occupationLower.includes('assassin') || occupationLower.includes('spy')) {
+      styleEnhancements.push('shadowy atmospheric lighting, cunning expression, alert posture');
+    } else if (occupationLower.includes('healer') || occupationLower.includes('cleric') || occupationLower.includes('priest') || occupationLower.includes('doctor')) {
+      styleEnhancements.push('serene compassionate expression, soft warm lighting, gentle demeanor');
+    } else if (occupationLower.includes('noble') || occupationLower.includes('lord') || occupationLower.includes('lady') || occupationLower.includes('royal')) {
       styleEnhancements.push('regal bearing, elegant composition, refined atmosphere');
+    } else if (occupationLower.includes('merchant') || occupationLower.includes('trader') || occupationLower.includes('businessman')) {
+      styleEnhancements.push('confident expression, well-groomed appearance, professional bearing');
+    } else if (occupationLower.includes('artist') || occupationLower.includes('bard') || occupationLower.includes('musician')) {
+      styleEnhancements.push('creative expression, artistic lighting, passionate demeanor');
+    }
+  }
+
+  // Add story role-based styling
+  if (character.role) {
+    const roleLower = character.role.toLowerCase();
+    
+    if (roleLower.includes('protagonist')) {
+      styleEnhancements.push('heroic lighting, determined expression, central composition');
+    } else if (roleLower.includes('antagonist')) {
+      styleEnhancements.push('dramatic shadows, intense gaze, commanding presence');
+    } else if (roleLower.includes('supporting')) {
+      styleEnhancements.push('balanced lighting, approachable expression, confident pose');
     }
   }
 
@@ -150,14 +240,45 @@ function buildStylePrompt(character: Partial<Character>): string {
   if (character.temperament) {
     const tempLower = character.temperament.toLowerCase();
     
-    if (tempLower.includes('cheerful') || tempLower.includes('optimistic')) {
-      styleEnhancements.push('bright warm lighting, gentle smile');
-    } else if (tempLower.includes('serious') || tempLower.includes('stoic')) {
-      styleEnhancements.push('strong directional lighting, intense gaze');
-    } else if (tempLower.includes('mysterious') || tempLower.includes('enigmatic')) {
+    if (tempLower.includes('cheerful') || tempLower.includes('optimistic') || tempLower.includes('joyful')) {
+      styleEnhancements.push('bright warm lighting, gentle smile, open expression');
+    } else if (tempLower.includes('serious') || tempLower.includes('stoic') || tempLower.includes('stern')) {
+      styleEnhancements.push('strong directional lighting, intense gaze, composed demeanor');
+    } else if (tempLower.includes('mysterious') || tempLower.includes('enigmatic') || tempLower.includes('secretive')) {
       styleEnhancements.push('dramatic shadows, half-lit face, intriguing expression');
-    } else if (tempLower.includes('passionate') || tempLower.includes('fiery')) {
-      styleEnhancements.push('dynamic lighting, intense emotional expression');
+    } else if (tempLower.includes('passionate') || tempLower.includes('fiery') || tempLower.includes('intense')) {
+      styleEnhancements.push('dynamic lighting, intense emotional expression, vibrant energy');
+    } else if (tempLower.includes('calm') || tempLower.includes('peaceful') || tempLower.includes('serene')) {
+      styleEnhancements.push('soft even lighting, tranquil expression, relaxed posture');
+    } else if (tempLower.includes('melancholy') || tempLower.includes('sad') || tempLower.includes('brooding')) {
+      styleEnhancements.push('muted lighting, contemplative expression, subtle shadows');
+    }
+  }
+
+  // Add emotional state influence
+  if (character.emotionalState) {
+    const emotionLower = character.emotionalState.toLowerCase();
+    
+    if (emotionLower.includes('confident') || emotionLower.includes('determined')) {
+      styleEnhancements.push('strong eye contact, upright posture, clear sharp lighting');
+    } else if (emotionLower.includes('troubled') || emotionLower.includes('conflicted')) {
+      styleEnhancements.push('subtle tension in expression, complex lighting, thoughtful pose');
+    } else if (emotionLower.includes('hopeful') || emotionLower.includes('optimistic')) {
+      styleEnhancements.push('bright clear lighting, forward-looking gaze, open expression');
+    }
+  }
+
+  // Add social class styling influence
+  const socialClassField = (character as any).social_class || character.socialClass;
+  if (socialClassField) {
+    const classLower = socialClassField.toLowerCase();
+    
+    if (classLower.includes('upper') || classLower.includes('nobility') || classLower.includes('elite')) {
+      styleEnhancements.push('refined composition, elegant lighting, sophisticated bearing');
+    } else if (classLower.includes('working') || classLower.includes('common') || classLower.includes('peasant')) {
+      styleEnhancements.push('honest expression, natural lighting, authentic demeanor');
+    } else if (classLower.includes('merchant') || classLower.includes('middle')) {
+      styleEnhancements.push('professional appearance, balanced composition, practical elegance');
     }
   }
 

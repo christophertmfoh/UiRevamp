@@ -253,35 +253,137 @@ export async function generateCharacterFromPrompt(prompt: string): Promise<any> 
     const ai = getAIService();
     const model = ai.getGenerativeModel({ model: AI_CONFIG.model });
     
-    const systemPrompt = `You are a creative character generator for storytelling. Generate a detailed character based on the user's description.
+    const systemPrompt = `You are a creative character generator for storytelling. Generate a detailed, compelling character based on the user's description using the Fablecraft 10-Category Character System.
 
-Return the response as a valid JSON object with the following structure:
+🎯 INSTRUCTIONS: Create a unique, three-dimensional character that fits seamlessly into the story world. Every field should contain specific, vivid details that serve narrative purposes.
+
+Return the response as a valid JSON object with the following comprehensive structure (86 fields across 10 categories):
+
 {
+  // ===== IDENTITY =====
   "name": "Character Name",
-  "age": "Age or age range",
-  "species": "Human/Elf/etc",
-  "gender": "Gender",
-  "physicalDescription": "Detailed physical appearance",
-  "personality": "Key personality traits",
-  "motivations": "What drives them",
-  "fears": "What they fear",
-  "backstory": "Their background story",
-  "skills": "Notable abilities and skills",
-  "flaws": "Character weaknesses",
-  "goals": "What they want to achieve",
+  "nicknames": "Meaningful nicknames",
+  "pronouns": "Character pronouns",
+  "age": "Specific age",
+  "species": "Species/race",
+  "gender": "Gender identity",
   "occupation": "Job or role",
-  "relationships": "Important relationships",
-  "quirks": "Unique characteristics",
-  "secrets": "Hidden aspects",
-  "voice": "How they speak",
+  "title": "Titles or ranks",
+  "birthdate": "Birth date",
+  "birthplace": "Where born",
+  "currentLocation": "Current residence",
+  "nationality": "Cultural identity",
+
+  // ===== APPEARANCE =====
+  "height": "Height",
+  "weight": "Weight/build",
+  "bodyType": "Body type",
+  "hairColor": "Hair color",
+  "hairStyle": "Hairstyle",
+  "hairTexture": "Hair texture",
+  "eyeColor": "Eye color",
+  "eyeShape": "Eye shape",
+  "skinTone": "Skin tone",
+  "facialFeatures": "Facial characteristics",
+  "physicalFeatures": "Physical traits",
+  "scarsMarkings": "Scars/markings",
+  "clothing": "Typical clothing",
+  "accessories": "Regular accessories",
+  "generalAppearance": "Overall appearance",
+
+  // ===== PERSONALITY =====
+  "personalityTraits": ["trait1", "trait2", "trait3"],
+  "positiveTraits": ["strength1", "strength2"],
+  "negativeTraits": ["flaw1", "flaw2"],
+  "quirks": ["quirk1", "quirk2"],
   "mannerisms": "Physical habits",
-  "clothing": "Style of dress",
-  "equipment": "Important possessions",
-  "strengths": "What they excel at",
-  "weaknesses": "Areas of struggle"
+  "temperament": "Emotional baseline",
+  "emotionalState": "Current state",
+  "sense_of_humor": "Humor style",
+  "speech_patterns": "How they speak",
+
+  // ===== PSYCHOLOGY =====
+  "intelligence": "Intelligence type",
+  "education": "Educational background",
+  "mentalHealth": "Mental state",
+  "phobias": ["fear1", "fear2"],
+  "motivations": ["drive1", "drive2"],
+  "goals": ["goal1", "goal2"],
+  "desires": ["desire1", "desire2"],
+  "regrets": ["regret1", "regret2"],
+  "secrets": ["secret1", "secret2"],
+  "moral_code": "Ethical framework",
+  "worldview": "Life philosophy",
+  "philosophy": "Core beliefs",
+
+  // ===== ABILITIES =====
+  "skills": ["skill1", "skill2", "skill3"],
+  "talents": ["talent1", "talent2"],
+  "powers": ["power1", "power2"],
+  "weaknesses": ["weakness1", "weakness2"],
+  "strengths": ["strength1", "strength2"],
+  "combat_skills": ["combat1", "combat2"],
+  "magical_abilities": ["magic1", "magic2"],
+  "languages": ["language1", "language2"],
+  "hobbies": ["hobby1", "hobby2"],
+
+  // ===== BACKGROUND =====
+  "backstory": "Life history",
+  "childhood": "Early life",
+  "formative_events": ["event1", "event2"],
+  "trauma": "Traumatic experiences",
+  "achievements": ["achievement1", "achievement2"],
+  "failures": ["failure1", "failure2"],
+  "education_background": "Formal education",
+  "work_history": "Career history",
+  "military_service": "Military experience",
+  "criminal_record": "Legal issues",
+
+  // ===== RELATIONSHIPS =====
+  "family": ["family1", "family2"],
+  "friends": ["friend1", "friend2"],
+  "enemies": ["enemy1", "enemy2"],
+  "allies": ["ally1", "ally2"],
+  "mentors": ["mentor1", "mentor2"],
+  "romantic_interests": ["romance1", "romance2"],
+  "relationship_status": "Current relationship",
+  "social_connections": ["connection1", "connection2"],
+  "children": ["child1", "child2"],
+  "pets": ["pet1", "pet2"],
+
+  // ===== CULTURAL =====
+  "culture": "Cultural background",
+  "religion": "Religious beliefs",
+  "traditions": ["tradition1", "tradition2"],
+  "values": ["value1", "value2"],
+  "customs": ["custom1", "custom2"],
+  "social_class": "Social standing",
+  "political_views": "Political beliefs",
+  "economic_status": "Financial situation",
+
+  // ===== STORY ROLE =====
+  "role": "Protagonist/Antagonist/Supporting Character/Side Character/Background Character",
+  "character_arc": "Character development",
+  "narrative_function": "Story purpose",
+  "story_importance": "Critical/Important/Moderate/Minor",
+  "first_appearance": "First story appearance",
+  "last_appearance": "Final appearance",
+  "character_growth": "How they change",
+  "internal_conflict": "Inner struggles",
+  "external_conflict": "External obstacles",
+
+  // ===== META =====
+  "inspiration": "Creative inspiration",
+  "creation_notes": "Development notes",
+  "character_concept": "Core concept",
+  "design_notes": "Visual design",
+  "voice_notes": "Voice characteristics",
+  "themes": ["theme1", "theme2"],
+  "symbolism": "Symbolic meaning",
+  "author_notes": "Additional notes"
 }
 
-Make the character compelling, three-dimensional, and suitable for storytelling. Ensure all fields are filled with relevant, creative content.`;
+🚨 CRITICAL: Generate specific, compelling content for ALL 86 fields. No empty fields or generic placeholders. Make the character feel real and narratively useful.`;
 
     const result = await model.generateContent({
       contents: [
