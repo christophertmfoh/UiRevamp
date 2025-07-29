@@ -12,7 +12,6 @@ import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
-import { CharacterCreationWizard } from './CharacterCreationWizard';
 import { CharacterCreationWizardV3 } from './CharacterCreationWizardV3';
 import { CharacterTemplatesV2 } from './CharacterTemplatesV2';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
@@ -44,7 +43,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
-  const [isCreationLaunchOpen, setIsCreationLaunchOpen] = useState(false);
+  // Removed isCreationLaunchOpen - using V3 wizard for all creation
   const [isDocumentUploadOpen, setIsDocumentUploadOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
   const [selectedCharacterIds, setSelectedCharacterIds] = useState<Set<string>>(new Set());
@@ -366,7 +365,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   };
 
   const handleCreateNew = () => {
-    setIsCreationLaunchOpen(false);
+            // Removed - using V3 wizard
     setIsCreating(true);
     setIsGuidedCreation(true);
     setSelectedCharacter(null);
@@ -1020,12 +1019,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         </div>
       )}
 
-      {/* ONLY THE NEW CHARACTER CREATION WIZARD - ALL OLD MODALS REMOVED */}
-      <CharacterCreationWizard
-        isOpen={isCreationLaunchOpen}
-        onClose={() => setIsCreationLaunchOpen(false)}
-        projectId={projectId}
-      />
+      {/* REMOVED OLD CHARACTER CREATION WIZARD - Using V3 for all creation */}
 
       {/* Portrait Modal - Keep this for editing existing characters */}
       {portraitCharacter && (

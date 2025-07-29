@@ -33,10 +33,10 @@ const CREATION_METHODS = [
   {
     id: 'guided',
     title: 'Guided Creation',
-    subtitle: 'Complete creative control',
-    description: 'Build your character step-by-step with guided fields for maximum customization',
+    subtitle: 'Step-by-step builder',
+    description: 'Build your character with our comprehensive guided form',
     icon: Plus,
-    features: ['164+ character fields', 'Progressive disclosure', 'Complete creative control', 'Perfect for unique concepts'],
+    features: ['164+ fields', 'Save progress', 'Full control', 'Detailed'],
     complexity: 'Detailed',
     timeEstimate: '15-20 mins',
     recommended: false,
@@ -46,10 +46,10 @@ const CREATION_METHODS = [
   {
     id: 'templates',
     title: 'AI-Enhanced Templates',
-    subtitle: 'Professional archetypes',
-    description: 'Choose from 20+ professional character archetypes with AI expansion capabilities',
+    subtitle: 'Recommended',
+    description: 'Start with a template and let AI expand it into a full character',
     icon: FileText,
-    features: ['20+ comprehensive archetypes', 'AI-powered expansion', 'Pre-filled character data', 'Industry-standard templates'],
+    features: ['20+ templates', 'AI expansion', 'Auto portrait', 'Quick setup'],
     complexity: 'Moderate',
     timeEstimate: '5-10 mins',
     recommended: true,
@@ -195,12 +195,12 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
           const Icon = method.icon;
           
           return (
-            <Card
+                        <Card 
               key={method.id}
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-lg bg-gradient-to-br ${method.gradient} ${method.border} hover:scale-[1.02]`}
+              className={`group cursor-pointer transition-all duration-200 hover:shadow-md bg-gradient-to-br ${method.gradient} ${method.border} border`}
               onClick={() => handleMethodSelect(method.id)}
             >
-              <CardContent className="p-6">
+              <CardContent className="p-5">
                 <div className="space-y-4">
                   {/* Header */}
                   <div className="flex items-center gap-3">
@@ -223,13 +223,12 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
                     {method.description}
                   </p>
 
-                  {/* Features */}
-                  <div className="grid grid-cols-2 gap-1">
-                    {method.features.map((feature, index) => (
-                      <div key={index} className="text-xs text-muted-foreground flex items-center gap-1">
-                        <div className="w-1 h-1 bg-accent rounded-full" />
-                        {feature}
-                      </div>
+                  {/* Features - Simplified to top 2 */}
+                  <div className="flex flex-wrap gap-2">
+                    {method.features.slice(0, 2).map((feature, index) => (
+                      <span key={index} className="text-xs text-muted-foreground">
+                        • {feature}
+                      </span>
                     ))}
                   </div>
 
@@ -352,7 +351,7 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden p-0">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden">
         <ScrollArea className="max-h-[90vh]">
           <div className="p-6">
             {/* Back Button - Show on all non-selection steps */}
