@@ -1,0 +1,71 @@
+### **PROMPT 4.2: Project Management Polish**
+```
+Enhance project management interface with professional UX patterns.
+
+REQUIREMENTS:
+- Polish existing client/src/components/projects/ProjectsPage.tsx
+- Add project templates (Novel, Screenplay, Comic, D&D Campaign, Poetry)
+- Implement project search and filtering
+- Add project collaboration settings
+- Create project analytics dashboard
+- Add export/import functionality for projects
+- Professional project cards with progress indicators
+- Use existing 5 project types and database schema
+
+PRESERVE: All existing project functionality and data structure
+```
+
+### **PROMPT 4.3: World Bible Enhancement**
+```
+Polish the world building system with document-style interface.
+
+REQUIREMENTS:
+- Enhance existing client/src/components/world/WorldBible.tsx
+- Add hierarchical organization (Locations > Characters > Events)
+- Implement relationship mapping between elements
+- Add timeline view for world events
+- Create world statistics and insights
+- Add collaborative world building features
+- Professional document-style editing interface
+- Use existing world bible data structure
+
+PRESERVE: All existing world building functionality and data
+```
+
+---
+
+## **PHASE 5: FINAL POLISH (Week 8)**
+
+### **PROMPT 5.1: Visual Consistency Audit**
+```
+Perform comprehensive visual design audit and consistency improvements.
+
+REQUIREMENTS:
+- Audit all 107 components for design consistency
+- Standardize spacing, typography, color usage across app
+- Ensure all components use design system tokens
+- Add consistent loading states and empty states
+- Standardize icon usage (Lucide React only)
+- Implement consistent hover and focus states
+- Add smooth transitions and micro-interactions
+- Create style guide documentation
+
+PRESERVE: All functionality, improve visual consistency only
+```
+
+### **PROMPT 5.2: Production Deployment Preparation**
+```
+Prepare application for professional production deployment.
+
+REQUIREMENTS:
+- Optimize build configuration for production
+- Add environment variable validation
+- Implement proper error tracking (Sentry integration)
+- Add health check endpoints for monitoring
+- Create deployment documentation
+- Add security headers and CORS configuration
+- Implement proper caching strategies
+- Add database backup and recovery procedures
+
+PRESERVE: All development functionality, add production readiness
+```
