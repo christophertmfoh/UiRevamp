@@ -43,61 +43,61 @@ export function CharacterUnifiedViewPremium({
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
 
+  // Define all character fields organized by category (matching the wizard 1:1)
+  const identityFields = [
+    'name', 'nicknames', 'pronouns', 'age', 'species', 'gender', 
+    'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
+  ];
+  
+  const appearanceFields = [
+    'height', 'weight', 'bodyType', 'hairColor', 'hairStyle', 'hairTexture',
+    'eyeColor', 'eyeShape', 'skinTone', 'facialFeatures', 'physicalFeatures',
+    'scarsMarkings', 'clothing', 'accessories', 'generalAppearance'
+  ];
+  
+  const personalityFields = [
+    'personalityTraits', 'positiveTraits', 'negativeTraits', 'quirks',
+    'mannerisms', 'temperament', 'emotionalState', 'sense_of_humor', 'speech_patterns'
+  ];
+  
+  const psychologyFields = [
+    'intelligence', 'education', 'mentalHealth', 'phobias', 'motivations',
+    'goals', 'desires', 'regrets', 'secrets', 'moral_code', 'worldview', 'philosophy'
+  ];
+  
+  const abilitiesFields = [
+    'skills', 'talents', 'powers', 'weaknesses', 'strengths',
+    'combat_skills', 'magical_abilities', 'languages', 'hobbies'
+  ];
+  
+  const backgroundFields = [
+    'backstory', 'childhood', 'formative_events', 'trauma', 'achievements',
+    'failures', 'education_background', 'work_history', 'military_service', 'criminal_record'
+  ];
+  
+  const relationshipsFields = [
+    'family', 'friends', 'enemies', 'allies', 'mentors', 'romantic_interests',
+    'relationship_status', 'social_connections', 'children', 'pets'
+  ];
+  
+  const culturalFields = [
+    'culture', 'religion', 'traditions', 'values', 'customs',
+    'social_class', 'political_views', 'economic_status'
+  ];
+  
+  const storyRoleFields = [
+    'role', 'character_arc', 'narrative_function', 'story_importance',
+    'first_appearance', 'last_appearance', 'character_growth', 'internal_conflict', 'external_conflict'
+  ];
+  
+  const metaFields = [
+    'inspiration', 'creation_notes', 'character_concept', 'design_notes',
+    'voice_notes', 'themes', 'symbolism', 'author_notes'
+  ];
+
   // Calculate character completeness based on all editor fields
   const calculateCompleteness = (char: Character) => {
     if (!char) return 0;
-    
-    // Define all character fields organized by category (matching the wizard 1:1)
-    const identityFields = [
-      'name', 'nicknames', 'pronouns', 'age', 'species', 'gender', 
-      'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
-    ];
-    
-    const appearanceFields = [
-      'height', 'weight', 'bodyType', 'hairColor', 'hairStyle', 'hairTexture',
-      'eyeColor', 'eyeShape', 'skinTone', 'facialFeatures', 'physicalFeatures',
-      'scarsMarkings', 'clothing', 'accessories', 'generalAppearance'
-    ];
-    
-    const personalityFields = [
-      'personalityTraits', 'positiveTraits', 'negativeTraits', 'quirks',
-      'mannerisms', 'temperament', 'emotionalState', 'sense_of_humor', 'speech_patterns'
-    ];
-    
-    const psychologyFields = [
-      'intelligence', 'education', 'mentalHealth', 'phobias', 'motivations',
-      'goals', 'desires', 'regrets', 'secrets', 'moral_code', 'worldview', 'philosophy'
-    ];
-    
-    const abilitiesFields = [
-      'skills', 'talents', 'powers', 'weaknesses', 'strengths',
-      'combat_skills', 'magical_abilities', 'languages', 'hobbies'
-    ];
-    
-    const backgroundFields = [
-      'backstory', 'childhood', 'formative_events', 'trauma', 'achievements',
-      'failures', 'education_background', 'work_history', 'military_service', 'criminal_record'
-    ];
-    
-    const relationshipsFields = [
-      'family', 'friends', 'enemies', 'allies', 'mentors', 'romantic_interests',
-      'relationship_status', 'social_connections', 'children', 'pets'
-    ];
-    
-    const culturalFields = [
-      'culture', 'religion', 'traditions', 'values', 'customs',
-      'social_class', 'political_views', 'economic_status'
-    ];
-    
-    const storyRoleFields = [
-      'role', 'character_arc', 'narrative_function', 'story_importance',
-      'first_appearance', 'last_appearance', 'character_growth', 'internal_conflict', 'external_conflict'
-    ];
-    
-    const metaFields = [
-      'inspiration', 'creation_notes', 'character_concept', 'design_notes',
-      'voice_notes', 'themes', 'symbolism', 'author_notes'
-    ];
     
 
     
