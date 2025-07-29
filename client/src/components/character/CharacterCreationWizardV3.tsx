@@ -268,7 +268,11 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
             </div>
             <CharacterGuidedCreation
               isOpen={true}
-              onClose={handleCharacterComplete}
+              onClose={() => {
+                // For guided creation, just close without a character
+                // The character is saved through the guided creation process
+                handleClose();
+              }}
               projectId={projectId}
               onBack={handleBack}
             />

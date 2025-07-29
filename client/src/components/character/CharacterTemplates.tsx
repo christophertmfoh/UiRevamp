@@ -499,10 +499,12 @@ const CHARACTER_TEMPLATES: CharacterTemplate[] = [
 interface CharacterTemplatesProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectTemplate: (template: CharacterTemplate) => void;
+  projectId: string;
+  onBack?: () => void;
+  onSelectTemplate: (character: Character) => void;
 }
 
-export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: CharacterTemplatesProps) {
+export function CharacterTemplates({ isOpen, onClose, projectId, onBack, onSelectTemplate }: CharacterTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<CharacterTemplate | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -524,8 +526,9 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: Charac
     },
     onSuccess: (character) => {
       setIsGenerating(false);
-      onSelectTemplate?.(character as Character);
-      onClose();
+      if (character && onSelectTemplate) {
+        onSelectTemplate(character as Character);
+      }
     },
     onError: (error) => {
       console.error('Template generation failed:', error);
@@ -753,7 +756,5 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: Charac
         )}
       </DialogContent>
     </Dialog>
-
-
   );
 }
