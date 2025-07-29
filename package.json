@@ -34,7 +34,8 @@
     "replit:health": "curl -s http://localhost:5000/api/health | jq .",
     "replit:backup": "node -e \"console.log('Use the backup feature in the performance dashboard!')\"",
     "replit:clean": "rm -rf dist .vite node_modules/.cache && echo 'Cleaned build artifacts'",
-    "replit:optimize": "npm run replit:clean && npm install && npm run dev:fast"
+    "replit:optimize": "npm run replit:clean && npm install && npm run dev:fast",
+    "diagnose": "node scripts/diagnose-502.js"
   },
   "dependencies": {
     "@google/genai": "^1.11.0",

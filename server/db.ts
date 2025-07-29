@@ -14,9 +14,9 @@ if (!process.env.DATABASE_URL) {
 // A-grade performance: Optimized connection pool with proper timeouts
 export const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,
-  max: 10, // Reasonable pool size for development
-  idleTimeoutMillis: 30000, // 30 second idle timeout
-  connectionTimeoutMillis: 5000, // 5 second connection timeout
+  max: 20, // Increased pool size for better performance
+  idleTimeoutMillis: 60000, // 60 second idle timeout (increased)
+  connectionTimeoutMillis: 10000, // 10 second connection timeout (increased)
   // Removed query_timeout - causing issues with Neon
 });
 
