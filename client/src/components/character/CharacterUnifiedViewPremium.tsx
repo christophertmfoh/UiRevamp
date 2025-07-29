@@ -1400,9 +1400,24 @@ export function CharacterUnifiedViewPremium({
                             className="bg-background border-accent/20 focus:border-accent"
                           />
                         )
+                      ) : (formData as any)[fieldKey] ? (
+                        <div className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                          {(formData as any)[fieldKey]}
+                        </div>
                       ) : (
-                        <div className="text-muted-foreground">
-                          {(formData as any)[fieldKey] || <span className="italic">No {field.label.toLowerCase()} provided</span>}
+                        <div className="text-center py-4">
+                          <p className="text-sm text-muted-foreground italic">
+                            No {field.label.toLowerCase()} added yet
+                          </p>
+                          <Button 
+                            onClick={() => setIsEditing(true)}
+                            variant="ghost" 
+                            size="sm" 
+                            className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
+                          >
+                            <Plus className="h-3 w-3 mr-1" />
+                            Add {field.label}
+                          </Button>
                         </div>
                       )}
                     </CardContent>
