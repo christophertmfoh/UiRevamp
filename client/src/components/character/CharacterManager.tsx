@@ -27,15 +27,15 @@ type SortOption = 'alphabetical' | 'recently-added' | 'recently-edited' | 'by-co
 type ViewMode = 'grid' | 'list';
 
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
+  const [selectedCharacterIds, setSelectedCharacterIds] = useState<Set<string>>(new Set());
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [sortBy, setSortBy] = useState<SortOption>('recently-added');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<SortOption>('alphabetical');
-  const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    const saved = localStorage.getItem('characterViewMode');
-    return (saved as ViewMode) || 'grid';
-  });
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [isV2WizardOpen, setIsV2WizardOpen] = useState(false);
   // REMOVED: Dead state - isV2TemplatesOpen (CharacterTemplatesV2 never opened)
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
@@ -46,8 +46,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   // Removed isCreationLaunchOpen - using V3 wizard for all creation
   const [isDocumentUploadOpen, setIsDocumentUploadOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
-  const [selectedCharacterIds, setSelectedCharacterIds] = useState<Set<string>>(new Set());
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: characters = [], isLoading } = useQuery<Character[]>({
@@ -331,6 +329,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(character);
     setIsCreating(false);
     setIsGuidedCreation(false);
+    setIsEditMode(true);
   };
 
   const handleDelete = (character: Character) => {
@@ -489,6 +488,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
     setIsCreating(false);
     setIsGuidedCreation(false);
+    setIsEditMode(false);
   };
 
   const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
@@ -525,6 +525,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         character={selectedCharacter}
         isCreating={isCreating}
         isGuidedCreation={isGuidedCreation}
+        isEditMode={isEditMode}
         onBack={handleBackToList}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -590,11 +591,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </>
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--accent)]/10 to-muted/30 group-hover/image:bg-gradient-to-br group-hover/image:from-[var(--accent)]/20 group-hover/image:to-muted/40 transition-all duration-200">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-3 bg-[var(--accent)]/20 rounded-full flex items-center justify-center group-hover/image:bg-[var(--accent)]/30 transition-all duration-200">
-                  <Camera className="h-10 w-10 text-[var(--accent)]/60 group-hover/image:text-[var(--accent)]/80 group-hover/image:scale-110 transition-all duration-200" />
-                </div>
-                <p className="text-sm text-muted-foreground font-medium group-hover/image:text-muted-foreground/80">Add Portrait</p>
+              <div className="w-20 h-20 bg-[var(--accent)]/20 rounded-full flex items-center justify-center group-hover/image:bg-[var(--accent)]/30 transition-all duration-200">
+                <Camera className="h-10 w-10 text-[var(--accent)]/60 group-hover/image:text-[var(--accent)]/80 group-hover/image:scale-110 transition-all duration-200" />
               </div>
             </div>
           )}

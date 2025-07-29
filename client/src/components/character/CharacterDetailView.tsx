@@ -9,6 +9,7 @@ interface CharacterDetailViewProps {
   character: Character | null;
   isCreating?: boolean;
   isGuidedCreation?: boolean;
+  isEditMode?: boolean;
   onBack: () => void;
   onEdit: (character: Character) => void;
   onDelete: (character: Character) => void;
@@ -19,11 +20,12 @@ export function CharacterDetailView({
   character, 
   isCreating = false,
   isGuidedCreation = false,
+  isEditMode = false,
   onBack, 
   onEdit, 
   onDelete 
 }: CharacterDetailViewProps) {
-  const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation);
+  const [isEditing, setIsEditing] = useState(isCreating && !isGuidedCreation || isEditMode);
   
   // If we're doing guided creation, show the guided flow
   if (isGuidedCreation || (isCreating && !character)) {
