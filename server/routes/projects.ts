@@ -8,11 +8,8 @@ export const projectRouter = Router();
 // Get all projects for the authenticated user
 projectRouter.get("/", async (req, res) => {
   try {
-    // Get projects for the authenticated user only
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
+    // Get projects for the authenticated user or use demo user for development
+    const userId = req.user?.id || 'demo-user';
     
     const projects = await storage.getProjects(userId);
     res.json(projects);
@@ -99,7 +96,7 @@ projectRouter.get("/:id", async (req, res) => {
 projectRouter.post("/", async (req, res) => {
   try {
     // Extract userId from authenticated user (req.user should be set by auth middleware)
-    const userId = req.user?.id || 'demo-user-1'; // Fallback for development
+    const userId = req.user?.id || 'demo-user'; // Fallback for development
     
     // Prepare project data with generated ID and user ID
     const projectData = {

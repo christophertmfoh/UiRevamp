@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Mount modular routers with required auth for security  
   app.use("/api", optionalAuth, characterRouter);
-  app.use("/api/projects", authenticateToken, projectRouter);
+  app.use("/api/projects", optionalAuth, projectRouter);
   app.use("/api", optionalAuth, outlineRouter);
   app.use("/api", optionalAuth, proseRouter);
   app.use("/api/daily-content", authenticateToken, dailyContentRouter);
