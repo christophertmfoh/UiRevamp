@@ -32,7 +32,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
         <div className="flex items-start gap-6">
           {/* Character Avatar */}
           <div 
-            className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 relative group/avatar cursor-pointer hover:shadow-lg transition-all duration-200"
+            className="w-20 h-20 rounded-lg bg-gradient-to-br from-[hsl(180_70%_50%)]/10 to-[hsl(180_70%_50%)]/20 dark:from-[hsl(180_70%_50%)]/10 dark:to-[hsl(180_70%_50%)]/20 flex items-center justify-center flex-shrink-0 relative group/avatar cursor-pointer hover:shadow-lg transition-all duration-200 border border-[hsl(180_70%_50%)]/20"
             onClick={(e) => {
               e.stopPropagation();
               setIsPortraitModalOpen(true);
@@ -45,7 +45,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                 className="w-full h-full object-cover rounded-lg group-hover/avatar:brightness-75 transition-all duration-200"
               />
             ) : (
-              <User className="h-10 w-10 text-amber-600 dark:text-amber-400 group-hover/avatar:scale-110 transition-transform duration-200" />
+              <User className="h-10 w-10 text-[hsl(180_70%_50%)] group-hover/avatar:scale-110 transition-transform duration-200" />
             )}
             {/* Camera overlay on hover */}
             <div className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200 flex items-center justify-center">
@@ -57,7 +57,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h3 className="font-semibold text-lg truncate group-hover:text-accent transition-colors">
+                <h3 className="font-semibold text-lg truncate group-hover:text-[hsl(180_70%_50%)] transition-colors">
                   {character.name}
                   {character.title && (
                     <span className="text-muted-foreground font-normal ml-1">
@@ -132,13 +132,13 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                       {character.personalityTraits.slice(0, 4).map((trait, index) => (
                         <span 
                           key={index}
-                          className="inline-block text-xs px-2 py-1 bg-muted rounded-full"
+                          className="inline-block text-xs px-2 py-1 bg-[hsl(180_70%_50%)]/10 text-[hsl(180_70%_50%)] rounded-full border border-[hsl(180_70%_50%)]/20"
                         >
                           {trait}
                         </span>
                       ))}
                       {character.personalityTraits.length > 4 && (
-                        <span className="inline-block text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                        <span className="inline-block text-xs px-2 py-1 bg-[hsl(180_70%_50%)]/10 text-[hsl(180_70%_50%)]/70 rounded-full border border-[hsl(180_70%_50%)]/20">
                           +{character.personalityTraits.length - 4} more
                         </span>
                       )}

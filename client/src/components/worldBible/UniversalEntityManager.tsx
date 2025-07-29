@@ -567,9 +567,9 @@ export function UniversalEntityManager({
               className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border overflow-hidden relative ${
                 isSelectionMode 
                   ? selectedEntityIds.has(entity.id)
-                    ? 'border-accent bg-accent/5 shadow-lg' 
-                    : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
-                  : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
+                    ? 'border-[hsl(180_70%_50%)] bg-[hsl(180_70%_50%)]/5 shadow-lg' 
+                    : 'border-border/30 hover:border-[hsl(180_70%_50%)]/50 bg-gradient-to-br from-background via-background/90 to-[hsl(180_70%_50%)]/5'
+                  : 'border-border/30 hover:border-[hsl(180_70%_50%)]/50 bg-gradient-to-br from-background via-background/90 to-[hsl(180_70%_50%)]/5'
               }`}
               onClick={() => {
                 if (isSelectionMode) {
@@ -581,15 +581,15 @@ export function UniversalEntityManager({
             >
               <CardContent className="p-0 relative">
                 {/* Subtle Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[hsl(180_70%_50%)]/3 via-transparent to-[hsl(180_70%_50%)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 
                 {/* Selection Checkbox */}
                 {isSelectionMode && (
                   <div className="absolute top-3 left-3 z-10">
                     <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
                       selectedEntityIds.has(entity.id)
-                        ? 'bg-accent border-accent text-accent-foreground'
-                        : 'bg-background/80 border-border hover:border-accent'
+                        ? 'bg-[hsl(180_70%_50%)] border-[hsl(180_70%_50%)] text-[hsl(220_15%_8%)]'
+                        : 'bg-background/80 border-border hover:border-[hsl(180_70%_50%)]'
                     }`}>
                       {selectedEntityIds.has(entity.id) && (
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -601,7 +601,7 @@ export function UniversalEntityManager({
                 )}
                 
                 {/* Entity Image Header */}
-                <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
+                <div className="relative h-64 bg-gradient-to-br from-[hsl(180_70%_50%)]/5 via-muted/20 to-[hsl(180_70%_50%)]/10 overflow-hidden">
                   {entity.imageUrl ? (
                     <>
                       <img 
@@ -612,10 +612,10 @@ export function UniversalEntityManager({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                     </>
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[hsl(180_70%_50%)]/10 to-muted/30">
                       <div className="text-center">
-                        <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
-                          <config.icon className="h-10 w-10 text-accent/60" />
+                        <div className="w-20 h-20 mx-auto mb-3 bg-[hsl(180_70%_50%)]/20 rounded-full flex items-center justify-center">
+                          <config.icon className="h-10 w-10 text-[hsl(180_70%_50%)]/60" />
                         </div>
                         <p className="text-sm text-muted-foreground font-medium">Add Image</p>
                       </div>
@@ -627,10 +627,10 @@ export function UniversalEntityManager({
                 <div className="p-6 space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-start justify-between">
-                      <h3 className="font-bold text-lg leading-tight group-hover:text-accent transition-colors duration-200 line-clamp-2">
+                      <h3 className="font-bold text-lg leading-tight group-hover:text-[hsl(180_70%_50%)] transition-colors duration-200 line-clamp-2">
                         {entity.name || 'Unnamed ' + config.singular}
                       </h3>
-                      <Badge className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 text-accent-foreground font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
+                      <Badge className="bg-[hsl(180_70%_50%)] text-[hsl(220_15%_8%)] font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
                         {config.singular}
                       </Badge>
                     </div>
