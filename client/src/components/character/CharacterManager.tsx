@@ -29,8 +29,19 @@ type ViewMode = 'grid' | 'list';
 export function CharacterManager({ projectId, selectedCharacterId, onClearSelection }: CharacterManagerProps) {
   const [selectedCharacterIds, setSelectedCharacterIds] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
-  const [sortBy, setSortBy] = useState<SortOption>('recently-added');
+  
+  // Persistent view mode with localStorage
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const saved = localStorage.getItem('characterViewMode');
+    return (saved as ViewMode) || 'grid';
+  });
+  
+  // Persistent sort option with localStorage  
+  const [sortBy, setSortBy] = useState<SortOption>(() => {
+    const saved = localStorage.getItem('characterSortBy');
+    return (saved as SortOption) || 'recently-added';
+  });
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -62,6 +73,16 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     queryKey: ['/api/projects', projectId, 'locations'],
     enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
   });
+
+  // Persist view mode changes to localStorage
+  useEffect(() => {
+    localStorage.setItem('characterViewMode', viewMode);
+  }, [viewMode]);
+
+  // Persist sort option changes to localStorage
+  useEffect(() => {
+    localStorage.setItem('characterSortBy', sortBy);
+  }, [sortBy]);
 
   // Auto-select character if selectedCharacterId is provided
   useEffect(() => {
@@ -109,9 +130,20 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     },
     onSuccess: () => {
       console.log('🔄 Refreshing character list after bulk delete');
+      console.log('🔧 Project ID for invalidation:', projectId);
+      console.log('🔧 Query key being invalidated:', ['/api/projects', projectId, 'characters']);
       
-      // Use the correct query key that matches the useQuery
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      // Force query invalidation and refetch
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', projectId, 'characters'],
+        exact: true
+      });
+      
+      // Also force refetch as backup
+      queryClient.refetchQueries({ 
+        queryKey: ['/api/projects', projectId, 'characters'],
+        exact: true
+      });
       
       // Clear selection and exit selection mode
       setSelectedCharacterIds(new Set());

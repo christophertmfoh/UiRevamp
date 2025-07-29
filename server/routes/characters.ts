@@ -123,10 +123,19 @@ characterRouter.put("/characters/:id", async (req, res) => {
 characterRouter.delete("/characters/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await storage.deleteCharacter(id);
-    res.status(204).send();
+    console.log(`🗑️ Server: Attempting to delete character with ID: ${id}`);
+    
+    const success = await storage.deleteCharacter(id);
+    
+    if (success) {
+      console.log(`✅ Server: Successfully deleted character ${id}`);
+      res.status(204).send();
+    } else {
+      console.log(`❌ Server: Character ${id} not found`);
+      res.status(404).json({ error: "Character not found" });
+    }
   } catch (error) {
-    console.error("Error deleting character:", error);
+    console.error("❌ Server: Error deleting character:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
