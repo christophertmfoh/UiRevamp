@@ -63,7 +63,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-importance', label: 'By Importance' },
       { value: 'by-population', label: 'By Population' }
     ],
-    colorTheme: 'emerald',
+
     generationPrompts: {
       basic: 'Generate a basic location with essential details',
       detailed: 'Create a comprehensive location with rich history and culture',
@@ -87,7 +87,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-magnitude', label: 'By Magnitude' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'blue',
+
     generationPrompts: {
       basic: 'Generate a historical event with key details',
       detailed: 'Create a comprehensive historical event with causes and consequences',
@@ -111,7 +111,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'recently-added', label: 'Recently Added' },
       { value: 'by-influence', label: 'By Influence' }
     ],
-    colorTheme: 'red',
+
     generationPrompts: {
       basic: 'Generate a faction with clear purpose and structure',
       detailed: 'Create a complex organization with detailed hierarchy and goals',
@@ -135,7 +135,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-value', label: 'By Value' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'amber',
+
     generationPrompts: {
       basic: 'Generate a useful item with clear properties',
       detailed: 'Create a legendary artifact with rich history and powers',
@@ -158,7 +158,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-complexity', label: 'By Complexity' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'purple',
+
     generationPrompts: {
       basic: 'Generate a magic system with clear rules and limitations',
       detailed: 'Create a comprehensive magical framework with schools and practitioners',
@@ -182,7 +182,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-intelligence', label: 'By Intelligence' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'green',
+
     generationPrompts: {
       basic: 'Generate a creature with clear characteristics and behavior',
       detailed: 'Create a complex being with detailed ecology and abilities',
@@ -205,7 +205,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-vitality', label: 'By Vitality' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'cyan',
+
     generationPrompts: {
       basic: 'Generate a language with essential linguistic features',
       detailed: 'Create a comprehensive language with rich cultural context',
@@ -228,7 +228,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-influence', label: 'By Influence' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'orange',
+
     generationPrompts: {
       basic: 'Generate a culture with distinct values and practices',
       detailed: 'Create a comprehensive civilization with detailed social structures',
@@ -251,7 +251,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-importance', label: 'By Importance' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'indigo',
+
     generationPrompts: {
       basic: 'Generate a prophecy with clear meaning and implications',
       detailed: 'Create a complex prophecy with multiple interpretations and layers',
@@ -274,7 +274,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
       { value: 'by-complexity', label: 'By Complexity' },
       { value: 'recently-added', label: 'Recently Added' }
     ],
-    colorTheme: 'rose',
+
     generationPrompts: {
       basic: 'Generate a theme with clear narrative purpose',
       detailed: 'Create a complex thematic element woven throughout your story',
@@ -320,22 +320,7 @@ export function UniversalEntityManager({
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const queryClient = useQueryClient();
 
-  // Theme-specific button colors based on entity type
-  const getThemeColors = (theme: string) => {
-    const themes = {
-      emerald: 'bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-500 hover:from-emerald-600 hover:via-emerald-500 hover:to-emerald-600 text-white',
-      blue: 'bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 hover:from-blue-600 hover:via-blue-500 hover:to-blue-600 text-white',
-      red: 'bg-gradient-to-r from-red-500 via-red-400 to-red-500 hover:from-red-600 hover:via-red-500 hover:to-red-600 text-white',
-      amber: 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-white',
-      purple: 'bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-600 text-white',
-      green: 'bg-gradient-to-r from-green-500 via-green-400 to-green-500 hover:from-green-600 hover:via-green-500 hover:to-green-600 text-white',
-      cyan: 'bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 hover:from-cyan-600 hover:via-cyan-500 hover:to-cyan-600 text-white',
-      orange: 'bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white',
-      indigo: 'bg-gradient-to-r from-indigo-500 via-indigo-400 to-indigo-500 hover:from-indigo-600 hover:via-indigo-500 hover:to-indigo-600 text-white',
-      rose: 'bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500 hover:from-rose-600 hover:via-rose-500 hover:to-rose-600 text-white',
-    };
-    return themes[theme as keyof typeof themes] || themes.emerald;
-  };
+
 
   // Data fetching - matching CharacterManager pattern exactly
   const { data: entities = [], isLoading } = useQuery<BaseWorldEntity[]>({
@@ -427,7 +412,7 @@ export function UniversalEntityManager({
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className={`${getThemeColors(config.colorTheme)} shadow-lg hover:shadow-xl transition-all duration-300 group`}
+              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center">
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
@@ -558,7 +543,7 @@ export function UniversalEntityManager({
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className={`${getThemeColors(config.colorTheme)} shadow-lg hover:shadow-xl transition-all duration-300 group`}
+                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="flex items-center">
                   <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
