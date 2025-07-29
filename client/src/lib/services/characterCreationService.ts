@@ -26,254 +26,157 @@ interface TemplateData {
 export class CharacterCreationService {
   
   /**
-   * Method 1: Custom AI Generation from Free-form Prompt
-   * Complete end-to-end flow: Generate → Portrait → Full Character View
+   * Generate character from prompt using AI (TEST MODE)
+   * 10-second simulation with proper step progression for both AI modules
    */
   static async generateFromPrompt(
-    projectId: string,
+    projectId: string, 
     prompt: string,
     onProgress?: (step: string, progress: number) => void
   ): Promise<Character> {
-    console.log('🎭 Starting AI character generation from prompt');
-    console.log('📝 Project ID:', projectId);
-    console.log('📝 Prompt length:', prompt.length);
-    
     try {
-      // Step 1: Generate character data
-      onProgress?.('Analyzing your prompt...', 10);
+      console.log('🧪 TEST MODE: Starting 10-second character generation simulation');
       
-      const requestBody = {
-        customPrompt: prompt,
-        characterType: 'custom',
-        role: 'auto-detect',
-        personality: 'auto-generate',
-        archetype: 'auto-detect'
+      // TEST MODE: 10-second simulation with proper step progression
+      const steps = [
+        { step: 'Analyzing prompt and understanding character vision...', progress: 10, duration: 2000 },
+        { step: 'Generating personality, background, and traits...', progress: 40, duration: 3000 },
+        { step: 'Creating visual representation and portrait...', progress: 70, duration: 3000 },
+        { step: 'Finalizing character details and preparing sheet...', progress: 100, duration: 2000 }
+      ];
+
+      for (const { step, progress, duration } of steps) {
+        onProgress?.(step, progress);
+        await new Promise(resolve => setTimeout(resolve, duration));
+      }
+
+      // Create comprehensive test character with all 86 fields populated
+      const testCharacter: Character = {
+        id: `test-char-${Date.now()}`,
+        projectId,
+        name: 'Aria Shadowweaver',
+        title: 'The Mystic Scholar',
+        
+        // Identity (10 fields)
+        species: 'Half-Elf',
+        age: '127 years old',
+        gender: 'Female (she/her)',
+        occupation: 'Arcane Researcher & Guild Librarian',
+        nationality: 'Citizens of the Ethereal Territories',
+        social_class: 'Middle Class Academic',
+        education: 'Master of Arcane Studies, University of Celestial Arts',
+        family_status: 'Adopted daughter of renowned human scholars',
+        religious_beliefs: 'Follower of the Eternal Codex, believes knowledge is divine',
+        political_affiliation: 'Independent, advocates for magical education reform',
+
+        // Appearance (11 fields)  
+        physical_description: 'Tall and graceful with an otherworldly elegance that hints at her elven heritage',
+        height_weight: '5\'8" (173cm), 135 lbs (61kg) - lithe and athletic build',
+        hair: 'Silver-white hair that shimmers with an ethereal glow, often braided with arcane trinkets',
+        eyes: 'Deep violet eyes that seem to hold ancient wisdom and sparkle with magical energy',
+        skin: 'Pale porcelain skin with a subtle luminescent quality, unmarked by age',
+        distinguishing_features: 'Intricate magical tattoos on her forearms that glow when casting spells',
+        clothing_style: 'Elegant robes in deep purples and silvers, practical yet sophisticated',
+        accessories: 'Crystal pendant containing a captured star, leather-bound grimoire, reading spectacles',
+        posture_movement: 'Moves with fluid grace, hands often gesturing as if weaving invisible magic',
+        voice_speech: 'Melodic voice with slight accent, speaks thoughtfully and precisely',
+        scars_tattoos: 'Runic tattoos on forearms, small scar on left hand from a magical experiment gone wrong',
+
+        // Personality (13 fields)
+        personality_overview: 'Intellectually curious and deeply empathetic, with an insatiable thirst for knowledge',
+        core_traits: 'Wise, Patient, Curious, Compassionate, Determined',
+        values: 'Knowledge, Truth, Justice, Preservation of magical heritage, Education for all',
+        motivations: 'To unlock the mysteries of ancient magic and share knowledge freely',
+        fears: 'Loss of knowledge, magical catastrophes, being unable to help others',
+        quirks: 'Talks to books, collects rare quills, always carries emergency tea supplies',
+        habits: 'Early morning meditation, evening research sessions, weekly visits to orphanages',
+        speech_patterns: 'Uses archaic phrases, often quotes ancient texts, asks probing questions',
+        humor_style: 'Dry wit with scholarly references, enjoys wordplay and magical puns',
+        emotional_range: 'Generally calm and composed, passionate about learning, protective of students',
+        social_tendencies: 'Prefers small groups, excellent teacher, naturally draws people seeking guidance',
+        decision_making: 'Methodical researcher who weighs all options, trusts in knowledge and intuition',
+        stress_response: 'Retreats to library, organizes research notes, practices complex magical theory',
+
+        // Psychology (8 fields)
+        mental_state: 'Mentally sharp and emotionally stable, slight anxiety about magical disasters',
+        intelligence_type: 'Exceptionally high analytical intelligence with strong emotional and magical intelligence',
+        learning_style: 'Visual learner who excels with written materials and hands-on magical practice',
+        memory_type: 'Eidetic memory for magical formulas and texts, excellent recall for faces and conversations',
+        emotional_intelligence: 'High empathy and social awareness, skilled at reading people and situations',
+        psychological_profile: 'INTJ personality with strong intuitive and thinking preferences, natural leader',
+        mental_strengths: 'Pattern recognition, logical analysis, magical theory comprehension, teaching ability',
+        mental_weaknesses: 'Perfectionism, overthinking complex problems, occasional social awkwardness',
+
+        // Abilities (12 fields)
+        magical_abilities: 'Expert in divination, illusion, and enchantment magic with growing necromantic interests',
+        physical_abilities: 'Excellent fine motor control, enhanced reflexes from magical training, surprising stamina',
+        intellectual_abilities: 'Genius-level intellect, photographic memory, multilingual (7 languages)',
+        social_abilities: 'Natural teacher, persuasive speaker, skilled at building academic networks',
+        creative_abilities: 'Talented at magical innovation, skilled calligrapher, creates beautiful illuminated manuscripts',
+        survival_abilities: 'Basic wilderness survival, excellent at finding resources in urban environments',
+        combat_abilities: 'Defensive magic specialist, staff combat training, strategic thinking in conflicts',
+        special_talents: 'Can sense magical auras, speed reading, perfect pitch for magical incantations',
+        skills_expertise: 'Arcane Theory (Master), Research (Expert), Teaching (Expert), Ancient Languages (Advanced)',
+        weaknesses_limitations: 'Physical combat, requires components for complex spells, vulnerable to anti-magic',
+        growth_potential: 'Unlimited magical learning potential, developing leadership abilities',
+        equipment_mastery: 'Masterful with magical implements, extensive knowledge of magical item creation',
+
+        // Background (11 fields)
+        origin_story: 'Found as a baby during a magical storm, raised by loving human scholars who nurtured her gifts',
+        childhood: 'Precocious child who devoured books, showed early magical talent, beloved by academic community',
+        education_history: 'Accelerated through magical academy, youngest graduate in university history',
+        career_path: 'Started as apprentice librarian, rose to head researcher, now training next generation',
+        major_events: 'Discovery of ancient magical texts, prevention of dimensional rift, founding of scholarship program',
+        achievements: 'Published groundbreaking research on planar magic, saved city from magical disaster',
+        failures_regrets: 'Failed to save mentor from magical experiment, regrets not learning healing magic sooner',
+        secrets: 'Secretly researching forbidden necromancy to understand life and death, has prophetic dreams',
+        reputation: 'Renowned scholar respected across magical communities, seen as bridge between theory and practice',
+        lifestyle: 'Lives in tower apartment above library, simple but comfortable, surrounded by books and research',
+        current_situation: 'Leading research into ancient magical phenomena while teaching promising students',
+
+        // Relationships (8 fields)
+        family: 'Adoptive parents Professor Marcus and Dr. Elena Brightward (both human scholars)',
+        friends: 'Close friendship with Finn (halfling bard), mentors young mage Zara, academic colleagues',
+        romantic: 'Previously involved with fellow researcher, currently single but open to connection',
+        enemies: 'Opposed by traditionalist mages who fear her progressive ideas, shadowy cult seeking her research',
+        mentors: 'Late Professor Aldric Starweaver (her magical theory mentor), Elder Celestine (current advisor)',
+        allies: 'Progressive Magic Guild, University Faculty, City Council Education Committee',
+        professional: 'Extensive network of scholars, researchers, librarians, and magical practitioners worldwide',
+        social_circle: 'Mix of academics, magical practitioners, students, and community organizers',
+
+        // Cultural (6 fields)
+        cultural_background: 'Raised in human academic culture but embraces elven magical traditions',
+        traditions: 'Celebrates both human scholarly festivals and elven seasonal ceremonies',
+        beliefs: 'Knowledge should be preserved and shared, magic is a gift to be used responsibly',
+        customs: 'Morning tea ceremony, evening research ritual, weekly community service',
+        language: 'Common (native), Elvish (fluent), Draconic, Celestial, Sylvan, Giant, Primordial',
+        heritage: 'Half-elven heritage gives her perspective on both cultures, serves as cultural bridge',
+
+        // Story Role (4 fields)
+        role: 'Mentor and Knowledge Keeper - guides others while pursuing greater understanding',
+        narrative_function: 'Quest giver, information source, magical problem solver, character development catalyst',
+        character_arc: 'From isolated scholar to community leader, learning to balance knowledge with action',
+        story_impact: 'Her discoveries and decisions shape the magical landscape and inspire others',
+
+        // Meta (3 fields)
+        creation_notes: 'Designed as wise mentor figure with hidden depths and personal struggles',
+        inspiration: 'Blend of scholarly archetype with approachable teacher, inspired by great librarians of fantasy',
+        usage_notes: 'Perfect for campaigns involving magical mysteries, academic intrigue, or mentor relationships',
+
+        // Core fields
+        description: 'Aria Shadowweaver is a brilliant half-elven scholar whose thirst for knowledge is matched only by her desire to share it with others. Raised by human academics but connected to her elven heritage, she serves as a bridge between worlds both literally and figuratively.',
+        imageUrl: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=400&h=600&fit=crop&crop=face',
+        completionPercentage: 100,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
-      
-      console.log('📤 Sending request to:', `/api/projects/${projectId}/characters/generate`);
-      console.log('📤 Request body:', requestBody);
-      
-              // TEMPORARY FIX: Demo character generation for testing when server is down
-        if (false) { // Set to false when server is working
-          console.log('🔧 DEMO MODE: Generating mock character for testing');
-        
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        onProgress?.('Generating character details...', 40);
-        
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        onProgress?.(  'Creating character portrait...', 70);
-        
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Create a comprehensive demo character with all fields
-        const demoCharacter = {
-          id: `demo-char-${Date.now()}`,
-          projectId,
-          name: "Aria Nightwhisper",
-          nicknames: "The Shadow Scholar",
-          pronouns: "she/her",
-          age: "28",
-          species: "Half-Elf",
-          gender: "Female",
-          occupation: "Arcane Researcher",
-          title: "Senior Archivist",
-          birthdate: "Autumn Equinox, 1195",
-          birthplace: "Library City of Aethermoor",
-          currentLocation: "The Floating Archives",
-          nationality: "Aethermoorian",
-          
-          // Appearance
-          height: "5'7\"",
-          weight: "135 lbs",
-          bodyType: "Lean and graceful",
-          hairColor: "Midnight black with silver streaks",
-          hairStyle: "Long, usually in an intricate braid",
-          hairTexture: "Silky and straight",
-          eyeColor: "Deep violet with gold flecks",
-          eyeShape: "Almond-shaped",
-          skinTone: "Pale with a luminescent quality",
-          facialFeatures: "High cheekbones, delicate features",
-          physicalFeatures: "Graceful movement, always carries herself with dignity",
-          scarsMarkings: "Small crescent moon scar on left temple from a magical accident",
-          clothing: "Flowing robes in deep blues and silvers, practical yet elegant",
-          accessories: "Crystal pendant that glows when near magical texts",
-          generalAppearance: "Ethereal and scholarly, radiates quiet intelligence",
-          
-          // Personality
-          personalityTraits: ["Intensely curious", "Methodical", "Compassionate", "Introspective"],
-          positiveTraits: ["Brilliant", "Loyal", "Patient", "Wise beyond her years"],
-          negativeTraits: ["Perfectionist", "Socially awkward", "Overthinks everything"],
-          quirks: ["Talks to books", "Collects rare inks", "Hums while reading"],
-          mannerisms: "Traces magical symbols in the air when thinking",
-          temperament: "Calm and contemplative",
-          emotionalState: "Generally content but yearning for adventure",
-          sense_of_humor: "Dry wit, enjoys wordplay and scholarly jokes",
-          speech_patterns: "Articulate, uses archaic phrases, speaks softly",
-          
-          // Psychology
-          intelligence: "Exceptionally high analytical and magical intelligence",
-          education: "Master's degree from the Arcane University",
-          mentalHealth: "Stable but struggles with social anxiety",
-          phobias: ["Fear of losing knowledge", "Crowds", "Being forgotten"],
-          motivations: ["Preserving ancient knowledge", "Understanding the cosmos", "Proving herself"],
-          goals: ["Discover the Lost Spells of Creation", "Build the greatest library", "Bridge different worlds"],
-          desires: ["True connection", "Recognition for her work", "To see the stars up close"],
-          regrets: ["Not spending enough time with her mentor before he died"],
-          secrets: ["Can speak to spirits in old books", "Is writing a revolutionary magical theory"],
-          moral_code: "Knowledge should be preserved and shared responsibly",
-          worldview: "The universe is a vast library waiting to be read",
-          philosophy: "Every person contains infinite stories worth preserving",
-          
-          // Abilities
-          skills: ["Advanced magical theory", "Ancient languages", "Research", "Calligraphy"],
-          talents: ["Eidetic memory", "Speed reading", "Magical resonance detection"],
-          powers: ["Bibliomancy", "Memory magic", "Astral projection"],
-          weaknesses: ["Physical combat", "Social situations", "Impatience with ignorance"],
-          strengths: ["Vast knowledge", "Magical aptitude", "Problem-solving"],
-          combat_skills: ["Defensive magic", "Binding spells"],
-          magical_abilities: ["Divination", "Enchantment", "Transmutation"],
-          languages: ["Common", "Elvish", "Draconic", "Celestial", "Ancient Runic"],
-          hobbies: ["Star gazing", "Ink brewing", "Bookbinding", "Growing magical herbs"],
-          
-          // Background
-          backstory: "Born to a human scholar and elven mage, Aria grew up surrounded by books and magic...",
-          childhood: "Spent most of her childhood in libraries, raised by her grandmother after her parents died",
-          formative_events: ["Discovery of her magical abilities", "Loss of parents", "First spirit contact"],
-          trauma: "Witnessed her parents' death in a magical experiment gone wrong",
-          achievements: ["Youngest person to master Bibliomancy", "Discovered three lost spells"],
-          failures: ["Failed to save her mentor", "Accidentally destroyed a rare manuscript"],
-          education_background: "Graduated summa cum laude from Arcane University",
-          work_history: "Junior Archivist, Research Assistant, Senior Archivist",
-          military_service: "None",
-          criminal_record: "Clean",
-          
-          // Relationships
-          family: ["Grandmother Elara (guardian)", "Parents (deceased)"],
-          friends: ["Keeper Thalorin", "Spirit of the Ancient Librarian"],
-          enemies: ["The Void Seekers (knowledge destroyers)"],
-          allies: ["The Circle of Scribes", "Professor Ravenscroft"],
-          mentors: ["Master Aldric (deceased)", "Grandmother Elara"],
-          romantic_interests: ["Had a crush on fellow student Marcus"],
-          relationship_status: "Single, focused on work",
-          social_connections: ["Academic circles", "The Scribes Guild"],
-          children: ["None"],
-          pets: ["A familiar raven named Quill"],
-          
-          // Cultural
-          culture: "Academic Elvish-Human blend",
-          religion: "Worships Oghma, god of knowledge",
-          traditions: ["Annual Day of Remembrance for lost knowledge"],
-          values: ["Knowledge", "Truth", "Preservation", "Understanding"],
-          customs: ["Blessing books before reading", "Leaving offerings for book spirits"],
-          social_class: "Academic middle class",
-          political_views: "Believes in free access to knowledge",
-          economic_status: "Comfortable but not wealthy",
-          
-          // Story Role
-          role: "Supporting Character",
-          character_arc: "Will learn to balance knowledge with experience",
-          narrative_function: "Knowledge keeper and magical advisor",
-          story_importance: "Important",
-          first_appearance: "Chapter 3: The Archives",
-          last_appearance: "To be determined",
-          character_growth: "Will overcome social anxiety and find her place in the world",
-          internal_conflict: "Torn between safety of books and call of adventure",
-          external_conflict: "Must protect ancient knowledge from those who would destroy it",
-          
-          // Meta
-          inspiration: "Hermione Granger meets Gandalf",
-          creation_notes: "Designed to be the party's magical knowledge source",
-          character_concept: "The librarian who becomes a hero",
-          design_notes: "Ethereal appearance with practical elements",
-          voice_notes: "Soft-spoken but authoritative when discussing her expertise",
-          themes: ["Knowledge vs. Experience", "Growth", "Legacy"],
-          symbolism: "Represents the bridge between tradition and innovation",
-          author_notes: "Can be expanded into a main character if needed",
-          
-          imageUrl: "https://picsum.photos/400/400?random=aria",
-          createdAt: new Date(),
-          updatedAt: new Date()
-        };
-        
-        return demoCharacter;
-      }
-      
-      const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
 
-      console.log('📥 Response status:', response.status);
-      console.log('📥 Response ok:', response.ok);
+      console.log('✅ TEST MODE: Character generation complete - ready for full view');
+      return testCharacter;
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Server error response:', errorText);
-        throw new Error(`Failed to generate character: ${response.status} ${response.statusText} - ${errorText}`);
-      }
-
-      onProgress?.('Generating character details...', 40);
-      const character = await response.json();
-      
-      console.log('✅ Character generated with fields:', Object.keys(character).length);
-      
-      // Step 2: Portrait is already generated by the server, but we can verify/regenerate if needed
-      onProgress?.('Finalizing character portrait...', 70);
-      
-      // The server endpoint already includes portrait generation, so character.imageUrl should exist
-      if (character.imageUrl) {
-        onProgress?.('Portrait ready...', 90);
-        console.log('✅ Portrait included in response:', character.imageUrl.substring(0, 50) + '...');
-      } else {
-        onProgress?.('Generating portrait...', 75);
-        // Fallback: Generate portrait if not already included
-        try {
-          const portraitResponse = await fetch(`/api/characters/${character.id}/generate-image`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (portraitResponse.ok) {
-            const portraitData = await portraitResponse.json();
-            character.imageUrl = portraitData.url;
-            onProgress?.('Portrait generated successfully...', 90);
-            console.log('✅ Fallback portrait generated:', portraitData.url.substring(0, 50) + '...');
-          } else {
-            console.warn('Portrait generation failed, proceeding without image');
-            onProgress?.('Character ready (no portrait)...', 90);
-          }
-        } catch (portraitError) {
-          console.warn('Portrait generation error:', portraitError);
-          onProgress?.('Character ready (portrait failed)...', 90);
-        }
-      }
-
-      onProgress?.('Complete!', 100);
-      
-      console.log('✅ Character generation complete:', {
-        name: character.name,
-        hasPortrait: !!character.imageUrl,
-        fieldCount: Object.keys(character).length
-      });
-
-      return character as Character;
-      
     } catch (error) {
-      console.error('❌ Character generation failed:', error);
-      
-      // Check if it's a network error (server not running)
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        console.error('❌ Network error - server may not be running');
-        throw new Error('Cannot connect to server. Please make sure the development server is running with "npm run dev".');
-      }
-      
-      throw error;
+      console.error('❌ Test character generation failed:', error);
+      throw new Error('Test character generation failed. This is expected in test mode.');
     }
   }
 
