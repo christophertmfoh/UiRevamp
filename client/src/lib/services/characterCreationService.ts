@@ -1,6 +1,5 @@
 import { apiRequest, queryClient } from '@/lib/queryClient';
-// @ts-ignore - Character type exists in shared schema
-import type { Character } from '../../../shared/schema';
+import type { Character } from '@/lib/types';
 
 interface CharacterGenerationOptions {
   characterType: string;
@@ -36,27 +35,39 @@ export class CharacterCreationService {
     onProgress?: (step: string, progress: number) => void
   ): Promise<Character> {
     console.log('🎭 Starting AI character generation from prompt');
+    console.log('📝 Project ID:', projectId);
+    console.log('📝 Prompt length:', prompt.length);
     
     try {
       // Step 1: Generate character data
       onProgress?.('Analyzing your prompt...', 10);
       
+      const requestBody = {
+        customPrompt: prompt,
+        characterType: 'custom',
+        role: 'auto-detect',
+        personality: 'auto-generate',
+        archetype: 'auto-detect'
+      };
+      
+      console.log('📤 Sending request to:', `/api/projects/${projectId}/characters/generate`);
+      console.log('📤 Request body:', requestBody);
+      
       const response = await fetch(`/api/projects/${projectId}/characters/generate`, {
         method: 'POST',
-        body: JSON.stringify({
-          customPrompt: prompt,
-          characterType: 'custom',
-          role: 'auto-detect',
-          personality: 'auto-generate',
-          archetype: 'auto-detect'
-        }),
+        body: JSON.stringify(requestBody),
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
+      console.log('📥 Response status:', response.status);
+      console.log('📥 Response ok:', response.ok);
+
       if (!response.ok) {
-        throw new Error('Failed to generate character from prompt');
+        const errorText = await response.text();
+        console.error('❌ Server error response:', errorText);
+        throw new Error(`Failed to generate character: ${response.status} ${response.statusText} - ${errorText}`);
       }
 
       onProgress?.('Generating character details...', 40);
@@ -109,6 +120,13 @@ export class CharacterCreationService {
       
     } catch (error) {
       console.error('❌ Character generation failed:', error);
+      
+      // Check if it's a network error (server not running)
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        console.error('❌ Network error - server may not be running');
+        throw new Error('Cannot connect to server. Please make sure the development server is running with "npm run dev".');
+      }
+      
       throw error;
     }
   }

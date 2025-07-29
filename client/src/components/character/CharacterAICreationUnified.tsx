@@ -96,28 +96,45 @@ export function CharacterAICreationUnified({
   const [currentStep, setCurrentStep] = useState('');
   const [progress, setProgress] = useState(0);
   const [generatedCharacter, setGeneratedCharacter] = useState<Partial<Character> | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const generateMutation = useMutation({
     mutationFn: async (promptText: string) => {
-      return await CharacterCreationService.generateFromPrompt(
-        projectId, 
-        promptText,
-        (step: string, progress: number) => {
-          setCurrentStep(step);
-          setProgress(progress);
-          
-          // Update character preview when we get basic info
-          if (progress >= 40 && step.includes('details')) {
-            // This would normally come from a streaming response
-            // For now, we'll update it at the end
+      console.log('🎭 Starting AI character generation with prompt:', promptText.substring(0, 100) + '...');
+      setIsGenerating(true);
+      setHasError(false);
+      
+      try {
+        const result = await CharacterCreationService.generateFromPrompt(
+          projectId, 
+          promptText,
+          (step: string, progress: number) => {
+            console.log('🔄 Progress update:', step, progress + '%');
+            setCurrentStep(step);
+            setProgress(progress);
+            
+            // Update character preview when we get basic info
+            if (progress >= 40 && step.includes('details')) {
+              // This would normally come from a streaming response
+              // For now, we'll update it at the end
+            }
           }
-        }
-      );
+        );
+        console.log('✅ AI generation completed successfully:', result);
+        return result;
+      } catch (error) {
+        console.error('❌ AI generation failed in mutationFn:', error);
+        setHasError(true);
+        throw error;
+      }
     },
     onSuccess: (character) => {
+      console.log('🎯 onSuccess called with character:', character.name);
       setGeneratedCharacter(character);
       setCurrentStep('Complete!');
       setProgress(100);
+      setIsGenerating(false);
       
       console.log('🎭 Character generation complete:', {
         name: character.name,
@@ -127,21 +144,30 @@ export function CharacterAICreationUnified({
       
       // Brief delay to show completion, then navigate to full character view
       setTimeout(() => {
+        console.log('🚀 Calling onComplete to navigate to character view');
         onComplete(character);
       }, 1500);
     },
     onError: (error) => {
-      console.error('Character generation failed:', error);
-      setCurrentStep('Generation failed');
-      setProgress(0);
+      console.error('❌ Character generation failed in onError:', error);
+      setCurrentStep('Generation failed: ' + (error.message || 'Unknown error'));
+      setIsGenerating(false);
+      setHasError(true);
+      // Don't reset progress to 0 immediately so user can see the error
     }
   });
 
   const handleGenerate = () => {
+    console.log('🎬 handleGenerate called with prompt length:', prompt.trim().length);
     if (prompt.trim()) {
+      console.log('🚀 Starting character generation process...');
       setCurrentStep('Starting generation...');
-      setProgress(0);
+      setProgress(5);
+      setIsGenerating(true);
+      setHasError(false);
       generateMutation.mutate(prompt.trim());
+    } else {
+      console.log('❌ Empty prompt, cannot generate');
     }
   };
 
@@ -149,7 +175,9 @@ export function CharacterAICreationUnified({
     setPrompt(examplePrompt);
   };
 
-  if (generateMutation.isPending || progress > 0) {
+  // Show loading screen if generating or if we have progress/error state
+  if (generateMutation.isPending || isGenerating || progress > 0) {
+    console.log('🔄 Showing loading screen - isPending:', generateMutation.isPending, 'isGenerating:', isGenerating, 'progress:', progress);
     return (
       <CharacterGenerationLoadingScreen
         currentStep={currentStep}
@@ -160,6 +188,30 @@ export function CharacterAICreationUnified({
           occupation: generatedCharacter.occupation
         } : undefined}
       />
+    );
+  }
+
+  // Show error state if there was an error
+  if (hasError) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center space-y-6 max-w-md">
+          <div className="text-red-500">
+            <h3 className="text-xl font-semibold">Generation Failed</h3>
+            <p className="text-sm mt-2">{currentStep}</p>
+          </div>
+          <button 
+            onClick={() => {
+              setHasError(false);
+              setProgress(0);
+              setCurrentStep('');
+            }}
+            className="px-4 py-2 bg-primary text-white rounded-lg"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
     );
   }
 
