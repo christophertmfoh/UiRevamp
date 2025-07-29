@@ -74,7 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ user: req.user });
   });
 
-  // Mount modular routers with required auth for security
+  // Mount modular routers with required auth for security  
   app.use("/api", optionalAuth, characterRouter);
   app.use("/api/projects", authenticateToken, projectRouter);
   app.use("/api", optionalAuth, outlineRouter);
@@ -278,7 +278,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Character document import route (needs to be moved to character router)
-  app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
+  // DISABLED: Now handled by characterRouter
+  // app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
     try {
       console.log('Character extraction request received');
       
@@ -585,7 +586,8 @@ Ensure the character feels authentic, three-dimensional, and compelling for stor
   }); */
 
   // Character field enhancement route (needs to be moved to character router)
-  app.post("/api/characters/:id/enhance-field", async (req, res) => {
+  // DISABLED: Now handled by characterRouter
+  // app.post("/api/characters/:id/enhance-field", async (req, res) => {
     try {
       const { id } = req.params;
       const { field, currentValue } = req.body;
