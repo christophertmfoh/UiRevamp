@@ -320,18 +320,346 @@ export function UniversalEntityManager({
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const queryClient = useQueryClient();
 
-  // For now, return a simple interface - I'll build the complete system step by step
+  // Data fetching - matching CharacterManager pattern exactly
+  const { data: entities = [], isLoading } = useQuery<BaseWorldEntity[]>({
+    queryKey: ['/api/projects', projectId, config.apiEndpoint],
+    enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
+  });
+
+  // Persist view mode to localStorage
+  useEffect(() => {
+    localStorage.setItem(`${entityType}ViewMode`, viewMode);
+  }, [viewMode, entityType]);
+
+  // Sort and filter entities - exact same logic as CharacterManager
+  const sortEntities = (entitiesArray: BaseWorldEntity[]): BaseWorldEntity[] => {
+    switch (sortBy) {
+      case 'alphabetical':
+        return [...entitiesArray].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      case 'recently-added':
+        return [...entitiesArray].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      case 'recently-edited':
+        return [...entitiesArray].sort((a, b) => new Date(b.updatedAt || 0).getTime() - new Date(a.updatedAt || 0).getTime());
+      case 'by-importance':
+        return [...entitiesArray].sort((a, b) => {
+          const importanceOrder = { 'critical': 4, 'high': 3, 'medium': 2, 'low': 1 };
+          return (importanceOrder[b.importance] || 0) - (importanceOrder[a.importance] || 0);
+        });
+      default:
+        return entitiesArray;
+    }
+  };
+
+  const filteredEntities = sortEntities(
+    entities.filter(entity => 
+      entity.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      entity.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  // Selection handling - matching CharacterManager exactly
+  const handleSelectEntity = (entityId: string, selected: boolean) => {
+    const newSelected = new Set(selectedEntityIds);
+    if (selected) {
+      newSelected.add(entityId);
+    } else {
+      newSelected.delete(entityId);
+    }
+    setSelectedEntityIds(newSelected);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedEntityIds.size === filteredEntities.length) {
+      setSelectedEntityIds(new Set());
+    } else {
+      setSelectedEntityIds(new Set(filteredEntities.map(e => e.id)));
+    }
+  };
+
+  const toggleSelectionMode = () => {
+    setIsSelectionMode(!isSelectionMode);
+    if (isSelectionMode) {
+      setSelectedEntityIds(new Set());
+    }
+  };
+
+  // COMPLETE CHARACTER MANAGER INTERFACE - EXACTLY THE SAME
   return (
     <div className="space-y-6">
-      <div className="text-center py-12">
-        <config.icon className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-        <h2 className="text-2xl font-bold mb-2">{config.displayName}</h2>
-        <p className="text-muted-foreground mb-6">{config.emptyMessage}</p>
-        <Button onClick={() => setIsCreationLaunchOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          {config.createPrompt}
-        </Button>
+      {/* Enhanced Header with Statistics - EXACT MATCH */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-title text-3xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              {config.displayName}
+            </h2>
+            <div className="flex items-center gap-4 mt-1">
+              <span className="text-muted-foreground">
+                {entities.length} {entities.length === 1 ? config.singular.toLowerCase() : config.displayName.toLowerCase()} in your world
+              </span>
+              {filteredEntities.length !== entities.length && (
+                <span className="text-sm text-accent">
+                  ({filteredEntities.length} visible)
+                </span>
+              )}
+            </div>
+          </div>
+          
+          {/* Primary Action */}
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setIsCreationLaunchOpen(true)} 
+              size="lg"
+              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+            >
+              <div className="flex items-center">
+                <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                  <Plus className="h-4 w-4" />
+                </div>
+                <span className="font-semibold tracking-wide">{config.createPrompt}</span>
+              </div>
+            </Button>
+          </div>
+        </div>
+
+        {/* Enhanced Controls Bar - EXACT MATCH */}
+        <div className="flex items-center justify-between gap-4 p-4 bg-muted/30 rounded-lg border border-border/50">
+          {/* Search */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={`Search ${config.displayName.toLowerCase()} by name or description...`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 bg-background border-border/50 focus:border-accent/50"
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Selection Mode Toggle */}
+            <Button
+              variant={isSelectionMode ? "default" : "outline"}
+              size="sm"
+              onClick={toggleSelectionMode}
+              className="h-9"
+            >
+              {isSelectionMode ? 'Cancel Select' : 'Select'}
+            </Button>
+
+            {/* Bulk Actions - Only show in selection mode */}
+            {isSelectionMode && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSelectAll}
+                  className="h-9"
+                  disabled={filteredEntities.length === 0}
+                >
+                  {selectedEntityIds.size === filteredEntities.length ? 'Deselect All' : `Select All (${filteredEntities.length})`}
+                </Button>
+                
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => console.log('Bulk delete not implemented yet')}
+                  disabled={selectedEntityIds.size === 0}
+                  className="h-9"
+                >
+                  Delete Selected ({selectedEntityIds.size})
+                </Button>
+              </>
+            )}
+
+            {/* Sort Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <ArrowUpDown className="h-4 w-4" />
+                  Sort
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                {config.sortOptions.map((option) => (
+                  <DropdownMenuItem 
+                    key={option.value}
+                    onClick={() => setSortBy(option.value)}
+                  >
+                    {option.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* View Mode Toggle */}
+            <div className="flex items-center border border-border/50 rounded-lg p-1 bg-background">
+              <Button
+                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="h-8 w-8 p-0"
+              >
+                <Grid3X3 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="h-8 w-8 p-0"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Entities Display - EXACT MATCH PATTERN */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center space-y-2">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto"></div>
+            <p className="text-muted-foreground">Loading {config.displayName.toLowerCase()}...</p>
+          </div>
+        </div>
+      ) : filteredEntities.length === 0 ? (
+        <div className="text-center py-12 space-y-4">
+          <config.icon className="h-16 w-16 text-muted-foreground/50 mx-auto" />
+          <div>
+            <h3 className="text-lg font-semibold mb-2">
+              {entities.length === 0 ? `No ${config.displayName.toLowerCase()} yet` : `No ${config.displayName.toLowerCase()} match your search`}
+            </h3>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              {entities.length === 0 
+                ? config.emptyMessage
+                : 'Try adjusting your search terms or filters.'
+              }
+            </p>
+          </div>
+          {entities.length === 0 && (
+            <div className="flex gap-3 justify-center pt-4">
+              <Button 
+                onClick={() => setIsCreationLaunchOpen(true)} 
+                size="lg"
+                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="flex items-center">
+                  <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                    <Plus className="h-4 w-4" />
+                  </div>
+                  <span className="font-semibold tracking-wide">Create First {config.singular}</span>
+                </div>
+              </Button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={
+          viewMode === 'grid' 
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
+            : "space-y-3"
+        }>
+          {filteredEntities.map((entity) => (
+            <Card 
+              key={entity.id}
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border overflow-hidden relative ${
+                isSelectionMode 
+                  ? selectedEntityIds.has(entity.id)
+                    ? 'border-accent bg-accent/5 shadow-lg' 
+                    : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
+                  : 'border-border/30 hover:border-accent/50 bg-gradient-to-br from-background via-background/90 to-accent/5'
+              }`}
+              onClick={() => {
+                if (isSelectionMode) {
+                  handleSelectEntity(entity.id, !selectedEntityIds.has(entity.id));
+                } else {
+                  setSelectedEntity(entity);
+                }
+              }}
+            >
+              <CardContent className="p-0 relative">
+                {/* Selection Checkbox */}
+                {isSelectionMode && (
+                  <div className="absolute top-3 left-3 z-10">
+                    <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
+                      selectedEntityIds.has(entity.id)
+                        ? 'bg-accent border-accent text-accent-foreground'
+                        : 'bg-background/80 border-border hover:border-accent'
+                    }`}>
+                      {selectedEntityIds.has(entity.id) && (
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Entity Image Header */}
+                <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
+                  {entity.imageUrl ? (
+                    <>
+                      <img 
+                        src={entity.imageUrl} 
+                        alt={entity.name}
+                        className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
+                      <div className="text-center">
+                        <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
+                          <config.icon className="h-10 w-10 text-accent/60" />
+                        </div>
+                        <p className="text-sm text-muted-foreground font-medium">Add Image</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Entity Details */}
+                <div className="p-6 space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-start justify-between">
+                      <h3 className="font-bold text-lg leading-tight group-hover:text-accent transition-colors duration-200 line-clamp-2">
+                        {entity.name || 'Unnamed ' + config.singular}
+                      </h3>
+                      <Badge variant="secondary" className="text-xs px-2 py-1 ml-2 flex-shrink-0">
+                        {config.singular}
+                      </Badge>
+                    </div>
+                    
+                    {entity.description && (
+                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                        {entity.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-border/30">
+                    <Badge 
+                      variant="outline" 
+                      className={`text-xs px-2 py-1 ${
+                        entity.importance === 'critical' ? 'border-red-200 text-red-700' :
+                        entity.importance === 'high' ? 'border-orange-200 text-orange-700' :
+                        entity.importance === 'medium' ? 'border-blue-200 text-blue-700' :
+                        'border-gray-200 text-gray-600'
+                      }`}
+                    >
+                      {entity.importance}
+                    </Badge>
+                    
+                    <span className="text-xs text-muted-foreground">
+                      {entity.status}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

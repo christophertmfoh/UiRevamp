@@ -81,8 +81,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/daily-content", authenticateToken, dailyContentRouter);
   app.use("/api/tasks", authenticateToken, tasksRouter);
   
-  // Legacy routes that need migration
+  // World Bible entity routes - all return empty arrays for now (to be implemented)
   app.get("/api/projects/:projectId/locations", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/timeline", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/factions", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/items", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/magic", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/bestiary", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/languages", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/cultures", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/prophecies", async (req, res) => {
+    res.json([]); // Return empty array for now
+  });
+
+  app.get("/api/projects/:projectId/themes", async (req, res) => {
     res.json([]); // Return empty array for now
   });
 
