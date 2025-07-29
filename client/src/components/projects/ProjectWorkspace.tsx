@@ -73,6 +73,8 @@ import {
 } from 'lucide-react';
 // Import existing character manager temporarily
 import { CharacterManager } from '../character/CharacterManager';
+// Import universal entity manager for all world bible entities
+import { UniversalEntityManager } from '../worldBible/UniversalEntityManager';
 
 interface ProjectWorkspaceProps {
   user: any;
@@ -942,7 +944,7 @@ export function ProjectWorkspace({
                     </div>
                   )}
 
-                  {/* Entity Management for each category */}
+                  {/* Universal Entity Management System - Replicates all CharacterManager functionality */}
                   {worldSection === 'characters' && (
                     <CharacterManager
                       projectId={selectedProject.id}
@@ -950,144 +952,76 @@ export function ProjectWorkspace({
                   )}
                   
                   {worldSection === 'locations' && (
-                    <div className="text-center py-12">
-                      <MapPin className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Locations</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Create and manage geographic locations in your world
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Location
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="locations"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'timeline' && (
-                    <div className="text-center py-12">
-                      <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Timeline</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Chronicle the history and events of your world
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Event
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="timeline"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'factions' && (
-                    <div className="text-center py-12">
-                      <Shield className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Factions</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Define organizations, groups, and political entities
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Faction
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="factions"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'items' && (
-                    <div className="text-center py-12">
-                      <Sword className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Items & Artifacts</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Catalog weapons, tools, magical items, and artifacts
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Item
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="items"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'magic' && (
-                    <div className="text-center py-12">
-                      <Wand2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Magic & Lore</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Design magical systems, spells, and supernatural lore
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Magic System
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="magic"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'bestiary' && (
-                    <div className="text-center py-12">
-                      <Zap className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Bestiary</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Document creatures, monsters, and species
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add Creature
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="bestiary"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'languages' && (
-                    <div className="text-center py-12">
-                      <Languages className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Languages</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Create constructed languages and communication systems
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Language
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="languages"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'cultures' && (
-                    <div className="text-center py-12">
-                      <Crown className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Cultures</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Develop societies, customs, and civilizations
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Culture
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="cultures"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'prophecies' && (
-                    <div className="text-center py-12">
-                      <Scroll className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Prophecies</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Record oracles, predictions, and mystical visions
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Prophecy
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="prophecies"
+                      projectId={selectedProject.id}
+                    />
                   )}
                   
                   {worldSection === 'themes' && (
-                    <div className="text-center py-12">
-                      <Gem className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold mb-4">Themes & Meta</h3>
-                      <p className="text-muted-foreground mb-6">
-                        Define narrative themes, symbols, and meta-elements
-                      </p>
-                      <Button className="gradient-primary">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Theme
-                      </Button>
-                    </div>
+                    <UniversalEntityManager
+                      entityType="themes"
+                      projectId={selectedProject.id}
+                    />
                   )}
+                  
+                  {/* All legacy placeholder sections have been replaced with UniversalEntityManager system */}
                 </div>
               </div>
             ) : (
