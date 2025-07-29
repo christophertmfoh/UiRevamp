@@ -48,7 +48,11 @@ export function CharacterUnifiedViewPremium({
   // Helper function to safely display field values
   const safeDisplayValue = (value: any): string => {
     if (value === null || value === undefined) return '';
-    if (typeof value === 'string') return value;
+    if (typeof value === 'string') {
+      // Handle empty string representations of arrays/objects
+      if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') return '';
+      return value;
+    }
     if (Array.isArray(value)) {
       // Handle empty arrays properly
       if (value.length === 0) return '';
@@ -67,7 +71,18 @@ export function CharacterUnifiedViewPremium({
   useEffect(() => {
     if (!isEditing) {
       console.log('🔄 Character prop changed (not editing), updating formData:', character.name);
-      setFormData(character);
+      // Clean up any corrupted string fields that may contain array artifacts
+      const cleanedCharacter = { ...character };
+      const stringFields = ['nicknames', 'pronouns', 'age', 'species', 'gender', 'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'];
+      
+      stringFields.forEach(field => {
+        const value = (cleanedCharacter as any)[field];
+        if (typeof value === 'string' && (value === '{}' || value === '[]' || value === 'null' || value === 'undefined')) {
+          (cleanedCharacter as any)[field] = '';
+        }
+      });
+      
+      setFormData(cleanedCharacter);
     }
   }, [character, isEditing]);
 

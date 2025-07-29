@@ -19,6 +19,7 @@ import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImp
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
 import { TestAIModules } from './components/character/TestAIModules';
+import { TestCharacterFlow } from './components/character/TestCharacterFlow';
 
 // Initialize ResizeObserver fix before any components mount
 import { initializeResizeObserverFix } from './utils/resizeObserverFix';
@@ -644,6 +645,8 @@ export default function App() {
         );
       case 'test-ai':
         return <TestAIModules />;
+      case 'test-character':
+        return <TestCharacterFlow />;
       default:
         // Simple test interface for other views
         return (
@@ -667,9 +670,15 @@ export default function App() {
                </button>
                <button 
                  onClick={() => navigateToView('test-ai')} 
-                 className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded"
+                 className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded mr-2"
                >
                  🧪 Test AI Modules
+               </button>
+               <button 
+                 onClick={() => navigateToView('test-character')} 
+                 className="mt-4 px-4 py-2 bg-accent text-accent-foreground rounded"
+               >
+                 🧪 Test Character Flow
                </button>
                <button 
                  onClick={() => navigateToView('dashboard')} 

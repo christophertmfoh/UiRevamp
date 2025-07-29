@@ -310,7 +310,7 @@ export class CharacterCreationService {
     console.log('Saving character to database');
     
     try {
-      const response = await fetch('/api/characters', {
+      const response = await fetch(`/api/projects/${projectId}/characters`, {
         method: 'POST',
         body: JSON.stringify({
           ...characterData,
@@ -330,7 +330,7 @@ export class CharacterCreationService {
       const savedCharacter = await response.json();
       
       // Invalidate character cache to refresh the UI
-      queryClient.invalidateQueries({ queryKey: ['/api/characters', { projectId }] });
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
       
       return savedCharacter;
     } catch (error) {

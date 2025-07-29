@@ -247,10 +247,14 @@ export function CharacterGuidedCreationUnified({
 
   const handleComplete = async () => {
     try {
-      const character = await CharacterCreationService.createCharacter(projectId, characterData);
+      console.log('🔧 Completing guided character creation for project:', projectId);
+      console.log('🔧 Character data:', characterData);
+      const character = await CharacterCreationService.saveCharacter(projectId, characterData);
+      console.log('✅ Character created successfully:', character);
       onComplete(character);
     } catch (error) {
-      console.error('Failed to create character:', error);
+      console.error('❌ Failed to create character:', error);
+      alert('Failed to create character. Please try again.');
     }
   };
 
