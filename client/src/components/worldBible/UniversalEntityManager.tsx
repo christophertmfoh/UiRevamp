@@ -1331,3 +1331,238 @@ function UniversalTemplates({
     </div>
   );
 }
+
+// UNIVERSAL DETAIL VIEW - Shows full entity information
+interface UniversalDetailViewProps {
+  entityType: EntityType;
+  config: typeof ENTITY_CONFIGS[EntityType];
+  entity: BaseWorldEntity;
+  projectId: string;
+  onClose: () => void;
+  onEdit: () => void;
+  onPortraitEdit: () => void;
+  onDeleted: () => void;
+}
+
+function UniversalDetailView({ 
+  entityType, 
+  config, 
+  entity, 
+  projectId, 
+  onClose, 
+  onEdit, 
+  onPortraitEdit, 
+  onDeleted 
+}: UniversalDetailViewProps) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirm(`Are you sure you want to delete ${entity.name}? This cannot be undone.`)) return;
+    
+    setIsDeleting(true);
+    try {
+      await apiRequest(`/api/projects/${projectId}/${config.apiEndpoint}/${entity.id}`, {
+        method: 'DELETE'
+      });
+      onDeleted();
+    } catch (error) {
+      console.error('Delete failed:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-accent/10 rounded-xl">
+                <config.icon className="h-8 w-8 text-accent" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold">{entity.name || 'Untitled ' + config.singular}</h2>
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge className="bg-accent text-white">{config.singular}</Badge>
+                  <Badge variant="outline">{entity.importance || 'medium'}</Badge>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={onPortraitEdit}>
+                <Camera className="h-4 w-4 mr-2" />
+                Image
+              </Button>
+              <Button variant="outline" size="sm" onClick={onEdit}>
+                <Edit2 className="h-4 w-4 mr-2" />
+                Edit
+              </Button>
+              <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isDeleting}>
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete
+              </Button>
+              <Button variant="ghost" size="sm" onClick={onClose}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          
+          <div className="space-y-6">
+            {entity.description && (
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Description</h3>
+                <p className="text-muted-foreground leading-relaxed">{entity.description}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// UNIVERSAL CREATION VIEW - Form for creating/editing entities
+interface UniversalCreationViewProps {
+  entityType: EntityType;
+  config: typeof ENTITY_CONFIGS[EntityType];
+  projectId: string;
+  initialData?: Partial<BaseWorldEntity>;
+  isGuided?: boolean;
+  onClose: () => void;
+  onEntitySaved: (entity: BaseWorldEntity) => void;
+}
+
+function UniversalCreationView({ 
+  entityType, 
+  config, 
+  projectId, 
+  initialData = {}, 
+  isGuided = false, 
+  onClose, 
+  onEntitySaved 
+}: UniversalCreationViewProps) {
+  const [isSaving, setIsSaving] = useState(false);
+  const [entityData, setEntityData] = useState<Partial<BaseWorldEntity>>(initialData);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const url = initialData.id 
+        ? `/api/projects/${projectId}/${config.apiEndpoint}/${initialData.id}`
+        : `/api/projects/${projectId}/${config.apiEndpoint}`;
+      
+      const method = initialData.id ? 'PATCH' : 'POST';
+      
+      const response = await apiRequest(url, {
+        method,
+        body: JSON.stringify({
+          ...entityData,
+          entityType,
+          projectId
+        })
+      });
+      
+      onEntitySaved(response);
+    } catch (error) {
+      console.error('Save failed:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const updateField = (field: string, value: any) => {
+    setEntityData(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-accent/10 rounded-xl">
+                <config.icon className="h-8 w-8 text-accent" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold">
+                  {initialData.id ? 'Edit' : 'Create'} {config.singular}
+                </h2>
+                <p className="text-muted-foreground mt-1">
+                  {isGuided ? 'Guided creation with helpful prompts' : 'Fill in the details below'}
+                </p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Basic Information</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Name *</label>
+                  <Input
+                    value={entityData.name || ''}
+                    onChange={(e) => updateField('name', e.target.value)}
+                    placeholder={`Enter ${config.singular.toLowerCase()} name...`}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Importance Level</label>
+                  <select
+                    value={entityData.importance || 'medium'}
+                    onChange={(e) => updateField('importance', e.target.value)}
+                    className="w-full p-2 border border-border rounded-lg bg-background"
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Description</label>
+                <textarea
+                  value={entityData.description || ''}
+                  onChange={(e) => updateField('description', e.target.value)}
+                  placeholder={`Describe this ${config.singular.toLowerCase()}...`}
+                  className="w-full h-24 p-3 border border-border rounded-lg bg-background resize-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-3 justify-end mt-8 pt-6 border-t border-border">
+            <Button variant="outline" onClick={onClose} disabled={isSaving}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSave} 
+              disabled={!entityData.name || isSaving}
+              className="bg-accent hover:bg-accent text-white"
+            >
+              {isSaving ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Saving...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Plus className="h-4 w-4" />
+                  {initialData.id ? 'Update' : 'Create'} {config.singular}
+                </div>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
