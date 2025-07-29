@@ -154,43 +154,65 @@ export function ProjectWorkspace({
     return (
       <Card 
         key={project.id}
-        className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 ${
+        className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 ${
           isSelected ? 'ring-2 ring-primary shadow-lg' : ''
-        }`}
+        } ${viewMode === 'list' ? 'hover:scale-100' : ''}`}
         onClick={() => handleProjectSelect(project)}
       >
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center">
-                <Icon className="w-5 h-5 text-primary-foreground" />
+        <CardHeader className={`${viewMode === 'list' ? 'pb-2' : 'pb-3'}`}>
+          <div className={`flex items-start ${viewMode === 'list' ? 'justify-between' : 'justify-between'}`}>
+            <div className="flex items-center space-x-3 flex-1 min-w-0">
+              <div className={`${viewMode === 'list' ? 'w-8 h-8' : 'w-10 h-10'} bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center flex-shrink-0`}>
+                <Icon className={`${viewMode === 'list' ? 'w-4 h-4' : 'w-5 h-5'} text-primary-foreground`} />
               </div>
-              <div>
-                <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">
+              <div className="min-w-0 flex-1">
+                <CardTitle className={`${viewMode === 'list' ? 'text-base' : 'text-lg'} font-bold group-hover:text-primary transition-colors truncate`}>
                   {project.name}
                 </CardTitle>
-                <Badge variant="secondary" className="text-xs">
-                  {project.type}
-                </Badge>
+                <div className="flex items-center gap-2 mt-1">
+                  <Badge variant="secondary" className="text-xs">
+                    {project.type}
+                  </Badge>
+                  {viewMode === 'list' && project.genre && (
+                    <Badge variant="outline" className="text-xs">
+                      {Array.isArray(project.genre) ? project.genre[0] : project.genre}
+                    </Badge>
+                  )}
+                </div>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
+            {viewMode === 'list' && (
+              <div className="text-right flex-shrink-0">
+                <p className="text-xs text-muted-foreground">
+                  {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            )}
           </div>
         </CardHeader>
-        <CardContent>
-          <CardDescription className="text-sm mb-3 line-clamp-2">
-            {project.synopsis || project.description || 'No description available'}
-          </CardDescription>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Updated {new Date(project.lastModified || 0).toLocaleDateString()}</span>
-            <div className="flex items-center space-x-2">
-              <Clock className="w-3 h-3" />
-              <span>Active</span>
+        
+        {viewMode === 'grid' && (
+          <CardContent className="pt-0">
+            <CardDescription className="text-sm mb-3 line-clamp-2">
+              {project.synopsis || project.description || 'No description available'}
+            </CardDescription>
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>Updated {new Date(project.lastModified || project.createdAt).toLocaleDateString()}</span>
+              <div className="flex items-center space-x-2">
+                <Clock className="w-3 h-3" />
+                <span>Active</span>
+              </div>
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
+        )}
+        
+        {viewMode === 'list' && (
+          <CardContent className="pt-0 pb-3">
+            <CardDescription className="text-sm line-clamp-1">
+              {project.synopsis || project.description || 'No description available'}
+            </CardDescription>
+          </CardContent>
+        )}
       </Card>
     );
   }, [selectedProject, handleProjectSelect]);
@@ -364,8 +386,28 @@ export function ProjectWorkspace({
               </TabsList>
             </div>
 
-            {/* Search and Filters - Right Aligned on Desktop */}
+            {/* Search and Filters - Fixed Layout */}
             <div className="flex items-center gap-3 flex-shrink-0">
+              {activeTab === 'projects' && (
+                <div className="flex items-center space-x-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                    title={viewMode === 'grid' ? 'Switch to List View' : 'Switch to Grid View'}
+                  >
+                    {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid3X3 className="w-4 h-4" />}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSortBy(sortBy === 'name' ? 'updated' : 'name')}
+                    title={`Sort by ${sortBy === 'name' ? 'Last Updated' : 'Name'}`}
+                  >
+                    <SortAsc className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
@@ -375,24 +417,6 @@ export function ProjectWorkspace({
                   className="pl-10 w-full sm:w-56 lg:w-64 text-sm"
                 />
               </div>
-              {activeTab === 'projects' && (
-                <div className="flex items-center space-x-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-                  >
-                    {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid3X3 className="w-4 h-4" />}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSortBy(sortBy === 'name' ? 'updated' : 'name')}
-                  >
-                    <SortAsc className="w-4 h-4" />
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
 
@@ -442,8 +466,12 @@ export function ProjectWorkspace({
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-6">
-            {/* Projects Grid/List */}
-            <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
+            {/* Projects Grid/List - Optimized Layout */}
+            <div className={
+              viewMode === 'grid' 
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6' 
+                : 'space-y-3'
+            }>
               {filteredProjects.map(renderProjectCard)}
             </div>
             
