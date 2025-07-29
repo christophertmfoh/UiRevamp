@@ -216,31 +216,31 @@ export function ProjectWorkspace({
         />
       </div>
 
-      {/* Header */}
+      {/* Header - Mobile Optimized */}
       <header className="relative z-10 bg-background/80 backdrop-blur-sm border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
               <button 
                 onClick={() => onNavigate('landing')}
-                className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center hover:shadow-lg transition-all duration-300 hover:scale-105"
+                className="w-8 h-8 sm:w-10 sm:h-10 gradient-primary rounded-xl flex items-center justify-center hover:shadow-lg transition-all duration-300 hover:scale-105 flex-shrink-0"
               >
-                <Feather className="w-5 h-5 text-primary-foreground" />
+                <Feather className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
               </button>
-              <div>
-                <h1 className="text-3xl font-serif font-bold gradient-primary-text">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg sm:text-2xl lg:text-3xl font-serif font-bold gradient-primary-text truncate">
                   Welcome back, {user?.username || 'user'}
                 </h1>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               <Button
                 onClick={onNewProject}
-                className="gradient-primary text-primary-foreground hover:shadow-lg transition-all"
+                className="gradient-primary text-primary-foreground hover:shadow-lg transition-all px-2 sm:px-4 py-2 text-xs sm:text-sm"
               >
-                <Plus className="w-4 h-4 mr-2" />
-                New Project
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+                <span className="hidden sm:inline">New Project</span>
               </Button>
               
               <DropdownMenu>
@@ -322,56 +322,57 @@ export function ProjectWorkspace({
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-8">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
-          {/* Tab Navigation */}
-          <div className="flex items-center justify-between">
-            <div className="flex-1 max-w-4xl">
-              <TabsList className="grid w-full grid-cols-7 bg-card/50 backdrop-blur-sm h-auto p-1">
-                <TabsTrigger value="overview" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+          {/* Tab Navigation - Mobile Optimized */}
+          <div className="space-y-4">
+            {/* Tab Bar - Responsive */}
+            <div className="w-full overflow-x-auto">
+              <TabsList className="inline-flex w-max min-w-full bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg">
+                <TabsTrigger value="overview" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <BarChart3 className="w-3 h-3" />
                   <span className="hidden sm:inline">Overview</span>
                 </TabsTrigger>
-                <TabsTrigger value="projects" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="projects" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <BookOpen className="w-3 h-3" />
                   <span className="hidden sm:inline">Projects</span>
                 </TabsTrigger>
-                <TabsTrigger value="studio" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="studio" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <Layout className="w-3 h-3" />
                   <span className="hidden sm:inline">Studio</span>
                 </TabsTrigger>
-                <TabsTrigger value="world" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="world" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <Globe className="w-3 h-3" />
                   <span className="hidden sm:inline">World</span>
                 </TabsTrigger>
-                <TabsTrigger value="outline" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="outline" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <ClipboardList className="w-3 h-3" />
                   <span className="hidden sm:inline">Outline</span>
                 </TabsTrigger>
-                <TabsTrigger value="storyboard" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="storyboard" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <FileText className="w-3 h-3" />
                   <span className="hidden sm:inline">Story</span>
                 </TabsTrigger>
-                <TabsTrigger value="previs" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="previs" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <Video className="w-3 h-3" />
                   <span className="hidden sm:inline">Pre-Vis</span>
                 </TabsTrigger>
-                <TabsTrigger value="score" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                <TabsTrigger value="score" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
                   <Music className="w-3 h-3" />
                   <span className="hidden sm:inline">Score</span>
                 </TabsTrigger>
               </TabsList>
             </div>
 
-            {/* Search and Filters */}
-            <div className="flex items-center space-x-4">
+            {/* Search and Filters - Mobile Responsive */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Search projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-64"
+                  className="pl-10 w-full sm:w-64"
                 />
               </div>
               {activeTab === 'projects' && (
@@ -472,16 +473,16 @@ export function ProjectWorkspace({
                   Your creative pipeline and project management hub
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6 max-w-6xl mx-auto">
                   <Card 
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
                     onClick={() => setActiveTab('world')}
                   >
-                    <CardContent className="p-6 text-center">
-                      <Globe className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">World Bible</h4>
-                      <p className="text-sm text-muted-foreground">{characters.length} Characters</p>
-                      <p className="text-xs text-muted-foreground mt-1">Develop your characters and story elements</p>
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <Globe className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">World Bible</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{characters.length} Characters</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Develop your characters and story elements</p>
                     </CardContent>
                   </Card>
                   
@@ -489,20 +490,20 @@ export function ProjectWorkspace({
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
                     onClick={() => setActiveTab('outline')}
                   >
-                    <CardContent className="p-6 text-center">
-                      <ClipboardList className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Outline</h4>
-                      <p className="text-sm text-muted-foreground">0 Beats</p>
-                      <p className="text-xs text-muted-foreground mt-1">Structure your story with detailed plotting</p>
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <ClipboardList className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Outline</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Beats</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Structure your story with detailed plotting</p>
                     </CardContent>
                   </Card>
                   
                   <Card className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75">
-                    <CardContent className="p-6 text-center">
-                      <FileText className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Story</h4>
-                      <p className="text-sm text-muted-foreground">0 Pages</p>
-                      <p className="text-xs text-muted-foreground mt-1">Write your story in various formats</p>
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <FileText className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Story</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Pages</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Write your story in various formats</p>
                     </CardContent>
                   </Card>
                   
@@ -510,11 +511,11 @@ export function ProjectWorkspace({
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
                     onClick={() => setActiveTab('previs')}
                   >
-                    <CardContent className="p-6 text-center">
-                      <Video className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Pre-Vis</h4>
-                      <p className="text-sm text-muted-foreground">0 Items</p>
-                      <p className="text-xs text-muted-foreground mt-1">Pre-visualization and motion planning</p>
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <Video className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Pre-Vis</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Items</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Pre-visualization and motion planning</p>
                     </CardContent>
                   </Card>
                   
@@ -522,11 +523,11 @@ export function ProjectWorkspace({
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
                     onClick={() => setActiveTab('score')}
                   >
-                    <CardContent className="p-6 text-center">
-                      <Music className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Score</h4>
-                      <p className="text-sm text-muted-foreground">0 Tracks</p>
-                      <p className="text-xs text-muted-foreground mt-1">Compose and manage musical elements</p>
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <Music className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Score</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Tracks</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Compose and manage musical elements</p>
                     </CardContent>
                   </Card>
                 </div>
