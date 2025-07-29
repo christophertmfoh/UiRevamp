@@ -379,52 +379,117 @@ export function ProjectWorkspace({
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
-          {/* Tab Navigation - Scrollable Layout */}
+          {/* Tab Navigation - Responsive Layout */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Tab Bar - Scrollable for Mobile */}
-            <div className="w-full overflow-x-auto scrollbar-hide">
-              <TabsList className="inline-flex w-max bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg min-w-max">
-                <TabsTrigger value="overview" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <BarChart3 className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Overview</span>
+            {/* Desktop Tab Bar */}
+            <div className="hidden lg:block w-full">
+              <TabsList className="inline-flex w-max bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg">
+                <TabsTrigger value="overview" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <BarChart3 className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Overview</span>
                 </TabsTrigger>
-                <TabsTrigger value="projects" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <BookOpen className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Projects</span>
+                <TabsTrigger value="projects" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <BookOpen className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Projects</span>
                 </TabsTrigger>
-                <TabsTrigger value="studio" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Layout className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Studio</span>
+                <TabsTrigger value="studio" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Layout className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Studio</span>
                 </TabsTrigger>
-                <TabsTrigger value="world" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Globe className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">World</span>
+                <TabsTrigger value="world" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Globe className="w-3 h-3 mr-1" />
+                  <span className="text-xs">World</span>
                 </TabsTrigger>
-                <TabsTrigger value="outline" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <ClipboardList className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Outline</span>
+                <TabsTrigger value="outline" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <ClipboardList className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Outline</span>
                 </TabsTrigger>
-                <TabsTrigger value="storyboard" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <FileText className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Story</span>
+                <TabsTrigger value="storyboard" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <FileText className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Story</span>
                 </TabsTrigger>
-                <TabsTrigger value="previs" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Video className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Pre-Vis</span>
+                <TabsTrigger value="previs" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Video className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Pre-Vis</span>
                 </TabsTrigger>
-                <TabsTrigger value="score" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Music className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Score</span>
+                <TabsTrigger value="score" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Music className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Score</span>
                 </TabsTrigger>
-                <TabsTrigger value="export" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Download className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Export</span>
+                <TabsTrigger value="export" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Download className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Export</span>
                 </TabsTrigger>
-                <TabsTrigger value="library" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
-                  <Archive className="w-3 h-3 sm:mr-1" />
-                  <span className="hidden sm:inline text-xs">Library</span>
+                <TabsTrigger value="library" className="flex items-center justify-center px-3 py-2 text-xs">
+                  <Archive className="w-3 h-3 mr-1" />
+                  <span className="text-xs">Library</span>
                 </TabsTrigger>
               </TabsList>
+            </div>
+            
+            {/* Mobile Tab Dropdown */}
+            <div className="lg:hidden w-full">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between bg-card/50 backdrop-blur-sm">
+                    <div className="flex items-center">
+                      {activeTab === 'overview' && <><BarChart3 className="w-4 h-4 mr-2" />Overview</>}
+                      {activeTab === 'projects' && <><BookOpen className="w-4 h-4 mr-2" />Projects</>}
+                      {activeTab === 'studio' && <><Layout className="w-4 h-4 mr-2" />Studio</>}
+                      {activeTab === 'world' && <><Globe className="w-4 h-4 mr-2" />World</>}
+                      {activeTab === 'outline' && <><ClipboardList className="w-4 h-4 mr-2" />Outline</>}
+                      {activeTab === 'storyboard' && <><FileText className="w-4 h-4 mr-2" />Story</>}
+                      {activeTab === 'previs' && <><Video className="w-4 h-4 mr-2" />Pre-Vis</>}
+                      {activeTab === 'score' && <><Music className="w-4 h-4 mr-2" />Score</>}
+                      {activeTab === 'export' && <><Download className="w-4 h-4 mr-2" />Export</>}
+                      {activeTab === 'library' && <><Archive className="w-4 h-4 mr-2" />Library</>}
+                    </div>
+                    <ChevronRight className="w-4 h-4 rotate-90" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuItem onClick={() => setActiveTab('overview')}>
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    Overview
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('projects')}>
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Projects
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('studio')}>
+                    <Layout className="w-4 h-4 mr-2" />
+                    Studio
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('world')}>
+                    <Globe className="w-4 h-4 mr-2" />
+                    World
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('outline')}>
+                    <ClipboardList className="w-4 h-4 mr-2" />
+                    Outline
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('storyboard')}>
+                    <FileText className="w-4 h-4 mr-2" />
+                    Story
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('previs')}>
+                    <Video className="w-4 h-4 mr-2" />
+                    Pre-Vis
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('score')}>
+                    <Music className="w-4 h-4 mr-2" />
+                    Score
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('export')}>
+                    <Download className="w-4 h-4 mr-2" />
+                    Export
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveTab('library')}>
+                    <Archive className="w-4 h-4 mr-2" />
+                    Library
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Search and Filters - Fixed Layout */}
