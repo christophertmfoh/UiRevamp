@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -43,6 +43,9 @@ export function CharacterUnifiedViewPremium({
   const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [abortController, setAbortController] = useState<AbortController | null>(null);
+  const [isAutoSaving, setIsAutoSaving] = useState(false);
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const autoSaveTimerRef = useRef<NodeJS.Timeout>();
   const queryClient = useQueryClient();
 
   // Helper function to safely display field values
@@ -85,6 +88,59 @@ export function CharacterUnifiedViewPremium({
       setFormData(cleanedCharacter);
     }
   }, [character, isEditing]);
+
+  // Auto-save functionality for edit mode
+  const performAutoSave = useCallback(async (dataToSave: Character) => {
+    if (!isEditing) return; // Only auto-save in edit mode
+    
+    try {
+      setAutoSaveStatus('saving');
+      setIsAutoSaving(true);
+      
+      const processedData = processDataForSave(dataToSave);
+      await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+      
+      setAutoSaveStatus('saved');
+      // Reset status after 2 seconds
+      setTimeout(() => setAutoSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+      setAutoSaveStatus('error');
+      // Reset status after 3 seconds
+      setTimeout(() => setAutoSaveStatus('idle'), 3000);
+    } finally {
+      setIsAutoSaving(false);
+    }
+  }, [isEditing, character.id]);
+
+  // Debounced auto-save when formData changes in edit mode
+  useEffect(() => {
+    if (!isEditing) return;
+    
+    // Clear existing timer
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
+    // Set new timer for auto-save (3 seconds after last change)
+    autoSaveTimerRef.current = setTimeout(() => {
+      // Only auto-save if there are meaningful changes and minimum required data
+      const hasChanges = JSON.stringify(formData) !== JSON.stringify(character);
+      const hasMinimumData = formData.name && formData.name.trim().length > 0;
+      
+      if (hasChanges && hasMinimumData) {
+        console.log('💾 Auto-saving character changes...');
+        performAutoSave(formData);
+      }
+    }, 3000);
+
+    // Cleanup on unmount
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [formData, isEditing, character, performAutoSave]);
 
   // Define all character fields organized by category (matching the wizard 1:1)
   const identityFields = [
@@ -249,6 +305,12 @@ export function CharacterUnifiedViewPremium({
   };
 
   const handleSave = () => {
+    // Clear any pending auto-save
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+    setAutoSaveStatus('idle');
+    
     const cleanData = {
       ...formData,
       updatedAt: undefined,
@@ -258,6 +320,12 @@ export function CharacterUnifiedViewPremium({
   };
 
   const handleCancel = () => {
+    // Clear any pending auto-save
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+    setAutoSaveStatus('idle');
+    
     setFormData(character);
     setIsEditing(false);
   };
@@ -387,6 +455,31 @@ export function CharacterUnifiedViewPremium({
                   <Trash2 className="h-4 w-4" />
                   Delete
                 </Button>
+                
+                {/* Auto-save status indicator */}
+                {autoSaveStatus !== 'idle' && (
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium">
+                    {autoSaveStatus === 'saving' && (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-blue-500" />
+                        <span className="text-blue-600 dark:text-blue-400">Auto-saving...</span>
+                      </>
+                    )}
+                    {autoSaveStatus === 'saved' && (
+                      <>
+                        <div className="w-3 h-3 bg-green-500 rounded-full" />
+                        <span className="text-green-600 dark:text-green-400">Auto-saved</span>
+                      </>
+                    )}
+                    {autoSaveStatus === 'error' && (
+                      <>
+                        <div className="w-3 h-3 bg-red-500 rounded-full" />
+                        <span className="text-red-600 dark:text-red-400">Auto-save failed</span>
+                      </>
+                    )}
+                  </div>
+                )}
+                
                 <Button 
                   onClick={handleSave} 
                   size="sm"
