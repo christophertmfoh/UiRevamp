@@ -457,7 +457,8 @@ export default function App() {
 
   const handleSelectProject = (project: Project) => {
     setActiveProject(project);
-    setView('dashboard');  // Use setView directly to avoid circular dependency
+    // Keep the user in ProjectWorkspace instead of switching to old ProjectDashboard
+    // The ProjectWorkspace handles project selection internally with tabs
   };
 
   const handleAuth = async (userData: { username: string; token: string }) => {
@@ -588,6 +589,7 @@ export default function App() {
             onSelectProject={handleSelectProject}
             onLogout={handleLogout}
             user={user}
+            selectedProject={activeProject}
             projects={(projects || []).map(p => ({
               ...p,
               description: p.description ?? null,

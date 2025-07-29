@@ -78,6 +78,7 @@ interface ProjectWorkspaceProps {
   onSelectProject?: (project: Project) => void;
   onNewProject?: () => void;
   projects: Project[];
+  selectedProject?: Project | null;
   isLoading?: boolean;
 }
 
@@ -88,12 +89,22 @@ export function ProjectWorkspace({
   onSelectProject,
   onNewProject,
   projects: projectsData,
+  selectedProject: externalSelectedProject,
   isLoading
 }: ProjectWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'outline' | 'storyboard' | 'previs' | 'score'>('overview');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'factions' | 'items' | 'magic' | 'bestiary' | 'languages' | 'cultures' | 'prophecies' | 'themes'>('overview');
   const [isEditMode, setIsEditMode] = useState(false);
+
+  // Handle external project selection (from App.tsx routing)
+  React.useEffect(() => {
+    if (externalSelectedProject && externalSelectedProject !== selectedProject) {
+      setSelectedProject(externalSelectedProject);
+      setActiveTab('world'); // Automatically switch to World Bible tab
+      setWorldSection('overview'); // Reset to overview section
+    }
+  }, [externalSelectedProject, selectedProject]);
   
   const { scrollY } = useOptimizedScroll();
   const queryClient = useQueryClient();
