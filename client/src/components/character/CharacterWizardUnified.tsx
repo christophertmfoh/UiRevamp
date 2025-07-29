@@ -44,28 +44,26 @@ const CREATION_METHODS: CreationMethodOption[] = [
     timeEstimate: '10-20 min',
     complexity: 'Comprehensive'
   },
-  // TEMPORARILY DISABLED: AI Templates (module preserved for future rebuild)
-  // {
-  //   id: 'templates',
-  //   title: 'AI Templates', 
-  //   subtitle: 'Choose from 30+ archetypes',
-  //   description: 'Select from our curated collection of 30+ professional character templates and let AI expand them into complete profiles.',
-  //   icon: Sparkles,
-  //   features: ['30+ Templates', 'Multiple Genres', 'AI Enhancement', 'Instant Creation'],
-  //   timeEstimate: '1-2 min',
-  //   complexity: 'Quick & Easy'
-  // },
-  // TEMPORARILY DISABLED: Custom AI (module preserved for future rebuild)
-  // {
-  //   id: 'ai',
-  //   title: 'Custom AI',
-  //   subtitle: 'Describe your vision',
-  //   description: 'Tell our AI about your character concept and watch it create a detailed, unique character profile tailored to your story.',
-  //   icon: Crown,
-  //   features: ['Custom Descriptions', 'Writing Tips', 'Example Prompts', 'AI Enhancement'],
-  //   timeEstimate: '2-3 min', 
-  //   complexity: 'Creative Freedom'
-  // },
+  {
+    id: 'templates',
+    title: 'AI Templates', 
+    subtitle: 'Choose from 30+ archetypes',
+    description: 'Select from our curated collection of 30+ professional character templates and let AI expand them into complete profiles.',
+    icon: Sparkles,
+    features: ['30+ Templates', 'Multiple Genres', 'AI Enhancement', 'Instant Creation'],
+    timeEstimate: '1-2 min',
+    complexity: 'Quick & Easy'
+  },
+  {
+    id: 'ai',
+    title: 'Custom AI',
+    subtitle: 'Describe your vision',
+    description: 'Tell our AI about your character concept and watch it create a detailed, unique character profile tailored to your story.',
+    icon: Crown,
+    features: ['Custom Descriptions', 'Writing Tips', 'Example Prompts', 'AI Enhancement'],
+    timeEstimate: '2-3 min', 
+    complexity: 'Creative Freedom'
+  },
   {
     id: 'upload',
     title: 'Upload Document',
@@ -274,25 +272,23 @@ export default function CharacterWizardUnified({
           />
         );
 
-      // TEMPORARILY DISABLED: AI Templates (module preserved for future rebuild)
-      // case 'templates':
-      //   return (
-      //     <CharacterTemplatesUnified
-      //       projectId={projectId}
-      //       onBack={handleBack}
-      //       onComplete={handleComplete}
-      //     />
-      //   );
+      case 'templates':
+        return (
+          <CharacterTemplatesUnified
+            projectId={projectId}
+            onBack={handleBack}
+            onComplete={handleComplete}
+          />
+        );
 
-      // TEMPORARILY DISABLED: Custom AI (module preserved for future rebuild)
-      // case 'ai':
-      //   return (
-      //     <CharacterAICreationUnified
-      //       projectId={projectId}
-      //       onBack={handleBack}
-      //       onComplete={handleComplete}
-      //     />
-      //   );
+      case 'ai':
+        return (
+          <CharacterAICreationUnified
+            projectId={projectId}
+            onBack={handleBack}
+            onComplete={handleComplete}
+          />
+        );
 
       case 'upload':
         return (

@@ -18,7 +18,15 @@ interface GenerateCharacterParams {
   archetype?: string;
 }
 
+// TEMPORARILY DISABLED: AI Generation Backend (function preserved for future rebuild)
 export async function generateCharacterWithAI(params: GenerateCharacterParams) {
+  // AI generation temporarily disabled - return mock/template response
+  console.log('⚠️ AI Generation disabled - returning placeholder character');
+  
+  throw new Error('AI character generation is temporarily disabled. Please use the manual creation tools for now.');
+
+  // ORIGINAL AI GENERATION CODE PRESERVED BELOW (for future rebuild):
+  /*
   const {
     projectId,
     projectName,
@@ -110,4 +118,5 @@ export async function generateCharacterWithAI(params: GenerateCharacterParams) {
   const character = await storage.createCharacter(transformedData as any);
 
   return character;
+  */ // END OF PRESERVED AI GENERATION CODE
 }

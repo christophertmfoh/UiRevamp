@@ -133,8 +133,8 @@ characterRouter.delete("/characters/:id", async (req, res) => {
 
 // REMOVED: Old template endpoint - Templates now use the unified /generate endpoint
 
-// TEMPORARILY DISABLED: AI Character Generation (route preserved for future rebuild)
-// characterRouter.post("/projects/:projectId/characters/generate", async (req, res) => {
+// AI Character Generation (backend AI disabled, route functional)
+characterRouter.post("/projects/:projectId/characters/generate", async (req, res) => {
   try {
     const { projectId } = req.params;
     const { characterType, role, customPrompt, personality, archetype } = req.body;

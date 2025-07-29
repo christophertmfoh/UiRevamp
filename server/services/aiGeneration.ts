@@ -246,7 +246,13 @@ This character context should inform all generated content.`;
 /**
  * Generate a complete character from a descriptive prompt
  */
+// TEMPORARILY DISABLED: AI Generation Service (function preserved for future rebuild)
 export async function generateCharacterFromPrompt(prompt: string): Promise<any> {
+  console.log('⚠️ AI Generation service disabled');
+  throw new Error('AI character generation is temporarily disabled. Please use the manual creation tools for now.');
+
+  // ORIGINAL AI GENERATION CODE PRESERVED BELOW (for future rebuild):
+  /*
   try {
     console.log('🎭 Generating character from prompt:', prompt.substring(0, 100) + '...');
     
@@ -451,4 +457,5 @@ function extractNameFromText(text: string): string | null {
   }
   
   return null;
+  */ // END OF PRESERVED AI GENERATION CODE
 }
