@@ -211,44 +211,53 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
         <div className="relative z-10 flex flex-col justify-center px-12 py-16">
           <div className="max-w-md">
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
-                <Feather className="w-6 h-6 text-white" />
+              <div 
+                className="w-12 h-12 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg"
+                style={{ backgroundColor: `hsla(var(--auth-panel-text), 0.2)` }}
+              >
+                <Feather className="w-6 h-6" style={{ color: `hsl(var(--auth-panel-text))` }} />
               </div>
-              <h1 className="text-3xl font-serif font-bold text-white tracking-tight">
+              <h1 className="text-3xl font-serif font-bold tracking-tight" style={{ color: `hsl(var(--auth-panel-text))` }}>
                 FableCraft
               </h1>
             </div>
             
-            <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-4xl font-bold mb-6 leading-tight" style={{ color: `hsl(var(--auth-panel-text))` }}>
               Where stories come to life
             </h2>
             
-            <p className="text-xl text-emerald-100 mb-8 leading-relaxed">
+            <p className="text-xl mb-8 leading-relaxed" style={{ color: `hsla(var(--auth-panel-text), 0.9)` }}>
               Join thousands of creative writers using AI-powered tools to craft compelling characters, build immersive worlds, and tell unforgettable stories.
             </p>
 
             {/* Creative Quote */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <blockquote className="text-white/90 text-lg italic leading-relaxed mb-4">
+            <div 
+              className="backdrop-blur-sm rounded-2xl p-6 border"
+              style={{ 
+                backgroundColor: `hsla(var(--auth-panel-text), 0.1)`,
+                borderColor: `hsla(var(--auth-panel-text), 0.2)`
+              }}
+            >
+              <blockquote className="text-lg italic leading-relaxed mb-4" style={{ color: `hsla(var(--auth-panel-text), 0.9)` }}>
                 "Every great story begins with a single character who refuses to be forgotten."
               </blockquote>
-              <cite className="text-emerald-200 text-sm font-medium">
+              <cite className="text-sm font-medium" style={{ color: `hsla(var(--auth-panel-text), 0.8)` }}>
                 — Maya Chen, Award-winning Novelist
               </cite>
             </div>
 
             {/* Features Preview */}
             <div className="mt-8 space-y-3">
-              <div className="flex items-center gap-3 text-white/80">
-                <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
+              <div className="flex items-center gap-3" style={{ color: `hsla(var(--auth-panel-text), 0.8)` }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: `hsl(var(--auth-brand-primary))` }}></div>
                 <span className="text-sm">164+ character fields with AI assistance</span>
               </div>
-              <div className="flex items-center gap-3 text-white/80">
-                <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
+              <div className="flex items-center gap-3" style={{ color: `hsla(var(--auth-panel-text), 0.8)` }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: `hsl(var(--auth-brand-primary))` }}></div>
                 <span className="text-sm">World building tools and relationship mapping</span>
               </div>
-              <div className="flex items-center gap-3 text-white/80">
-                <div className="w-2 h-2 bg-emerald-300 rounded-full"></div>
+              <div className="flex items-center gap-3" style={{ color: `hsla(var(--auth-panel-text), 0.8)` }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: `hsl(var(--auth-brand-primary))` }}></div>
                 <span className="text-sm">Real-time collaboration and project management</span>
               </div>
             </div>
