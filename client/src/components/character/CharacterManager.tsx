@@ -35,7 +35,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
+
   const [isV2WizardOpen, setIsV2WizardOpen] = useState(false);
   // REMOVED: Dead state - isV2TemplatesOpen (CharacterTemplatesV2 never opened)
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
@@ -329,7 +329,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(character);
     setIsCreating(false);
     setIsGuidedCreation(false);
-    setIsEditMode(true);
   };
 
   const handleDelete = (character: Character) => {
@@ -488,7 +487,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
     setIsCreating(false);
     setIsGuidedCreation(false);
-    setIsEditMode(false);
   };
 
   const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
@@ -525,7 +523,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         character={selectedCharacter}
         isCreating={isCreating}
         isGuidedCreation={isGuidedCreation}
-        isEditMode={isEditMode}
+
         onBack={handleBackToList}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -599,17 +597,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           
 
           
-          {/* Clean Hover Overlay - Hidden in selection mode */}
-          {!isSelectionMode && (
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-              {/* Subtle overlay for better readability */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <div className="text-accent-foreground/90 text-sm font-medium line-clamp-2 leading-relaxed">
-                  {character.description || 'Click to view character details...'}
-                </div>
-              </div>
-            </div>
-          )}
+
 
 
         </div>
