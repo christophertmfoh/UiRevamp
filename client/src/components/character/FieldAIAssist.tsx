@@ -1,61 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Sparkles, Loader2 } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
-import type { Character } from '@/lib/types';
+import { Sparkles } from 'lucide-react';
 
 interface FieldAIAssistProps {
-  character: Character;
+  character?: any; // Made optional since we're not using it
   fieldKey: string;
   fieldLabel: string;
-  currentValue: any;
-  onFieldUpdate: (value: any) => void;
+  currentValue?: any; // Made optional since we're not using it
+  onFieldUpdate?: (value: any) => void; // Made optional since we're not using it
   disabled?: boolean;
   fieldOptions?: string[];
 }
 
 export function FieldAIAssist({ 
-  character, 
-  fieldKey, 
-  fieldLabel, 
-  currentValue, 
-  onFieldUpdate, 
-  disabled = false,
-  fieldOptions
+  disabled = false
 }: FieldAIAssistProps) {
-  const [isEnhancing, setIsEnhancing] = useState(false);
-
-  const handleFieldEnhance = async () => {
-    if (disabled || isEnhancing || !character) return;
-    
-    setIsEnhancing(true);
-    try {
-      console.log(`Starting field enhancement for ${fieldKey}:`, fieldLabel);
-      
-      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance-field`, {
-        character,
-        fieldKey,
-        fieldLabel,
-        currentValue,
-        fieldOptions
-      });
-      
-      const result = await response.json();
-      console.log(`Field enhancement result for ${fieldKey}:`, result);
-      
-      if (result[fieldKey] !== undefined) {
-        onFieldUpdate(result[fieldKey]);
-      }
-    } catch (error) {
-      console.error(`Failed to enhance field ${fieldKey}:`, error);
-    } finally {
-      setIsEnhancing(false);
-    }
+  
+  const handleFieldEnhance = () => {
+    // AI functionality removed - this is just a placeholder UI element
+    console.log('🤖 AI Field Enhancement - UI placeholder (no functionality)');
   };
-
-  // Always show the genie icon for assistance
-  // Users can enhance existing content or generate new content
 
   return (
     <TooltipProvider>
@@ -63,22 +28,16 @@ export function FieldAIAssist({
         <TooltipTrigger asChild>
           <Button
             onClick={handleFieldEnhance}
-            disabled={disabled || isEnhancing}
+            disabled={disabled}
             variant="ghost"
             size="sm"
-            className="h-6 w-6 p-0 opacity-60 hover:opacity-100 hover:bg-accent/10 transition-all duration-200"
+            className="h-8 w-8 p-0 rounded-full hover:bg-accent/10 transition-colors opacity-50 cursor-default"
           >
-            {isEnhancing ? (
-              <Loader2 className="h-3 w-3 animate-spin text-accent" />
-            ) : (
-              <Sparkles className="h-3 w-3 text-accent hover:text-accent/80" />
-            )}
+            <Sparkles className="h-3.5 w-3.5 text-accent" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="top" className="bg-background border border-border/30 text-foreground">
-          <p className="text-xs">
-            {isEnhancing ? `Generating ${fieldLabel.toLowerCase()}...` : `AI generate ${fieldLabel.toLowerCase()}`}
-          </p>
+        <TooltipContent side="top" className="text-xs">
+          <p>AI Enhancement - Coming Soon</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

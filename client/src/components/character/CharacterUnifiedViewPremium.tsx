@@ -12,7 +12,6 @@ import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTo
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
-import { LoadingModal } from '@/components/ui/loading-modal';
 import { AIAssistModal } from './AIAssistModal';
 import { FieldAIAssist } from './FieldAIAssist';
 
@@ -39,10 +38,7 @@ export function CharacterUnifiedViewPremium({
   const [formData, setFormData] = useState<Character>(character);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
-  const [isEnhancing, setIsEnhancing] = useState(false);
   const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const autoSaveTimerRef = useRef<NodeJS.Timeout>();
@@ -341,62 +337,14 @@ export function CharacterUnifiedViewPremium({
   };
 
   const handleAIEnhance = async (selectedCategories: string[]) => {
+    // AI functionality removed - close modal and show placeholder message
     setIsAIAssistModalOpen(false);
-    setIsEnhancing(true);
-    setSelectedCategories(selectedCategories);
-    
-    // Create abort controller for this request
-    const controller = new AbortController();
-    setAbortController(controller);
-    
-    try {
-      console.log('Starting AI enhancement for character:', character.id, 'Categories:', selectedCategories);
-      
-      const response = await fetch(`/api/characters/${character.id}/enhance`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          selectedCategories
-        }),
-        signal: controller.signal
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const enhancedData = await response.json();
-      console.log('AI enhancement response received:', enhancedData);
-      
-      // Process the enhanced data to ensure correct types before updating form
-      const processedEnhancedData = processDataForSave({ ...character, ...enhancedData });
-      
-      // Update form data with processed data
-      setFormData({ ...character, ...processedEnhancedData } as Character);
-      
-      console.log('Form data updated with enhanced character');
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
-        console.log('AI enhancement was aborted by user');
-      } else {
-        console.error('Failed to enhance character:', error);
-        alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
-      }
-    } finally {
-      setIsEnhancing(false);
-      setAbortController(null);
-    }
+    console.log('🤖 AI Enhancement - UI placeholder (no functionality)', selectedCategories);
   };
 
   const handleAbortAI = () => {
-    if (abortController) {
-      abortController.abort();
-      setAbortController(null);
-    }
-    setIsEnhancing(false);
+    // AI functionality removed - no abort needed
+    console.log('🤖 AI Abort - UI placeholder (no functionality)');
   };
 
   const handleInputChange = (field: keyof Character, value: any) => {
@@ -427,13 +375,13 @@ export function CharacterUnifiedViewPremium({
               <>
                 <Button 
                   onClick={() => setIsAIAssistModalOpen(true)}
-                  disabled={isEnhancing || saveMutation.isPending}
+                  disabled={saveMutation.isPending}
                   variant="outline"
                   size="sm"
                   className="gap-2 bg-gradient-to-r from-accent/10 to-accent/15 border-accent/30 hover:from-accent/20 hover:to-accent/25 hover:border-accent/50 text-accent transition-all duration-200"
                 >
                   <Sparkles className="h-4 w-4" />
-                  {isEnhancing ? 'AI Working...' : 'AI Assist'}
+                  AI Assist
                 </Button>
                 <Button 
                   onClick={handleCancel} 
@@ -1890,20 +1838,12 @@ export function CharacterUnifiedViewPremium({
         onImageUploaded={handleImageGenerated}
       />
 
-      {/* AI Assist Explanation Modal */}
-            <AIAssistModal
+            {/* AI Assist Explanation Modal */}
+      <AIAssistModal
         isOpen={isAIAssistModalOpen}
         onClose={() => setIsAIAssistModalOpen(false)}
         onStartAssist={handleAIEnhance}
-        isProcessing={isEnhancing}
-      />
-
-      {/* AI Enhancement Loading Modal */}
-      <LoadingModal
-        isOpen={isEnhancing}
-        title="AI Assist is working..."
-        message="Scanning your character data across all categories and generating contextual details for each field."
-        onAbort={handleAbortAI}
+        isProcessing={false}
       />
 
     </div>

@@ -254,61 +254,11 @@ export function CharacterPortraitModal({
 
 
   const handleGenerateImage = async () => {
-    setIsGenerating(true);
-    setNewGeneratedImage(null);
+    // AI image generation functionality removed
+    console.log('🤖 AI Image Generation - UI placeholder (no functionality)');
     
-    try {
-      const prompt = generateCharacterPrompt();
-      
-      const response = await fetch('/api/generate-character-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt,
-          characterId: character.id,
-          projectId: character.projectId,
-          artStyle,
-          additionalDetails,
-          engineType: 'gemini'
-        })
-      });
-
-      if (!response.ok) throw new Error('Failed to generate image');
-      
-      const data = await response.json();
-      
-      if (data.url) {
-        const newPortrait = {
-          id: Date.now().toString(),
-          url: data.url,
-          isMain: portraitGallery.length === 0 // First image is automatically main
-        };
-        
-        const updatedGallery = [...portraitGallery, newPortrait];
-        setPortraitGallery(updatedGallery);
-        setNewGeneratedImage(data.url);
-        
-        // Save to database
-        if (newPortrait.isMain) {
-          updateCharacterImageUrl(data.url, updatedGallery);
-          if (onImageGenerated) {
-            onImageGenerated(data.url);
-          }
-        } else {
-          savePortraitsToCharacter(updatedGallery);
-        }
-        
-        // After generation complete, switch to gallery tab and show new image
-        setTimeout(() => {
-          setIsGenerating(false);
-          setActiveTab('gallery');
-          setSelectedImagePreview(data.url);
-        }, 500);
-      }
-    } catch (error) {
-      console.error('Image generation failed:', error);
-      setIsGenerating(false);
-    }
+    // Show a temporary notification
+    alert('AI Portrait Generation coming soon! Please upload an image instead.');
   };
 
   const handleSetMainImage = (imageId: string) => {
