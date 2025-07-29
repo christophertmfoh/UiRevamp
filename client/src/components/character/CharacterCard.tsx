@@ -1,8 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Edit, Trash2, User, ChevronRight } from 'lucide-react';
+import { Edit, Trash2, User, ChevronRight, Camera } from 'lucide-react';
+import { useState } from 'react';
 import type { Character } from '@/lib/types';
+import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 
 interface CharacterCardProps {
   character: Character;
@@ -12,21 +14,43 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ character, onSelect, onEdit, onDelete }: CharacterCardProps) {
+  const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
+
+  const handleImageGenerated = (imageUrl: string) => {
+    // Handle image generation completion - you might want to refresh the character data
+    console.log('Image generated:', imageUrl);
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    // Handle image upload completion - you might want to refresh the character data
+    console.log('Image uploaded:', imageUrl);
+  };
+
   return (
     <Card className="creative-card interactive-warm-subtle cursor-pointer group" onClick={() => onSelect(character)}>
       <CardContent className="p-6">
         <div className="flex items-start gap-6">
           {/* Character Avatar */}
-          <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0">
+          <div 
+            className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-100 to-orange-200 dark:from-amber-900/30 dark:to-orange-900/30 flex items-center justify-center flex-shrink-0 relative group/avatar cursor-pointer hover:shadow-lg transition-all duration-200"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsPortraitModalOpen(true);
+            }}
+          >
             {character.imageUrl ? (
               <img 
                 src={character.imageUrl} 
                 alt={character.name}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-lg group-hover/avatar:brightness-75 transition-all duration-200"
               />
             ) : (
-              <User className="h-10 w-10 text-amber-600 dark:text-amber-400" />
+              <User className="h-10 w-10 text-amber-600 dark:text-amber-400 group-hover/avatar:scale-110 transition-transform duration-200" />
             )}
+            {/* Camera overlay on hover */}
+            <div className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+              <Camera className="h-5 w-5 text-white" />
+            </div>
           </div>
 
           {/* Character Info */}
@@ -195,6 +219,15 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
           </div>
         </div>
       </CardContent>
+      
+      {/* Portrait Modal */}
+      <CharacterPortraitModal
+        character={character}
+        isOpen={isPortraitModalOpen}
+        onClose={() => setIsPortraitModalOpen(false)}
+        onImageGenerated={handleImageGenerated}
+        onImageUploaded={handleImageUploaded}
+      />
     </Card>
   );
 }

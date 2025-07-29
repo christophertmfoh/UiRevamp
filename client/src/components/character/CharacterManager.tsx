@@ -532,24 +532,31 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
         
         {/* Character Image Header */}
-        <div className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden">
+        <div 
+          className="relative h-64 bg-gradient-to-br from-accent/5 via-muted/20 to-accent/10 overflow-hidden cursor-pointer group/image"
+          onClick={(e) => handlePortraitClick(character, e)}
+        >
           {character.imageUrl ? (
             <>
               <img 
                 src={character.imageUrl} 
                 alt={character.name}
-                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110 group-hover/image:brightness-75"
               />
               {/* Image Overlay for Better Text Contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              {/* Camera overlay on hover */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                <Camera className="h-8 w-8 text-white" />
+              </div>
             </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-muted/30 group-hover/image:bg-gradient-to-br group-hover/image:from-accent/20 group-hover/image:to-muted/40 transition-all duration-200">
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
-                  <Users className="h-10 w-10 text-accent/60" />
+                <div className="w-20 h-20 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center group-hover/image:bg-accent/30 transition-all duration-200">
+                  <Camera className="h-10 w-10 text-accent/60 group-hover/image:text-accent/80 group-hover/image:scale-110 transition-all duration-200" />
                 </div>
-                <p className="text-sm text-muted-foreground font-medium">Ready for portrait</p>
+                <p className="text-sm text-muted-foreground font-medium group-hover/image:text-muted-foreground/80">Add Portrait</p>
               </div>
             </div>
           )}
@@ -690,16 +697,25 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </div>
           )}
           {/* Premium Avatar */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200">
+          <div 
+            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/10 via-muted/20 to-accent/15 flex items-center justify-center flex-shrink-0 border border-accent/20 shadow-md group-hover:shadow-lg transition-shadow duration-200 cursor-pointer group/avatar relative"
+            onClick={(e) => handlePortraitClick(character, e)}
+          >
             {character.imageUrl ? (
-              <img 
-                src={character.imageUrl} 
-                alt={character.name}
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105"
-              />
+              <>
+                <img 
+                  src={character.imageUrl} 
+                  alt={character.name}
+                  className="w-full h-full object-cover rounded-2xl transition-transform duration-200 group-hover:scale-105 group-hover/avatar:brightness-75"
+                />
+                {/* Camera overlay on hover */}
+                <div className="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                  <Camera className="h-4 w-4 text-white" />
+                </div>
+              </>
             ) : (
-              <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
-                <Users className="h-6 w-6 text-accent/70" />
+              <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center group-hover/avatar:bg-accent/30 transition-all duration-200">
+                <Camera className="h-6 w-6 text-accent/70 group-hover/avatar:text-accent/90 group-hover/avatar:scale-110 transition-all duration-200" />
               </div>
             )}
           </div>
