@@ -22,13 +22,6 @@ interface CharacterGuidedCreationUnifiedProps {
   onBack: () => void;
   onComplete: (character: Character) => void;
   onAutoSave: (method: 'guided', data: Record<string, any>, progress: number) => void;
-  theme: {
-    primary: string;
-    primaryHover: string;
-    secondary: string;
-    background: string;
-    border: string;
-  };
 }
 
 // COMPLETE character field configuration - ALL 160+ fields preserved
@@ -318,8 +311,7 @@ export function CharacterGuidedCreationUnified({
   projectId,
   onBack,
   onComplete,
-  onAutoSave,
-  theme
+  onAutoSave
 }: CharacterGuidedCreationUnifiedProps) {
   const [currentSection, setCurrentSection] = useState(0);
   const [characterData, setCharacterData] = useState<Partial<Character>>({
