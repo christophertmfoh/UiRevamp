@@ -9,12 +9,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, Loader2, Users, Crown, Sword, Heart, BookOpen, Zap, Shield, Laugh, Eye, Star, Wand2 } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
+import type { Character } from '@/lib/types';
 
 interface CharacterGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
   onBack?: () => void;
+  onGenerate?: (options: CharacterGenerationOptions) => Promise<void>;
+  isGenerating?: boolean;
+  onComplete?: (character: any) => void;
 }
 
 export interface CharacterGenerationOptions {
@@ -68,8 +74,11 @@ const PERSONALITY_SUGGESTIONS = [
 export function CharacterGenerationModal({ 
   isOpen, 
   onClose, 
+  projectId,
+  onBack,
   onGenerate, 
-  isGenerating 
+  isGenerating = false,
+  onComplete
 }: CharacterGenerationModalProps) {
   const [characterType, setCharacterType] = useState('');
   const [role, setRole] = useState('');
@@ -77,15 +86,39 @@ export function CharacterGenerationModal({
   const [personality, setPersonality] = useState('');
   const [archetype, setArchetype] = useState('');
   const [selectedTab, setSelectedTab] = useState('type');
+  
+  const queryClient = useQueryClient();
+  
+  // Default character generation mutation
+  const generateMutation = useMutation({
+    mutationFn: async (options: CharacterGenerationOptions) => {
+      const response = await apiRequest(`/api/projects/${projectId}/characters/generate`, {
+        method: 'POST',
+        body: JSON.stringify(options)
+      });
+      return response as Character;
+    },
+    onSuccess: (character) => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      onComplete?.(character);
+      onClose();
+    }
+  });
 
   const handleGenerate = async () => {
-    await onGenerate({
+    const options = {
       characterType,
       role,
       customPrompt,
       personality,
       archetype
-    });
+    };
+    
+    if (onGenerate) {
+      await onGenerate(options);
+    } else {
+      generateMutation.mutate(options);
+    }
   };
 
   const handleReset = () => {
@@ -101,6 +134,7 @@ export function CharacterGenerationModal({
   const selectedArchetypeData = ARCHETYPES.find(a => a.value === archetype);
 
   const isComplete = characterType && (role || archetype || personality || customPrompt);
+  const isCurrentlyGenerating = isGenerating || generateMutation.isPending;
 
   return (
     <>
@@ -346,11 +380,11 @@ export function CharacterGenerationModal({
                 </div>
                 <Button 
                   onClick={handleGenerate} 
-                  disabled={isGenerating || !isComplete}
+                  disabled={isCurrentlyGenerating || !isComplete}
                   size="lg"
                   className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground"
                 >
-                  {isGenerating ? (
+                  {isCurrentlyGenerating ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                       Generating Character...
@@ -370,7 +404,7 @@ export function CharacterGenerationModal({
     </Dialog>
 
     {/* AI Generation Loading Overlay - No X Button */}
-    {isGenerating && (
+    {isCurrentlyGenerating && (
       <Dialog open={true} onOpenChange={() => {}}>
         <DialogContent className="max-w-md [&>button]:hidden">
           <div className="flex flex-col items-center text-center space-y-6 py-8">

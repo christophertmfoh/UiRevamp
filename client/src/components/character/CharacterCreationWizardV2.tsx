@@ -848,6 +848,10 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
         onClose={() => setIsAIGenerationOpen(false)}
         projectId={projectId}
         onBack={() => setIsAIGenerationOpen(false)}
+        onComplete={(character) => {
+          setIsAIGenerationOpen(false);
+          onComplete?.(character);
+        }}
       />
     )}
   </>

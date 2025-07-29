@@ -362,6 +362,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Character AI generation route
+  app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { characterType, role, customPrompt, personality, archetype } = req.body;
+      
+      console.log(`Generating character for project ${projectId}`);
+      
+      // Import AI generation service
+      const { generateCharacterFromPrompt } = await import('./services/aiGeneration');
+      
+      // Create a comprehensive prompt from the options
+      let prompt = `Create a detailed character`;
+      
+      if (characterType) {
+        prompt += ` who is a ${characterType}`;
+      }
+      
+      if (role) {
+        prompt += ` with the role of ${role}`;
+      }
+      
+      if (archetype) {
+        prompt += ` following the ${archetype} archetype`;
+      }
+      
+      if (personality) {
+        prompt += ` with personality traits: ${personality}`;
+      }
+      
+      if (customPrompt) {
+        prompt += `. Additional details: ${customPrompt}`;
+      }
+      
+      prompt += `. Include comprehensive details for name, physical appearance, personality, background, abilities, and story elements.`;
+      
+      // Generate character data using AI
+      const generatedData = await generateCharacterFromPrompt(prompt);
+      
+      // Transform generated data to match database schema
+      const characterData: Record<string, unknown> = {
+        id: generateUniqueId(),
+        projectId,
+        name: generatedData.name || 'Generated Character',
+        ...generatedData
+      };
+      
+      // Create character in database
+      const character = await storage.createCharacter(characterData as any);
+      
+      // Generate portrait for the character
+      if (character.id) {
+        try {
+          const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+          const portraitUrl = await generateCharacterPortrait(character);
+          if (portraitUrl) {
+            console.log('Portrait generated for AI character:', portraitUrl);
+          }
+        } catch (portraitError) {
+          console.error("Error generating portrait for AI character:", portraitError);
+        }
+      }
+      
+      res.json(character);
+    } catch (error) {
+      console.error("Error generating character:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      res.status(500).json({ 
+        error: "Failed to generate character",
+        details: errorMessage 
+      });
+    }
+  });
+
   // Character field enhancement route (needs to be moved to character router)
   app.post("/api/characters/:id/enhance-field", async (req, res) => {
     try {

@@ -242,3 +242,111 @@ Goals: ${goals}
 This character context should inform all generated content.`;
   }
 }
+
+/**
+ * Generate a complete character from a descriptive prompt
+ */
+export async function generateCharacterFromPrompt(prompt: string): Promise<any> {
+  try {
+    console.log('🎭 Generating character from prompt:', prompt.substring(0, 100) + '...');
+    
+    const ai = getAIService();
+    const model = ai.getGenerativeModel({ model: AI_CONFIG.model });
+    
+    const systemPrompt = `You are a creative character generator for storytelling. Generate a detailed character based on the user's description.
+
+Return the response as a valid JSON object with the following structure:
+{
+  "name": "Character Name",
+  "age": "Age or age range",
+  "species": "Human/Elf/etc",
+  "gender": "Gender",
+  "physicalDescription": "Detailed physical appearance",
+  "personality": "Key personality traits",
+  "motivations": "What drives them",
+  "fears": "What they fear",
+  "backstory": "Their background story",
+  "skills": "Notable abilities and skills",
+  "flaws": "Character weaknesses",
+  "goals": "What they want to achieve",
+  "occupation": "Job or role",
+  "relationships": "Important relationships",
+  "quirks": "Unique characteristics",
+  "secrets": "Hidden aspects",
+  "voice": "How they speak",
+  "mannerisms": "Physical habits",
+  "clothing": "Style of dress",
+  "equipment": "Important possessions",
+  "strengths": "What they excel at",
+  "weaknesses": "Areas of struggle"
+}
+
+Make the character compelling, three-dimensional, and suitable for storytelling. Ensure all fields are filled with relevant, creative content.`;
+
+    const result = await model.generateContent({
+      contents: [
+        { role: 'system', parts: [{ text: systemPrompt }] },
+        { role: 'user', parts: [{ text: prompt }] }
+      ],
+      generationConfig: {
+        temperature: 0.8,
+        maxOutputTokens: 2000,
+        candidateCount: 1
+      }
+    });
+
+    const responseText = result.response.text();
+    console.log('🎭 Raw AI response:', responseText.substring(0, 200) + '...');
+    
+    // Try to parse JSON from the response
+    let characterData;
+    try {
+      // Find JSON content in the response
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        characterData = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('No JSON found in response');
+      }
+    } catch (parseError) {
+      console.warn('🎭 Failed to parse AI response as JSON, using fallback structure');
+      // Fallback: create a basic structure from the text
+      characterData = {
+        name: extractNameFromText(responseText) || 'Generated Character',
+        physicalDescription: responseText.substring(0, 200),
+        personality: 'Dynamically generated personality',
+        backstory: 'Rich backstory created by AI',
+        motivations: 'Compelling motivations',
+        skills: 'Unique abilities and talents'
+      };
+    }
+    
+    console.log('🎭 Generated character:', characterData.name);
+    return characterData;
+    
+  } catch (error) {
+    console.error('❌ Error generating character:', error);
+    throw new Error(`Character generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Helper function to extract a name from text
+ */
+function extractNameFromText(text: string): string | null {
+  // Simple name extraction patterns
+  const namePatterns = [
+    /name[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
+    /called[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
+    /^([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/
+  ];
+  
+  for (const pattern of namePatterns) {
+    const match = text.match(pattern);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+  
+  return null;
+}
