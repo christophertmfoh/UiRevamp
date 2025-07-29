@@ -322,10 +322,51 @@ export function UniversalEntityManager({
 
 
 
-  // Data fetching - matching CharacterManager pattern exactly
+  // Data fetching - fixed to use correct World Bible API endpoints
   const { data: entities = [], isLoading } = useQuery<BaseWorldEntity[]>({
-    queryKey: ['/api/projects', projectId, config.apiEndpoint],
+    queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`],
     enabled: !!projectId && projectId !== 'undefined' && projectId !== 'null',
+  });
+
+  // Create mutation for World Bible entities
+  const createEntityMutation = useMutation({
+    mutationFn: async (entityData: Partial<BaseWorldEntity>) => {
+      const response = await apiRequest('POST', `/api/projects/${projectId}/worldbible/${config.apiEndpoint}`, entityData);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
+    },
+    onError: (error) => {
+      console.error('Save failed:', error);
+    }
+  });
+
+  // Update mutation for World Bible entities  
+  const updateEntityMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string, data: Partial<BaseWorldEntity> }) => {
+      const response = await apiRequest('PUT', `/api/worldbible/${id}`, data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
+    },
+    onError: (error) => {
+      console.error('Update failed:', error);
+    }
+  });
+
+  // Delete mutation for World Bible entities
+  const deleteEntityMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest('DELETE', `/api/worldbible/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
+    },
+    onError: (error) => {
+      console.error('Delete failed:', error);
+    }
   });
 
   // Persist view mode to localStorage
@@ -705,7 +746,7 @@ export function UniversalEntityManager({
           onEntityGenerated={(entity) => {
             setSelectedEntity(entity);
             setIsGenerationModalOpen(false);
-            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+            queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
           }}
         />
       )}
@@ -721,7 +762,7 @@ export function UniversalEntityManager({
           onEntityCreated={(entity) => {
             setSelectedEntity(entity);
             setIsTemplateModalOpen(false);
-            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+            queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
           }}
         />
       )}
@@ -778,7 +819,7 @@ export function UniversalEntityManager({
           }}
           onDeleted={() => {
             setSelectedEntity(null);
-            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+            queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
           }}
         />
       )}
@@ -801,7 +842,7 @@ export function UniversalEntityManager({
             setIsCreating(false);
             setIsGuidedCreation(false);
             setNewEntityData({});
-            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+            queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/worldbible/${config.apiEndpoint}`] });
           }}
         />
       )}
@@ -1250,15 +1291,16 @@ function UniversalTemplates({
     
     setIsCreating(true);
     try {
-      const response = await apiRequest(`/api/projects/${projectId}/${config.apiEndpoint}/template`, {
-        method: 'POST',
-        body: JSON.stringify({
-          templateId: selectedTemplate,
-          entityType
-        })
-      });
+      const template = currentTemplates.find(t => t.id === selectedTemplate);
+      const basicEntityData = {
+        name: template?.name || 'New ' + config.singular,
+        description: template?.description || '',
+        entityType: config.apiEndpoint,
+        importance: 'medium'
+      };
       
-      onEntityCreated(response);
+      const response = await apiRequest('POST', `/api/projects/${projectId}/worldbible/${config.apiEndpoint}`, basicEntityData);  
+      onEntityCreated(await response.json());
     } catch (error) {
       console.error('Template creation failed:', error);
     } finally {
@@ -1361,9 +1403,7 @@ function UniversalDetailView({
     
     setIsDeleting(true);
     try {
-      await apiRequest(`/api/projects/${projectId}/${config.apiEndpoint}/${entity.id}`, {
-        method: 'DELETE'
-      });
+      await apiRequest('DELETE', `/api/worldbible/${entity.id}`);
       onDeleted();
     } catch (error) {
       console.error('Delete failed:', error);
@@ -1448,22 +1488,24 @@ function UniversalCreationView({
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const url = initialData.id 
-        ? `/api/projects/${projectId}/${config.apiEndpoint}/${initialData.id}`
-        : `/api/projects/${projectId}/${config.apiEndpoint}`;
-      
-      const method = initialData.id ? 'PATCH' : 'POST';
-      
-      const response = await apiRequest(url, {
-        method,
-        body: JSON.stringify({
+      if (initialData.id) {
+        // Update existing entity
+        const response = await apiRequest('PUT', `/api/worldbible/${initialData.id}`, {
           ...entityData,
-          entityType,
+          entityType: config.apiEndpoint,
           projectId
-        })
-      });
-      
-      onEntitySaved(response);
+        });
+        onEntitySaved(await response.json());
+      } else {
+        // Create new entity  
+        const response = await apiRequest('POST', `/api/projects/${projectId}/worldbible/${config.apiEndpoint}`, {
+          ...entityData,
+          entityType: config.apiEndpoint,
+          projectId,
+          importance: entityData.importance || 'medium'
+        });
+        onEntitySaved(await response.json());
+      }
     } catch (error) {
       console.error('Save failed:', error);
     } finally {
