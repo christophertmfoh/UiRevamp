@@ -580,6 +580,9 @@ export function UniversalEntityManager({
               }}
             >
               <CardContent className="p-0 relative">
+                {/* Subtle Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/3 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                
                 {/* Selection Checkbox */}
                 {isSelectionMode && (
                   <div className="absolute top-3 left-3 z-10">
@@ -627,7 +630,7 @@ export function UniversalEntityManager({
                       <h3 className="font-bold text-lg leading-tight group-hover:text-accent transition-colors duration-200 line-clamp-2">
                         {entity.name || 'Unnamed ' + config.singular}
                       </h3>
-                      <Badge variant="secondary" className="text-xs px-2 py-1 ml-2 flex-shrink-0">
+                      <Badge className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 text-accent-foreground font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
                         {config.singular}
                       </Badge>
                     </div>
@@ -642,12 +645,7 @@ export function UniversalEntityManager({
                   <div className="flex items-center justify-between pt-2 border-t border-border/30">
                     <Badge 
                       variant="outline" 
-                      className={`text-xs px-2 py-1 ${
-                        entity.importance === 'critical' ? 'border-red-200 text-red-700' :
-                        entity.importance === 'high' ? 'border-orange-200 text-orange-700' :
-                        entity.importance === 'medium' ? 'border-blue-200 text-blue-700' :
-                        'border-gray-200 text-gray-600'
-                      }`}
+                      className="text-xs bg-accent/5 border-accent/30 text-accent/80 hover:bg-accent/10 transition-colors font-medium"
                     >
                       {entity.importance}
                     </Badge>
