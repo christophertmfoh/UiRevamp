@@ -120,8 +120,8 @@ export function CharacterCreationLaunch({
                       
                       {/* Right side - Content */}
                       <div className="flex-1 flex flex-col">
-                        <div className="mb-4">
-                          <h3 className={`font-bold text-xl mb-2 group-hover:${option.iconColor} transition-colors duration-200`}>
+                        <div className="mb-3">
+                          <h3 className={`font-semibold text-base mb-1.5 group-hover:${option.iconColor} transition-colors duration-200`}>
                             {option.title}
                           </h3>
                           <p className="text-sm text-muted-foreground leading-relaxed">
