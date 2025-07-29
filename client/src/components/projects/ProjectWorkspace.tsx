@@ -62,11 +62,11 @@ import {
   Shield,
   Sword,
   Scroll,
-  Dragon,
   Languages,
   Crown,
   Gem,
-  Wand2
+  Wand2,
+  Zap
 } from 'lucide-react';
 // Import existing character manager temporarily
 import { CharacterManager } from '../character/CharacterManager';
@@ -697,7 +697,7 @@ export function ProjectWorkspace({
                         onClick={() => setWorldSection('bestiary')}
                         className="w-full justify-start text-sm"
                       >
-                        <Dragon className="w-4 h-4 mr-2" />
+                        <Zap className="w-4 h-4 mr-2" />
                         <span>Bestiary</span>
                         <Badge variant="secondary" className="ml-auto">0</Badge>
                       </Button>
@@ -895,7 +895,7 @@ export function ProjectWorkspace({
                   
                   {worldSection === 'bestiary' && (
                     <div className="text-center py-12">
-                      <Dragon className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <Zap className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                       <h3 className="text-2xl font-bold mb-4">Bestiary</h3>
                       <p className="text-muted-foreground mb-6">
                         Document creatures, monsters, and species

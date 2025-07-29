@@ -4,7 +4,7 @@ export interface Project {
   type: 'novel' | 'screenplay' | 'comic' | 'dnd-campaign' | 'poetry';
   description?: string | null;
   synopsis?: string | null;
-  genre?: string[] | null;
+  genre?: string | string[] | undefined;
   createdAt: Date;
   lastModified: Date;
   userId: string;
