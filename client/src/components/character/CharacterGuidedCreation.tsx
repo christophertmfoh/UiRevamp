@@ -1,27 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { 
+  Dialog, DialogContent, DialogHeader, DialogTitle 
+} from '@/components/ui/dialog';
+import { 
+  Card, CardContent, CardHeader, CardTitle 
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
-  ArrowLeft, 
-  ArrowRight, 
-  User, 
-  Eye, 
-  Brain, 
-  Zap, 
-  BookOpen, 
-  Users, 
-  PenTool,
-  Check,
-  Star,
-  Sparkles,
-  Save
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
+} from '@/components/ui/select';
+import { 
+  ArrowLeft, ArrowRight, Save, Check, Star,
+  User, Eye, Brain, Zap, BookOpen, Users, PenTool
 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
@@ -65,12 +61,8 @@ const CREATION_STEPS: Step[] = [
       { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, Elf, Dragon, etc.' },
       { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, Mage, Detective, etc.' },
       { key: 'role', label: 'Story Role', type: 'select', options: [
-        'Protagonist', 'Antagonist', 'Deuteragonist', 'Tritagonist', 'Supporting Character', 
-        'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero', 'Anti-Villain',
-        'Foil Character', 'Catalyst', 'Guardian', 'Threshold Guardian', 'Shapeshifter', 'Shadow',
-        'Herald', 'Trickster', 'Innocent', 'Explorer', 'Sage', 'Hero', 'Outlaw', 'Magician',
-        'Regular Guy/Girl', 'Lover', 'Jester', 'Caregiver', 'Creator', 'Ruler', 'Minor Character',
-        'Background Character', 'Cameo', 'Narrator', 'Confidant', 'Red Herring', 'MacGuffin Guardian'
+        'Protagonist', 'Antagonist', 'Deuteragonist', 'Supporting Character', 
+        'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero'
       ] }
     ]
   },
@@ -100,9 +92,7 @@ const CREATION_STEPS: Step[] = [
       { key: 'personality', label: 'Personality Overview', type: 'textarea', placeholder: 'Core personality description', required: true },
       { key: 'personalityTraits', label: 'Key Traits', type: 'array', placeholder: 'Brave, cynical, optimistic (separate with commas)' },
       { key: 'temperament', label: 'Temperament', type: 'select', options: [
-        'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Sanguine-Choleric', 'Sanguine-Phlegmatic',
-        'Choleric-Sanguine', 'Choleric-Melancholic', 'Melancholic-Choleric', 'Melancholic-Phlegmatic',
-        'Phlegmatic-Sanguine', 'Phlegmatic-Melancholic', 'Optimistic', 'Pessimistic', 'Realistic',
+        'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Optimistic', 'Pessimistic', 'Realistic',
         'Idealistic', 'Cynical', 'Stoic', 'Emotional', 'Analytical', 'Intuitive', 'Impulsive',
         'Cautious', 'Adventurous', 'Reserved', 'Outgoing', 'Aggressive', 'Passive', 'Balanced'
       ] },
@@ -177,13 +167,7 @@ const CREATION_STEPS: Step[] = [
       { key: 'archetypes', label: 'Archetypes', type: 'select', options: [
         'The Hero', 'The Mentor', 'The Threshold Guardian', 'The Herald', 'The Shapeshifter', 'The Shadow',
         'The Ally', 'The Trickster', 'The Innocent', 'The Explorer', 'The Sage', 'The Outlaw', 'The Magician',
-        'The Regular Guy/Girl', 'The Lover', 'The Jester', 'The Caregiver', 'The Creator', 'The Ruler',
-        'The Warrior', 'The Orphan', 'The Seeker', 'The Destroyer', 'The Rebel', 'The Fool', 'The Wise Woman/Man',
-        'The Mother', 'The Father', 'The Child', 'The Maiden', 'The Crone', 'The Anima', 'The Animus',
-        'The Self', 'The Persona', 'The Great Mother', 'The Terrible Mother', 'The Wise Old Man',
-        'The Divine Child', 'The Wounded Healer', 'The Scapegoat', 'The Martyr', 'The Savior',
-        'The Temptress', 'The Femme Fatale', 'The Damsel in Distress', 'The Dark Lord', 'The Prophet',
-        'The Shaman', 'The Guide', 'The Guardian', 'The Gatekeeper', 'The Threshold Dweller'
+        'The Regular Guy/Girl', 'The Lover', 'The Jester', 'The Caregiver', 'The Creator', 'The Ruler'
       ] },
       { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas' }
     ]
@@ -224,46 +208,38 @@ export function CharacterGuidedCreation({
 
   const saveMutation = useMutation({
     mutationFn: async (data: Partial<Character>) => {
-      const processedData = processDataForSave(data);
-      if (character?.id) {
-        const response = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
-        return await response.json();
-      } else {
-        const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, processedData);
-        return await response.json();
-      }
-    },
-    onSuccess: (savedCharacter: Character) => {
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      if (onComplete) {
-        onComplete(savedCharacter);
-      }
-    },
-    onError: (error) => {
-      console.error('Failed to save character:', error);
-    }
-  });
+      const processedData = {
+        ...data,
+        personalityTraits: Array.isArray(data.personalityTraits) 
+          ? data.personalityTraits 
+          : typeof data.personalityTraits === 'string' 
+            ? data.personalityTraits.split(',').map(s => s.trim()).filter(Boolean)
+            : [],
+        abilities: Array.isArray(data.abilities) 
+          ? data.abilities 
+          : typeof data.abilities === 'string' 
+            ? data.abilities.split(',').map(s => s.trim()).filter(Boolean)
+            : [],
+        skills: Array.isArray(data.skills) 
+          ? data.skills 
+          : typeof data.skills === 'string' 
+            ? data.skills.split(',').map(s => s.trim()).filter(Boolean)
+            : []
+      };
 
-  const processDataForSave = (data: Partial<Character>) => {
-    const processedData = { ...data };
-    const arrayFields = [
-      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
-    ];
-    
-    arrayFields.forEach(field => {
-      const value = (data as any)[field];
-      if (typeof value === 'string') {
-        (processedData as any)[field] = value.trim() ? value.split(',').map((s: string) => s.trim()) : [];
-      } else if (Array.isArray(value)) {
-        (processedData as any)[field] = value;
-      } else {
-        (processedData as any)[field] = [];
-      }
-    });
-    
-    return processedData;
-  };
+      const response = await apiRequest({
+        url: `/api/projects/${projectId}/characters`,
+        method: 'POST',
+        data: processedData,
+      });
+      return response;
+    },
+    onSuccess: (newCharacter) => {
+      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
+      onComplete?.(newCharacter);
+      onCancel();
+    },
+  });
 
   const updateField = (key: keyof Character, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
@@ -271,7 +247,6 @@ export function CharacterGuidedCreation({
 
   const isStepComplete = (stepIndex: number) => {
     const step = CREATION_STEPS[stepIndex];
-    if (!step) return false;
     const requiredFields = step.fields.filter(field => field.required);
     return requiredFields.every(field => {
       const value = (formData as any)[field.key];
@@ -319,7 +294,7 @@ export function CharacterGuidedCreation({
             value={value}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground"
+            className="bg-card border-border/30 focus:border-accent/70"
           />
         );
       
@@ -330,19 +305,19 @@ export function CharacterGuidedCreation({
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
             rows={3}
-            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground resize-none"
+            className="bg-card border-border/30 focus:border-accent/70 resize-none"
           />
         );
       
       case 'select':
         return (
           <Select value={value} onValueChange={(val) => updateField(field.key, val)}>
-            <SelectTrigger className="bg-card border-border/30 focus:border-accent/70 text-foreground">
-              <SelectValue placeholder="Select an option" className="text-muted-foreground" />
+            <SelectTrigger className="bg-card border-border/30 focus:border-accent/70">
+              <SelectValue placeholder="Select an option" />
             </SelectTrigger>
             <SelectContent className="bg-card border-border/30">
               {field.options?.map(option => (
-                <SelectItem key={option} value={option} className="text-foreground hover:bg-accent/10">{option}</SelectItem>
+                <SelectItem key={option} value={option}>{option}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -355,7 +330,7 @@ export function CharacterGuidedCreation({
             value={arrayValue}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-card border-border/30 focus:border-accent/70 text-foreground placeholder:text-muted-foreground"
+            className="bg-card border-border/30 focus:border-accent/70"
           />
         );
       
@@ -365,173 +340,167 @@ export function CharacterGuidedCreation({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/98 to-accent/5">
-      {/* Header */}
-      <div className="border-b border-border/30 bg-background/95 backdrop-blur-xl sticky top-0 z-20">
-        <div className="flex items-center justify-between p-6">
-          <div className="flex items-center gap-4">
-            <Button onClick={onCancel} variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Cancel
-            </Button>
+    <Dialog open={true} onOpenChange={onCancel}>
+      <DialogContent className="max-w-6xl h-[90vh] p-0 gap-0">
+        <DialogHeader className="border-b border-border/30 p-6 pb-4">
+          <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Create Character</h1>
-              <p className="text-sm text-muted-foreground">
+              <DialogTitle className="text-xl font-bold">Create Character</DialogTitle>
+              <p className="text-sm text-muted-foreground mt-1">
                 Step {currentStepIndex + 1} of {CREATION_STEPS.length}: {currentStep?.title || 'Loading...'}
               </p>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground">
-              {Math.round(progress)}% Complete
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-muted-foreground">
+                {Math.round(progress)}% Complete
+              </div>
+              <Progress value={progress} className="w-32" />
             </div>
-            <Progress value={progress} className="w-32" />
           </div>
-        </div>
-      </div>
+        </DialogHeader>
 
-      <div className="flex min-h-[calc(100vh-88px)]">
-        {/* Step Navigation Sidebar */}
-        <div className="w-80 border-r border-border/30 bg-card/30 backdrop-blur-sm p-6">
-          <div className="space-y-2">
-            {CREATION_STEPS.map((step, index) => {
-              const Icon = step.icon;
-              const isCompleted = completedSteps.has(index);
-              const isCurrent = index === currentStepIndex;
-              const isAccessible = index <= currentStepIndex || completedSteps.has(index);
+        <div className="flex flex-1 overflow-hidden">
+          {/* Step Navigation Sidebar */}
+          <div className="w-72 border-r border-border/30 bg-card/30 p-4 overflow-y-auto">
+            <div className="space-y-2">
+              {CREATION_STEPS.map((step, index) => {
+                const Icon = step.icon;
+                const isCompleted = completedSteps.has(index);
+                const isCurrent = index === currentStepIndex;
+                const isAccessible = index <= currentStepIndex || completedSteps.has(index);
 
-              return (
-                <button
-                  key={step.id}
-                  onClick={() => isAccessible && jumpToStep(index)}
-                  disabled={!isAccessible}
-                  className={`w-full text-left p-4 rounded-lg transition-all duration-200 ${
-                    isCurrent 
-                      ? 'bg-accent/15 border-2 border-accent/40 shadow-sm text-foreground' 
-                      : isCompleted
-                      ? 'bg-accent/8 border border-accent/25 hover:bg-accent/12 text-foreground'
-                      : isAccessible
-                      ? 'hover:bg-card/60 border border-transparent text-foreground hover:text-accent'
-                      : 'opacity-50 cursor-not-allowed border border-transparent text-muted-foreground'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${
+                return (
+                  <button
+                    key={step.id}
+                    onClick={() => isAccessible && jumpToStep(index)}
+                    disabled={!isAccessible}
+                    className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
                       isCurrent 
-                        ? 'bg-accent text-accent-foreground' 
+                        ? 'bg-accent/15 border-2 border-accent/40 shadow-sm' 
                         : isCompleted
-                        ? 'bg-accent/20 text-accent'
-                        : 'bg-muted'
-                    }`}>
-                      {isCompleted ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
-                    </div>
-                    <div className="flex-1">
-                      <div className={`font-semibold ${
-                        isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : ''
+                        ? 'bg-accent/8 border border-accent/25 hover:bg-accent/12'
+                        : isAccessible
+                        ? 'hover:bg-card/60 border border-transparent hover:text-accent'
+                        : 'opacity-50 cursor-not-allowed border border-transparent text-muted-foreground'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-lg ${
+                        isCurrent 
+                          ? 'bg-accent text-accent-foreground' 
+                          : isCompleted
+                          ? 'bg-accent/20 text-accent'
+                          : 'bg-muted'
                       }`}>
-                        {step.title}
+                        {isCompleted ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
                       </div>
-                      <div className={`text-xs line-clamp-2 ${
-                        isCurrent ? 'text-accent/70' : 'text-muted-foreground'
-                      }`}>
-                        {step.description}
+                      <div className="flex-1">
+                        <div className={`font-semibold text-sm ${
+                          isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : ''
+                        }`}>
+                          {step.title}
+                        </div>
+                        <div className={`text-xs line-clamp-2 ${
+                          isCurrent ? 'text-accent/70' : 'text-muted-foreground'
+                        }`}>
+                          {step.description}
+                        </div>
                       </div>
+                      {isCompleted && (
+                        <Star className="h-4 w-4 text-accent fill-accent/20" />
+                      )}
                     </div>
-                    {isCompleted && (
-                      <Star className="h-4 w-4 text-accent fill-accent/20" />
-                    )}
-                  </div>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <div className="flex-1 p-8">
-          <div className="max-w-2xl mx-auto">
-            <Card className="border-border/30 shadow-lg bg-card/50 backdrop-blur-sm">
-              <CardHeader className="pb-6 bg-gradient-to-r from-accent/5 to-accent/10 rounded-t-lg">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-accent/20 rounded-xl border border-accent/30">
-                    {currentStep?.icon && <currentStep.icon className="h-6 w-6 text-accent" />}
+          {/* Main Content */}
+          <div className="flex-1 p-6 overflow-y-auto">
+            <div className="max-w-2xl mx-auto">
+              <Card className="border-border/30 shadow-lg bg-card/50">
+                <CardHeader className="pb-4 bg-gradient-to-r from-accent/5 to-accent/10 rounded-t-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-accent/20 rounded-xl border border-accent/30">
+                      {currentStep?.icon && <currentStep.icon className="h-6 w-6 text-accent" />}
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl">{currentStep?.title || 'Loading...'}</CardTitle>
+                      <p className="text-sm text-muted-foreground mt-1">{currentStep?.description || ''}</p>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-2xl text-foreground">{currentStep?.title || 'Loading...'}</CardTitle>
-                    <p className="text-muted-foreground mt-1">{currentStep?.description || ''}</p>
-                  </div>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="space-y-6">
-                {currentStep?.fields?.map((field) => (
-                  <div key={field.key} className="space-y-2">
-                    <Label className="text-sm font-medium flex items-center gap-2">
-                      {field.label}
-                      {field.required && <span className="text-destructive">*</span>}
-                    </Label>
-                    {field.description && (
-                      <p className="text-xs text-muted-foreground">{field.description}</p>
-                    )}
-                    {renderField(field)}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-8">
-              <Button
-                onClick={handlePrevious}
-                disabled={currentStepIndex === 0}
-                variant="outline"
-                className="gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Previous
-              </Button>
-
-              <div className="flex items-center gap-2">
-                {!canProceed() && (
-                  <Badge variant="outline" className="text-xs">
-                    Complete required fields to continue
-                  </Badge>
-                )}
+                </CardHeader>
                 
-                {currentStepIndex === CREATION_STEPS.length - 1 ? (
-                  <Button
-                    onClick={handleFinish}
-                    disabled={!canProceed() || saveMutation.isPending}
-                    className="gap-2 bg-gradient-to-r from-accent to-accent/90"
-                  >
-                    {saveMutation.isPending ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="h-4 w-4" />
-                        Create Character
-                      </>
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleNext}
-                    disabled={!canProceed()}
-                    className="gap-2"
-                  >
-                    Next
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                )}
+                <CardContent className="space-y-4 max-h-[400px] overflow-y-auto">
+                  {currentStep?.fields?.map((field) => (
+                    <div key={field.key} className="space-y-2">
+                      <Label className="text-sm font-medium flex items-center gap-2">
+                        {field.label}
+                        {field.required && <span className="text-destructive">*</span>}
+                      </Label>
+                      {field.description && (
+                        <p className="text-xs text-muted-foreground">{field.description}</p>
+                      )}
+                      {renderField(field)}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Navigation */}
+              <div className="flex items-center justify-between mt-6">
+                <Button
+                  onClick={handlePrevious}
+                  disabled={currentStepIndex === 0}
+                  variant="outline"
+                  className="gap-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                <div className="flex items-center gap-2">
+                  {!canProceed() && (
+                    <Badge variant="outline" className="text-xs">
+                      Complete required fields to continue
+                    </Badge>
+                  )}
+                  
+                  {currentStepIndex === CREATION_STEPS.length - 1 ? (
+                    <Button
+                      onClick={handleFinish}
+                      disabled={!canProceed() || saveMutation.isPending}
+                      className="gap-2 bg-gradient-to-r from-accent to-accent/90"
+                    >
+                      {saveMutation.isPending ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save className="h-4 w-4" />
+                          Create Character
+                        </>
+                      )}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handleNext}
+                      disabled={!canProceed()}
+                      className="gap-2"
+                    >
+                      Next
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
