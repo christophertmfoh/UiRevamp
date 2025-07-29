@@ -486,6 +486,11 @@
     color: hsl(var(--gradient-brand-text)); /* Fallback for accessibility */
   }
 
+  .gradient-destructive {
+    background: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+  }
+
   .surface-elevated {
     background-color: hsl(var(--surface-elevated));
   }
