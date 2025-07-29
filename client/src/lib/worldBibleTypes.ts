@@ -20,37 +20,54 @@ export interface BaseWorldEntity {
   status: 'draft' | 'in-progress' | 'complete' | 'archived';
 }
 
-// LOCATIONS - Geographic and architectural entities
+// LOCATIONS - Geographic and architectural entities (Bloomweaver-inspired depth)
 export interface Location extends BaseWorldEntity {
-  // Geographic Properties
-  locationType: 'city' | 'town' | 'village' | 'region' | 'country' | 'continent' | 'building' | 'landmark' | 'natural' | 'mystical';
-  geography: string;
-  climate: string;
-  terrain: string;
-  size: string;
-  population: string;
+  // Core Identity (mirrors character name/race/class)
+  aliases: string[];
+  locationType: 'cosmic-nexus' | 'city' | 'town' | 'village' | 'region' | 'country' | 'continent' | 'building' | 'landmark' | 'natural' | 'mystical' | 'corrupted' | 'sacred' | 'ancient';
+  region: string;
   coordinates: string;
   
-  // Cultural & Social
-  culture: string;
+  // Geographic & Physical (mirrors character physical description)
+  geography: string;
+  terrain: string;
+  size: string;
+  climate: string;
+  naturalFeatures: string[];
+  landmarks: string[];
+  architecture: string;
+  defenses: string;
+  districts: string[];
+  infrastructure: string;
+  
+  // Population & Culture (mirrors character social aspects)
+  population: string;
   demographics: string;
+  culture: string;
   languages: string[];
-  government: string;
-  laws: string;
   customs: string;
   traditions: string;
   festivals: string;
-  religion: string;
+  socialStructure: string;
   
-  // Economic & Resources  
+  // Governance & Law (mirrors character class/role)
+  government: string;
+  ruler: string;
+  laws: string;
+  justice: string;
+  politics: string;
+  diplomacy: string;
+  
+  // Economic System (mirrors character resources/wealth)
   economy: string;
   resources: string[];
   trade: string;
   currency: string;
   wealth: string;
   industries: string[];
+  guilds: string[];
   
-  // Historical Context
+  // Historical Depth (mirrors character backstory - 164+ field equivalent)
   history: string;
   foundingDate: string;
   founders: string[];
@@ -58,38 +75,68 @@ export interface Location extends BaseWorldEntity {
   legends: string;
   ruins: string;
   artifacts: string[];
+  ancientSecrets: string;
+  prophesiedFate: string;
   
-  // Physical Features
-  landmarks: string[];
-  architecture: string;
-  defenses: string;
-  districts: string[];
-  buildings: string[];
-  infrastructure: string;
-  transportation: string;
+  // Symbolic & Thematic (Bloomweaver-style meaning)
+  symbolism: string;
+  coreThemes: string[];
+  philosophicalSignificance: string;
+  cosmicRelevance: string;
+  emotionalResonance: string;
   
-  // Relationships & Connections
+  // Magical & Supernatural (Bloomweaver-style mystical elements)
+  magicalProperties: string;
+  spiritualSignificance: string;
+  religion: string;
+  shrines: string[];
+  blessings: string;
+  curses: string;
+  supernaturalEvents: string[];
+  dimensionalAnomalies: string;
+  
+  // Atmospheric Depth (Bloomweaver-style sensory/psychological)
+  atmosphere: string;
+  mood: string;
+  sensoryDetails: string;
+  psychologicalImpact: string;
+  emotionalAura: string;
+  reputation: string;
+  
+  // Secrets & Mysteries (Bloomweaver-style hidden depths)
+  rumors: string;
+  secrets: string;
+  mysteries: string;
+  hiddenTruths: string;
+  forbiddenKnowledge: string;
+  
+  // Relationships & Connections (mirrors character relationships)
   parentLocation: string;
   childLocations: string[];
   alliedLocations: string[];
   enemyLocations: string[];
   tradingPartners: string[];
+  connectedCharacters: string[];
+  connectedFactions: string[];
+  connectedEvents: string[];
+  rivalries: string[];
+  dependencies: string[];
   
-  // Atmosphere & Mood
-  atmosphere: string;
-  mood: string;
-  reputation: string;
-  rumors: string;
-  secrets: string;
-  mysteries: string;
-  
-  // Practical Information
+  // Practical Adventure Information
   travelTime: string;
   accessMethods: string[];
   dangers: string[];
   opportunities: string[];
   questHooks: string[];
   plotRelevance: string;
+  currentEvents: string[];
+  
+  // Current State & Changes (mirrors character development)
+  currentCondition: string;
+  recentChanges: string[];
+  ongoingConflicts: string[];
+  emergingThreats: string[];
+  futureProspects: string;
 }
 
 // TIMELINE - Chronological events and history
