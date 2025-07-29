@@ -35,7 +35,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
-
+  const [shouldStartInEditMode, setShouldStartInEditMode] = useState(false);
   const [isV2WizardOpen, setIsV2WizardOpen] = useState(false);
   // REMOVED: Dead state - isV2TemplatesOpen (CharacterTemplatesV2 never opened)
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
@@ -329,6 +329,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(character);
     setIsCreating(false);
     setIsGuidedCreation(false);
+    setShouldStartInEditMode(false);
+  };
+
+  const handleEditFromList = (character: Character) => {
+    setSelectedCharacter(character);
+    setIsCreating(false);
+    setIsGuidedCreation(false);
+    setShouldStartInEditMode(true);
   };
 
   const handleDelete = (character: Character) => {
@@ -487,6 +495,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     setSelectedCharacter(null);
     setIsCreating(false);
     setIsGuidedCreation(false);
+    setShouldStartInEditMode(false);
   };
 
   const handlePortraitClick = (character: Character, event: React.MouseEvent) => {
@@ -523,7 +532,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         character={selectedCharacter}
         isCreating={isCreating}
         isGuidedCreation={isGuidedCreation}
-
+        initialEditMode={shouldStartInEditMode}
         onBack={handleBackToList}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -807,7 +816,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {!isSelectionMode && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
               <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
-                      onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
+                      onClick={(e) => { e.stopPropagation(); handleEditFromList(character); }}>
                 <Edit className="h-4 w-4" />
               </Button>
               <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-destructive/10 hover:text-destructive transition-colors rounded-xl"

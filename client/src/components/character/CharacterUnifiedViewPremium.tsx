@@ -19,6 +19,7 @@ import { FieldAIAssist } from './FieldAIAssist';
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
   character: Character;
+  initialEditMode?: boolean;
   onBack: () => void;
   onDelete: (character: Character) => void;
 }
@@ -30,10 +31,11 @@ const ICON_COMPONENTS = {
 export function CharacterUnifiedViewPremium({ 
   projectId,
   character, 
+  initialEditMode = false,
   onBack, 
   onDelete 
 }: CharacterUnifiedViewPremiumProps) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(initialEditMode);
   const [formData, setFormData] = useState<Character>(character);
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);

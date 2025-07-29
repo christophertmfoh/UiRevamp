@@ -9,7 +9,7 @@ interface CharacterDetailViewProps {
   character: Character | null;
   isCreating?: boolean;
   isGuidedCreation?: boolean;
-
+  initialEditMode?: boolean;
   onBack: () => void;
   onEdit: (character: Character) => void;
   onDelete: (character: Character) => void;
@@ -20,7 +20,7 @@ export function CharacterDetailView({
   character, 
   isCreating = false,
   isGuidedCreation = false,
-
+  initialEditMode = false,
   onBack, 
   onEdit, 
   onDelete 
@@ -78,6 +78,7 @@ export function CharacterDetailView({
     <CharacterUnifiedViewPremium
       projectId={projectId}
       character={character}
+      initialEditMode={initialEditMode}
       onBack={onBack}
       onDelete={onDelete}
     />
