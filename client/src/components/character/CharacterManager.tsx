@@ -13,6 +13,8 @@ import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationWizard } from './CharacterCreationWizard';
+import { CharacterCreationWizardV2 } from './CharacterCreationWizardV2';
+import { CharacterTemplatesV2 } from './CharacterTemplatesV2';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
@@ -35,6 +37,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
+  const [isV2WizardOpen, setIsV2WizardOpen] = useState(false);
+  const [isV2TemplatesOpen, setIsV2TemplatesOpen] = useState(false);
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -825,7 +829,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {/* Primary Action */}
           <div className="flex gap-3">
             <Button 
-              onClick={() => setIsCreationLaunchOpen(true)} 
+              onClick={() => setIsV2WizardOpen(true)} 
               size="lg"
               className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
@@ -986,7 +990,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {characters.length === 0 && (
             <div className="flex gap-3 justify-center pt-4">
               <Button 
-                onClick={() => setIsCreationLaunchOpen(true)} 
+                onClick={() => setIsV2WizardOpen(true)} 
                 size="lg"
                 className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
@@ -1036,6 +1040,32 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           onImageUploaded={handleImageUploaded}
         />
       )}
+
+      {/* V2 Character Creation Wizard - Primary Creation Method */}
+      <CharacterCreationWizardV2
+        isOpen={isV2WizardOpen}
+        onClose={() => setIsV2WizardOpen(false)}
+        projectId={projectId}
+        onComplete={(newCharacter) => {
+          setSelectedCharacter(newCharacter);
+          setIsV2WizardOpen(false);
+        }}
+      />
+
+      {/* V2 Templates System - Alternative Creation Method */}
+      <CharacterTemplatesV2
+        isOpen={isV2TemplatesOpen}
+        onClose={() => setIsV2TemplatesOpen(false)}
+        projectId={projectId}
+        onBack={() => {
+          setIsV2TemplatesOpen(false);
+          setIsV2WizardOpen(true);
+        }}
+        onComplete={(newCharacter) => {
+          setSelectedCharacter(newCharacter);
+          setIsV2TemplatesOpen(false);
+        }}
+      />
     </div>
   );
 }
