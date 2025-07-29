@@ -50,7 +50,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Location',
     icon: MapPin,
     apiEndpoint: 'locations',
-    createPrompt: 'Create New Location',
+    createPrompt: 'Create Location',
     emptyMessage: 'No locations created yet. Build your world one place at a time.',
     primaryFields: ['name', 'locationType', 'geography', 'population', 'culture'],
     secondaryFields: ['climate', 'government', 'economy', 'landmarks', 'atmosphere'],
@@ -75,7 +75,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Event',
     icon: Calendar,
     apiEndpoint: 'timeline',
-    createPrompt: 'Create New Event',
+    createPrompt: 'Create Event',
     emptyMessage: 'No timeline events created yet. Chronicle your world\'s history.',
     primaryFields: ['name', 'date', 'eventType', 'magnitude', 'summary'],
     secondaryFields: ['era', 'participants', 'consequences', 'impact', 'significance'],
@@ -99,7 +99,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Faction',
     icon: Sword,
     apiEndpoint: 'factions',
-    createPrompt: 'Create New Faction',
+    createPrompt: 'Create Faction',
     emptyMessage: 'No factions created yet. Organize the powers that shape your world.',
     primaryFields: ['name', 'factionType', 'structure', 'size', 'leader'],
     secondaryFields: ['goals', 'resources', 'influence', 'reputation', 'activities'],
@@ -123,7 +123,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Item',
     icon: Gem,
     apiEndpoint: 'items',
-    createPrompt: 'Create New Item',
+    createPrompt: 'Create Item',
     emptyMessage: 'No items created yet. Fill your world with legendary artifacts.',
     primaryFields: ['name', 'itemType', 'rarity', 'creator', 'powers'],
     secondaryFields: ['material', 'magical', 'history', 'value', 'location'],
@@ -147,7 +147,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Magic System',
     icon: Wand2,
     apiEndpoint: 'magic',
-    createPrompt: 'Create New Magic System',
+    createPrompt: 'Create Magic System',
     emptyMessage: 'No magic systems created yet. Define the supernatural forces of your world.',
     primaryFields: ['name', 'systemType', 'source', 'practitioners', 'principles'],
     secondaryFields: ['limitations', 'costs', 'schools', 'acceptance', 'theory'],
@@ -170,7 +170,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Creature',
     icon: Users,
     apiEndpoint: 'bestiary',
-    createPrompt: 'Create New Creature',
+    createPrompt: 'Create Creature',
     emptyMessage: 'No creatures created yet. Populate your world with fascinating beings.',
     primaryFields: ['name', 'species', 'category', 'size', 'intelligence'],
     secondaryFields: ['habitat', 'abilities', 'behavior', 'rarity', 'threat_level'],
@@ -194,7 +194,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Language',
     icon: Languages,
     apiEndpoint: 'languages',
-    createPrompt: 'Create New Language',
+    createPrompt: 'Create Language',
     emptyMessage: 'No languages created yet. Give voice to your world\'s cultures.',
     primaryFields: ['name', 'language_type', 'native_speakers', 'complexity', 'script'],
     secondaryFields: ['family', 'dialects', 'cultural_significance', 'vitality', 'difficulty'],
@@ -217,7 +217,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Culture',
     icon: Crown,
     apiEndpoint: 'cultures',
-    createPrompt: 'Create New Culture',
+    createPrompt: 'Create Culture',
     emptyMessage: 'No cultures created yet. Build the societies that define your world.',
     primaryFields: ['name', 'culture_type', 'population_size', 'core_values', 'social_hierarchy'],
     secondaryFields: ['beliefs', 'customs', 'technology_level', 'government_type', 'arts'],
@@ -240,7 +240,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Prophecy',
     icon: Scroll,
     apiEndpoint: 'prophecies',
-    createPrompt: 'Create New Prophecy',
+    createPrompt: 'Create Prophecy',
     emptyMessage: 'No prophecies created yet. Weave fate and destiny into your narrative.',
     primaryFields: ['name', 'prophecy_type', 'scope', 'prophet', 'original_text'],
     secondaryFields: ['interpretations', 'fulfillment_status', 'key_figures', 'timeline', 'consequences'],
@@ -263,7 +263,7 @@ const ENTITY_CONFIGS: Record<EntityType, {
     singular: 'Theme',
     icon: BookOpen,
     apiEndpoint: 'themes',
-    createPrompt: 'Create New Theme',
+    createPrompt: 'Create Theme',
     emptyMessage: 'No themes created yet. Define the deeper meanings of your story.',
     primaryFields: ['name', 'theme_type', 'description', 'manifestations', 'importance'],
     secondaryFields: ['symbols', 'character_arcs', 'plot_threads', 'cultural_expressions', 'resolution'],
@@ -319,6 +319,23 @@ export function UniversalEntityManager({
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const queryClient = useQueryClient();
+
+  // Theme-specific button colors based on entity type
+  const getThemeColors = (theme: string) => {
+    const themes = {
+      emerald: 'bg-gradient-to-r from-emerald-500 via-emerald-400 to-emerald-500 hover:from-emerald-600 hover:via-emerald-500 hover:to-emerald-600 text-white',
+      blue: 'bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 hover:from-blue-600 hover:via-blue-500 hover:to-blue-600 text-white',
+      red: 'bg-gradient-to-r from-red-500 via-red-400 to-red-500 hover:from-red-600 hover:via-red-500 hover:to-red-600 text-white',
+      amber: 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-white',
+      purple: 'bg-gradient-to-r from-purple-500 via-purple-400 to-purple-500 hover:from-purple-600 hover:via-purple-500 hover:to-purple-600 text-white',
+      green: 'bg-gradient-to-r from-green-500 via-green-400 to-green-500 hover:from-green-600 hover:via-green-500 hover:to-green-600 text-white',
+      cyan: 'bg-gradient-to-r from-cyan-500 via-cyan-400 to-cyan-500 hover:from-cyan-600 hover:via-cyan-500 hover:to-cyan-600 text-white',
+      orange: 'bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white',
+      indigo: 'bg-gradient-to-r from-indigo-500 via-indigo-400 to-indigo-500 hover:from-indigo-600 hover:via-indigo-500 hover:to-indigo-600 text-white',
+      rose: 'bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500 hover:from-rose-600 hover:via-rose-500 hover:to-rose-600 text-white',
+    };
+    return themes[theme as keyof typeof themes] || themes.emerald;
+  };
 
   // Data fetching - matching CharacterManager pattern exactly
   const { data: entities = [], isLoading } = useQuery<BaseWorldEntity[]>({
@@ -410,7 +427,7 @@ export function UniversalEntityManager({
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className={`${getThemeColors(config.colorTheme)} shadow-lg hover:shadow-xl transition-all duration-300 group`}
             >
               <div className="flex items-center">
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
@@ -541,7 +558,7 @@ export function UniversalEntityManager({
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className={`${getThemeColors(config.colorTheme)} shadow-lg hover:shadow-xl transition-all duration-300 group`}
               >
                 <div className="flex items-center">
                   <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
