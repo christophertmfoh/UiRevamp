@@ -324,59 +324,59 @@ export function ProjectWorkspace({
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
-          {/* Tab Navigation - Mobile Optimized */}
-          <div className="space-y-4">
-            {/* Tab Bar - Responsive */}
+          {/* Tab Navigation - Clean Mobile Layout */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            {/* Tab Bar - Compact for Mobile */}
             <div className="w-full overflow-x-auto">
-              <TabsList className="inline-flex w-max min-w-full bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg">
-                <TabsTrigger value="overview" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <BarChart3 className="w-3 h-3" />
-                  <span className="hidden sm:inline">Overview</span>
+              <TabsList className="inline-flex w-max bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg">
+                <TabsTrigger value="overview" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <BarChart3 className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Overview</span>
                 </TabsTrigger>
-                <TabsTrigger value="projects" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <BookOpen className="w-3 h-3" />
-                  <span className="hidden sm:inline">Projects</span>
+                <TabsTrigger value="projects" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <BookOpen className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Projects</span>
                 </TabsTrigger>
-                <TabsTrigger value="studio" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <Layout className="w-3 h-3" />
-                  <span className="hidden sm:inline">Studio</span>
+                <TabsTrigger value="studio" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Layout className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Studio</span>
                 </TabsTrigger>
-                <TabsTrigger value="world" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <Globe className="w-3 h-3" />
-                  <span className="hidden sm:inline">World</span>
+                <TabsTrigger value="world" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Globe className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">World</span>
                 </TabsTrigger>
-                <TabsTrigger value="outline" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <ClipboardList className="w-3 h-3" />
-                  <span className="hidden sm:inline">Outline</span>
+                <TabsTrigger value="outline" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <ClipboardList className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Outline</span>
                 </TabsTrigger>
-                <TabsTrigger value="storyboard" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <FileText className="w-3 h-3" />
-                  <span className="hidden sm:inline">Story</span>
+                <TabsTrigger value="storyboard" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <FileText className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Story</span>
                 </TabsTrigger>
-                <TabsTrigger value="previs" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <Video className="w-3 h-3" />
-                  <span className="hidden sm:inline">Pre-Vis</span>
+                <TabsTrigger value="previs" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Video className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Pre-Vis</span>
                 </TabsTrigger>
-                <TabsTrigger value="score" className="flex items-center justify-center space-x-1 px-3 py-2 text-xs whitespace-nowrap">
-                  <Music className="w-3 h-3" />
-                  <span className="hidden sm:inline">Score</span>
+                <TabsTrigger value="score" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Music className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Score</span>
                 </TabsTrigger>
               </TabsList>
             </div>
 
-            {/* Search and Filters - Mobile Responsive */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
+            {/* Search and Filters - Right Aligned on Desktop */}
+            <div className="flex items-center gap-3 flex-shrink-0">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Search projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-full sm:w-64"
+                  className="pl-10 w-full sm:w-56 lg:w-64 text-sm"
                 />
               </div>
               {activeTab === 'projects' && (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -398,14 +398,14 @@ export function ProjectWorkspace({
 
           {/* Tab Content */}
           <TabsContent value="overview" className="space-y-6">
-            {/* Dashboard Widgets - Restored Original 4 Widgets */}
-            <div className="flex items-center justify-between mb-6">
+            {/* Dashboard Header - Mobile Optimized */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-6">
               <div className="flex items-center gap-3">
-                <h2 className="text-2xl font-bold text-foreground">Dashboard</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard</h2>
                 <Button
                   size="icon"
                   onClick={() => setIsEditMode(!isEditMode)}
-                  className="w-8 h-8 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
+                  className="w-7 h-7 sm:w-8 sm:h-8 gradient-primary text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:brightness-110 rounded-lg"
                   title={isEditMode ? 'Lock Layout' : 'Customize Layout'}
                 >
                   {isEditMode ? (
@@ -419,7 +419,7 @@ export function ProjectWorkspace({
                 <Button
                   size="sm"
                   onClick={widgetManagement.resetWidgets}
-                  className="text-xs text-muted-foreground hover:text-foreground"
+                  className="text-xs text-muted-foreground hover:text-foreground self-start sm:self-auto"
                   variant="ghost"
                 >
                   Reset Layout
@@ -473,7 +473,7 @@ export function ProjectWorkspace({
                   Your creative pipeline and project management hub
                 </p>
                 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 max-w-6xl mx-auto">
                   <Card 
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
                     onClick={() => setActiveTab('world')}

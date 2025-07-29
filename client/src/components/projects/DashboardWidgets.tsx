@@ -62,7 +62,7 @@ export const DashboardWidgets = React.memo(function DashboardWidgets({
   } = useTaskManagement();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
       {widgets.map((widget) => (
         <div
           key={widget.id}
