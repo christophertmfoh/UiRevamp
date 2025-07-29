@@ -659,6 +659,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
   }
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl h-[90vh] p-0 gap-0">
         <DialogHeader className="border-b border-border/30 p-6 pb-4 bg-muted/30">
@@ -854,6 +855,6 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
         }}
       />
     )}
-  </>
+    </>
   );
 }
