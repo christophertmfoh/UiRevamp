@@ -10,7 +10,8 @@ import {
   Shield, Sword, Wrench, BookOpen, Crown, Heart,
   Zap, Globe, Microscope, Camera, Coffee, Star,
   Users, Eye, Brain, Smartphone, Rocket, 
-  Building2, Briefcase, GraduationCap, Scale, Wrench as WrenchIcon
+  Building2, Briefcase, GraduationCap, Scale, Mic,
+  Stethoscope, Palette
 } from 'lucide-react';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 import { CharacterGenerationLoadingScreen } from './CharacterGenerationLoadingScreen';
