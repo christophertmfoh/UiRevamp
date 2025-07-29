@@ -68,7 +68,8 @@ import {
   Wand2,
   Zap,
   Download,
-  Archive
+  Archive,
+  ImageIcon
 } from 'lucide-react';
 // Import existing character manager temporarily
 import { CharacterManager } from '../character/CharacterManager';
@@ -378,11 +379,11 @@ export function ProjectWorkspace({
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
-          {/* Tab Navigation - Clean Mobile Layout */}
+          {/* Tab Navigation - Scrollable Layout */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Tab Bar - Compact for Mobile */}
-            <div className="w-full overflow-x-auto">
-              <TabsList className="inline-flex w-max bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg">
+            {/* Tab Bar - Scrollable for Mobile */}
+            <div className="w-full overflow-x-auto scrollbar-hide">
+              <TabsList className="inline-flex w-max bg-card/50 backdrop-blur-sm h-auto p-1 rounded-lg min-w-max">
                 <TabsTrigger value="overview" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
                   <BarChart3 className="w-3 h-3 sm:mr-1" />
                   <span className="hidden sm:inline text-xs">Overview</span>
@@ -567,7 +568,7 @@ export function ProjectWorkspace({
                   Your creative pipeline and project management hub
                 </p>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7 gap-4 sm:gap-6 max-w-7xl mx-auto">
                   <Card 
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
                     onClick={() => setActiveTab('world')}
@@ -646,6 +647,18 @@ export function ProjectWorkspace({
                       <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Library</h4>
                       <p className="text-xs sm:text-sm text-muted-foreground">0 Assets</p>
                       <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Manage templates and resources</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
+                    onClick={() => console.log('Cover manager clicked - not implemented yet')}
+                  >
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <ImageIcon className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Cover</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Designs</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Create book covers and artwork</p>
                     </CardContent>
                   </Card>
 

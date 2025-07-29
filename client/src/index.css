@@ -949,6 +949,15 @@
   transform: scale(0.98);
 }
 
+/* Scrollbar utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
   /* ===== ENHANCED TYPOGRAPHY & RESPONSIVE SYSTEM ===== */
   
   /* Font Weight Progression */
