@@ -45,6 +45,7 @@ interface StorageState {
   projectSettings: Map<string, ProjectSettings>;
   users: Map<string, User>;
   sessions: Map<string, Session>;
+  worldBibleEntities: Map<string, any[]>;
 }
 
 class MockStorage {
@@ -62,6 +63,7 @@ class MockStorage {
       projectSettings: new Map(),
       users: new Map(),
       sessions: new Map(),
+      worldBibleEntities: new Map(),
     };
     
     // Initialize with some seed data for development
@@ -572,6 +574,57 @@ class MockStorage {
   async getProjectSettings(projectId: string): Promise<ProjectSettings | null> {
     await this.simulateLatency();
     return this.data.projectSettings.get(projectId) || null;
+  }
+
+  // World Bible Entity operations
+  async getWorldBibleEntities(projectId: string, entityType: string): Promise<any[]> {
+    await this.simulateLatency();
+    const key = `${projectId}:${entityType}`;
+    return this.data.worldBibleEntities.get(key) || [];
+  }
+
+  async getWorldBibleEntity(id: string): Promise<any | undefined> {
+    await this.simulateLatency();
+    for (const entities of this.data.worldBibleEntities.values()) {
+      const entity = entities.find(e => e.id === id);
+      if (entity) return entity;
+    }
+    return undefined;
+  }
+
+  async createWorldBibleEntity(entity: any): Promise<any> {
+    await this.simulateLatency();
+    const key = `${entity.projectId}:${entity.entityType}`;
+    const entities = this.data.worldBibleEntities.get(key) || [];
+    entities.push(entity);
+    this.data.worldBibleEntities.set(key, entities);
+    return entity;
+  }
+
+  async updateWorldBibleEntity(id: string, updates: Partial<any>): Promise<any | undefined> {
+    await this.simulateLatency();
+    for (const [key, entities] of this.data.worldBibleEntities.entries()) {
+      const index = entities.findIndex(e => e.id === id);
+      if (index !== -1) {
+        entities[index] = { ...entities[index], ...updates };
+        this.data.worldBibleEntities.set(key, entities);
+        return entities[index];
+      }
+    }
+    return undefined;
+  }
+
+  async deleteWorldBibleEntity(id: string): Promise<boolean> {
+    await this.simulateLatency();
+    for (const [key, entities] of this.data.worldBibleEntities.entries()) {
+      const index = entities.findIndex(e => e.id === id);
+      if (index !== -1) {
+        entities.splice(index, 1);
+        this.data.worldBibleEntities.set(key, entities);
+        return true;
+      }
+    }
+    return false;
   }
 }
 

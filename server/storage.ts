@@ -73,6 +73,13 @@ export interface IStorage {
   updateCharacterRelationship(id: string, relationship: Partial<InsertCharacterRelationship>): Promise<CharacterRelationship | undefined>;
   deleteCharacterRelationship(id: string): Promise<boolean>;
 
+  // World Bible Entity operations
+  getWorldBibleEntities(projectId: string, entityType: string): Promise<any[]>;
+  getWorldBibleEntity(id: string): Promise<any | undefined>;
+  createWorldBibleEntity(entity: any): Promise<any>;
+  updateWorldBibleEntity(id: string, entity: Partial<any>): Promise<any | undefined>;
+  deleteWorldBibleEntity(id: string): Promise<boolean>;
+
   // Image Asset operations
   createImageAsset(imageAsset: InsertImageAsset): Promise<ImageAsset>;
   getImageAssets(entityType: string, entityId: string): Promise<ImageAsset[]>;

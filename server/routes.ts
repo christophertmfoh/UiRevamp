@@ -81,45 +81,199 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/daily-content", authenticateToken, dailyContentRouter);
   app.use("/api/tasks", authenticateToken, tasksRouter);
   
-  // World Bible entity routes - all return empty arrays for now (to be implemented)
-  app.get("/api/projects/:projectId/locations", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+  // WORLD BIBLE ENTITY ROUTES - Full CRUD for all entity types
+  const worldBibleEntityTypes = ['locations', 'timeline', 'factions', 'items', 'magic', 'bestiary', 'languages', 'cultures', 'prophecies', 'themes'];
+  
+  worldBibleEntityTypes.forEach(entityType => {
+    // GET all entities of this type
+    app.get(`/api/projects/:projectId/${entityType}`, authenticateToken, async (req, res) => {
+      try {
+        const { projectId } = req.params;
+        const entities = await storage.getWorldBibleEntities(projectId, entityType);
+        res.json(entities || []);
+      } catch (error) {
+        console.error(`Error getting ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to get ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/timeline", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // POST new entity
+    app.post(`/api/projects/:projectId/${entityType}`, authenticateToken, async (req, res) => {
+      try {
+        const { projectId } = req.params;
+        const entityData = {
+          ...req.body,
+          id: `${entityType}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+          projectId,
+          entityType,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        const entity = await storage.createWorldBibleEntity(entityData);
+        res.status(201).json(entity);
+      } catch (error) {
+        console.error(`Error creating ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to create ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/factions", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // GET specific entity
+    app.get(`/api/projects/:projectId/${entityType}/:entityId`, authenticateToken, async (req, res) => {
+      try {
+        const { entityId } = req.params;
+        const entity = await storage.getWorldBibleEntity(entityId);
+        if (!entity) {
+          return res.status(404).json({ error: `${entityType} not found` });
+        }
+        res.json(entity);
+      } catch (error) {
+        console.error(`Error getting ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to get ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/items", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // PATCH update entity
+    app.patch(`/api/projects/:projectId/${entityType}/:entityId`, authenticateToken, async (req, res) => {
+      try {
+        const { entityId } = req.params;
+        const updateData = {
+          ...req.body,
+          updatedAt: new Date()
+        };
+        
+        const entity = await storage.updateWorldBibleEntity(entityId, updateData);
+        if (!entity) {
+          return res.status(404).json({ error: `${entityType} not found` });
+        }
+        res.json(entity);
+      } catch (error) {
+        console.error(`Error updating ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to update ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/magic", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // DELETE entity
+    app.delete(`/api/projects/:projectId/${entityType}/:entityId`, authenticateToken, async (req, res) => {
+      try {
+        const { entityId } = req.params;
+        const success = await storage.deleteWorldBibleEntity(entityId);
+        if (!success) {
+          return res.status(404).json({ error: `${entityType} not found` });
+        }
+        res.json({ message: `${entityType} deleted successfully` });
+      } catch (error) {
+        console.error(`Error deleting ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to delete ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/bestiary", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // AI Generation endpoint
+    app.post(`/api/projects/:projectId/${entityType}/generate`, authenticateToken, async (req, res) => {
+      try {
+        const { projectId } = req.params;
+        const { type, prompt, entityType: reqEntityType } = req.body;
+        
+        // Create generated entity with basic structure
+        const entityData = {
+          id: `${entityType}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+          projectId,
+          entityType,
+          name: `Generated ${entityType.slice(0, -1)}`,
+          description: `AI generated ${entityType.slice(0, -1)} based on ${type} generation`,
+          importance: 'medium',
+          status: 'draft',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        const entity = await storage.createWorldBibleEntity(entityData);
+        res.status(201).json(entity);
+      } catch (error) {
+        console.error(`Error generating ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to generate ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/languages", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // Template creation endpoint
+    app.post(`/api/projects/:projectId/${entityType}/template`, authenticateToken, async (req, res) => {
+      try {
+        const { projectId } = req.params;
+        const { templateId } = req.body;
+        
+        const entityData = {
+          id: `${entityType}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+          projectId,
+          entityType,
+          name: `Template ${entityType.slice(0, -1)}`,
+          description: `Created from template: ${templateId}`,
+          importance: 'medium',
+          status: 'draft',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        const entity = await storage.createWorldBibleEntity(entityData);
+        res.status(201).json(entity);
+      } catch (error) {
+        console.error(`Error creating ${entityType} from template:`, error);
+        res.status(500).json({ error: `Failed to create ${entityType} from template` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/cultures", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
+    // Image generation endpoint
+    app.post(`/api/projects/:projectId/${entityType}/:entityId/image`, authenticateToken, async (req, res) => {
+      try {
+        const { entityId } = req.params;
+        const { prompt, style } = req.body;
+        
+        // For now, return the entity with a placeholder image
+        const entity = await storage.getWorldBibleEntity(entityId);
+        if (!entity) {
+          return res.status(404).json({ error: `${entityType} not found` });
+        }
+        
+        // Update entity with placeholder image URL
+        const updatedEntity = await storage.updateWorldBibleEntity(entityId, {
+          imageUrl: `https://placeholder.com/600x400?text=${encodeURIComponent(entity.name)}`
+        });
+        
+        res.json(updatedEntity);
+      } catch (error) {
+        console.error(`Error generating image for ${entityType}:`, error);
+        res.status(500).json({ error: `Failed to generate image for ${entityType}` });
+      }
+    });
 
-  app.get("/api/projects/:projectId/prophecies", async (req, res) => {
-    res.json([]); // Return empty array for now
-  });
-
-  app.get("/api/projects/:projectId/themes", async (req, res) => {
-    res.json([]); // Return empty array for now
+    // Document upload endpoint
+    app.post(`/api/projects/:projectId/${entityType}/upload`, upload.single('document'), async (req, res) => {
+      try {
+        const { projectId } = req.params;
+        const { entityType: reqEntityType } = req.body;
+        
+        if (!req.file) {
+          return res.status(400).json({ error: "No document uploaded" });
+        }
+        
+        const entityData = {
+          id: `${entityType}_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+          projectId,
+          entityType,
+          name: `Imported ${entityType.slice(0, -1)}`,
+          description: `Imported from document: ${req.file.originalname}`,
+          importance: 'medium',
+          status: 'draft',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        const entity = await storage.createWorldBibleEntity(entityData);
+        res.status(201).json(entity);
+      } catch (error) {
+        console.error(`Error uploading ${entityType} document:`, error);
+        res.status(500).json({ error: `Failed to upload ${entityType} document` });
+      }
+    });
   });
 
   // Character document import route (needs to be moved to character router)

@@ -363,6 +363,54 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return updated;
   }
+
+  // World Bible Entity operations - using generic storage for now
+  private worldBibleEntities: Map<string, any[]> = new Map();
+
+  async getWorldBibleEntities(projectId: string, entityType: string): Promise<any[]> {
+    const key = `${projectId}:${entityType}`;
+    return this.worldBibleEntities.get(key) || [];
+  }
+
+  async getWorldBibleEntity(id: string): Promise<any | undefined> {
+    for (const entities of this.worldBibleEntities.values()) {
+      const entity = entities.find(e => e.id === id);
+      if (entity) return entity;
+    }
+    return undefined;
+  }
+
+  async createWorldBibleEntity(entity: any): Promise<any> {
+    const key = `${entity.projectId}:${entity.entityType}`;
+    const entities = this.worldBibleEntities.get(key) || [];
+    entities.push(entity);
+    this.worldBibleEntities.set(key, entities);
+    return entity;
+  }
+
+  async updateWorldBibleEntity(id: string, updates: Partial<any>): Promise<any | undefined> {
+    for (const [key, entities] of this.worldBibleEntities.entries()) {
+      const index = entities.findIndex(e => e.id === id);
+      if (index !== -1) {
+        entities[index] = { ...entities[index], ...updates };
+        this.worldBibleEntities.set(key, entities);
+        return entities[index];
+      }
+    }
+    return undefined;
+  }
+
+  async deleteWorldBibleEntity(id: string): Promise<boolean> {
+    for (const [key, entities] of this.worldBibleEntities.entries()) {
+      const index = entities.findIndex(e => e.id === id);
+      if (index !== -1) {
+        entities.splice(index, 1);
+        this.worldBibleEntities.set(key, entities);
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 export const databaseStorage = new DatabaseStorage();
