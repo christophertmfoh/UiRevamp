@@ -92,8 +92,8 @@ export function CharacterCreationLaunch({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="py-4">
+          <div className="grid grid-cols-2 gap-3">
             {creationOptions.map((option) => {
               const Icon = option.icon;
               const isSelected = selectedOption === option.id;
@@ -106,34 +106,34 @@ export function CharacterCreationLaunch({
                   }`}
                   onClick={() => handleOptionSelect(option.id, option.action)}
                 >
-                  <CardContent className="p-8 relative h-full">
+                  <CardContent className="p-3 relative h-full">
                     {/* Background gradient */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${option.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     
                     <div className="relative z-10 flex h-full">
                       {/* Left side - Icon */}
-                      <div className="flex-shrink-0 mr-6">
-                        <div className={`p-4 bg-gradient-to-br ${option.color} rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
-                          <Icon className={`h-12 w-12 ${option.iconColor}`} />
+                      <div className="flex-shrink-0 mr-3">
+                        <div className={`p-2 bg-gradient-to-br ${option.color} rounded-lg group-hover:scale-105 transition-transform duration-300`}>
+                          <Icon className={`h-5 w-5 ${option.iconColor}`} />
                         </div>
                       </div>
                       
                       {/* Right side - Content */}
                       <div className="flex-1 flex flex-col">
-                        <div className="mb-3">
-                          <h3 className={`font-semibold text-base mb-1.5 group-hover:${option.iconColor} transition-colors duration-200`}>
+                        <div className="mb-2">
+                          <h3 className={`font-semibold text-sm mb-1 group-hover:${option.iconColor} transition-colors duration-200`}>
                             {option.title}
                           </h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
+                          <p className="text-xs text-muted-foreground leading-relaxed">
                             {option.description}
                           </p>
                         </div>
                         
                         {/* Features */}
-                        <div className="space-y-2 flex-grow">
-                          {option.features.map((feature, idx) => (
-                            <div key={idx} className="flex items-center gap-3 text-sm text-muted-foreground">
-                              <div className={`w-1.5 h-1.5 ${option.iconColor.replace('text-', 'bg-')} rounded-full`} />
+                        <div className="space-y-1 flex-grow">
+                          {option.features.slice(0, 2).map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <div className={`w-1 h-1 ${option.iconColor.replace('text-', 'bg-')} rounded-full`} />
                               <span>{feature}</span>
                             </div>
                           ))}
@@ -141,9 +141,9 @@ export function CharacterCreationLaunch({
                         
                         {/* Loading indicator */}
                         {isSelected && (
-                          <div className={`mt-4 flex items-center gap-2 ${option.iconColor}`}>
-                            <div className={`w-4 h-4 border-2 ${option.iconColor.replace('text-', 'border-')}/30 ${option.iconColor.replace('text-', 'border-t-')} rounded-full animate-spin`} />
-                            <span className="text-sm font-medium">Starting...</span>
+                          <div className={`mt-2 flex items-center gap-1 ${option.iconColor}`}>
+                            <div className={`w-3 h-3 border-2 ${option.iconColor.replace('text-', 'border-')}/30 ${option.iconColor.replace('text-', 'border-t-')} rounded-full animate-spin`} />
+                            <span className="text-xs font-medium">Starting...</span>
                           </div>
                         )}
                       </div>
@@ -155,11 +155,11 @@ export function CharacterCreationLaunch({
           </div>
 
           {/* Bottom tip */}
-          <div className="text-center mt-8 p-4 bg-muted/30 rounded-lg border border-border/30">
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Brain className="h-4 w-4 text-accent/60" />
+          <div className="text-center mt-4 p-2 bg-muted/30 rounded-lg border border-border/30">
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+              <Brain className="h-3 w-3 text-accent/60" />
               <span>
-                <strong>Pro Tip:</strong> You can always enhance any character with AI assistance later through the character editor
+                <strong>Pro Tip:</strong> You can always enhance any character with AI assistance later
               </span>
             </div>
           </div>
