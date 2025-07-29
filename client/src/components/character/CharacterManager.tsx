@@ -516,7 +516,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           <div className="absolute top-3 left-3 z-10">
             <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
               selectedCharacterIds.has(character.id)
-                ? 'bg-[var(--accent)] border-[var(--accent)] text-[white]'
+                ? 'bg-accent border-accent text-accent-foreground'
                 : 'bg-background/80 border-border hover:border-[var(--accent)]'
             }`}>
               {selectedCharacterIds.has(character.id) && (
@@ -686,7 +686,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {isSelectionMode && (
             <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
               selectedCharacterIds.has(character.id)
-                ? 'bg-[var(--accent)] border-[var(--accent)] text-[white]'
+                ? 'bg-accent border-accent text-accent-foreground'
                 : 'bg-background border-border hover:border-[var(--accent)]'
             }`}>
               {selectedCharacterIds.has(character.id) && (
@@ -732,7 +732,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </div>
             
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <Badge className="text-xs bg-[var(--accent)] text-[white] font-medium shadow-sm">
+              <Badge className="text-xs bg-accent text-accent-foreground font-medium shadow-sm">
                 Character
               </Badge>
               {character.race && (
@@ -827,7 +827,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-[var(--accent)] hover:bg-[var(--accent)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center">
                 <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
@@ -988,7 +988,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="bg-[var(--accent)] hover:bg-[var(--accent)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="flex items-center">
                   <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
