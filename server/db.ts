@@ -5,19 +5,24 @@ import * as schema from "@shared/schema";
 
 neonConfig.webSocketConstructor = ws;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+// Only create database connection for real databases, not mock
+let pool: Pool | null = null;
+let db: any = null;
+
+if (!process.env.DATABASE_URL || process.env.DATABASE_URL === 'mock') {
+  // Skip database initialization when using mock storage
+  console.log('📦 Skipping database connection - using MockStorage');
+} else {
+  // A-grade performance: Optimized connection pool with proper timeouts
+  pool = new Pool({ 
+    connectionString: process.env.DATABASE_URL,
+    max: 10, // Reasonable pool size for development
+    idleTimeoutMillis: 30000, // 30 second idle timeout
+    connectionTimeoutMillis: 5000, // 5 second connection timeout
+    // Removed query_timeout - causing issues with Neon
+  });
+  
+  db = drizzle({ client: pool, schema });
 }
 
-// A-grade performance: Optimized connection pool with proper timeouts
-export const pool = new Pool({ 
-  connectionString: process.env.DATABASE_URL,
-  max: 10, // Reasonable pool size for development
-  idleTimeoutMillis: 30000, // 30 second idle timeout
-  connectionTimeoutMillis: 5000, // 5 second connection timeout
-  // Removed query_timeout - causing issues with Neon
-});
-
-export const db = drizzle({ client: pool, schema });
+export { pool, db };

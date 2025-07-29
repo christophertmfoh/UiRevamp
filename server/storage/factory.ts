@@ -12,13 +12,13 @@ import { databaseStorage } from './databaseStorage';
  * Create storage adapter with production-grade database support
  */
 export function createStorageAdapter() {
-  // Use real database when DATABASE_URL is available (production pattern)
-  if (process.env.DATABASE_URL) {
+  // Use real database when DATABASE_URL is available and not "mock"
+  if (process.env.DATABASE_URL && process.env.DATABASE_URL !== 'mock') {
     console.log('🔗 Production Mode: Connecting to real database');
     return databaseStorage;
   }
   
-  // Fallback to mock storage for development without database
-  console.log('🎨 Development Mode: Using MockStorage (no DATABASE_URL)');
+  // Use mock storage for development (no DATABASE_URL or DATABASE_URL=mock)
+  console.log('🎨 Development Mode: Using MockStorage');
   return mockStorage;
 }
