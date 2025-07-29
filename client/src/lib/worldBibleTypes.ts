@@ -692,7 +692,9 @@ export interface Theme extends BaseWorldEntity {
   recurrence: string;
   resolution: string;
 }
-  
+
+// LANGUAGES - Extended interface
+export interface LanguageExtended extends BaseWorldEntity {
   // Historical Development
   origin: string;
   evolution: string[];
