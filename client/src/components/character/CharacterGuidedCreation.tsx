@@ -53,8 +53,8 @@ interface Step {
 const CREATION_STEPS: Step[] = [
   {
     id: 'identity',
-    title: 'Identity',
-    description: 'Basic information that defines who your character is',
+    title: 'Identity & Basic Info',
+    description: 'Essential identity markers and core characteristics',
     icon: User,
     fields: [
       { key: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter character name', required: true },
@@ -76,8 +76,8 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'appearance',
-    title: 'Appearance',
-    description: 'Physical characteristics and how they present themselves',
+    title: 'Physical Appearance',
+    description: 'Physical characteristics and visual presentation',
     icon: Eye,
     fields: [
       { key: 'physicalDescription', label: 'Overall Description', type: 'textarea', placeholder: 'General physical appearance overview', description: 'A comprehensive description of their overall look' },
@@ -93,7 +93,7 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'personality',
-    title: 'Personality',
+    title: 'Personality & Psychology',
     description: 'Core traits, temperament, and psychological profile',
     icon: Brain,
     fields: [
@@ -117,7 +117,7 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'abilities',
-    title: 'Abilities',
+    title: 'Abilities & Skills',
     description: 'Skills, talents, and special capabilities',
     icon: Zap,
     fields: [
@@ -133,7 +133,7 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'background',
-    title: 'Background',
+    title: 'Background & History',
     description: 'History, upbringing, and formative experiences',
     icon: BookOpen,
     fields: [
@@ -150,7 +150,7 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'relationships',
-    title: 'Relationships',
+    title: 'Relationships & Social',
     description: 'Connections with other characters and social dynamics',
     icon: Users,
     fields: [
@@ -166,7 +166,7 @@ const CREATION_STEPS: Step[] = [
   },
   {
     id: 'meta',
-    title: 'Meta',
+    title: 'Story & Meta Elements',
     description: 'Story function, themes, and creative elements',
     icon: PenTool,
     fields: [

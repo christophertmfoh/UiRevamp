@@ -12,6 +12,7 @@ import multer from "multer";
 import { storage } from "./storage";
 import { importCharacterDocument } from "./characterExtractor";
 import { generateCharacterImage } from "./imageGeneration";
+import { nanoid } from "nanoid";
 
 // Configure multer for character import that hasn't been moved yet
 const upload = multer({

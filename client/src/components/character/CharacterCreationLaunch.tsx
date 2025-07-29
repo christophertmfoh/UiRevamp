@@ -30,7 +30,9 @@ export function CharacterCreationLaunch({
       description: 'Create a character completely from your imagination',
       icon: Plus,
       action: onCreateBlank,
-      features: ['Complete creative control', 'Build step by step', 'Perfect for unique concepts']
+      features: ['Complete creative control', 'Build step by step', 'Perfect for unique concepts'],
+      color: 'from-green-500/20 to-emerald-500/10',
+      iconColor: 'text-green-500'
     },
     {
       id: 'template',
@@ -38,7 +40,9 @@ export function CharacterCreationLaunch({
       description: 'Choose from 20+ professional archetypes with AI expansion',
       icon: FileText,
       action: onOpenTemplates,
-      features: ['20+ comprehensive archetypes', 'AI expands template foundations', 'Full character generation included']
+      features: ['20+ comprehensive archetypes', 'AI expands template foundations', 'Full character generation included'],
+      color: 'from-blue-500/20 to-cyan-500/10',
+      iconColor: 'text-blue-500'
     },
     {
       id: 'ai',
@@ -46,7 +50,9 @@ export function CharacterCreationLaunch({
       description: 'Create completely unique characters with custom prompts',
       icon: Sparkles,
       action: onOpenAIGeneration,
-      features: ['Custom prompts and parameters', 'Story-context awareness', 'Portrait generation included']
+      features: ['Custom prompts and parameters', 'Story-context awareness', 'Portrait generation included'],
+      color: 'from-purple-500/20 to-violet-500/10',
+      iconColor: 'text-purple-500'
     },
     {
       id: 'document',
@@ -54,7 +60,9 @@ export function CharacterCreationLaunch({
       description: 'Upload existing character documents and let AI parse them',
       icon: Upload,
       action: onOpenDocumentUpload,
-      features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all character fields']
+      features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all character fields'],
+      color: 'from-orange-500/20 to-amber-500/10',
+      iconColor: 'text-orange-500'
     }
   ];
 
@@ -85,7 +93,7 @@ export function CharacterCreationLaunch({
         </DialogHeader>
 
         <div className="py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {creationOptions.map((option) => {
               const Icon = option.icon;
               const isSelected = selectedOption === option.id;
@@ -93,50 +101,52 @@ export function CharacterCreationLaunch({
               return (
                 <Card 
                   key={option.id}
-                  className={`group cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-xl border border-border/50 hover:border-accent/50 bg-card/50 backdrop-blur-sm relative overflow-hidden ${
-                    isSelected ? 'scale-[1.02] shadow-xl border-accent/70 bg-accent/5' : ''
+                  className={`group cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border border-border/50 hover:border-accent/50 bg-card/50 backdrop-blur-sm relative overflow-hidden ${
+                    isSelected ? 'scale-[1.01] shadow-2xl border-accent/70 bg-accent/5' : ''
                   }`}
                   onClick={() => handleOptionSelect(option.id, option.action)}
                 >
-                  <CardContent className="p-8 relative h-full flex flex-col text-center">
-                    {/* Subtle glow effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  <CardContent className="p-8 relative h-full">
+                    {/* Background gradient */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${option.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     
-                    {/* Icon */}
-                    <div className="relative mb-6">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-accent/20 to-accent/10 rounded-xl flex items-center justify-center transition-all duration-300 shadow-lg group-hover:shadow-accent/20 group-hover:scale-110">
-                        <Icon className="h-8 w-8 text-accent" />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative space-y-4 flex-1">
-                      <div>
-                        <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-accent transition-colors">
-                          {option.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                          {option.description}
-                        </p>
-                      </div>
-
-                      {/* Features */}
-                      <div className="space-y-2 pt-2">
-                        {option.features.map((feature, index) => (
-                          <div key={index} className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                            <div className="w-1 h-1 bg-accent/60 rounded-full" />
-                            <span>{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Loading indicator */}
-                      {isSelected && (
-                        <div className="mt-4 flex items-center justify-center gap-2 text-accent">
-                          <div className="w-4 h-4 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
-                          <span className="text-sm font-medium">Creating...</span>
+                    <div className="relative z-10 flex h-full">
+                      {/* Left side - Icon */}
+                      <div className="flex-shrink-0 mr-6">
+                        <div className={`p-4 bg-gradient-to-br ${option.color} rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
+                          <Icon className={`h-12 w-12 ${option.iconColor}`} />
                         </div>
-                      )}
+                      </div>
+                      
+                      {/* Right side - Content */}
+                      <div className="flex-1 flex flex-col">
+                        <div className="mb-4">
+                          <h3 className={`font-bold text-xl mb-2 group-hover:${option.iconColor} transition-colors duration-200`}>
+                            {option.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {option.description}
+                          </p>
+                        </div>
+                        
+                        {/* Features */}
+                        <div className="space-y-2 flex-grow">
+                          {option.features.map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-3 text-sm text-muted-foreground">
+                              <div className={`w-1.5 h-1.5 ${option.iconColor.replace('text-', 'bg-')} rounded-full`} />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* Loading indicator */}
+                        {isSelected && (
+                          <div className={`mt-4 flex items-center gap-2 ${option.iconColor}`}>
+                            <div className={`w-4 h-4 border-2 ${option.iconColor.replace('text-', 'border-')}/30 ${option.iconColor.replace('text-', 'border-t-')} rounded-full animate-spin`} />
+                            <span className="text-sm font-medium">Starting...</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
