@@ -9,14 +9,6 @@ import { useMutation } from '@tanstack/react-query';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 import type { Character } from '@/lib/types';
 
-interface CharacterTemplatesProps {
-  isOpen: boolean;
-  onClose: () => void;
-  projectId: string;
-  onBack?: () => void;
-  onSelectTemplate?: (character: Character) => void;
-}
-
 interface CharacterTemplate {
   id: string;
   name: string;
