@@ -13,7 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { 
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from '@/components/ui/select';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+
 import { 
   Plus, FileText, Sparkles, Upload, ArrowRight, ChevronLeft, Save, Info, Star, Clock,
   User, Eye, Brain, Zap, BookOpen, Users, PenTool, Shield, Heart, Map, Crown,
@@ -30,6 +30,7 @@ interface CharacterCreationWizardV2Props {
   onClose: () => void;
   projectId: string;
   onComplete?: (character: Character) => void;
+  onTemplatesClick?: () => void;
 }
 
 type WizardMode = 'selection' | 'guided' | 'templates' | 'ai-generation' | 'upload';
@@ -209,7 +210,7 @@ const AI_SUGGESTION_PROMPTS = {
   skills: (data: Partial<Character>) => `List skills that a ${data.class || 'character'} would need based on their background: ${data.background?.slice(0, 100) || 'undefined background'}`
 };
 
-export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComplete }: CharacterCreationWizardV2Props) {
+export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComplete, onTemplatesClick }: CharacterCreationWizardV2Props) {
   const [mode, setMode] = useState<WizardMode>('selection');
   const [activeTab, setActiveTab] = useState<ActiveTab>('core');
   const [formData, setFormData] = useState<Partial<Character>>({
@@ -574,7 +575,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
               </Card>
 
               <Card className="group cursor-pointer transition-all duration-200 hover:shadow-lg border border-border/20 hover:border-accent/30 bg-card/30 hover:bg-card/50"
-                   onClick={() => setMode('templates')}>
+                   onClick={onTemplatesClick}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <FileText className="h-5 w-5 text-accent" />
@@ -623,7 +624,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl h-[95vh] p-0 gap-0">
+      <DialogContent className="max-w-6xl h-[90vh] p-0 gap-0">
         <DialogHeader className="border-b border-border/30 p-6 pb-4 bg-muted/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -657,9 +658,9 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
           </div>
         </DialogHeader>
 
-        <div className="flex h-full">
+        <div className="flex flex-1 overflow-hidden">
           {/* Navigation Sidebar */}
-          <div className="w-80 border-r border-border/30 bg-muted/20 p-4 overflow-y-auto">
+          <div className="w-72 border-r border-border/30 bg-muted/20 p-4 overflow-y-auto flex-shrink-0">
             <div className="space-y-2">
               {FIELD_CATEGORIES.map((category) => {
                 const isComplete = completedSections.has(category.id);
@@ -699,7 +700,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-hidden">
             <ScrollArea className="h-full">
               <div className="p-6">
                 {FIELD_CATEGORIES.map((category) => {
@@ -759,44 +760,40 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
 
                       {/* Detailed Fields (Collapsible) */}
                       {detailedFields.length > 0 && (
-                        <Collapsible 
-                          open={expandedFields.has(`${category.id}-detailed`)}
-                          onOpenChange={(open) => {
-                            const newExpanded = new Set(expandedFields);
-                            if (open) {
-                              newExpanded.add(`${category.id}-detailed`);
-                            } else {
-                              newExpanded.delete(`${category.id}-detailed`);
-                            }
-                            setExpandedFields(newExpanded);
-                          }}
-                        >
-                          <Card>
-                            <CollapsibleTrigger asChild>
-                              <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors pb-3">
-                                <CardTitle className="text-lg flex items-center justify-between">
-                                  <div className="flex items-center gap-2">
-                                    <Info className="h-4 w-4 text-blue-500" />
-                                    Detailed Information
-                                  </div>
-                                  {expandedFields.has(`${category.id}-detailed`) ? (
-                                    <ChevronUp className="h-4 w-4" />
-                                  ) : (
-                                    <ChevronDown className="h-4 w-4" />
-                                  )}
-                                </CardTitle>
-                                <p className="text-sm text-muted-foreground">
-                                  Additional details for enhanced characterization
-                                </p>
-                              </CardHeader>
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
-                              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {detailedFields.map(renderField)}
-                              </CardContent>
-                            </CollapsibleContent>
-                          </Card>
-                        </Collapsible>
+                        <Card>
+                          <CardHeader 
+                            className="cursor-pointer hover:bg-muted/50 transition-colors pb-3"
+                            onClick={() => {
+                              const newExpanded = new Set(expandedFields);
+                              if (expandedFields.has(`${category.id}-detailed`)) {
+                                newExpanded.delete(`${category.id}-detailed`);
+                              } else {
+                                newExpanded.add(`${category.id}-detailed`);
+                              }
+                              setExpandedFields(newExpanded);
+                            }}
+                          >
+                            <CardTitle className="text-lg flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Info className="h-4 w-4 text-blue-500" />
+                                Detailed Information
+                              </div>
+                              {expandedFields.has(`${category.id}-detailed`) ? (
+                                <ChevronUp className="h-4 w-4" />
+                              ) : (
+                                <ChevronDown className="h-4 w-4" />
+                              )}
+                            </CardTitle>
+                            <p className="text-sm text-muted-foreground">
+                              Additional details for enhanced characterization
+                            </p>
+                          </CardHeader>
+                          {expandedFields.has(`${category.id}-detailed`) && (
+                            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {detailedFields.map(renderField)}
+                            </CardContent>
+                          )}
+                        </Card>
                       )}
                     </div>
                   );

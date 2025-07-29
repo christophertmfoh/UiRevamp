@@ -1050,6 +1050,10 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           setSelectedCharacter(newCharacter);
           setIsV2WizardOpen(false);
         }}
+        onTemplatesClick={() => {
+          setIsV2WizardOpen(false);
+          setIsTemplateModalOpen(true);
+        }}
       />
 
       {/* V2 Templates System - Alternative Creation Method */}
@@ -1064,6 +1068,17 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         onComplete={(newCharacter) => {
           setSelectedCharacter(newCharacter);
           setIsV2TemplatesOpen(false);
+        }}
+      />
+
+      {/* Original AI-Enhanced Templates Modal */}
+      <CharacterTemplates
+        isOpen={isTemplateModalOpen}
+        onClose={() => setIsTemplateModalOpen(false)}
+        projectId={projectId}
+        onSelectTemplate={(template) => {
+          console.log('Template selected:', template);
+          setIsTemplateModalOpen(false);
         }}
       />
     </div>
