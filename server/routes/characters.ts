@@ -2,7 +2,7 @@ import { Router } from "express";
 // Removed unused insertCharacterSchema import
 import { storage } from "../storage";
 import { transformCharacterData } from "../utils/characterTransformers";
-import { generateCharacterWithAI } from "../services/characterGeneration";
+import { generateCharacterFromPrompt } from "../services/characterGeneration";
 import { generateCharacterPortrait } from "../characterPortraitGenerator";
 import { generateCharacterImage } from "../imageGeneration";
 import { importCharacterDocument } from "../characterExtractor";
@@ -228,26 +228,26 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
     });
     
     // Generate portrait for the character
-    if (character.id) {
+    if (storedCharacter.id) {
       try {
-        const portraitUrl = await generateCharacterPortrait(character);
+        const portraitUrl = await generateCharacterPortrait(storedCharacter);
         if (portraitUrl) {
           console.log('Generated portrait URL for custom character:', portraitUrl);
           // Update character with portrait URL
-          await storage.updateCharacter(character.id, {
+          await storage.updateCharacter(storedCharacter.id, {
             imageUrl: portraitUrl,
             portraits: [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}]
           });
           // Add portrait to response
-          character.imageUrl = portraitUrl;
-          character.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
+          storedCharacter.imageUrl = portraitUrl;
+          storedCharacter.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
         }
       } catch (portraitError) {
         console.error("Error generating portrait:", portraitError);
       }
     }
     
-    res.status(201).json(character);
+    res.status(201).json(storedCharacter);
   } catch (error: unknown) {
     console.error("Error generating character:", error);
     res.status(500).json({ error: "Failed to generate character" });

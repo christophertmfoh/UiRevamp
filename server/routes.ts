@@ -277,75 +277,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  // Character document import route (needs to be moved to character router)
-  // DISABLED: Now handled by characterRouter
-  // app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
-    try {
-      console.log('Character extraction request received');
-      
-      if (!req.file) {
-        return res.status(400).json({ error: "No document uploaded" });
-      }
-
-      const { projectId } = req.body;
-      if (!projectId) {
-        return res.status(400).json({ error: "Project ID is required" });
-      }
-
-      console.log('Extracting character from:', {
-        filename: req.file.originalname,
-        size: req.file.size,
-        mimetype: req.file.mimetype,
-        path: req.file.path,
-        projectId
-      });
-
-      // Import the document using AI
-      const extractedData = await importCharacterDocument(req.file.path, req.file.originalname);
-      
-      console.log('Document imported successfully:', extractedData);
-
-      // Generate a more robust unique ID to prevent collisions
-      const generateUniqueId = () => {
-        const timestamp = Date.now();
-        const randomPart = Math.random().toString(36).substring(2, 15);
-        const extraRandom = Math.random().toString(36).substring(2, 9);
-        return `char_${timestamp}_${randomPart}_${extraRandom}`;
-      };
-
-      // Transform extracted data to match database schema  
-      const characterData: Record<string, unknown> = {
-        id: generateUniqueId(),
-        projectId,
-        name: extractedData.name || 'Unnamed Character',
-        ...extractedData
-      };
-
-      // Create character in database
-      const character = await storage.createCharacter(characterData as any);
-      
-      // Generate portrait for the character
-      if (character.id) {
-        try {
-          const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
-          const portraitUrl = await generateCharacterPortrait(character);
-          if (portraitUrl) {
-            console.log('Portrait generated for imported character:', portraitUrl);
-            // Note: displayImageId expects number but portrait generation returns string
-            // This is a schema mismatch that needs to be resolved in the database design
-          }
-        } catch (portraitError) {
-          console.error("Error generating portrait:", portraitError);
-        }
-      }
-
-      res.json({ character });
-    } catch (error: unknown) {
-      console.error("Error importing document:", error);
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      res.status(500).json({ error: "Failed to import document", details: errorMessage });
-    }
+  // Character document import route - DISABLED (moved to characterRouter)
+  /* 
+  app.post("/api/characters/import-document", upload.single('document'), async (req, res) => {
+    // This functionality has been moved to characterRouter
+    // All character-related routes should use the character router for consistency
   });
+  */
 
   // Character image generation route (needs to be moved to character router)
   app.post("/api/generate-character-image", async (req, res) => {
@@ -585,33 +523,13 @@ Ensure the character feels authentic, three-dimensional, and compelling for stor
     }
   }); */
 
-  // Character field enhancement route (needs to be moved to character router)
-  // DISABLED: Now handled by characterRouter
-  // app.post("/api/characters/:id/enhance-field", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { field, currentValue } = req.body;
-      
-      console.log(`Enhancing field ${field} for character ${id}`);
-      
-      const character = await storage.getCharacter(id);
-      if (!character) {
-        return res.status(404).json({ error: "Character not found" });
-      }
-      
-      // Field enhancement temporarily disabled - service needs to be implemented
-      const enhancedValue = currentValue + " (enhanced)";
-      
-      res.json({ enhancedValue });
-    } catch (error: unknown) {
-      console.error("Error enhancing field:", error);
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      res.status(500).json({ 
-        error: "Failed to enhance field", 
-        details: errorMessage 
-      });
-    }
+  // Character field enhancement route - DISABLED (moved to characterRouter)
+  /*
+  app.post("/api/characters/:id/enhance-field", async (req, res) => {
+    // This functionality has been moved to characterRouter
+    // All character-related routes should use the character router for consistency
   });
+  */
 
   // World Bible Entity routes
   app.get("/api/projects/:projectId/worldbible/:entityType", async (req, res) => {
