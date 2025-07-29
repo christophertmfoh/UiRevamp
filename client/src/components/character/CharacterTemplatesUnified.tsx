@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { 
-  Search, Crown, Sword, Heart, Shield, BookOpen, Zap, Users, Star, 
-  Loader2, Sparkles, FileText, Eye, Brain, Smartphone, Rocket, 
-  Building2, Briefcase, GraduationCap, Camera, Mic, Palette, 
-  Stethoscope, Scale, Wrench
+  Search, ArrowLeft, Clock, TrendingUp, Sparkles, 
+  Shield, Sword, Wrench, BookOpen, Crown, Heart,
+  Zap, Globe, Microscope, Camera, Coffee, Star,
+  Users, Eye, Brain, Smartphone, Rocket, 
+  Building2, Briefcase, GraduationCap, Scale, Wrench as WrenchIcon
 } from 'lucide-react';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 import { CharacterGenerationLoadingScreen } from './CharacterGenerationLoadingScreen';
@@ -405,6 +406,22 @@ export function CharacterTemplatesUnified({
   const [isGenerating, setIsGenerating] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [generatedCharacter, setGeneratedCharacter] = useState<Character | null>(null);
+
+  // Initialize clean state on mount
+  useEffect(() => {
+    console.log('🎨 CharacterTemplatesUnified mounted, initializing clean state');
+    setCurrentStep('');
+    setProgress(0);
+    setIsGenerating(false);
+    setHasError(false);
+    setGeneratedCharacter(null);
+    setSelectedTemplate(null);
+  }, []);
+
+  // Debug logging for state changes
+  useEffect(() => {
+    console.log('🎨 State update:', { isGenerating, hasError, progress, currentStep, selectedTemplate: selectedTemplate?.name });
+  }, [isGenerating, hasError, progress, currentStep, selectedTemplate]);
 
   const generateMutation = useMutation({
     mutationFn: async (template: Template) => {

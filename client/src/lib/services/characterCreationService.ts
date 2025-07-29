@@ -40,6 +40,10 @@ export class CharacterCreationService {
       console.log('🧪 Prompt received:', prompt);
       console.log('🧪 OnProgress callback:', typeof onProgress);
       
+      // Use fallback test project ID if none provided
+      const testProjectId = projectId || 'test-project-demo';
+      console.log('🧪 Using project ID:', testProjectId);
+      
       // TEST MODE: 10-second simulation with proper step progression
       const steps = [
         { step: 'Analyzing prompt and understanding character vision...', progress: 10, duration: 2000 },
@@ -59,7 +63,7 @@ export class CharacterCreationService {
       // Create comprehensive test character with all 86 fields populated
       const testCharacter: Character = {
         id: `test-char-${Date.now()}`,
-        projectId,
+        projectId: testProjectId,
         name: 'Aria Shadowweaver',
         title: 'The Mystic Scholar',
         

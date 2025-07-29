@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -92,12 +92,28 @@ export function CharacterAICreationUnified({
   onComplete
 }: CharacterAICreationUnifiedProps) {
   const [prompt, setPrompt] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [generatedCharacter, setGeneratedCharacter] = useState<Character | null>(null);
+  
+  // Progress and loading states
   const [currentStep, setCurrentStep] = useState('');
   const [progress, setProgress] = useState(0);
-  const [generatedCharacter, setGeneratedCharacter] = useState<Partial<Character> | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  // Initialize clean state on mount
+  useEffect(() => {
+    console.log('🎭 CharacterAICreationUnified mounted, initializing clean state');
+    setCurrentStep('');
+    setProgress(0);
+    setIsGenerating(false);
+    setHasError(false);
+    setGeneratedCharacter(null);
+  }, []);
+
+  // Debug logging for state changes
+  useEffect(() => {
+    console.log('🎭 State update:', { isGenerating, hasError, progress, currentStep });
+  }, [isGenerating, hasError, progress, currentStep]);
 
   const generateMutation = useMutation({
     mutationFn: async (promptText: string) => {
