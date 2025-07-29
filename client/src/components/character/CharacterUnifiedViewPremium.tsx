@@ -814,7 +814,7 @@ export function CharacterUnifiedViewPremium({
               {[
                 { key: 'personality', label: 'Personality Overview', type: 'textarea', placeholder: 'Core personality description' },
                 { key: 'personalityTraits', label: 'Key Traits', type: 'array', placeholder: 'Brave, cynical, optimistic (separate with commas)' },
-                { key: 'temperament', label: 'Temperament', type: 'select', options: [
+                { key: 'temperament', label: 'Temperament', type: 'select', placeholder: 'Select character temperament type', options: [
                   'Sanguine', 'Choleric', 'Melancholic', 'Phlegmatic', 'Sanguine-Choleric', 'Sanguine-Phlegmatic',
                   'Choleric-Sanguine', 'Choleric-Melancholic', 'Melancholic-Choleric', 'Melancholic-Phlegmatic',
                   'Phlegmatic-Sanguine', 'Phlegmatic-Melancholic', 'Optimistic', 'Pessimistic', 'Realistic',
