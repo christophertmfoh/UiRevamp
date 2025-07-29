@@ -418,7 +418,7 @@ export function UniversalEntityManager({
                 <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                   <Plus className="h-4 w-4" />
                 </div>
-                <span className="font-semibold tracking-wide">{config.createPrompt}</span>
+                <span className="font-semibold tracking-wide">Create {config.singular}</span>
               </div>
             </Button>
           </div>
