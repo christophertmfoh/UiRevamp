@@ -22,7 +22,7 @@
     "type-check": "tsc --noEmit",
     "pre-commit": "npm run lint:fix && npm run format && npm run type-check",
     "validate-env": "node scripts/validate-env.js",
-    "generate-secrets": "node scripts/generate-secrets.js",
+    "generate-secrets": "node scripts/generate-secrets.cjs",
     "security-scan": "npm audit --audit-level=moderate && node scripts/security-check.js",
     "health-check": "node scripts/health-check.js",
     "setup:dev": "npm run generate-secrets && cp .env.example .env.development && npm run validate-env",
