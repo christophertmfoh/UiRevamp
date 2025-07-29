@@ -184,7 +184,30 @@ export class CharacterCreationService {
       console.log('✅ TEST MODE: Character generation complete - ready for full view');
       console.log('✅ Test character created:', testCharacter.name, testCharacter.id);
       console.log('✅ Returning character with', Object.keys(testCharacter).length, 'fields');
-      return testCharacter;
+      
+      // 🔧 SAVE CHARACTER TO BACKEND (TEST COMPLETE FLOW)
+      console.log('💾 Saving character to backend for complete flow test...');
+      try {
+        const saveResponse = await fetch(`/api/projects/${testProjectId}/characters`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(testCharacter),
+        });
+
+        if (saveResponse.ok) {
+          const savedCharacter = await saveResponse.json();
+          console.log('✅ Character saved successfully:', savedCharacter.id);
+          return savedCharacter as Character;
+        } else {
+          console.warn('⚠️ Character save failed, returning local character:', await saveResponse.text());
+          return testCharacter;
+        }
+      } catch (saveError) {
+        console.warn('⚠️ Character save error, returning local character:', saveError);
+        return testCharacter;
+      }
 
     } catch (error) {
       console.error('❌ Test character generation failed:', error);
