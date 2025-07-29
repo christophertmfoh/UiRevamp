@@ -106,7 +106,7 @@ export function AIAssistModal({ isOpen, onClose, onStartAssist, isProcessing }: 
         <DialogHeader>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+              <Sparkles className="w-5 h-5 text-accent-foreground" />
             </div>
             <div>
               <DialogTitle className="text-xl font-bold text-foreground">AI Character Assistant</DialogTitle>
@@ -182,7 +182,7 @@ export function AIAssistModal({ isOpen, onClose, onStartAssist, isProcessing }: 
                         />
                         
                         <div className={`w-8 h-8 bg-gradient-to-br ${category.color} rounded-lg flex items-center justify-center`}>
-                          <IconComponent className="w-4 h-4 text-white" />
+                          <IconComponent className="w-4 h-4 text-accent-foreground" />
                         </div>
                         
                         <div className="flex-1">
@@ -226,7 +226,7 @@ export function AIAssistModal({ isOpen, onClose, onStartAssist, isProcessing }: 
             <Button
               onClick={handleStartAssist}
               disabled={selectedCategories.length === 0 || isProcessing}
-              className="flex-1 gap-2 bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-white"
+              className="flex-1 gap-2 bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground"
             >
               <Sparkles className="w-4 h-4" />
               {isProcessing ? 'AI Working...' : `Assist Me (${selectedCategories.length} categories)`}

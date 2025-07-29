@@ -32,7 +32,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
         <div className="flex items-start gap-6">
           {/* Character Avatar */}
           <div 
-            className="w-20 h-20 rounded-lg bg-gradient-to-br from-[hsl(220_14%_45%)]/10 to-[hsl(220_14%_45%)]/20 dark:from-[hsl(220_14%_45%)]/10 dark:to-[hsl(220_14%_45%)]/20 flex items-center justify-center flex-shrink-0 relative group/avatar cursor-pointer hover:shadow-lg transition-all duration-200 border border-[hsl(220_14%_45%)]/20"
+            className="w-20 h-20 rounded-lg bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent)]/20 dark:from-[var(--accent)]/10 dark:to-[var(--accent)]/20 flex items-center justify-center flex-shrink-0 relative group/avatar cursor-pointer hover:shadow-lg transition-all duration-200 border border-[var(--accent)]/20"
             onClick={(e) => {
               e.stopPropagation();
               setIsPortraitModalOpen(true);
@@ -45,11 +45,11 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                 className="w-full h-full object-cover rounded-lg group-hover/avatar:brightness-75 transition-all duration-200"
               />
             ) : (
-              <User className="h-10 w-10 text-[hsl(220_14%_45%)] group-hover/avatar:scale-110 transition-transform duration-200" />
+              <User className="h-10 w-10 text-[var(--accent)] group-hover/avatar:scale-110 transition-transform duration-200" />
             )}
             {/* Camera overlay on hover */}
             <div className="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-              <Camera className="h-5 w-5 text-white" />
+              <Camera className="h-5 w-5 text-accent-foreground" />
             </div>
           </div>
 
@@ -57,7 +57,7 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h3 className="font-semibold text-lg truncate group-hover:text-[hsl(220_14%_45%)] transition-colors">
+                <h3 className="font-semibold text-lg truncate group-hover:text-[var(--accent)] transition-colors">
                   {character.name}
                   {character.title && (
                     <span className="text-muted-foreground font-normal ml-1">
@@ -132,13 +132,13 @@ export function CharacterCard({ character, onSelect, onEdit, onDelete }: Charact
                       {character.personalityTraits.slice(0, 4).map((trait, index) => (
                         <span 
                           key={index}
-                          className="inline-block text-xs px-2 py-1 bg-[hsl(220_14%_45%)]/10 text-[hsl(220_14%_45%)] rounded-full border border-[hsl(220_14%_45%)]/20"
+                          className="inline-block text-xs px-2 py-1 bg-[var(--accent)]/10 text-[var(--accent)] rounded-full border border-[var(--accent)]/20"
                         >
                           {trait}
                         </span>
                       ))}
                       {character.personalityTraits.length > 4 && (
-                        <span className="inline-block text-xs px-2 py-1 bg-[hsl(220_14%_45%)]/10 text-[hsl(220_14%_45%)]/70 rounded-full border border-[hsl(220_14%_45%)]/20">
+                        <span className="inline-block text-xs px-2 py-1 bg-[var(--accent)]/10 text-[var(--accent)]/70 rounded-full border border-[var(--accent)]/20">
                           +{character.personalityTraits.length - 4} more
                         </span>
                       )}

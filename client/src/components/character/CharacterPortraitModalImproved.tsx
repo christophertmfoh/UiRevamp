@@ -542,7 +542,7 @@ export function CharacterPortraitModal({
                               value={artStyle}
                               onChange={(e) => setArtStyle(e.target.value)}
                               placeholder="e.g., digital art, oil painting, anime style, photorealistic, watercolor..."
-                              className="mt-2 bg-background/50 text-black dark:text-white"
+                              className="mt-2 bg-background/50 text-black dark:text-accent-foreground"
                             />
                           </div>
 
@@ -556,7 +556,7 @@ export function CharacterPortraitModal({
                               onChange={(e) => setAdditionalDetails(e.target.value)}
                               placeholder="e.g., medieval clothing, dramatic lighting, specific pose, background details..."
                               rows={3}
-                              className="mt-2 bg-background/50 text-black dark:text-white"
+                              className="mt-2 bg-background/50 text-black dark:text-accent-foreground"
                             />
                           </div>
 
@@ -706,7 +706,7 @@ export function CharacterPortraitModal({
                                   e.stopPropagation();
                                   handleDeleteImage(portrait.id);
                                 }}
-                                className="bg-red-500/90 hover:bg-red-500 text-white"
+                                className="bg-red-500/90 hover:bg-red-500 text-accent-foreground"
                               >
                                 <Trash2 className="h-3 w-3" />
                               </Button>
@@ -837,7 +837,7 @@ export function CharacterPortraitModal({
                     variant="ghost"
                     size="sm"
                     onClick={() => navigateToImage('prev')}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </Button>
@@ -845,7 +845,7 @@ export function CharacterPortraitModal({
                     variant="ghost"
                     size="sm"
                     onClick={() => navigateToImage('next')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </Button>
@@ -857,7 +857,7 @@ export function CharacterPortraitModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedImagePreview(null)}
-                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50"
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 z-50"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -866,11 +866,11 @@ export function CharacterPortraitModal({
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-white font-semibold text-lg">{character.name}</h3>
-                    <p className="text-white/80 text-sm">Character Portrait</p>
+                    <h3 className="text-accent-foreground font-semibold text-lg">{character.name}</h3>
+                    <p className="text-accent-foreground/80 text-sm">Character Portrait</p>
                   </div>
                   {portraitGallery.length > 1 && (
-                    <div className="text-white/80 text-sm">
+                    <div className="text-accent-foreground/80 text-sm">
                       {getCurrentImageIndex() + 1} of {portraitGallery.length}
                     </div>
                   )}
@@ -929,7 +929,7 @@ export function CharacterPortraitModal({
                     variant="ghost"
                     size="sm"
                     onClick={() => navigateToImage('prev')}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </Button>
@@ -937,7 +937,7 @@ export function CharacterPortraitModal({
                     variant="ghost"
                     size="sm"
                     onClick={() => navigateToImage('next')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
                   >
                     <ChevronRight className="h-6 w-6" />
                   </Button>
@@ -949,7 +949,7 @@ export function CharacterPortraitModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => setSelectedImagePreview(null)}
-                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50"
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 z-50"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -958,11 +958,11 @@ export function CharacterPortraitModal({
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-white font-semibold text-lg">{character.name}</h3>
-                    <p className="text-white/80 text-sm">Character Portrait</p>
+                    <h3 className="text-accent-foreground font-semibold text-lg">{character.name}</h3>
+                    <p className="text-accent-foreground/80 text-sm">Character Portrait</p>
                   </div>
                   {portraitGallery.length > 1 && (
-                    <div className="text-white/80 text-sm">
+                    <div className="text-accent-foreground/80 text-sm">
                       {getCurrentImageIndex() + 1} of {portraitGallery.length}
                     </div>
                   )}

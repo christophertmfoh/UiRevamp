@@ -499,9 +499,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border overflow-hidden relative ${
       isSelectionMode 
         ? selectedCharacterIds.has(character.id)
-          ? 'border-[hsl(220_14%_45%)] bg-[hsl(220_14%_45%)]/5 shadow-lg' 
-          : 'border-border/30 hover:border-[hsl(220_14%_45%)]/50 bg-gradient-to-br from-background via-background/90 to-[hsl(220_14%_45%)]/5'
-        : 'border-border/30 hover:border-[hsl(220_14%_45%)]/50 bg-gradient-to-br from-background via-background/90 to-[hsl(220_14%_45%)]/5'
+          ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg' 
+          : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-br from-background via-background/90 to-[var(--accent)]/5'
+        : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-br from-background via-background/90 to-[var(--accent)]/5'
     }`} 
           onClick={() => {
             if (isSelectionMode) {
@@ -516,8 +516,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           <div className="absolute top-3 left-3 z-10">
             <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
               selectedCharacterIds.has(character.id)
-                ? 'bg-[hsl(220_14%_45%)] border-[hsl(220_14%_45%)] text-[white]'
-                : 'bg-background/80 border-border hover:border-[hsl(220_14%_45%)]'
+                ? 'bg-[var(--accent)] border-[var(--accent)] text-[white]'
+                : 'bg-background/80 border-border hover:border-[var(--accent)]'
             }`}>
               {selectedCharacterIds.has(character.id) && (
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -529,11 +529,11 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         )}
         
         {/* Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(220_14%_45%)]/5 via-transparent to-[hsl(220_14%_45%)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 via-transparent to-[var(--accent)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
         
         {/* Character Image Header */}
         <div 
-          className="relative h-64 bg-gradient-to-br from-[hsl(220_14%_45%)]/5 via-muted/20 to-[hsl(220_14%_45%)]/10 overflow-hidden cursor-pointer group/image"
+          className="relative h-64 bg-gradient-to-br from-[var(--accent)]/5 via-muted/20 to-[var(--accent)]/10 overflow-hidden cursor-pointer group/image"
           onClick={(e) => handlePortraitClick(character, e)}
         >
           {character.imageUrl ? (
@@ -547,14 +547,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               {/* Camera overlay on hover */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                <Camera className="h-8 w-8 text-white" />
+                <Camera className="h-8 w-8 text-accent-foreground" />
               </div>
             </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[hsl(220_14%_45%)]/10 to-muted/30 group-hover/image:bg-gradient-to-br group-hover/image:from-[hsl(220_14%_45%)]/20 group-hover/image:to-muted/40 transition-all duration-200">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--accent)]/10 to-muted/30 group-hover/image:bg-gradient-to-br group-hover/image:from-[var(--accent)]/20 group-hover/image:to-muted/40 transition-all duration-200">
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-3 bg-[hsl(220_14%_45%)]/20 rounded-full flex items-center justify-center group-hover/image:bg-[hsl(220_14%_45%)]/30 transition-all duration-200">
-                  <Camera className="h-10 w-10 text-[hsl(220_14%_45%)]/60 group-hover/image:text-[hsl(220_14%_45%)]/80 group-hover/image:scale-110 transition-all duration-200" />
+                <div className="w-20 h-20 mx-auto mb-3 bg-[var(--accent)]/20 rounded-full flex items-center justify-center group-hover/image:bg-[var(--accent)]/30 transition-all duration-200">
+                  <Camera className="h-10 w-10 text-[var(--accent)]/60 group-hover/image:text-[var(--accent)]/80 group-hover/image:scale-110 transition-all duration-200" />
                 </div>
                 <p className="text-sm text-muted-foreground font-medium group-hover/image:text-muted-foreground/80">Add Portrait</p>
               </div>
@@ -568,7 +568,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
               {/* Subtle overlay for better readability */}
               <div className="absolute bottom-4 left-4 right-4">
-                <div className="text-white/90 text-sm font-medium line-clamp-2 leading-relaxed">
+                <div className="text-accent-foreground/90 text-sm font-medium line-clamp-2 leading-relaxed">
                   {character.description || 'Click to view character details...'}
                 </div>
               </div>
@@ -582,32 +582,32 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         <div className="p-6 space-y-4 relative">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-bold text-xl group-hover:text-[hsl(220_14%_45%)] transition-colors truncate leading-tight">
+              <h3 className="font-bold text-xl group-hover:text-[var(--accent)] transition-colors truncate leading-tight">
                 {character.name}
               </h3>
-              <Badge className="bg-[hsl(220_14%_45%)] text-[white] font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
+              <Badge className="bg-[var(--accent)] text-[white] font-medium text-xs px-2 py-1 shadow-md border-0 rounded-full">
                 Character
               </Badge>
             </div>
             {character.title && (
-              <p className="text-[hsl(220_14%_45%)]/80 text-sm font-medium truncate mb-3">
+              <p className="text-[var(--accent)]/80 text-sm font-medium truncate mb-3">
                 "{character.title}"
               </p>
             )}
             
             <div className="flex items-center gap-2 mt-3 flex-wrap">
               {character.race && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   {character.race}
                 </Badge>
               )}
               {character.class && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   {character.class}
                 </Badge>
               )}
               {character.age && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   Age {character.age}
                 </Badge>
               )}
@@ -626,7 +626,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {character.personalityTraits && character.personalityTraits.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {character.personalityTraits.slice(0, 3).map((trait, index) => (
-                <span key={index} className="text-xs px-3 py-1.5 bg-[hsl(220_14%_45%)]/15 text-[hsl(220_14%_45%)] rounded-full font-semibold border border-[hsl(220_14%_45%)]/20">
+                <span key={index} className="text-xs px-3 py-1.5 bg-[var(--accent)]/15 text-[var(--accent)] rounded-full font-semibold border border-[var(--accent)]/20">
                   {trait}
                 </span>
               ))}
@@ -644,7 +644,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <div className="flex items-center gap-2">
                 <div className="h-1.5 flex-1 bg-muted/30 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-[hsl(220_14%_45%)] to-[hsl(220_14%_45%)]/80 transition-all duration-300"
+                    className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent)]/80 transition-all duration-300"
                     style={{
                       width: `${getCompletionPercentage(character)}%`
                     }}
@@ -666,9 +666,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     <Card className={`group cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.01] border relative overflow-hidden ${
       isSelectionMode 
         ? selectedCharacterIds.has(character.id)
-          ? 'border-[hsl(220_14%_45%)] bg-[hsl(220_14%_45%)]/5 shadow-lg'
-          : 'border-border/30 hover:border-[hsl(220_14%_45%)]/50 bg-gradient-to-r from-background via-background/95 to-[hsl(220_14%_45%)]/5'
-        : 'border-border/30 hover:border-[hsl(220_14%_45%)]/50 bg-gradient-to-r from-background via-background/95 to-[hsl(220_14%_45%)]/5'
+          ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg'
+          : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-r from-background via-background/95 to-[var(--accent)]/5'
+        : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-r from-background via-background/95 to-[var(--accent)]/5'
     }`}
           onClick={() => {
             if (isSelectionMode) {
@@ -679,15 +679,15 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           }}>
       <CardContent className="p-5 relative">
         {/* Subtle Glow Effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[hsl(220_14%_45%)]/3 via-transparent to-[hsl(220_14%_45%)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/3 via-transparent to-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         
         <div className="flex items-center gap-5 relative">
           {/* Selection Checkbox */}
           {isSelectionMode && (
             <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
               selectedCharacterIds.has(character.id)
-                ? 'bg-[hsl(220_14%_45%)] border-[hsl(220_14%_45%)] text-[white]'
-                : 'bg-background border-border hover:border-[hsl(220_14%_45%)]'
+                ? 'bg-[var(--accent)] border-[var(--accent)] text-[white]'
+                : 'bg-background border-border hover:border-[var(--accent)]'
             }`}>
               {selectedCharacterIds.has(character.id) && (
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -698,7 +698,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           )}
           {/* Premium Avatar */}
           <div 
-            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(220_14%_45%)]/10 via-muted/20 to-[hsl(220_14%_45%)]/15 flex items-center justify-center flex-shrink-0 border border-[hsl(220_14%_45%)]/20 shadow-md group-hover:shadow-lg transition-shadow duration-200 cursor-pointer group/avatar relative"
+            className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--accent)]/10 via-muted/20 to-[var(--accent)]/15 flex items-center justify-center flex-shrink-0 border border-[var(--accent)]/20 shadow-md group-hover:shadow-lg transition-shadow duration-200 cursor-pointer group/avatar relative"
             onClick={(e) => handlePortraitClick(character, e)}
           >
             {character.imageUrl ? (
@@ -710,12 +710,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 />
                 {/* Camera overlay on hover */}
                 <div className="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                  <Camera className="h-4 w-4 text-white" />
+                  <Camera className="h-4 w-4 text-accent-foreground" />
                 </div>
               </>
             ) : (
-              <div className="w-10 h-10 bg-[hsl(220_14%_45%)]/20 rounded-full flex items-center justify-center group-hover/avatar:bg-[hsl(220_14%_45%)]/30 transition-all duration-200">
-                <Camera className="h-6 w-6 text-[hsl(220_14%_45%)]/70 group-hover/avatar:text-[hsl(220_14%_45%)]/90 group-hover/avatar:scale-110 transition-all duration-200" />
+              <div className="w-10 h-10 bg-[var(--accent)]/20 rounded-full flex items-center justify-center group-hover/avatar:bg-[var(--accent)]/30 transition-all duration-200">
+                <Camera className="h-6 w-6 text-[var(--accent)]/70 group-hover/avatar:text-[var(--accent)]/90 group-hover/avatar:scale-110 transition-all duration-200" />
               </div>
             )}
           </div>
@@ -723,30 +723,30 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {/* Premium Character Info */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="font-bold text-xl group-hover:text-[hsl(220_14%_45%)] transition-colors truncate">
+              <h3 className="font-bold text-xl group-hover:text-[var(--accent)] transition-colors truncate">
                 {character.name}
               </h3>
               {character.title && (
-                <span className="text-[hsl(220_14%_45%)]/70 text-sm font-medium italic">"{character.title}"</span>
+                <span className="text-[var(--accent)]/70 text-sm font-medium italic">"{character.title}"</span>
               )}
             </div>
             
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <Badge className="text-xs bg-[hsl(220_14%_45%)] text-[white] font-medium shadow-sm">
+              <Badge className="text-xs bg-[var(--accent)] text-[white] font-medium shadow-sm">
                 Character
               </Badge>
               {character.race && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   {character.race}
                 </Badge>
               )}
               {character.class && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   {character.class}
                 </Badge>
               )}
               {character.age && (
-                <Badge variant="outline" className="text-xs bg-[hsl(220_14%_45%)]/5 border-[hsl(220_14%_45%)]/30 text-[hsl(220_14%_45%)]/80 hover:bg-[hsl(220_14%_45%)]/10 transition-colors font-medium">
+                <Badge variant="outline" className="text-xs bg-[var(--accent)]/5 border-[var(--accent)]/30 text-[var(--accent)]/80 hover:bg-[var(--accent)]/10 transition-colors font-medium">
                   Age {character.age}
                 </Badge>
               )}
@@ -758,7 +758,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 {character.description}
               </p>
             ) : (
-              <p className="text-sm text-[hsl(220_14%_45%)]/60 italic font-medium">
+              <p className="text-sm text-[var(--accent)]/60 italic font-medium">
                 Ready to develop • Click to add details and bring them to life
               </p>
             )}
@@ -767,7 +767,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <div className="flex items-center gap-2 mt-2">
               <div className="h-1 flex-1 bg-muted/30 rounded-full overflow-hidden max-w-32">
                 <div 
-                  className="h-full bg-gradient-to-r from-[hsl(220_14%_45%)] to-[hsl(220_14%_45%)]/80 transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent)]/80 transition-all duration-300"
                   style={{
                     width: `${getCompletionPercentage(character)}%`
                   }}
@@ -782,15 +782,15 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           {/* Premium Quick Actions - Hidden in selection mode */}
           {!isSelectionMode && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[hsl(220_14%_45%)]/10 hover:text-[hsl(220_14%_45%)] transition-colors rounded-xl"
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
                       onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
                 <Eye className="h-4 w-4" />
               </Button>
-              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[hsl(220_14%_45%)]/10 hover:text-[hsl(220_14%_45%)] transition-colors rounded-xl"
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
                       onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
                 <Edit className="h-4 w-4" />
               </Button>
-              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[hsl(220_14%_45%)]/10 hover:text-[hsl(220_14%_45%)] transition-colors rounded-xl"
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
                       onClick={(e) => handlePortraitClick(character, e)}>
                 <Camera className="h-4 w-4" />
               </Button>
@@ -815,7 +815,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
                 {characters.length} {characters.length === 1 ? 'character' : 'characters'} in your world
               </span>
               {filteredCharacters.length !== characters.length && (
-                <span className="text-sm text-[hsl(220_14%_45%)]">
+                <span className="text-sm text-[var(--accent)]">
                   ({filteredCharacters.length} visible)
                 </span>
               )}
@@ -827,7 +827,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-[hsl(220_14%_45%)] hover:bg-[hsl(220_14%_40%)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="bg-[var(--accent)] hover:bg-[var(--accent)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center">
                 <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
@@ -988,7 +988,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="bg-[hsl(220_14%_45%)] hover:bg-[hsl(220_14%_40%)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-[var(--accent)] hover:bg-[var(--accent)] text-[white] shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="flex items-center">
                   <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">

@@ -39,7 +39,7 @@ export function ImagePreviewModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => onNavigate('prev')}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
@@ -47,7 +47,7 @@ export function ImagePreviewModal({
                 variant="ghost"
                 size="sm"
                 onClick={() => onNavigate('next')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white border-0 h-12 w-12 rounded-full"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full"
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>
@@ -59,7 +59,7 @@ export function ImagePreviewModal({
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white border-0 z-50"
+            className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 z-50"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -68,11 +68,11 @@ export function ImagePreviewModal({
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-white font-semibold text-lg">{characterName}</h3>
-                <p className="text-white/80 text-sm">Character Portrait</p>
+                <h3 className="text-accent-foreground font-semibold text-lg">{characterName}</h3>
+                <p className="text-accent-foreground/80 text-sm">Character Portrait</p>
               </div>
               {totalImages > 1 && (
-                <div className="text-white/80 text-sm">
+                <div className="text-accent-foreground/80 text-sm">
                   {currentIndex + 1} of {totalImages}
                 </div>
               )}

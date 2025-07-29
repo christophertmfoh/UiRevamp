@@ -333,7 +333,7 @@ export function CharacterUnifiedView({
               
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Camera className="h-8 w-8 text-white" />
+                <Camera className="h-8 w-8 text-accent-foreground" />
               </div>
             </div>
 

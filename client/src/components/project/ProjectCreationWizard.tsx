@@ -189,7 +189,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   index <= step 
-                    ? 'gradient-primary-br text-white' 
+                    ? 'gradient-primary-br text-accent-foreground' 
                     : 'bg-muted text-muted-foreground'
                 }`}>
                   {index + 1}
@@ -289,7 +289,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                       variant={selectedGenres.includes(genre) ? "default" : "outline"}
                       className={`cursor-pointer transition-all duration-200 ${
                         selectedGenres.includes(genre)
-                          ? 'gradient-primary text-white border-transparent'
+                          ? 'gradient-primary text-accent-foreground border-transparent'
                           : 'hover:scale-105 border-border text-foreground'
                       }`}
                       onClick={() => toggleGenre(genre)}
@@ -339,7 +339,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
             <Button
               onClick={() => setStep(step + 1)}
               disabled={step === 0 && !projectName.trim()}
-              className="gradient-primary hover:opacity-90 text-white flex items-center"
+              className="gradient-primary hover:opacity-90 text-accent-foreground flex items-center"
             >
               Next
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -368,7 +368,7 @@ export function ProjectCreationWizard({ isOpen, onClose, onCreate }: ProjectCrea
                 }
               }}
               disabled={!projectName.trim() || isSubmitting}
-              className="gradient-primary hover:opacity-90 text-white flex items-center"
+              className="gradient-primary hover:opacity-90 text-accent-foreground flex items-center"
             >
               {isSubmitting ? (
                 <>

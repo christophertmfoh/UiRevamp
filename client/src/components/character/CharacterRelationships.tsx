@@ -120,7 +120,7 @@ export function CharacterRelationships({
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${typeInfo?.color || 'bg-gray-500'} text-white`}>
+              <div className={`p-2 rounded-lg ${typeInfo?.color || 'bg-gray-500'} text-accent-foreground`}>
                 {Icon && <Icon className="h-4 w-4" />}
               </div>
               <div>

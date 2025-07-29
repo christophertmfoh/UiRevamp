@@ -9,14 +9,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "gradient-primary text-white font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+        default: "gradient-primary text-accent-foreground font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         destructive:
-          "gradient-destructive text-white font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
+          "gradient-destructive text-accent-foreground font-semibold hover:brightness-110 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
         outline:
-          "border-2 border-[var(--gradient-brand-start)]/50 bg-transparent text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-white hover:border-transparent transform hover:scale-[1.02] active:scale-[0.98]",
+          "border-2 border-[var(--gradient-brand-start)]/50 bg-transparent text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-accent-foreground hover:border-transparent transform hover:scale-[1.02] active:scale-[0.98]",
         secondary:
           "bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]",
-        ghost: "text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-white transform hover:scale-[1.02] active:scale-[0.98]",
+        ghost: "text-[var(--gradient-brand-start)] hover:gradient-primary hover:text-accent-foreground transform hover:scale-[1.02] active:scale-[0.98]",
         link: "text-[var(--gradient-brand-start)] underline-offset-4 hover:underline",
       },
       size: {

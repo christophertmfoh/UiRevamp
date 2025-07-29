@@ -210,7 +210,7 @@ export function CharacterArcTracker({ characterName, onUpdateArcs }: CharacterAr
                   <div key={milestone.id} className="p-3 border border-border/50 rounded-lg">
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 mt-1">
-                        <div className={`w-6 h-6 rounded-full ${growthType?.color || 'bg-gray-500'} text-white text-xs flex items-center justify-center font-bold`}>
+                        <div className={`w-6 h-6 rounded-full ${growthType?.color || 'bg-gray-500'} text-accent-foreground text-xs flex items-center justify-center font-bold`}>
                           {index + 1}
                         </div>
                       </div>

@@ -413,7 +413,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                 <div className="p-4 surface-elevated rounded-xl">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-medium text-foreground/80">Completion Rate</p>
-                    <span className="text-sm font-bold text-black dark:text-white">
+                    <span className="text-sm font-bold text-black dark:text-accent-foreground">
                       {Math.round(taskStats.completionRate)}%
                     </span>
                   </div>
@@ -604,7 +604,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                   <div className="w-full bg-muted rounded-full h-1.5">
                     <div className="gradient-primary h-1.5 rounded-full" style={{ width: `${Math.min((progress.words / tempGoals.dailyWords) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-[10px] text-black dark:text-white mt-1">{progress.words}/{tempGoals.dailyWords} words</p>
+                  <p className="text-[10px] text-black dark:text-accent-foreground mt-1">{progress.words}/{tempGoals.dailyWords} words</p>
                 </div>
                 
                 <div className="p-3 surface-elevated rounded-xl">
@@ -621,7 +621,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                   <div className="w-full bg-muted rounded-full h-1.5">
                     <div className="gradient-primary h-1.5 rounded-full" style={{ width: `${Math.min((progress.minutes / tempGoals.dailyMinutes) * 100, 100)}%` }}></div>
                   </div>
-                  <p className="text-[10px] text-black dark:text-white mt-1">{progress.minutes}/{tempGoals.dailyMinutes} mins</p>
+                  <p className="text-[10px] text-black dark:text-accent-foreground mt-1">{progress.minutes}/{tempGoals.dailyMinutes} mins</p>
                 </div>
               </div>
 
@@ -632,8 +632,8 @@ export const ProjectModals = React.memo(function ProjectModals({
                     Streak Goal
                   </label>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-black dark:text-white">{progress.currentStreak}</span>
-                    <span className="text-xs text-black dark:text-white">/</span>
+                    <span className="text-sm font-bold text-black dark:text-accent-foreground">{progress.currentStreak}</span>
+                    <span className="text-xs text-black dark:text-accent-foreground">/</span>
                     <Input 
                       type="number" 
                       placeholder="30" 
@@ -641,7 +641,7 @@ export const ProjectModals = React.memo(function ProjectModals({
                       value={tempGoals.streakDays}
                       onChange={(e) => setTempGoals({...tempGoals, streakDays: parseInt(e.target.value) || 0})}
                     />
-                    <span className="text-xs text-black dark:text-white">days</span>
+                    <span className="text-xs text-black dark:text-accent-foreground">days</span>
                   </div>
                 </div>
                 <div className="w-full bg-muted rounded-full h-2">

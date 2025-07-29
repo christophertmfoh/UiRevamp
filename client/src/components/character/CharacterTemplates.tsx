@@ -659,7 +659,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
                   </Button>
                   <Button 
                     onClick={() => handleSelectTemplate(selectedTemplate)} 
-                    className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-white font-semibold"
+                    className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground font-semibold"
                     disabled={isGenerating}
                   >
                     {isGenerating ? (

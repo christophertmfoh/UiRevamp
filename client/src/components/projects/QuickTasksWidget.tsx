@@ -110,7 +110,7 @@ export const QuickTasksWidget = React.memo(function QuickTasksWidget({
               <CheckCircle className="w-4 h-4 text-primary" />
               {taskStats.streak > 0 && (
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-[8px] text-white font-bold">{taskStats.streak}</span>
+                  <span className="text-[8px] text-accent-foreground font-bold">{taskStats.streak}</span>
                 </div>
               )}
             </div>

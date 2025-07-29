@@ -216,7 +216,7 @@ export const WritingMetrics: React.FC<WritingMetricsProps> = ({
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Average WPM</p>
                 <p className="text-2xl font-bold">{metrics.averageWPM}</p>
-                <Badge className={`text-xs ${productivity.color} text-white`}>
+                <Badge className={`text-xs ${productivity.color} text-accent-foreground`}>
                   {productivity.level}
                 </Badge>
               </div>

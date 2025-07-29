@@ -167,7 +167,7 @@ export function CharacterInsights({ character }: CharacterInsightsProps) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3">
-            <div className={`p-3 rounded-lg ${archetypeInfo.color} text-white`}>
+            <div className={`p-3 rounded-lg ${archetypeInfo.color} text-accent-foreground`}>
               <ArchetypeIcon className="h-6 w-6" />
             </div>
             <div className="flex-1">
