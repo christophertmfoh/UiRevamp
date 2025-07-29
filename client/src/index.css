@@ -167,7 +167,7 @@
     --secondary-foreground: 210 15% 88%;   /* Light text: #DCDFE3 (11.8:1) */
     --muted: 220 15% 16%;                  /* Muted background */
     --muted-foreground: 210 10% 65%;       /* Medium text: #9BA1A6 (4.9:1) */
-    --accent: 180 70% 50%;                 /* Cyan: #26C6DA (4.8:1) */
+    --accent: 160 60% 50%;                 /* Forest green: #33B366 (4.9:1) */
     --accent-foreground: 220 15% 8%;       /* Dark text on accent */
     --destructive: 0 65% 55%;              /* Red: #E53E3E (4.6:1) */
     --destructive-foreground: 210 15% 92%; /* Light text */
@@ -176,16 +176,16 @@
     --ring: 160 80% 45%;                   /* Focus ring */
     
     --gradient-brand-start: 160 80% 45%;
-    --gradient-brand-end: 180 70% 50%;
+    --gradient-brand-end: 160 60% 50%;
     --gradient-brand-text: 210 15% 92%;
     --surface-elevated: 220 15% 13%;
     --surface-muted: 220 15% 10%;
     --orb-primary: 160 80% 45%;
-    --orb-secondary: 180 70% 50%;
+    --orb-secondary: 160 60% 50%;
     
     /* Auth page theme colors - Dark Mode */
     --auth-brand-primary: 160 80% 45%;      /* Emerald */
-    --auth-brand-secondary: 180 70% 50%;    /* Cyan */
+    --auth-brand-secondary: 160 60% 50%;    /* Forest green */
     --auth-panel-gradient-from: 160 80% 45%; /* Emerald */
     --auth-panel-gradient-via: 160 80% 35%;  /* Darker emerald */
     --auth-panel-gradient-to: 220 15% 16%;   /* Dark gray */
