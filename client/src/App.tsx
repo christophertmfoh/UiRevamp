@@ -147,6 +147,19 @@ export default function App() {
   
   // Initialize app state and URL restoration
   useEffect(() => {
+    console.log('🚀 App initialized');
+    
+    // Check for test mode in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('test') === 'ai') {
+      console.log('🧪 Test mode detected in URL, navigating to test-ai');
+      setView('test-ai');
+      return;
+    }
+    
+    // Apply scrollbar styles when component mounts
+    applyScrollbarStyles();
+    
     // Restore view from URL on app load
     const path = window.location.pathname;
     if (path === '/projects') setView('projects');
