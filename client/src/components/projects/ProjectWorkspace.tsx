@@ -212,33 +212,28 @@ export function ProjectWorkspace({
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
+              <button 
+                onClick={() => onNavigate('landing')}
+                className="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
                 <Feather className="w-5 h-5 text-primary-foreground" />
-              </div>
+              </button>
               <div>
                 <h1 className="text-2xl font-bold text-foreground">Creative Workspace</h1>
                 <p className="text-sm text-muted-foreground">
-                  Welcome back, {user?.username || 'Writer'}
+                  Welcome back, user
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <ThemeToggle />
               <Button
                 onClick={onNewProject}
-                className="gradient-primary text-primary-foreground hover:shadow-lg"
+                className="gradient-primary text-primary-foreground hover:shadow-lg transition-all"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 New Project
-              </Button>
-              <ThemeToggle />
-              <Button
-                variant="ghost"
-                onClick={() => onNavigate('landing')}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
               </Button>
             </div>
           </div>
@@ -250,36 +245,38 @@ export function ProjectWorkspace({
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
           {/* Tab Navigation */}
           <div className="flex items-center justify-between">
-            <TabsList className="grid w-fit grid-cols-7 bg-card/50 backdrop-blur-sm">
-              <TabsTrigger value="overview" className="flex items-center space-x-2">
-                <BarChart3 className="w-4 h-4" />
-                <span>Overview</span>
-              </TabsTrigger>
-              <TabsTrigger value="projects" className="flex items-center space-x-2">
-                <BookOpen className="w-4 h-4" />
-                <span>Projects</span>
-              </TabsTrigger>
-              <TabsTrigger value="studio" className="flex items-center space-x-2">
-                <Layout className="w-4 h-4" />
-                <span>Studio Overview</span>
-              </TabsTrigger>
-              <TabsTrigger value="world" className="flex items-center space-x-2">
-                <Globe className="w-4 h-4" />
-                <span>World Bible</span>
-              </TabsTrigger>
-              <TabsTrigger value="storyboard" className="flex items-center space-x-2">
-                <Image className="w-4 h-4" />
-                <span>Storyboard</span>
-              </TabsTrigger>
-              <TabsTrigger value="previs" className="flex items-center space-x-2">
-                <Video className="w-4 h-4" />
-                <span>Pre-Vis</span>
-              </TabsTrigger>
-              <TabsTrigger value="score" className="flex items-center space-x-2">
-                <Music className="w-4 h-4" />
-                <span>Score</span>
-              </TabsTrigger>
-            </TabsList>
+            <div className="flex-1 max-w-4xl">
+              <TabsList className="grid w-full grid-cols-7 bg-card/50 backdrop-blur-sm h-auto p-1">
+                <TabsTrigger value="overview" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <BarChart3 className="w-3 h-3" />
+                  <span className="hidden sm:inline">Overview</span>
+                </TabsTrigger>
+                <TabsTrigger value="projects" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <BookOpen className="w-3 h-3" />
+                  <span className="hidden sm:inline">Projects</span>
+                </TabsTrigger>
+                <TabsTrigger value="studio" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <Layout className="w-3 h-3" />
+                  <span className="hidden sm:inline">Studio</span>
+                </TabsTrigger>
+                <TabsTrigger value="world" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <Globe className="w-3 h-3" />
+                  <span className="hidden sm:inline">World</span>
+                </TabsTrigger>
+                <TabsTrigger value="storyboard" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <Image className="w-3 h-3" />
+                  <span className="hidden sm:inline">Story</span>
+                </TabsTrigger>
+                <TabsTrigger value="previs" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <Video className="w-3 h-3" />
+                  <span className="hidden sm:inline">Pre-Vis</span>
+                </TabsTrigger>
+                <TabsTrigger value="score" className="flex items-center justify-center space-x-1 px-2 py-2 text-xs">
+                  <Music className="w-3 h-3" />
+                  <span className="hidden sm:inline">Score</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
             {/* Search and Filters */}
             <div className="flex items-center space-x-4">
