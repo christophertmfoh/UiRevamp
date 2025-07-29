@@ -169,7 +169,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: `hsl(var(--background))` }}>
       {/* Left Side: Branding & Creative Quote */}
       <motion.div 
         className="hidden lg:flex lg:flex-1 relative overflow-hidden"
@@ -265,19 +265,33 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
       >
         {/* Mobile Navigation */}
-        <nav className="lg:hidden absolute top-0 left-0 right-0 p-4 flex justify-between items-center bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-stone-200 dark:border-slate-700">
+        <nav 
+          className="lg:hidden absolute top-0 left-0 right-0 p-4 flex justify-between items-center backdrop-blur-sm border-b"
+          style={{ 
+            backgroundColor: `hsla(var(--auth-form-bg), 0.8)`,
+            borderColor: `hsl(var(--auth-input-border))`
+          }}>
           <Button
             onClick={onBack}
             variant="ghost"
             size="sm"
-            className="text-foreground hover:bg-stone-100 dark:hover:bg-slate-700"
+            style={{ 
+              color: `hsl(var(--foreground))`,
+              '--hover-bg': `hsl(var(--muted))`
+            } as React.CSSProperties}
+            onMouseEnter={(e) => {
+              (e.target as HTMLElement).style.backgroundColor = `hsl(var(--muted))`;
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLElement).style.backgroundColor = 'transparent';
+            }}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
           <div className="flex items-center gap-2">
-            <Feather className="w-5 h-5 text-emerald-600" />
-            <span className="font-serif font-bold text-stone-900 dark:text-white">FableCraft</span>
+            <Feather className="w-5 h-5" style={{ color: `hsl(var(--auth-brand-primary))` }} />
+            <span className="font-serif font-bold" style={{ color: `hsl(var(--foreground))` }}>FableCraft</span>
           </div>
           <ThemeToggle />
         </nav>
@@ -289,7 +303,17 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
               onClick={onBack}
               variant="ghost"
               size="sm"
-              className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-slate-700"
+              style={{ 
+                color: `hsl(var(--muted-foreground))`,
+              }}
+              onMouseEnter={(e) => {
+                (e.target as HTMLElement).style.color = `hsl(var(--foreground))`;
+                (e.target as HTMLElement).style.backgroundColor = `hsl(var(--muted))`;
+              }}
+              onMouseLeave={(e) => {
+                (e.target as HTMLElement).style.color = `hsl(var(--muted-foreground))`;
+                (e.target as HTMLElement).style.backgroundColor = 'transparent';
+              }}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
@@ -303,14 +327,17 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           {/* Mobile Branding */}
           <div className="lg:hidden text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
-                <Feather className="w-5 h-5 text-white" />
+              <div 
+                className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+                style={{ backgroundColor: `hsl(var(--auth-brand-primary))` }}
+              >
+                <Feather className="w-5 h-5" style={{ color: `hsl(var(--auth-panel-text))` }} />
               </div>
-              <h1 className="text-2xl font-serif font-bold text-stone-900 dark:text-white">
+              <h1 className="text-2xl font-serif font-bold" style={{ color: `hsl(var(--foreground))` }}>
                 FableCraft
               </h1>
             </div>
-            <p className="text-stone-600 dark:text-stone-400">
+            <p style={{ color: `hsl(var(--muted-foreground))` }}>
               Your creative storytelling platform
             </p>
           </div>
@@ -365,24 +392,29 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                 {/* Login Tab */}
                 <TabsContent value="login" className="space-y-0">
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle className="text-2xl font-bold text-stone-900 dark:text-white">
+                    <CardTitle className="text-2xl font-bold" style={{ color: `hsl(var(--foreground))` }}>
                       Welcome back
                     </CardTitle>
-                    <CardDescription className="text-stone-600 dark:text-stone-400">
+                    <CardDescription style={{ color: `hsl(var(--muted-foreground))` }}>
                       Sign in to continue your creative journey
                     </CardDescription>
                   </CardHeader>
                   <form onSubmit={loginForm.handleSubmit(onLogin)}>
                     <CardContent className="space-y-6 px-0">
                       <div className="space-y-2">
-                        <Label htmlFor="emailOrUsername" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                        <Label htmlFor="emailOrUsername" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>
                           Email or Username
                         </Label>
                         <Input
                           id="emailOrUsername"
                           type="text"
                           placeholder="Enter your email or username"
-                          className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
+                          className="h-11"
+                          style={{
+                            borderColor: `hsl(var(--auth-input-border))`,
+                            backgroundColor: `hsl(var(--input))`,
+                            color: `hsl(var(--foreground))`
+                          }}
                           {...loginForm.register('emailOrUsername')}
                         />
                         {loginForm.formState.errors.emailOrUsername && (
@@ -390,7 +422,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm font-medium text-stone-700 dark:text-stone-300">
+                        <Label htmlFor="password" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>
                           Password
                         </Label>
                         <div className="relative">
@@ -398,7 +430,12 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             id="password"
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500 pr-10"
+                            className="h-11 pr-10"
+                            style={{
+                              borderColor: `hsl(var(--auth-input-border))`,
+                              backgroundColor: `hsl(var(--input))`,
+                              color: `hsl(var(--foreground))`
+                            }}
                             {...loginForm.register('password')}
                           />
                           <Button
@@ -409,9 +446,9 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             onClick={() => setShowPassword(!showPassword)}
                           >
                             {showPassword ? (
-                              <EyeOff className="w-4 h-4 text-stone-400" />
+                              <EyeOff className="w-4 h-4" style={{ color: `hsl(var(--muted-foreground))` }} />
                             ) : (
-                              <Eye className="w-4 h-4 text-stone-400" />
+                              <Eye className="w-4 h-4" style={{ color: `hsl(var(--muted-foreground))` }} />
                             )}
                           </Button>
                         </div>
@@ -424,10 +461,13 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                       <div className="space-y-3">
                         <div className="relative">
                           <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t border-stone-300 dark:border-slate-600" />
+                            <span className="w-full border-t" style={{ borderColor: `hsl(var(--auth-input-border))` }} />
                           </div>
                           <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-stone-50 dark:bg-slate-800 px-2 text-stone-500">Or continue with</span>
+                            <span className="px-2" style={{ 
+                              backgroundColor: `hsl(var(--auth-form-bg))`,
+                              color: `hsl(var(--muted-foreground))`
+                            }}>Or continue with</span>
                           </div>
                         </div>
                         
@@ -436,7 +476,11 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             type="button"
                             variant="outline"
                             disabled
-                            className="h-11 border-stone-300 dark:border-slate-600 text-stone-600 dark:text-stone-400"
+                            className="h-11"
+                            style={{
+                              borderColor: `hsl(var(--auth-input-border))`,
+                              color: `hsl(var(--muted-foreground))`
+                            }}
                           >
                             <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                               <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -450,7 +494,11 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             type="button"
                             variant="outline"
                             disabled
-                            className="h-11 border-stone-300 dark:border-slate-600 text-stone-600 dark:text-stone-400"
+                            className="h-11"
+                            style={{
+                              borderColor: `hsl(var(--auth-input-border))`,
+                              color: `hsl(var(--muted-foreground))`
+                            }}
                           >
                             <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -492,10 +540,10 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                 {/* Signup Tab */}
                 <TabsContent value="signup" className="space-y-0">
                   <CardHeader className="px-0 pt-0">
-                    <CardTitle className="text-2xl font-bold text-stone-900 dark:text-white">
+                    <CardTitle className="text-2xl font-bold" style={{ color: `hsl(var(--foreground))` }}>
                       Create account
                     </CardTitle>
-                    <CardDescription className="text-stone-600 dark:text-stone-400">
+                    <CardDescription style={{ color: `hsl(var(--muted-foreground))` }}>
                       Join our community of creative storytellers
                     </CardDescription>
                   </CardHeader>
@@ -503,24 +551,34 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                   <form onSubmit={signupForm.handleSubmit(onSignup)}>
                     <CardContent className="space-y-6 px-0">
                       <div className="space-y-2">
-                        <Label htmlFor="fullName" className="text-sm font-medium text-stone-700 dark:text-stone-300">
-                          Full Name <span className="text-stone-500 dark:text-stone-400">(Optional)</span>
+                        <Label htmlFor="fullName" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>
+                          Full Name <span style={{ color: `hsl(var(--muted-foreground))` }}>(Optional)</span>
                         </Label>
                         <Input
                           id="fullName"
                           type="text"
                           placeholder="Enter your full name"
-                          className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
+                          className="h-11"
+                          style={{
+                            borderColor: `hsl(var(--auth-input-border))`,
+                            backgroundColor: `hsl(var(--input))`,
+                            color: `hsl(var(--foreground))`
+                          }}
                           {...signupForm.register('fullName')}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-stone-700 dark:text-stone-300">Email</Label>
+                        <Label htmlFor="email" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>Email</Label>
                         <Input
                           id="email"
                           type="email"
                           placeholder="Enter your email"
-                          className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
+                          className="h-11"
+                          style={{
+                            borderColor: `hsl(var(--auth-input-border))`,
+                            backgroundColor: `hsl(var(--input))`,
+                            color: `hsl(var(--foreground))`
+                          }}
                           {...signupForm.register('email')}
                         />
                         {signupForm.formState.errors.email && (
@@ -528,27 +586,37 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="username" className="text-sm font-medium text-stone-700 dark:text-stone-300">Username</Label>
+                        <Label htmlFor="username" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>Username</Label>
                         <Input
                           id="username"
                           type="text"
                           placeholder="Choose a username"
-                          className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
+                          className="h-11"
+                          style={{
+                            borderColor: `hsl(var(--auth-input-border))`,
+                            backgroundColor: `hsl(var(--input))`,
+                            color: `hsl(var(--foreground))`
+                          }}
                           {...signupForm.register('username')}
                         />
                         {signupForm.formState.errors.username && (
                           <p className="text-sm text-red-500">{signupForm.formState.errors.username.message}</p>
                         )}
-                        <p className="text-xs text-stone-500 dark:text-stone-400">3-30 characters, letters/numbers/hyphens/underscores only</p>
+                        <p className="text-xs" style={{ color: `hsl(var(--muted-foreground))` }}>3-30 characters, letters/numbers/hyphens/underscores only</p>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="newPassword" className="text-sm font-medium text-stone-700 dark:text-stone-300">Password</Label>
+                        <Label htmlFor="newPassword" className="text-sm font-medium" style={{ color: `hsl(var(--foreground))` }}>Password</Label>
                         <div className="relative">
                           <Input
                             id="newPassword"
                             type={showNewPassword ? "text" : "password"}
                             placeholder="Create a password"
-                            className="h-11 border-stone-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500 pr-10"
+                            className="h-11 pr-10"
+                            style={{
+                              borderColor: `hsl(var(--auth-input-border))`,
+                              backgroundColor: `hsl(var(--input))`,
+                              color: `hsl(var(--foreground))`
+                            }}
                             {...signupForm.register('password', {
                               onChange: (e) => {
                                 setPasswordStrength(checkPasswordStrength(e.target.value));
@@ -563,9 +631,9 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             onClick={() => setShowNewPassword(!showNewPassword)}
                           >
                             {showNewPassword ? (
-                              <EyeOff className="w-4 h-4 text-stone-400" />
+                              <EyeOff className="w-4 h-4" style={{ color: `hsl(var(--muted-foreground))` }} />
                             ) : (
-                              <Eye className="w-4 h-4 text-stone-400" />
+                              <Eye className="w-4 h-4" style={{ color: `hsl(var(--muted-foreground))` }} />
                             )}
                           </Button>
                         </div>
@@ -582,7 +650,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             className="mt-3 space-y-3"
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-stone-600 dark:text-stone-400 font-medium">Password Strength:</span>
+                              <span className="text-xs font-medium" style={{ color: `hsl(var(--muted-foreground))` }}>Password Strength:</span>
                               <span className={`text-xs font-semibold ${
                                 passwordStrength.score >= 5 ? 'text-emerald-600' :
                                 passwordStrength.score >= 3 ? 'text-yellow-600' : 
@@ -593,7 +661,7 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                             </div>
                             
                             {/* Progress Bar */}
-                            <div className="w-full bg-stone-200 dark:bg-slate-700 rounded-full h-2">
+                            <div className="w-full rounded-full h-2" style={{ backgroundColor: `hsl(var(--muted))` }}>
                               <motion.div 
                                 className={`h-2 rounded-full transition-colors duration-300 ${
                                   passwordStrength.score >= 5 ? 'bg-emerald-500' :
