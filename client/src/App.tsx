@@ -12,7 +12,7 @@ import { PerformanceDashboard } from './components/dev/PerformanceDashboard';
 import { useAuth } from './hooks/useAuth';
 import type { Project } from './lib/types';
 import { LandingPage } from './pages/landing';
-import { ProjectsPage } from './components/projects/ProjectsPage';
+import { ProjectWorkspace } from './components/projects/ProjectWorkspace';
 import { ProjectDashboard } from './components/project/ProjectDashboard';
 import { ProjectCreationWizard } from './components/project/ProjectCreationWizard';
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
@@ -582,7 +582,7 @@ export default function App() {
         );
       case 'projects':
         return (
-          <ProjectsPage
+          <ProjectWorkspace
             onNavigate={navigateToView}
             onNewProject={() => setModal({ type: 'new', project: null })}
             onSelectProject={handleSelectProject}
