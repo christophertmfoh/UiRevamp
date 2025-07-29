@@ -508,10 +508,9 @@ interface CharacterTemplatesProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectTemplate: (template: CharacterTemplate) => void;
-  isGenerating?: boolean;
 }
 
-export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenerating = false }: CharacterTemplatesProps) {
+export function CharacterTemplates({ isOpen, onClose, onSelectTemplate }: CharacterTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<CharacterTemplate | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
