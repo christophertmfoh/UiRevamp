@@ -285,7 +285,7 @@ export function ProjectWorkspace({
                 <Feather className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
               </button>
               <div className="min-w-0 flex-1">
-                <h1 className="text-lg sm:text-2xl lg:text-3xl font-serif font-bold gradient-primary-text truncate">
+                <h1 className="text-lg sm:text-2xl lg:text-3xl font-serif font-bold text-foreground truncate">
                   Welcome back, {user?.username || 'user'}
                 </h1>
               </div>
