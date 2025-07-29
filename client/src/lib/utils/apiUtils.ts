@@ -364,3 +364,53 @@ export function isValidationError(error: unknown): boolean {
     (error && typeof error === 'object' && 'status' in error && (error as any).status === 400)
   );
 }
+
+// ===== BATCH OPERATIONS =====
+
+/**
+ * Hook for batch delete operations
+ */
+export function useBatchDeleteEntities<T extends BaseEntity>(
+  entityType: string,
+  projectId: string,
+  options?: Partial<UseMutationOptions<void, Error, string[]>>
+) {
+  const queryClient = useQueryClient();
+  
+  return useMutation<void, Error, string[]>({
+    mutationFn: async (entityIds: string[]) => {
+      return makeAPIRequest<void>('DELETE', `/api/projects/${projectId}/${entityType}/batch`, {
+        entityIds
+      });
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
+
+/**
+ * Hook for batch update operations
+ */
+export function useBatchUpdateEntities<T extends BaseEntity>(
+  entityType: string,
+  projectId: string,
+  options?: Partial<UseMutationOptions<T[], Error, Array<{ id: string; data: Partial<T> }>>>
+) {
+  const queryClient = useQueryClient();
+  
+  return useMutation<T[], Error, Array<{ id: string; data: Partial<T> }>>({
+    mutationFn: async (updates: Array<{ id: string; data: Partial<T> }>) => {
+      return makeAPIRequest<T[]>('PATCH', `/api/projects/${projectId}/${entityType}/batch`, {
+        updates
+      });
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}

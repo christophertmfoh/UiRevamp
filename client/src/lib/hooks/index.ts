@@ -37,15 +37,10 @@ export {
   useCreateEntity,
   useUpdateEntity,
   useDeleteEntity,
-  useBulkDeleteEntities,
-  useBulkUpdateEntities,
-  useEntityAIEnhancement,
-  useEntityImageUpload,
-  useEntityImageGeneration,
-  useEntitySearch,
-  useEntityExport,
+  useBatchDeleteEntities,
+  useBatchUpdateEntities,
+  useImageUpload,
   invalidateEntityQueries,
-  prefetchEntity,
 } from '../utils/apiUtils';
 
 // UI utilities

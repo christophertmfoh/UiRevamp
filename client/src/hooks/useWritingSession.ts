@@ -196,8 +196,8 @@ export const useWritingSession = (options: UseWritingSessionOptions) => {
 
       // Calculate current WPM
       if (wpmHistoryRef.current.length >= 2) {
-        const oldest = wpmHistoryRef.current[0];
-        const newest = wpmHistoryRef.current[wpmHistoryRef.current.length - 1];
+        const oldest = wpmHistoryRef.current[0]!;
+        const newest = wpmHistoryRef.current[wpmHistoryRef.current.length - 1]!;
         const timeDiff = (newest.timestamp - oldest.timestamp) / 1000 / 60; // minutes
         const wordDiff = newest.wordCount - oldest.wordCount;
         const currentWPM = timeDiff > 0 ? Math.max(0, wordDiff / timeDiff) : 0;

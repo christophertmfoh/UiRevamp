@@ -17,4 +17,4 @@ export {
 } from './fieldConfig';
 
 // Main field configuration manager
-export { FieldConfigManager } from './baseFieldConfig';
+export { default as baseFieldConfig } from './baseFieldConfig';

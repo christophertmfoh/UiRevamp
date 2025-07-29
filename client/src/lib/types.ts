@@ -4,7 +4,7 @@ export interface Project {
   type: 'novel' | 'screenplay' | 'comic' | 'dnd-campaign' | 'poetry';
   description?: string | null;
   synopsis?: string | null;
-  genre?: string | string[] | null;
+  genre?: string[] | null;
   createdAt: Date;
   lastModified: Date;
   userId: string;
@@ -15,10 +15,18 @@ export interface Project {
     novel: string;
     screenplay: string;
   };
-  outline?: OutlineNode[];
+  outline?: Outline[];
   characters?: Character[];
   proseDocuments?: ProseDocument[];
   settings?: ProjectSettings;
+}
+
+export interface Outline {
+  id: number;
+  title: string;
+  content: string;
+  description?: string;
+  children: Outline[];
 }
 
 export interface OutlineNode {
