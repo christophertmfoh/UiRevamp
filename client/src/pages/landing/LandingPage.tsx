@@ -280,72 +280,70 @@ export function LandingPage({
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Value Proposition */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-20 lg:py-24">
-        {/* Centered Hero Content */}
         <div className="text-center space-y-8 lg:space-y-12 max-w-5xl mx-auto">
-          <div className="space-y-6 sm:space-y-8 lg:space-y-10">
-            <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
-              <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">End-to-End Creative Production Suite</span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
-              Where Stories{' '}
-              <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-                Come to Life
-              </span>
-            </h1>
-            
-            <p className="text-lg sm:text-xl text-body-primary max-w-3xl mx-auto leading-[1.7] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-              From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
-              and graphic novels with AI that understands the art of storytelling. Your imagination, 
-              amplified by intelligence.
-            </p>
+          {/* Business Badge */}
+          <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-md">
+            <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'hsl(var(--orb-primary))' }}></div>
+            <span className="text-sm font-bold text-heading-secondary uppercase tracking-[0.15em] leading-tight">Professional Creative Writing Platform</span>
+          </div>
+          
+          {/* Main Value Proposition */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-heading-primary leading-[1.1] tracking-tight drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">
+            Replace 15+ Tools with{' '}
+            <span className="brand-gradient-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
+              One Platform
+            </span>
+          </h1>
+          
+          {/* Business Benefit Statement */}
+          <p className="text-lg sm:text-xl text-body-primary max-w-3xl mx-auto leading-[1.7] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+            Professional writers choose FableCraft to streamline their entire creative workflow. 
+            From character development to final manuscripts - everything you need in one intelligent platform.
+          </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6 justify-center">
-              <Button 
-                size="lg"
-                onClick={() => onNewProject()}
-                className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <span className="relative z-10 flex items-center">
-                  <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                  Begin Your Story
-                </span>
-              </Button>
-              <Button 
-                size="lg"
-                onClick={() => onNavigate('projects')}
-                className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <span className="relative z-10 flex items-center">
-                  <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
-                  Browse Stories
-                </span>
-              </Button>
-            </div>
+          {/* Primary Call to Action */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-4 sm:pt-6 justify-center">
+            <Button 
+              size="lg"
+              onClick={() => onNewProject()}
+              className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10 flex items-center">
+                <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                Start Free Trial
+              </span>
+            </Button>
+            <Button 
+              size="lg"
+              onClick={() => onNavigate('projects')}
+              className="group gradient-primary text-primary-foreground px-10 py-5 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 hover:brightness-110 rounded-2xl relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10 flex items-center">
+                <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                View Demo
+              </span>
+            </Button>
           </div>
         </div>
-
-
       </section>
 
-      {/* Complete Process Pipeline */}
+      {/* How It Works - Process */}
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
             <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
-              End-to-End Creative Production
+              How It Works
             </Badge>
             <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
-              From Idea to Final Media
+              Your Complete Writing Workflow
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal">
-              Our intelligent 6-stage pipeline replaces 15+ scattered tools. Create novels, screenplays, 
-              graphic novels with generated visuals, audio, and video - all in one unified workflow.
+              Follow our proven 6-step process used by professional writers worldwide. Each stage builds 
+              seamlessly into the next, ensuring your creative vision stays consistent from start to finish.
             </p>
           </div>
 
@@ -388,19 +386,19 @@ export function LandingPage({
 
 
 
-      {/* Trust & Social Proof */}
+      {/* Proof & Trust Indicators */}
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
             <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
-              Revolutionary Creative Technology
+              Proven Results
             </Badge>
             <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
-              The Creative Industry's First True End-to-End Suite
+              Why Professional Writers Choose FableCraft
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal">
-              Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
-              platform that understands your entire creative process from world-building to visual production.
+              Stop juggling multiple subscriptions and scattered files. Our platform consolidates your entire 
+              creative workflow into one powerful, AI-enhanced writing environment.
             </p>
           </div>
 
@@ -428,60 +426,101 @@ export function LandingPage({
             })}
           </div>
 
-          {/* Key Benefits */}
-          <div className="desktop-grid-3 gap-xl pt-3xl stagger-children" style={{'--stagger-delay': '150ms'} as React.CSSProperties}>
-            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
-              <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
+        </div>
+      </section>
+
+      {/* Testimonials Section - Moved up for better business flow */}
+      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
+        <div className="text-center space-y-16">
+          <div className="space-y-6">
+            <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
+              Trusted by Professional Writers
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
+              What Our Users Are Saying
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
+                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
               
-              <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 gradient-primary-br rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <CheckCircle className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+              <CardContent className="relative z-10 p-8 space-y-6">
+                <div className="flex space-x-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
                 </div>
-                <h3 className="text-heading-2 text-foreground group-hover:text-primary transition-colors duration-300">World Bible Intelligence</h3>
-                <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
-                  Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe.
+                <p className="text-foreground italic leading-relaxed">
+                  "FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories."
                 </p>
-              </div>
-            </div>
-            
-            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
-              <div className="absolute inset-0 bg-gradient-to-br from-stone-50/0 to-emerald-50/0 dark:from-stone-900/0 dark:to-emerald-900/0 group-hover:from-stone-50/50 group-hover:to-emerald-50/30 dark:group-hover:from-stone-900/20 dark:group-hover:to-emerald-900/10 transition-all duration-700"></div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-sm">SL</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Sarah Chen</div>
+                    <div className="text-sm text-muted-foreground">Fantasy Novelist</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
+                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
               
-              <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 gradient-primary-br dark:from-stone-600 dark:via-emerald-700 dark:to-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <TrendingUp className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+              <CardContent className="relative z-10 p-8 space-y-6">
+                <div className="flex space-x-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
                 </div>
-                <h3 className="text-heading-2 text-foreground group-hover:text-primary transition-colors duration-300">Document AI Extraction</h3>
-                <p className="text-foreground/70 group-hover:text-foreground transition-colors duration-300 leading-relaxed">
-                  Upload character sheets and documents - our AI extracts 50+ attributes automatically with intelligent field mapping.
+                <p className="text-foreground italic leading-relaxed">
+                  "Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly."
                 </p>
-              </div>
-            </div>
-            
-            <div className="card-enhanced space-y-lg p-xl rounded-3xl fade-in-up">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-stone-50/0 dark:from-amber-900/0 dark:to-stone-900/0 group-hover:from-amber-50/50 group-hover:to-stone-50/30 dark:group-hover:from-amber-900/20 dark:group-hover:to-stone-900/10 transition-all duration-700"></div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-sm">MR</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Marcus Rivera</div>
+                    <div className="text-sm text-muted-foreground">Screenwriter</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
+                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
               
-              <div className="relative z-10 space-y-6">
-                <div className="w-20 h-20 gradient-primary-br dark:from-amber-700 dark:via-stone-700 dark:to-emerald-800 rounded-3xl flex items-center justify-center mx-auto shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <Award className="w-10 h-10 text-primary-foreground group-hover:scale-110 transition-transform duration-300" />
+              <CardContent className="relative z-10 p-8 space-y-6">
+                <div className="flex space-x-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
                 </div>
-                <h3 className="text-heading-2 text-stone-800 dark:text-stone-50 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors duration-300">Visual Production Ready</h3>
-                <p className="text-stone-600 dark:text-stone-300 group-hover:text-stone-700 dark:group-hover:text-stone-200 transition-colors duration-300 leading-relaxed">
-                  Generate consistent character visuals, storyboards, and multimedia content for novels, screenplays, and graphic novels.
+                <p className="text-foreground italic leading-relaxed">
+                  "The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team."
                 </p>
-              </div>
-            </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-sm">AT</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Alex Thompson</div>
+                    <div className="text-sm text-muted-foreground">Graphic Novelist</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <CTASection 
-        onNewProject={onNewProject}
-        onNavigateToProjects={() => onNavigate('projects')}
-      />
-
-      {/* Pricing Section */}
+      {/* Pricing Section - Moved up for better business flow */}
       <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
         <div className="text-center space-y-16">
           <div className="space-y-6">
@@ -592,96 +631,11 @@ export function LandingPage({
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-8 py-24">
-        <div className="text-center space-y-16">
-          <div className="space-y-6">
-            <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
-              Loved by Creators
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight">
-              Stories from Our Community
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
-                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
-              
-              <CardContent className="relative z-10 p-8 space-y-6">
-                <div className="flex space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground italic leading-relaxed">
-                  "FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">SL</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Sarah Chen</div>
-                    <div className="text-sm text-muted-foreground">Fantasy Novelist</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
-                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
-              
-              <CardContent className="relative z-10 p-8 space-y-6">
-                <div className="flex space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground italic leading-relaxed">
-                  "Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">MR</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Marcus Rivera</div>
-                    <div className="text-sm text-muted-foreground">Screenwriter</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700" 
-                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}></div>
-              
-              <CardContent className="relative z-10 p-8 space-y-6">
-                <div className="flex space-x-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground italic leading-relaxed">
-                  "The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">AT</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Alex Thompson</div>
-                    <div className="text-sm text-muted-foreground">Graphic Novelist</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Final CTA - Positioned at the end */}
+      <CTASection 
+        onNewProject={onNewProject}
+        onNavigateToProjects={() => onNavigate('projects')}
+      />
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-border py-20 px-8 bg-gradient-to-t from-muted/30 to-transparent">
