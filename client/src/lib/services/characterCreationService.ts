@@ -36,6 +36,9 @@ export class CharacterCreationService {
   ): Promise<Character> {
     try {
       console.log('🧪 TEST MODE: Starting 10-second character generation simulation');
+      console.log('🧪 Project ID received:', projectId);
+      console.log('🧪 Prompt received:', prompt);
+      console.log('🧪 OnProgress callback:', typeof onProgress);
       
       // TEST MODE: 10-second simulation with proper step progression
       const steps = [
@@ -45,11 +48,14 @@ export class CharacterCreationService {
         { step: 'Finalizing character details and preparing sheet...', progress: 100, duration: 2000 }
       ];
 
+      console.log('🧪 Starting step progression...');
       for (const { step, progress, duration } of steps) {
+        console.log(`🧪 Step: ${step} (${progress}%) - waiting ${duration}ms`);
         onProgress?.(step, progress);
         await new Promise(resolve => setTimeout(resolve, duration));
       }
 
+      console.log('🧪 Creating test character...');
       // Create comprehensive test character with all 86 fields populated
       const testCharacter: Character = {
         id: `test-char-${Date.now()}`,
@@ -172,10 +178,13 @@ export class CharacterCreationService {
       };
 
       console.log('✅ TEST MODE: Character generation complete - ready for full view');
+      console.log('✅ Test character created:', testCharacter.name, testCharacter.id);
+      console.log('✅ Returning character with', Object.keys(testCharacter).length, 'fields');
       return testCharacter;
 
     } catch (error) {
       console.error('❌ Test character generation failed:', error);
+      console.error('❌ Error details:', error.message, error.stack);
       throw new Error('Test character generation failed. This is expected in test mode.');
     }
   }

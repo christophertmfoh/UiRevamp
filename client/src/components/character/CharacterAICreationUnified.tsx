@@ -106,6 +106,7 @@ export function CharacterAICreationUnified({
       setHasError(false);
       
       try {
+        console.log('🎭 Calling CharacterCreationService.generateFromPrompt...');
         const result = await CharacterCreationService.generateFromPrompt(
           projectId, 
           promptText,
@@ -122,15 +123,20 @@ export function CharacterAICreationUnified({
           }
         );
         console.log('✅ AI generation completed successfully:', result);
+        console.log('✅ Result character name:', result.name);
+        console.log('✅ Result character ID:', result.id);
         return result;
       } catch (error) {
         console.error('❌ AI generation failed in mutationFn:', error);
+        console.error('❌ Error type:', error.constructor.name);
+        console.error('❌ Error message:', error.message);
         setHasError(true);
         throw error;
       }
     },
     onSuccess: (character) => {
       console.log('🎯 onSuccess called with character:', character.name);
+      console.log('🎯 Character object:', character);
       setGeneratedCharacter(character);
       setCurrentStep('Complete!');
       setProgress(100);
@@ -150,6 +156,7 @@ export function CharacterAICreationUnified({
     },
     onError: (error) => {
       console.error('❌ Character generation failed in onError:', error);
+      console.error('❌ Error details:', error.message, error.stack);
       setCurrentStep('Generation failed: ' + (error.message || 'Unknown error'));
       setIsGenerating(false);
       setHasError(true);
@@ -159,15 +166,21 @@ export function CharacterAICreationUnified({
 
   const handleGenerate = () => {
     console.log('🎬 handleGenerate called with prompt length:', prompt.trim().length);
+    console.log('🎬 Project ID:', projectId);
+    console.log('🎬 Full prompt:', prompt);
+    console.log('🎬 Current states:', { isGenerating, hasError, currentStep, progress });
+    
     if (prompt.trim()) {
       console.log('🚀 Starting character generation process...');
       setCurrentStep('Starting generation...');
       setProgress(5);
       setIsGenerating(true);
       setHasError(false);
+      console.log('🚀 About to call generateMutation.mutate...');
       generateMutation.mutate(prompt.trim());
     } else {
       console.log('❌ Empty prompt, cannot generate');
+      alert('Please enter a character description first.');
     }
   };
 

@@ -467,11 +467,17 @@ export function CharacterTemplatesUnified({
   });
 
   const handleSelectTemplate = (template: Template) => {
+    console.log('🎨 Template selected:', template.name);
+    console.log('🎨 Project ID:', projectId);
+    console.log('🎨 Template data:', template);
+    console.log('🎨 Current states:', { isGenerating, hasError, currentStep, progress });
+    
     setSelectedTemplate(template);
     setCurrentStep('Starting generation...');
     setProgress(5);
     setIsGenerating(true);
     setHasError(false);
+    console.log('🚀 About to call generateMutation.mutate with template...');
     generateMutation.mutate(template);
   };
 
