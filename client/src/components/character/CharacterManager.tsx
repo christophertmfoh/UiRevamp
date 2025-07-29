@@ -92,14 +92,38 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
 
   const bulkDeleteMutation = useMutation({
     mutationFn: async (characterIds: string[]) => {
-      await Promise.all(
-        characterIds.map(id => apiRequest('DELETE', `/api/characters/${id}`))
-      );
+      console.log('🗑️ Bulk deleting characters:', characterIds);
+      
+      // Use the correct project-based endpoint for each character
+      const deletePromises = characterIds.map(async (id) => {
+        try {
+          const response = await apiRequest('DELETE', `/api/characters/${id}`);
+          console.log(`✅ Deleted character ${id}`);
+          return response;
+        } catch (error) {
+          console.error(`❌ Failed to delete character ${id}:`, error);
+          throw error;
+        }
+      });
+      
+      await Promise.all(deletePromises);
+      console.log('✅ All characters deleted successfully');
     },
     onSuccess: () => {
+      console.log('🔄 Refreshing character list after bulk delete');
+      
+      // Use the correct query key that matches the useQuery
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      
+      // Clear selection and exit selection mode
       setSelectedCharacterIds(new Set());
       setIsSelectionMode(false);
+      
+      console.log('✅ Bulk delete completed - returned to view mode');
+    },
+    onError: (error) => {
+      console.error('❌ Bulk delete failed:', error);
+      alert(`Failed to delete characters: ${error.message || 'Unknown error'}`);
     },
   });
 
@@ -340,6 +364,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   };
 
   const handleSelectCharacter = (characterId: string, selected: boolean) => {
+    console.log(`🔲 Character selection: ${characterId} -> ${selected ? 'selected' : 'deselected'}`);
     const newSelected = new Set(selectedCharacterIds);
     if (selected) {
       newSelected.add(characterId);
@@ -347,6 +372,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       newSelected.delete(characterId);
     }
     setSelectedCharacterIds(newSelected);
+    console.log(`🔲 Total selected: ${newSelected.size} characters`);
   };
 
   const handleSelectAll = () => {
