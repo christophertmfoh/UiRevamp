@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '@/lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
@@ -360,6 +360,15 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
     
     if (window.confirm(`Are you sure you want to delete ${count} character${count > 1 ? 's' : ''}?\n\n${displayText}`)) {
       bulkDeleteMutation.mutate(Array.from(selectedCharacterIds));
+    }
+  };
+
+  const handleIndividualDelete = (character: Character, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent card click
+    
+    if (window.confirm(`Are you sure you want to delete "${character.name}"?\n\nThis action cannot be undone.`)) {
+      console.log('🗑️ Deleting individual character:', character.id);
+      bulkDeleteMutation.mutate([character.id]);
     }
   };
 
@@ -808,20 +817,16 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
             </div>
           </div>
 
-          {/* Premium Quick Actions - Hidden in selection mode */}
+          {/* Quick Actions - Hidden in selection mode */}
           {!isSelectionMode && (
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
-                      onClick={(e) => { e.stopPropagation(); setSelectedCharacter(character); }}>
-                <Eye className="h-4 w-4" />
-              </Button>
               <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
                       onClick={(e) => { e.stopPropagation(); handleEdit(character); }}>
                 <Edit className="h-4 w-4" />
               </Button>
-              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors rounded-xl"
-                      onClick={(e) => handlePortraitClick(character, e)}>
-                <Camera className="h-4 w-4" />
+              <Button size="sm" variant="ghost" className="h-10 w-10 p-0 hover:bg-destructive/10 hover:text-destructive transition-colors rounded-xl"
+                      onClick={(e) => handleIndividualDelete(character, e)}>
+                <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           )}
