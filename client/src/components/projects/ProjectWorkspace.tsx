@@ -58,7 +58,8 @@ import {
   Lock,
   Unlock,
   User,
-  LogOut
+  LogOut,
+  Music
 } from 'lucide-react';
 
 interface ProjectWorkspaceProps {
@@ -536,7 +537,7 @@ export function ProjectWorkspace({
                   Your creative pipeline and project management hub
                 </p>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto">
                   <Card 
                     className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
                     onClick={() => setActiveTab('world')}
@@ -591,6 +592,18 @@ export function ProjectWorkspace({
                       <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Score</h4>
                       <p className="text-xs sm:text-sm text-muted-foreground">0 Tracks</p>
                       <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Compose and manage musical elements</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card 
+                    className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 hover:shadow-2xl transition-all cursor-pointer hover:scale-105"
+                    onClick={() => alert('Project Info & Documentation Hub - Manage project details, notes, research, and documentation')}
+                  >
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <ClipboardList className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Info</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Project Hub</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Documentation and project info</p>
                     </CardContent>
                   </Card>
                 </div>
