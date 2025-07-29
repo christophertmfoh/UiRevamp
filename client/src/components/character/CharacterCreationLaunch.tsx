@@ -31,8 +31,8 @@ export function CharacterCreationLaunch({
       icon: Plus,
       action: onCreateBlank,
       features: ['Complete creative control', 'Build step by step', 'Perfect for unique concepts'],
-      color: 'from-green-500/20 to-emerald-500/10',
-      iconColor: 'text-green-500'
+      color: 'from-accent/10 to-accent/5',
+      iconColor: 'text-accent'
     },
     {
       id: 'template',
@@ -41,8 +41,8 @@ export function CharacterCreationLaunch({
       icon: FileText,
       action: onOpenTemplates,
       features: ['20+ comprehensive archetypes', 'AI expands template foundations', 'Full character generation included'],
-      color: 'from-blue-500/20 to-cyan-500/10',
-      iconColor: 'text-blue-500'
+      color: 'from-accent/10 to-accent/5',
+      iconColor: 'text-accent'
     },
     {
       id: 'ai',
@@ -51,8 +51,8 @@ export function CharacterCreationLaunch({
       icon: Sparkles,
       action: onOpenAIGeneration,
       features: ['Custom prompts and parameters', 'Story-context awareness', 'Portrait generation included'],
-      color: 'from-purple-500/20 to-violet-500/10',
-      iconColor: 'text-purple-500'
+      color: 'from-accent/10 to-accent/5',
+      iconColor: 'text-accent'
     },
     {
       id: 'document',
@@ -61,8 +61,8 @@ export function CharacterCreationLaunch({
       icon: Upload,
       action: onOpenDocumentUpload,
       features: ['PDF, Word, Text file support', 'AI extracts all character data', 'Auto-populates all character fields'],
-      color: 'from-orange-500/20 to-amber-500/10',
-      iconColor: 'text-orange-500'
+      color: 'from-accent/10 to-accent/5',
+      iconColor: 'text-accent'
     }
   ];
 

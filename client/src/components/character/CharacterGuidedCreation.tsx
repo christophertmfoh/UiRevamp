@@ -16,7 +16,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from '@/components/ui/select';
 import { 
-  ArrowLeft, ArrowRight, Save, Check, Star,
+  ArrowLeft, ArrowRight, Save, Check,
   User, Eye, Brain, Zap, BookOpen, Users, PenTool
 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
@@ -294,7 +294,7 @@ export function CharacterGuidedCreation({
             value={value}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-card border-border/30 focus:border-accent/70"
+            className="bg-background/50 border-border/20 focus:border-accent/50 focus:ring-1 focus:ring-accent/20"
           />
         );
       
@@ -305,17 +305,17 @@ export function CharacterGuidedCreation({
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
             rows={3}
-            className="bg-card border-border/30 focus:border-accent/70 resize-none"
+            className="bg-background/50 border-border/20 focus:border-accent/50 focus:ring-1 focus:ring-accent/20 resize-none"
           />
         );
       
       case 'select':
         return (
           <Select value={value} onValueChange={(val) => updateField(field.key, val)}>
-            <SelectTrigger className="bg-card border-border/30 focus:border-accent/70">
+            <SelectTrigger className="bg-background/50 border-border/20 focus:border-accent/50 focus:ring-1 focus:ring-accent/20">
               <SelectValue placeholder="Select an option" />
             </SelectTrigger>
-            <SelectContent className="bg-card border-border/30">
+            <SelectContent className="bg-card border-border/20">
               {field.options?.map(option => (
                 <SelectItem key={option} value={option}>{option}</SelectItem>
               ))}
@@ -330,7 +330,7 @@ export function CharacterGuidedCreation({
             value={arrayValue}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="bg-card border-border/30 focus:border-accent/70"
+            className="bg-background/50 border-border/20 focus:border-accent/50 focus:ring-1 focus:ring-accent/20"
           />
         );
       
@@ -361,8 +361,8 @@ export function CharacterGuidedCreation({
 
         <div className="flex flex-1 overflow-hidden">
           {/* Step Navigation Sidebar */}
-          <div className="w-72 border-r border-border/30 bg-card/30 p-4 overflow-y-auto">
-            <div className="space-y-2">
+          <div className="w-72 border-r border-border/20 bg-background/50 p-4 overflow-y-auto">
+            <div className="space-y-1">
               {CREATION_STEPS.map((step, index) => {
                 const Icon = step.icon;
                 const isCompleted = completedSteps.has(index);
@@ -374,41 +374,38 @@ export function CharacterGuidedCreation({
                     key={step.id}
                     onClick={() => isAccessible && jumpToStep(index)}
                     disabled={!isAccessible}
-                    className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
+                    className={`w-full text-left p-3 rounded-md transition-all duration-200 border ${
                       isCurrent 
-                        ? 'bg-accent/15 border-2 border-accent/40 shadow-sm' 
+                        ? 'bg-accent/5 border-accent/20 text-accent' 
                         : isCompleted
-                        ? 'bg-accent/8 border border-accent/25 hover:bg-accent/12'
+                        ? 'bg-card/50 border-border/20 hover:bg-card/70 text-foreground'
                         : isAccessible
-                        ? 'hover:bg-card/60 border border-transparent hover:text-accent'
-                        : 'opacity-50 cursor-not-allowed border border-transparent text-muted-foreground'
+                        ? 'hover:bg-card/30 border-transparent text-muted-foreground hover:text-foreground'
+                        : 'opacity-40 cursor-not-allowed border-transparent text-muted-foreground'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${
+                      <div className={`p-1.5 rounded-md ${
                         isCurrent 
-                          ? 'bg-accent text-accent-foreground' 
+                          ? 'bg-accent/10 text-accent' 
                           : isCompleted
-                          ? 'bg-accent/20 text-accent'
-                          : 'bg-muted'
+                          ? 'bg-accent/10 text-accent'
+                          : 'bg-muted/50 text-muted-foreground'
                       }`}>
-                        {isCompleted ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                        {isCompleted ? <Check className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
                       </div>
-                      <div className="flex-1">
-                        <div className={`font-semibold text-sm ${
-                          isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : ''
+                      <div className="flex-1 min-w-0">
+                        <div className={`font-medium text-sm leading-tight ${
+                          isCurrent ? 'text-accent' : isCompleted ? 'text-foreground' : 'text-muted-foreground'
                         }`}>
                           {step.title}
                         </div>
-                        <div className={`text-xs line-clamp-2 ${
-                          isCurrent ? 'text-accent/70' : 'text-muted-foreground'
+                        <div className={`text-xs leading-tight mt-0.5 line-clamp-2 ${
+                          isCurrent ? 'text-accent/70' : 'text-muted-foreground/80'
                         }`}>
                           {step.description}
                         </div>
                       </div>
-                      {isCompleted && (
-                        <Star className="h-4 w-4 text-accent fill-accent/20" />
-                      )}
                     </div>
                   </button>
                 );
@@ -419,28 +416,28 @@ export function CharacterGuidedCreation({
           {/* Main Content */}
           <div className="flex-1 p-6 overflow-y-auto">
             <div className="max-w-2xl mx-auto">
-              <Card className="border-border/30 shadow-lg bg-card/50">
-                <CardHeader className="pb-4 bg-gradient-to-r from-accent/5 to-accent/10 rounded-t-lg">
+              <Card className="border-border/20 shadow-sm bg-card/30 backdrop-blur-sm">
+                <CardHeader className="pb-4 border-b border-border/10">
                   <div className="flex items-center gap-3">
-                    <div className="p-3 bg-accent/20 rounded-xl border border-accent/30">
-                      {currentStep?.icon && <currentStep.icon className="h-6 w-6 text-accent" />}
+                    <div className="p-2 bg-accent/10 rounded-lg border border-accent/20">
+                      {currentStep?.icon && <currentStep.icon className="h-5 w-5 text-accent" />}
                     </div>
                     <div>
-                      <CardTitle className="text-xl">{currentStep?.title || 'Loading...'}</CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">{currentStep?.description || ''}</p>
+                      <CardTitle className="text-lg text-foreground">{currentStep?.title || 'Loading...'}</CardTitle>
+                      <p className="text-sm text-muted-foreground/80 mt-0.5">{currentStep?.description || ''}</p>
                     </div>
                   </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-4 max-h-[400px] overflow-y-auto">
+                <CardContent className="space-y-5 max-h-[400px] overflow-y-auto">
                   {currentStep?.fields?.map((field) => (
                     <div key={field.key} className="space-y-2">
-                      <Label className="text-sm font-medium flex items-center gap-2">
+                      <Label className="text-sm font-medium text-foreground flex items-center gap-2">
                         {field.label}
-                        {field.required && <span className="text-destructive">*</span>}
+                        {field.required && <span className="text-destructive text-xs">*</span>}
                       </Label>
                       {field.description && (
-                        <p className="text-xs text-muted-foreground">{field.description}</p>
+                        <p className="text-xs text-muted-foreground/70 leading-relaxed">{field.description}</p>
                       )}
                       {renderField(field)}
                     </div>
