@@ -45,11 +45,29 @@ export function CharacterUnifiedViewPremium({
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
 
-  // Sync formData with character prop changes (e.g., after save)
+  // Helper function to safely display field values
+  const safeDisplayValue = (value: any): string => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) {
+      // If it's an array but displayed as text, join with commas
+      return value.join(', ');
+    }
+    if (typeof value === 'object') {
+      // If it's an object, it shouldn't be displayed as raw JSON
+      console.warn('Object found in text field, this may indicate a data type mismatch:', value);
+      return JSON.stringify(value);
+    }
+    return String(value);
+  };
+
+  // Sync formData with character prop changes (only when not editing)
   useEffect(() => {
-    console.log('🔄 Character prop changed, updating formData:', character.name);
-    setFormData(character);
-  }, [character]);
+    if (!isEditing) {
+      console.log('🔄 Character prop changed (not editing), updating formData:', character.name);
+      setFormData(character);
+    }
+  }, [character, isEditing]);
 
   // Define all character fields organized by category (matching the wizard 1:1)
   const identityFields = [
@@ -158,11 +176,8 @@ export function CharacterUnifiedViewPremium({
     },
     onSuccess: (savedCharacter) => {
       console.log('✅ Character saved successfully:', savedCharacter);
+      // Don't update formData here - let the prop update handle it after query invalidation
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
-      // Update formData to match the saved state
-      if (savedCharacter) {
-        setFormData(savedCharacter);
-      }
       setIsEditing(false);
     },
     onError: (error) => {
@@ -1419,7 +1434,7 @@ export function CharacterUnifiedViewPremium({
                         )
                       ) : (formData as any)[fieldKey] ? (
                         <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {(formData as any)[fieldKey]}
+                          {safeDisplayValue((formData as any)[fieldKey])}
                         </p>
                       ) : (
                         <div className="text-center py-4">
@@ -1501,7 +1516,7 @@ export function CharacterUnifiedViewPremium({
                         )
                       ) : (formData as any)[fieldKey] ? (
                         <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {(formData as any)[fieldKey]}
+                          {safeDisplayValue((formData as any)[fieldKey])}
                         </p>
                       ) : (
                         <div className="text-center py-4">
@@ -1669,7 +1684,7 @@ export function CharacterUnifiedViewPremium({
                         />
                       ) : (formData as any)[fieldKey] ? (
                         <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {(formData as any)[fieldKey]}
+                          {safeDisplayValue((formData as any)[fieldKey])}
                         </p>
                       ) : (
                         <div className="text-center py-4">
@@ -1692,6 +1707,41 @@ export function CharacterUnifiedViewPremium({
                 );
               })}
             </div>
+
+            {/* Dynamic Story Tracking */}
+            <Card className="border border-accent/30 bg-gradient-to-br from-accent/5 to-accent/10 hover:shadow-lg transition-all duration-200">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base font-semibold text-foreground">Dynamic Story Tracking</CardTitle>
+                  <Badge className="bg-accent/20 text-accent border-accent/30">Coming Soon</Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Story elements will automatically update based on character development and narrative events:
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+                      Auto-track character arc progression through chapters
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+                      Monitor theme relevance and symbolic connections
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+                      Dynamic story importance based on character actions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
+                      Real-time narrative function analysis and optimization
+                    </li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
         </Tabs>
