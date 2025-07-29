@@ -13,8 +13,8 @@ import { Sparkles, Loader2, Users, Crown, Sword, Heart, BookOpen, Zap, Shield, L
 interface CharacterGenerationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onGenerate: (generationOptions: CharacterGenerationOptions) => Promise<void>;
-  isGenerating: boolean;
+  projectId: string;
+  onBack?: () => void;
 }
 
 export interface CharacterGenerationOptions {

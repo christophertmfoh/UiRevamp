@@ -12,7 +12,7 @@ import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
-import { CharacterCreationLaunch } from './CharacterCreationLaunch';
+import { CharacterCreationWizard } from './CharacterCreationWizard';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
@@ -1037,38 +1037,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         />
       )}
 
-      {/* Character Creation Launch Modal */}
-      <CharacterCreationLaunch
+      {/* Character Creation Wizard */}
+      <CharacterCreationWizard
         isOpen={isCreationLaunchOpen}
         onClose={() => setIsCreationLaunchOpen(false)}
-        onCreateBlank={handleCreateNew}
-        onOpenTemplates={() => {
-          setIsCreationLaunchOpen(false);
-          setIsTemplateModalOpen(true);
-        }}
-        onOpenAIGeneration={() => {
-          setIsCreationLaunchOpen(false);
-          setIsGenerationModalOpen(true);
-        }}
-        onOpenDocumentUpload={() => {
-          setIsCreationLaunchOpen(false);
-          setIsDocumentUploadOpen(true);
-        }}
-      />
-
-      <CharacterDocumentUpload
-        isOpen={isDocumentUploadOpen}
-        onClose={() => setIsDocumentUploadOpen(false)}
-        onParseComplete={handleDocumentParseComplete}
         projectId={projectId}
       />
 
-      <CharacterTemplates
-        isOpen={isTemplateModalOpen}
-        onClose={() => setIsTemplateModalOpen(false)}
-        onSelectTemplate={handleSelectTemplate}
-        isGenerating={isGenerating}
-      />
+      {/* Old individual modals are now handled by the unified wizard */}
     </div>
   );
 }

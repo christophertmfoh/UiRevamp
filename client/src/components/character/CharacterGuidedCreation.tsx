@@ -24,10 +24,10 @@ import type { Character } from '@/lib/types';
 import { nanoid } from 'nanoid';
 
 interface CharacterGuidedCreationProps {
+  isOpen: boolean;
+  onClose: () => void;
   projectId: string;
-  character?: Character;
-  onCancel: () => void;
-  onComplete?: (character: Character) => void;
+  onBack?: () => void;
 }
 
 interface Step {

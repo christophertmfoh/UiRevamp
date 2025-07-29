@@ -6,6 +6,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles, Loader2 } from 'lucide-react';
 
+interface CharacterTemplatesProps {
+  isOpen: boolean;
+  onClose: () => void;
+  projectId: string;
+  onBack?: () => void;
+  onSelectTemplate?: (template: CharacterTemplate) => void;
+}
+
 interface CharacterTemplate {
   id: string;
   name: string;

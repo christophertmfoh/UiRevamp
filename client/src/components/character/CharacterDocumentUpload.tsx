@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge';
 interface CharacterDocumentUploadProps {
   isOpen: boolean;
   onClose: () => void;
-  onParseComplete: (characterData: any) => void;
   projectId: string;
+  onBack?: () => void;
 }
 
 export function CharacterDocumentUpload({
