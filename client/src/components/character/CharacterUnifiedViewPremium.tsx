@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTool, Camera, Trash2, Sparkles, Plus, Heart, MapPin, Star, Settings } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
@@ -54,35 +54,52 @@ export function CharacterUnifiedViewPremium({
     ];
     
     const appearanceFields = [
-      'physicalDescription', 'height', 'weight', 'build', 'eyeColor', 'hairColor', 
-      'hairStyle', 'skinTone', 'distinguishingMarks', 'clothingStyle', 'posture',
-      'gait', 'gestures', 'mannerisms', 'imageUrl'
+      'height', 'weight', 'bodyType', 'hairColor', 'hairStyle', 'hairTexture',
+      'eyeColor', 'eyeShape', 'skinTone', 'facialFeatures', 'physicalFeatures',
+      'scarsMarkings', 'clothing', 'accessories', 'generalAppearance'
     ];
     
     const personalityFields = [
-      'personalityOverview', 'personality', 'personalityTraits', 'temperament', 'worldview',
-      'values', 'goals', 'motivations', 'fears', 'desires', 'vices', 'habits', 'quirks'
+      'personalityTraits', 'positiveTraits', 'negativeTraits', 'quirks',
+      'mannerisms', 'temperament', 'emotionalState', 'sense_of_humor', 'speech_patterns'
+    ];
+    
+    const psychologyFields = [
+      'intelligence', 'education', 'mentalHealth', 'phobias', 'motivations',
+      'goals', 'desires', 'regrets', 'secrets', 'moral_code', 'worldview', 'philosophy'
     ];
     
     const abilitiesFields = [
-      'coreAbilities', 'skills', 'talents', 'specialAbilities', 'powers', 'strengths',
-      'weaknesses', 'training'
+      'skills', 'talents', 'powers', 'weaknesses', 'strengths',
+      'combat_skills', 'magical_abilities', 'languages', 'hobbies'
     ];
     
     const backgroundFields = [
-      'backstory', 'background', 'childhood', 'familyHistory', 'education', 
-      'formativeEvents', 'socialClass', 'spokenLanguages'
+      'backstory', 'childhood', 'formative_events', 'trauma', 'achievements',
+      'failures', 'education_background', 'work_history', 'military_service', 'criminal_record'
     ];
     
     const relationshipsFields = [
-      'family', 'friends', 'allies', 'enemies', 'rivals', 'mentors', 
-      'relationships', 'socialCircle'
+      'family', 'friends', 'enemies', 'allies', 'mentors', 'romantic_interests',
+      'relationship_status', 'social_connections', 'children', 'pets'
+    ];
+    
+    const culturalFields = [
+      'culture', 'religion', 'traditions', 'values', 'customs',
+      'social_class', 'political_views', 'economic_status'
+    ];
+    
+    const storyRoleFields = [
+      'role', 'character_arc', 'narrative_function', 'story_importance',
+      'first_appearance', 'last_appearance', 'character_growth', 'internal_conflict', 'external_conflict'
     ];
     
     const metaFields = [
-      'storyFunction', 'personalTheme', 'symbolism', 'inspiration', 'archetypes', 
-      'notes', 'description', 'oneLine'
+      'inspiration', 'creation_notes', 'character_concept', 'design_notes',
+      'voice_notes', 'themes', 'symbolism', 'author_notes'
     ];
+    
+
     
     // Count filled fields in each category
     const countFilledFields = (fields: string[]) => {
@@ -104,15 +121,19 @@ export function CharacterUnifiedViewPremium({
     const identityCount = countFilledFields(identityFields);
     const appearanceCount = countFilledFields(appearanceFields);
     const personalityCount = countFilledFields(personalityFields);
+    const psychologyCount = countFilledFields(psychologyFields);
     const abilitiesCount = countFilledFields(abilitiesFields);
     const backgroundCount = countFilledFields(backgroundFields);
     const relationshipsCount = countFilledFields(relationshipsFields);
+    const culturalCount = countFilledFields(culturalFields);
+    const storyRoleCount = countFilledFields(storyRoleFields);
     const metaCount = countFilledFields(metaFields);
     
     const totalFields = identityFields.length + appearanceFields.length + personalityFields.length + 
-                       abilitiesFields.length + backgroundFields.length + relationshipsFields.length + metaFields.length;
-    const totalFilled = identityCount + appearanceCount + personalityCount + abilitiesCount + 
-                       backgroundCount + relationshipsCount + metaCount;
+                       psychologyFields.length + abilitiesFields.length + backgroundFields.length + 
+                       relationshipsFields.length + culturalFields.length + storyRoleFields.length + metaFields.length;
+    const totalFilled = identityCount + appearanceCount + personalityCount + psychologyCount + abilitiesCount + 
+                       backgroundCount + relationshipsCount + culturalCount + storyRoleCount + metaCount;
     
     return Math.max(1, Math.round((totalFilled / totalFields) * 100));
   };
@@ -461,7 +482,7 @@ export function CharacterUnifiedViewPremium({
       {/* Premium Character Details */}
       <div className="max-w-7xl mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-8 bg-muted/20 p-1 rounded-xl">
+          <TabsList className="grid w-full grid-cols-10 bg-muted/20 p-1 rounded-xl">
             <TabsTrigger value="identity" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <User className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Identity</span>
@@ -471,8 +492,12 @@ export function CharacterUnifiedViewPremium({
               <span className="text-xs font-medium hidden sm:block">Appearance</span>
             </TabsTrigger>
             <TabsTrigger value="personality" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
-              <Brain className="h-4 w-4" />
+              <Heart className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Personality</span>
+            </TabsTrigger>
+            <TabsTrigger value="psychology" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <Brain className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Psychology</span>
             </TabsTrigger>
             <TabsTrigger value="abilities" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
               <Zap className="h-4 w-4" />
@@ -486,12 +511,16 @@ export function CharacterUnifiedViewPremium({
               <Users className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Relationships</span>
             </TabsTrigger>
-            <TabsTrigger value="arcs" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
-              <BookOpen className="h-4 w-4" />
-              <span className="text-xs font-medium hidden sm:block">Arcs</span>
+            <TabsTrigger value="cultural" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <MapPin className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Cultural</span>
+            </TabsTrigger>
+            <TabsTrigger value="story_role" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
+              <Star className="h-4 w-4" />
+              <span className="text-xs font-medium hidden sm:block">Story Role</span>
             </TabsTrigger>
             <TabsTrigger value="meta" className="flex flex-col gap-1 py-3 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground rounded-lg transition-all duration-200">
-              <PenTool className="h-4 w-4" />
+              <Settings className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:block">Meta</span>
             </TabsTrigger>
           </TabsList>
@@ -506,19 +535,16 @@ export function CharacterUnifiedViewPremium({
               {[
                 { key: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter character name' },
                 { key: 'nicknames', label: 'Nicknames', type: 'text', placeholder: 'Common nicknames or pet names' },
-                { key: 'title', label: 'Title', type: 'text', placeholder: 'Dr., Lord, Captain, etc.' },
-                { key: 'aliases', label: 'Aliases', type: 'text', placeholder: 'Secret identities or false names' },
-                { key: 'age', label: 'Age', type: 'text', placeholder: '25 or "appears to be in their 20s"' },
-                { key: 'race', label: 'Race/Species', type: 'text', placeholder: 'Human, Elf, Dragon, etc.' },
-                { key: 'class', label: 'Class/Profession', type: 'text', placeholder: 'Warrior, Mage, Detective, etc.' },
-                { key: 'role', label: 'Story Role', type: 'select', placeholder: 'Select an option', options: [
-                  'Protagonist', 'Antagonist', 'Deuteragonist', 'Tritagonist', 'Supporting Character', 
-                  'Comic Relief', 'Mentor', 'Love Interest', 'Sidekick', 'Rival', 'Anti-Hero', 'Anti-Villain',
-                  'Foil Character', 'Catalyst', 'Guardian', 'Threshold Guardian', 'Shapeshifter', 'Shadow',
-                  'Herald', 'Trickster', 'Innocent', 'Explorer', 'Sage', 'Hero', 'Outlaw', 'Magician',
-                  'Regular Guy/Girl', 'Lover', 'Jester', 'Caregiver', 'Creator', 'Ruler', 'Minor Character',
-                  'Background Character', 'Cameo', 'Narrator', 'Confidant', 'Red Herring', 'MacGuffin Guardian'
-                ]}
+                { key: 'pronouns', label: 'Pronouns', type: 'text', placeholder: 'he/him, she/her, they/them, etc.' },
+                { key: 'age', label: 'Age', type: 'text', placeholder: 'Character age or age range' },
+                { key: 'species', label: 'Species/Race', type: 'text', placeholder: 'Human, Elf, Alien, etc.' },
+                { key: 'gender', label: 'Gender Identity', type: 'text', placeholder: 'Gender identity or expression' },
+                { key: 'occupation', label: 'Occupation', type: 'text', placeholder: 'Job, role, or profession' },
+                { key: 'title', label: 'Title/Rank', type: 'text', placeholder: 'Professional or social title' },
+                { key: 'birthdate', label: 'Birth Date', type: 'text', placeholder: 'When they were born' },
+                { key: 'birthplace', label: 'Birthplace', type: 'text', placeholder: 'Where they were born' },
+                { key: 'currentLocation', label: 'Current Location', type: 'text', placeholder: 'Where they live now' },
+                { key: 'nationality', label: 'Nationality', type: 'text', placeholder: 'Cultural or national identity' }
               ].map((field) => (
                 <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
                   <CardHeader className="pb-3">
@@ -1313,6 +1339,225 @@ export function CharacterUnifiedViewPremium({
             </div>
           </TabsContent>
 
+          <TabsContent value="psychology" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Psychology</h2>
+              <p className="text-muted-foreground mt-1">Mental traits and psychological profile</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {psychologyFields.map((fieldKey) => {
+                const fieldConfigs = {
+                  intelligence: { label: 'Intelligence', type: 'text', placeholder: 'Intellectual capacity and type' },
+                  education: { label: 'Education', type: 'text', placeholder: 'Formal and informal learning' },
+                  mentalHealth: { label: 'Mental Health', type: 'text', placeholder: 'Psychological well-being' },
+                  phobias: { label: 'Phobias & Fears', type: 'textarea', placeholder: 'What they fear most' },
+                  motivations: { label: 'Motivations', type: 'textarea', placeholder: 'What drives them' },
+                  goals: { label: 'Goals & Ambitions', type: 'textarea', placeholder: 'What they want to achieve' },
+                  desires: { label: 'Desires', type: 'textarea', placeholder: 'What they long for' },
+                  regrets: { label: 'Regrets', type: 'textarea', placeholder: 'What they wish they could change' },
+                  secrets: { label: 'Secrets', type: 'textarea', placeholder: 'What they hide from others' },
+                  moral_code: { label: 'Moral Code', type: 'textarea', placeholder: 'Their ethical principles' },
+                  worldview: { label: 'Worldview', type: 'textarea', placeholder: 'How they see the world' },
+                  philosophy: { label: 'Philosophy', type: 'textarea', placeholder: 'Their philosophical outlook' }
+                };
+                const field = fieldConfigs[fieldKey] || { label: fieldKey, type: 'text', placeholder: '' };
+                
+                return (
+                  <Card key={fieldKey} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                        {isEditing && (
+                          <FieldAIAssist
+                            character={character}
+                            fieldKey={fieldKey}
+                            fieldLabel={field.label}
+                            currentValue={(formData as any)[fieldKey]}
+                            onFieldUpdate={(value) => setFormData({...formData, [fieldKey]: value})}
+                            disabled={isEnhancing}
+                          />
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {isEditing ? (
+                        field.type === 'textarea' ? (
+                          <Textarea
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="min-h-[100px] bg-background border-accent/20 focus:border-accent"
+                            rows={4}
+                          />
+                        ) : (
+                          <Input
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="bg-background border-accent/20 focus:border-accent"
+                          />
+                        )
+                      ) : (
+                        <div className="text-muted-foreground">
+                          {(formData as any)[fieldKey] || <span className="italic">No {field.label.toLowerCase()} provided</span>}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="cultural" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Cultural</h2>
+              <p className="text-muted-foreground mt-1">Cultural background and beliefs</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {culturalFields.map((fieldKey) => {
+                const fieldConfigs = {
+                  culture: { label: 'Cultural Background', type: 'text', placeholder: 'Cultural identity and heritage' },
+                  religion: { label: 'Religion/Beliefs', type: 'text', placeholder: 'Spiritual or religious beliefs' },
+                  traditions: { label: 'Traditions', type: 'textarea', placeholder: 'Cultural traditions they follow' },
+                  values: { label: 'Values', type: 'textarea', placeholder: 'What they consider important' },
+                  customs: { label: 'Customs', type: 'textarea', placeholder: 'Cultural practices they observe' },
+                  social_class: { label: 'Social Class', type: 'text', placeholder: 'Socioeconomic background' },
+                  political_views: { label: 'Political Views', type: 'text', placeholder: 'Political beliefs and affiliations' },
+                  economic_status: { label: 'Economic Status', type: 'text', placeholder: 'Financial situation' }
+                };
+                const field = fieldConfigs[fieldKey] || { label: fieldKey, type: 'text', placeholder: '' };
+                
+                return (
+                  <Card key={fieldKey} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                        {isEditing && (
+                          <FieldAIAssist
+                            character={character}
+                            fieldKey={fieldKey}
+                            fieldLabel={field.label}
+                            currentValue={(formData as any)[fieldKey]}
+                            onFieldUpdate={(value) => setFormData({...formData, [fieldKey]: value})}
+                            disabled={isEnhancing}
+                          />
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {isEditing ? (
+                        field.type === 'textarea' ? (
+                          <Textarea
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="min-h-[100px] bg-background border-accent/20 focus:border-accent"
+                            rows={4}
+                          />
+                        ) : (
+                          <Input
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="bg-background border-accent/20 focus:border-accent"
+                          />
+                        )
+                      ) : (
+                        <div className="text-muted-foreground">
+                          {(formData as any)[fieldKey] || <span className="italic">No {field.label.toLowerCase()} provided</span>}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="story_role" className="space-y-6">
+            <div className="border-b border-border/30 pb-4">
+              <h2 className="text-2xl font-bold text-foreground">Story Role</h2>
+              <p className="text-muted-foreground mt-1">Role and function in the narrative</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {storyRoleFields.map((fieldKey) => {
+                const fieldConfigs = {
+                  role: { label: 'Story Role', type: 'select', placeholder: 'Their role in the story', options: ['Protagonist', 'Antagonist', 'Supporting Character', 'Side Character', 'Background Character'] },
+                  character_arc: { label: 'Character Arc', type: 'textarea', placeholder: 'How they change throughout the story' },
+                  narrative_function: { label: 'Narrative Function', type: 'textarea', placeholder: 'Purpose they serve in the story' },
+                  story_importance: { label: 'Story Importance', type: 'select', placeholder: 'How important they are to the plot', options: ['Critical', 'Important', 'Moderate', 'Minor'] },
+                  first_appearance: { label: 'First Appearance', type: 'text', placeholder: 'When they first appear in the story' },
+                  last_appearance: { label: 'Last Appearance', type: 'text', placeholder: 'When they last appear in the story' },
+                  character_growth: { label: 'Character Growth', type: 'textarea', placeholder: 'How they develop and change' },
+                  internal_conflict: { label: 'Internal Conflict', type: 'textarea', placeholder: 'Their inner struggles' },
+                  external_conflict: { label: 'External Conflict', type: 'textarea', placeholder: 'Conflicts with others or environment' }
+                };
+                const field = fieldConfigs[fieldKey] || { label: fieldKey, type: 'text', placeholder: '' };
+                
+                return (
+                  <Card key={fieldKey} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                        {isEditing && (
+                          <FieldAIAssist
+                            character={character}
+                            fieldKey={fieldKey}
+                            fieldLabel={field.label}
+                            currentValue={(formData as any)[fieldKey]}
+                            onFieldUpdate={(value) => setFormData({...formData, [fieldKey]: value})}
+                            disabled={isEnhancing}
+                          />
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {isEditing ? (
+                        field.type === 'select' ? (
+                          <select
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            className="w-full p-2 border border-accent/20 rounded-md bg-background text-foreground focus:border-accent focus:ring-accent/20"
+                          >
+                            <option value="">{field.placeholder}</option>
+                            {field.options?.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        ) : field.type === 'textarea' ? (
+                          <Textarea
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="min-h-[100px] bg-background border-accent/20 focus:border-accent"
+                            rows={4}
+                          />
+                        ) : (
+                          <Input
+                            value={(formData as any)[fieldKey] || ''}
+                            onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                            placeholder={field.placeholder}
+                            className="bg-background border-accent/20 focus:border-accent"
+                          />
+                        )
+                      ) : (
+                        <div className="text-muted-foreground">
+                          {(formData as any)[fieldKey] || <span className="italic">No {field.label.toLowerCase()} provided</span>}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+
           <TabsContent value="meta" className="space-y-6">
             <div className="border-b border-border/30 pb-4">
               <h2 className="text-2xl font-bold text-foreground">Meta</h2>
@@ -1320,25 +1565,55 @@ export function CharacterUnifiedViewPremium({
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {[
-                { key: 'storyFunction', label: 'Story Function', type: 'textarea', placeholder: 'Their role in advancing the plot' },
-                { key: 'personalTheme', label: 'Associated Themes', type: 'textarea', placeholder: 'Themes they represent or explore' },
-                { key: 'symbolism', label: 'Symbolism', type: 'textarea', placeholder: 'What they symbolize in the story' },
-                { key: 'inspiration', label: 'Inspiration', type: 'textarea', placeholder: 'Real people, characters, or concepts that inspired them' },
-                { key: 'archetypes', label: 'Archetypes', type: 'select', options: [
-                  'The Hero', 'The Mentor', 'The Threshold Guardian', 'The Herald', 'The Shapeshifter', 'The Shadow',
-                  'The Ally', 'The Trickster', 'The Innocent', 'The Explorer', 'The Sage', 'The Outlaw', 'The Magician',
-                  'The Regular Guy/Girl', 'The Lover', 'The Jester', 'The Caregiver', 'The Creator', 'The Ruler',
-                  'The Warrior', 'The Orphan', 'The Seeker', 'The Destroyer', 'The Rebel', 'The Fool', 'The Wise Woman/Man',
-                  'The Mother', 'The Father', 'The Child', 'The Maiden', 'The Crone', 'The Anima', 'The Animus',
-                  'The Self', 'The Persona', 'The Great Mother', 'The Terrible Mother', 'The Wise Old Man',
-                  'The Divine Child', 'The Wounded Healer', 'The Scapegoat', 'The Martyr', 'The Savior',
-                  'The Temptress', 'The Femme Fatale', 'The Damsel in Distress', 'The Dark Lord', 'The Prophet',
-                  'The Shaman', 'The Guide', 'The Guardian', 'The Gatekeeper', 'The Threshold Dweller'
-                ] },
-                { key: 'notes', label: 'Writer\'s Notes', type: 'textarea', placeholder: 'Development notes and ideas' }
-              ].map((field) => (
-                <Card key={field.key} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+              {metaFields.map((fieldKey) => {
+                const fieldConfigs = {
+                  inspiration: { label: 'Inspiration', type: 'textarea', placeholder: 'What inspired this character' },
+                  creation_notes: { label: 'Creation Notes', type: 'textarea', placeholder: 'Notes about character development' },
+                  character_concept: { label: 'Character Concept', type: 'textarea', placeholder: 'Core concept or idea' },
+                  design_notes: { label: 'Design Notes', type: 'textarea', placeholder: 'Visual design considerations' },
+                  voice_notes: { label: 'Voice Notes', type: 'textarea', placeholder: 'How they speak and sound' },
+                  themes: { label: 'Associated Themes', type: 'textarea', placeholder: 'Themes this character represents' },
+                  symbolism: { label: 'Symbolism', type: 'textarea', placeholder: 'What they symbolize in the story' },
+                  author_notes: { label: 'Author Notes', type: 'textarea', placeholder: 'Additional development notes' }
+                };
+                const field = fieldConfigs[fieldKey] || { label: fieldKey, type: 'text', placeholder: '' };
+                
+                return (
+                  <Card key={fieldKey} className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
+                        {isEditing && (
+                          <FieldAIAssist
+                            character={character}
+                            fieldKey={fieldKey}
+                            fieldLabel={field.label}
+                            currentValue={(formData as any)[fieldKey]}
+                            onFieldUpdate={(value) => setFormData({...formData, [fieldKey]: value})}
+                            disabled={isEnhancing}
+                          />
+                        )}
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {isEditing ? (
+                        <Textarea
+                          value={(formData as any)[fieldKey] || ''}
+                          onChange={(e) => setFormData({...formData, [fieldKey]: e.target.value})}
+                          placeholder={field.placeholder}
+                          className="min-h-[100px] bg-background border-accent/20 focus:border-accent"
+                          rows={4}
+                        />
+                      ) : (
+                        <div className="text-muted-foreground">
+                          {(formData as any)[fieldKey] || <span className="italic">No {field.label.toLowerCase()} provided</span>}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base font-semibold text-foreground">{field.label}</CardTitle>
@@ -1442,86 +1717,7 @@ export function CharacterUnifiedViewPremium({
             </div>
           </TabsContent>
 
-          <TabsContent value="arcs" className="space-y-6">
-            <div className="border-b border-border/30 pb-4">
-              <h2 className="text-2xl font-bold text-foreground">Character Arcs</h2>
-              <p className="text-muted-foreground mt-1">Character development and transformation journey</p>
-            </div>
 
-            <div className="space-y-6">
-              {/* Current Manual Arc Content */}
-              <Card className="border border-border/30 bg-gradient-to-br from-background to-accent/5 hover:shadow-lg transition-all duration-200">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-semibold text-foreground">Character Arc</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {isEditing ? (
-                    <Textarea
-                      value={formData.arc || ''}
-                      onChange={(e) => setFormData({...formData, arc: e.target.value})}
-                      placeholder="Character development and transformation..."
-                      className="min-h-[100px] border-accent/20 focus:border-accent focus:ring-accent/20"
-                      rows={4}
-                    />
-                  ) : (
-                    <div className="space-y-2">
-                      {formData.arc ? (
-                        <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                          {formData.arc}
-                        </p>
-                      ) : (
-                        <div className="text-center py-4">
-                          <p className="text-sm text-muted-foreground italic">
-                            No character arc added yet
-                          </p>
-                          <Button 
-                            onClick={() => setIsEditing(true)}
-                            variant="ghost" 
-                            size="sm" 
-                            className="mt-2 text-accent hover:bg-accent/10 hover:text-accent"
-                          >
-                            <Plus className="h-3 w-3 mr-1" />
-                            Add Character Arc
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Coming Soon Dynamic Features */}
-              <Card className="border border-accent/30 bg-gradient-to-br from-accent/5 to-accent/10 hover:shadow-lg transition-all duration-200">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-semibold text-foreground">Dynamic Arc Tracking</CardTitle>
-                    <Badge className="bg-accent/20 text-accent border-accent/30">Coming Soon</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <p className="text-sm text-muted-foreground">
-                      Arc progression will automatically update based on your story outline and manuscript content:
-                    </p>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        Real-time character development tracking
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        AI-powered arc milestone detection
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                        Dynamic progression visualization
-                      </li>
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
 
 
         </Tabs>
