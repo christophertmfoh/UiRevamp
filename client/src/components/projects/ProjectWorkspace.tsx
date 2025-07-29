@@ -219,10 +219,9 @@ export function ProjectWorkspace({
                 <Feather className="w-5 h-5 text-primary-foreground" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-foreground">Creative Workspace</h1>
-                <p className="text-sm text-muted-foreground">
-                  Welcome back, user
-                </p>
+                <h1 className="text-3xl font-serif font-bold gradient-primary-text">
+                  Welcome back, {user?.username || 'user'}
+                </h1>
               </div>
             </div>
             
