@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,6 +45,12 @@ export function CharacterUnifiedViewPremium({
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const queryClient = useQueryClient();
 
+  // Sync formData with character prop changes (e.g., after save)
+  useEffect(() => {
+    console.log('🔄 Character prop changed, updating formData:', character.name);
+    setFormData(character);
+  }, [character]);
+
   // Define all character fields organized by category (matching the wizard 1:1)
   const identityFields = [
     'name', 'nicknames', 'pronouns', 'age', 'species', 'gender', 
@@ -88,7 +94,7 @@ export function CharacterUnifiedViewPremium({
   ];
   
   const storyRoleFields = [
-    'role', 'character_arc', 'narrative_function', 'story_importance',
+    'character_arc', 'narrative_function', 'story_importance',
     'first_appearance', 'last_appearance', 'character_growth', 'internal_conflict', 'external_conflict'
   ];
   
@@ -142,15 +148,26 @@ export function CharacterUnifiedViewPremium({
 
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
+      console.log('🔧 Saving character:', character.id);
+      console.log('🔧 Form data being saved:', data);
       const processedData = processDataForSave(data);
-      return await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+      console.log('🔧 Processed data for API:', processedData);
+      const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+      console.log('🔧 Save API response:', result);
+      return result;
     },
-    onSuccess: () => {
+    onSuccess: (savedCharacter) => {
+      console.log('✅ Character saved successfully:', savedCharacter);
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      // Update formData to match the saved state
+      if (savedCharacter) {
+        setFormData(savedCharacter);
+      }
       setIsEditing(false);
     },
     onError: (error) => {
-      console.error('Failed to save character:', error);
+      console.error('❌ Failed to save character:', error);
+      alert('Failed to save character. Please try again.');
     }
   });
 
@@ -1518,7 +1535,6 @@ export function CharacterUnifiedViewPremium({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {storyRoleFields.map((fieldKey) => {
                 const fieldConfigs = {
-                  role: { label: 'Story Role', type: 'select', placeholder: 'Their role in the story', options: ['Protagonist', 'Antagonist', 'Supporting Character', 'Side Character', 'Background Character'] },
                   character_arc: { label: 'Character Arc', type: 'textarea', placeholder: 'How they change throughout the story' },
                   narrative_function: { label: 'Narrative Function', type: 'textarea', placeholder: 'Purpose they serve in the story' },
                   story_importance: { label: 'Story Importance', type: 'select', placeholder: 'How important they are to the plot', options: ['Critical', 'Important', 'Moderate', 'Minor'] },

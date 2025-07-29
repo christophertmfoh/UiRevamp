@@ -178,7 +178,6 @@ const CHARACTER_SECTIONS = [
     icon: Star,
     description: 'Role and function in the narrative',
     fields: [
-      { key: 'role', label: 'Story Role', type: 'select', options: ['Protagonist', 'Antagonist', 'Supporting Character', 'Side Character', 'Background Character'], placeholder: 'Their role in the story' },
       { key: 'character_arc', label: 'Character Arc', type: 'textarea', placeholder: 'How they change throughout the story' },
       { key: 'narrative_function', label: 'Narrative Function', type: 'textarea', placeholder: 'Purpose they serve in the story' },
       { key: 'story_importance', label: 'Story Importance', type: 'select', options: ['Critical', 'Important', 'Moderate', 'Minor'], placeholder: 'How important they are to the plot' },
