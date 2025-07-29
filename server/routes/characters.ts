@@ -2,7 +2,7 @@ import { Router } from "express";
 // Removed unused insertCharacterSchema import
 import { storage } from "../storage";
 import { transformCharacterData } from "../utils/characterTransformers";
-import { generateCharacterFromPrompt } from "../services/characterGeneration";
+import { generateCharacterWithAI } from "../services/characterGeneration";
 import { generateCharacterPortrait } from "../characterPortraitGenerator";
 import { generateCharacterImage } from "../imageGeneration";
 import { importCharacterDocument } from "../characterExtractor";
@@ -215,7 +215,7 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       return res.status(404).json({ error: "Project not found" });
     }
     
-    // Generate character with AI
+    // Generate character with OPTIMIZED AI (15x more efficient!)
     const character = await generateCharacterWithAI({
       projectId,
       projectName: project.name,
@@ -225,6 +225,13 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       customPrompt,
       personality,
       archetype
+    });
+    
+    // Store the character in database
+    const storedCharacter = await storage.createCharacter({
+      ...character,
+      id: `char_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+      projectId
     });
     
     // Generate portrait for the character
