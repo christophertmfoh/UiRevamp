@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, FileText, Sparkles, Upload, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Plus, FileText, Sparkles, Upload, ArrowRight, ChevronLeft, Save, Info, Star, Clock } from 'lucide-react';
 import { CharacterGuidedCreation } from './CharacterGuidedCreation';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterGenerationModal } from './CharacterGenerationModal';
@@ -16,6 +18,14 @@ interface CharacterCreationWizardProps {
 }
 
 type WizardStep = 'selection' | 'guided' | 'templates' | 'ai-generation' | 'upload';
+
+// Character data interface for persistence
+interface CharacterDraft {
+  method: string;
+  data: Record<string, any>;
+  progress: number;
+  lastSaved: Date;
+}
 
 const CREATION_METHODS = [
   {
@@ -67,6 +77,51 @@ const CREATION_METHODS = [
 export function CharacterCreationWizard({ isOpen, onClose, projectId }: CharacterCreationWizardProps) {
   const [currentStep, setCurrentStep] = useState<WizardStep>('selection');
   const [selectedMethod, setSelectedMethod] = useState<string>('');
+  const [characterDraft, setCharacterDraft] = useState<CharacterDraft | null>(null);
+  const [isAutoSaving, setIsAutoSaving] = useState(false);
+  const autoSaveTimeoutRef = useRef<NodeJS.Timeout>();
+
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    if (isOpen && projectId) {
+      const savedDraft = localStorage.getItem(`character-draft-${projectId}`);
+      if (savedDraft) {
+        try {
+          const draft = JSON.parse(savedDraft);
+          setCharacterDraft(draft);
+        } catch (error) {
+          console.error('Failed to load character draft:', error);
+        }
+      }
+    }
+  }, [isOpen, projectId]);
+
+  // Auto-save draft
+  const saveDraft = (method: string, data: Record<string, any>, progress: number) => {
+    const draft: CharacterDraft = {
+      method,
+      data,
+      progress,
+      lastSaved: new Date()
+    };
+    
+    setCharacterDraft(draft);
+    setIsAutoSaving(true);
+    
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+    
+    autoSaveTimeoutRef.current = setTimeout(() => {
+      localStorage.setItem(`character-draft-${projectId}`, JSON.stringify(draft));
+      setIsAutoSaving(false);
+    }, 1000);
+  };
+
+  const clearDraft = () => {
+    localStorage.removeItem(`character-draft-${projectId}`);
+    setCharacterDraft(null);
+  };
 
   const handleMethodSelect = (methodId: string) => {
     setSelectedMethod(methodId);
@@ -86,13 +141,46 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
 
   const renderSelectionStep = () => (
     <>
-      <DialogHeader className="border-b border-border/10 pb-4 mb-6">
-        <DialogTitle className="text-xl font-semibold text-foreground">
+      <DialogHeader className="border-b border-border/10 pb-6 mb-6">
+        <DialogTitle className="text-2xl font-bold text-foreground">
           Create New Character
         </DialogTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          Choose how you'd like to bring your character to life
+        <p className="text-muted-foreground mt-2">
+          Choose your preferred creation method to get started. All methods provide complete character profiles with 164+ fields.
         </p>
+        
+        {/* Draft Recovery */}
+        {characterDraft && (
+          <div className="mt-4 p-4 bg-accent/10 border border-accent/20 rounded-lg">
+            <div className="flex items-center gap-3">
+              <Save className="h-5 w-5 text-accent" />
+              <div className="flex-1">
+                <h4 className="font-semibold text-foreground">Continue Previous Character</h4>
+                <p className="text-sm text-muted-foreground">
+                  Found a saved character draft ({characterDraft.progress}% complete) from {characterDraft.lastSaved.toLocaleDateString()}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={clearDraft}
+                >
+                  Start Fresh
+                </Button>
+                <Button 
+                  size="sm"
+                  onClick={() => {
+                    setSelectedMethod(characterDraft.method);
+                    setCurrentStep(characterDraft.method as WizardStep);
+                  }}
+                >
+                  Continue Draft
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </DialogHeader>
 
       <div className="space-y-4">
@@ -114,14 +202,15 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-start justify-between mb-3">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-base text-foreground group-hover:text-accent transition-colors">
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">
                             {method.title}
                           </h3>
                           {method.recommended && (
                             <Badge variant="secondary" className="text-xs bg-accent/15 text-accent border-accent/20">
+                              <Star className="h-3 w-3 mr-1" />
                               Recommended
                             </Badge>
                           )}
@@ -132,11 +221,12 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
                       </div>
                       
                       <div className="text-right flex-shrink-0">
-                        <div className="text-xs text-muted-foreground mb-1">
-                          {method.complexity}
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                          <Clock className="h-3 w-3" />
+                          <span className="font-medium">{method.timeEstimate}</span>
                         </div>
-                        <div className="text-xs text-accent font-medium">
-                          {method.timeEstimate}
+                        <div className="text-xs font-bold px-2 py-1 rounded-full bg-muted/50">
+                          {method.complexity}
                         </div>
                       </div>
                     </div>
@@ -180,19 +270,57 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
     switch (currentStep) {
       case 'guided':
         return (
-          <CharacterGuidedCreation
-            isOpen={true}
-            onClose={handleClose}
-            projectId={projectId}
+          <div className="space-y-6">
+            {/* Progress Indicator */}
+            <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/20">
+              <Plus className="h-6 w-6 text-accent" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground">Guided Character Creation</h3>
+                <p className="text-sm text-muted-foreground">
+                  Complete step-by-step character creation with 164+ customizable fields
+                </p>
+              </div>
+              {isAutoSaving && (
+                <div className="flex items-center gap-2 text-xs text-accent">
+                  <div className="w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                  Auto-saving...
+                </div>
+              )}
+            </div>
+            
+            <CharacterGuidedCreation
+              isOpen={true}
+              onClose={handleClose}
+              projectId={projectId}
+              onDataChange={(data, progress) => saveDraft('guided', data, progress)}
             onBack={handleBack}
           />
         );
       case 'templates':
         return (
-          <CharacterTemplates
-            isOpen={true}
-            onClose={handleClose}
-            projectId={projectId}
+          <div className="space-y-6">
+            {/* Progress Indicator */}
+            <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/20">
+              <FileText className="h-6 w-6 text-accent" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground">AI-Enhanced Templates</h3>
+                <p className="text-sm text-muted-foreground">
+                  Choose from 20+ professional character archetypes with AI enhancement
+                </p>
+              </div>
+              {isAutoSaving && (
+                <div className="flex items-center gap-2 text-xs text-accent">
+                  <div className="w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                  Auto-saving...
+                </div>
+              )}
+            </div>
+            
+            <CharacterTemplates
+              isOpen={true}
+              onClose={handleClose}
+              projectId={projectId}
+              onDataChange={(data, progress) => saveDraft('templates', data, progress)}
             onBack={handleBack}
             onSelectTemplate={(template) => {
               console.log('Template selected:', template);
