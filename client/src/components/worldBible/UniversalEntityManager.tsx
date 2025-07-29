@@ -412,10 +412,10 @@ export function UniversalEntityManager({
             <Button 
               onClick={() => setIsCreationLaunchOpen(true)} 
               size="lg"
-              className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="bg-[hsl(180_70%_50%)] hover:bg-[hsl(180_70%_45%)] text-[hsl(220_15%_8%)] shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <div className="flex items-center">
-                <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                   <Plus className="h-4 w-4" />
                 </div>
                 <span className="font-semibold tracking-wide">Create {config.singular}</span>
@@ -543,10 +543,10 @@ export function UniversalEntityManager({
               <Button 
                 onClick={() => setIsCreationLaunchOpen(true)} 
                 size="lg"
-                className="bg-gradient-to-r from-accent via-accent/90 to-accent/80 hover:from-accent/95 hover:via-accent/85 hover:to-accent/75 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-[hsl(180_70%_50%)] hover:bg-[hsl(180_70%_45%)] text-[hsl(220_15%_8%)] shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <div className="flex items-center">
-                  <div className="p-1 bg-accent-foreground/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
+                  <div className="p-1 bg-white/10 rounded-full mr-3 group-hover:rotate-90 transition-transform duration-300">
                     <Plus className="h-4 w-4" />
                   </div>
                   <span className="font-semibold tracking-wide">Create First {config.singular}</span>
