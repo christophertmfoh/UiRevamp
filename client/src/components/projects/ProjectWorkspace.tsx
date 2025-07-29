@@ -245,33 +245,73 @@ export function ProjectWorkspace({
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <User className="h-5 w-5" />
+                  <Button 
+                    className="group gradient-primary text-primary-foreground px-4 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 hover:brightness-110 rounded-xl relative overflow-hidden flex items-center space-x-2"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span className="relative z-10 flex items-center space-x-2">
+                      <User className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                      <span className="hidden sm:inline">{user?.username || 'User'}</span>
+                      <ChevronRight className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                    </span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <div className="flex items-center justify-start gap-2 p-2">
-                    <div className="flex flex-col space-y-1 leading-none">
-                      <p className="font-medium">{user?.username || 'User'}</p>
-                      <p className="w-[200px] truncate text-sm text-muted-foreground">
-                        {user?.email || 'user@example.com'}
-                      </p>
-                    </div>
+                <DropdownMenuContent align="end" className="w-64 bg-card/95 backdrop-blur-xl border border-border/30 shadow-2xl rounded-xl mt-2">
+                  {/* Community Section */}
+                  <div className="p-2 border-b border-border/20">
+                    <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Community</div>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Community clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <Users className="mr-3 h-4 w-4 text-primary" />
+                      <div>
+                        <div className="font-medium">Writer Community</div>
+                        <div className="text-xs text-muted-foreground">Connect with other writers</div>
+                      </div>
+                    </DropdownMenuItem>
                   </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onNavigate('settings')}>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onNavigate('profile')}>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onNavigate('landing')}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
+
+                  {/* Account Section */}
+                  <div className="p-2 border-b border-border/20">
+                    <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Account</div>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Profile clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <User className="mr-3 h-4 w-4 text-primary" />
+                      <div>
+                        <div className="font-medium">Profile & Settings</div>
+                        <div className="text-xs text-muted-foreground">Manage your account</div>
+                      </div>
+                    </DropdownMenuItem>
+                  </div>
+
+                  {/* Help Section */}
+                  <div className="p-2 border-b border-border/20">
+                    <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Support</div>
+                    <DropdownMenuItem 
+                      onClick={() => console.log('Help clicked - not implemented yet')}
+                      className="cursor-pointer hover:bg-accent/10 py-3 px-4 rounded-lg transition-colors text-foreground hover:text-foreground focus:text-foreground"
+                    >
+                      <Settings className="mr-3 h-4 w-4 text-primary" />
+                      <div>
+                        <div className="font-medium">Help & Support</div>
+                        <div className="text-xs text-muted-foreground">Get help and documentation</div>
+                      </div>
+                    </DropdownMenuItem>
+                  </div>
+
+                  {/* Sign Out */}
+                  <div className="p-2">
+                    <DropdownMenuItem 
+                      onClick={() => onNavigate('landing')}
+                      className="cursor-pointer hover:bg-destructive/10 py-3 px-4 rounded-lg transition-colors"
+                    >
+                      <LogOut className="mr-3 h-4 w-4 text-destructive" />
+                      <span className="font-medium text-destructive">Sign Out</span>
+                    </DropdownMenuItem>
+                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
               
@@ -428,17 +468,20 @@ export function ProjectWorkspace({
                   Your creative pipeline and project management hub
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105"
+                    onClick={() => setActiveTab('world')}
+                  >
                     <CardContent className="p-6 text-center">
                       <Globe className="w-12 h-12 mx-auto mb-4 text-primary" />
                       <h4 className="font-semibold mb-2">World Bible</h4>
-                      <p className="text-sm text-muted-foreground">0 Items</p>
+                      <p className="text-sm text-muted-foreground">{characters.length} Characters</p>
                       <p className="text-xs text-muted-foreground mt-1">Develop your characters and story elements</p>
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                  <Card className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75">
                     <CardContent className="p-6 text-center">
                       <ClipboardList className="w-12 h-12 mx-auto mb-4 text-primary" />
                       <h4 className="font-semibold mb-2">Outline</h4>
@@ -447,21 +490,36 @@ export function ProjectWorkspace({
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                  <Card className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75">
                     <CardContent className="p-6 text-center">
                       <FileText className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Manuscript</h4>
+                      <h4 className="font-semibold mb-2">Story</h4>
                       <p className="text-sm text-muted-foreground">0 Pages</p>
-                      <p className="text-xs text-muted-foreground mt-1">Write your story in novel, script, or graphic formats</p>
+                      <p className="text-xs text-muted-foreground mt-1">Write your story in various formats</p>
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
+                    onClick={() => setActiveTab('previs')}
+                  >
                     <CardContent className="p-6 text-center">
-                      <Image className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-semibold mb-2">Storyboard</h4>
+                      <Video className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">Pre-Vis</h4>
                       <p className="text-sm text-muted-foreground">0 Items</p>
-                      <p className="text-xs text-muted-foreground mt-1">Visualize scenes and camera movements</p>
+                      <p className="text-xs text-muted-foreground mt-1">Pre-visualization and motion planning</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
+                    onClick={() => setActiveTab('score')}
+                  >
+                    <CardContent className="p-6 text-center">
+                      <Music className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">Score</h4>
+                      <p className="text-sm text-muted-foreground">0 Tracks</p>
+                      <p className="text-xs text-muted-foreground mt-1">Compose and manage musical elements</p>
                     </CardContent>
                   </Card>
                 </div>
