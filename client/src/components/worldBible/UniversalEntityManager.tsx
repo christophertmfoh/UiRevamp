@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { 
   Plus, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText,
-  MapPin, Calendar, Sword, Gem, Wand2, Globe, Languages, Crown, Scroll, BookOpen, Users, Image, Map
+  MapPin, Calendar, Sword, Gem, Wand2, Globe, Languages, Crown, Scroll, BookOpen, Users, Image, Map, X
 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { 
@@ -660,6 +660,674 @@ export function UniversalEntityManager({
           ))}
         </div>
       )}
+
+      {/* MODALS - ALL CATEGORY FUNCTIONALITY IMPLEMENTATIONS */}
+      
+      {/* Creation Launch Modal - Universal for all entity types */}
+      {isCreationLaunchOpen && (
+        <UniversalCreationLaunch
+          entityType={entityType}
+          config={config}
+          isOpen={isCreationLaunchOpen}
+          onClose={() => setIsCreationLaunchOpen(false)}
+          onCreateManual={() => {
+            setIsCreationLaunchOpen(false);
+            setIsCreating(true);
+          }}
+          onCreateTemplate={() => {
+            setIsCreationLaunchOpen(false);
+            setIsTemplateModalOpen(true);
+          }}
+          onCreateAI={() => {
+            setIsCreationLaunchOpen(false);
+            setIsGenerationModalOpen(true);
+          }}
+          onCreateGuided={() => {
+            setIsCreationLaunchOpen(false);
+            setIsGuidedCreation(true);
+            setIsCreating(true);
+          }}
+          onUploadDocument={() => {
+            setIsCreationLaunchOpen(false);
+            setIsDocumentUploadOpen(true);
+          }}
+        />
+      )}
+
+      {/* AI Generation Modal - Universal for all entity types */}
+      {isGenerationModalOpen && (
+        <UniversalGenerationModal
+          entityType={entityType}
+          config={config}
+          projectId={projectId}
+          isOpen={isGenerationModalOpen}
+          onClose={() => setIsGenerationModalOpen(false)}
+          onEntityGenerated={(entity) => {
+            setSelectedEntity(entity);
+            setIsGenerationModalOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
+
+      {/* Templates Modal - Universal for all entity types */}
+      {isTemplateModalOpen && (
+        <UniversalTemplates
+          entityType={entityType}
+          config={config}
+          projectId={projectId}
+          isOpen={isTemplateModalOpen}
+          onClose={() => setIsTemplateModalOpen(false)}
+          onEntityCreated={(entity) => {
+            setSelectedEntity(entity);
+            setIsTemplateModalOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
+
+      {/* Portrait/Image Modal - Universal for all entity types */}
+      {isPortraitModalOpen && portraitEntity && (
+        <UniversalPortraitModal
+          entityType={entityType}
+          config={config}
+          entity={portraitEntity}
+          isOpen={isPortraitModalOpen}
+          onClose={() => {
+            setIsPortraitModalOpen(false);
+            setPortraitEntity(null);
+          }}
+          onImageUpdated={(updatedEntity) => {
+            setPortraitEntity(updatedEntity);
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
+
+      {/* Document Upload Modal - Universal for all entity types */}
+      {isDocumentUploadOpen && (
+        <UniversalDocumentUpload
+          entityType={entityType}
+          config={config}
+          projectId={projectId}
+          isOpen={isDocumentUploadOpen}
+          onClose={() => setIsDocumentUploadOpen(false)}
+          onEntityCreated={(entity) => {
+            setSelectedEntity(entity);
+            setIsDocumentUploadOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
+
+      {/* Detail View - Universal for all entity types */}
+      {selectedEntity && !isCreating && (
+        <UniversalDetailView
+          entityType={entityType}
+          config={config}
+          entity={selectedEntity}
+          projectId={projectId}
+          onClose={() => setSelectedEntity(null)}
+          onEdit={() => {
+            setIsCreating(true);
+            setNewEntityData(selectedEntity);
+          }}
+          onPortraitEdit={() => {
+            setPortraitEntity(selectedEntity);
+            setIsPortraitModalOpen(true);
+          }}
+          onDeleted={() => {
+            setSelectedEntity(null);
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
+
+      {/* Creation/Edit View - Universal for all entity types */}
+      {isCreating && (
+        <UniversalCreationView
+          entityType={entityType}
+          config={config}
+          projectId={projectId}
+          initialData={newEntityData}
+          isGuided={isGuidedCreation}
+          onClose={() => {
+            setIsCreating(false);
+            setIsGuidedCreation(false);
+            setNewEntityData({});
+          }}
+          onEntitySaved={(entity) => {
+            setSelectedEntity(entity);
+            setIsCreating(false);
+            setIsGuidedCreation(false);
+            setNewEntityData({});
+            queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.apiEndpoint] });
+          }}
+        />
+      )}
     </div>
   );
 };
+
+// UNIVERSAL CREATION LAUNCH MODAL - Matches CharacterCreationLaunch exactly
+interface UniversalCreationLaunchProps {
+  entityType: EntityType;
+  config: typeof ENTITY_CONFIGS[EntityType];
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateManual: () => void;
+  onCreateTemplate: () => void;
+  onCreateAI: () => void;
+  onCreateGuided: () => void;
+  onUploadDocument: () => void;
+}
+
+function UniversalCreationLaunch({ 
+  entityType, 
+  config, 
+  isOpen, 
+  onClose, 
+  onCreateManual, 
+  onCreateTemplate, 
+  onCreateAI, 
+  onCreateGuided, 
+  onUploadDocument 
+}: UniversalCreationLaunchProps) {
+  if (!isOpen) return null;
+
+  // Category-specific creation method descriptions
+  const creationMethods = {
+    locations: {
+      manual: "Build your location from scratch with complete creative control over every detail",
+      template: "Choose from pre-made location templates like cities, dungeons, or mystical realms",
+      ai: "Let AI generate a unique location based on your world's themes and requirements",
+      guided: "Step-by-step location creation with helpful prompts and suggestions",
+      document: "Import location details from existing documents or world building notes"
+    },
+    timeline: {
+      manual: "Chronicle your world's history with complete control over every event and detail",
+      template: "Use historical event templates like wars, discoveries, or golden ages",
+      ai: "Generate significant historical events that fit your world's timeline and themes",
+      guided: "Build your timeline with guided prompts for causes, events, and consequences",
+      document: "Import historical events from existing chronologies or world notes"
+    },
+    factions: {
+      manual: "Design organizations and groups with full control over structure and goals",
+      template: "Select from faction templates like guilds, kingdoms, or secret societies",
+      ai: "Create compelling factions with AI-generated motivations and conflicts",
+      guided: "Build factions step-by-step with guidance on structure and relationships",
+      document: "Import faction details from existing organizational charts or notes"
+    },
+    items: {
+      manual: "Craft legendary artifacts and items with complete creative freedom",
+      template: "Choose from item templates like weapons, magical artifacts, or treasures",
+      ai: "Generate unique items with AI-created powers, histories, and significance",
+      guided: "Create items with step-by-step guidance on properties and lore",
+      document: "Import item descriptions from existing equipment lists or artifacts"
+    },
+    magic: {
+      manual: "Design magical systems with full control over rules and manifestations",
+      template: "Use magic system templates like elemental, divine, or scholarly traditions",
+      ai: "Generate unique magical frameworks with AI-created rules and limitations",
+      guided: "Build magic systems with guided prompts for sources, costs, and effects",
+      document: "Import magical traditions from existing spell lists or magical lore"
+    },
+    bestiary: {
+      manual: "Create creatures and beings with complete control over every characteristic",
+      template: "Select from creature templates like dragons, spirits, or mythical beasts",
+      ai: "Generate unique creatures with AI-created behaviors and abilities",
+      guided: "Design creatures step-by-step with guidance on ecology and traits",
+      document: "Import creature details from existing bestiaries or creature notes"
+    },
+    languages: {
+      manual: "Develop languages with full control over linguistics and cultural context",
+      template: "Choose from language templates like ancient, mystical, or trading tongues",
+      ai: "Create unique languages with AI-generated grammar and cultural significance",
+      guided: "Build languages with step-by-step guidance on structure and speakers",
+      document: "Import language details from existing linguistic notes or phrase books"
+    },
+    cultures: {
+      manual: "Design civilizations and peoples with complete creative control",
+      template: "Select from culture templates like nomadic, imperial, or mystical societies",
+      ai: "Generate rich cultures with AI-created traditions and social structures",
+      guided: "Build cultures step-by-step with guidance on values and customs",
+      document: "Import cultural details from existing society notes or anthropological texts"
+    },
+    prophecies: {
+      manual: "Craft prophecies and visions with full control over meaning and fulfillment",
+      template: "Choose from prophecy templates like doom, hope, or transformation themes",
+      ai: "Generate compelling prophecies with AI-created symbolism and interpretations",
+      guided: "Create prophecies with step-by-step guidance on visions and meanings",
+      document: "Import prophetic texts from existing oracles or visionary writings"
+    },
+    themes: {
+      manual: "Develop narrative themes with complete control over meaning and expression",
+      template: "Select from thematic templates like love, power, or transformation motifs",
+      ai: "Generate profound themes with AI-created symbolic representations",
+      guided: "Build themes step-by-step with guidance on narrative integration",
+      document: "Import thematic elements from existing literary analysis or story notes"
+    }
+  };
+
+  const methods = creationMethods[entityType];
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-8">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-accent/10 rounded-xl">
+                <config.icon className="h-8 w-8 text-accent" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold">Create {config.singular}</h2>
+                <p className="text-muted-foreground mt-1">Choose your preferred creation method</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Manual Creation */}
+            <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/50" onClick={onCreateManual}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-500/10 rounded-lg">
+                    <Edit2 className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">Manual Creation</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{methods.manual}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Template Creation */}
+            <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/50" onClick={onCreateTemplate}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-green-500/10 rounded-lg">
+                    <FileText className="h-6 w-6 text-green-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">From Template</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{methods.template}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* AI Generation */}
+            <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/50" onClick={onCreateAI}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-purple-500/10 rounded-lg">
+                    <Sparkles className="h-6 w-6 text-purple-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">AI Generation</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{methods.ai}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Guided Creation */}
+            <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/50" onClick={onCreateGuided}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-orange-500/10 rounded-lg">
+                    <Zap className="h-6 w-6 text-orange-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">Guided Creation</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{methods.guided}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Document Upload */}
+            <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-accent/50 md:col-span-2" onClick={onUploadDocument}>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-cyan-500/10 rounded-lg">
+                    <FileText className="h-6 w-6 text-cyan-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-accent transition-colors">Import from Document</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{methods.document}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// UNIVERSAL AI GENERATION MODAL - For all entity types
+interface UniversalGenerationModalProps {
+  entityType: EntityType;
+  config: typeof ENTITY_CONFIGS[EntityType];
+  projectId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onEntityGenerated: (entity: BaseWorldEntity) => void;
+}
+
+function UniversalGenerationModal({ 
+  entityType, 
+  config, 
+  projectId, 
+  isOpen, 
+  onClose, 
+  onEntityGenerated 
+}: UniversalGenerationModalProps) {
+  const [generationType, setGenerationType] = useState<'basic' | 'detailed' | 'creative'>('basic');
+  const [customPrompt, setCustomPrompt] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  if (!isOpen) return null;
+
+  const handleGenerate = async () => {
+    setIsGenerating(true);
+    try {
+      const prompt = customPrompt || config.generationPrompts[generationType];
+      
+      const response = await apiRequest(`/api/projects/${projectId}/${config.apiEndpoint}/generate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          type: generationType,
+          prompt,
+          entityType
+        })
+      });
+      
+      onEntityGenerated(response);
+    } catch (error) {
+      console.error('AI generation failed:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-2xl w-full">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-500/10 rounded-lg">
+                <Sparkles className="h-6 w-6 text-purple-500" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">AI Generate {config.singular}</h2>
+                <p className="text-muted-foreground">Let AI create a unique {config.singular.toLowerCase()} for your world</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="space-y-6">
+            {/* Generation Type Selection */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">Generation Style</label>
+              <div className="grid grid-cols-3 gap-3">
+                {(['basic', 'detailed', 'creative'] as const).map((type) => (
+                  <Card 
+                    key={type}
+                    className={`cursor-pointer transition-all ${
+                      generationType === type 
+                        ? 'border-accent bg-accent/5' 
+                        : 'border-border hover:border-accent/50'
+                    }`}
+                    onClick={() => setGenerationType(type)}
+                  >
+                    <CardContent className="p-4 text-center">
+                      <h3 className="font-medium capitalize mb-1">{type}</h3>
+                      <p className="text-xs text-muted-foreground">
+                        {type === 'basic' && 'Quick and essential'}
+                        {type === 'detailed' && 'Rich and comprehensive'}
+                        {type === 'creative' && 'Unique and imaginative'}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Custom Prompt */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Custom Instructions (Optional)</label>
+              <textarea
+                value={customPrompt}
+                onChange={(e) => setCustomPrompt(e.target.value)}
+                placeholder={`Add specific requirements for your ${config.singular.toLowerCase()}...`}
+                className="w-full h-24 p-3 border border-border rounded-lg bg-background resize-none"
+              />
+            </div>
+
+            {/* Generate Button */}
+            <div className="flex gap-3 justify-end">
+              <Button variant="outline" onClick={onClose} disabled={isGenerating}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleGenerate} 
+                disabled={isGenerating}
+                className="bg-purple-500 hover:bg-purple-600 text-white"
+              >
+                {isGenerating ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Generating...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Generate {config.singular}
+                  </div>
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// UNIVERSAL TEMPLATES MODAL - For all entity types  
+interface UniversalTemplatesProps {
+  entityType: EntityType;
+  config: typeof ENTITY_CONFIGS[EntityType];
+  projectId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onEntityCreated: (entity: BaseWorldEntity) => void;
+}
+
+function UniversalTemplates({ 
+  entityType, 
+  config, 
+  projectId, 
+  isOpen, 
+  onClose, 
+  onEntityCreated 
+}: UniversalTemplatesProps) {
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+
+  if (!isOpen) return null;
+
+  // Category-specific templates
+  const templates = {
+    locations: [
+      { id: 'mystical-forest', name: 'Mystical Forest', description: 'Ancient woodland with magical properties' },
+      { id: 'mountain-fortress', name: 'Mountain Fortress', description: 'Imposing stronghold built into stone' },
+      { id: 'cosmic-nexus', name: 'Cosmic Nexus', description: 'Reality intersection point with otherworldly energy' },
+      { id: 'underground-city', name: 'Underground City', description: 'Vast subterranean civilization' },
+      { id: 'floating-island', name: 'Floating Island', description: 'Airborne landmass defying gravity' }
+    ],
+    timeline: [
+      { id: 'age-of-magic', name: 'Age of Magic', description: 'Era when magic first awakened in the world' },
+      { id: 'great-cataclysm', name: 'Great Cataclysm', description: 'World-shattering event that changed everything' },
+      { id: 'golden-age', name: 'Golden Age', description: 'Period of peace, prosperity, and advancement' },
+      { id: 'dark-times', name: 'Dark Times', description: 'Era of suffering, chaos, and despair' },
+      { id: 'cosmic-convergence', name: 'Cosmic Convergence', description: 'Moment when cosmic forces aligned' }
+    ],
+    factions: [
+      { id: 'mystical-order', name: 'Mystical Order', description: 'Ancient organization devoted to magical knowledge' },
+      { id: 'stone-lords', name: 'Stone Lords', description: 'Noble house connected to earth and endurance' },
+      { id: 'dream-cultists', name: 'Dream Cultists', description: 'Fanatics seeking absolute control of reality' },
+      { id: 'life-wardens', name: 'Life Wardens', description: 'Guardians of natural balance and growth' },
+      { id: 'shadow-guild', name: 'Shadow Guild', description: 'Secret society operating from the shadows' }
+    ],
+    items: [
+      { id: 'cosmic-artifact', name: 'Cosmic Artifact', description: 'Item of immense power from beyond reality' },
+      { id: 'memory-crystal', name: 'Memory Crystal', description: 'Stone that records and replays experiences' },
+      { id: 'dream-focus', name: 'Dream Focus', description: 'Tool for manipulating consciousness and reality' },
+      { id: 'bloom-essence', name: 'Bloom Essence', description: 'Concentrated life force from mystical sources' },
+      { id: 'stone-monument', name: 'Stone Monument', description: 'Ancient structure with embedded power' }
+    ],
+    magic: [
+      { id: 'dream-weaving', name: 'Dream Weaving', description: 'Magic system based on consciousness manipulation' },
+      { id: 'bloom-magic', name: 'Bloom Magic', description: 'Life-force based magical tradition' },
+      { id: 'stone-binding', name: 'Stone Binding', description: 'Earth-based magic focusing on permanence' },
+      { id: 'cosmic-channeling', name: 'Cosmic Channeling', description: 'Drawing power from universal forces' },
+      { id: 'memory-craft', name: 'Memory Craft', description: 'Magic that manipulates time and recollection' }
+    ],
+    bestiary: [
+      { id: 'bloom-touched', name: 'Bloom-Touched Creature', description: 'Being transformed by mystical life energy' },
+      { id: 'dream-phantom', name: 'Dream Phantom', description: 'Manifestation of consciousness and nightmare' },
+      { id: 'stone-guardian', name: 'Stone Guardian', description: 'Ancient protector infused with earth power' },
+      { id: 'cosmic-entity', name: 'Cosmic Entity', description: 'Being from beyond normal reality' },
+      { id: 'memory-wraith', name: 'Memory Wraith', description: 'Ghost-like entity tied to past events' }
+    ],
+    languages: [
+      { id: 'ancient-tongue', name: 'Ancient Tongue', description: 'Primordial language from world\'s beginning' },
+      { id: 'bloom-speech', name: 'Bloom Speech', description: 'Living language that grows and evolves' },
+      { id: 'stone-runes', name: 'Stone Runes', description: 'Carved symbols of permanence and memory' },
+      { id: 'dream-whispers', name: 'Dream Whispers', description: 'Telepathic communication through consciousness' },
+      { id: 'cosmic-resonance', name: 'Cosmic Resonance', description: 'Universal language of fundamental forces' }
+    ],
+    cultures: [
+      { id: 'mountain-folk', name: 'Mountain Folk', description: 'Hardy people devoted to stone and memory' },
+      { id: 'dream-seekers', name: 'Dream Seekers', description: 'Culture obsessed with controlling reality' },
+      { id: 'bloom-touched', name: 'Bloom-Touched', description: 'Community transformed by life-giving energy' },
+      { id: 'cosmic-nomads', name: 'Cosmic Nomads', description: 'Wanderers who travel between realities' },
+      { id: 'memory-keepers', name: 'Memory Keepers', description: 'Archival society preserving all history' }
+    ],
+    prophecies: [
+      { id: 'great-convergence', name: 'Great Convergence', description: 'Foretelling of cosmic forces uniting' },
+      { id: 'bloom-eternal', name: 'Bloom Eternal', description: 'Vision of endless growth and connection' },
+      { id: 'stone-endurance', name: 'Stone Endurance', description: 'Prophecy of permanence through suffering' },
+      { id: 'dream-fulfillment', name: 'Dream Fulfillment', description: 'Prediction of reality bending to will' },
+      { id: 'memory-echo', name: 'Memory Echo', description: 'Prophecy that repeats throughout time' }
+    ],
+    themes: [
+      { id: 'love-corruption', name: 'Love\'s Corruption', description: 'How pure love can become monstrous' },
+      { id: 'order-chaos', name: 'Order vs Chaos', description: 'Eternal struggle between control and freedom' },
+      { id: 'unity-individuality', name: 'Unity vs Individuality', description: 'Tension between collective and personal' },
+      { id: 'memory-forgetting', name: 'Memory vs Forgetting', description: 'Power and burden of remembrance' },
+      { id: 'transformation-stasis', name: 'Transformation vs Stasis', description: 'Change versus permanence' }
+    ]
+  };
+
+  const currentTemplates = templates[entityType] || [];
+
+  const handleCreateFromTemplate = async () => {
+    if (!selectedTemplate) return;
+    
+    setIsCreating(true);
+    try {
+      const response = await apiRequest(`/api/projects/${projectId}/${config.apiEndpoint}/template`, {
+        method: 'POST',
+        body: JSON.stringify({
+          templateId: selectedTemplate,
+          entityType
+        })
+      });
+      
+      onEntityCreated(response);
+    } catch (error) {
+      console.error('Template creation failed:', error);
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-background border border-border rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-500/10 rounded-lg">
+                <FileText className="h-6 w-6 text-green-500" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">{config.singular} Templates</h2>
+                <p className="text-muted-foreground">Choose a template to get started quickly</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {currentTemplates.map((template) => (
+              <Card 
+                key={template.id}
+                className={`cursor-pointer transition-all ${
+                  selectedTemplate === template.id
+                    ? 'border-accent bg-accent/5' 
+                    : 'border-border hover:border-accent/50'
+                }`}
+                onClick={() => setSelectedTemplate(template.id)}
+              >
+                <CardContent className="p-4">
+                  <h3 className="font-semibold mb-2">{template.name}</h3>
+                  <p className="text-sm text-muted-foreground">{template.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="flex gap-3 justify-end">
+            <Button variant="outline" onClick={onClose} disabled={isCreating}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleCreateFromTemplate} 
+              disabled={!selectedTemplate || isCreating}
+              className="bg-green-500 hover:bg-green-600 text-white"
+            >
+              {isCreating ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Creating...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Create from Template
+                </div>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
