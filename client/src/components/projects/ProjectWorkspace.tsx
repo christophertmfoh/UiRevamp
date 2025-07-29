@@ -7,6 +7,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { ThemeToggle } from '../theme-toggle';
 import { FloatingOrbs } from '../FloatingOrbs';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { DashboardWidgets } from './DashboardWidgets';
 import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
 import { useProjectsLogic } from '@/hooks/useProjectsLogic';
@@ -49,7 +56,9 @@ import {
   Image,
   ClipboardList,
   Lock,
-  Unlock
+  Unlock,
+  User,
+  LogOut
 } from 'lucide-react';
 
 interface ProjectWorkspaceProps {
@@ -226,7 +235,6 @@ export function ProjectWorkspace({
             </div>
             
             <div className="flex items-center space-x-3">
-              <ThemeToggle />
               <Button
                 onClick={onNewProject}
                 className="gradient-primary text-primary-foreground hover:shadow-lg transition-all"
@@ -234,6 +242,40 @@ export function ProjectWorkspace({
                 <Plus className="w-4 h-4 mr-2" />
                 New Project
               </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{user?.username || 'User'}</p>
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {user?.email || 'user@example.com'}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onNavigate('settings')}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onNavigate('profile')}>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onNavigate('landing')}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <ThemeToggle />
             </div>
           </div>
         </div>
