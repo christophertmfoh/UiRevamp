@@ -18,6 +18,7 @@ import { ProjectCreationWizard } from './components/project/ProjectCreationWizar
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
+import { TestAIModules } from './components/character/TestAIModules';
 
 // Initialize ResizeObserver fix before any components mount
 import { initializeResizeObserverFix } from './utils/resizeObserverFix';
@@ -628,6 +629,8 @@ export default function App() {
             onBack={() => navigateToView('landing')}
           />
         );
+      case 'test-ai':
+        return <TestAIModules />;
       default:
         // Simple test interface for other views
         return (
@@ -648,6 +651,12 @@ export default function App() {
                  className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded mr-2"
                >
                  Go to Projects
+               </button>
+               <button 
+                 onClick={() => navigateToView('test-ai')} 
+                 className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded"
+               >
+                 🧪 Test AI Modules
                </button>
                <button 
                  onClick={() => navigateToView('dashboard')} 
