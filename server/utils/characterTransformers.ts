@@ -3,7 +3,7 @@ import { processPortraitsForStorage } from './imageCompression';
 
 // Fields that are stored as TEXT (strings) in database but might come as arrays from frontend
 const ARRAY_TO_STRING_FIELDS = [
-  'hobbies', 'interests', 'habits', 'mannerisms', 
+  'nicknames', 'hobbies', 'interests', 'habits', 'mannerisms', 
   'strengths', 'weaknesses', 'fears', 'phobias', 'values', 'beliefs', 
   'goals', 'motivations', 'secrets', 'flaws', 'quirks', 'equipment', 
   'possessions', 'relationships', 'allies', 'enemies', 'rivals', 
@@ -15,7 +15,7 @@ const ARRAY_TO_STRING_FIELDS = [
 // Fields that should remain as arrays (defined with .array() in schema)
 const KEEP_AS_ARRAY_FIELDS = [
   'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-  'tropes', 'tags', 'spokenLanguages', 'nicknames', 'aliases'
+  'tropes', 'tags', 'spokenLanguages', 'aliases'
 ];
 
 export function transformCharacterData(data: Record<string, unknown>): Record<string, unknown> {

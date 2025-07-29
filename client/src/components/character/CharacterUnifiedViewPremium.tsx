@@ -50,11 +50,13 @@ export function CharacterUnifiedViewPremium({
     if (value === null || value === undefined) return '';
     if (typeof value === 'string') return value;
     if (Array.isArray(value)) {
-      // If it's an array but displayed as text, join with commas
+      // Handle empty arrays properly
+      if (value.length === 0) return '';
       return value.join(', ');
     }
     if (typeof value === 'object') {
-      // If it's an object, it shouldn't be displayed as raw JSON
+      // Handle empty objects
+      if (Object.keys(value).length === 0) return '';
       console.warn('Object found in text field, this may indicate a data type mismatch:', value);
       return JSON.stringify(value);
     }
@@ -167,17 +169,22 @@ export function CharacterUnifiedViewPremium({
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
       console.log('🔧 Saving character:', character.id);
-      console.log('🔧 Form data being saved:', data);
       const processedData = processDataForSave(data);
-      console.log('🔧 Processed data for API:', processedData);
       const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
-      console.log('🔧 Save API response:', result);
+      console.log('✅ Character saved successfully');
       return result;
     },
     onSuccess: (savedCharacter) => {
-      console.log('✅ Character saved successfully:', savedCharacter);
-      // Don't update formData here - let the prop update handle it after query invalidation
-      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      console.log('✅ Character save confirmed by API');
+      // Force immediate invalidation with refetch to ensure UI updates
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', projectId, 'characters'],
+        refetchType: 'active'
+      });
+      queryClient.refetchQueries({
+        queryKey: ['/api/projects', projectId, 'characters'],
+        type: 'active'
+      });
       setIsEditing(false);
     },
     onError: (error) => {
@@ -188,6 +195,25 @@ export function CharacterUnifiedViewPremium({
 
   const processDataForSave = (data: Character) => {
     const processedData = { ...data };
+    
+    // Ensure string fields remain strings (don't convert to arrays)
+    const stringFields = [
+      'name', 'nicknames', 'pronouns', 'age', 'species', 'gender',
+      'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
+    ];
+    
+    stringFields.forEach(field => {
+      const value = (data as any)[field];
+      if (Array.isArray(value)) {
+        // If somehow an array got in, convert back to string
+        (processedData as any)[field] = value.join(', ');
+      } else {
+        // Keep as string (or convert to string if needed)
+        (processedData as any)[field] = value ? String(value) : '';
+      }
+    });
+    
+    // Handle true array fields
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
       'languages', 'archetypes', 'tropes', 'tags'
