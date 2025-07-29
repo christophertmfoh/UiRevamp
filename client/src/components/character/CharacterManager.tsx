@@ -10,11 +10,11 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '@/lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
-import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
-import { CharacterTemplates } from './CharacterTemplates';
+// REMOVED: Legacy CharacterGenerationModal - replaced by CharacterWizardUnified
+// REMOVED: Legacy CharacterTemplates - replaced by CharacterTemplatesUnified
 import CharacterWizardUnified from './CharacterWizardUnified';
-import { CharacterTemplatesV2 } from './CharacterTemplatesV2';
-import { CharacterDocumentUpload } from './CharacterDocumentUpload';
+// REMOVED: Legacy CharacterTemplatesV2 - never opened, dead code
+// REMOVED: Legacy CharacterDocumentUpload - replaced by CharacterDocumentUploadUnified
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
 interface CharacterManagerProps {
@@ -37,12 +37,12 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
   const [isCreating, setIsCreating] = useState(false);
   const [isGuidedCreation, setIsGuidedCreation] = useState(false);
   const [isV2WizardOpen, setIsV2WizardOpen] = useState(false);
-  const [isV2TemplatesOpen, setIsV2TemplatesOpen] = useState(false);
+  // REMOVED: Dead state - isV2TemplatesOpen (CharacterTemplatesV2 never opened)
   const [portraitCharacter, setPortraitCharacter] = useState<Character | null>(null);
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerationModalOpen, setIsGenerationModalOpen] = useState(false);
-  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  // REMOVED: Dead state - isTemplateModalOpen (CharacterTemplates modal removed)
   // Removed isCreationLaunchOpen - using V3 wizard for all creation
   const [isDocumentUploadOpen, setIsDocumentUploadOpen] = useState(false);
   const [newCharacterData, setNewCharacterData] = useState<Partial<Character>>({});
@@ -413,7 +413,7 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
       // Navigate to the new character
       setSelectedCharacter(createdCharacter);
       setIsCreating(false);
-      setIsTemplateModalOpen(false);
+      // REMOVED: setIsTemplateModalOpen(false) - dead code
       
     } catch (error) {
       console.error('Failed to create character from template:', error);
@@ -1048,35 +1048,9 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         }}
       />
 
-      {/* V2 Templates System - Alternative Creation Method */}
-      <CharacterTemplatesV2
-        isOpen={isV2TemplatesOpen}
-        onClose={() => setIsV2TemplatesOpen(false)}
-        projectId={projectId}
-        onBack={() => {
-          setIsV2TemplatesOpen(false);
-          setIsV2WizardOpen(true);
-        }}
-        onComplete={(newCharacter) => {
-          setSelectedCharacter(newCharacter);
-          setIsV2TemplatesOpen(false);
-          // Force update to show the character card view
-          queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
-        }}
-      />
+      {/* REMOVED: Dead code - CharacterTemplatesV2 was never opened */}
 
-      {/* Original AI-Enhanced Templates Modal */}
-      <CharacterTemplates
-        isOpen={isTemplateModalOpen}
-        onClose={() => setIsTemplateModalOpen(false)}
-        projectId={projectId}
-        onSelectTemplate={(newCharacter) => {
-          setSelectedCharacter(newCharacter);
-          setIsTemplateModalOpen(false);
-          // Force update to show the character card view
-          queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
-        }}
-      />
+      {/* REMOVED: Legacy CharacterTemplates modal - replaced by CharacterWizardUnified */}
     </div>
   );
 }
