@@ -155,7 +155,7 @@ export function CharacterAICreationUnified({
       {/* Left Panel - Main Input */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="flex-shrink-0 border-b border-gray-200 p-6">
+        <div className="flex-shrink-0 border-b p-6" style={{ borderBottomColor: theme.border }}>
           <div className="text-center">
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Describe Your Character</h2>
             <p className="text-gray-600">Tell AI about the character you want to create</p>
@@ -166,7 +166,13 @@ export function CharacterAICreationUnified({
         <div className="flex-1 p-6 space-y-6">
           <div className="max-w-3xl mx-auto space-y-6">
             {/* Input Card */}
-            <Card className="border-2" style={{ borderColor: theme.border }}>
+            <Card 
+              className="border-2" 
+              style={{ 
+                borderColor: theme.border,
+                '--tw-ring-color': theme.primary + '20'
+              }}
+            >
               <CardHeader>
                 <Label className="text-base font-medium flex items-center gap-2">
                   <Wand2 
@@ -184,7 +190,15 @@ export function CharacterAICreationUnified({
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="Example: A mysterious detective with a photographic memory who..."
-                  className="min-h-[120px] resize-none border-gray-200 focus:border-purple-500 focus:ring-purple-500/20"
+                  className="min-h-[120px] resize-none"
+                  style={{
+                    borderColor: theme.border,
+                    '--tw-ring-color': theme.primary + '20',
+                    '&:focus': {
+                      borderColor: theme.primary,
+                      boxShadow: `0 0 0 3px ${theme.primary}20`
+                    }
+                  } as any}
                   maxLength={1000}
                 />
                 <div className="flex items-center justify-between text-sm">

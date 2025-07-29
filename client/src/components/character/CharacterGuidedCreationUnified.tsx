@@ -398,7 +398,14 @@ export function CharacterGuidedCreationUnified({
             value={value as string}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="border-gray-200 focus:border-blue-500 focus:ring-blue-500/20"
+            style={{
+              borderColor: theme.border,
+              '--tw-ring-color': theme.primary + '20',
+              '&:focus': {
+                borderColor: theme.primary,
+                boxShadow: `0 0 0 3px ${theme.primary}20`
+              }
+            } as any}
           />
         );
       
@@ -408,7 +415,15 @@ export function CharacterGuidedCreationUnified({
             value={value as string}
             onChange={(e) => updateField(field.key, e.target.value)}
             placeholder={field.placeholder}
-            className="border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 min-h-[80px] resize-none"
+            className="min-h-[80px] resize-none"
+            style={{
+              borderColor: theme.border,
+              '--tw-ring-color': theme.primary + '20',
+              '&:focus': {
+                borderColor: theme.primary,
+                boxShadow: `0 0 0 3px ${theme.primary}20`
+              }
+            } as any}
             rows={3}
           />
         );
@@ -418,7 +433,15 @@ export function CharacterGuidedCreationUnified({
           <select
             value={value as string}
             onChange={(e) => updateField(field.key, e.target.value)}
-            className="w-full p-2 border border-gray-200 rounded-md bg-white focus:border-blue-500 focus:ring-blue-500/20"
+            className="w-full p-2 border rounded-md bg-white"
+            style={{
+              borderColor: theme.border,
+              '--tw-ring-color': theme.primary + '20',
+              '&:focus': {
+                borderColor: theme.primary,
+                boxShadow: `0 0 0 3px ${theme.primary}20`
+              }
+            } as any}
           >
             <option value="">Select an option</option>
             {field.options?.map((option) => (
@@ -438,7 +461,14 @@ export function CharacterGuidedCreationUnified({
               updateField(field.key, arrayVal);
             }}
             placeholder={field.placeholder}
-            className="border-gray-200 focus:border-blue-500 focus:ring-blue-500/20"
+            style={{
+              borderColor: theme.border,
+              '--tw-ring-color': theme.primary + '20',
+              '&:focus': {
+                borderColor: theme.primary,
+                boxShadow: `0 0 0 3px ${theme.primary}20`
+              }
+            } as any}
           />
         );
       
@@ -539,7 +569,7 @@ export function CharacterGuidedCreationUnified({
       {/* MAIN CONTENT - NO SCROLLING */}
       <div className="flex-1 flex flex-col">
         {/* Section Header */}
-        <div className="flex-shrink-0 border-b border-gray-200 p-6">
+        <div className="flex-shrink-0 border-b p-6" style={{ borderBottomColor: theme.border }}>
           <div className="flex items-center gap-4">
             <div 
               className="p-3 rounded-lg"
@@ -561,7 +591,11 @@ export function CharacterGuidedCreationUnified({
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-6xl">
             {currentSectionData.fields.map((field) => (
-              <Card key={field.key} className="border border-gray-200 hover:shadow-sm transition-shadow">
+              <Card 
+              key={field.key} 
+              className="border hover:shadow-sm transition-shadow"
+              style={{ borderColor: theme.border }}
+            >
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-medium text-gray-900 flex items-center gap-2">
@@ -582,7 +616,13 @@ export function CharacterGuidedCreationUnified({
         </div>
 
         {/* Footer Navigation */}
-        <div className="flex-shrink-0 border-t border-gray-200 p-6 bg-gray-50">
+        <div 
+          className="flex-shrink-0 border-t p-6"
+          style={{ 
+            borderTopColor: theme.border,
+            backgroundColor: theme.background
+          }}
+        >
           <div className="flex items-center justify-between">
             <Button
               variant="outline"

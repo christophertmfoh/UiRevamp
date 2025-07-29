@@ -263,7 +263,7 @@ export function CharacterDocumentUploadUnified({
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex-shrink-0 border-b border-gray-200 p-6">
+      <div className="flex-shrink-0 border-b p-6" style={{ borderBottomColor: theme.border }}>
         <div className="text-center">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Upload Document</h2>
           <p className="text-gray-600">Upload a document containing character information</p>
@@ -274,17 +274,18 @@ export function CharacterDocumentUploadUnified({
         <div className="max-w-3xl mx-auto space-y-6">
           {/* Upload Area */}
           {files.length === 0 && (
-            <Card
-              className={cn(
-                "relative border-2 border-dashed transition-all cursor-pointer group",
-                dragActive ? "border-orange-400 bg-orange-50" : "border-gray-300 hover:border-gray-400"
-              )}
-              style={{
-                ...(dragActive && {
-                  borderColor: theme.primary,
-                  backgroundColor: theme.background
-                })
-              }}
+                          <Card
+                className={cn(
+                  "relative border-2 border-dashed transition-all cursor-pointer group"
+                )}
+                style={{
+                  borderColor: dragActive ? theme.primary : theme.border,
+                  backgroundColor: dragActive ? theme.background : 'transparent',
+                  '&:hover': {
+                    borderColor: theme.primary + '80',
+                    backgroundColor: theme.background + '50'
+                  }
+                } as any}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
@@ -293,26 +294,18 @@ export function CharacterDocumentUploadUnified({
             >
               <CardContent className="p-12 text-center">
                 <div className="space-y-4">
-                  <div 
-                    className={cn(
-                      "mx-auto w-20 h-20 rounded-full border-2 border-dashed flex items-center justify-center transition-all",
-                      dragActive ? "border-orange-400 bg-orange-100" : "border-gray-300 group-hover:border-gray-400"
-                    )}
-                    style={{
-                      ...(dragActive && {
-                        borderColor: theme.primary,
-                        backgroundColor: theme.background
-                      })
-                    }}
-                  >
-                    <Upload 
-                      className={cn(
-                        "h-8 w-8 transition-colors",
-                        dragActive ? "text-orange-600" : "text-gray-400 group-hover:text-gray-600"
-                      )}
+                                      <div 
+                      className="mx-auto w-20 h-20 rounded-full border-2 border-dashed flex items-center justify-center transition-all"
                       style={{
-                        ...(dragActive && { color: theme.primary })
+                        borderColor: dragActive ? theme.primary : theme.border,
+                        backgroundColor: dragActive ? theme.background : 'transparent'
                       }}
+                  >
+                                          <Upload 
+                        className="h-8 w-8 transition-colors"
+                        style={{
+                          color: dragActive ? theme.primary : 'rgb(156 163 175)'
+                        }}
                     />
                   </div>
                   
