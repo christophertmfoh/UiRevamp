@@ -140,9 +140,21 @@ export default function CharacterCreationWizardV4({
       if (savedDraft) {
         try {
           const draft = JSON.parse(savedDraft);
-          setDraftData(draft);
+          // Validate draft structure
+          if (draft && draft.method && draft.data && draft.lastSaved) {
+            // Ensure lastSaved is a valid date
+            if (typeof draft.lastSaved === 'string' || typeof draft.lastSaved === 'number') {
+              draft.lastSaved = new Date(draft.lastSaved);
+            }
+            // Only set draft if it's valid
+            if (draft.lastSaved instanceof Date && !isNaN(draft.lastSaved.getTime())) {
+              setDraftData(draft);
+            }
+          }
         } catch (error) {
           console.error('Failed to load draft:', error);
+          // Clear invalid draft
+          localStorage.removeItem(`character-draft-${projectId}`);
         }
       }
     }
@@ -281,7 +293,11 @@ export default function CharacterCreationWizardV4({
                   <div className="flex-1">
                     <h4 className="font-medium text-blue-900">Continue Previous Work</h4>
                     <p className="text-sm text-blue-700 mt-1">
-                      You have unsaved progress from {draftData.lastSaved.toLocaleDateString()}
+                      You have unsaved progress from {
+                        draftData.lastSaved instanceof Date 
+                          ? draftData.lastSaved.toLocaleDateString()
+                          : new Date(draftData.lastSaved).toLocaleDateString()
+                      }
                     </p>
                     <div className="flex items-center gap-3 mt-3">
                       <Button
@@ -289,7 +305,7 @@ export default function CharacterCreationWizardV4({
                         onClick={() => handleMethodSelect(draftData.method)}
                         className="bg-blue-600 hover:bg-blue-700"
                       >
-                        Continue ({Math.round(draftData.progress)}% complete)
+                        Continue ({Math.round(draftData.progress || 0)}% complete)
                       </Button>
                       <Button
                         size="sm"
