@@ -12,6 +12,7 @@ import {
   Stethoscope, Scale, Wrench
 } from 'lucide-react';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
+import { CharacterGenerationLoadingScreen } from './CharacterGenerationLoadingScreen';
 import type { Character } from '@/lib/types';
 
 interface CharacterTemplatesUnifiedProps {
@@ -399,8 +400,17 @@ export function CharacterTemplatesUnified({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
 
+  const [currentStep, setCurrentStep] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [generatedCharacter, setGeneratedCharacter] = useState<Character | null>(null);
+
   const generateMutation = useMutation({
     mutationFn: async (template: Template) => {
+      setIsGenerating(true);
+      setHasError(false);
+      
       const templateData = {
         name: template.name,
         description: template.description,
@@ -408,10 +418,33 @@ export function CharacterTemplatesUnified({
         traits: template.traits,
         role: 'Supporting Character'
       };
-      return await CharacterCreationService.generateFromTemplate(projectId, templateData);
+      
+      return await CharacterCreationService.generateFromTemplate(
+        projectId, 
+        templateData,
+        (step, progress) => {
+          setCurrentStep(step);
+          setProgress(progress);
+        }
+      );
     },
     onSuccess: (character) => {
-      onComplete(character as Character);
+      setGeneratedCharacter(character);
+      setCurrentStep('Complete!');
+      setProgress(100);
+      setIsGenerating(false);
+      
+      // Brief delay to show completion before closing
+      setTimeout(() => {
+        onComplete(character);
+      }, 1500);
+    },
+    onError: (error) => {
+      console.error('Template generation failed:', error);
+      setCurrentStep(`Generation failed: ${error.message}`);
+      setIsGenerating(false);
+      setHasError(true);
+      // Don't reset progress immediately to show error state
     }
   });
 
@@ -425,27 +458,47 @@ export function CharacterTemplatesUnified({
 
   const handleSelectTemplate = (template: Template) => {
     setSelectedTemplate(template);
+    setCurrentStep('Starting generation...');
+    setProgress(5);
+    setIsGenerating(true);
+    setHasError(false);
     generateMutation.mutate(template);
   };
 
-  if (generateMutation.isPending) {
+  // Show loading screen if generating or progress > 0
+  if (generateMutation.isPending || isGenerating || progress > 0) {
+    return (
+      <CharacterGenerationLoadingScreen
+        currentStep={currentStep}
+        progress={progress}
+        character={generatedCharacter}
+        isComplete={progress === 100 && !isGenerating}
+        templateName={selectedTemplate?.name}
+      />
+    );
+  }
+
+  // Show error screen if there's an error
+  if (hasError) {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full border-4 animate-spin border-border border-t-primary" />
-            <Sparkles className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary" />
-          </div>
+        <div className="text-center space-y-6 max-w-md">
+          <div className="text-destructive text-6xl">⚠️</div>
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-foreground">Creating Your Character</h3>
-            <p className="text-muted-foreground">
-              AI is expanding <strong className="text-primary">{selectedTemplate?.name}</strong> into a complete character...
-            </p>
+            <h3 className="text-xl font-semibold text-foreground">Generation Failed</h3>
+            <p className="text-muted-foreground">{currentStep}</p>
           </div>
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Expected time: {selectedTemplate?.timeEstimate}
-          </div>
+          <Button 
+            onClick={() => {
+              setHasError(false);
+              setProgress(0);
+              setCurrentStep('');
+              setSelectedTemplate(null);
+            }}
+            className="gap-2"
+          >
+            Try Again
+          </Button>
         </div>
       </div>
     );
