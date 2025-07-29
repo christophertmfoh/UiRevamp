@@ -1049,6 +1049,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         onComplete={(newCharacter) => {
           setSelectedCharacter(newCharacter);
           setIsV2WizardOpen(false);
+          // Force update to show the character card view
+          queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
         }}
         onTemplatesClick={() => {
           setIsV2WizardOpen(false);
@@ -1068,6 +1070,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         onComplete={(newCharacter) => {
           setSelectedCharacter(newCharacter);
           setIsV2TemplatesOpen(false);
+          // Force update to show the character card view
+          queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
         }}
       />
 
@@ -1076,9 +1080,11 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         isOpen={isTemplateModalOpen}
         onClose={() => setIsTemplateModalOpen(false)}
         projectId={projectId}
-        onSelectTemplate={(template) => {
-          console.log('Template selected:', template);
+        onSelectTemplate={(newCharacter) => {
+          setSelectedCharacter(newCharacter);
           setIsTemplateModalOpen(false);
+          // Force update to show the character card view
+          queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
         }}
       />
     </div>

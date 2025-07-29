@@ -24,6 +24,7 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { nanoid } from 'nanoid';
 import { debounce } from 'lodash-es';
+import { CharacterGenerationModal } from './CharacterGenerationModal';
 
 interface CharacterCreationWizardV2Props {
   isOpen: boolean;
@@ -223,6 +224,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<Record<string, string[]>>({});
   const [loadingSuggestions, setLoadingSuggestions] = useState<Set<string>>(new Set());
+  const [isAIGenerationOpen, setIsAIGenerationOpen] = useState(false);
   
   const autoSaveTimeoutRef = useRef<NodeJS.Timeout>();
   const queryClient = useQueryClient();
@@ -539,7 +541,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
               </p>
             </DialogHeader>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <Card className="group cursor-pointer transition-all duration-200 hover:shadow-lg border-2 border-accent/20 hover:border-accent/50 bg-card/30 hover:bg-card/50"
                    onClick={() => setMode('guided')}>
                 <CardHeader>
@@ -589,6 +591,40 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
                   <div className="text-xs text-muted-foreground">
                     <Clock className="h-3 w-3 inline mr-1" />
                     5-10 minutes • 20+ archetypes
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="group cursor-pointer transition-all duration-200 hover:shadow-lg border-2 border-purple-500/20 hover:border-purple-500/50 bg-gradient-to-br from-purple-500/5 to-pink-500/5 hover:from-purple-500/10 hover:to-pink-500/10"
+                   onClick={() => setIsAIGenerationOpen(true)}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Sparkles className="h-5 w-5 text-purple-500" />
+                    AI Character Creator
+                    <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">Popular</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Describe your character in natural language and let AI create a complete profile with portrait. Instant, intelligent, and comprehensive.
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3 w-3 text-green-500" />
+                      AI-generated portrait
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3 w-3 text-green-500" />
+                      Complete character data
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3 w-3 text-green-500" />
+                      Natural language input
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-3 w-3 text-green-500" />
+                      2-3 minutes
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -660,7 +696,7 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
 
         <div className="flex flex-1 overflow-hidden">
           {/* Navigation Sidebar */}
-          <div className="w-72 border-r border-border/30 bg-muted/20 p-4 overflow-y-auto flex-shrink-0">
+          <div className="w-80 border-r border-border/30 bg-muted/20 p-4 overflow-y-auto flex-shrink-0">
             <div className="space-y-2">
               {FIELD_CATEGORIES.map((category) => {
                 const isComplete = completedSections.has(category.id);
@@ -671,11 +707,11 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
                   <Button
                     key={category.id}
                     variant={isActive ? "default" : "ghost"}
-                    className={`w-full justify-start h-auto p-3 ${isActive ? 'bg-accent text-accent-foreground' : ''}`}
+                    className={`w-full justify-start h-auto p-4 ${isActive ? 'bg-accent text-accent-foreground' : 'hover:bg-muted/50'}`}
                     onClick={() => setActiveTab(category.id)}
                   >
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-start gap-3 w-full">
+                      <div className="flex items-center gap-2 mt-0.5">
                         <Icon className="h-4 w-4" />
                         {isComplete ? (
                           <CheckCircle2 className="h-3 w-3 text-green-500" />
@@ -683,12 +719,12 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
                           <Circle className="h-3 w-3 text-muted-foreground" />
                         )}
                       </div>
-                      <div className="flex-1 text-left">
-                        <div className="font-medium">{category.title}</div>
-                        <div className="text-xs text-muted-foreground truncate">
+                      <div className="flex-1 text-left min-w-0">
+                        <div className="font-semibold text-sm leading-tight mb-1">{category.title}</div>
+                        <div className="text-xs text-muted-foreground leading-relaxed mb-1 line-clamp-2">
                           {category.description}
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-foreground font-medium">
                           {category.estimatedTime}
                         </div>
                       </div>
@@ -804,5 +840,16 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
         </div>
       </DialogContent>
     </Dialog>
+
+    {/* AI Character Generation Modal */}
+    {isAIGenerationOpen && (
+      <CharacterGenerationModal
+        isOpen={isAIGenerationOpen}
+        onClose={() => setIsAIGenerationOpen(false)}
+        projectId={projectId}
+        onBack={() => setIsAIGenerationOpen(false)}
+      />
+    )}
+  </>
   );
 }
