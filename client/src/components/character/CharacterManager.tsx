@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Zap, FileText } from 'lucide-react';
+import { Plus, Users, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Zap, FileText } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character, Project } from '@/lib/types';
 import { CharacterDetailView } from './CharacterDetailView';
