@@ -165,39 +165,28 @@ export function ProjectWorkspace({
       >
         <CardHeader className={`${viewMode === 'list' ? 'pb-3' : 'pb-4'}`}>
           <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-3 flex-1 min-w-0">
+            <div className="flex items-start space-x-4 flex-1 min-w-0">
               <div className={`${
-                viewMode === 'list' ? 'w-10 h-10' : 'w-12 h-12'
-              } bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                viewMode === 'list' ? 'w-12 h-12' : 'w-14 h-14'
+              } bg-gradient-to-br from-primary/90 to-primary/60 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md border border-primary/20`}>
                 <Icon className={`${
-                  viewMode === 'list' ? 'w-5 h-5' : 'w-6 h-6'
+                  viewMode === 'list' ? 'w-6 h-6' : 'w-7 h-7'
                 } text-primary-foreground`} />
               </div>
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 flex-1 pt-1">
                 <CardTitle className={`${
-                  viewMode === 'list' ? 'text-base' : 'text-lg'
-                } font-bold group-hover:text-primary transition-colors truncate mb-1`}>
+                  viewMode === 'list' ? 'text-lg' : 'text-xl'
+                } font-bold group-hover:text-primary transition-colors truncate mb-2`}>
                   {project.name}
                 </CardTitle>
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="text-xs font-medium">
-                    {project.type}
-                  </Badge>
-                  {project.genre && (
-                    <Badge variant="outline" className="text-xs">
-                      {Array.isArray(project.genre) ? project.genre[0] : project.genre}
-                    </Badge>
-                  )}
-                </div>
+                <Badge variant="secondary" className="text-xs font-medium capitalize">
+                  {project.type?.replace('-', ' ')}
+                </Badge>
               </div>
             </div>
             {viewMode === 'list' && (
-              <div className="text-right flex-shrink-0 flex flex-col items-end gap-1">
-                <div className="flex items-center space-x-1 text-xs text-green-600 dark:text-green-400">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Active</span>
-                </div>
-                <p className="text-xs text-muted-foreground">
+              <div className="text-right flex-shrink-0 pt-1">
+                <p className="text-sm text-muted-foreground">
                   {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
                 </p>
               </div>
@@ -206,27 +195,28 @@ export function ProjectWorkspace({
         </CardHeader>
         
         {viewMode === 'grid' && (
-          <CardContent className="pt-0 pb-4 flex flex-col">
-            <CardDescription className="text-sm mb-4 line-clamp-2 flex-grow">
-              {project.synopsis || project.description || 'No description available'}
+          <CardContent className="pt-0 pb-5 flex flex-col">
+            <CardDescription className="text-sm mb-6 line-clamp-2 flex-grow text-muted-foreground/70 leading-relaxed">
+              {project.synopsis || project.description || `Start building your ${project.type?.replace('-', ' ')} project...`}
             </CardDescription>
-            <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border/50 pt-3 mt-auto">
+            <div className="flex items-center justify-between text-sm text-muted-foreground mt-auto border-t border-border/30 pt-3">
               <span className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
               </span>
-              <div className="flex items-center space-x-1 text-green-600 dark:text-green-400">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="font-medium">Active</span>
-              </div>
+              {project.genre && (
+                <Badge variant="outline" className="text-xs">
+                  {Array.isArray(project.genre) ? project.genre[0] : project.genre}
+                </Badge>
+              )}
             </div>
           </CardContent>
         )}
         
         {viewMode === 'list' && (
-          <CardContent className="pt-0 pb-4">
-            <CardDescription className="text-sm line-clamp-1">
-              {project.synopsis || project.description || 'No description available'}
+          <CardContent className="pt-0 pb-4 ml-16">
+            <CardDescription className="text-sm line-clamp-1 text-muted-foreground/70">
+              {project.synopsis || project.description || `Start building your ${project.type?.replace('-', ' ')} project...`}
             </CardDescription>
           </CardContent>
         )}
