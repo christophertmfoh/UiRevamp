@@ -154,26 +154,36 @@ export function ProjectWorkspace({
     return (
       <Card 
         key={project.id}
-        className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 ${
-          isSelected ? 'ring-2 ring-primary shadow-lg' : ''
-        } ${viewMode === 'list' ? 'hover:scale-100' : ''}`}
+        className={`group cursor-pointer transition-all duration-300 ${
+          viewMode === 'grid' 
+            ? 'hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1 min-h-[180px]' 
+            : 'hover:shadow-md hover:bg-accent/50'
+        } ${
+          isSelected ? 'ring-2 ring-primary shadow-lg' : 'shadow-sm'
+        }`}
         onClick={() => handleProjectSelect(project)}
       >
-        <CardHeader className={`${viewMode === 'list' ? 'pb-2' : 'pb-3'}`}>
-          <div className={`flex items-start ${viewMode === 'list' ? 'justify-between' : 'justify-between'}`}>
+        <CardHeader className={`${viewMode === 'list' ? 'pb-3' : 'pb-4'}`}>
+          <div className="flex items-start justify-between">
             <div className="flex items-center space-x-3 flex-1 min-w-0">
-              <div className={`${viewMode === 'list' ? 'w-8 h-8' : 'w-10 h-10'} bg-gradient-to-br from-primary to-primary/60 rounded-lg flex items-center justify-center flex-shrink-0`}>
-                <Icon className={`${viewMode === 'list' ? 'w-4 h-4' : 'w-5 h-5'} text-primary-foreground`} />
+              <div className={`${
+                viewMode === 'list' ? 'w-10 h-10' : 'w-12 h-12'
+              } bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                <Icon className={`${
+                  viewMode === 'list' ? 'w-5 h-5' : 'w-6 h-6'
+                } text-primary-foreground`} />
               </div>
               <div className="min-w-0 flex-1">
-                <CardTitle className={`${viewMode === 'list' ? 'text-base' : 'text-lg'} font-bold group-hover:text-primary transition-colors truncate`}>
+                <CardTitle className={`${
+                  viewMode === 'list' ? 'text-base' : 'text-lg'
+                } font-bold group-hover:text-primary transition-colors truncate mb-1`}>
                   {project.name}
                 </CardTitle>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge variant="secondary" className="text-xs">
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-xs font-medium">
                     {project.type}
                   </Badge>
-                  {viewMode === 'list' && project.genre && (
+                  {project.genre && (
                     <Badge variant="outline" className="text-xs">
                       {Array.isArray(project.genre) ? project.genre[0] : project.genre}
                     </Badge>
@@ -182,7 +192,11 @@ export function ProjectWorkspace({
               </div>
             </div>
             {viewMode === 'list' && (
-              <div className="text-right flex-shrink-0">
+              <div className="text-right flex-shrink-0 flex flex-col items-end gap-1">
+                <div className="flex items-center space-x-1 text-xs text-green-600 dark:text-green-400">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="font-medium">Active</span>
+                </div>
                 <p className="text-xs text-muted-foreground">
                   {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
                 </p>
@@ -192,22 +206,25 @@ export function ProjectWorkspace({
         </CardHeader>
         
         {viewMode === 'grid' && (
-          <CardContent className="pt-0">
-            <CardDescription className="text-sm mb-3 line-clamp-2">
+          <CardContent className="pt-0 pb-4 flex flex-col">
+            <CardDescription className="text-sm mb-4 line-clamp-2 flex-grow">
               {project.synopsis || project.description || 'No description available'}
             </CardDescription>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Updated {new Date(project.lastModified || project.createdAt).toLocaleDateString()}</span>
-              <div className="flex items-center space-x-2">
-                <Clock className="w-3 h-3" />
-                <span>Active</span>
+            <div className="flex items-center justify-between text-xs text-muted-foreground border-t border-border/50 pt-3 mt-auto">
+              <span className="flex items-center gap-1">
+                <Calendar className="w-3 h-3" />
+                {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
+              </span>
+              <div className="flex items-center space-x-1 text-green-600 dark:text-green-400">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="font-medium">Active</span>
               </div>
             </div>
           </CardContent>
         )}
         
         {viewMode === 'list' && (
-          <CardContent className="pt-0 pb-3">
+          <CardContent className="pt-0 pb-4">
             <CardDescription className="text-sm line-clamp-1">
               {project.synopsis || project.description || 'No description available'}
             </CardDescription>
@@ -495,8 +512,8 @@ export function ProjectWorkspace({
             {/* Projects Grid/List - Optimized Layout */}
             <div className={
               viewMode === 'grid' 
-                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6' 
-                : 'space-y-3'
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' 
+                : 'space-y-4'
             }>
               {filteredProjects.map(renderProjectCard)}
             </div>
