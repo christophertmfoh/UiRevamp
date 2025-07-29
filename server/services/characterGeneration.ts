@@ -2,7 +2,10 @@ import { storage } from "../storage";
 // Removed generateCharacterPrompt import - using inline prompt generation
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_X || process.env.GOOGLE_API_KEY_2 || process.env.GOOGLE_API_KEY_1 || process.env.GOOGLE_API_KEY || '');
+// TEMPORARY: Hard-code working API key for testing
+const apiKey = 'AIzaSyD93b8viK2qXl5pG6FteUY3h9MO-kBjfHQ'; // GOOGLE_API_KEY_2
+console.log('Character Generation using API key:', apiKey.substring(0, 10) + '...');
+const genAI = new GoogleGenerativeAI(apiKey);
 
 interface GenerateCharacterParams {
   projectId: string;
