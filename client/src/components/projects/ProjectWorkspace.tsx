@@ -46,7 +46,6 @@ import {
   Palette,
   Layout,
   MapPin,
-  Timeline,
   Image,
   ClipboardList,
   Lock,
@@ -72,7 +71,7 @@ export function ProjectWorkspace({
   projects: projectsData,
   isLoading
 }: ProjectWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'world'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'storyboard' | 'previs' | 'score'>('overview');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'outline' | 'manuscript' | 'storyboard' | 'previs' | 'score'>('overview');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -251,7 +250,7 @@ export function ProjectWorkspace({
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="space-y-6">
           {/* Tab Navigation */}
           <div className="flex items-center justify-between">
-            <TabsList className="grid w-fit grid-cols-3 bg-card/50 backdrop-blur-sm">
+            <TabsList className="grid w-fit grid-cols-7 bg-card/50 backdrop-blur-sm">
               <TabsTrigger value="overview" className="flex items-center space-x-2">
                 <BarChart3 className="w-4 h-4" />
                 <span>Overview</span>
@@ -260,9 +259,25 @@ export function ProjectWorkspace({
                 <BookOpen className="w-4 h-4" />
                 <span>Projects</span>
               </TabsTrigger>
+              <TabsTrigger value="studio" className="flex items-center space-x-2">
+                <Layout className="w-4 h-4" />
+                <span>Studio Overview</span>
+              </TabsTrigger>
               <TabsTrigger value="world" className="flex items-center space-x-2">
                 <Globe className="w-4 h-4" />
                 <span>World Bible</span>
+              </TabsTrigger>
+              <TabsTrigger value="storyboard" className="flex items-center space-x-2">
+                <Image className="w-4 h-4" />
+                <span>Storyboard</span>
+              </TabsTrigger>
+              <TabsTrigger value="previs" className="flex items-center space-x-2">
+                <Video className="w-4 h-4" />
+                <span>Pre-Vis</span>
+              </TabsTrigger>
+              <TabsTrigger value="score" className="flex items-center space-x-2">
+                <Music className="w-4 h-4" />
+                <span>Score</span>
               </TabsTrigger>
             </TabsList>
 
@@ -366,329 +381,229 @@ export function ProjectWorkspace({
             )}
           </TabsContent>
 
+          <TabsContent value="studio" className="space-y-6">
+            <div className="space-y-6">
+              <div className="text-center py-12">
+                <Layout className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-2xl font-bold mb-4">Studio Overview</h3>
+                <p className="text-muted-foreground mb-6">
+                  Your creative pipeline and project management hub
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <Globe className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">World Bible</h4>
+                      <p className="text-sm text-muted-foreground">0 Items</p>
+                      <p className="text-xs text-muted-foreground mt-1">Develop your characters and story elements</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <ClipboardList className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">Outline</h4>
+                      <p className="text-sm text-muted-foreground">0 Beats</p>
+                      <p className="text-xs text-muted-foreground mt-1">Structure your story with detailed plotting</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <FileText className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">Manuscript</h4>
+                      <p className="text-sm text-muted-foreground">0 Pages</p>
+                      <p className="text-xs text-muted-foreground mt-1">Write your story in novel, script, or graphic formats</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="hover:shadow-lg transition-all cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <Image className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-semibold mb-2">Storyboard</h4>
+                      <p className="text-sm text-muted-foreground">0 Items</p>
+                      <p className="text-xs text-muted-foreground mt-1">Visualize scenes and camera movements</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
           <TabsContent value="world" className="space-y-6">
             {selectedProject ? (
-              <div className="space-y-6">
-                {/* Project Header */}
-                <Card>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle className="flex items-center space-x-3">
-                          <Globe className="w-6 h-6 text-primary" />
-                          <span>{selectedProject.name} - World Bible</span>
-                        </CardTitle>
-                        <CardDescription>
-                          Comprehensive world-building and creative development hub
-                        </CardDescription>
-                      </div>
+              <div className="flex space-x-6">
+                {/* Categories Sidebar */}
+                <div className="w-64 flex-shrink-0">
+                  <Card>
+                    <CardHeader className="pb-4">
+                      <CardTitle className="text-lg">Categories</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
                       <Button
-                        variant="outline"
-                        onClick={() => {
-                          setSelectedProject(null);
-                          setActiveTab('projects');
-                        }}
-                      >
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Projects
-                      </Button>
-                    </div>
-                  </CardHeader>
-                </Card>
-
-                {/* World Bible Navigation */}
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-                      {/* World Overview */}
-                      <Button
-                        variant={worldSection === 'overview' ? 'default' : 'outline'}
+                        variant={worldSection === 'overview' ? 'default' : 'ghost'}
                         onClick={() => setWorldSection('overview')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
+                        className="w-full justify-start"
                       >
-                        <Layout className="w-6 h-6" />
-                        <span className="text-xs">Overview</span>
+                        <Globe className="w-4 h-4 mr-2" />
+                        <span>Overview</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
                       </Button>
-
-                      {/* Characters (where your character system goes) */}
                       <Button
-                        variant={worldSection === 'characters' ? 'default' : 'outline'}
+                        variant={worldSection === 'characters' ? 'default' : 'ghost'}
                         onClick={() => setWorldSection('characters')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
+                        className="w-full justify-start"
                       >
-                        <Users className="w-6 h-6" />
-                        <span className="text-xs">Characters</span>
+                        <Users className="w-4 h-4 mr-2" />
+                        <span>Characters</span>
+                        <Badge variant="secondary" className="ml-auto">{characters.length}</Badge>
                       </Button>
+                    </CardContent>
+                  </Card>
+                </div>
 
-                      {/* Locations */}
-                      <Button
-                        variant={worldSection === 'locations' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('locations')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <MapPin className="w-6 h-6" />
-                        <span className="text-xs">Locations</span>
-                      </Button>
-
-                      {/* Timeline */}
-                      <Button
-                        variant={worldSection === 'timeline' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('timeline')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <Clock className="w-6 h-6" />
-                        <span className="text-xs">Timeline</span>
-                      </Button>
-
-                      {/* Outline */}
-                      <Button
-                        variant={worldSection === 'outline' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('outline')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <ClipboardList className="w-6 h-6" />
-                        <span className="text-xs">Outline</span>
-                      </Button>
-
-                      {/* Manuscript */}
-                      <Button
-                        variant={worldSection === 'manuscript' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('manuscript')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <FileText className="w-6 h-6" />
-                        <span className="text-xs">Manuscript</span>
-                      </Button>
-
-                      {/* Storyboard */}
-                      <Button
-                        variant={worldSection === 'storyboard' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('storyboard')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <Image className="w-6 h-6" />
-                        <span className="text-xs">Storyboard</span>
-                      </Button>
-
-                      {/* Score */}
-                      <Button
-                        variant={worldSection === 'score' ? 'default' : 'outline'}
-                        onClick={() => setWorldSection('score')}
-                        className="flex flex-col items-center space-y-2 h-auto py-4"
-                      >
-                        <Music className="w-6 h-6" />
-                        <span className="text-xs">Score</span>
+                {/* Main Content Area */}
+                <div className="flex-1">
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h1 className="text-3xl font-bold">World Bible</h1>
+                      <div className="flex items-center mt-2">
+                        <Button
+                          variant="ghost"
+                          onClick={() => setActiveTab('projects')}
+                          className="text-muted-foreground hover:text-foreground p-0 h-auto"
+                        >
+                          <ArrowLeft className="w-4 h-4 mr-2" />
+                          Back to Dashboard
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Search world..."
+                          className="pl-10 w-64"
+                        />
+                      </div>
+                      <Button variant="outline">
+                        <Filter className="w-4 h-4 mr-2" />
+                        Filter
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
 
-                {/* World Bible Content */}
-                <Card>
-                  <CardContent className="p-6">
-                    {worldSection === 'overview' && (
-                      <div className="space-y-6">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-2xl font-bold">World Overview</h3>
-                          <Button size="sm" className="gradient-primary">
-                            <Plus className="w-4 h-4 mr-2" />
-                            Add Element
-                          </Button>
-                        </div>
-                        
-                        {/* Project Synopsis */}
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Project Synopsis</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-muted-foreground">
-                              {selectedProject.synopsis || selectedProject.description || 'No synopsis available'}
-                            </p>
-                          </CardContent>
-                        </Card>
-
-                        {/* Quick Stats */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                          <Card>
-                            <CardContent className="p-4 text-center">
-                              <Users className="w-8 h-8 mx-auto mb-2 text-primary" />
-                              <div className="text-2xl font-bold">{characters.length}</div>
-                              <div className="text-sm text-muted-foreground">Characters</div>
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardContent className="p-4 text-center">
-                              <MapPin className="w-8 h-8 mx-auto mb-2 text-primary" />
-                              <div className="text-2xl font-bold">0</div>
-                              <div className="text-sm text-muted-foreground">Locations</div>
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardContent className="p-4 text-center">
-                              <Clock className="w-8 h-8 mx-auto mb-2 text-primary" />
-                              <div className="text-2xl font-bold">0</div>
-                              <div className="text-sm text-muted-foreground">Timeline Events</div>
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardContent className="p-4 text-center">
-                              <FileText className="w-8 h-8 mx-auto mb-2 text-primary" />
-                              <div className="text-2xl font-bold">1</div>
-                              <div className="text-sm text-muted-foreground">Manuscripts</div>
-                            </CardContent>
-                          </Card>
+                  {/* Project Info */}
+                  <Card className="mb-6">
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <h2 className="text-2xl font-bold">{selectedProject.name}</h2>
+                          <Badge className="gradient-primary text-primary-foreground">
+                            {selectedProject.type}
+                          </Badge>
                         </div>
                       </div>
-                    )}
+                      <p className="text-muted-foreground italic">
+                        Add a synopsis to describe your project...
+                      </p>
+                    </CardContent>
+                  </Card>
 
-                    {worldSection === 'characters' && (
-                      <div className="space-y-6">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-2xl font-bold">Character Management</h3>
-                          <Button size="sm" className="gradient-primary">
-                            <Plus className="w-4 h-4 mr-2" />
-                            Create Character
-                          </Button>
-                        </div>
-                        
-                        {characters.length > 0 ? (
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {characters.map((character) => (
-                              <Card key={character.id} className="group hover:shadow-lg transition-all">
-                                <CardContent className="p-4">
-                                  <div className="flex items-center space-x-3 mb-3">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-                                      <Users className="w-6 h-6 text-primary-foreground" />
-                                    </div>
-                                    <div>
-                                      <h4 className="font-semibold">{character.name || 'Unnamed Character'}</h4>
-                                      <p className="text-sm text-muted-foreground">{character.role || 'No role defined'}</p>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                      <span>Completion</span>
-                                      <span>{calculateCompletion(character)}%</span>
-                                    </div>
-                                    <Progress value={calculateCompletion(character)} className="h-2" />
-                                  </div>
-                                  <div className="mt-3 flex space-x-2">
-                                    <Button size="sm" variant="outline" className="flex-1">
-                                      <Edit3 className="w-3 h-3 mr-1" />
-                                      Edit
-                                    </Button>
-                                    <Button size="sm" variant="outline" className="flex-1">
-                                      <Eye className="w-3 h-3 mr-1" />
-                                      View
-                                    </Button>
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            ))}
+                  {/* Content based on selected section */}
+                  {worldSection === 'overview' && (
+                    <div className="text-center py-12">
+                      <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full">
+                        <Users className="w-8 h-8 text-primary" />
+                      </div>
+                      <div className="text-6xl font-bold text-foreground mb-2">
+                        {characters.length}
+                      </div>
+                      <div className="text-muted-foreground">Characters</div>
+                    </div>
+                  )}
+
+                  {worldSection === 'characters' && (
+                    <div className="space-y-6">
+                      {/* Featured Characters Section */}
+                      <Card>
+                        <CardHeader>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <Users className="w-5 h-5 text-primary" />
+                              <CardTitle>Featured Characters</CardTitle>
+                              <Badge variant="secondary">{characters.length}</Badge>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                <span>Sort by:</span>
+                                <Button variant="ghost" size="sm" className="h-auto p-1">
+                                  Custom Order
+                                  <ChevronRight className="w-3 h-3 ml-1" />
+                                </Button>
+                              </div>
+                              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                <span>Show:</span>
+                                <Button variant="ghost" size="sm" className="h-auto p-1">
+                                  6
+                                  <ChevronRight className="w-3 h-3 ml-1" />
+                                </Button>
+                              </div>
+                              <Button size="sm" variant="outline">
+                                <SortAsc className="w-4 h-4" />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Settings className="w-4 h-4" />
+                              </Button>
+                            </div>
                           </div>
-                        ) : (
-                          <div className="text-center py-12">
-                            <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                            <h3 className="text-lg font-medium mb-2">No Characters Yet</h3>
-                            <p className="text-muted-foreground mb-4">
-                              Start building your world by creating compelling characters with the full 164+ field system
-                            </p>
-                            <Button className="gradient-primary">
-                              <Plus className="w-4 h-4 mr-2" />
-                              Create Your First Character
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Other sections - placeholder for now */}
-                    {worldSection === 'locations' && (
-                      <div className="text-center py-12">
-                        <MapPin className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Locations & Settings</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Create and manage the places where your story unfolds
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Location
-                        </Button>
-                      </div>
-                    )}
-
-                    {worldSection === 'timeline' && (
-                      <div className="text-center py-12">
-                        <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Timeline & Events</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Organize the chronology of your story events
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Event
-                        </Button>
-                      </div>
-                    )}
-
-                    {worldSection === 'outline' && (
-                      <div className="text-center py-12">
-                        <ClipboardList className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Story Outline</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Structure and organize your narrative arc
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Chapter
-                        </Button>
-                      </div>
-                    )}
-
-                    {worldSection === 'manuscript' && (
-                      <div className="text-center py-12">
-                        <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Manuscript Editor</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Write and refine your prose with advanced editing tools
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Open Editor
-                        </Button>
-                      </div>
-                    )}
-
-                    {worldSection === 'storyboard' && (
-                      <div className="text-center py-12">
-                        <Image className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Visual Storyboard</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Create visual representations of scenes and sequences
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Scene
-                        </Button>
-                      </div>
-                    )}
-
-                    {worldSection === 'score' && (
-                      <div className="text-center py-12">
-                        <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">Musical Score</h3>
-                        <p className="text-muted-foreground mb-4">
-                          Compose and manage musical elements for your project
-                        </p>
-                        <Button className="gradient-primary">
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Track
-                        </Button>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+                        </CardHeader>
+                        <CardContent>
+                          {characters.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {characters.map((character) => (
+                                <Card key={character.id} className="group hover:shadow-lg transition-all cursor-pointer">
+                                  <CardContent className="p-4">
+                                    <div className="flex items-center space-x-3 mb-3">
+                                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
+                                        <Users className="w-6 h-6 text-primary-foreground" />
+                                      </div>
+                                      <div>
+                                        <h4 className="font-semibold">{character.name || 'Unnamed Character'}</h4>
+                                        <p className="text-sm text-muted-foreground">{character.role || 'No role defined'}</p>
+                                      </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                      <div className="flex justify-between text-sm">
+                                        <span>Completion</span>
+                                        <span>{calculateCompletion(character)}%</span>
+                                      </div>
+                                      <Progress value={calculateCompletion(character)} className="h-2" />
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center py-12">
+                              <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                              <h3 className="text-lg font-medium mb-2">No Characters Yet</h3>
+                              <p className="text-muted-foreground mb-4">
+                                Start building your world by creating compelling characters with the full 164+ field system
+                              </p>
+                              <Button className="gradient-primary">
+                                <Plus className="w-4 h-4 mr-2" />
+                                Create Your First Character
+                              </Button>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <Card className="text-center py-12">
@@ -701,6 +616,48 @@ export function ProjectWorkspace({
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="storyboard" className="space-y-6">
+            <div className="text-center py-12">
+              <Image className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Visual Storyboard</h3>
+              <p className="text-muted-foreground mb-6">
+                Create visual representations of scenes and sequences
+              </p>
+              <Button className="gradient-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Scene
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="previs" className="space-y-6">
+            <div className="text-center py-12">
+              <Video className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Pre-Vis</h3>
+              <p className="text-muted-foreground mb-6">
+                Create pre-visualization and motion planning for your scenes
+              </p>
+              <Button className="gradient-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Pre-Vis Element
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="score" className="space-y-6">
+            <div className="text-center py-12">
+              <Music className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Musical Score</h3>
+              <p className="text-muted-foreground mb-6">
+                Compose and manage musical elements for your project
+              </p>
+              <Button className="gradient-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Track
+              </Button>
+            </div>
           </TabsContent>
 
         </Tabs>
