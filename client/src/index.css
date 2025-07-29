@@ -45,6 +45,20 @@
     --surface-muted: 45 15% 90%;           /* Muted surface */
     --orb-primary: 350 70% 35%;            /* Burgundy orb */
     --orb-secondary: 25 60% 40%;           /* Brown orb */
+    
+    /* Auth page specific theme colors */
+    --auth-brand-primary: 350 70% 35%;     /* Primary brand color */
+    --auth-brand-secondary: 25 60% 40%;    /* Secondary brand color */
+    --auth-panel-gradient-from: 160 84% 39%; /* Emerald 600 */
+    --auth-panel-gradient-via: 160 84% 31%;  /* Emerald 700 */
+    --auth-panel-gradient-to: 20 14% 36%;    /* Stone 800 */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 160 84% 75%; /* Emerald 100 */
+    --auth-form-bg: 20 14% 98%;             /* Stone 50 */
+    --auth-card-bg: 0 0% 100%;              /* White */
+    --auth-input-border: 20 14% 80%;        /* Stone 300 */
+    --auth-button-primary: 160 84% 39%;     /* Emerald 600 */
+    --auth-button-primary-hover: 160 84% 31%; /* Emerald 700 */
   }
 
   /* Arctic Focus - Cool blues and whites (minimal, clean) */
