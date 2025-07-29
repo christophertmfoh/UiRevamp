@@ -271,6 +271,7 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
       case 'guided':
         return (
           <div className="space-y-6">
+            {/* Progress Indicator */}
             <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/20">
               <Plus className="h-6 w-6 text-accent" />
               <div className="flex-1">
@@ -298,6 +299,7 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
       case 'templates':
         return (
           <div className="space-y-6">
+            {/* Progress Indicator */}
             <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/20">
               <FileText className="h-6 w-6 text-accent" />
               <div className="flex-1">
