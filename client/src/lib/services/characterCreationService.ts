@@ -310,10 +310,32 @@ export class CharacterCreationService {
   }
 
   /**
-   * Method 2: AI Template Generation with automatic portrait
-   * Complete end-to-end flow: Generate → Portrait → Full Character View
+   * Method 2: AI Template Generation - DEPRECATED
+   * Now uses generateFromPrompt() with template-built prompts
+   * @deprecated Use generateFromPrompt() instead
    */
   static async generateFromTemplate(
+    projectId: string,
+    templateData: TemplateData,
+    onProgress?: (step: string, progress: number) => void
+  ): Promise<Character> {
+    // DEPRECATED: Redirect to unified generateFromPrompt method
+    console.warn('generateFromTemplate is deprecated. Use generateFromPrompt instead.');
+    
+    // Build template prompt (same logic as frontend now uses)
+    let templatePrompt = `Create a detailed ${templateData.name} character.`;
+    if (templateData.description) templatePrompt += ` ${templateData.description}`;
+    if (templateData.category) templatePrompt += ` This is a ${templateData.category} character.`;
+    if (templateData.traits?.length) templatePrompt += ` Key traits: ${templateData.traits.join(', ')}.`;
+    templatePrompt += ` Develop this into a fully realized character.`;
+    
+    return this.generateFromPrompt(projectId, templatePrompt, onProgress);
+  }
+
+  /**
+   * Method 2 (Updated): AI Template Generation - DEPRECATED IMPLEMENTATION
+   */
+  static async _generateFromTemplate_OLD(
     projectId: string,
     templateData: TemplateData,
     onProgress?: (step: string, progress: number) => void

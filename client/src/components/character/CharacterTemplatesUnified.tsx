@@ -411,17 +411,27 @@ export function CharacterTemplatesUnified({
       setIsGenerating(true);
       setHasError(false);
       
-      const templateData = {
-        name: template.name,
-        description: template.description,
-        category: template.category,
-        traits: template.traits,
-        role: 'Supporting Character'
-      };
+      // Build rich prompt from template data (same as backend was doing)
+      let templatePrompt = `Create a detailed ${template.name} character.`;
       
-      return await CharacterCreationService.generateFromTemplate(
-        projectId, 
-        templateData,
+      if (template.description) {
+        templatePrompt += ` ${template.description}`;
+      }
+      
+      if (template.category) {
+        templatePrompt += ` This is a ${template.category} character.`;
+      }
+      
+      if (template.traits && template.traits.length > 0) {
+        templatePrompt += ` Key personality traits: ${template.traits.join(', ')}.`;
+      }
+      
+      templatePrompt += ` Develop this archetype into a fully realized character with comprehensive details across all categories: identity, appearance, personality, psychology, abilities, background, relationships, cultural context, story role, and meta information.`;
+      
+      // Use the SAME method as Custom AI - just with a different prompt!
+      return await CharacterCreationService.generateFromPrompt(
+        projectId,
+        templatePrompt,
         (step, progress) => {
           setCurrentStep(step);
           setProgress(progress);
