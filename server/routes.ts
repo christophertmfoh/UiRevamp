@@ -400,34 +400,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Import AI generation service
       const { generateCharacterFromPrompt } = await import('./services/aiGeneration');
       
-      // Create a comprehensive prompt from the template data
-      let prompt = `Create a detailed character based on this template:`;
-      
-      if (templateData.name) {
-        prompt += ` Name: ${templateData.name}.`;
-      }
-      
-      if (templateData.description) {
-        prompt += ` Description: ${templateData.description}.`;
-      }
-      
-      if (templateData.category) {
-        prompt += ` Category: ${templateData.category}.`;
-      }
-      
-      if (templateData.role) {
-        prompt += ` Role: ${templateData.role}.`;
-      }
-      
+      // Create an enhanced, comprehensive prompt from the template data
+      let prompt = `You are a master character creator for storytelling. Create a detailed, compelling character based on this professional template:
+
+TEMPLATE BASE:
+- Name: ${templateData.name || 'Character Name'}
+- Archetype: ${templateData.description || 'Character Description'} 
+- Category: ${templateData.category || 'Universal'}
+- Core Role: ${templateData.role || 'Supporting Character'}`;
+
       if (templateData.traits && Array.isArray(templateData.traits)) {
-        prompt += ` Personality traits: ${templateData.traits.join(', ')}.`;
+        prompt += `
+- Base Personality Traits: ${templateData.traits.join(', ')}`;
       }
-      
+
       if (templateData.background) {
-        prompt += ` Background: ${templateData.background}.`;
+        prompt += `
+- Foundation Background: ${templateData.background}`;
       }
-      
-      prompt += ` Please expand this template into a comprehensive character with full details for all character fields including appearance, personality, abilities, relationships, and story elements.`;
+
+      if (templateData.goals) {
+        prompt += `
+- Core Goals: ${templateData.goals}`;
+      }
+
+      if (templateData.motivations) {
+        prompt += `
+- Key Motivations: ${templateData.motivations}`;
+      }
+
+      prompt += `
+
+ENHANCEMENT REQUIREMENTS:
+Expand this template into a fully realized character with comprehensive details:
+
+1. IDENTITY & APPEARANCE:
+   - Age, species, gender, build, height
+   - Distinctive physical features, clothing style
+   - Voice, mannerisms, presence
+
+2. PERSONALITY & PSYCHOLOGY:
+   - Expand personality traits with depth and nuance
+   - Core values, beliefs, moral compass
+   - Fears, insecurities, internal conflicts
+   - Strengths, weaknesses, quirks
+
+3. BACKGROUND & HISTORY:
+   - Detailed backstory and formative experiences
+   - Family, upbringing, education
+   - Key life events that shaped them
+   - Current circumstances and living situation
+
+4. ABILITIES & SKILLS:
+   - Natural talents and learned skills
+   - Combat abilities (if applicable)
+   - Social, intellectual, creative capabilities
+   - Special powers or unique abilities
+
+5. RELATIONSHIPS & SOCIAL:
+   - Important relationships (family, friends, enemies)
+   - Social status and reputation
+   - How they interact with others
+   - Leadership style and social dynamics
+
+6. STORY INTEGRATION:
+   - Character arc potential and growth
+   - Role in narrative conflicts
+   - How they drive or complicate plots
+   - Secrets, mysteries, hidden depths
+
+Ensure the character feels authentic, three-dimensional, and compelling for storytelling. Build upon the template foundation while adding rich detail and depth.`;
       
       // Generate character data using AI
       const generatedData = await generateCharacterFromPrompt(prompt);

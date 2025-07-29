@@ -514,10 +514,12 @@ interface CharacterTemplatesProps {
 export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenerating = false }: CharacterTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<CharacterTemplate | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   
   // Template generation mutation
   const generateMutation = useMutation({
     mutationFn: async (template: CharacterTemplate) => {
+      setIsGenerating(true);
       const templateData = {
         name: template.name,
         description: template.description,
@@ -530,11 +532,13 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
       return await CharacterCreationService.generateFromTemplate(projectId, templateData);
     },
     onSuccess: (character) => {
+      setIsGenerating(false);
       onSelectTemplate?.(character as Character);
       onClose();
     },
     onError: (error) => {
       console.error('Template generation failed:', error);
+      setIsGenerating(false);
     }
   });
 
@@ -758,5 +762,49 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
         )}
       </DialogContent>
     </Dialog>
+
+    {/* AI Template Generation Loading Overlay */}
+    {isGenerating && (
+      <Dialog open={true} onOpenChange={() => {}}>
+        <DialogContent className="max-w-md [&>button]:hidden">
+          <div className="flex flex-col items-center text-center space-y-6 py-8">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin"></div>
+              <FileText className="w-6 h-6 text-emerald-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-emerald-600">AI-Enhanced Template</h3>
+              <p className="text-muted-foreground">
+                Expanding {selectedTemplate?.name} with comprehensive AI details and generating portrait
+              </p>
+            </div>
+
+            <div className="w-full space-y-2">
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full animate-pulse"></div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                AI is enhancing {selectedTemplate?.name} template with detailed information and generating portrait automatically
+              </p>
+            </div>
+
+            <div className="bg-muted/50 rounded-lg p-4 w-full">
+              <h4 className="font-semibold text-sm mb-2 text-emerald-700">AI is enhancing:</h4>
+              <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                <div>• Character identity</div>
+                <div>• Physical appearance</div>
+                <div>• Personality depth</div>
+                <div>• Background stories</div>
+                <div>• Abilities & skills</div>
+                <div>• Relationships</div>
+                <div>• Story integration</div>
+                <div>• Character portrait</div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )}
   );
 }
