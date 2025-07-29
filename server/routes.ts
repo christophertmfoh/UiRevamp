@@ -362,8 +362,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character creation route (standard)
-  app.post("/api/projects/:projectId/characters", async (req, res) => {
+  // Character creation route (standard) - DISABLED: Now handled by characterRouter with optionalAuth
+  /* app.post("/api/projects/:projectId/characters", async (req, res) => {
     try {
       const { projectId } = req.params;
       console.log(`Creating character for project ${projectId}`);
@@ -387,7 +387,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         details: errorMessage 
       });
     }
-  });
+  }); */
 
   // Character template generation route - DISABLED: Now handled by characterRouter with optionalAuth
   /* app.post("/api/projects/:projectId/characters/generate-from-template", async (req, res) => {

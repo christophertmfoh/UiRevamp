@@ -53,9 +53,9 @@ export class CharacterCreationService {
       console.log('📤 Sending request to:', `/api/projects/${projectId}/characters/generate`);
       console.log('📤 Request body:', requestBody);
       
-      // TEMPORARY FIX: Demo character generation for testing when server is down
-      if (true) { // Set to false when server is working
-        console.log('🔧 DEMO MODE: Generating mock character for testing');
+              // TEMPORARY FIX: Demo character generation for testing when server is down
+        if (false) { // Set to false when server is working
+          console.log('🔧 DEMO MODE: Generating mock character for testing');
         
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -331,9 +331,9 @@ export class CharacterCreationService {
       console.log('📤 Sending request to:', `/api/projects/${projectId}/characters/generate-from-template`);
       console.log('📤 Request body:', requestBody);
       
-      // TEMPORARY FIX: Demo character generation for testing when server is down
-      if (true) { // Set to false when server is working
-        console.log('🔧 DEMO MODE: Generating mock template character for testing');
+              // TEMPORARY FIX: Demo character generation for testing when server is down
+        if (false) { // Set to false when server is working
+          console.log('🔧 DEMO MODE: Generating mock template character for testing');
         
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1000));

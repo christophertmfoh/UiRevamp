@@ -10,6 +10,11 @@ import multer from "multer";
 
 export const characterRouter = Router();
 
+// DEBUG ROUTE: Test if character router is being hit
+characterRouter.post("/projects/:projectId/characters/test-route", async (req, res) => {
+  res.json({ message: "Character router is working!", projectId: req.params.projectId, body: req.body });
+});
+
 // Configure multer for file uploads
 const upload = multer({
   dest: 'uploads/',
@@ -131,16 +136,32 @@ characterRouter.post("/projects/:projectId/characters/generate-from-template", a
       return res.status(404).json({ error: "Project not found" });
     }
     
-    // Generate character with template data as prompts
+    // Generate character with enhanced template prompt
+    let templatePrompt = `Create a detailed ${templateData?.name || 'character'} character.`;
+    
+    if (templateData?.description) {
+      templatePrompt += ` ${templateData.description}`;
+    }
+    
+    if (templateData?.category) {
+      templatePrompt += ` This is a ${templateData.category} character.`;
+    }
+    
+    if (templateData?.traits && Array.isArray(templateData.traits) && templateData.traits.length > 0) {
+      templatePrompt += ` Key personality traits: ${templateData.traits.join(', ')}.`;
+    }
+    
+    templatePrompt += ` Develop this archetype into a fully realized character with comprehensive details across all categories: identity, appearance, personality, psychology, abilities, background, relationships, cultural context, story role, and meta information.`;
+    
     const character = await generateCharacterWithAI({
       projectId,
       projectName: project.name,
       projectDescription: project.description || '',
       characterType: templateData?.category || 'character',
-      role: templateData?.role || 'character',
-      customPrompt: `Generate a character based on this template: ${templateData?.name || 'character template'}`,
-      personality: templateData?.personality || '',
-      archetype: templateData?.archetype || templateData?.name || 'character'
+      role: templateData?.role || 'Supporting Character',
+      customPrompt: templatePrompt,
+      personality: templateData?.traits?.join(', ') || '',
+      archetype: templateData?.name || 'character'
     });
     
     // Generate portrait for the character
