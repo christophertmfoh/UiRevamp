@@ -18,8 +18,6 @@ import { ProjectCreationWizard } from './components/project/ProjectCreationWizar
 import { ProjectModal, ConfirmDeleteModal, ImportManuscriptModal, IntelligentImportModal } from './components/Modals';
 import { AuthPageRedesign } from './pages/AuthPageRedesign';
 import { FloatingOrbs } from './components/FloatingOrbs';
-import { ProfessionalNav } from './components/navigation/ProfessionalNav';
-import { Breadcrumb, generateBreadcrumbs } from './components/navigation/Breadcrumb';
 
 // Initialize ResizeObserver fix before any components mount
 import { initializeResizeObserverFix } from './utils/resizeObserverFix';
@@ -128,7 +126,7 @@ const applyScrollbarStyles = () => {
   document.head.appendChild(style);
 };
 
-type View = 'landing' | 'auth' | 'projects' | 'dashboard' | 'characters' | 'world' | 'templates';
+type View = 'landing' | 'auth' | 'projects' | 'dashboard';
 type ModalType = 'new' | 'edit' | 'rename' | 'delete' | 'goals' | 'tasks' | 'importManuscript' | 'import' | null;
 
 interface Modal {
@@ -153,9 +151,6 @@ export default function App() {
     if (path === '/projects') setView('projects');
     else if (path === '/dashboard') setView('dashboard');
     else if (path === '/auth') setView('auth');
-    else if (path === '/characters') setView('characters');
-    else if (path === '/world') setView('world');  
-    else if (path === '/templates') setView('templates');
     else setView('landing');
     
     const initializeAuth = async () => {
@@ -539,10 +534,7 @@ export default function App() {
       'landing': '/',
       'projects': '/projects', 
       'dashboard': '/dashboard',
-      'auth': '/auth',
-      'characters': '/characters',
-      'world': '/world',
-      'templates': '/templates'
+      'auth': '/auth'
     };
     
     window.history.pushState({}, '', paths[viewName] || '/');
@@ -634,54 +626,6 @@ export default function App() {
             onBack={() => navigateToView('landing')}
           />
         );
-      case 'characters':
-        return (
-          <div className="min-h-screen bg-background p-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center py-16">
-                <h1 className="text-4xl font-bold text-foreground mb-4">Character Management</h1>
-                <p className="text-muted-foreground mb-8">
-                  Advanced character creation and management with 164+ fields will be available here.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  This feature will be enhanced in Phase 2 of the professional polish.
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-      case 'world':
-        return (
-          <div className="min-h-screen bg-background p-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center py-16">
-                <h1 className="text-4xl font-bold text-foreground mb-4">World Bible</h1>
-                <p className="text-muted-foreground mb-8">
-                  Comprehensive world-building tools and documentation system will be available here.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  This feature will be enhanced in Phase 4 of the professional polish.
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-      case 'templates':
-        return (
-          <div className="min-h-screen bg-background p-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center py-16">
-                <h1 className="text-4xl font-bold text-foreground mb-4">Project Templates</h1>
-                <p className="text-muted-foreground mb-8">
-                  Ready-to-use templates for novels, screenplays, comics, D&D campaigns, and poetry will be available here.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  This feature will be enhanced in Phase 4 of the professional polish.
-                </p>
-              </div>
-            </div>
-          </div>
-        );
       default:
         // Simple test interface for other views
         return (
@@ -744,37 +688,8 @@ export default function App() {
             <TooltipProvider>
               <div className={`min-h-screen bg-background text-foreground ${guideMode ? 'guide-mode' : ''}`}>
                 <FloatingOrbs />
-                
-                {/* Professional Navigation */}
-                <ProfessionalNav
-                  user={user}
-                  isAuthenticated={isAuthenticated}
-                  currentView={view}
-                  onNavigate={navigateToView}
-                  onNewProject={() => setModal({ type: 'new', project: null })}
-                  onAuth={() => navigateToView('auth')}
-                  onLogout={handleLogout}
-                />
-                
-                {/* Content Area with Breadcrumbs */}
-                <main className="relative">
-                  {/* Breadcrumbs for authenticated users (excluding landing and auth) */}
-                  {isAuthenticated && view !== 'landing' && view !== 'auth' && (
-                    <div className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                      <div className="max-w-full px-4 sm:px-6 lg:px-8 py-3">
-                        <Breadcrumb
-                          items={generateBreadcrumbs(view, { 
-                            projectName: activeProject?.name,
-                            characterName: undefined // Will be used for character views later
-                          })}
-                          onNavigate={navigateToView}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  
-                  {renderView()}
-                </main>
+        
+                {renderView()}
           
                 {/* All Modals */}
                 {modal.type === 'new' && (
