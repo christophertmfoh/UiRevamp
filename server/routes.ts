@@ -75,8 +75,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Mount modular routers with required auth for security
-  app.use("/api/projects", authenticateToken, projectRouter);
   app.use("/api", optionalAuth, characterRouter);
+  app.use("/api/projects", authenticateToken, projectRouter);
   app.use("/api", optionalAuth, outlineRouter);
   app.use("/api", optionalAuth, proseRouter);
   app.use("/api/daily-content", authenticateToken, dailyContentRouter);
@@ -389,8 +389,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Character template generation route
-  app.post("/api/projects/:projectId/characters/generate-from-template", async (req, res) => {
+  // Character template generation route - DISABLED: Now handled by characterRouter with optionalAuth
+  /* app.post("/api/projects/:projectId/characters/generate-from-template", async (req, res) => {
     try {
       const { projectId } = req.params;
       const { templateData } = req.body;
@@ -508,10 +508,10 @@ Ensure the character feels authentic, three-dimensional, and compelling for stor
         details: errorMessage 
       });
     }
-  });
+  }); */
 
-  // Character AI generation route
-  app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
+  // Character AI generation route - DISABLED: Now handled by characterRouter with optionalAuth  
+  /* app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
     try {
       const { projectId } = req.params;
       const { characterType, role, customPrompt, personality, archetype } = req.body;
@@ -582,7 +582,7 @@ Ensure the character feels authentic, three-dimensional, and compelling for stor
         details: errorMessage 
       });
     }
-  });
+  }); */
 
   // Character field enhancement route (needs to be moved to character router)
   app.post("/api/characters/:id/enhance-field", async (req, res) => {
