@@ -373,16 +373,24 @@ export function CharacterCreationWizard({ isOpen, onClose, projectId }: Characte
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-hidden p-0">
-        <div className="p-6 overflow-y-auto max-h-[85vh]">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden p-0 bg-gradient-to-br from-background via-background to-muted/20">
+        <div className="p-8 overflow-y-auto max-h-[90vh]">
+          {/* FORCE SHOW NEW WIZARD - Test visibility */}
+          {currentStep === 'selection' && (
+            <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <p className="text-green-600 font-semibold">✅ NEW ENHANCED WIZARD LOADED</p>
+              <p className="text-sm text-green-600/80">Information persistence, draft recovery, and competitive UX active</p>
+            </div>
+          )}
+          
           {currentStep !== 'selection' && (
             <Button
               variant="ghost"
               size="sm"
               onClick={handleBack}
-              className="mb-4 p-2 h-auto text-muted-foreground hover:text-foreground"
+              className="mb-4 p-2 h-auto text-muted-foreground hover:text-foreground flex items-center gap-2"
             >
-              <ChevronLeft className="h-4 w-4 mr-1" />
+              <ChevronLeft className="h-4 w-4" />
               Back to selection
             </Button>
           )}

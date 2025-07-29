@@ -1016,14 +1016,14 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         </div>
       )}
 
-      {/* Modals */}
-      <CharacterGenerationModal
-        isOpen={isGenerationModalOpen}
-        onClose={() => setIsGenerationModalOpen(false)}
-        onGenerate={handleGenerate}
-        isGenerating={isGenerating}
+      {/* ONLY THE NEW CHARACTER CREATION WIZARD - ALL OLD MODALS REMOVED */}
+      <CharacterCreationWizard
+        isOpen={isCreationLaunchOpen}
+        onClose={() => setIsCreationLaunchOpen(false)}
+        projectId={projectId}
       />
 
+      {/* Portrait Modal - Keep this for editing existing characters */}
       {portraitCharacter && (
         <CharacterPortraitModal
           character={portraitCharacter}
@@ -1036,15 +1036,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           onImageUploaded={handleImageUploaded}
         />
       )}
-
-      {/* Character Creation Wizard */}
-      <CharacterCreationWizard
-        isOpen={isCreationLaunchOpen}
-        onClose={() => setIsCreationLaunchOpen(false)}
-        projectId={projectId}
-      />
-
-      {/* Old individual modals are now handled by the unified wizard */}
     </div>
   );
 }
