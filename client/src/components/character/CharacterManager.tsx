@@ -13,7 +13,7 @@ import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterCreationWizard } from './CharacterCreationWizard';
-import { CharacterCreationWizardV2 } from './CharacterCreationWizardV2';
+import { CharacterCreationWizardV3 } from './CharacterCreationWizardV3';
 import { CharacterTemplatesV2 } from './CharacterTemplatesV2';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
@@ -1041,8 +1041,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         />
       )}
 
-      {/* V2 Character Creation Wizard - Primary Creation Method */}
-      <CharacterCreationWizardV2
+      {/* V3 Character Creation Wizard - Primary Creation Method */}
+      <CharacterCreationWizardV3
         isOpen={isV2WizardOpen}
         onClose={() => setIsV2WizardOpen(false)}
         projectId={projectId}
@@ -1051,10 +1051,6 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
           setIsV2WizardOpen(false);
           // Force update to show the character card view
           queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
-        }}
-        onTemplatesClick={() => {
-          setIsV2WizardOpen(false);
-          setIsTemplateModalOpen(true);
         }}
       />
 
