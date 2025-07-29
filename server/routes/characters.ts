@@ -131,75 +131,7 @@ characterRouter.delete("/characters/:id", async (req, res) => {
   }
 });
 
-// Generate character from template
-characterRouter.post("/projects/:projectId/characters/generate-from-template", async (req, res) => {
-  try {
-    const { projectId } = req.params;
-    const { templateData } = req.body;
-    
-    console.log('Starting template-based character generation');
-    
-    // Get project data
-    const project = await storage.getProject(projectId);
-    if (!project) {
-      return res.status(404).json({ error: "Project not found" });
-    }
-    
-    // Generate character with enhanced template prompt
-    let templatePrompt = `Create a detailed ${templateData?.name || 'character'} character.`;
-    
-    if (templateData?.description) {
-      templatePrompt += ` ${templateData.description}`;
-    }
-    
-    if (templateData?.category) {
-      templatePrompt += ` This is a ${templateData.category} character.`;
-    }
-    
-    if (templateData?.traits && Array.isArray(templateData.traits) && templateData.traits.length > 0) {
-      templatePrompt += ` Key personality traits: ${templateData.traits.join(', ')}.`;
-    }
-    
-    templatePrompt += ` Develop this archetype into a fully realized character with comprehensive details across all categories: identity, appearance, personality, psychology, abilities, background, relationships, cultural context, story role, and meta information.`;
-    
-    const character = await generateCharacterWithAI({
-      projectId,
-      projectName: project.name,
-      projectDescription: project.description || '',
-      characterType: templateData?.category || 'character',
-      role: templateData?.role || 'Supporting Character',
-      customPrompt: templatePrompt,
-      personality: templateData?.traits?.join(', ') || '',
-      archetype: templateData?.name || 'character'
-    });
-    
-    // Generate portrait for the character
-    if (character.id) {
-      try {
-        const portraitUrl = await generateCharacterPortrait(character);
-        if (portraitUrl) {
-          console.log('Generated portrait URL for template character:', portraitUrl);
-          // Update character with portrait URL
-          await storage.updateCharacter(character.id, {
-            imageUrl: portraitUrl,
-            portraits: [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}]
-          });
-          // Add portrait to response
-          character.imageUrl = portraitUrl;
-          character.portraits = [{id: `portrait_${Date.now()}`, url: portraitUrl, isMain: true}];
-        }
-      } catch (portraitError) {
-        console.error("Error generating portrait for template character:", portraitError);
-      }
-    }
-    
-    res.status(201).json(character);
-  } catch (error: unknown) {
-    console.error("Error generating character from template:", error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    res.status(500).json({ error: "Failed to generate character from template", details: errorMessage });
-  }
-});
+// REMOVED: Old template endpoint - Templates now use the unified /generate endpoint
 
 // Generate character with AI
 characterRouter.post("/projects/:projectId/characters/generate", async (req, res) => {
