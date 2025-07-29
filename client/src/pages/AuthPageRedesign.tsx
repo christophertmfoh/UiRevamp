@@ -172,7 +172,11 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
     <div className="min-h-screen bg-white dark:bg-slate-900 flex">
       {/* Left Side: Branding & Creative Quote */}
       <motion.div 
-        className="hidden lg:flex lg:flex-1 bg-gradient-to-br from-emerald-600 via-emerald-700 to-stone-800 dark:from-emerald-800 dark:via-emerald-900 dark:to-slate-900 relative overflow-hidden"
+        className="hidden lg:flex lg:flex-1 relative overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, hsl(var(--auth-panel-gradient-from)), hsl(var(--auth-panel-gradient-via)), hsl(var(--auth-panel-gradient-to)))`,
+          color: `hsl(var(--auth-panel-text))`
+        }}
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -183,21 +187,21 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
           <div 
             className="absolute -top-40 -left-40 w-80 h-80 rounded-full blur-3xl animate-pulse"
             style={{ 
-              background: `linear-gradient(to bottom right, rgba(16, 185, 129, 0.4), rgba(5, 150, 105, 0.4))`,
+              background: `radial-gradient(circle, hsla(var(--orb-primary), 0.4), hsla(var(--orb-primary), 0.2))`,
               transform: `translateY(${scrollY * 0.1}px)` 
             }}
           ></div>
           <div 
             className="absolute top-20 -right-32 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000"
             style={{ 
-              background: `linear-gradient(to bottom right, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.3))`,
+              background: `radial-gradient(circle, hsla(var(--orb-secondary), 0.3), hsla(var(--orb-secondary), 0.1))`,
               transform: `translateY(${scrollY * 0.15}px)` 
             }}
           ></div>
           <div 
             className="absolute -bottom-32 left-1/2 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500"
             style={{ 
-              background: `linear-gradient(to bottom right, rgba(120, 113, 108, 0.3), rgba(87, 83, 78, 0.3))`,
+              background: `radial-gradient(circle, hsla(var(--muted), 0.3), hsla(var(--muted), 0.1))`,
               transform: `translateY(${scrollY * 0.05}px)` 
             }}
           ></div>
@@ -254,7 +258,8 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
 
       {/* Right Side: Authentication Form */}
       <motion.div 
-        className="flex-1 flex flex-col justify-center px-4 py-12 lg:px-12 lg:py-16 bg-stone-50 dark:bg-slate-800 relative"
+        className="flex-1 flex flex-col justify-center px-4 py-12 lg:px-12 lg:py-16 relative"
+        style={{ backgroundColor: `hsl(var(--auth-form-bg))` }}
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -324,20 +329,33 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
           >
-            <Card className="bg-white dark:bg-slate-900 shadow-xl border border-stone-200 dark:border-slate-700">
+            <Card 
+              className="shadow-xl"
+              style={{ 
+                backgroundColor: `hsl(var(--auth-card-bg))`,
+                borderColor: `hsl(var(--auth-input-border))`
+              }}>
               <Tabs value={activeTab} onValueChange={setActiveTab}>
               <div className="p-6">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger 
                     value="login" 
-                    className="gap-2 data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                    className="gap-2"
+                    style={{
+                      '--active-bg': `hsl(var(--auth-button-primary))`,
+                      '--active-text': `hsl(var(--auth-panel-text))`
+                    } as React.CSSProperties}
                   >
                     <LogIn className="w-4 h-4" />
                     Sign In
                   </TabsTrigger>
                   <TabsTrigger 
                     value="signup" 
-                    className="gap-2 data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                    className="gap-2"
+                    style={{
+                      '--active-bg': `hsl(var(--auth-button-primary))`,
+                      '--active-text': `hsl(var(--auth-panel-text))`
+                    } as React.CSSProperties}
                   >
                     <UserPlus className="w-4 h-4" />
                     Sign Up
@@ -445,7 +463,17 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+                        className="w-full h-11 font-medium"
+                        style={{
+                          backgroundColor: `hsl(var(--auth-button-primary))`,
+                          color: `hsl(var(--auth-panel-text))`
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary-hover))`;
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary))`;
+                        }}
                         disabled={loginMutation.isPending}
                       >
                         {loginMutation.isPending ? (
@@ -614,7 +642,17 @@ export function AuthPageRedesign({ onAuth, onBack }: AuthPageProps) {
                     <CardFooter className="px-0 pb-0">
                       <Button 
                         type="submit" 
-                        className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+                        className="w-full h-11 font-medium"
+                        style={{
+                          backgroundColor: `hsl(var(--auth-button-primary))`,
+                          color: `hsl(var(--auth-panel-text))`
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary-hover))`;
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary))`;
+                        }}
                         disabled={signupMutation.isPending}
                       >
                         {signupMutation.isPending ? (

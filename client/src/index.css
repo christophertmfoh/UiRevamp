@@ -90,6 +90,20 @@
     --surface-muted: 200 8% 92%;
     --orb-primary: 210 70% 40%;
     --orb-secondary: 200 60% 50%;
+    
+    /* Auth page theme colors - Arctic Focus */
+    --auth-brand-primary: 210 70% 40%;     /* Professional blue */
+    --auth-brand-secondary: 200 60% 50%;   /* Bright blue */
+    --auth-panel-gradient-from: 210 70% 40%; /* Professional blue */
+    --auth-panel-gradient-via: 210 70% 35%;  /* Darker blue */
+    --auth-panel-gradient-to: 200 15% 25%;   /* Blue-gray */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 200 60% 85%; /* Light blue */
+    --auth-form-bg: 200 15% 97%;            /* Cool white */
+    --auth-card-bg: 200 10% 94%;            /* Light blue-gray */
+    --auth-input-border: 200 8% 85%;        /* Border */
+    --auth-button-primary: 210 70% 40%;     /* Professional blue */
+    --auth-button-primary-hover: 210 70% 35%; /* Darker blue */
   }
 
   /* Golden Hour - Warm yellows optimized for inspiration */
@@ -121,6 +135,20 @@
     --surface-muted: 45 12% 90%;
     --orb-primary: 45 80% 40%;
     --orb-secondary: 35 70% 45%;
+    
+    /* Auth page theme colors - Golden Hour */
+    --auth-brand-primary: 45 80% 40%;       /* Golden */
+    --auth-brand-secondary: 35 70% 45%;     /* Orange accent */
+    --auth-panel-gradient-from: 45 80% 40%; /* Golden */
+    --auth-panel-gradient-via: 35 70% 35%;  /* Darker orange */
+    --auth-panel-gradient-to: 25 30% 25%;   /* Dark brown */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 45 60% 85%; /* Light gold */
+    --auth-form-bg: 45 20% 96%;             /* Warm cream */
+    --auth-card-bg: 45 15% 93%;             /* Card surface */
+    --auth-input-border: 45 12% 82%;        /* Border */
+    --auth-button-primary: 45 80% 40%;      /* Golden */
+    --auth-button-primary-hover: 45 80% 35%; /* Darker golden */
   }
 
   /* ===== DARK THEMES ===== */
@@ -154,6 +182,20 @@
     --surface-muted: 220 15% 10%;
     --orb-primary: 160 80% 45%;
     --orb-secondary: 180 70% 50%;
+    
+    /* Auth page theme colors - Dark Mode */
+    --auth-brand-primary: 160 80% 45%;      /* Emerald */
+    --auth-brand-secondary: 180 70% 50%;    /* Cyan */
+    --auth-panel-gradient-from: 160 80% 45%; /* Emerald */
+    --auth-panel-gradient-via: 160 80% 35%;  /* Darker emerald */
+    --auth-panel-gradient-to: 220 15% 16%;   /* Dark gray */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 160 80% 75%; /* Light emerald */
+    --auth-form-bg: 220 15% 8%;             /* Deep dark */
+    --auth-card-bg: 220 15% 11%;            /* Card surface */
+    --auth-input-border: 220 15% 20%;       /* Border */
+    --auth-button-primary: 160 80% 45%;     /* Emerald */
+    --auth-button-primary-hover: 160 80% 40%; /* Darker emerald */
   }
 
   /* Midnight Ink - Deep navy with gold accents */
@@ -185,6 +227,20 @@
     --surface-muted: 210 40% 9%;
     --orb-primary: 45 90% 55%;
     --orb-secondary: 42 80% 65%;
+    
+    /* Auth page theme colors - Midnight Ink */
+    --auth-brand-primary: 45 90% 55%;       /* Bright gold */
+    --auth-brand-secondary: 42 80% 65%;     /* Sandy gold */
+    --auth-panel-gradient-from: 45 90% 55%; /* Bright gold */
+    --auth-panel-gradient-via: 45 90% 45%;  /* Darker gold */
+    --auth-panel-gradient-to: 210 40% 15%;  /* Dark blue */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 45 70% 85%; /* Light gold */
+    --auth-form-bg: 210 50% 6%;             /* Deep navy */
+    --auth-card-bg: 210 40% 9%;             /* Card surface */
+    --auth-input-border: 210 40% 18%;       /* Border */
+    --auth-button-primary: 45 90% 55%;      /* Bright gold */
+    --auth-button-primary-hover: 45 90% 50%; /* Darker gold */
   }
 
   /* Forest Manuscript - Deep greens for focus */
@@ -216,6 +272,20 @@
     --surface-muted: 150 35% 11%;
     --orb-primary: 120 60% 50%;
     --orb-secondary: 140 50% 55%;
+    
+    /* Auth page theme colors - Forest Manuscript */
+    --auth-brand-primary: 120 60% 50%;      /* Forest green */
+    --auth-brand-secondary: 140 50% 55%;    /* Mint */
+    --auth-panel-gradient-from: 120 60% 50%; /* Forest green */
+    --auth-panel-gradient-via: 120 60% 40%;  /* Darker green */
+    --auth-panel-gradient-to: 150 35% 17%;   /* Dark green */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 120 40% 75%; /* Light green */
+    --auth-form-bg: 150 40% 8%;             /* Deep forest */
+    --auth-card-bg: 150 35% 11%;            /* Card surface */
+    --auth-input-border: 150 35% 20%;       /* Border */
+    --auth-button-primary: 120 60% 50%;     /* Forest green */
+    --auth-button-primary-hover: 120 60% 45%; /* Darker green */
   }
 
   /* Starlit Prose - Purple with silver accents */
@@ -247,6 +317,20 @@
     --surface-muted: 270 20% 12%;
     --orb-primary: 280 60% 65%;
     --orb-secondary: 0 0% 85%;
+    
+    /* Auth page theme colors - Starlit Prose */
+    --auth-brand-primary: 280 60% 65%;      /* Lavender */
+    --auth-brand-secondary: 0 0% 85%;       /* Silver */
+    --auth-panel-gradient-from: 280 60% 65%; /* Lavender */
+    --auth-panel-gradient-via: 280 60% 55%;  /* Darker purple */
+    --auth-panel-gradient-to: 270 20% 18%;   /* Dark purple */
+    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-text-secondary: 280 40% 85%; /* Light lavender */
+    --auth-form-bg: 270 25% 9%;             /* Deep purple */
+    --auth-card-bg: 270 20% 12%;            /* Card surface */
+    --auth-input-border: 270 20% 22%;       /* Border */
+    --auth-button-primary: 280 60% 65%;     /* Lavender */
+    --auth-button-primary-hover: 280 60% 60%; /* Darker lavender */
   }
 
   /* Coffee House - Rich browns and warm oranges */
