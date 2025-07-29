@@ -58,8 +58,7 @@ import {
   Lock,
   Unlock,
   User,
-  LogOut,
-  Music
+  LogOut
 } from 'lucide-react';
 
 interface ProjectWorkspaceProps {
