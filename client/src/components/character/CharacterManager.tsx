@@ -111,49 +111,102 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
 
   const bulkDeleteMutation = useMutation({
     mutationFn: async (characterIds: string[]) => {
-      console.log('🗑️ Bulk deleting characters:', characterIds);
+      console.log('🗑️ SR DEV: Starting bulletproof bulk delete for:', characterIds);
+      console.log('🔧 SR DEV: Project context:', projectId);
       
-      // Use the correct project-based endpoint for each character
       const deletePromises = characterIds.map(async (id) => {
         try {
+          console.log(`🗑️ SR DEV: Deleting character ${id}...`);
           const response = await apiRequest('DELETE', `/api/characters/${id}`);
-          console.log(`✅ Deleted character ${id}`);
-          return response;
+          console.log(`✅ SR DEV: Successfully deleted character ${id}`, response.status);
+          return { id, success: true };
         } catch (error) {
-          console.error(`❌ Failed to delete character ${id}:`, error);
+          console.error(`❌ SR DEV: Failed to delete character ${id}:`, error);
           throw error;
         }
       });
       
-      await Promise.all(deletePromises);
-      console.log('✅ All characters deleted successfully');
+      const results = await Promise.all(deletePromises);
+      console.log('✅ SR DEV: All characters deleted successfully:', results);
+      return results;
     },
-    onSuccess: () => {
-      console.log('🔄 Refreshing character list after bulk delete');
-      console.log('🔧 Project ID for invalidation:', projectId);
-      console.log('🔧 Query key being invalidated:', ['/api/projects', projectId, 'characters']);
+    onMutate: async (characterIds) => {
+      console.log('🔄 SR DEV: Applying optimistic updates for:', characterIds);
       
-      // Force query invalidation and refetch
+      // Cancel any outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ 
+        queryKey: ['/api/projects', projectId, 'characters'] 
+      });
+      
+      // Snapshot the previous value for rollback
+      const previousCharacters = queryClient.getQueryData(['/api/projects', projectId, 'characters']);
+      
+      // Optimistically update the cache
+      queryClient.setQueryData(
+        ['/api/projects', projectId, 'characters'],
+        (old: Character[] = []) => {
+          const filtered = old.filter(char => !characterIds.includes(char.id));
+          console.log(`🔄 SR DEV: Optimistically removed ${characterIds.length} characters, ${filtered.length} remaining`);
+          return filtered;
+        }
+      );
+      
+      return { previousCharacters };
+    },
+    onSuccess: (data, characterIds) => {
+      console.log('✅ SR DEV: Delete confirmed by server, finalizing UI updates');
+      console.log('🔧 SR DEV: Deleted character results:', data);
+      
+      // Multiple invalidation strategies for bulletproof refresh
+      const queryKey = ['/api/projects', projectId, 'characters'];
+      
+      // Strategy 1: Invalidate with exact match
       queryClient.invalidateQueries({ 
-        queryKey: ['/api/projects', projectId, 'characters'],
-        exact: true
+        queryKey,
+        exact: true,
+        refetchType: 'active'
       });
       
-      // Also force refetch as backup
+      // Strategy 2: Force refetch immediately
       queryClient.refetchQueries({ 
-        queryKey: ['/api/projects', projectId, 'characters'],
-        exact: true
+        queryKey,
+        exact: true,
+        type: 'active'
       });
       
-      // Clear selection and exit selection mode
+      // Strategy 3: Reset query data to force fresh fetch
+      setTimeout(() => {
+        queryClient.resetQueries({ 
+          queryKey,
+          exact: true 
+        });
+      }, 100);
+      
+      // Clear UI state
       setSelectedCharacterIds(new Set());
       setIsSelectionMode(false);
       
-      console.log('✅ Bulk delete completed - returned to view mode');
+      console.log('✅ SR DEV: Bulletproof delete completed with 3-tier cache invalidation');
     },
-    onError: (error) => {
-      console.error('❌ Bulk delete failed:', error);
-      alert(`Failed to delete characters: ${error.message || 'Unknown error'}`);
+    onError: (error, characterIds, context) => {
+      console.error('❌ SR DEV: Delete failed, rolling back optimistic updates:', error);
+      
+      // Rollback optimistic update
+      if (context?.previousCharacters) {
+        queryClient.setQueryData(
+          ['/api/projects', projectId, 'characters'],
+          context.previousCharacters
+        );
+      }
+      
+      alert(`Failed to delete characters: ${error.message || 'Unknown error'}\n\nThe character list has been restored.`);
+    },
+    onSettled: () => {
+      console.log('🔄 SR DEV: Delete operation settled, ensuring fresh data');
+      // Always ensure we have fresh data after the operation
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', projectId, 'characters'] 
+      });
     },
   });
 
