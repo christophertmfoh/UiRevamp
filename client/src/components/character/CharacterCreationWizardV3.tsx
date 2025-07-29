@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Plus, FileText, Sparkles, Upload, ArrowRight, ChevronLeft, Save, Clock, Crown, Wand2 } from 'lucide-react';
-import { CharacterGuidedCreation } from './CharacterGuidedCreation';
+import { CharacterGuidedCreationPro } from './CharacterGuidedCreationPro';
 import { CharacterTemplates } from './CharacterTemplates';
 import { CharacterGenerationModal } from './CharacterGenerationModal';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
@@ -265,7 +265,7 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
                 </p>
               </div>
             </div>
-            <CharacterGuidedCreation
+            <CharacterGuidedCreationPro
               isOpen={true}
               onClose={() => {
                 // For guided creation, just close without a character
