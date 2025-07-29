@@ -66,7 +66,9 @@ import {
   Crown,
   Gem,
   Wand2,
-  Zap
+  Zap,
+  Download,
+  Archive
 } from 'lucide-react';
 // Import existing character manager temporarily
 import { CharacterManager } from '../character/CharacterManager';
@@ -92,7 +94,7 @@ export function ProjectWorkspace({
   selectedProject: externalSelectedProject,
   isLoading
 }: ProjectWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'outline' | 'storyboard' | 'previs' | 'score'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'outline' | 'storyboard' | 'previs' | 'score' | 'export' | 'library'>('overview');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'factions' | 'items' | 'magic' | 'bestiary' | 'languages' | 'cultures' | 'prophecies' | 'themes'>('overview');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -413,6 +415,14 @@ export function ProjectWorkspace({
                   <Music className="w-3 h-3 sm:mr-1" />
                   <span className="hidden sm:inline text-xs">Score</span>
                 </TabsTrigger>
+                <TabsTrigger value="export" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Download className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Export</span>
+                </TabsTrigger>
+                <TabsTrigger value="library" className="flex items-center justify-center px-2 sm:px-3 py-2 text-xs">
+                  <Archive className="w-3 h-3 sm:mr-1" />
+                  <span className="hidden sm:inline text-xs">Library</span>
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -612,6 +622,30 @@ export function ProjectWorkspace({
                       <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Score</h4>
                       <p className="text-xs sm:text-sm text-muted-foreground">0 Tracks</p>
                       <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Compose and manage musical elements</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
+                    onClick={() => setActiveTab('export')}
+                  >
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <Download className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Export</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Formats</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Export and publish your projects</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card 
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
+                    onClick={() => setActiveTab('library')}
+                  >
+                    <CardContent className="p-3 sm:p-6 text-center">
+                      <Archive className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-4 text-primary" />
+                      <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Library</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">0 Assets</p>
+                      <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Manage templates and resources</p>
                     </CardContent>
                   </Card>
 
@@ -1090,6 +1124,34 @@ export function ProjectWorkspace({
               <Button className="gradient-primary">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Track
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="export" className="space-y-6">
+            <div className="text-center py-12">
+              <Download className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Export & Publish</h3>
+              <p className="text-muted-foreground mb-6">
+                Export your project in various formats and publish to platforms
+              </p>
+              <Button className="gradient-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                Export Project
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="library" className="space-y-6">
+            <div className="text-center py-12">
+              <Archive className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-4">Asset Library</h3>
+              <p className="text-muted-foreground mb-6">
+                Manage templates, assets, and resources for your creative projects
+              </p>
+              <Button className="gradient-primary">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Asset
               </Button>
             </div>
           </TabsContent>
