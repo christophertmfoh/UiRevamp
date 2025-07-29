@@ -595,7 +595,7 @@ export function ProjectWorkspace({
                   </Card>
 
                   <Card 
-                    className="glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 hover:shadow-2xl transition-all cursor-pointer hover:scale-105"
+                    className="hover:shadow-lg transition-all cursor-pointer hover:scale-105 opacity-75"
                     onClick={() => alert('Project Info & Documentation Hub - Manage project details, notes, research, and documentation')}
                   >
                     <CardContent className="p-3 sm:p-6 text-center">
