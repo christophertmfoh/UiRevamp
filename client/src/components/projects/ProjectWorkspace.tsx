@@ -784,46 +784,49 @@ export function ProjectWorkspace({
                     </div>
                   </div>
 
-                  {/* Project Info */}
-                  <Card className="mb-6">
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center space-x-3">
-                          <h2 className="text-2xl font-bold">{selectedProject.name}</h2>
-                          <Badge className="gradient-primary text-primary-foreground">
-                            {selectedProject.type}
-                          </Badge>
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground italic">
-                        Add a synopsis to describe your project...
-                      </p>
-                    </CardContent>
-                  </Card>
-
                   {/* Content based on selected section */}
                   {worldSection === 'overview' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <Card className="text-center p-6">
-                        <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
-                        <div className="text-3xl font-bold mb-2">{characters.length}</div>
-                        <div className="text-muted-foreground">Characters</div>
+                    <div className="space-y-6">
+                      {/* Project Info - Only in Overview */}
+                      <Card>
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center space-x-3">
+                              <h2 className="text-2xl font-bold">{selectedProject.name}</h2>
+                              <Badge className="gradient-primary text-primary-foreground">
+                                {selectedProject.type}
+                              </Badge>
+                            </div>
+                          </div>
+                          <p className="text-muted-foreground italic">
+                            Add a synopsis to describe your project...
+                          </p>
+                        </CardContent>
                       </Card>
-                      <Card className="text-center p-6">
-                        <MapPin className="w-12 h-12 mx-auto mb-4 text-primary" />
-                        <div className="text-3xl font-bold mb-2">0</div>
-                        <div className="text-muted-foreground">Locations</div>
-                      </Card>
-                      <Card className="text-center p-6">
-                        <Clock className="w-12 h-12 mx-auto mb-4 text-primary" />
-                        <div className="text-3xl font-bold mb-2">0</div>
-                        <div className="text-muted-foreground">Timeline Events</div>
-                      </Card>
-                      <Card className="text-center p-6">
-                        <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
-                        <div className="text-3xl font-bold mb-2">0</div>
-                        <div className="text-muted-foreground">Factions</div>
-                      </Card>
+
+                      {/* Overview Stats */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <Card className="text-center p-6">
+                          <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
+                          <div className="text-3xl font-bold mb-2">{characters.length}</div>
+                          <div className="text-muted-foreground">Characters</div>
+                        </Card>
+                        <Card className="text-center p-6">
+                          <MapPin className="w-12 h-12 mx-auto mb-4 text-primary" />
+                          <div className="text-3xl font-bold mb-2">0</div>
+                          <div className="text-muted-foreground">Locations</div>
+                        </Card>
+                        <Card className="text-center p-6">
+                          <Clock className="w-12 h-12 mx-auto mb-4 text-primary" />
+                          <div className="text-3xl font-bold mb-2">0</div>
+                          <div className="text-muted-foreground">Timeline Events</div>
+                        </Card>
+                        <Card className="text-center p-6">
+                          <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
+                          <div className="text-3xl font-bold mb-2">0</div>
+                          <div className="text-muted-foreground">Factions</div>
+                        </Card>
+                      </div>
                     </div>
                   )}
 
