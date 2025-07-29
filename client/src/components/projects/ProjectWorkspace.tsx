@@ -154,39 +154,41 @@ export function ProjectWorkspace({
     return (
       <Card 
         key={project.id}
-        className={`group cursor-pointer transition-all duration-300 ${
+        className={`group cursor-pointer transition-all duration-300 glass-card backdrop-blur-xl rounded-[2rem] shadow-xl border border-border/30 ${
           viewMode === 'grid' 
-            ? 'hover:shadow-xl hover:scale-[1.02] hover:-translate-y-1 min-h-[180px]' 
-            : 'hover:shadow-md hover:bg-accent/50'
+            ? 'hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 min-h-[200px]' 
+            : 'hover:shadow-lg'
         } ${
-          isSelected ? 'ring-2 ring-primary shadow-lg' : 'shadow-sm'
+          isSelected 
+            ? 'ring-2 ring-primary/50 shadow-2xl border-primary/30' 
+            : ''
         }`}
         onClick={() => handleProjectSelect(project)}
       >
-        <CardHeader className={`${viewMode === 'list' ? 'pb-3' : 'pb-4'}`}>
+        <CardHeader className={`${viewMode === 'list' ? 'pb-3' : 'pb-4'} p-5`}>
           <div className="flex items-start justify-between">
             <div className="flex items-start space-x-4 flex-1 min-w-0">
               <div className={`${
-                viewMode === 'list' ? 'w-12 h-12' : 'w-14 h-14'
-              } bg-gradient-to-br from-primary/90 to-primary/60 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md border border-primary/20`}>
+                viewMode === 'list' ? 'w-12 h-12' : 'w-16 h-16'
+              } bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl flex items-center justify-center flex-shrink-0 border border-primary/10 group-hover:border-primary/20 group-hover:bg-primary/10 transition-all duration-300`}>
                 <Icon className={`${
-                  viewMode === 'list' ? 'w-6 h-6' : 'w-7 h-7'
-                } text-primary-foreground`} />
+                  viewMode === 'list' ? 'w-6 h-6' : 'w-8 h-8'
+                } text-primary group-hover:text-primary/80 transition-colors`} />
               </div>
               <div className="min-w-0 flex-1 pt-1">
                 <CardTitle className={`${
                   viewMode === 'list' ? 'text-lg' : 'text-xl'
-                } font-bold group-hover:text-primary transition-colors truncate mb-2`}>
+                } font-semibold group-hover:text-primary transition-colors truncate mb-2 text-foreground`}>
                   {project.name}
                 </CardTitle>
-                <Badge variant="secondary" className="text-xs font-medium capitalize">
+                <Badge variant="secondary" className="text-xs font-medium capitalize bg-primary/10 text-primary border-primary/20">
                   {project.type?.replace('-', ' ')}
                 </Badge>
               </div>
             </div>
             {viewMode === 'list' && (
               <div className="text-right flex-shrink-0 pt-1">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground/80">
                   {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
                 </p>
               </div>
@@ -195,17 +197,17 @@ export function ProjectWorkspace({
         </CardHeader>
         
         {viewMode === 'grid' && (
-          <CardContent className="pt-0 pb-5 flex flex-col">
+          <CardContent className="pt-0 pb-5 px-5 flex flex-col">
             <CardDescription className="text-sm mb-6 line-clamp-2 flex-grow text-muted-foreground/70 leading-relaxed">
               {project.synopsis || project.description || `Start building your ${project.type?.replace('-', ' ')} project...`}
             </CardDescription>
-            <div className="flex items-center justify-between text-sm text-muted-foreground mt-auto border-t border-border/30 pt-3">
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
+            <div className="flex items-center justify-between text-sm text-muted-foreground/60 mt-auto border-t border-border/20 pt-4">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5" />
                 {new Date(project.lastModified || project.createdAt).toLocaleDateString()}
               </span>
               {project.genre && (
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-xs bg-background/50 border-border/40">
                   {Array.isArray(project.genre) ? project.genre[0] : project.genre}
                 </Badge>
               )}
@@ -214,7 +216,7 @@ export function ProjectWorkspace({
         )}
         
         {viewMode === 'list' && (
-          <CardContent className="pt-0 pb-4 ml-16">
+          <CardContent className="pt-0 pb-4 px-5 ml-16">
             <CardDescription className="text-sm line-clamp-1 text-muted-foreground/70">
               {project.synopsis || project.description || `Start building your ${project.type?.replace('-', ' ')} project...`}
             </CardDescription>
