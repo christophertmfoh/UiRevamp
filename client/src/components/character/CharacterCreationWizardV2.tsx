@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -377,12 +377,12 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
             : []
       };
 
-      const response = await apiRequest({
-        url: `/api/projects/${projectId}/characters`,
-        method: 'POST',
-        data: processedData,
-      });
-      return response;
+      const response = await apiRequest(
+        'POST',
+        `/api/projects/${projectId}/characters`,
+        processedData
+      );
+      return response.json();
     },
     onSuccess: (newCharacter) => {
       queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
@@ -536,9 +536,9 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
                 <Crown className="h-6 w-6 text-accent" />
                 Create New Character
               </DialogTitle>
-              <p className="text-muted-foreground mt-2">
+              <DialogDescription className="text-muted-foreground mt-2">
                 Choose your creation method. Our advanced wizard retains all 164+ character fields with intelligent progressive disclosure.
-              </p>
+              </DialogDescription>
             </DialogHeader>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -670,9 +670,9 @@ export function CharacterCreationWizardV2({ isOpen, onClose, projectId, onComple
               </Button>
               <div>
                 <DialogTitle className="text-xl font-bold">Smart Character Creation</DialogTitle>
-                <p className="text-sm text-muted-foreground">
+                <DialogDescription className="text-sm text-muted-foreground">
                   {formData.name || 'New Character'} • {completionPercentage}% Complete
-                </p>
+                </DialogDescription>
               </div>
             </div>
             

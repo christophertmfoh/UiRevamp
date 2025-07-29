@@ -362,6 +362,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Character creation route (standard)
+  app.post("/api/projects/:projectId/characters", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      console.log(`Creating character for project ${projectId}`);
+      
+      // Transform request data to match database schema
+      const characterData: Record<string, unknown> = {
+        id: generateUniqueId(),
+        projectId,
+        ...req.body
+      };
+      
+      // Create character in database
+      const character = await storage.createCharacter(characterData as any);
+      
+      res.json(character);
+    } catch (error) {
+      console.error("Error creating character:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      res.status(500).json({ 
+        error: "Failed to create character",
+        details: errorMessage 
+      });
+    }
+  });
+
   // Character AI generation route
   app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
     try {
