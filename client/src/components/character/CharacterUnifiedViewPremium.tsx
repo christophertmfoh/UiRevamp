@@ -47,10 +47,10 @@ export function CharacterUnifiedViewPremium({
   const calculateCompleteness = (char: Character) => {
     if (!char) return 0;
     
-    // Define all character fields organized by category (matching the actual character schema)
+    // Define all character fields organized by category (matching the wizard 1:1)
     const identityFields = [
-      'name', 'nicknames', 'title', 'aliases', 'race', 'class', 'age', 'role',
-      'gender', 'profession', 'occupation', 'birthdate', 'zodiacSign'
+      'name', 'nicknames', 'pronouns', 'age', 'species', 'gender', 
+      'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
     ];
     
     const appearanceFields = [
