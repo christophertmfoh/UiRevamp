@@ -965,15 +965,62 @@ export function ProjectWorkspace({
                 </div>
               </div>
             ) : (
-              <Card className="text-center py-12">
-                <CardContent>
-                  <Globe className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Select a Project</h3>
-                  <p className="text-muted-foreground">
-                    Choose a project from the Projects tab to explore its world bible
-                  </p>
-                </CardContent>
-              </Card>
+              <div className="space-y-6">
+                <Card className="text-center py-12">
+                  <CardContent>
+                    <Globe className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium mb-2">Select a Project to Access World Bible</h3>
+                    <p className="text-muted-foreground mb-6">
+                      Choose a project to explore its comprehensive world-building system with 11+ categories
+                    </p>
+                    <Button 
+                      onClick={() => setActiveTab('projects')}
+                      className="gradient-primary"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Browse Projects
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Preview of World Bible Categories */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>World Bible Categories Available</CardTitle>
+                    <CardDescription>
+                      Comprehensive world-building tools for your creative projects
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {[
+                        { icon: Users, name: 'Characters', desc: '164+ Fields' },
+                        { icon: MapPin, name: 'Locations', desc: 'Geographic Data' },
+                        { icon: Clock, name: 'Timeline', desc: 'Historical Events' },
+                        { icon: Shield, name: 'Factions', desc: 'Organizations' },
+                        { icon: Sword, name: 'Items', desc: 'Artifacts & Tools' },
+                        { icon: Wand2, name: 'Magic & Lore', desc: 'Supernatural Systems' },
+                        { icon: Zap, name: 'Bestiary', desc: 'Creatures & Species' },
+                        { icon: Languages, name: 'Languages', desc: 'Communication' },
+                        { icon: Crown, name: 'Cultures', desc: 'Societies & Customs' },
+                        { icon: Scroll, name: 'Prophecies', desc: 'Oracles & Visions' },
+                        { icon: Gem, name: 'Themes', desc: 'Narrative Elements' }
+                      ].map((category, index) => {
+                        const Icon = category.icon;
+                        return (
+                          <div key={index} className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                            <Icon className="w-5 h-5 text-primary flex-shrink-0" />
+                            <div className="min-w-0">
+                              <div className="font-medium text-sm truncate">{category.name}</div>
+                              <div className="text-xs text-muted-foreground truncate">{category.desc}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             )}
           </TabsContent>
 
