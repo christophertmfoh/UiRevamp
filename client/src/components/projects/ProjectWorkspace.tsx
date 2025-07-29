@@ -58,8 +58,18 @@ import {
   Lock,
   Unlock,
   User,
-  LogOut
+  LogOut,
+  Shield,
+  Sword,
+  Scroll,
+  Dragon,
+  Languages,
+  Crown,
+  Gem,
+  Wand2
 } from 'lucide-react';
+// Import existing character manager temporarily
+import { CharacterManager } from '../character/CharacterManager';
 
 interface ProjectWorkspaceProps {
   user: any;
@@ -80,7 +90,7 @@ export function ProjectWorkspace({
   projects: projectsData,
   isLoading
 }: ProjectWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'storyboard' | 'previs' | 'score'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'outline' | 'storyboard' | 'previs' | 'score'>('overview');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'factions' | 'items' | 'magic' | 'bestiary' | 'languages' | 'cultures' | 'prophecies' | 'themes'>('overview');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -619,24 +629,113 @@ export function ProjectWorkspace({
                     <CardHeader className="pb-4">
                       <CardTitle className="text-lg">Categories</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-2">
+                    <CardContent className="space-y-1">
                       <Button
                         variant={worldSection === 'overview' ? 'default' : 'ghost'}
                         onClick={() => setWorldSection('overview')}
-                        className="w-full justify-start"
+                        className="w-full justify-start text-sm"
                       >
                         <Globe className="w-4 h-4 mr-2" />
                         <span>Overview</span>
-                        <Badge variant="secondary" className="ml-auto">0</Badge>
                       </Button>
                       <Button
                         variant={worldSection === 'characters' ? 'default' : 'ghost'}
                         onClick={() => setWorldSection('characters')}
-                        className="w-full justify-start"
+                        className="w-full justify-start text-sm"
                       >
                         <Users className="w-4 h-4 mr-2" />
                         <span>Characters</span>
                         <Badge variant="secondary" className="ml-auto">{characters.length}</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'locations' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('locations')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <MapPin className="w-4 h-4 mr-2" />
+                        <span>Locations</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'timeline' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('timeline')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Clock className="w-4 h-4 mr-2" />
+                        <span>Timeline</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'factions' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('factions')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Shield className="w-4 h-4 mr-2" />
+                        <span>Factions</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'items' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('items')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Sword className="w-4 h-4 mr-2" />
+                        <span>Items</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'magic' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('magic')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        <span>Magic & Lore</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'bestiary' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('bestiary')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Dragon className="w-4 h-4 mr-2" />
+                        <span>Bestiary</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'languages' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('languages')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Languages className="w-4 h-4 mr-2" />
+                        <span>Languages</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'cultures' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('cultures')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Crown className="w-4 h-4 mr-2" />
+                        <span>Cultures</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'prophecies' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('prophecies')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Scroll className="w-4 h-4 mr-2" />
+                        <span>Prophecies</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
+                      </Button>
+                      <Button
+                        variant={worldSection === 'themes' ? 'default' : 'ghost'}
+                        onClick={() => setWorldSection('themes')}
+                        className="w-full justify-start text-sm"
+                      >
+                        <Gem className="w-4 h-4 mr-2" />
+                        <span>Themes</span>
+                        <Badge variant="secondary" className="ml-auto">0</Badge>
                       </Button>
                     </CardContent>
                   </Card>
@@ -693,93 +792,174 @@ export function ProjectWorkspace({
 
                   {/* Content based on selected section */}
                   {worldSection === 'overview' && (
-                    <div className="text-center py-12">
-                      <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full">
-                        <Users className="w-8 h-8 text-primary" />
-                      </div>
-                      <div className="text-6xl font-bold text-foreground mb-2">
-                        {characters.length}
-                      </div>
-                      <div className="text-muted-foreground">Characters</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <Card className="text-center p-6">
+                        <Users className="w-12 h-12 mx-auto mb-4 text-primary" />
+                        <div className="text-3xl font-bold mb-2">{characters.length}</div>
+                        <div className="text-muted-foreground">Characters</div>
+                      </Card>
+                      <Card className="text-center p-6">
+                        <MapPin className="w-12 h-12 mx-auto mb-4 text-primary" />
+                        <div className="text-3xl font-bold mb-2">0</div>
+                        <div className="text-muted-foreground">Locations</div>
+                      </Card>
+                      <Card className="text-center p-6">
+                        <Clock className="w-12 h-12 mx-auto mb-4 text-primary" />
+                        <div className="text-3xl font-bold mb-2">0</div>
+                        <div className="text-muted-foreground">Timeline Events</div>
+                      </Card>
+                      <Card className="text-center p-6">
+                        <Shield className="w-12 h-12 mx-auto mb-4 text-primary" />
+                        <div className="text-3xl font-bold mb-2">0</div>
+                        <div className="text-muted-foreground">Factions</div>
+                      </Card>
                     </div>
                   )}
 
+                  {/* Entity Management for each category */}
                   {worldSection === 'characters' && (
-                    <div className="space-y-6">
-                      {/* Featured Characters Section */}
-                      <Card>
-                        <CardHeader>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <Users className="w-5 h-5 text-primary" />
-                              <CardTitle>Featured Characters</CardTitle>
-                              <Badge variant="secondary">{characters.length}</Badge>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                <span>Sort by:</span>
-                                <Button variant="ghost" size="sm" className="h-auto p-1">
-                                  Custom Order
-                                  <ChevronRight className="w-3 h-3 ml-1" />
-                                </Button>
-                              </div>
-                              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                <span>Show:</span>
-                                <Button variant="ghost" size="sm" className="h-auto p-1">
-                                  6
-                                  <ChevronRight className="w-3 h-3 ml-1" />
-                                </Button>
-                              </div>
-                              <Button size="sm" variant="outline">
-                                <SortAsc className="w-4 h-4" />
-                              </Button>
-                              <Button size="sm" variant="outline">
-                                <Settings className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          {characters.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                              {characters.map((character) => (
-                                <Card key={character.id} className="group hover:shadow-lg transition-all cursor-pointer">
-                                  <CardContent className="p-4">
-                                    <div className="flex items-center space-x-3 mb-3">
-                                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
-                                        <Users className="w-6 h-6 text-primary-foreground" />
-                                      </div>
-                                      <div>
-                                        <h4 className="font-semibold">{character.name || 'Unnamed Character'}</h4>
-                                        <p className="text-sm text-muted-foreground">{character.role || 'No role defined'}</p>
-                                      </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                      <div className="flex justify-between text-sm">
-                                        <span>Completion</span>
-                                        <span>{calculateCompletion(character)}%</span>
-                                      </div>
-                                      <Progress value={calculateCompletion(character)} className="h-2" />
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-center py-12">
-                              <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                              <h3 className="text-lg font-medium mb-2">No Characters Yet</h3>
-                              <p className="text-muted-foreground mb-4">
-                                Start building your world by creating compelling characters with the full 164+ field system
-                              </p>
-                              <Button className="gradient-primary">
-                                <Plus className="w-4 h-4 mr-2" />
-                                Create Your First Character
-                              </Button>
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
+                    <CharacterManager
+                      projectId={selectedProject.id}
+                    />
+                  )}
+                  
+                  {worldSection === 'locations' && (
+                    <div className="text-center py-12">
+                      <MapPin className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Locations</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Create and manage geographic locations in your world
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Location
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'timeline' && (
+                    <div className="text-center py-12">
+                      <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Timeline</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Chronicle the history and events of your world
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Event
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'factions' && (
+                    <div className="text-center py-12">
+                      <Shield className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Factions</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Define organizations, groups, and political entities
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Faction
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'items' && (
+                    <div className="text-center py-12">
+                      <Sword className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Items & Artifacts</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Catalog weapons, tools, magical items, and artifacts
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Item
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'magic' && (
+                    <div className="text-center py-12">
+                      <Wand2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Magic & Lore</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Design magical systems, spells, and supernatural lore
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Magic System
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'bestiary' && (
+                    <div className="text-center py-12">
+                      <Dragon className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Bestiary</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Document creatures, monsters, and species
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Creature
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'languages' && (
+                    <div className="text-center py-12">
+                      <Languages className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Languages</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Create constructed languages and communication systems
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Language
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'cultures' && (
+                    <div className="text-center py-12">
+                      <Crown className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Cultures</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Develop societies, customs, and civilizations
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Culture
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'prophecies' && (
+                    <div className="text-center py-12">
+                      <Scroll className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Prophecies</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Record oracles, predictions, and mystical visions
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Prophecy
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {worldSection === 'themes' && (
+                    <div className="text-center py-12">
+                      <Gem className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold mb-4">Themes & Meta</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Define narrative themes, symbols, and meta-elements
+                      </p>
+                      <Button className="gradient-primary">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Theme
+                      </Button>
                     </div>
                   )}
                 </div>
