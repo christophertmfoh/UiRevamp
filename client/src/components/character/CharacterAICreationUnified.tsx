@@ -2,28 +2,20 @@ import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { 
-  Wand2, Sparkles, Lightbulb, RefreshCw, Loader2, 
-  BookOpen, Users, Crown, Zap, Copy, Check
+  Sparkles, Crown, Sword, Heart, Brain, Lightbulb, 
+  FileText, Zap, Users, Loader2
 } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
+import { CharacterCreationService } from '@/lib/services/characterCreationService';
 import type { Character } from '@/lib/types';
 
 interface CharacterAICreationUnifiedProps {
   projectId: string;
   onBack: () => void;
   onComplete: (character: Character) => void;
-  theme: {
-    primary: string;
-    primaryHover: string;
-    secondary: string;
-    background: string;
-    border: string;
-  };
 }
 
 const EXAMPLE_PROMPTS = [
@@ -31,69 +23,79 @@ const EXAMPLE_PROMPTS = [
     category: 'Fantasy',
     icon: Crown,
     prompts: [
-      "A mysterious detective with a dark past who solves crimes using unconventional methods",
-      "An ancient dragon who has taken human form to experience mortal life",
-      "A fallen knight seeking redemption through protecting the innocent",
-      "A young mage struggling to control dangerous magical abilities"
-    ]
-  },
-  {
-    category: 'Modern',
-    icon: Users,
-    prompts: [
-      "A brilliant hacker who uses technology to fight corporate corruption",
-      "A small-town teacher who discovers they have psychic abilities",
-      "A retired spy trying to live a normal life but constantly pulled back into danger",
-      "A social media influencer hiding a secret identity as a vigilante"
+      'A young elven mage who lost their magical abilities in a tragic accident and must find a new purpose in life',
+      'An ancient dragon who has taken human form to better understand the mortals they once considered beneath them',
+      'A dwarven blacksmith whose enchanted weapons have started gaining sentience and rebelling against their creators'
     ]
   },
   {
     category: 'Sci-Fi',
     icon: Zap,
     prompts: [
-      "An AI android questioning what it means to be human",
-      "A space explorer stranded on an alien planet with hostile creatures",
-      "A time traveler trying to prevent a catastrophic future",
-      "A cybernetic enhanced detective in a dystopian megacity"
+      'A cybernetic detective investigating crimes in a world where human consciousness can be downloaded and transferred',
+      'An alien ambassador trying to prevent an intergalactic war while hiding their own species\' dark secret',
+      'A time traveler who discovers that their attempts to fix the past have created worse futures'
     ]
   },
   {
-    category: 'Literary',
-    icon: BookOpen,
+    category: 'Modern',
+    icon: Users,
     prompts: [
-      "A librarian who can enter the worlds of books they read",
-      "An amnesiac struggling to piece together their forgotten life",
-      "A single parent balancing career ambitions with family responsibilities",
-      "An elderly person reflecting on life choices and missed opportunities"
+      'A small-town librarian who discovers that the rare books in their collection contain real magical spells',
+      'A therapist who can literally see and interact with their patients\' inner demons and traumas',
+      'A street musician whose melodies have the power to heal emotional wounds but drain their own life force'
+    ]
+  },
+  {
+    category: 'Romance',
+    icon: Heart,
+    prompts: [
+      'Two rival food truck owners who are forced to work together during a city-wide festival',
+      'A wedding planner who has sworn off love after a painful breakup, until they meet their most challenging client',
+      'A time loop where someone must relive the same first date until they learn to be truly vulnerable'
     ]
   }
 ];
 
-const TIPS = [
-  "Be specific about personality traits, motivations, and backstory elements",
-  "Include details about their appearance, mannerisms, and speech patterns",
-  "Mention their goals, fears, and what drives them forward",
-  "Add unique quirks or interesting contradictions to make them memorable",
-  "Consider their relationships and how they interact with others"
+const WRITING_TIPS = [
+  {
+    icon: Lightbulb,
+    title: 'Be Specific',
+    tip: 'Include specific details about personality, background, and motivations rather than generic traits.'
+  },
+  {
+    icon: Brain,
+    title: 'Add Conflict',
+    tip: 'Give your character internal struggles or external challenges that create interesting story potential.'
+  },
+  {
+    icon: Heart,
+    title: 'Include Flaws',
+    tip: 'Perfect characters are boring. Add meaningful flaws that can drive character development.'
+  },
+  {
+    icon: FileText,
+    title: 'Consider Relationships',
+    tip: 'Mention important relationships, enemies, or connections that shape who they are.'
+  },
+  {
+    icon: Sword,
+    title: 'Define Their Goal',
+    tip: 'What does your character want most? What are they willing to sacrifice to get it?'
+  }
 ];
 
 export function CharacterAICreationUnified({
   projectId,
   onBack,
-  onComplete,
-  theme
+  onComplete
 }: CharacterAICreationUnifiedProps) {
   const [prompt, setPrompt] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [copiedTip, setCopiedTip] = useState<number | null>(null);
 
   const generateMutation = useMutation({
-    mutationFn: async (prompt: string) => {
-      const response = await apiRequest('POST', `/api/projects/${projectId}/characters/generate`, {
-        prompt: prompt.trim(),
-        enhanceDetails: true
-      });
-      return response.json();
+    mutationFn: async (promptText: string) => {
+      return await CharacterCreationService.generateFromPrompt(projectId, promptText);
     },
     onSuccess: (character) => {
       onComplete(character as Character);
@@ -102,46 +104,29 @@ export function CharacterAICreationUnified({
 
   const handleGenerate = () => {
     if (prompt.trim()) {
-      generateMutation.mutate(prompt);
+      generateMutation.mutate(prompt.trim());
     }
   };
 
-  const handleUseExample = (examplePrompt: string) => {
+  const useExamplePrompt = (examplePrompt: string) => {
     setPrompt(examplePrompt);
   };
-
-  const handleCopyTip = (tipIndex: number, tip: string) => {
-    navigator.clipboard.writeText(tip);
-    setCopiedTip(tipIndex);
-    setTimeout(() => setCopiedTip(null), 2000);
-  };
-
-  const isValidPrompt = prompt.trim().length >= 10;
 
   if (generateMutation.isPending) {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center space-y-6">
           <div className="relative">
-            <div 
-              className="w-20 h-20 rounded-full border-4 animate-spin"
-              style={{ 
-                borderColor: theme.border,
-                borderTopColor: theme.primary
-              }}
-            />
-            <Wand2 
-              className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{ color: theme.primary }}
-            />
+            <div className="w-20 h-20 rounded-full border-4 animate-spin border-border border-t-primary" />
+            <Sparkles className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-gray-900">Creating Your Character</h3>
-            <p className="text-gray-600 max-w-md mx-auto">
-              AI is crafting a unique character based on your description...
+            <h3 className="text-xl font-semibold text-foreground">Creating Your Character</h3>
+            <p className="text-muted-foreground">
+              AI is bringing your vision to life...
             </p>
           </div>
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             This usually takes 15-30 seconds
           </div>
@@ -152,13 +137,13 @@ export function CharacterAICreationUnified({
 
   return (
     <div className="h-full flex">
-      {/* Left Panel - Main Input */}
+      {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="flex-shrink-0 border-b p-6" style={{ borderBottomColor: theme.border }}>
+        <div className="flex-shrink-0 border-b border-border p-6">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Describe Your Character</h2>
-            <p className="text-gray-600">Tell AI about the character you want to create</p>
+            <h2 className="text-xl font-semibold text-foreground mb-2">Describe Your Character</h2>
+            <p className="text-muted-foreground">Tell AI about your character concept and watch it come to life</p>
           </div>
         </div>
 
@@ -166,161 +151,120 @@ export function CharacterAICreationUnified({
         <div className="flex-1 p-6 space-y-6">
           <div className="max-w-3xl mx-auto space-y-6">
             {/* Input Card */}
-            <Card 
-              className="border-2" 
-              style={{ 
-                borderColor: theme.border,
-                '--tw-ring-color': theme.primary + '20'
-              }}
-            >
+            <Card className="border-2 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20">
               <CardHeader>
-                <Label className="text-base font-medium flex items-center gap-2">
-                  <Wand2 
-                    className="h-5 w-5" 
-                    style={{ color: theme.primary }}
-                  />
-                  Character Description
-                </Label>
-                <p className="text-sm text-gray-600">
-                  Describe your character in detail. The more specific you are, the better the result.
-                </p>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground">Character Description</h3>
+                    <p className="text-sm text-muted-foreground">Be as detailed as you like</p>
+                  </div>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent>
                 <Textarea
+                  placeholder="Describe your character... For example: 'A former detective turned private investigator who has the ability to see the last 24 hours of a person's life by touching objects they've handled. She's haunted by a case she couldn't solve and drinks too much coffee. She has trust issues but a deep sense of justice...'"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="Example: A mysterious detective with a photographic memory who..."
-                  className="min-h-[120px] resize-none"
-                  style={{
-                    borderColor: theme.border,
-                    '--tw-ring-color': theme.primary + '20',
-                    '&:focus': {
-                      borderColor: theme.primary,
-                      boxShadow: `0 0 0 3px ${theme.primary}20`
-                    }
-                  } as any}
-                  maxLength={1000}
+                  className="min-h-[150px] resize-none border-0 focus-visible:ring-0 text-base leading-relaxed"
                 />
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">
-                    {prompt.length}/1000 characters
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
+                  <span className="text-sm text-muted-foreground">
+                    {prompt.length} characters
                   </span>
-                  <span className="text-gray-500">
-                    Minimum 10 characters for generation
-                  </span>
+                  <Button
+                    onClick={handleGenerate}
+                    disabled={!prompt.trim() || generateMutation.isPending}
+                    className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    <Sparkles className="h-5 w-5" />
+                    {generateMutation.isPending ? 'Creating...' : 'Create Character'}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-center gap-4">
-              <Button
-                onClick={handleGenerate}
-                disabled={!isValidPrompt || generateMutation.isPending}
-                size="lg"
-                className="gap-3 px-8 text-white"
-                style={{ backgroundColor: theme.primary }}
-              >
-                <Sparkles className="h-5 w-5" />
-                {generateMutation.isPending ? 'Creating...' : 'Create Character'}
-              </Button>
-              {prompt && (
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => setPrompt('')}
-                  className="gap-2"
-                >
-                  <RefreshCw className="h-4 w-4" />
-                  Clear
-                </Button>
-              )}
+            {/* Example Prompts by Category */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">Need Inspiration?</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {EXAMPLE_PROMPTS.map((category) => {
+                  const Icon = category.icon;
+                  return (
+                    <Card key={category.category} className="border border-border">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-5 w-5 text-primary" />
+                          <h4 className="font-medium text-foreground">{category.category}</h4>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        {category.prompts.map((prompt, index) => (
+                          <button
+                            key={index}
+                            onClick={() => useExamplePrompt(prompt)}
+                            className="w-full text-left p-3 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                          >
+                            <p className="text-sm text-muted-foreground group-hover:text-foreground leading-relaxed">
+                              {prompt}
+                            </p>
+                          </button>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right Panel - Examples and Tips */}
-      <div 
-        className="w-80 flex-shrink-0 border-l overflow-y-auto"
-        style={{ 
-          backgroundColor: theme.background,
-          borderColor: theme.border
-        }}
-      >
+      {/* Right Panel - Tips */}
+      <div className="w-80 flex-shrink-0 border-l border-border overflow-y-auto bg-muted/30">
         <div className="p-6 space-y-6">
-          {/* Writing Tips */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Lightbulb className="h-5 w-5 text-amber-500" />
-              Writing Tips
-            </h3>
-            <div className="space-y-3">
-              {TIPS.map((tip, index) => (
-                <Card key={index} className="p-3 border border-gray-200 hover:shadow-sm transition-shadow">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-1">
-                      <p className="text-sm text-gray-700 leading-relaxed">{tip}</p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleCopyTip(index, tip)}
-                      className="p-1 h-auto"
-                    >
-                      {copiedTip === index ? (
-                        <Check className="h-3 w-3 text-green-600" />
-                      ) : (
-                        <Copy className="h-3 w-3 text-gray-400" />
-                      )}
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            <h3 className="font-semibold text-foreground mb-2">Writing Tips</h3>
+            <p className="text-sm text-muted-foreground">Make your characters more compelling</p>
           </div>
 
-          {/* Example Prompts */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-blue-600" />
-              Example Prompts
-            </h3>
-            <div className="space-y-4">
-              {EXAMPLE_PROMPTS.map((category) => {
-                const Icon = category.icon;
-                return (
-                  <div key={category.category}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">{category.category}</span>
+          <div className="space-y-4">
+            {WRITING_TIPS.map((tip, index) => {
+              const Icon = tip.icon;
+              return (
+                <Card key={index} className="border border-border">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
+                        <Icon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-medium text-sm text-foreground">{tip.title}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{tip.tip}</p>
+                      </div>
                     </div>
-                    <div className="space-y-2 ml-6">
-                      {category.prompts.map((examplePrompt, index) => (
-                        <Card 
-                          key={index}
-                          className="p-3 cursor-pointer border border-gray-200 hover:shadow-sm transition-all group"
-                          onClick={() => handleUseExample(examplePrompt)}
-                        >
-                          <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">
-                            {examplePrompt}
-                          </p>
-                          <div className="flex items-center justify-end mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span 
-                              className="text-xs font-medium"
-                              style={{ color: theme.primary }}
-                            >
-                              Use this →
-                            </span>
-                          </div>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
+
+          <Card className="border border-primary/20 bg-primary/5">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <Lightbulb className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <div className="space-y-2">
+                  <h4 className="font-medium text-primary">Pro Tip</h4>
+                  <p className="text-sm text-primary/80 leading-relaxed">
+                    The more specific and detailed your description, the more interesting and unique your character will be. 
+                    Don't be afraid to include contradictions and complexities!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
