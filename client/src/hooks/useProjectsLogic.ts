@@ -18,7 +18,7 @@ interface UseProjectsLogicReturn {
   // State
   searchQuery: string;
   viewMode: 'grid' | 'list';
-  sortBy: 'name' | 'updated' | 'created' | 'type';
+  sortBy: 'name' | 'updated' | 'created' | 'type' | 'genre' | 'status' | 'wordcount';
   
   // Computed values
   filteredProjects: Project[];
@@ -31,7 +31,7 @@ interface UseProjectsLogicReturn {
   // Actions
   setSearchQuery: (query: string) => void;
   setViewMode: (mode: 'grid' | 'list') => void;
-  setSortBy: (sort: 'name' | 'updated' | 'created' | 'type') => void;
+  setSortBy: (sort: 'name' | 'updated' | 'created' | 'type' | 'genre' | 'status' | 'wordcount') => void;
 }
 
 export function useProjectsLogic({ projects }: UseProjectsLogicProps): UseProjectsLogicReturn {
@@ -41,9 +41,9 @@ export function useProjectsLogic({ projects }: UseProjectsLogicProps): UseProjec
     return (saved as 'grid' | 'list') || 'list';
   });
 
-  const [sortBy, setSortByState] = useState<'name' | 'updated' | 'created' | 'type'>(() => {
+  const [sortBy, setSortByState] = useState<'name' | 'updated' | 'created' | 'type' | 'genre' | 'status' | 'wordcount'>(() => {
     const saved = localStorage.getItem('projectsSortBy');
-    return (saved as 'name' | 'updated' | 'created' | 'type') || 'updated';
+    return (saved as 'name' | 'updated' | 'created' | 'type' | 'genre' | 'status' | 'wordcount') || 'updated';
   });
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,7 +54,7 @@ export function useProjectsLogic({ projects }: UseProjectsLogicProps): UseProjec
     localStorage.setItem('projectsViewMode', mode);
   }, []);
 
-  const setSortBy = useCallback((sort: 'name' | 'updated' | 'created' | 'type') => {
+  const setSortBy = useCallback((sort: 'name' | 'updated' | 'created' | 'type' | 'genre' | 'status' | 'wordcount') => {
     setSortByState(sort);
     localStorage.setItem('projectsSortBy', sort);
   }, []);
@@ -74,8 +74,25 @@ export function useProjectsLogic({ projects }: UseProjectsLogicProps): UseProjec
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         case 'type':
           return (a.type || '').localeCompare(b.type || '');
-        default: // 'updated'
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        case 'genre':
+          const aGenre = Array.isArray(a.genre) ? (a.genre[0] || '') : (a.genre || '');
+          const bGenre = Array.isArray(b.genre) ? (b.genre[0] || '') : (b.genre || '');
+          return aGenre.localeCompare(bGenre);
+        case 'status':
+          const aStatus = (a as any).status || 'draft';
+          const bStatus = (b as any).status || 'draft';
+          // Sort order: planning, draft, in-progress, review, complete
+          const statusOrder: { [key: string]: number } = { 'planning': 0, 'draft': 1, 'in-progress': 2, 'review': 3, 'complete': 4 };
+          return (statusOrder[aStatus] || 1) - (statusOrder[bStatus] || 1);
+        case 'wordcount':
+          const aWordCount = (a as any).wordCount || (a as any).statistics?.wordCount || 0;
+          const bWordCount = (b as any).wordCount || (b as any).statistics?.wordCount || 0;
+          return bWordCount - aWordCount; // Descending order (highest first)
+        case 'updated':
+        default:
+          const aDate = (a as any).lastModified || (a as any).updatedAt || a.createdAt;
+          const bDate = (b as any).lastModified || (b as any).updatedAt || b.createdAt;
+          return new Date(bDate).getTime() - new Date(aDate).getTime();
       }
     });
   }, [projects, searchQuery, sortBy]);

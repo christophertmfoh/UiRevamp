@@ -398,14 +398,40 @@ export function ProjectWorkspace({
                   >
                     {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid3X3 className="w-4 h-4" />}
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSortBy(sortBy === 'name' ? 'updated' : 'name')}
-                    title={`Sort by ${sortBy === 'name' ? 'Last Updated' : 'Name'}`}
-                  >
-                    <SortAsc className="w-4 h-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        title="Sort Projects"
+                      >
+                        <SortAsc className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-48">
+                      <DropdownMenuItem onClick={() => setSortBy('name')}>
+                        <span className={sortBy === 'name' ? 'font-semibold' : ''}>Name (A-Z)</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('updated')}>
+                        <span className={sortBy === 'updated' ? 'font-semibold' : ''}>Last Updated</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('created')}>
+                        <span className={sortBy === 'created' ? 'font-semibold' : ''}>Date Created</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('type')}>
+                        <span className={sortBy === 'type' ? 'font-semibold' : ''}>Project Type</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('genre')}>
+                        <span className={sortBy === 'genre' ? 'font-semibold' : ''}>Genre</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('status')}>
+                        <span className={sortBy === 'status' ? 'font-semibold' : ''}>Status</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSortBy('wordcount')}>
+                        <span className={sortBy === 'wordcount' ? 'font-semibold' : ''}>Word Count</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               )}
               <div className="relative">
