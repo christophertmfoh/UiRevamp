@@ -12,7 +12,16 @@ export const characterRouter = Router();
 
 // DEBUG ROUTE: Test if character router is being hit
 characterRouter.post("/projects/:projectId/characters/test-route", async (req, res) => {
-  res.json({ message: "Character router is working!", projectId: req.params.projectId, body: req.body });
+  res.json({ 
+    message: "Character router is working!", 
+    projectId: req.params.projectId, 
+    body: req.body,
+    env_keys: {
+      GEMINI_X: process.env.GEMINI_X?.substring(0, 10) + '...',
+      GOOGLE_API_KEY_1: process.env.GOOGLE_API_KEY_1?.substring(0, 10) + '...',
+      NODE_ENV: process.env.NODE_ENV
+    }
+  });
 });
 
 // Configure multer for file uploads
