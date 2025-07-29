@@ -1,6 +1,6 @@
 import { 
   users, projects, characters, outlines, proseDocuments, characterRelationships, 
-  imageAssets, projectSettings, sessions,
+  imageAssets, projectSettings, sessions, worldBibleEntities,
   type User, type InsertUser,
   type Project, type InsertProject,
   type Character, type InsertCharacter,
@@ -364,52 +364,47 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
-  // World Bible Entity operations - using generic storage for now
-  private worldBibleEntities: Map<string, any[]> = new Map();
-
+  // World Bible Entity operations - using proper database storage
   async getWorldBibleEntities(projectId: string, entityType: string): Promise<any[]> {
-    const key = `${projectId}:${entityType}`;
-    return this.worldBibleEntities.get(key) || [];
+    return await db.select()
+      .from(worldBibleEntities)
+      .where(and(
+        eq(worldBibleEntities.projectId, projectId),
+        eq(worldBibleEntities.entityType, entityType)
+      ));
   }
 
   async getWorldBibleEntity(id: string): Promise<any | undefined> {
-    for (const entities of this.worldBibleEntities.values()) {
-      const entity = entities.find(e => e.id === id);
-      if (entity) return entity;
-    }
-    return undefined;
-  }
-
-  async createWorldBibleEntity(entity: any): Promise<any> {
-    const key = `${entity.projectId}:${entity.entityType}`;
-    const entities = this.worldBibleEntities.get(key) || [];
-    entities.push(entity);
-    this.worldBibleEntities.set(key, entities);
+    const [entity] = await db.select()
+      .from(worldBibleEntities)
+      .where(eq(worldBibleEntities.id, id))
+      .limit(1);
     return entity;
   }
 
+  async createWorldBibleEntity(entity: any): Promise<any> {
+    const [created] = await db.insert(worldBibleEntities)
+      .values({
+        ...entity,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    return created;
+  }
+
   async updateWorldBibleEntity(id: string, updates: Partial<any>): Promise<any | undefined> {
-    for (const [key, entities] of this.worldBibleEntities.entries()) {
-      const index = entities.findIndex(e => e.id === id);
-      if (index !== -1) {
-        entities[index] = { ...entities[index], ...updates };
-        this.worldBibleEntities.set(key, entities);
-        return entities[index];
-      }
-    }
-    return undefined;
+    const [updated] = await db.update(worldBibleEntities)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(worldBibleEntities.id, id))
+      .returning();
+    return updated;
   }
 
   async deleteWorldBibleEntity(id: string): Promise<boolean> {
-    for (const [key, entities] of this.worldBibleEntities.entries()) {
-      const index = entities.findIndex(e => e.id === id);
-      if (index !== -1) {
-        entities.splice(index, 1);
-        this.worldBibleEntities.set(key, entities);
-        return true;
-      }
-    }
-    return false;
+    const result = await db.delete(worldBibleEntities)
+      .where(eq(worldBibleEntities.id, id));
+    return (result as any).count > 0;
   }
 }
 

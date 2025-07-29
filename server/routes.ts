@@ -388,6 +388,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // World Bible Entity routes
+  app.get("/api/projects/:projectId/worldbible/:entityType", async (req, res) => {
+    try {
+      const { projectId, entityType } = req.params;
+      const entities = await storage.getWorldBibleEntities(projectId, entityType);
+      res.json(entities);
+    } catch (error) {
+      console.error("Error fetching World Bible entities:", error);
+      res.status(500).json({ error: "Failed to fetch entities" });
+    }
+  });
+
+  app.get("/api/worldbible/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const entity = await storage.getWorldBibleEntity(id);
+      if (!entity) {
+        return res.status(404).json({ error: "Entity not found" });
+      }
+      res.json(entity);
+    } catch (error) {
+      console.error("Error fetching World Bible entity:", error);
+      res.status(500).json({ error: "Failed to fetch entity" });
+    }
+  });
+
+  app.post("/api/projects/:projectId/worldbible/:entityType", async (req, res) => {
+    try {
+      const { projectId, entityType } = req.params;
+      const entityData = {
+        ...req.body,
+        id: nanoid(),
+        projectId,
+        entityType,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      
+      const created = await storage.createWorldBibleEntity(entityData);
+      res.status(201).json(created);
+    } catch (error) {
+      console.error("Error creating World Bible entity:", error);
+      res.status(500).json({ error: "Failed to create entity" });
+    }
+  });
+
+  app.put("/api/worldbible/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updated = await storage.updateWorldBibleEntity(id, req.body);
+      if (!updated) {
+        return res.status(404).json({ error: "Entity not found" });
+      }
+      res.json(updated);
+    } catch (error) {
+      console.error("Error updating World Bible entity:", error);
+      res.status(500).json({ error: "Failed to update entity" });
+    }
+  });
+
+  app.delete("/api/worldbible/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await storage.deleteWorldBibleEntity(id);
+      if (!deleted) {
+        return res.status(404).json({ error: "Entity not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting World Bible entity:", error);
+      res.status(500).json({ error: "Failed to delete entity" });
+    }
+  });
+
   // Root route to guide users to the correct frontend URL
   app.get("/", (req, res) => {
     res.send(`

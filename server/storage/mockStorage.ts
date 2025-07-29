@@ -268,7 +268,6 @@ class MockStorage {
       updatedAt: now,
       name: character.name ?? null,
       description: character.description ?? null,
-      development: character.development ?? null,
     };
 
     this.data.characters.set(id, newCharacter);
@@ -432,6 +431,7 @@ class MockStorage {
       projectSettings: new Map(),
       users: new Map(),
       sessions: new Map(),
+      worldBibleEntities: new Map(),
     };
     
     console.log('🧹 Cleared all mock storage data');

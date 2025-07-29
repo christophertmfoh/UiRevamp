@@ -450,11 +450,24 @@ export const projectSettings = pgTable("project_settings", {
   lastModified: timestamp("last_modified").defaultNow().notNull(),
 });
 
+// World Bible Entities - universal storage for all world bible categories
+export const worldBibleEntities = pgTable("world_bible_entities", {
+  id: text("id").primaryKey(),
+  projectId: text("project_id").references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  entityType: text("entity_type").notNull(), // locations, timeline, factions, items, magic-lore, bestiary, languages, cultures, prophecies, themes
+  name: text("name").notNull(),
+  description: text("description").default(''),
+  data: json("data").default({}), // Flexible JSON storage for all entity fields
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Relations
 export const projectsRelations = relations(projects, ({ many, one }) => ({
   characters: many(characters),
   outlines: many(outlines),
   proseDocuments: many(proseDocuments),
+  worldBibleEntities: many(worldBibleEntities),
   settings: one(projectSettings),
 }));
 
@@ -506,6 +519,13 @@ export const projectSettingsRelations = relations(projectSettings, ({ one }) => 
   }),
 }));
 
+export const worldBibleEntitiesRelations = relations(worldBibleEntities, ({ one }) => ({
+  project: one(projects, {
+    fields: [worldBibleEntities.projectId],
+    references: [projects.id],
+  }),
+}));
+
 // Insert schemas
 export const insertProjectSchema = createInsertSchema(projects).omit({
   createdAt: true,
@@ -520,6 +540,10 @@ export const insertProseDocumentSchema = createInsertSchema(proseDocuments);
 export const insertCharacterRelationshipSchema = createInsertSchema(characterRelationships);
 export const insertImageAssetSchema = createInsertSchema(imageAssets);
 export const insertProjectSettingsSchema = createInsertSchema(projectSettings);
+export const insertWorldBibleEntitySchema = createInsertSchema(worldBibleEntities).omit({
+  createdAt: true,
+  updatedAt: true,
+});
 
 // Types
 export type Project = typeof projects.$inferSelect;
@@ -536,6 +560,8 @@ export type ImageAsset = typeof imageAssets.$inferSelect;
 export type InsertImageAsset = z.infer<typeof insertImageAssetSchema>;
 export type ProjectSettings = typeof projectSettings.$inferSelect;
 export type InsertProjectSettings = z.infer<typeof insertProjectSettingsSchema>;
+export type WorldBibleEntity = typeof worldBibleEntities.$inferSelect;
+export type InsertWorldBibleEntity = z.infer<typeof insertWorldBibleEntitySchema>;
 
 // Generic Entity Template System Schemas & Types
 export const insertEntityMetadataSchema = createInsertSchema(entityMetadata);
