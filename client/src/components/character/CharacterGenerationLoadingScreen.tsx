@@ -68,14 +68,14 @@ export function CharacterGenerationLoadingScreen({
   const currentStepIndex = getCurrentStepIndex();
 
   return (
-    <div className="h-full flex items-center justify-center bg-gradient-to-br from-background to-muted/20">
-      <div className="max-w-md w-full space-y-8 p-8">
+    <div className="h-full flex items-center justify-center bg-gradient-to-br from-background to-muted/20 p-4">
+      <div className="max-w-sm w-full space-y-6">
         
         {/* Main Animation */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-4">
           <div className="relative">
             {/* Outer ring */}
-            <div className="w-32 h-32 rounded-full border-4 border-border/30 relative mx-auto">
+            <div className="w-24 h-24 rounded-full border-4 border-border/30 relative mx-auto">
               {/* Progress ring */}
               <div 
                 className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary transition-all duration-500 ease-out"
@@ -86,18 +86,18 @@ export function CharacterGenerationLoadingScreen({
               />
               
               {/* Inner content */}
-              <div className="absolute inset-4 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="absolute inset-3 rounded-full bg-primary/10 flex items-center justify-center">
                 <div className="relative">
-                  <Sparkles className="h-12 w-12 text-primary animate-pulse" />
+                  <Sparkles className="h-8 w-8 text-primary animate-pulse" />
                   {/* Floating particles */}
-                  <div className="absolute -top-2 -right-2">
-                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce delay-100" />
+                  <div className="absolute -top-1 -right-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce delay-100" />
                   </div>
-                  <div className="absolute -bottom-1 -left-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-bounce delay-300" />
+                  <div className="absolute -bottom-1 -left-1">
+                    <div className="w-1 h-1 rounded-full bg-primary/60 animate-bounce delay-300" />
                   </div>
-                  <div className="absolute top-1 -right-3">
-                    <div className="w-1 h-1 rounded-full bg-primary/40 animate-bounce delay-500" />
+                  <div className="absolute top-0 -right-2">
+                    <div className="w-0.5 h-0.5 rounded-full bg-primary/40 animate-bounce delay-500" />
                   </div>
                 </div>
               </div>
@@ -105,16 +105,16 @@ export function CharacterGenerationLoadingScreen({
           </div>
 
           {/* Progress Info */}
-          <div className="space-y-3">
-            <h2 className="text-2xl font-bold text-foreground">Creating Your Character</h2>
-            <p className="text-muted-foreground">
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold text-foreground">Creating Your Character</h2>
+            <p className="text-sm text-muted-foreground">
               {currentStep}
             </p>
             
             {/* Progress Bar */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Progress value={progress} className="h-2" />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {progress}% Complete
               </p>
             </div>
@@ -122,7 +122,7 @@ export function CharacterGenerationLoadingScreen({
         </div>
 
         {/* Generation Steps */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           {GENERATION_STEPS.map((step, index) => {
             const isCompleted = index < currentStepIndex || (index === currentStepIndex && progress >= step.progress);
             const isCurrent = index === currentStepIndex;
@@ -141,42 +141,38 @@ export function CharacterGenerationLoadingScreen({
                       : 'border-border bg-muted/20'
                 }`}
               >
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-4">
-                    <div className={`p-2 rounded-full flex-shrink-0 transition-all duration-300 ${
+                <CardContent className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-1.5 rounded-full flex-shrink-0 transition-all duration-300 ${
                       isCompleted 
                         ? 'bg-green-500/20 text-green-500' 
                         : isCurrent 
                           ? 'bg-primary/20 text-primary' 
-                          : 'bg-muted text-muted-foreground'
+                          : 'bg-muted/50 text-muted-foreground'
                     }`}>
                       {isCompleted ? (
-                        <Check className="h-5 w-5" />
+                        <Check className="h-4 w-4" />
                       ) : isCurrent ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <Loader2 className="h-4 w-4 animate-spin" />
                       ) : (
-                        <Icon className="h-5 w-5" />
+                        <Icon className="h-4 w-4" />
                       )}
                     </div>
                     
-                    <div className="flex-1 space-y-1">
-                      <h3 className={`font-semibold transition-colors ${
-                        isCurrent ? 'text-primary' : isCompleted ? 'text-green-500' : 'text-foreground'
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-medium text-sm ${
+                        isCurrent ? 'text-primary' : isCompleted ? 'text-green-600' : 'text-muted-foreground'
                       }`}>
                         {step.title}
                       </h3>
-                      <p className={`text-sm transition-colors ${
-                        isCurrent ? 'text-primary/70' : 'text-muted-foreground'
-                      }`}>
-                        {isCurrent && currentStep !== step.description ? currentStep : step.description}
+                      <p className="text-xs text-muted-foreground truncate">
+                        {step.description}
                       </p>
                     </div>
                     
-                    {isCurrent && (
-                      <div className="text-sm font-medium text-primary">
-                        {progress}%
-                      </div>
-                    )}
+                    <div className="text-xs text-muted-foreground font-medium">
+                      {step.progress}%
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -187,10 +183,10 @@ export function CharacterGenerationLoadingScreen({
         {/* Character Preview (if available) */}
         {character?.name && (
           <Card className="border-primary/20 bg-primary/5">
-            <CardContent className="p-4">
-              <div className="text-center space-y-2">
-                <h3 className="font-semibold text-primary">Character Preview</h3>
-                <div className="space-y-1 text-sm text-primary/80">
+            <CardContent className="p-3">
+              <div className="text-center space-y-1">
+                <h3 className="font-medium text-primary text-sm">Character Preview</h3>
+                <div className="space-y-0.5 text-xs text-primary/80">
                   <p><strong>Name:</strong> {character.name}</p>
                   {character.species && <p><strong>Species:</strong> {character.species}</p>}
                   {character.occupation && <p><strong>Occupation:</strong> {character.occupation}</p>}
@@ -201,9 +197,9 @@ export function CharacterGenerationLoadingScreen({
         )}
 
         {/* Footer */}
-        <div className="text-center text-sm text-muted-foreground">
-          <p>This usually takes 30-60 seconds</p>
-          <p className="mt-1">Creating a complete, detailed character...</p>
+        <div className="text-center text-xs text-muted-foreground">
+          <p>Test mode: ~10 seconds</p>
+          <p className="mt-1">Creating complete character with 86 fields...</p>
         </div>
       </div>
     </div>
