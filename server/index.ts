@@ -15,8 +15,17 @@ const app = express();
 app.use(securityHeaders);
 app.use(rateLimiting());
 
+// Increase timeout for large requests
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+
+// Add timeout middleware to prevent 504 errors
+app.use((req, res, next) => {
+  // Set timeout for all requests to 60 seconds
+  req.setTimeout(60000);
+  res.setTimeout(60000);
+  next();
+});
 
 // Phase 5: Development optimizations for creative workflow
 if (process.env.NODE_ENV === 'development') {
@@ -58,6 +67,17 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
+
+  // Add health check endpoint
+  app.get('/api/health', (req, res) => {
+    res.json({ 
+      status: 'ok', 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      env: process.env.NODE_ENV || 'development'
+    });
+  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

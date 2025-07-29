@@ -18,21 +18,28 @@ export default defineConfig({
     port: 5173,
     host: "0.0.0.0",
     strictPort: false,
-    allowedHosts: [
-      ".replit.dev",
-      ".replit.co", 
-      "localhost",
-      "bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev"
-    ],
+    allowedHosts: "all", // Allow all hosts to prevent 502 errors
     hmr: {
-      clientPort: 5173
+      clientPort: 5173,
+      timeout: 30000 // Increase HMR timeout
     },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
-        timeout: 10000
+        timeout: 30000, // Increase proxy timeout
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, _res) => {
+            console.log('proxy error', err);
+          });
+          proxy.on('proxyReq', (proxyReq, req, _res) => {
+            console.log('Sending Request to the Target:', req.method, req.url);
+          });
+          proxy.on('proxyRes', (proxyRes, req, _res) => {
+            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+          });
+        },
       }
     }
   },
