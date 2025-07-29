@@ -12,7 +12,7 @@ import { CharacterDetailView } from './CharacterDetailView';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterGenerationModal, type CharacterGenerationOptions } from './CharacterGenerationModal';
 import { CharacterTemplates } from './CharacterTemplates';
-import { CharacterCreationWizardV3 } from './CharacterCreationWizardV3';
+import CharacterCreationWizardV4 from './CharacterCreationWizardV4';
 import { CharacterTemplatesV2 } from './CharacterTemplatesV2';
 import { CharacterDocumentUpload } from './CharacterDocumentUpload';
 import { CharacterCreationService } from '@/lib/services/characterCreationService';
@@ -1035,8 +1035,8 @@ export function CharacterManager({ projectId, selectedCharacterId, onClearSelect
         />
       )}
 
-      {/* V3 Character Creation Wizard - Primary Creation Method */}
-      <CharacterCreationWizardV3
+      {/* V4 Character Creation Wizard - Primary Creation Method */}
+      <CharacterCreationWizardV4
         isOpen={isV2WizardOpen}
         onClose={() => setIsV2WizardOpen(false)}
         projectId={projectId}
