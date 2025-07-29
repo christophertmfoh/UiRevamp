@@ -336,6 +336,7 @@ export function CharacterCreationWizardV3({ isOpen, onClose, projectId, onComple
               onClose={handleClose}
               projectId={projectId}
               onBack={handleBack}
+              onComplete={handleCharacterComplete}
             />
           </div>
         );

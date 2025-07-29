@@ -4,25 +4,44 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Upload, File, X, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useMutation } from '@tanstack/react-query';
+import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
 interface CharacterDocumentUploadProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
   onBack?: () => void;
+  onComplete?: (character: any) => void;
 }
 
 export function CharacterDocumentUpload({
   isOpen,
   onClose,
-  onParseComplete,
-  projectId
+  projectId,
+  onComplete
 }: CharacterDocumentUploadProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isParsing, setIsParsing] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Document import mutation
+  const importMutation = useMutation({
+    mutationFn: async (file: File) => {
+      return await CharacterCreationService.importFromDocument(projectId, file);
+    },
+    onSuccess: (character) => {
+      onComplete?.(character);
+      onClose();
+    },
+    onError: (error) => {
+      console.error('Document import failed:', error);
+      setParseError(error instanceof Error ? error.message : 'Failed to import document');
+      setIsParsing(false);
+    }
+  });
 
   const supportedTypes = [
     { extension: 'PDF', description: 'PDF Documents', color: 'bg-red-100 text-red-800' },
@@ -90,7 +109,7 @@ export function CharacterDocumentUpload({
       const characterData = await response.json();
       console.log('Document imported successfully:', characterData);
       
-      onParseComplete(characterData);
+      onComplete?.(characterData);
       onClose();
       
     } catch (error) {

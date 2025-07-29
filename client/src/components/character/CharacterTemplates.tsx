@@ -5,13 +5,16 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BookOpen, Crown, Sword, Heart, Users, Zap, Shield, Star, FileText, Copy, Download, Eye, Sparkles, Loader2 } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { CharacterCreationService } from '@/lib/services/characterCreationService';
+import type { Character } from '@/lib/types';
 
 interface CharacterTemplatesProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
   onBack?: () => void;
-  onSelectTemplate?: (template: CharacterTemplate) => void;
+  onSelectTemplate?: (character: Character) => void;
 }
 
 interface CharacterTemplate {
@@ -511,6 +514,29 @@ interface CharacterTemplatesProps {
 export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenerating = false }: CharacterTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<CharacterTemplate | null>(null);
+  
+  // Template generation mutation
+  const generateMutation = useMutation({
+    mutationFn: async (template: CharacterTemplate) => {
+      const templateData = {
+        name: template.name,
+        description: template.description,
+        category: template.category,
+        traits: template.fields.personalityTraits,
+        background: template.fields.backstory || template.fields.background,
+        role: template.fields.role,
+        ...template.fields
+      };
+      return await CharacterCreationService.generateFromTemplate(projectId, templateData);
+    },
+    onSuccess: (character) => {
+      onSelectTemplate?.(character as Character);
+      onClose();
+    },
+    onError: (error) => {
+      console.error('Template generation failed:', error);
+    }
+  });
 
   const categories = [
     { id: 'all', name: 'All Templates', count: CHARACTER_TEMPLATES.length },
@@ -530,8 +556,7 @@ export function CharacterTemplates({ isOpen, onClose, onSelectTemplate, isGenera
 
   const handleSelectTemplate = (template: CharacterTemplate) => {
     setSelectedTemplate(template);
-    onSelectTemplate(template);
-    // Don't close immediately - let the parent handle closing after generation
+    generateMutation.mutate(template);
   };
 
   return (

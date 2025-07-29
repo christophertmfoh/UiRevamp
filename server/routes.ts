@@ -389,6 +389,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Character template generation route
+  app.post("/api/projects/:projectId/characters/generate-from-template", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { templateData } = req.body;
+      
+      console.log(`Generating character from template for project ${projectId}`);
+      
+      // Import AI generation service
+      const { generateCharacterFromPrompt } = await import('./services/aiGeneration');
+      
+      // Create a comprehensive prompt from the template data
+      let prompt = `Create a detailed character based on this template:`;
+      
+      if (templateData.name) {
+        prompt += ` Name: ${templateData.name}.`;
+      }
+      
+      if (templateData.description) {
+        prompt += ` Description: ${templateData.description}.`;
+      }
+      
+      if (templateData.category) {
+        prompt += ` Category: ${templateData.category}.`;
+      }
+      
+      if (templateData.role) {
+        prompt += ` Role: ${templateData.role}.`;
+      }
+      
+      if (templateData.traits && Array.isArray(templateData.traits)) {
+        prompt += ` Personality traits: ${templateData.traits.join(', ')}.`;
+      }
+      
+      if (templateData.background) {
+        prompt += ` Background: ${templateData.background}.`;
+      }
+      
+      prompt += ` Please expand this template into a comprehensive character with full details for all character fields including appearance, personality, abilities, relationships, and story elements.`;
+      
+      // Generate character data using AI
+      const generatedData = await generateCharacterFromPrompt(prompt);
+      
+      // Merge template data with generated data, preferring template data for specified fields
+      const characterData: Record<string, unknown> = {
+        id: generateUniqueId(),
+        projectId,
+        name: templateData.name || generatedData.name || 'Template Character',
+        ...generatedData,
+        ...templateData // Template data overrides generated data
+      };
+      
+      // Create character in database
+      const character = await storage.createCharacter(characterData as any);
+      
+      // Generate portrait for the character
+      if (character.id) {
+        try {
+          const { generateCharacterPortrait } = await import('./characterPortraitGenerator');
+          const portraitUrl = await generateCharacterPortrait(character);
+          if (portraitUrl) {
+            console.log('Portrait generated for template character:', portraitUrl);
+          }
+        } catch (portraitError) {
+          console.error("Error generating portrait for template character:", portraitError);
+        }
+      }
+      
+      res.json(character);
+    } catch (error) {
+      console.error("Error generating character from template:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      res.status(500).json({ 
+        error: "Failed to generate character from template",
+        details: errorMessage 
+      });
+    }
+  });
+
   // Character AI generation route
   app.post("/api/projects/:projectId/characters/generate", async (req, res) => {
     try {

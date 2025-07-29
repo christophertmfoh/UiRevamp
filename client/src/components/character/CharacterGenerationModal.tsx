@@ -12,6 +12,7 @@ import { Sparkles, Loader2, Users, Crown, Sword, Heart, BookOpen, Zap, Shield, L
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
+import { CharacterCreationService } from '@/lib/services/characterCreationService';
 
 interface CharacterGenerationModalProps {
   isOpen: boolean;
@@ -89,19 +90,17 @@ export function CharacterGenerationModal({
   
   const queryClient = useQueryClient();
   
-  // Default character generation mutation
+  // Default character generation mutation using the service
   const generateMutation = useMutation({
     mutationFn: async (options: CharacterGenerationOptions) => {
-      const response = await apiRequest(`/api/projects/${projectId}/characters/generate`, {
-        method: 'POST',
-        body: JSON.stringify(options)
-      });
-      return response as Character;
+      return await CharacterCreationService.generateCustomCharacter(projectId, options);
     },
     onSuccess: (character) => {
-      queryClient.invalidateQueries({ queryKey: [`/api/projects/${projectId}/characters`] });
-      onComplete?.(character);
+      onComplete?.(character as Character);
       onClose();
+    },
+    onError: (error) => {
+      console.error('Character generation failed:', error);
     }
   });
 
