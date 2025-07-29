@@ -82,7 +82,7 @@ export function ProjectWorkspace({
 }: ProjectWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'studio' | 'world' | 'storyboard' | 'previs' | 'score'>('overview');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'outline' | 'manuscript' | 'storyboard' | 'previs' | 'score'>('overview');
+  const [worldSection, setWorldSection] = useState<'overview' | 'characters' | 'locations' | 'timeline' | 'factions' | 'items' | 'magic' | 'bestiary' | 'languages' | 'cultures' | 'prophecies' | 'themes'>('overview');
   const [isEditMode, setIsEditMode] = useState(false);
   
   const { scrollY } = useOptimizedScroll();
