@@ -26,7 +26,7 @@
     "security:better": "better-npm-audit audit --level moderate",
     "bundle:analyze": "npx webpack-bundle-analyzer dist/stats.json",
     
-    "prepare": "husky install",
+    "prepare": "husky",
     "commit": "git-cz",
     
     "ci:lint": "npm run lint && npm run format:check",
