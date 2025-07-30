@@ -12,6 +12,8 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "structure:check": "node scripts/structure-monitor.cjs",
+    "structure:watch": "nodemon --watch src --ext ts,tsx scripts/structure-monitor.cjs",
     "test:watch": "vitest watch",
     "type-check": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
