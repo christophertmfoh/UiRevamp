@@ -173,6 +173,11 @@ export function useAuthInit() {
   const checkAuth = useAuth((state) => state.checkAuth)
 
   React.useEffect(() => {
+    // Skip auth check in development when backend is not available
+    if (import.meta.env.DEV && !import.meta.env.VITE_ENABLE_AUTH_CHECK) {
+      useAuth.setState({ isLoading: false })
+      return
+    }
     checkAuth()
   }, [checkAuth])
 }
