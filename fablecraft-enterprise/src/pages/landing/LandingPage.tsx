@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ThemeToggle } from '@/components/theme'
 import { FloatingOrbs } from '@/components/effects/floating-orbs'
 import { CTASection } from './CTASection'
+import { TestimonialCard } from './TestimonialCard'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,6 +92,21 @@ const trustIndicators = [
   { number: '50K+', label: 'Stories Created', icon: Lightbulb },
   { number: '99%', label: 'Uptime Guarantee', icon: Target },
   { number: '100%', label: 'Workflow Integration', icon: CheckCircle },
+]
+
+const testimonials = [
+  {
+    quote: "FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories.",
+    author: { name: "Sarah Chen", role: "Fantasy Novelist", initials: "SL" }
+  },
+  {
+    quote: "Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly.",
+    author: { name: "Marcus Rivera", role: "Screenwriter", initials: "MR" }
+  },
+  {
+    quote: "The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team.",
+    author: { name: "Alex Thompson", role: "Graphic Novelist", initials: "AT" }
+  }
 ]
 
 export function LandingPage({
@@ -374,85 +390,11 @@ export function LandingPage({
             </h2>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
-              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-
-              <CardContent className="relative z-10 space-y-6 p-8">
-                <div className="mb-4 flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="italic leading-relaxed text-foreground">
-                  "FableCraft transformed how I develop characters. The AI understands nuance in
-                  ways I never expected, and the 164+ fields capture every detail that matters to my
-                  stories."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
-                    <span className="text-sm font-bold text-primary-foreground">SL</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Sarah Chen</div>
-                    <div className="text-sm text-muted-foreground">Fantasy Novelist</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
-              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-
-              <CardContent className="relative z-10 space-y-6 p-8">
-                <div className="mb-4 flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="italic leading-relaxed text-foreground">
-                  "Finally, a platform that gets the creative process. The world bible feature keeps
-                  all my storylines consistent, and the collaboration tools let my writing partner
-                  contribute seamlessly."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
-                    <span className="text-sm font-bold text-primary-foreground">MR</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Marcus Rivera</div>
-                    <div className="text-sm text-muted-foreground">Screenwriter</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
-              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
-
-              <CardContent className="relative z-10 space-y-6 p-8">
-                <div className="mb-4 flex space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="italic leading-relaxed text-foreground">
-                  "The visual storytelling features are incredible. I can generate consistent
-                  character art and storyboards that perfectly match my written descriptions. It's
-                  like having a whole creative team."
-                </p>
-                <div className="flex items-center space-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
-                    <span className="text-sm font-bold text-primary-foreground">AT</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Alex Thompson</div>
-                    <div className="text-sm text-muted-foreground">Graphic Novelist</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  <div className="grid gap-8 md:grid-cols-3">
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard key={index} quote={testimonial.quote} author={testimonial.author} />
+          ))}
+        </div>
         </div>
       </section>
 
