@@ -252,6 +252,88 @@ export interface TemplateConfig {
   }>;
 }
 
+// Add template configuration interfaces
+export interface TemplateDataTransform {
+  type: 'randomize' | 'increment' | 'generate';
+  field: string;
+  options?: string[];
+  pattern?: string;
+  generator?: string;
+}
+
+export interface TemplateConfig {
+  id: string;
+  name: string;
+  description: string;
+  category?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  estimatedTime?: string;
+  usageCount?: number;
+  isPopular?: boolean;
+  aiEnhanced?: boolean;
+  tags?: string[];
+  features?: string[];
+  namePattern?: string;
+  baseData: Record<string, any>;
+  dataTransforms?: TemplateDataTransform[];
+}
+
+export interface TemplateCategory {
+  id: string;
+  name: string;
+  description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+export interface TemplateGeneralConfig {
+  enabled: boolean;
+  categories?: TemplateCategory[];
+  templates: TemplateConfig[];
+}
+
+// Add AI configuration interfaces
+export interface AIPromptConfig {
+  id: string;
+  name: string;
+  description: string;
+  template: string;
+  context: string;
+  complexity?: 'simple' | 'moderate' | 'complex';
+  icon?: React.ComponentType<{ className?: string }>;
+  features?: string[];
+  estimatedTime?: string;
+}
+
+export interface AIGenerationSettings {
+  creativity?: number;
+  complexity?: number;
+  style?: 'conservative' | 'balanced' | 'creative';
+  includeDetails?: boolean;
+}
+
+export interface AIGeneralConfig {
+  enabled: boolean;
+  prompts: AIPromptConfig[];
+  defaultSettings?: AIGenerationSettings;
+  customPromptsAllowed?: boolean;
+}
+
+// Add upload configuration interfaces
+export interface UploadExtractionRule {
+  field: string;
+  pattern: string;
+  description?: string;
+}
+
+export interface UploadGeneralConfig {
+  enabled: boolean;
+  acceptedFormats?: string[];
+  maxFileSize?: number; // in MB
+  extractionRules?: UploadExtractionRule[];
+  allowMultiple?: boolean;
+}
+
 // Enhanced universal entity configuration interface
 export interface EnhancedUniversalEntityConfig {
   // Identity
@@ -282,7 +364,13 @@ export interface EnhancedUniversalEntityConfig {
   relationships: RelationshipConfig;
   
   // Templates
-  templates: TemplateConfig;
+  templates: TemplateGeneralConfig;
+  
+  // AI Configuration (Enhanced)
+  aiConfig: AIGeneralConfig;
+  
+  // Upload Configuration
+  uploadConfig: UploadGeneralConfig;
   
   // Features
   features: {
@@ -290,6 +378,8 @@ export interface EnhancedUniversalEntityConfig {
     hasTemplates: boolean;
     hasRelationships: boolean;
     hasAIGeneration: boolean;
+    hasDocumentUpload: boolean;
+    hasGuidedCreation: boolean;
     hasFieldEnhancement: boolean;
     hasBulkOperations: boolean;
     hasAdvancedSearch: boolean;
@@ -516,8 +606,8 @@ export const DEFAULT_WIZARD_CONFIG: WizardConfig = {
   methods: {
     guided: true,
     templates: true,
-    ai: false,
-    upload: false
+    ai: true,
+    upload: true
   }
 };
 
@@ -596,9 +686,40 @@ export const DEFAULT_ENHANCED_DISPLAY_CONFIG: EnhancedDisplayConfig = {
   }
 };
 
-export const DEFAULT_TEMPLATE_CONFIG: TemplateConfig = {
-  enabled: false,
-  categories: []
+export const DEFAULT_TEMPLATE_CONFIG: TemplateGeneralConfig = {
+  enabled: true,
+  categories: [],
+  templates: []
+};
+
+export const DEFAULT_AI_CONFIG: AIGeneralConfig = {
+  enabled: true,
+  prompts: [],
+  defaultSettings: {
+    creativity: 0.7,
+    complexity: 0.5,
+    style: 'balanced',
+    includeDetails: true
+  },
+  customPromptsAllowed: true
+};
+
+export const DEFAULT_UPLOAD_CONFIG: UploadGeneralConfig = {
+  enabled: true,
+  acceptedFormats: ['.pdf', '.txt', '.docx'],
+  maxFileSize: 10,
+  extractionRules: [],
+  allowMultiple: true
+};
+
+export const DEFAULT_ENHANCED_FEATURES = {
+  hasAIGeneration: true,
+  hasTemplates: true,
+  hasDocumentUpload: true,
+  hasGuidedCreation: true,
+  hasPortraits: false,
+  hasRelationships: false,
+  hasArcTracking: false
 };
 
 export const DEFAULT_DISPLAY_CONFIG: UIDisplayConfig = {

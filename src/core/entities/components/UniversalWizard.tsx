@@ -44,6 +44,60 @@ export function UniversalWizard({
   const currentStep = wizardConfig.steps[currentStepIndex];
   const progress = ((currentStepIndex + 1) / wizardConfig.steps.length) * 100;
   const totalSteps = wizardConfig.steps.length;
+  
+  // Define all available creation methods
+  const allMethods = [
+    {
+      id: 'guided',
+      title: 'Guided Creation',
+      subtitle: 'Step-by-step assistance',
+      description: 'Walk through each step with helpful guidance and tips',
+      timeEstimate: '5-10 min',
+      features: ['Progressive disclosure', 'Field validation', 'Smart suggestions']
+    },
+    {
+      id: 'templates',
+      title: 'Use Template',
+      subtitle: 'Start from a preset',
+      description: 'Choose from pre-built templates and customize as needed',
+      timeEstimate: '2-5 min',
+      features: ['Quick start', 'Proven structures', 'Easy customization']
+    },
+    {
+      id: 'ai',
+      title: 'AI Generation',
+      subtitle: 'Let AI create for you',
+      description: 'Describe what you want and let AI generate the initial content',
+      timeEstimate: '1-3 min',
+      features: ['Natural language input', 'Creative suggestions', 'Intelligent defaults']
+    },
+    {
+      id: 'upload',
+      title: 'Document Upload',
+      subtitle: 'Extract from files',
+      description: 'Upload documents to automatically extract structured information',
+      timeEstimate: '1-2 min',
+      features: ['File parsing', 'Data extraction', 'Format detection']
+    }
+  ];
+  
+  // Get only enabled methods based on configuration
+  const getAvailableMethods = () => {
+    return allMethods.filter(method => {
+      switch (method.id) {
+        case 'guided':
+          return wizardConfig.methods.guided !== false;
+        case 'templates':
+          return wizardConfig.methods.templates !== false && config.features?.hasTemplates !== false;
+        case 'ai':
+          return wizardConfig.methods.ai !== false && config.features?.hasAIGeneration !== false;
+        case 'upload':
+          return wizardConfig.methods.upload !== false && config.features?.hasDocumentUpload !== false;
+        default:
+          return false;
+      }
+    });
+  };
 
   // Reset wizard state when opened
   useEffect(() => {
@@ -134,7 +188,7 @@ export function UniversalWizard({
         </div>
         
         <div className="grid gap-4">
-          {wizardConfig.methods.map((method) => {
+          {getAvailableMethods().map((method) => {
             const IconComponent = getMethodIcon(method.id);
             return (
               <Button
