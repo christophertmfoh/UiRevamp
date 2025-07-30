@@ -33,6 +33,9 @@ export default defineConfig(async (): Promise<UserConfig> => {
       hmr: false, // Disable HMR completely
       allowedHosts: true,
     },
+    define: {
+      'import.meta.hot': 'undefined', // Completely disable HMR client
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

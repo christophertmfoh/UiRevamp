@@ -27,11 +27,11 @@ export default defineConfig(async () => {
             host: '0.0.0.0',
             port: 5173,
             strictPort: false,
-            hmr: {
-                port: 5173,
-                host: '0.0.0.0'
-            },
+            hmr: false, // Disable HMR completely
             allowedHosts: true,
+        },
+        define: {
+            'import.meta.hot': 'undefined', // Completely disable HMR client
         },
         resolve: {
             alias: {
