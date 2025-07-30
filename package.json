@@ -6,13 +6,39 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview --host 0.0.0.0 --port 4173",
+    
+    "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
+    
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    
     "type-check": "tsc --noEmit",
-    "prepare": "husky"
+    "complexity": "plato -r -d reports/complexity src",
+    "duplicates": "jscpd src --reporters html,console --output reports/duplicates",
+    "security": "audit-ci --config audit-ci.json",
+    "security:better": "better-npm-audit audit --level moderate",
+    "bundle:analyze": "npx webpack-bundle-analyzer dist/stats.json",
+    
+    "prepare": "husky install",
+    "commit": "git-cz",
+    
+    "ci:lint": "npm run lint && npm run format:check",
+    "ci:test": "npm run test:coverage && npm run test:e2e",
+    "ci:build": "npm run type-check && npm run build",
+    "ci:security": "npm run security && npm run security:better",
+    "ci:quality": "npm run complexity && npm run duplicates",
+    "ci:all": "npm run ci:lint && npm run ci:test && npm run ci:build && npm run ci:security && npm run ci:quality",
+    
+    "clean": "rm -rf dist coverage reports node_modules/.cache",
+    "clean:full": "npm run clean && rm -rf node_modules package-lock.json && npm install",
+    "doctor": "npm run type-check && npm run lint && npm run test:coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -32,7 +58,6 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@eslint/js": "^9.32.0",
     "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.54.1",
     "@testing-library/jest-dom": "^6.5.0",
@@ -81,5 +106,20 @@
   },
   "engines": {
     "node": ">=20.19.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "vitest related --run --reporter=verbose"
+    ],
+    "*.{css,md}": ["prettier --write"],
+    "*.{json}": ["prettier --write"],
+    "package*.json": ["npm audit --audit-level moderate"]
   }
 }
