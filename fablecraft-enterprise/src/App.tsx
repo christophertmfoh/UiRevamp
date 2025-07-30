@@ -113,12 +113,12 @@ function App() {
   }
 
   return (
-    <ThemeProvider 
-      attribute="class" 
-      defaultTheme="system" 
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
       enableSystem
       themes={[
-        'light', 
+        'light',
         'dark',
         'system',
         'arctic-focus',
@@ -126,7 +126,7 @@ function App() {
         'midnight-ink',
         'forest-manuscript',
         'starlit-prose',
-        'coffee-house'
+        'coffee-house',
       ]}
     >
       {renderView()}

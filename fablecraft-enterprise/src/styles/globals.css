@@ -61,35 +61,91 @@
     --auth-button-primary-hover: 350 70% 30%; /* Darker burgundy */
   }
 
-  /* Dark theme */
-  .dark {
-    --background: 240 10% 8%; /* Very dark blue-gray: #121416 */
-    --foreground: 60 5% 90%; /* Light cream: #E5E3E0 (12.1:1) */
-    --card: 240 8% 12%; /* Card: #1A1C1F */
-    --card-foreground: 60 5% 90%; /* Light text */
-    --popover: 240 8% 14%; /* Popover: #1F2124 */
-    --popover-foreground: 60 5% 90%; /* Light text */
-    --primary: 30 70% 60%; /* Warm amber: #D4A574 (7.2:1) */
-    --primary-foreground: 240 10% 8%; /* Dark text on primary */
-    --secondary: 240 6% 20%; /* Dark gray: #2F3336 */
-    --secondary-foreground: 60 5% 85%; /* Light text: #DAD6D1 (9.1:1) */
-    --muted: 240 6% 20%; /* Muted background */
-    --muted-foreground: 60 5% 65%; /* Medium light: #A6A29C (4.8:1) */
-    --accent: 210 50% 50%; /* Cool blue: #4080BF (4.6:1) */
-    --accent-foreground: 240 10% 8%; /* Dark text on accent */
-    --destructive: 0 50% 50%; /* Red: #BF4040 (4.9:1) */
-    --destructive-foreground: 60 5% 90%; /* Light text */
-    --border: 240 6% 25%; /* Border: #3A3D42 */
-    --input: 240 6% 18%; /* Input: #2A2C30 */
-    --ring: 30 70% 60%; /* Focus ring: amber */
+  /* Arctic Focus - Clean blue theme */
+  .arctic-focus {
+    --background: 200 15% 97%;
+    --foreground: 210 25% 15%;
+    --card: 200 10% 94%;
+    --card-foreground: 210 25% 15%;
+    --popover: 200 10% 91%;
+    --popover-foreground: 210 25% 15%;
+    --primary: 210 70% 40%;
+    --primary-foreground: 200 15% 97%;
+    --secondary: 200 8% 90%;
+    --secondary-foreground: 210 25% 20%;
+    --muted: 200 8% 90%;
+    --muted-foreground: 210 15% 40%;
+    --accent: 200 60% 50%;
+    --accent-foreground: 200 15% 97%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 200 15% 97%;
+    --border: 200 8% 85%;
+    --input: 200 8% 92%;
+    --ring: 210 70% 40%;
 
-    --gradient-brand-start: 30 70% 60%;
-    --gradient-brand-end: 210 50% 50%;
-    --gradient-brand-text: 60 5% 90%;
-    --surface-elevated: 240 8% 14%;
-    --surface-muted: 240 6% 16%;
-    --orb-primary: 30 70% 60%;
-    --orb-secondary: 210 50% 50%;
+    --gradient-brand-start: 210 70% 40%;
+    --gradient-brand-end: 200 60% 50%;
+    --gradient-brand-text: 210 25% 15%;
+    --surface-elevated: 200 10% 95%;
+    --surface-muted: 200 8% 92%;
+  }
+
+  /* Golden Hour - Warm inspiration theme */
+  .golden-hour {
+    --background: 45 20% 96%;
+    --foreground: 25 30% 15%;
+    --card: 45 15% 93%;
+    --card-foreground: 25 30% 15%;
+    --popover: 45 15% 90%;
+    --popover-foreground: 25 30% 15%;
+    --primary: 45 80% 40%;
+    --primary-foreground: 45 20% 96%;
+    --secondary: 45 12% 88%;
+    --secondary-foreground: 25 30% 20%;
+    --muted: 45 12% 88%;
+    --muted-foreground: 25 25% 35%;
+    --accent: 35 70% 45%;
+    --accent-foreground: 45 20% 96%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 45 20% 96%;
+    --border: 45 12% 82%;
+    --input: 45 12% 90%;
+    --ring: 45 80% 40%;
+
+    --gradient-brand-start: 45 80% 40%;
+    --gradient-brand-end: 35 70% 45%;
+    --gradient-brand-text: 25 30% 15%;
+    --surface-elevated: 45 15% 94%;
+    --surface-muted: 45 12% 90%;
+  }
+
+  /* Dark theme - Modern professional */
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 210 15% 92%;
+    --card: 220 15% 11%;
+    --card-foreground: 210 15% 92%;
+    --popover: 220 15% 13%;
+    --popover-foreground: 210 15% 92%;
+    --primary: 160 80% 45%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 220 15% 16%;
+    --secondary-foreground: 210 15% 88%;
+    --muted: 220 15% 16%;
+    --muted-foreground: 210 10% 65%;
+    --accent: 180 70% 50%;
+    --accent-foreground: 220 15% 8%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 210 15% 92%;
+    --border: 220 15% 20%;
+    --input: 220 15% 13%;
+    --ring: 160 80% 45%;
+
+    --gradient-brand-start: 160 80% 45%;
+    --gradient-brand-end: 180 70% 50%;
+    --gradient-brand-text: 210 15% 92%;
+    --surface-elevated: 220 15% 13%;
+    --surface-muted: 220 15% 10%;
 
     /* Auth page theme colors - Dark */
     --auth-brand-primary: 30 70% 60%; /* Warm amber */
@@ -104,6 +160,122 @@
     --auth-input-border: 240 6% 25%; /* Border */
     --auth-button-primary: 30 70% 60%; /* Warm amber */
     --auth-button-primary-hover: 30 70% 65%; /* Lighter amber */
+  }
+
+  /* Midnight Ink - Navy with gold accents */
+  .midnight-ink {
+    --background: 210 50% 6%;
+    --foreground: 45 15% 90%;
+    --card: 210 40% 9%;
+    --card-foreground: 45 15% 90%;
+    --popover: 210 40% 12%;
+    --popover-foreground: 45 15% 90%;
+    --primary: 45 90% 55%;
+    --primary-foreground: 210 50% 6%;
+    --secondary: 210 40% 15%;
+    --secondary-foreground: 45 15% 85%;
+    --muted: 210 40% 15%;
+    --muted-foreground: 210 15% 65%;
+    --accent: 42 80% 65%;
+    --accent-foreground: 210 50% 6%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 45 15% 90%;
+    --border: 210 40% 18%;
+    --input: 210 40% 12%;
+    --ring: 45 90% 55%;
+
+    --gradient-brand-start: 45 90% 55%;
+    --gradient-brand-end: 42 80% 65%;
+    --gradient-brand-text: 45 15% 90%;
+    --surface-elevated: 210 40% 12%;
+    --surface-muted: 210 40% 9%;
+  }
+
+  /* Forest Manuscript - Natural green focus */
+  .forest-manuscript {
+    --background: 150 40% 8%;
+    --foreground: 120 10% 90%;
+    --card: 150 35% 11%;
+    --card-foreground: 120 10% 90%;
+    --popover: 150 35% 14%;
+    --popover-foreground: 120 10% 90%;
+    --primary: 120 60% 50%;
+    --primary-foreground: 150 40% 8%;
+    --secondary: 150 35% 17%;
+    --secondary-foreground: 120 10% 85%;
+    --muted: 150 35% 17%;
+    --muted-foreground: 150 15% 65%;
+    --accent: 140 50% 55%;
+    --accent-foreground: 150 40% 8%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 120 10% 90%;
+    --border: 150 35% 20%;
+    --input: 150 35% 14%;
+    --ring: 120 60% 50%;
+
+    --gradient-brand-start: 120 60% 50%;
+    --gradient-brand-end: 140 50% 55%;
+    --gradient-brand-text: 120 10% 90%;
+    --surface-elevated: 150 35% 14%;
+    --surface-muted: 150 35% 11%;
+  }
+
+  /* Starlit Prose - Mystical purple */
+  .starlit-prose {
+    --background: 270 25% 9%;
+    --foreground: 210 10% 90%;
+    --card: 270 20% 12%;
+    --card-foreground: 210 10% 90%;
+    --popover: 270 20% 15%;
+    --popover-foreground: 210 10% 90%;
+    --primary: 280 60% 65%;
+    --primary-foreground: 270 25% 9%;
+    --secondary: 270 20% 18%;
+    --secondary-foreground: 210 10% 85%;
+    --muted: 270 20% 18%;
+    --muted-foreground: 270 10% 65%;
+    --accent: 0 0% 85%;
+    --accent-foreground: 270 25% 9%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 210 10% 90%;
+    --border: 270 20% 22%;
+    --input: 270 20% 15%;
+    --ring: 280 60% 65%;
+
+    --gradient-brand-start: 280 60% 65%;
+    --gradient-brand-end: 0 0% 85%;
+    --gradient-brand-text: 210 10% 90%;
+    --surface-elevated: 270 20% 15%;
+    --surface-muted: 270 20% 12%;
+  }
+
+  /* Coffee House - Cozy brown theme */
+  .coffee-house {
+    --background: 25 25% 10%;
+    --foreground: 30 15% 88%;
+    --card: 25 20% 13%;
+    --card-foreground: 30 15% 88%;
+    --popover: 25 20% 16%;
+    --popover-foreground: 30 15% 88%;
+    --primary: 25 70% 55%;
+    --primary-foreground: 25 25% 10%;
+    --secondary: 25 20% 19%;
+    --secondary-foreground: 30 15% 83%;
+    --muted: 25 20% 19%;
+    --muted-foreground: 25 15% 65%;
+    --accent: 35 80% 60%;
+    --accent-foreground: 25 25% 10%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 30 15% 88%;
+    --border: 25 20% 23%;
+    --input: 25 20% 16%;
+    --ring: 25 70% 55%;
+
+    --gradient-brand-start: 25 70% 55%;
+    --gradient-brand-end: 35 80% 60%;
+    --gradient-brand-text: 30 15% 88%;
+    --surface-elevated: 25 20% 16%;
+    --surface-muted: 25 20% 13%;
   }
 
   * {
