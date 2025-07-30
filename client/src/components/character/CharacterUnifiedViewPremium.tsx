@@ -39,6 +39,7 @@ export function CharacterUnifiedViewPremium({
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const autoSaveTimerRef = useRef<NodeJS.Timeout>();
@@ -352,15 +353,36 @@ export function CharacterUnifiedViewPremium({
     }
   };
 
-  const handleAIEnhance = async (selectedCategories: string[]) => {
-    // AI functionality removed - close modal and show placeholder message
+  const handleAIEnhance = async (selectedCategories?: string[]) => {
+    setIsEnhancing(true);
     setIsAIAssistModalOpen(false);
-    console.log('🤖 AI Enhancement - UI placeholder (no functionality)', selectedCategories);
+    
+    try {
+      console.log('Starting AI enhancement for character:', character.id);
+      
+      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
+      const enhancedData = await response.json();
+      console.log('AI enhancement response received:', enhancedData);
+      
+      // Process the enhanced data to ensure correct types before updating form
+      const processedEnhancedData = processDataForSave({ ...character, ...enhancedData });
+      
+      // Update form data with processed data
+      setFormData({ ...character, ...processedEnhancedData } as Character);
+      
+      console.log('Form data updated with enhanced character');
+    } catch (error) {
+      console.error('Failed to enhance character:', error);
+      alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
+    } finally {
+      setIsEnhancing(false);
+    }
   };
 
   const handleAbortAI = () => {
-    // AI functionality removed - no abort needed
-    console.log('🤖 AI Abort - UI placeholder (no functionality)');
+    setIsEnhancing(false);
+    setIsAIAssistModalOpen(false);
+    console.log('AI enhancement aborted by user');
   };
 
   const handleInputChange = (field: keyof Character, value: any) => {
