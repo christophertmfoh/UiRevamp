@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -27,15 +27,136 @@ interface UniversalEntityFormProps {
   isLoading?: boolean;
 }
 
-export function UniversalEntityForm({ 
-  config, 
-  projectId, 
-  entity, 
-  onSave, 
-  onCancel, 
-  isLoading = false 
-}: UniversalEntityFormProps) {
+// Memoized field renderer for performance
+const MemoizedFieldRenderer = memo(({ field, value, onChange, error, disabled }: any) => {
+  // Memoized change handler to prevent unnecessary re-renders
+  const handleChange = useCallback((newValue: any) => {
+    onChange(field.key, newValue);
+  }, [field.key, onChange]);
   
+  return (
+    <FieldRenderer
+      field={field}
+      value={value}
+      onChange={handleChange}
+      error={error}
+      disabled={disabled}
+    />
+  );
+});
+
+// Memoized section component for performance
+const MemoizedFormSection = memo(({ 
+  section, 
+  fields, 
+  formData, 
+  errors, 
+  handleFieldChange, 
+  disabled,
+  config 
+}: any) => {
+  const [isExpanded, setIsExpanded] = useState(section.defaultExpanded ?? true);
+  
+  // Memoize section fields to prevent recalculation
+  const sectionFields = useMemo(() => 
+    fields.filter((field: any) => section.fields.includes(field.key)),
+    [fields, section.fields]
+  );
+  
+  // Memoize error count for section
+  const errorCount = useMemo(() => 
+    sectionFields.reduce((count: number, field: any) => 
+      count + (errors[field.key] ? 1 : 0), 0
+    ),
+    [sectionFields, errors]
+  );
+  
+  // Memoize completion percentage
+  const completionPercentage = useMemo(() => {
+    const totalFields = sectionFields.length;
+    const completedFields = sectionFields.filter((field: any) => {
+      const value = formData[field.key];
+      return value !== undefined && value !== null && 
+             (typeof value !== 'string' || value.trim() !== '') &&
+             (!Array.isArray(value) || value.length > 0);
+    }).length;
+    return totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
+  }, [sectionFields, formData]);
+  
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader 
+        className={section.collapsible ? "cursor-pointer hover:bg-accent/50" : ""}
+        onClick={section.collapsible ? () => setIsExpanded(!isExpanded) : undefined}
+      >
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <CardTitle className="text-lg flex items-center gap-2">
+              {section.title}
+              {errorCount > 0 && (
+                <Badge variant="destructive" className="text-xs">
+                  {errorCount} error{errorCount !== 1 ? 's' : ''}
+                </Badge>
+              )}
+            </CardTitle>
+            {section.description && (
+              <p className="text-sm text-muted-foreground">{section.description}</p>
+            )}
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {/* Completion indicator */}
+            <div className="flex items-center gap-2">
+              <div className="text-xs text-muted-foreground">{completionPercentage}%</div>
+              <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-primary transition-all duration-300"
+                  style={{ width: `${completionPercentage}%` }}
+                />
+              </div>
+            </div>
+            
+            {section.collapsible && (
+              <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
+                isExpanded ? 'rotate-180' : ''
+              }`} />
+            )}
+          </div>
+        </div>
+      </CardHeader>
+      
+      {isExpanded && (
+        <CardContent className="pt-0">
+          <div className={`grid gap-6 ${
+            config.form.layout === 'two-column' && sectionFields.length > 3 
+              ? 'md:grid-cols-2' 
+              : 'grid-cols-1'
+          }`}>
+            {sectionFields.map((field: any) => (
+              <MemoizedFieldRenderer
+                key={field.key}
+                field={field}
+                value={formData[field.key]}
+                onChange={handleFieldChange}
+                error={errors[field.key]}
+                disabled={disabled}
+              />
+            ))}
+          </div>
+        </CardContent>
+      )}
+    </Card>
+  );
+});
+
+export const UniversalEntityForm = memo(function UniversalEntityForm({
+  config,
+  entity,
+  projectId,
+  onSave,
+  onCancel,
+  isLoading
+}: UniversalEntityFormProps) {
   // Section collapse state management
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(() => {
     const initialCollapsed = new Set<string>();
@@ -571,142 +692,167 @@ export function UniversalEntityForm({
     return Math.round((essentialScore + importantScore) * 100);
   };
 
+  // Performance: Memoize form sections
+  const formSections = useMemo(() => 
+    config.formConfig.sections || [],
+    [config.formConfig.sections]
+  );
+  
+  // Performance: Memoize field change handler
+  const handleFieldChange = useCallback((fieldKey: string, value: any) => {
+    form.setValue(fieldKey, value);
+    
+    // Clear error when field is changed
+    if (form.formState.errors[fieldKey]) {
+      form.clearErrors(fieldKey);
+    }
+  }, [form]);
+  
+  // Performance: Memoize validation
+  const isFormValid = useMemo(() => {
+    const requiredFields = config.fields.filter(f => f.required).map(f => f.key);
+    return requiredFields.every(fieldKey => {
+      const value = form.getValues()[fieldKey];
+      return value !== undefined && value !== null && 
+             (typeof value !== 'string' || value.trim() !== '') &&
+             (!Array.isArray(value) || value.length > 0);
+    }) && Object.keys(form.formState.errors).length === 0;
+  }, [form, config.fields]);
+  
+  // Performance: Memoize form completion percentage
+  const overallCompletion = useMemo(() => {
+    const allFields = config.fields;
+    const totalFields = allFields.length;
+    const completedFields = allFields.filter(field => {
+      const value = form.getValues()[field.key];
+      return value !== undefined && value !== null && 
+             (typeof value !== 'string' || value.trim() !== '') &&
+             (!Array.isArray(value) || value.length > 0);
+    }).length;
+    return totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0;
+  }, [config.fields, form]);
+  
+  // Performance: Memoize submit handler
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    const newErrors: Record<string, string> = {};
+    
+    // Required field validation
+    const requiredFields = config.fields.filter(f => f.required).map(f => f.key);
+    requiredFields.forEach(fieldKey => {
+      const value = form.getValues()[fieldKey];
+      if (!value || (typeof value === 'string' && !value.trim()) || 
+          (Array.isArray(value) && value.length === 0)) {
+        const field = config.fields.find(f => f.key === fieldKey);
+        newErrors[fieldKey] = `${field?.label || fieldKey} is required`;
+      }
+    });
+    
+    // Custom validation
+    if (config.validation?.customValidators) {
+      Object.entries(config.validation.customValidators).forEach(([fieldKey, validator]) => {
+        const result = validator(form.getValues()[fieldKey], form.getValues());
+        if (result !== true) {
+          newErrors[fieldKey] = typeof result === 'string' ? result : 'Invalid value';
+        }
+      });
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      form.setError(newErrors);
+      return;
+    }
+    
+    onSave(form.getValues());
+  }, [form, config.validation, config.fields, onSave]);
+  
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" onClick={onCancel}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold">
-            {entity ? 'Edit' : 'Create'} {config.displayName}
-          </h1>
-          <p className="text-muted-foreground">
-            {entity ? `Editing ${entity.name || 'entity'}` : `Create a new ${config.displayName.toLowerCase()}`}
-          </p>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {calculateFormCompletion()}% complete
-        </div>
-      </div>
-
-      {/* Form */}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Header with completion indicator */}
       <Card>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
-            <CardContent className="p-0">
-              {/* Render configurable sections */}
-              {config.formConfig.sections.map((section, sectionIndex) => {
-                const isCollapsed = collapsedSections.has(section.id);
-                const sectionFields = section.fields || [];
-                const hasErrors = sectionFields.some(fieldKey => form.formState.errors[fieldKey]);
-                
-                return (
-                  <div key={section.id}>
-                    {sectionIndex > 0 && <Separator />}
-                    
-                    <Collapsible 
-                      open={!isCollapsed} 
-                      onOpenChange={() => section.collapsible && toggleSection(section.id)}
-                    >
-                      <div className="p-6">
-                        <CollapsibleTrigger 
-                          asChild={section.collapsible}
-                          disabled={!section.collapsible}
-                          className={section.collapsible ? 'cursor-pointer' : 'cursor-default'}
-                        >
-                          <div className={`flex items-center justify-between ${
-                            section.collapsible ? 'hover:bg-accent/50 -m-2 p-2 rounded-md transition-colors' : ''
-                          }`}>
-                            <div className="space-y-1">
-                              <h3 className="text-lg font-semibold flex items-center gap-2">
-                                {section.icon && <section.icon className="h-5 w-5" />}
-                                {section.title}
-                                {section.required && (
-                                  <Badge variant="destructive" className="text-xs">
-                                    Required
-                                  </Badge>
-                                )}
-                                {hasErrors && (
-                                  <AlertCircle className="h-4 w-4 text-destructive" />
-                                )}
-                              </h3>
-                              {section.description && (
-                                <p className="text-sm text-muted-foreground">
-                                  {section.description}
-                                </p>
-                              )}
-                            </div>
-                            {section.collapsible && (
-                              <div className="flex items-center gap-2">
-                                {hasErrors && (
-                                  <Badge variant="destructive" className="text-xs">
-                                    Has errors
-                                  </Badge>
-                                )}
-                                {isCollapsed ? (
-                                  <ChevronRight className="h-4 w-4" />
-                                ) : (
-                                  <ChevronDown className="h-4 w-4" />
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </CollapsibleTrigger>
-                        
-                        <CollapsibleContent className="space-y-6 mt-6">
-                          <div className={`grid gap-6 ${
-                            section.layout === 'single' ? 'grid-cols-1' :
-                            section.layout === 'double' ? 'md:grid-cols-2' :
-                            'md:grid-cols-2 lg:grid-cols-3'
-                          }`}>
-                            {sectionFields.map(fieldKey => {
-                              const field = config.fields.find(f => f.key === fieldKey);
-                              if (!field) return null;
-                              
-                              return renderFormField(field);
-                            })}
-                          </div>
-                          
-                          {section.customComponent && (
-                            <div className="mt-6">
-                              {section.customComponent({ 
-                                form, 
-                                entity, 
-                                config, 
-                                projectId 
-                              })}
-                            </div>
-                          )}
-                        </CollapsibleContent>
-                      </div>
-                    </Collapsible>
-                  </div>
-                );
-              })}
-            </CardContent>
-
-            {/* Form Actions */}
-            <div className="flex items-center justify-between p-6 bg-muted/50 border-t">
-              <Button type="button" variant="outline" onClick={onCancel}>
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-              <div className="flex items-center gap-3">
-                <div className="text-sm text-muted-foreground">
-                  {calculateFormCompletion()}% complete
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl">
+                {entity ? `Edit ${config.displayName}` : `Create ${config.displayName}`}
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">
+                {config.formConfig.layout === 'two-column' ? 'Two-column' : 'Single-column'} layout
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {/* Overall completion */}
+              <div className="text-right">
+                <div className="text-sm font-medium">{overallCompletion}% Complete</div>
+                <div className="w-24 h-2 bg-muted rounded-full overflow-hidden mt-1">
+                  <div 
+                    className="h-full bg-primary transition-all duration-300"
+                    style={{ width: `${overallCompletion}%` }}
+                  />
                 </div>
-                <Button type="submit" disabled={isLoading}>
-                  <Save className="h-4 w-4 mr-2" />
-                  {isLoading ? 'Saving...' : entity ? 'Update' : 'Create'} {config.displayName}
-                </Button>
               </div>
             </div>
-          </form>
-        </Form>
+          </div>
+        </CardHeader>
       </Card>
-    </div>
+      
+      {/* Form sections with performance optimization */}
+      <div className="space-y-6">
+        {formSections.map((section) => (
+          <MemoizedFormSection
+            key={section.id}
+            section={section}
+            fields={config.fields}
+            formData={form.getValues()}
+            errors={form.formState.errors}
+            handleFieldChange={handleFieldChange}
+            disabled={isLoading}
+            config={config}
+          />
+        ))}
+      </div>
+      
+      {/* Actions */}
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-muted-foreground">
+              {Object.keys(form.formState.errors).length > 0 && (
+                <span className="text-red-600">
+                  {Object.keys(form.formState.errors).length} error{Object.keys(form.formState.errors).length !== 1 ? 's' : ''} to fix
+                </span>
+              )}
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                disabled={isLoading}
+              >
+                Cancel
+              </Button>
+              
+              <Button
+                type="submit"
+                disabled={!isFormValid || isLoading}
+                className="gap-2"
+              >
+                {isLoading && (
+                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                )}
+                {entity ? 'Update' : 'Create'} {config.displayName}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </form>
   );
-}
+});
+
+export default UniversalEntityForm;
