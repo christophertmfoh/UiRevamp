@@ -1,13 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Star } from 'lucide-react'
+import type { Testimonial } from './data'
 
 interface TestimonialCardProps {
   quote: string
-  author: {
-    name: string
-    role: string
-    initials: string
-  }
+  author: Testimonial['author']
 }
 
 export function TestimonialCard({ quote, author }: TestimonialCardProps) {
