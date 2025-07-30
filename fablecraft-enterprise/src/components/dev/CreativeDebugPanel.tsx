@@ -4,13 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
   Bug, 
-  Activity, 
-  Clock, 
   Download,
   Trash2,
   ChevronRight,
   ChevronDown,
-  Eye,
   EyeOff
 } from 'lucide-react'
 import { useCreativeDebugger } from '@/hooks/useCreativeDebugger'
@@ -34,7 +31,6 @@ export function CreativeDebugPanel({
     session,
     toggleDebugMode,
     clearSession,
-    getDebugSummary,
     exportDebugData,
     sessionDuration,
     actionCount,
@@ -42,9 +38,6 @@ export function CreativeDebugPanel({
   } = useCreativeDebugger(context)
 
   const [isExpanded, setIsExpanded] = useState(!collapsed)
-  const [activeTab, setActiveTab] = useState<'overview' | 'actions' | 'errors'>('overview')
-  
-  const summary = getDebugSummary()
 
   if (!isDebugMode) {
     return (
