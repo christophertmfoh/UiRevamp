@@ -32,6 +32,8 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@eslint/compat": "^1.2.4",
     "@eslint/js": "^9.32.0",
     "@playwright/test": "^1.54.1",
@@ -56,8 +58,10 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
+    "husky": "^9.1.7",
     "jscpd": "^4.0.5",
     "jsdom": "^25.0.1",
+    "lint-staged": "^15.5.2",
     "msw": "^2.8.1",
     "plato": "^1.7.0",
     "postcss": "^8.4.47",
