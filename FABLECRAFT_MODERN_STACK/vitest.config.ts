@@ -9,12 +9,20 @@ export default defineConfig({
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
-      '**/OLD_ASSETS/**',
+      '**/OLD_ASSETS/**', // CRITICAL: Exclude old assets
       '**/.{idea,git,cache,output,temp}/**',
       '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*'
     ],
     globals: true,
-    setupFiles: [],
+    setupFiles: ['src/test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: ['OLD_ASSETS/**', 'node_modules/**', 'src/test/**', '**/*.d.ts', '**/*.config.*'],
+      thresholds: {
+        global: { branches: 80, functions: 80, lines: 80, statements: 80 }
+      }
+    },
   },
   resolve: {
     alias: {
