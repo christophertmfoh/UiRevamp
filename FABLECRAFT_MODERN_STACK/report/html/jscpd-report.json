@@ -1,6 +1,6 @@
 {
   "statistics": {
-    "detectionDate": "2025-07-30T22:51:40.221Z",
+    "detectionDate": "2025-07-30T23:03:30.383Z",
     "formats": {
       "javascript": {
         "sources": {
@@ -19,6 +19,18 @@
           "src/components/ui/button.tsx": {
             "lines": 1,
             "tokens": 21,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/components/ui/button.test.tsx": {
+            "lines": 0,
+            "tokens": 3,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -67,8 +79,8 @@
         },
         "total": {
           "lines": 65,
-          "tokens": 518,
-          "sources": 5,
+          "tokens": 521,
+          "sources": 6,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -95,6 +107,18 @@
           "src/components/ui/button.tsx": {
             "lines": 27,
             "tokens": 242,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/components/ui/button.test.tsx": {
+            "lines": 39,
+            "tokens": 392,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -153,8 +177,8 @@
             "newClones": 0
           },
           "src/App.tsx": {
-            "lines": 15,
-            "tokens": 136,
+            "lines": 17,
+            "tokens": 140,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -166,9 +190,9 @@
           }
         },
         "total": {
-          "lines": 298,
-          "tokens": 2457,
-          "sources": 7,
+          "lines": 339,
+          "tokens": 2853,
+          "sources": 8,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -216,6 +240,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/test/integration.test.ts": {
+            "lines": 11,
+            "tokens": 111,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/lib/utils.ts": {
             "lines": 5,
             "tokens": 61,
@@ -230,9 +266,9 @@
           }
         },
         "total": {
-          "lines": 142,
-          "tokens": 906,
-          "sources": 4,
+          "lines": 153,
+          "tokens": 1017,
+          "sources": 5,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -272,9 +308,9 @@
       }
     },
     "total": {
-      "lines": 576,
-      "tokens": 4425,
-      "sources": 17,
+      "lines": 628,
+      "tokens": 4935,
+      "sources": 20,
       "clones": 0,
       "duplicatedLines": 0,
       "duplicatedTokens": 0,
