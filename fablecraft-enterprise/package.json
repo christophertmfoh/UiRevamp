@@ -26,8 +26,7 @@
     "validate:fix": "npm run format && npm run lint -- --fix && npm run validate",
     "clean": "rm -rf dist coverage node_modules/.vite",
     "clean:all": "npm run clean && rm -rf node_modules",
-    "precommit": "npm run validate",
-    "prepare": "npm run validate"
+    "precommit": "npm run validate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

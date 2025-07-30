@@ -68,7 +68,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
         performance: {
           ...prev.performance,
           avgRenderTime: (prev.performance.avgRenderTime + renderTime) / 2,
-          peakMemory: Math.max(prev.performance.peakMemory, (performance as any).memory?.usedJSHeapSize || 0)
+                       peakMemory: Math.max(prev.performance.peakMemory, (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0)
         }
       }))
     }
@@ -98,7 +98,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       data,
       performance: {
         renderTime: performance.now() - renderStart,
-        memory: (performance as any).memory?.usedJSHeapSize || 0
+                   memory: (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0
       }
     }
 
