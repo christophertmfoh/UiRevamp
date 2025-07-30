@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -27,11 +27,7 @@ export function UniversalEntityDetailView({
   onEdit, 
   onDelete 
 }: UniversalEntityDetailViewProps) {
-  const [activeTab, setActiveTab] = useState<string>(() => {
-    // Find first visible tab as default
-    const firstVisibleTab = getVisibleTabs()[0];
-    return firstVisibleTab?.id || config.detailTabConfig.tabs[0]?.id || 'overview';
-  });
+  const [activeTab, setActiveTab] = useState<string>('overview');
   
   // Get entity image/portrait
   const getEntityImage = () => {
@@ -80,6 +76,13 @@ export function UniversalEntityDetailView({
   };
   
   const visibleTabs = getVisibleTabs();
+  
+  // Set initial active tab to first visible tab
+  useEffect(() => {
+    if (visibleTabs.length > 0 && activeTab === 'overview') {
+      setActiveTab(visibleTabs[0].id);
+    }
+  }, [visibleTabs, activeTab]);
 
   // Render field value based on type and configuration
   const renderFieldValue = (fieldKey: string, value: any, customRenderer?: any) => {
