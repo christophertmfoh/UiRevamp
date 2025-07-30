@@ -12,6 +12,11 @@ import { ArrowLeft, Edit, Save, X, User, Eye, Brain, Zap, BookOpen, Users, PenTo
 import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { CHARACTER_SECTIONS, getFieldsBySection } from '@/lib/config/fieldConfig';
+import { 
+  prepareCharacterForSave, 
+  cleanCorruptedCharacterData,
+  logCharacterDataIntegrity 
+} from '@/lib/utils/characterDataUtils';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { CharacterRelationships } from './CharacterRelationships';
 import { CharacterArcTracker } from './CharacterArcTracker';
@@ -104,85 +109,13 @@ export function CharacterUnifiedView({
     }
   };
 
+  // CRITICAL FIX: Replace corruption-prone processDataForSave with centralized utility
   const processDataForSave = (data: Character) => {
-    const processedData = { ...data };
-    
-    // Define all fields that should be arrays according to schema
-    const arrayFields = [
-      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
-      'languages', 'archetypes', 'tropes', 'tags'
-    ];
-    
-    // Define all fields that should be strings according to schema  
-    const stringFields = [
-      'beliefs', 'values', 'principles', 'virtues', 'vices', 'habits', 'quirks',
-      'idiosyncrasies', 'petPeeves', 'likes', 'dislikes', 'hobbies', 'interests', 
-      'passions', 'formativeEvents', 'failures', 'allies', 'enemies', 'mentors', 
-      'rivals', 'friends', 'family'
-    ];
-    
-    // Process array fields - convert strings to arrays, keep arrays as arrays
-    arrayFields.forEach(field => {
-      const value = (data as any)[field];
-      if (typeof value === 'string') {
-        (processedData as any)[field] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-      } else if (Array.isArray(value)) {
-        (processedData as any)[field] = value; // Keep arrays as is
-      } else {
-        (processedData as any)[field] = [];
-      }
-    });
-    
-    // Process string fields - convert arrays/objects to strings
-    stringFields.forEach(field => {
-      const value = (data as any)[field];
-      if (Array.isArray(value)) {
-        (processedData as any)[field] = value.join(', ');
-      } else if (typeof value === 'object' && value !== null) {
-        (processedData as any)[field] = JSON.stringify(value);
-      } else if (value === undefined || value === null) {
-        (processedData as any)[field] = '';
-      } else {
-        (processedData as any)[field] = String(value);
-      }
-    });
-    
-    // Convert comma-separated strings back to arrays for array fields from all sections
-    CHARACTER_SECTIONS.forEach(section => {
-      const sectionFields = getFieldsBySection(section.id);
-      sectionFields.forEach(field => {
-        if (field.type === 'array') {
-          const value = (data as any)[field.key];
-          if (typeof value === 'string') {
-            (processedData as any)[field.key] = value.split(',').map((v: string) => v.trim()).filter((v: string) => v);
-          } else if (!Array.isArray(value)) {
-            (processedData as any)[field.key] = [];
-          }
-        }
-      });
-    });
-    
-    // Ensure age is a string
-    if (typeof processedData.age === 'number') {
-      processedData.age = String(processedData.age);
-    }
-    
-    // Remove any remaining undefined/null values
-    Object.keys(processedData).forEach(key => {
-      if ((processedData as any)[key] === undefined || (processedData as any)[key] === null) {
-        (processedData as any)[key] = '';
-      }
-    });
-    
-    // Remove system fields that shouldn't be updated, but preserve portraits
-    const { createdAt, id, projectId, ...dataToSave } = processedData;
-    
-    // Ensure portraits array is preserved
-    if (character.portraits) {
-      dataToSave.portraits = character.portraits;
-    }
-    
-    return dataToSave;
+    console.log('🔧 CharacterUnifiedView: Using centralized data processing to prevent corruption');
+    const prepared = prepareCharacterForSave(data);
+    logCharacterDataIntegrity(prepared, 'CharacterUnifiedView Save');
+    return prepared;
+
   };
 
   const handleImageGenerated = (imageUrl: string) => {

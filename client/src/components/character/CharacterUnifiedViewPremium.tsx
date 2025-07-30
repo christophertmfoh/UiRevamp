@@ -14,6 +14,12 @@ import type { Character } from '@/lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { AIAssistModal } from './AIAssistModal';
 import { FieldAIAssist } from './FieldAIAssist';
+import { 
+  hasCharacterChanges, 
+  prepareCharacterForSave, 
+  cleanCorruptedCharacterData,
+  logCharacterDataIntegrity 
+} from '@/lib/utils/characterDataUtils';
 
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
@@ -67,12 +73,9 @@ export function CharacterUnifiedViewPremium({
     return String(value);
   };
 
-  /**
-   * Enterprise-grade data cleanup utility
-   * Fixes existing data corruption when component loads
-   */
-  const cleanupCharacterData = (char: Character): Character => {
-    const cleaned = { ...char };
+  // Data cleanup and comparison now handled by centralized characterDataUtils
+  
+    // Define all character fields organized by category (matching the wizard 1:1)
     
     // Clean string fields from corruption
     const stringFields = [
@@ -140,7 +143,8 @@ export function CharacterUnifiedViewPremium({
   useEffect(() => {
     if (!isEditing) {
       console.log('🔄 Character prop changed (not editing), updating formData:', character.name);
-      const cleanedCharacter = cleanupCharacterData(character);
+      const cleanedCharacter = cleanCorruptedCharacterData(character);
+      logCharacterDataIntegrity(cleanedCharacter, 'CharacterUnifiedViewPremium Load');
       setFormData(cleanedCharacter);
     }
   }, [character, isEditing]);
@@ -153,7 +157,8 @@ export function CharacterUnifiedViewPremium({
       setAutoSaveStatus('saving');
       setIsAutoSaving(true);
       
-      const processedData = processDataForSave(dataToSave);
+      const processedData = prepareCharacterForSave(dataToSave);
+      logCharacterDataIntegrity(processedData, 'CharacterUnifiedViewPremium Auto-Save');
       await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
       
       setAutoSaveStatus('saved');
@@ -181,7 +186,7 @@ export function CharacterUnifiedViewPremium({
     // Set new timer for auto-save (3 seconds after last change)
     autoSaveTimerRef.current = setTimeout(() => {
       // Only auto-save if there are meaningful changes and minimum required data
-      const hasChanges = hasSignificantCharacterChanges(formData, character);
+      const hasChanges = hasCharacterChanges(formData, character);
       const hasMinimumData = formData.name && formData.name.trim().length > 0;
       
       if (hasChanges && hasMinimumData) {
@@ -385,8 +390,9 @@ export function CharacterUnifiedViewPremium({
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
       console.log('🔧 Saving character:', character.id);
-      const processedData = processDataForSave(data);
-      const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+          const processedData = prepareCharacterForSave(data);
+    logCharacterDataIntegrity(processedData, 'CharacterUnifiedViewPremium Manual Save');
+    const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
       console.log('✅ Character saved successfully');
       return result;
     },
