@@ -78,6 +78,11 @@ export function CharacterUnifiedViewPremium({
         const value = (cleanedCharacter as any)[field];
         if (typeof value === 'string' && (value === '{}' || value === '[]' || value === 'null' || value === 'undefined')) {
           (cleanedCharacter as any)[field] = '';
+          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
+        } else if (typeof value === 'object' && value !== null) {
+          // Also catch objects that somehow got into string fields
+          (cleanedCharacter as any)[field] = '';
+          console.log(`🧹 Fixed object in string field '${field}':`, value, '→ ""');
         }
       });
       
@@ -274,6 +279,17 @@ export function CharacterUnifiedViewPremium({
       if (Array.isArray(value)) {
         // If somehow an array got in, convert back to string
         (processedData as any)[field] = value.join(', ');
+      } else if (typeof value === 'string') {
+        // Clean up corrupted string values from previous bugs
+        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+          (processedData as any)[field] = '';
+        } else {
+          (processedData as any)[field] = value;
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        // If somehow an object got in (this is the bug!), convert to empty string
+        console.warn(`⚠️ Object found in string field '${field}':`, value, 'Converting to empty string');
+        (processedData as any)[field] = '';
       } else {
         // Keep as string (or convert to string if needed)
         (processedData as any)[field] = value ? String(value) : '';
