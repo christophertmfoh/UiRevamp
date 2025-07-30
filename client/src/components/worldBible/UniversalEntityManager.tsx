@@ -5,7 +5,7 @@
  * FULL FEATURE PARITY: Grid/List views, AI generation, portraits, sorting, filtering, creation wizards
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -290,7 +290,7 @@ interface UniversalEntityManagerProps {
   onClearSelection?: () => void;
 }
 
-export function UniversalEntityManager({ 
+export const UniversalEntityManager = memo(function UniversalEntityManager({ 
   entityType, 
   projectId, 
   selectedEntityId, 
@@ -1607,4 +1607,4 @@ function UniversalCreationView({
       </div>
     </div>
   );
-}
+});
