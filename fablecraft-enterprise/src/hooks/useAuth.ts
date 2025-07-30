@@ -71,16 +71,28 @@ export const useAuth = create<AuthState>()(
         if (token) {
           try {
             const apiUrl = import.meta.env.VITE_API_URL || '/api'
+            
+            // Create AbortController for timeout
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout for logout
+
             await fetch(`${apiUrl}/auth/logout`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
               },
+              signal: controller.signal,
             })
+
+            clearTimeout(timeoutId)
           } catch (error) {
             // Logout anyway even if server request fails
-            console.error('Logout request failed:', error)
+            if (error instanceof Error && error.name === 'AbortError') {
+              console.warn('[Auth] Logout request timed out - proceeding with local logout')
+            } else {
+              console.warn('[Auth] Logout request failed - proceeding with local logout:', error)
+            }
           }
         }
 
@@ -106,11 +118,19 @@ export const useAuth = create<AuthState>()(
 
         try {
           const apiUrl = import.meta.env.VITE_API_URL || '/api'
+          
+          // Create AbortController for timeout
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+
           const response = await fetch(`${apiUrl}/auth/me`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            signal: controller.signal,
           })
+
+          clearTimeout(timeoutId)
 
           if (response.ok) {
             const data = await response.json()
@@ -120,7 +140,7 @@ export const useAuth = create<AuthState>()(
               isLoading: false,
             })
           } else {
-            // Silently clear invalid tokens without throwing
+            // Invalid token - clear auth state
             set({
               user: null,
               token: null,
@@ -128,14 +148,19 @@ export const useAuth = create<AuthState>()(
               isLoading: false,
             })
           }
-        } catch {
-          // Network error or invalid token - silently clear auth state
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isLoading: false,
-          })
+        } catch (error) {
+          // Network errors, timeouts, or aborted requests
+          if (error instanceof Error && error.name === 'AbortError') {
+            // Request was aborted due to timeout
+            console.warn('[Auth] Authentication check timed out - backend may be unavailable')
+          } else {
+            // Other network errors
+            console.warn('[Auth] Authentication check failed:', error)
+          }
+          
+          // Don't clear tokens on network errors - user might be offline
+          // Just stop the loading state
+          set({ isLoading: false })
         }
       },
 
@@ -173,11 +198,6 @@ export function useAuthInit() {
   const checkAuth = useAuth((state) => state.checkAuth)
 
   React.useEffect(() => {
-    // Skip auth check in development when backend is not available
-    if (import.meta.env.DEV && !import.meta.env.VITE_ENABLE_AUTH_CHECK) {
-      useAuth.setState({ isLoading: false })
-      return
-    }
     checkAuth()
   }, [checkAuth])
 }
