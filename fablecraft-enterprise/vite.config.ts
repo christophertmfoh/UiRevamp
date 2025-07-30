@@ -30,7 +30,7 @@ export default defineConfig(async (): Promise<UserConfig> => {
       host: '0.0.0.0',
       port: 5173,
       strictPort: false,
-      hmr: false, // Disable HMR on Replit to avoid WebSocket issues
+      hmr: false, // Disable HMR completely
       allowedHosts: true,
     },
     resolve: {
