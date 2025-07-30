@@ -121,11 +121,81 @@
 @layer components {
   /* Gradient utilities */
   .gradient-primary {
-    @apply bg-gradient-to-r from-[hsl(var(--gradient-brand-start))] to-[hsl(var(--gradient-brand-end))];
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-brand-start)),
+      hsl(var(--gradient-brand-end))
+    );
+  }
+
+  .gradient-primary-br {
+    background: linear-gradient(
+      to bottom right,
+      hsl(var(--gradient-brand-start)),
+      hsl(var(--gradient-brand-end))
+    );
+  }
+
+  .gradient-primary-text {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-brand-start)),
+      hsl(var(--gradient-brand-end))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: hsl(var(--gradient-brand-text)); /* Fallback for accessibility */
   }
 
   .gradient-destructive {
     @apply bg-gradient-to-r from-destructive to-destructive/80;
+  }
+
+  .surface-elevated {
+    background-color: hsl(var(--surface-elevated));
+  }
+
+  .surface-muted {
+    background-color: hsl(var(--surface-muted));
+  }
+
+  /* Button Enhancement Classes */
+  .btn-enhanced {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-enhanced:hover::before {
+    left: 100%;
+  }
+
+  .btn-enhanced:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Card Enhancement Classes */
+  .card-enhanced {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid hsl(var(--border) / 0.2);
+  }
+
+  /* Focus ring utility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
   /* Custom scrollbar styles */

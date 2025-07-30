@@ -6,5 +6,4 @@
 
 export { HeroSection } from './HeroSection'
 export { CTASection } from './CTASection'
-export { FeatureCards } from './FeatureCards'
 export { LandingPage } from './LandingPage'

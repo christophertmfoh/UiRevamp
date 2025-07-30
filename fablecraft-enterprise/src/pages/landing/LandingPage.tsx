@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { ThemeToggle } from '@/components/theme'
 import { FloatingOrbs } from '@/components/effects/floating-orbs'
 import { CTASection } from './CTASection'
-import { FeatureCards } from './FeatureCards'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,9 @@ import {
   LogOut,
   UserCircle,
   LucideIcon,
+  CheckCircle,
+  Star,
+  Target,
 } from 'lucide-react'
 
 interface User {
@@ -81,6 +84,13 @@ const processSteps = [
     description: 'Pictures worth a thousand words',
     detail: 'Generate consistent artwork, storyboards, and multimedia from your narrative',
   },
+]
+
+const trustIndicators = [
+  { number: '500M+', label: 'Words Generated', icon: CheckCircle },
+  { number: '50K+', label: 'Stories Created', icon: Lightbulb },
+  { number: '99%', label: 'Uptime Guarantee', icon: Target },
+  { number: '100%', label: 'Workflow Integration', icon: CheckCircle },
 ]
 
 export function LandingPage({
@@ -305,11 +315,283 @@ export function LandingPage({
         </div>
       </section>
 
-      {/* Feature Cards Section */}
-      <FeatureCards />
+      {/* Proof & Trust Indicators */}
+      <section className="relative z-10 mx-auto max-w-7xl px-8 py-24">
+        <div className="space-y-16 text-center">
+          <div className="space-y-6">
+            <Badge className="border-border bg-card/95 font-bold text-foreground shadow-md backdrop-blur-md">
+              Proven Results
+            </Badge>
+            <h2 className="text-4xl font-black leading-[1.2] tracking-tight text-foreground drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] md:text-5xl">
+              Why Professional Writers Choose FableCraft
+            </h2>
+            <p className="mx-auto max-w-3xl text-xl font-medium leading-[1.75] tracking-normal text-foreground drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+              Stop juggling multiple subscriptions and scattered files. Our platform consolidates
+              your entire creative workflow into one powerful, AI-enhanced writing environment.
+            </p>
+          </div>
 
-      {/* CTA Section */}
+          <div className="grid gap-8 md:grid-cols-4">
+            {trustIndicators.map((indicator, index) => {
+              const IconComponent = indicator.icon as LucideIcon
+              return (
+                <Card
+                  key={index}
+                  className="group relative cursor-pointer overflow-hidden border-border bg-card/90 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl"
+                >
+                  {/* Animated background gradient */}
+                  <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+                  <CardContent className="relative z-10 space-y-6 p-8 text-center">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110 group-hover:shadow-xl">
+                      <IconComponent className="h-8 w-8 text-primary-foreground transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-4xl font-bold text-transparent transition-all duration-500 group-hover:from-primary group-hover:to-foreground">
+                        {indicator.number}
+                      </div>
+                      <div className="font-semibold text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                        {indicator.label}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="relative z-10 mx-auto max-w-7xl px-8 py-24">
+        <div className="space-y-16 text-center">
+          <div className="space-y-6">
+            <Badge className="border-border bg-card/95 font-bold text-foreground shadow-md backdrop-blur-md">
+              Trusted by Professional Writers
+            </Badge>
+            <h2 className="text-4xl font-black leading-[1.2] tracking-tight text-foreground drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] md:text-5xl">
+              What Our Users Are Saying
+            </h2>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3">
+            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
+              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+              <CardContent className="relative z-10 space-y-6 p-8">
+                <div className="mb-4 flex space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="italic leading-relaxed text-foreground">
+                  "FableCraft transformed how I develop characters. The AI understands nuance in
+                  ways I never expected, and the 164+ fields capture every detail that matters to my
+                  stories."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
+                    <span className="text-sm font-bold text-primary-foreground">SL</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Sarah Chen</div>
+                    <div className="text-sm text-muted-foreground">Fantasy Novelist</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
+              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+              <CardContent className="relative z-10 space-y-6 p-8">
+                <div className="mb-4 flex space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="italic leading-relaxed text-foreground">
+                  "Finally, a platform that gets the creative process. The world bible feature keeps
+                  all my storylines consistent, and the collaboration tools let my writing partner
+                  contribute seamlessly."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
+                    <span className="text-sm font-bold text-primary-foreground">MR</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Marcus Rivera</div>
+                    <div className="text-sm text-muted-foreground">Screenwriter</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
+              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+              <CardContent className="relative z-10 space-y-6 p-8">
+                <div className="mb-4 flex space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="italic leading-relaxed text-foreground">
+                  "The visual storytelling features are incredible. I can generate consistent
+                  character art and storyboards that perfectly match my written descriptions. It's
+                  like having a whole creative team."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/60">
+                    <span className="text-sm font-bold text-primary-foreground">AT</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Alex Thompson</div>
+                    <div className="text-sm text-muted-foreground">Graphic Novelist</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="relative z-10 mx-auto max-w-7xl px-8 py-24">
+        <div className="space-y-16 text-center">
+          <div className="space-y-6">
+            <Badge className="border-border bg-card/95 font-bold text-foreground shadow-md backdrop-blur-md">
+              Simple, Transparent Pricing
+            </Badge>
+            <h2 className="text-4xl font-black leading-[1.2] tracking-tight text-foreground drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] md:text-5xl">
+              Start Free, Scale with Your Stories
+            </h2>
+            <p className="mx-auto max-w-3xl text-xl font-medium leading-[1.75] tracking-normal text-foreground drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+              Whether you're writing your first novel or managing an entire creative universe, we
+              have a plan that grows with your ambition.
+            </p>
+          </div>
+
+          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
+            {/* Free Tier */}
+            <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
+              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+              <CardContent className="relative z-10 space-y-6 p-8">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-foreground">Storyteller</h3>
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-foreground">Free</div>
+                    <p className="text-muted-foreground">Perfect for getting started</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-left">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">3 Projects</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Character Generation (164+ fields)</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">World Bible</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">AI Story Assistance</span>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={isAuthenticated ? () => onNavigate('projects') : onAuth}
+                  className="w-full rounded-2xl bg-gradient-to-r from-primary to-primary/90 px-6 py-3 text-lg font-semibold text-primary-foreground shadow-xl transition-all duration-500 hover:shadow-2xl"
+                >
+                  Get Started Free
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Professional Tier */}
+            <Card className="group relative cursor-pointer overflow-hidden border border-primary bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
+              <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+
+              <div className="absolute right-0 top-0 rounded-bl-lg bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">
+                Most Popular
+              </div>
+
+              <CardContent className="relative z-10 space-y-6 p-8">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-bold text-foreground">Professional</h3>
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-foreground">
+                      $19<span className="text-lg text-muted-foreground">/month</span>
+                    </div>
+                    <p className="text-muted-foreground">For serious storytellers</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-left">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Unlimited Projects</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Advanced Character AI</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Real-time Collaboration</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Export & Publishing Tools</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">Priority Support</span>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={isAuthenticated ? () => onNavigate('projects') : onAuth}
+                  className="w-full rounded-2xl bg-gradient-to-r from-primary to-primary/90 px-6 py-3 text-lg font-semibold text-primary-foreground shadow-xl transition-all duration-500 hover:shadow-2xl"
+                >
+                  Start Professional Trial
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA - Positioned at the end */}
       <CTASection onNewProject={onNewProject} onNavigateToProjects={() => onNavigate('projects')} />
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-border bg-gradient-to-t from-muted/30 to-transparent px-8 py-20">
+        <div className="mx-auto max-w-7xl space-y-8 text-center">
+          <div className="group flex cursor-pointer items-center justify-center space-x-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-xl transition-all duration-500 group-hover:rotate-3 group-hover:scale-110 group-hover:shadow-2xl">
+              <Feather className="h-7 w-7 text-primary-foreground transition-transform duration-300 group-hover:scale-110" />
+            </div>
+            <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-3xl font-bold text-transparent transition-all duration-300 group-hover:text-primary">
+              Fablecraft
+            </span>
+          </div>
+          <p className="text-xl font-medium text-foreground/80">
+            Where every story finds its voice
+          </p>
+          <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+            <span>Made with</span>
+            <div className="h-4 w-4 animate-pulse rounded-full bg-gradient-to-r from-primary to-accent"></div>
+            <span>for storytellers everywhere</span>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
