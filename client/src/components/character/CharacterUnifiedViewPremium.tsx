@@ -354,35 +354,15 @@ export function CharacterUnifiedViewPremium({
   };
 
   const handleAIEnhance = async (selectedCategories?: string[]) => {
-    setIsEnhancing(true);
+    // AI functionality not implemented yet - close modal
     setIsAIAssistModalOpen(false);
-    
-    try {
-      console.log('Starting AI enhancement for character:', character.id);
-      
-      const response = await apiRequest('POST', `/api/characters/${character.id}/enhance`, formData);
-      const enhancedData = await response.json();
-      console.log('AI enhancement response received:', enhancedData);
-      
-      // Process the enhanced data to ensure correct types before updating form
-      const processedEnhancedData = processDataForSave({ ...character, ...enhancedData });
-      
-      // Update form data with processed data
-      setFormData({ ...character, ...processedEnhancedData } as Character);
-      
-      console.log('Form data updated with enhanced character');
-    } catch (error) {
-      console.error('Failed to enhance character:', error);
-      alert('AI enhancement failed. This may be due to API rate limits. Please try again in a moment.');
-    } finally {
-      setIsEnhancing(false);
-    }
+    console.log('🤖 AI Enhancement - placeholder (not implemented)', selectedCategories);
   };
 
   const handleAbortAI = () => {
-    setIsEnhancing(false);
+    // AI functionality not implemented yet
     setIsAIAssistModalOpen(false);
-    console.log('AI enhancement aborted by user');
+    console.log('🤖 AI Abort - placeholder (not implemented)');
   };
 
   const handleInputChange = (field: keyof Character, value: any) => {
