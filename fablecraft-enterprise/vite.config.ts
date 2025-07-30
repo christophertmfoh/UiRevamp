@@ -32,7 +32,9 @@ export default defineConfig(async (): Promise<UserConfig> => {
       strictPort: false,
       hmr: {
         port: 5173,
-        host: '0.0.0.0'
+        host: 'localhost',
+        clientPort: 443,
+        protocol: 'wss'
       },
       allowedHosts: true,
     },
