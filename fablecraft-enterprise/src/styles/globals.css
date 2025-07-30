@@ -125,7 +125,7 @@
   }
 
   .gradient-destructive {
-    @apply from-destructive to-destructive/80 bg-gradient-to-r;
+    @apply bg-gradient-to-r from-destructive to-destructive/80;
   }
 
   /* Custom scrollbar styles */

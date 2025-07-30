@@ -9,12 +9,12 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="system" enableSystem>
-      <div className="bg-background min-h-screen">
+      <div className="min-h-screen bg-background">
         {/* Floating orbs background */}
         <FloatingOrbs />
 
         {/* Header */}
-        <header className="border-border bg-card/50 relative z-10 border-b backdrop-blur-sm">
+        <header className="relative z-10 border-b border-border bg-card/50 backdrop-blur-sm">
           <div className="container mx-auto px-4">
             <div className="flex h-16 items-center justify-between">
               <h1 className="bg-gradient-to-r from-[hsl(var(--gradient-brand-start))] to-[hsl(var(--gradient-brand-end))] bg-clip-text text-2xl font-bold text-transparent">
@@ -45,7 +45,7 @@ function App() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <h3 className="font-semibold">✅ Completed Setup</h3>
-                    <ul className="text-muted-foreground space-y-1 text-sm">
+                    <ul className="space-y-1 text-sm text-muted-foreground">
                       <li>• UI Components migrated</li>
                       <li>• Theme system configured</li>
                       <li>• Auth store ready</li>
@@ -55,7 +55,7 @@ function App() {
                   </div>
                   <div className="space-y-2">
                     <h3 className="font-semibold">🚀 Next Steps</h3>
-                    <ul className="text-muted-foreground space-y-1 text-sm">
+                    <ul className="space-y-1 text-sm text-muted-foreground">
                       <li>• Migrate Landing Page</li>
                       <li>• Migrate Auth Page</li>
                       <li>• Test auth flow</li>

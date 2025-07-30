@@ -156,7 +156,7 @@ export function ThemeToggle() {
           <DropdownMenuItem
             key={themeKey}
             onClick={() => setTheme(themeKey)}
-            className="hover:bg-accent/10 group flex cursor-pointer items-center justify-between gap-3 px-3 py-3"
+            className="group flex cursor-pointer items-center justify-between gap-3 px-3 py-3 hover:bg-accent/10"
           >
             <div className="flex items-center gap-3">
               <div
@@ -176,12 +176,12 @@ export function ThemeToggle() {
                 >
                   {config.name}
                 </span>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-xs text-muted-foreground">
                   {config.mood} • {config.contrast}
                 </span>
               </div>
             </div>
-            {isActive && <Check className="text-primary h-4 w-4" />}
+            {isActive && <Check className="h-4 w-4 text-primary" />}
           </DropdownMenuItem>
         )
       })
@@ -193,7 +193,7 @@ export function ThemeToggle() {
         <Button
           variant="outline"
           size="sm"
-          className="theme-transition text-primary hover:bg-accent/10 h-9 w-9 px-0"
+          className="theme-transition h-9 w-9 px-0 text-primary hover:bg-accent/10"
           title={getCurrentThemeName()}
         >
           <CurrentIcon className="h-[1.2rem] w-[1.2rem]" />
@@ -202,14 +202,14 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="theme-transition border-border/30 bg-card/95 w-80 backdrop-blur-sm"
+        className="theme-transition w-80 border-border/30 bg-card/95 backdrop-blur-sm"
       >
         <div className="p-2">
-          <DropdownMenuLabel className="text-foreground flex items-center gap-2 px-1 text-sm font-semibold">
-            <Palette className="text-primary h-4 w-4" />
+          <DropdownMenuLabel className="flex items-center gap-2 px-1 text-sm font-semibold text-foreground">
+            <Palette className="h-4 w-4 text-primary" />
             <span>Writer-Focused Themes</span>
           </DropdownMenuLabel>
-          <p className="text-muted-foreground mb-2 mt-1 px-1 text-xs">
+          <p className="mb-2 mt-1 px-1 text-xs text-muted-foreground">
             Optimized for long writing sessions with WCAG AA contrast
           </p>
         </div>
@@ -217,7 +217,7 @@ export function ThemeToggle() {
         <DropdownMenuSeparator />
 
         <div className="p-1">
-          <DropdownMenuLabel className="text-muted-foreground px-2 py-1 text-xs font-medium uppercase tracking-wide">
+          <DropdownMenuLabel className="px-2 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Light Themes
           </DropdownMenuLabel>
           {renderThemesByCategory('Light Themes')}
@@ -226,7 +226,7 @@ export function ThemeToggle() {
         <DropdownMenuSeparator />
 
         <div className="p-1">
-          <DropdownMenuLabel className="text-muted-foreground px-2 py-1 text-xs font-medium uppercase tracking-wide">
+          <DropdownMenuLabel className="px-2 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Dark Themes
           </DropdownMenuLabel>
           {renderThemesByCategory('Dark Themes')}
@@ -235,7 +235,7 @@ export function ThemeToggle() {
         <DropdownMenuSeparator />
 
         <div className="p-1">
-          <DropdownMenuLabel className="text-muted-foreground px-2 py-1 text-xs font-medium uppercase tracking-wide">
+          <DropdownMenuLabel className="px-2 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             System
           </DropdownMenuLabel>
           {renderThemesByCategory('System')}
