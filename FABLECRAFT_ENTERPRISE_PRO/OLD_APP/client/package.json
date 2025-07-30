@@ -1,0 +1,10 @@
+{
+  "name": "fablecraft-client",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "cd .. && vite",
+    "build": "cd .. && vite build"
+  }
+}
