@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import { visualizer } from 'rollup-plugin-visualizer'
+import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig(({ command, mode }) => {
@@ -11,17 +10,8 @@ export default defineConfig(({ command, mode }) => {
       react({
         // Enable Fast Refresh
         fastRefresh: true,
-        // Use SWC for faster builds
-        jsxImportSource: '@emotion/react',
       }),
-      // Bundle analyzer for production builds
-      mode === 'analyze' && visualizer({
-        filename: 'dist/stats.html',
-        open: true,
-        gzipSize: true,
-        brotliSize: true,
-      }),
-    ].filter(Boolean),
+    ],
 
     // Path resolution
     resolve: {
@@ -45,11 +35,6 @@ export default defineConfig(({ command, mode }) => {
     // CSS configuration
     css: {
       devSourcemap: true,
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@import "@/styles/variables.scss";`,
-        },
-      },
     },
 
     // Development server
@@ -70,11 +55,6 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
           secure: false,
         },
-        '/socket.io': {
-          target: env.VITE_WS_URL || 'http://localhost:3001',
-          changeOrigin: true,
-          ws: true,
-        },
       },
     },
 
@@ -88,7 +68,7 @@ export default defineConfig(({ command, mode }) => {
 
     // Build configuration
     build: {
-      target: 'es2022',
+      target: 'es2020',
       outDir: 'dist',
       sourcemap: command === 'build' && mode !== 'production',
       minify: 'esbuild',
@@ -105,41 +85,6 @@ export default defineConfig(({ command, mode }) => {
             'react-vendor': ['react', 'react-dom'],
             'router-vendor': ['@tanstack/react-router'],
             'query-vendor': ['@tanstack/react-query'],
-            'ui-vendor': [
-              '@radix-ui/react-dialog',
-              '@radix-ui/react-dropdown-menu',
-              '@radix-ui/react-tabs',
-              '@radix-ui/react-tooltip',
-              '@radix-ui/react-select',
-              '@radix-ui/react-popover',
-            ],
-            'editor-vendor': [
-              '@tiptap/react',
-              '@tiptap/starter-kit',
-              '@tiptap/extension-placeholder',
-              '@tiptap/extension-character-count',
-            ],
-            'utils-vendor': [
-              'lodash-es',
-              'date-fns',
-              'uuid',
-              'nanoid',
-              'clsx',
-              'tailwind-merge',
-            ],
-          },
-          // Asset naming
-          chunkFileNames: 'assets/js/[name]-[hash].js',
-          entryFileNames: 'assets/js/[name]-[hash].js',
-          assetFileNames: (assetInfo) => {
-            const extType = assetInfo.name?.split('.').pop() || ''
-            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-              return 'assets/images/[name]-[hash][extname]'
-            }
-            if (/woff2?|eot|ttf|otf/i.test(extType)) {
-              return 'assets/fonts/[name]-[hash][extname]'
-            }
-            return 'assets/[ext]/[name]-[hash][extname]'
           },
         },
       },
@@ -157,7 +102,6 @@ export default defineConfig(({ command, mode }) => {
         '@hookform/resolvers',
         'zod',
         'axios',
-        'framer-motion',
         'lucide-react',
       ],
       exclude: ['@vite/client', '@vite/env'],
@@ -165,26 +109,15 @@ export default defineConfig(({ command, mode }) => {
 
     // Environment variables
     define: {
-      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '2.0.0'),
       __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     },
 
     // ESBuild configuration
     esbuild: {
-      target: 'es2022',
+      target: 'es2020',
       drop: command === 'build' ? ['console', 'debugger'] : [],
       legalComments: 'none',
-    },
-
-    // Worker configuration
-    worker: {
-      format: 'es',
-    },
-
-    // JSON configuration
-    json: {
-      namedExports: true,
-      stringify: false,
     },
   }
 })
