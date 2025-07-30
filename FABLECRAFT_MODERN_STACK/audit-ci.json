@@ -1,0 +1,9 @@
+{
+  "level": "moderate",
+  "report-type": "important",
+  "allowlist": [],
+  "retry": {
+    "times": 3,
+    "delay": 1000
+  }
+}
