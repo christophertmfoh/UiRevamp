@@ -37,8 +37,8 @@ function App() {
               <CardHeader>
                 <CardTitle>🎉 Theme System Ready!</CardTitle>
                 <CardDescription>
-                  The theme system is working perfectly. Try switching themes using the toggle in the
-                  header.
+                  The theme system is working perfectly. Try switching themes using the toggle in
+                  the header.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -83,9 +83,7 @@ function App() {
                 <div className="space-y-2 font-mono text-sm">
                   <div>
                     <span className="text-muted-foreground">API URL:</span>{' '}
-                    <span className="text-primary">
-                      {import.meta.env.VITE_API_URL || '/api'}
-                    </span>
+                    <span className="text-primary">{import.meta.env.VITE_API_URL || '/api'}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Environment:</span>{' '}

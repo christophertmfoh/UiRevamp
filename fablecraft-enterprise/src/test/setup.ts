@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
-import { afterEach, vi } from 'vitest'
+import { afterEach, beforeAll, afterAll, vi } from 'vitest'
 
 // Cleanup after each test
 afterEach(() => {
@@ -40,7 +40,7 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
 // Suppress console errors in tests (optional - remove if you want to see errors)
 const originalError = console.error
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args: unknown[]) => {
     if (typeof args[0] === 'string' && args[0].includes('Consider adding an error boundary')) {
       return
     }

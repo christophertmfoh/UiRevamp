@@ -9,63 +9,52 @@ describe('App Component', () => {
     expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
   })
 
-  it('displays the header with navigation items', () => {
+  it('displays the main title and theme demo', () => {
     render(<App />)
 
     // Check header elements
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
-    expect(screen.getByText('Characters')).toBeInTheDocument()
-    expect(screen.getByText('Projects')).toBeInTheDocument()
-    expect(screen.getByText('World Bible')).toBeInTheDocument()
+    expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
+    expect(screen.getByText('🎉 Theme System Ready!')).toBeInTheDocument()
+    expect(screen.getByText('Sign In')).toBeInTheDocument()
   })
 
-  it('shows quick stats in the sidebar', () => {
+  it('shows the completed setup status', () => {
     render(<App />)
 
-    expect(screen.getByText('Quick Stats')).toBeInTheDocument()
-    expect(screen.getByText('Total Characters')).toBeInTheDocument()
-    expect(screen.getByText('Active Projects')).toBeInTheDocument()
-    expect(screen.getByText('TypeScript Errors')).toBeInTheDocument()
+    expect(screen.getByText('✅ Completed Setup')).toBeInTheDocument()
+    expect(screen.getByText('• UI Components migrated')).toBeInTheDocument()
+    expect(screen.getByText('• Theme system configured')).toBeInTheDocument()
+    expect(screen.getByText('• Auth store ready')).toBeInTheDocument()
   })
 
-  it('displays zero TypeScript errors in green', () => {
+  it('displays zero TypeScript errors in environment status', () => {
     render(<App />)
 
-    const errorCount = screen.getByText('0', { selector: '.text-green-400' })
-    expect(errorCount).toBeInTheDocument()
+    expect(screen.getByText('Environment Status')).toBeInTheDocument()
+    expect(screen.getByText('TypeScript Errors:')).toBeInTheDocument()
+    expect(screen.getByText('0')).toBeInTheDocument()
   })
 
-  it('switches between tabs when clicked', async () => {
-    const { user } = render(<App />)
-
-    // Initially on overview tab
-    expect(screen.getByText('Welcome to FableCraft Enterprise')).toBeInTheDocument()
-
-    // Click on Setup tab
-    const setupTab = screen.getByText('Setup')
-    await user.click(setupTab)
-
-    // Should show setup content
-    expect(screen.getByText('Installed Dependencies')).toBeInTheDocument()
-    expect(screen.getByText('Tailwind CSS')).toBeInTheDocument()
-
-    // Click on Documentation tab
-    const docsTab = screen.getByText('Documentation')
-    await user.click(docsTab)
-
-    // Should show documentation content
-    expect(screen.getByText('Getting Started')).toBeInTheDocument()
-    expect(screen.getByText('Configure testing with Vitest')).toBeInTheDocument()
-  })
-
-  it('has accessible navigation buttons', () => {
+  it('has theme toggle and sign in buttons', () => {
     render(<App />)
 
     const buttons = screen.getAllByRole('button')
     expect(buttons.length).toBeGreaterThan(0)
 
-    // Check specific buttons
-    expect(screen.getByText('New Project')).toHaveClass('bg-blue-600')
-    expect(screen.getByText('Settings')).toBeInTheDocument()
+    // Check that theme toggle and sign in button exist
+    expect(screen.getByText('Sign In')).toBeInTheDocument()
+    expect(screen.getByText('Toggle theme')).toBeInTheDocument()
+  })
+
+  it('displays different button variants', () => {
+    render(<App />)
+
+    // Check all the demo button variants
+    expect(screen.getByText('Default')).toBeInTheDocument()
+    expect(screen.getByText('Secondary')).toBeInTheDocument()
+    expect(screen.getByText('Outline')).toBeInTheDocument()
+    expect(screen.getByText('Ghost')).toBeInTheDocument()
+    expect(screen.getByText('Destructive')).toBeInTheDocument()
+    expect(screen.getByText('Link')).toBeInTheDocument()
   })
 })

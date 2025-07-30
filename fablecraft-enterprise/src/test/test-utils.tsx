@@ -42,12 +42,3 @@ const customRender = (ui: ReactElement, options?: CustomRenderOptions) => {
 // Re-export everything
 export * from '@testing-library/react'
 export { customRender as render }
-
-// Export useful testing utilities
-export const waitForLoadingToFinish = async () => {
-  const { waitFor } = await import('@testing-library/react')
-  await waitFor(() => {
-    const loadingElements = document.querySelectorAll('[aria-busy="true"]')
-    expect(loadingElements.length).toBe(0)
-  })
-}

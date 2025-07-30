@@ -36,6 +36,7 @@ apiClient.interceptors.request.use(
 
     // Log requests in development
     if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
       console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`)
     }
 
