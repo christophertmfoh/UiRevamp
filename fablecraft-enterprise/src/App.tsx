@@ -1,104 +1,120 @@
-import { ThemeProvider, ThemeToggle } from './components/theme'
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui'
-import { FloatingOrbs } from './components/effects/floating-orbs'
+import { useState } from 'react'
+import { ThemeProvider } from './components/theme'
+import { LandingPage } from './pages/landing'
 import { useAuthInit } from './hooks/useAuth'
+
+type AppView = 'landing' | 'auth' | 'projects' | 'dashboard'
+
+interface User {
+  id: string
+  name: string
+  email: string
+  avatar?: string
+}
 
 function App() {
   // Initialize auth state
   useAuthInit()
 
-  return (
-    <ThemeProvider defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-background">
-        {/* Floating orbs background */}
-        <FloatingOrbs />
+  // Application state
+  const [currentView, setCurrentView] = useState<AppView>('landing')
+  const [user, setUser] = useState<User | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-        {/* Header */}
-        <header className="relative z-10 border-b border-border bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-4">
-            <div className="flex h-16 items-center justify-between">
-              <h1 className="bg-gradient-to-r from-[hsl(var(--gradient-brand-start))] to-[hsl(var(--gradient-brand-end))] bg-clip-text text-2xl font-bold text-transparent">
-                FableCraft Enterprise
-              </h1>
-              <div className="flex items-center gap-4">
-                <ThemeToggle />
-                <Button variant="default" size="sm">
-                  Sign In
-                </Button>
-              </div>
+  // Navigation handlers
+  const handleNavigate = (view: AppView) => {
+    setCurrentView(view)
+  }
+
+  const handleNewProject = () => {
+    // eslint-disable-next-line no-console
+    console.log('🚀 New Project - Feature coming in Phase 4')
+    // TODO: Implement new project creation in Phase 4
+  }
+
+  const handleAuth = () => {
+    // eslint-disable-next-line no-console
+    console.log('🔐 Auth Page - Feature coming in Phase 3')
+    setCurrentView('auth')
+    // TODO: Implement auth page navigation in Phase 3
+  }
+
+  const handleLogout = async () => {
+    // eslint-disable-next-line no-console
+    console.log('👋 Logout - Feature coming in Phase 3')
+    setUser(null)
+    setIsAuthenticated(false)
+    setCurrentView('landing')
+    // TODO: Implement proper logout in Phase 3
+  }
+
+  // Render current view
+  const renderView = () => {
+    switch (currentView) {
+      case 'landing':
+        return (
+          <LandingPage
+            onNavigate={handleNavigate}
+            onNewProject={handleNewProject}
+            onAuth={handleAuth}
+            onLogout={handleLogout}
+            user={user}
+            isAuthenticated={isAuthenticated}
+          />
+        )
+      case 'auth':
+        return (
+          <div className="flex min-h-screen items-center justify-center bg-background">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-foreground">Auth Page</h1>
+              <p className="mt-2 text-muted-foreground">Coming in Phase 3</p>
+              <button
+                onClick={() => setCurrentView('landing')}
+                className="mt-4 text-primary hover:underline"
+              >
+                ← Back to Landing
+              </button>
             </div>
           </div>
-        </header>
-
-        {/* Main content */}
-        <main className="container relative z-10 mx-auto px-4 py-8">
-          <div className="mx-auto max-w-4xl space-y-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>🎉 Theme System Ready!</CardTitle>
-                <CardDescription>
-                  The theme system is working perfectly. Try switching themes using the toggle in
-                  the header.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">✅ Completed Setup</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
-                      <li>• UI Components migrated</li>
-                      <li>• Theme system configured</li>
-                      <li>• Auth store ready</li>
-                      <li>• API client configured</li>
-                      <li>• TypeScript strict mode</li>
-                    </ul>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">🚀 Next Steps</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
-                      <li>• Migrate Landing Page</li>
-                      <li>• Migrate Auth Page</li>
-                      <li>• Test auth flow</li>
-                      <li>• Verify theme persistence</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 pt-4">
-                  <Button variant="default">Default</Button>
-                  <Button variant="secondary">Secondary</Button>
-                  <Button variant="outline">Outline</Button>
-                  <Button variant="ghost">Ghost</Button>
-                  <Button variant="destructive">Destructive</Button>
-                  <Button variant="link">Link</Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Environment Status</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 font-mono text-sm">
-                  <div>
-                    <span className="text-muted-foreground">API URL:</span>{' '}
-                    <span className="text-primary">{import.meta.env.VITE_API_URL || '/api'}</span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">Environment:</span>{' '}
-                    <span className="text-primary">{import.meta.env.MODE}</span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">TypeScript Errors:</span>{' '}
-                    <span className="text-green-500">0</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        )
+      case 'projects':
+        return (
+          <div className="flex min-h-screen items-center justify-center bg-background">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-foreground">Projects</h1>
+              <p className="mt-2 text-muted-foreground">Coming in Phase 4</p>
+              <button
+                onClick={() => setCurrentView('landing')}
+                className="mt-4 text-primary hover:underline"
+              >
+                ← Back to Landing
+              </button>
+            </div>
           </div>
-        </main>
-      </div>
+        )
+      case 'dashboard':
+        return (
+          <div className="flex min-h-screen items-center justify-center bg-background">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+              <p className="mt-2 text-muted-foreground">Coming in Phase 4</p>
+              <button
+                onClick={() => setCurrentView('landing')}
+                className="mt-4 text-primary hover:underline"
+              >
+                ← Back to Landing
+              </button>
+            </div>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+    <ThemeProvider defaultTheme="system" enableSystem>
+      {renderView()}
     </ThemeProvider>
   )
 }

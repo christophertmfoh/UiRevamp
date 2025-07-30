@@ -5,43 +5,39 @@ import App from './App'
 describe('App Component', () => {
   it('renders without crashing', () => {
     render(<App />)
-    expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
+    expect(screen.getByText('FableCraft')).toBeInTheDocument()
   })
 
-  it('displays the theme system demo', () => {
+  it('displays the landing page header', () => {
     render(<App />)
 
     // Check header elements
-    expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
+    expect(screen.getByText('FableCraft')).toBeInTheDocument()
     expect(screen.getByText('Sign In')).toBeInTheDocument()
     expect(screen.getByText('Toggle theme')).toBeInTheDocument()
   })
 
-  it('shows the theme system ready card', () => {
+  it('shows the main value proposition', () => {
     render(<App />)
 
-    expect(screen.getByText('🎉 Theme System Ready!')).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'The theme system is working perfectly. Try switching themes using the toggle in the header.',
-      ),
-    ).toBeInTheDocument()
+    expect(screen.getByText('Professional Creative Writing Platform')).toBeInTheDocument()
+    expect(screen.getByText(/Replace 15\+ Tools with/)).toBeInTheDocument()
+    expect(screen.getByText('One Platform')).toBeInTheDocument()
   })
 
-  it('displays completed setup section', () => {
+  it('displays call-to-action buttons', () => {
     render(<App />)
 
-    expect(screen.getByText('✅ Completed Setup')).toBeInTheDocument()
-    expect(screen.getByText('• UI Components migrated')).toBeInTheDocument()
-    expect(screen.getByText('• Theme system configured')).toBeInTheDocument()
+    expect(screen.getByText('Start Free Trial')).toBeInTheDocument()
+    expect(screen.getByText('View Demo')).toBeInTheDocument()
   })
 
-  it('shows next steps section', () => {
+  it('shows how it works section', () => {
     render(<App />)
 
-    expect(screen.getByText('🚀 Next Steps')).toBeInTheDocument()
-    expect(screen.getByText('• Migrate Landing Page')).toBeInTheDocument()
-    expect(screen.getByText('• Migrate Auth Page')).toBeInTheDocument()
+    expect(screen.getByText('Your Complete Writing Workflow')).toBeInTheDocument()
+    expect(screen.getByText('Ideation')).toBeInTheDocument()
+    expect(screen.getByText('World Crafting')).toBeInTheDocument()
   })
 
   it('has theme toggle button', () => {
