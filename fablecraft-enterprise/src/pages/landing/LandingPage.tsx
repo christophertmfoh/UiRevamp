@@ -27,7 +27,6 @@ import {
   UserCircle,
   LucideIcon,
   CheckCircle,
-  Star,
   Target,
 } from 'lucide-react'
 
