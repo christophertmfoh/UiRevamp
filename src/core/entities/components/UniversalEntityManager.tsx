@@ -3,8 +3,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, Search, ArrowUpDown, Filter, Grid3X3, List, MoreVertical } from 'lucide-react';
+import { Plus, Search, ArrowUpDown, Filter, Grid3X3, List, MoreVertical, X } from 'lucide-react';
 // Using standard fetch for API calls
 import { showErrorToast, showSuccessToast } from '../../../client/src/lib/utils/errorHandling';
 import type { EnhancedUniversalEntityConfig } from '../config/EntityConfig';
@@ -33,6 +34,7 @@ export function UniversalEntityManager({
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingEntity, setEditingEntity] = useState<any | null>(null);
+  const [activeFilters, setActiveFilters] = useState<Record<string, any>>({});
 
   // Storage keys for persistence
   const getViewStorageKey = () => `fablecraft_viewMode_${config.entityType}_${projectId}`;
@@ -144,34 +146,84 @@ export function UniversalEntityManager({
     }
   }, [selectedEntityId, entities]);
 
-  // Filter entities based on search query
+  // Filter entities based on search query and active filters
   const filteredEntities = entities.filter(entity => {
-    if (!searchQuery.trim()) return true;
+    // Search query filter
+    if (searchQuery.trim()) {
+      const searchLower = searchQuery.toLowerCase();
+      const searchFields = config.displayConfig?.searchFields || ['name', 'description'];
+      const matchesSearch = searchFields.some(field => {
+        const value = entity[field];
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(searchLower);
+        }
+        if (Array.isArray(value)) {
+          return value.some(item => 
+            typeof item === 'string' && item.toLowerCase().includes(searchLower)
+          );
+        }
+        return false;
+      });
+      
+      if (!matchesSearch) return false;
+    }
     
-    const searchLower = searchQuery.toLowerCase();
-    const searchFields = config.displayConfig?.searchFields || ['name', 'description'];
-    return searchFields.some(field => {
-      const value = entity[field];
-      if (typeof value === 'string') {
-        return value.toLowerCase().includes(searchLower);
+    // Active filters
+    const filterOptions = config.displayConfig?.filterOptions || [];
+    return filterOptions.every(filterConfig => {
+      const filterValue = activeFilters[filterConfig.key];
+      if (!filterValue || filterValue === 'all') return true;
+      
+      const entityValue = entity[filterConfig.key];
+      
+      switch (filterConfig.type) {
+        case 'select':
+          return entityValue === filterValue;
+        case 'multiselect':
+          if (Array.isArray(entityValue)) {
+            return entityValue.includes(filterValue);
+          }
+          return entityValue === filterValue;
+        case 'boolean':
+          return Boolean(entityValue) === (filterValue === 'true');
+        case 'range':
+          if (typeof entityValue === 'number' && filterValue.min !== undefined && filterValue.max !== undefined) {
+            return entityValue >= filterValue.min && entityValue <= filterValue.max;
+          }
+          return true;
+        default:
+          return true;
       }
-      if (Array.isArray(value)) {
-        return value.some(item => 
-          typeof item === 'string' && item.toLowerCase().includes(searchLower)
-        );
-      }
-      return false;
     });
   });
 
-  // Sort entities
+  // Sort entities with enhanced configuration support
   const sortedEntities = [...filteredEntities].sort((a, b) => {
     const sortOptions = config.displayConfig?.sortOptions || [{ key: 'name', label: 'Name', direction: 'asc' }];
     const sortConfig = sortOptions.find(opt => opt.key === sortBy);
     const direction = sortConfig?.direction || 'asc';
     
-    const aValue = a[sortBy] || '';
-    const bValue = b[sortBy] || '';
+    let aValue = a[sortBy] || '';
+    let bValue = b[sortBy] || '';
+    
+    // Handle different data types for sorting
+    if (typeof aValue === 'number' && typeof bValue === 'number') {
+      return direction === 'asc' ? aValue - bValue : bValue - aValue;
+    }
+    
+    if (Array.isArray(aValue) && Array.isArray(bValue)) {
+      aValue = aValue.length;
+      bValue = bValue.length;
+      return direction === 'asc' ? aValue - bValue : bValue - aValue;
+    }
+    
+    if (aValue instanceof Date && bValue instanceof Date) {
+      return direction === 'asc' ? aValue.getTime() - bValue.getTime() : bValue.getTime() - aValue.getTime();
+    }
+    
+    // Default string comparison
+    aValue = String(aValue).toLowerCase();
+    bValue = String(bValue).toLowerCase();
     
     if (direction === 'asc') {
       return aValue.localeCompare(bValue);
@@ -219,6 +271,29 @@ export function UniversalEntityManager({
     setSelectedEntity(null);
     onClearSelection?.();
   };
+  
+  // Filter management
+  const handleFilterChange = (filterKey: string, value: any) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      [filterKey]: value
+    }));
+  };
+  
+  const clearFilter = (filterKey: string) => {
+    setActiveFilters(prev => {
+      const newFilters = { ...prev };
+      delete newFilters[filterKey];
+      return newFilters;
+    });
+  };
+  
+  const clearAllFilters = () => {
+    setActiveFilters({});
+    setSearchQuery('');
+  };
+  
+  const hasActiveFilters = Object.keys(activeFilters).length > 0 || searchQuery.trim().length > 0;
 
   // Show detail view if entity is selected
   if (selectedEntity) {
@@ -291,6 +366,44 @@ export function UniversalEntityManager({
             className="pl-10"
           />
         </div>
+
+        {/* Filters */}
+        {config.displayConfig?.filterOptions && config.displayConfig.filterOptions.length > 0 && (
+          <div className="flex items-center gap-2">
+            {config.displayConfig.filterOptions.map((filterConfig) => (
+              <Select
+                key={filterConfig.key}
+                value={activeFilters[filterConfig.key] || 'all'}
+                onValueChange={(value) => handleFilterChange(filterConfig.key, value)}
+              >
+                <SelectTrigger className="w-40">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder={filterConfig.label} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All {filterConfig.label}</SelectItem>
+                  {filterConfig.options?.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ))}
+            
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearAllFilters}
+                className="gap-2"
+              >
+                <X className="h-4 w-4" />
+                Clear
+              </Button>
+            )}
+          </div>
+        )}
 
         {/* Sort */}
         <DropdownMenu>
