@@ -128,7 +128,7 @@ export const useAuth = create<AuthState>()(
               isLoading: false,
             })
           }
-        } catch (error) {
+        } catch {
           // Network error or invalid token - silently clear auth state
           set({
             user: null,
