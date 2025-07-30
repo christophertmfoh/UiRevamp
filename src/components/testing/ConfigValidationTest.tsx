@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react';
-import CHARACTER_CONFIG from '@/core/entities/config/CHARACTER_CONFIG';
+import CHARACTER_CONFIG from '../../../core/entities/config/CHARACTER_CONFIG';
 
 interface ValidationResult {
   category: string;

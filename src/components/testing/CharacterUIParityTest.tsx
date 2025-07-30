@@ -13,7 +13,7 @@ import {
 import { CharacterManager } from '@/components/character/CharacterManager';
 import { UniversalEntityManagerWithConfig } from './UniversalEntityManagerWithConfig';
 import { ConfigValidationTest } from './ConfigValidationTest';
-import CHARACTER_CONFIG from '@/core/entities/config/CHARACTER_CONFIG';
+import CHARACTER_CONFIG from '../../../core/entities/config/CHARACTER_CONFIG';
 
 interface TestResult {
   id: string;
