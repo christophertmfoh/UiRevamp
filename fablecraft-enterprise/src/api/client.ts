@@ -34,9 +34,9 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    // Log requests in development
-    if (import.meta.env.DEV) {
-      console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`)
+    // Log requests in development (only when debug flag is set)
+    if (import.meta.env.DEV && import.meta.env.VITE_DEBUG_API) {
+      console.warn(`[API] ${config.method?.toUpperCase()} ${config.url}`)
     }
 
     return config

@@ -74,19 +74,6 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     }
   }, [isDebugMode, renderStart])
 
-  // Toggle debug mode
-  const toggleDebugMode = useCallback(() => {
-    const newMode = !isDebugMode
-    setIsDebugMode(newMode)
-    localStorage.setItem('creative-debug', newMode.toString())
-    
-    if (newMode) {
-      logAction('debug_mode_enabled')
-    } else {
-      logAction('debug_mode_disabled')
-    }
-  }, [isDebugMode])
-
   // Log actions
   const logAction = useCallback((action: string, data?: unknown) => {
     if (!isDebugMode) return
@@ -125,6 +112,19 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       }] // Keep last 20 errors
     }))
   }, [isDebugMode, context])
+
+  // Toggle debug mode
+  const toggleDebugMode = useCallback(() => {
+    const newMode = !isDebugMode
+    setIsDebugMode(newMode)
+    localStorage.setItem('creative-debug', newMode.toString())
+    
+    if (newMode) {
+      logAction('debug_mode_enabled')
+    } else {
+      logAction('debug_mode_disabled')
+    }
+  }, [isDebugMode, logAction])
 
   // Clear session
   const clearSession = useCallback(() => {
