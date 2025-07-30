@@ -14,7 +14,7 @@
     "test:coverage": "vitest run --coverage",
     "structure:check": "node scripts/structure-monitor.cjs",
     "structure:watch": "nodemon --watch src --ext ts,tsx scripts/structure-monitor.cjs",
-    "analyze:bundle": "npm run build && open dist/stats.html",
+    "analyze:bundle": "ANALYZE=true npm run build",
     "analyze:deps": "madge --extensions ts,tsx --circular src/",
     "analyze:duplicates": "jscpd --threshold 10 --reporters console src/",
     "health:check": "npm run structure:check && npm run analyze:deps && npm run analyze:duplicates",
