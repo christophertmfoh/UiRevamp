@@ -158,17 +158,6 @@ characterRouter.post("/projects/:projectId/characters/generate", async (req, res
       message: "AI generation temporarily disabled - UI placeholder active",
       projectId 
     });
-    
-    // Store the character in database
-    const storedCharacter = await storage.createCharacter({
-      ...character,
-      id: `char_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
-      projectId
-    });
-    
-    // Portrait generation removed - UI placeholder remains functional
-    
-    res.status(201).json(storedCharacter);
   } catch (error: unknown) {
     console.error("Error generating character:", error);
     res.status(500).json({ error: "Failed to generate character" });
