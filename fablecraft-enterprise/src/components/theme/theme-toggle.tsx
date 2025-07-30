@@ -166,9 +166,7 @@ export function ThemeToggle() {
               >
                 <IconComponent
                   className={`h-4 w-4 ${
-                    isActive
-                      ? 'text-primary'
-                      : 'text-muted-foreground group-hover:text-foreground'
+                    isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
                   }`}
                 />
               </div>

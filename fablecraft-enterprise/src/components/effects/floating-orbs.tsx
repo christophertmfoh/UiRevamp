@@ -1,5 +1,3 @@
-
-
 /**
  * FloatingOrbs Component
  * Creates animated background orbs for visual enhancement

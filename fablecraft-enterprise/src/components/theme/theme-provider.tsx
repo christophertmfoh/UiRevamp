@@ -24,7 +24,7 @@ interface ThemeProviderProps {
 /**
  * Theme Provider Component
  * Wraps the application with next-themes provider for dark/light mode support
- * 
+ *
  * @example
  * ```tsx
  * <ThemeProvider defaultTheme="system" enableSystem>
