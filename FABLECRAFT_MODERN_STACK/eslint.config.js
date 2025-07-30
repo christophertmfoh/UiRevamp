@@ -16,6 +16,7 @@ export default [
       '.husky',
       'coverage',
       'reports',
+      'report',
       '*.config.js',
       '*.config.ts'
     ],
