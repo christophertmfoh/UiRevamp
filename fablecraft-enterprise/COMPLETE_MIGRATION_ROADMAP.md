@@ -133,59 +133,78 @@ src/pages/auth/
    - Breadcrumb system for nested routes
 ```
 
-### 📋 **SUBPHASE 3B: PROJECT MANAGEMENT FOUNDATION (2-3 hours)**
+### 📋 **SUBPHASE 3B: PROJECT MANAGEMENT & COMPREHENSIVE FILE SYSTEM (3-4 hours)**
 
-#### STEP 1: PROJECT DASHBOARD (90 min)
+#### STEP 1: PROJECT DASHBOARD WITH STORAGE FOUNDATION (90 min)
 ```bash
-# CREATE USER PROJECT MANAGEMENT
+# CREATE USER PROJECT MANAGEMENT WITH FILE HANDLING
 src/pages/projects/
 ├── ProjectsPage.tsx          # Main dashboard (user's projects)
-├── ProjectCard.tsx           # Individual project display
-├── CreateProjectModal.tsx    # New project creation
-├── ProjectFilters.tsx        # Search/filter/sort projects
-├── data.ts                   # Project types & constants
+├── ProjectCard.tsx           # Individual project display with file counts
+├── CreateProjectModal.tsx    # New project creation with file upload
+├── ProjectFilters.tsx        # Search/filter/sort projects + file types
+├── FileManager.tsx           # File upload/management component
+├── data.ts                   # Project types & file constants
 └── index.ts                  # Exports
 
 # BACKEND INTEGRATION:
-1. API endpoints (already exist):
+1. Project API endpoints (already exist):
    - GET /api/projects → user's projects only
    - POST /api/projects → create new project
    - GET /api/projects/:id → single project (ownership verified)
    - PUT /api/projects/:id → update project
    - DELETE /api/projects/:id → delete project
 
-2. Real data flow:
-   - User creates project → stored with userId in database
-   - User sees only their projects → filtered by userId
-   - Project data persists across sessions → PostgreSQL storage
-   - All world bible data linked to projectId
+2. File Storage API endpoints (need to implement):
+   - POST /api/projects/:id/files → upload files (images, docs, audio, video)
+   - GET /api/projects/:id/files → list all project files
+   - GET /api/projects/:id/files/:fileId → download specific file
+   - DELETE /api/projects/:id/files/:fileId → delete file
+   - PUT /api/projects/:id/files/:fileId → update file metadata
+
+3. Comprehensive data types to support:
+   - **Images**: PNG, JPG, WEBP, SVG (character art, locations, maps)
+   - **Documents**: PDF, DOCX, TXT, MD (manuscripts, notes, references)
+   - **Audio**: MP3, WAV, OGG (voice notes, soundscapes, music)
+   - **Video**: MP4, WEBM (character videos, location footage)
+   - **Archives**: ZIP, RAR (project backups, asset collections)
+   - **Data**: JSON, CSV (character data exports, plot timelines)
 ```
 
-#### STEP 2: WORLD BIBLE FOUNDATION (90 min)  
+#### STEP 2: WORLD BIBLE WITH MULTIMEDIA INTEGRATION (120 min)  
 ```bash
-# MIGRATE WORLD BIBLE COMPONENTS
+# MIGRATE WORLD BIBLE COMPONENTS WITH FILE SUPPORT
 src/pages/projects/world-bible/
-├── WorldBiblePage.tsx        # Main world bible interface
-├── CharacterList.tsx         # Character management
-├── LocationList.tsx          # Location tracking
-├── FactionList.tsx           # Faction/organization management
-├── EntityModal.tsx           # Create/edit entity modal
-└── data.ts                   # World bible types
+├── WorldBiblePage.tsx        # Main world bible interface with file browser
+├── CharacterList.tsx         # Character management with image galleries
+├── LocationList.tsx          # Location tracking with maps/images
+├── FactionList.tsx           # Faction/organization with multimedia
+├── EntityModal.tsx           # Create/edit entity modal with file upload
+├── MediaGallery.tsx          # File gallery component for entities
+├── FileUploader.tsx          # Drag-and-drop file upload component
+└── data.ts                   # World bible types + file schemas
 
-# BACKEND REALITY:
-1. Existing endpoints (all user-authenticated):
-   - GET /api/projects/:id/characters
-   - POST /api/projects/:id/characters  
-   - GET /api/projects/:id/locations
-   - POST /api/projects/:id/locations
-   - GET /api/projects/:id/factions
-   - POST /api/projects/:id/factions
+# BACKEND REALITY + FILE EXTENSIONS:
+1. Entity endpoints (all user-authenticated):
+   - GET /api/projects/:id/characters → includes file references
+   - POST /api/projects/:id/characters → with file upload support
+   - GET /api/projects/:id/locations → includes images/maps
+   - POST /api/projects/:id/locations → with media upload
+   - GET /api/projects/:id/factions → includes banners/symbols
+   - POST /api/projects/:id/factions → with visual assets
 
-2. Data relationships:
-   - Each entity linked to projectId → user ownership enforced
-   - Full CRUD operations available
-   - Rich entity data (164+ character fields supported)
-   - Image generation placeholder endpoints ready
+2. File linking system:
+   - Characters → profile images, voice clips, reference documents
+   - Locations → maps, photographs, ambiance audio, videos
+   - Factions → logos, banners, theme music, manifestos (PDF)
+   - Items → 3D models, images, sound effects
+   - Timeline → historical documents, videos, audio recordings
+
+3. Enhanced entity data:
+   - Rich 164+ character fields PLUS multimedia attachments
+   - Location data WITH geographical files and media
+   - Faction information WITH branding and multimedia assets
+   - Cross-referencing between entities and their associated files
 ```
 
 #### STEP 3: NAVIGATION & APP STRUCTURE (45 min)
@@ -263,7 +282,11 @@ src/pages/projects/world-bible/
 - ✅ **User project isolation** (users only see their data)
 - ✅ **Protected routing** with proper auth guards
 - ✅ **Project dashboard** with CRUD operations
-- ✅ **World bible foundation** connected to database
+- ✅ **Comprehensive file system** (images, docs, audio, video support)
+- ✅ **World bible with multimedia** (entity files, galleries, uploads)
+- ✅ **File ownership & security** (users can only access their files)
+- ✅ **Drag-and-drop uploads** with progress indicators
+- ✅ **File type validation** and size limits enforced
 - ✅ **Debug toolkit** integrated across all auth flows
 - ✅ **Mobile responsive** design for all new pages
 - ✅ **35+ tests passing** with comprehensive coverage
@@ -275,12 +298,16 @@ src/pages/projects/world-bible/
 2. 📊 **Real backend integration** (Express.js + PostgreSQL + JWT)
 3. 🛡️ **Protected routing** with auth guards and loading states
 4. 📁 **Project management dashboard** with user data isolation
-5. 📚 **World bible foundation** (characters, locations, factions)
-6. 🧭 **Full app navigation** with responsive mobile design
-7. 🛠️ **Enhanced debug toolkit** with auth action tracking
-8. 🧪 **Comprehensive test suite** (35+ tests covering auth flows)
-9. ⚡ **Production-ready build** (optimized, secure, monitored)
-10. 📱 **Mobile-first responsive design** across all features
+5. 📚 **World bible with multimedia** (characters, locations, factions + files)
+6. 🗃️ **Comprehensive file system** (upload, storage, security, galleries)
+7. 🎨 **Media management** (images, documents, audio, video support)
+8. 🔒 **File security** (user-owned files, access control, validation)
+9. 🧭 **Full app navigation** with responsive mobile design
+10. 🛠️ **Enhanced debug toolkit** with auth action tracking
+11. 🧪 **Comprehensive test suite** (35+ tests covering auth + file flows)
+12. ⚡ **Production-ready build** (optimized, secure, monitored)
+13. 📱 **Mobile-first responsive design** across all features
+14. 📂 **Drag-and-drop interface** for seamless file management
 
 ---
 
