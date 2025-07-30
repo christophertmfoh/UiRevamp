@@ -29,15 +29,12 @@ export default defineConfig(async (): Promise<UserConfig> => {
     server: {
       host: '0.0.0.0',
       port: 5173,
-      strictPort: true,
-      allowedHosts: [
-        'bbf3cad8-c58a-41be-acec-fe1f62f386e3-00-qku0gbybmuzb.kirk.replit.dev',
-        'ui-revamp-christophertmfo.replit.app',
-        'fablecraft-enterprise.christophertmfo.replit.dev',
-        'localhost',
-        '127.0.0.1',
-        '0.0.0.0'
-      ],
+      strictPort: false,
+      hmr: {
+        port: 5173,
+        host: '0.0.0.0'
+      },
+      allowedHosts: 'all',
     },
     resolve: {
       alias: {
