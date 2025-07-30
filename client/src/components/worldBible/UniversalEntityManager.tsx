@@ -1200,7 +1200,7 @@ export const UniversalEntityManager = memo(function UniversalEntityManager({
       )}
     </div>
   );
-};
+});
 
 // UNIVERSAL CREATION LAUNCH MODAL - Matches CharacterCreationLaunch exactly
 interface UniversalCreationLaunchProps {
@@ -1959,4 +1959,4 @@ function UniversalCreationView({
       </div>
     </div>
   );
-});
+}
