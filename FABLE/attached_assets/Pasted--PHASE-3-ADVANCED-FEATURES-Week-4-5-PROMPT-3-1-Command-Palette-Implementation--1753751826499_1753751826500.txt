@@ -1,0 +1,75 @@
+## **PHASE 3: ADVANCED FEATURES (Week 4-5)**
+
+### **PROMPT 3.1: Command Palette Implementation**
+```
+Build a global command palette for power users, similar to VS Code or Linear.
+
+REQUIREMENTS:
+- Create client/src/components/command/CommandPalette.tsx using cmdk library
+- Global hotkey ⌘K / Ctrl+K to open palette
+- Search across projects, characters, world bible elements
+- Quick actions: Create Project, Create Character, Generate with AI
+- Navigation shortcuts to any page or character
+- Recent actions and frequently used items
+- Fuzzy search with keyboard navigation
+- Professional styling matching app theme
+
+PRESERVE: All existing functionality, add as enhancement feature
+```
+
+### **PROMPT 3.2: Professional Dashboard**
+```
+Create a comprehensive dashboard for creative writers.
+
+REQUIREMENTS:
+- Create client/src/pages/dashboard/Dashboard.tsx
+- Recent projects grid with progress indicators
+- Character creation statistics and insights
+- Writing goals and progress tracking
+- Quick actions panel (New Project, Generate Character)
+- Recent activity feed (edits, creations, AI generations)
+- World bible element count and relationship stats
+- Professional cards layout with animations
+- Use existing project and character data
+
+PRESERVE: All data and functionality, create overview interface
+```
+
+### **PROMPT 3.3: Real-time Collaboration Indicators**
+```
+Add real-time collaboration features using existing WebSocket infrastructure.
+
+REQUIREMENTS:
+- Add typing indicators for character editing
+- Show who's currently viewing each character/project
+- Live cursor positions in text areas
+- Collaboration activity feed
+- User presence indicators in navigation
+- Conflict resolution for simultaneous edits
+- Use existing server/websocket/realtimeHandlers.ts
+- Graceful fallback if WebSocket unavailable
+
+PRESERVE: All existing functionality, add collaborative features as enhancement
+```
+
+---
+
+## **PHASE 4: COMPONENT CLEANUP (Week 6-7)**
+
+### **PROMPT 4.1: Safe Character Component Consolidation**
+```
+Carefully merge redundant character components without breaking functionality.
+
+REQUIREMENTS:
+- Analyze all 15 character components for redundancy
+- Create component dependency map first
+- Merge CharacterUnifiedView + CharacterDetailView into single component
+- Consolidate CharacterCreationLaunch + CharacterTemplates
+- Combine similar modal components (AIAssistModal + CharacterGenerationModal)
+- Add comprehensive tests before and after changes
+- Use TypeScript to ensure type safety during refactoring
+- Document all changes and preserve all 164+ character fields
+
+PRESERVE: Every single character field and feature, improve organization only
+```
+

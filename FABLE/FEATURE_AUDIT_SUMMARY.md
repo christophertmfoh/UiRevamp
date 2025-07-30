@@ -1,0 +1,1593 @@
+# FableCraft Feature Audit Report
+*Generated: 2025-07-28T21:35:54.357Z*
+
+## 📊 Summary
+- **API Endpoints**: 20
+- **UI Components**: 91  
+- **Pages**: 9
+- **Potential Duplicates**: 319
+
+## 🔌 API Endpoints Found
+- `GET /api/projects/:projectId/characters` - server/routes/characters.ts:35
+- `POST /api/projects/:projectId/characters` - server/routes/characters.ts:47
+- `PUT /api/characters/:id` - server/routes/characters.ts:84
+- `DELETE /api/characters/:id` - server/routes/characters.ts:109
+- `POST /api/projects/:projectId/characters/generate-from-template` - server/routes/characters.ts:121
+- `POST /api/projects/:projectId/characters/generate` - server/routes/characters.ts:175
+- `POST /api/characters/:id/generate-image` - server/routes/characters.ts:228
+- `POST /api/projects/:projectId/characters/import` - server/routes/characters.ts:246
+- `POST /api/generate` - server/routes/dailyContent.ts:235
+- `GET /api/health` - server/routes/dailyContent.ts:332
+- `GET /api/test-ai` - server/routes/dailyContent.ts:342
+- `GET /api/` - server/routes/tasks.ts:23
+- `GET /api/:id` - server/routes/projects.ts:26
+- `POST /api/` - server/routes/tasks.ts:68
+- `PUT /api/:id` - server/routes/projects.ts:121
+- `DELETE /api/:id` - server/routes/tasks.ts:132
+- `GET /api/today` - server/routes/tasks.ts:40
+- `GET /api/goals` - server/routes/tasks.ts:154
+- `POST /api/goals` - server/routes/tasks.ts:179
+- `GET /api/stats` - server/routes/tasks.ts:224
+
+## 🧩 UI Components Found
+- **App** (modals, theming, crud, projects) - client/src/App.tsx
+- **FloatingOrbs** - client/src/components/FloatingOrbs.tsx
+- **ProjectModal** (forms, modals, crud, characters, projects) - client/src/components/Modals.tsx
+- **ConfirmDeleteModal** (forms, modals, crud, characters, projects) - client/src/components/Modals.tsx
+- **ImportManuscriptModal** (forms, modals, crud, characters, projects) - client/src/components/Modals.tsx
+- **IntelligentImportModal** (forms, modals, crud, characters, projects) - client/src/components/Modals.tsx
+- **AIAssistModal** (modals, ai, characters) - client/src/components/character/AIAssistModal.tsx
+- **CharacterArcTracker** (modals, theming, crud, characters) - client/src/components/character/CharacterArcTracker.tsx
+- **CharacterCard** (characters) - client/src/components/character/CharacterCard.tsx
+- **CharacterCreationLaunch** (modals, ai, crud, characters) - client/src/components/character/CharacterCreationLaunch.tsx
+- **CharacterDetailAccordion** (characters, projects) - client/src/components/character/CharacterDetailAccordion.tsx
+- **CharacterDetailView** (crud, characters, projects) - client/src/components/character/CharacterDetailView.tsx
+- **CharacterDocumentUpload** (modals, characters, projects) - client/src/components/character/CharacterDocumentUpload.tsx
+- **CharacterFormExpanded** (forms, crud, characters, projects) - client/src/components/character/CharacterFormExpanded.tsx
+- **CharacterGenerationModal** (modals, crud, characters) - client/src/components/character/CharacterGenerationModal.tsx
+- **CharacterGuidedCreation** (theming, crud, characters, projects) - client/src/components/character/CharacterGuidedCreation.tsx
+- **CharacterInsights** (ai, crud, characters) - client/src/components/character/CharacterInsights.tsx
+- **CharacterManager** (modals, crud, characters, projects) - client/src/components/character/CharacterManager.tsx
+- **CharacterOnboarding** (modals, ai, crud, characters) - client/src/components/character/CharacterOnboarding.tsx
+- **CharacterPortraitModal** (modals, theming, ai, crud, characters, projects) - client/src/components/character/CharacterPortraitModalImproved.tsx
+- **CharacterRelationships** (modals, crud, characters) - client/src/components/character/CharacterRelationships.tsx
+- **CharacterTemplates** (modals, ai, characters) - client/src/components/character/CharacterTemplates.tsx
+- **CharacterUnifiedView** (modals, ai, crud, characters, projects) - client/src/components/character/CharacterUnifiedView.tsx
+- **CharacterUnifiedViewPremium** (modals, theming, ai, crud, characters, projects) - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **FieldAIAssist** (ai, characters) - client/src/components/character/FieldAIAssist.tsx
+- **FieldRenderer** (ai) - client/src/components/character/shared/FieldRenderer.tsx
+- **ImagePreviewModal** (modals, characters) - client/src/components/character/ImagePreviewModal.tsx
+- **RelationshipSelect** - client/src/components/character/RelationshipSelects.tsx
+- **STRENGTH** - client/src/components/character/RelationshipSelects.tsx
+- **STATUS** - client/src/components/character/RelationshipSelects.tsx
+- **CharacterProgress** (characters) - client/src/components/character/shared/CharacterProgress.tsx
+- **QuickProgress** (characters) - client/src/components/character/shared/CharacterProgress.tsx
+- **FormSection** (characters) - client/src/components/character/shared/FormSection.tsx
+- **CreativeDebugPanel** - client/src/components/dev/CreativeDebugPanel.tsx
+- **LiveWritingPreview** (crud, characters, projects) - client/src/components/dev/LiveWritingPreview.tsx
+- **CompactWritingPreview** (crud, characters, projects) - client/src/components/dev/LiveWritingPreview.tsx
+- **PerformanceDashboard** (crud) - client/src/components/dev/PerformanceDashboard.tsx
+- **QuickActionsPanel** (modals, theming, crud, characters, projects) - client/src/components/dev/QuickActionsPanel.tsx
+- **QuickActionsFAB** (modals, theming, crud, characters, projects) - client/src/components/dev/QuickActionsPanel.tsx
+- **WritingMetrics** (crud, characters, projects) - client/src/components/dev/WritingMetrics.tsx
+- **ProjectsView** (modals, theming, crud, characters, projects) - client/src/components/project/ProjectsView.tsx
+- **ProjectCreationWizard** (modals, crud, characters, projects) - client/src/components/project/ProjectCreationWizard.tsx
+- **ProjectDashboard** (modals, theming, crud, characters, projects) - client/src/components/project/ProjectDashboard.tsx
+- **ProjectsPageRedesign** (modals, theming, crud, projects) - client/src/components/project/ProjectsPageRedesign.tsx
+- **DashboardWidgets** (modals, crud, projects) - client/src/components/projects/DashboardWidgets.tsx
+- **LazyProjectsList** (modals, crud, projects) - client/src/components/projects/LazyProjectComponents.tsx
+- **LazyProjectModals** (modals, crud, projects) - client/src/components/projects/LazyProjectComponents.tsx
+- **ProjectModals** (modals, crud, projects) - client/src/components/projects/ProjectModals.tsx
+- **ProjectsFilters** (crud, projects) - client/src/components/projects/ProjectsFilters.tsx
+- **ProjectsHeader** (theming, projects) - client/src/components/projects/ProjectsHeader.tsx
+- **ProjectsList** (ai, crud, projects) - client/src/components/projects/ProjectsList.tsx
+- **ProjectsPage** (modals, crud, projects) - client/src/components/projects/ProjectsPage.tsx
+- **ProjectsStats** (projects) - client/src/components/projects/ProjectsStats.tsx
+- **QuickTasksWidget** (modals, crud) - client/src/components/projects/QuickTasksWidget.tsx
+- **ThemeProvider** (theming) - client/src/components/theme-provider.tsx
+- **ThemeToggle** (theming) - client/src/components/theme-toggle.tsx
+- **EmptyState** (ai, projects) - client/src/components/ui/EmptyStates.tsx
+- **EmptyProjectsState** (ai, projects) - client/src/components/ui/EmptyStates.tsx
+- **EmptySearchState** (ai, projects) - client/src/components/ui/EmptyStates.tsx
+- **ErrorState** (ai, projects) - client/src/components/ui/EmptyStates.tsx
+- **AsyncErrorBoundary** - client/src/components/ui/ErrorBoundary.tsx
+- **ComponentErrorFallback** - client/src/components/ui/ErrorBoundary.tsx
+- **PageErrorFallback** - client/src/components/ui/ErrorBoundary.tsx
+- **LoadingSkeleton** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingSpinner** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingDots** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingCard** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingProjectCard** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingStatsCard** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingHeader** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingTable** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingButton** (projects) - client/src/components/ui/LoadingStates.tsx
+- **LoadingGrid** (projects) - client/src/components/ui/LoadingStates.tsx
+- **MessageOfTheDay** (crud, characters) - client/src/components/ui/MessageOfTheDay.tsx
+- **ToastProvider** (crud) - client/src/components/ui/Toast.tsx
+- **LoadingModal** (modals, characters) - client/src/components/ui/loading-modal.tsx
+- **WorldBible** (crud, characters, projects) - client/src/components/world/WorldBible.tsx
+- **LazyWritingEditor** (ai, crud, projects) - client/src/components/writing/LazyWritingComponents.tsx
+- **LazyStoryOutlineEditor** (ai, crud, projects) - client/src/components/writing/LazyWritingComponents.tsx
+- **LazyWritingMetrics** (ai, crud, projects) - client/src/components/writing/LazyWritingComponents.tsx
+- **StoryOutlineEditor** (crud, projects) - client/src/components/writing/StoryOutlineEditor.tsx
+- **WritingEditor** (crud, projects) - client/src/components/writing/WritingEditor.tsx
+- **AuthPage** (forms, theming, characters) - client/src/pages/AuthPage.tsx
+- **AuthPageRedesign** (forms, theming, characters) - client/src/pages/AuthPageRedesign.tsx
+- **DebugDemo** (crud, characters, projects) - client/src/pages/DebugDemo.tsx
+- **CTASection** (projects) - client/src/pages/landing/CTASection.tsx
+- **FeatureCards** (ai, characters, projects) - client/src/pages/landing/FeatureCards.tsx
+- **HeroSection** (ai, projects) - client/src/pages/landing/HeroSection.tsx
+- **LandingPage** (theming, ai, characters, projects) - client/src/pages/landing/LandingPage.tsx
+- **NotFound** - client/src/pages/not-found.tsx
+- **Workspace** (modals, ai, crud, characters, projects) - client/src/pages/workspace.tsx
+
+## 📄 Pages Found
+- **AuthPage** 🔌 - client/src/pages/AuthPage.tsx
+- **AuthPageRedesign** 🔌 - client/src/pages/AuthPageRedesign.tsx
+- **DebugDemo** - client/src/pages/DebugDemo.tsx
+- **CTASection** - client/src/pages/landing/CTASection.tsx
+- **FeatureCards** - client/src/pages/landing/FeatureCards.tsx
+- **HeroSection** - client/src/pages/landing/HeroSection.tsx
+- **LandingPage** 🔐 - client/src/pages/landing/LandingPage.tsx
+- **not-found** - client/src/pages/not-found.tsx
+- **workspace** - client/src/pages/workspace.tsx
+
+## ⚠️ Potential Duplicates
+- **path** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/pages/workspace.tsx
+  - server/index.ts
+- **storedUser** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+- **user** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - server/auth.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+- **fetchProjects** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+- **token** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/lib/queryClient.ts
+  - client/src/lib/queryClient.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/routes.ts
+- **response** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/App.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/FieldAIAssist.tsx
+  - client/src/components/project/ProjectsView.tsx
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/hooks/useAuth.ts
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterGeneration.ts
+  - client/src/lib/services/imageGeneration.ts
+  - client/src/lib/services/imageGeneration.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/utils/fetchHandler.ts
+  - client/src/utils/fetchHandler.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+  - server/aiExtractor.ts
+  - server/characterEnhancement.ts
+  - server/characterExtractor.ts
+  - server/characterGeneration.ts
+  - server/imageGeneration.ts
+  - server/imageGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+- **projectsData** found in:
+  - client/src/App.tsx
+  - client/src/App.tsx
+- **timer** found in:
+  - client/src/App.tsx
+  - client/src/components/ui/Toast.tsx
+  - client/src/hooks/useComponentPreloader.ts
+  - client/src/lib/utils/uiUtils.ts
+- **project** found in:
+  - client/src/App.tsx
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/projects.ts
+  - server/routes/projects.ts
+  - server/routes/projects.ts
+  - server/storage/mockStorage.ts
+- **url** found in:
+  - client/src/App.tsx
+  - client/src/lib/backup/replitBackup.ts
+  - server/vite.ts
+- **to** found in:
+  - client/src/App.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/utils/memoryOptimizer.ts
+  - server/services/aiGeneration.ts
+- **newProject** found in:
+  - client/src/App.tsx
+  - client/src/components/Modals.tsx
+  - server/storage/databaseStorage.ts
+  - server/storage/mockStorage.ts
+- **error** found in:
+  - client/src/App.tsx
+  - client/src/components/ui/ErrorBoundary.tsx
+  - client/src/components/ui/Toast.tsx
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - client/src/lib/queryClient.ts
+- **updated** found in:
+  - client/src/App.tsx
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+- **toast** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/project/ProjectCreationWizard.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/ui/MessageOfTheDay.tsx
+- **queryClient** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/lib/queryClient.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/apiUtils.ts
+- **handleSubmit** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+- **projectData** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - server/routes/projects.ts
+- **handleDelete** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **handleDrag** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+- **handleDrop** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/hooks/useDragAndDrop.ts
+- **handleFileSelect** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+- **text** found in:
+  - client/src/components/Modals.tsx
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/lib/queryClient.ts
+  - server/characterGeneration.ts
+  - server/services/aiGeneration.ts
+- **data** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/hooks/useAuth.ts
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/errorHandling.ts
+  - server/characterExtractor.ts
+- **files** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+- **file** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+- **isValidFileType** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+- **validTypes** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDocumentUpload.tsx
+- **content** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - server/imageGeneration.ts
+  - server/routes/dailyContent.ts
+  - server/services/aiGeneration.ts
+- **readFileContent** found in:
+  - client/src/components/Modals.tsx
+  - client/src/lib/utils.ts
+- **reader** found in:
+  - client/src/components/Modals.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/lib/backup/replitBackup.ts
+  - client/src/lib/utils.ts
+- **handleSelectAll** found in:
+  - client/src/components/character/AIAssistModal.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **totalFields** found in:
+  - client/src/components/character/AIAssistModal.tsx
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/lib/utils/entityUtils.ts
+- **IconComponent** found in:
+  - client/src/components/character/AIAssistModal.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/project/ProjectsView.tsx
+  - client/src/components/theme-toggle.tsx
+  - client/src/pages/landing/FeatureCards.tsx
+  - client/src/pages/landing/FeatureCards.tsx
+  - client/src/pages/landing/LandingPage.tsx
+  - client/src/pages/landing/LandingPage.tsx
+  - client/src/pages/workspace.tsx
+- **isSelected** found in:
+  - client/src/components/character/AIAssistModal.tsx
+  - client/src/components/character/CharacterCreationLaunch.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **updatedArcs** found in:
+  - client/src/components/character/CharacterArcTracker.tsx
+  - client/src/components/character/CharacterArcTracker.tsx
+- **CharacterCard** found in:
+  - client/src/components/character/CharacterCard.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **Icon** found in:
+  - client/src/components/character/CharacterCreationLaunch.tsx
+  - client/src/components/character/CharacterGenerationModal.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterRelationships.tsx
+  - client/src/components/character/CharacterTemplates.tsx
+  - client/src/components/project/ProjectCreationWizard.tsx
+  - client/src/components/project/ProjectDashboard.tsx
+  - client/src/components/project/ProjectDashboard.tsx
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/components/ui/Toast.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/pages/workspace.tsx
+- **renderField** found in:
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/shared/FieldRenderer.tsx
+- **fields** found in:
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterInsights.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - client/src/components/world/WorldBible.tsx
+- **value** found in:
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/components/ui/chart.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/utils/characterUtils.ts
+  - client/src/lib/utils/characterUtils.ts
+  - client/src/lib/utils/characterUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - server/aiExtractor.ts
+  - server/characterEnhancement.ts
+  - server/utils/responseProcessing.ts
+- **result** found in:
+  - client/src/components/character/CharacterDetailAccordion.tsx
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/FieldAIAssist.tsx
+  - client/src/components/dev/QuickActionsPanel.tsx
+  - client/src/components/ui/Toast.tsx
+  - client/src/lib/services/imageGeneration.ts
+  - server/characterEnhancement.ts
+  - server/characterExtractor.ts
+  - server/characterGeneration.ts
+  - server/characterPortraitGenerator.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/routes.ts
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/characterGeneration.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/databaseStorage.ts
+- **handleFileInputChange** found in:
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+- **formData** found in:
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/utils/apiUtils.ts
+- **errorData** found in:
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/lib/services/characterGeneration.ts
+  - client/src/lib/services/imageGeneration.ts
+- **characterData** found in:
+  - client/src/components/character/CharacterDocumentUpload.tsx
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+  - server/aiExtractor.ts
+  - server/characterExtractor.ts
+  - server/characterExtractor.ts
+  - server/coordinateExtractor.ts
+  - server/fieldMapper.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+  - server/simpleExtractor.ts
+- **initialData** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/lib/utils/entityUtils.ts
+- **createMutation** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+- **updateMutation** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+- **processedData** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/lib/utils/entityUtils.ts
+  - server/characterGeneration.ts
+- **updateField** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/lib/utils/formUtils.ts
+- **isLoading** found in:
+  - client/src/components/character/CharacterFormExpanded.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/lib/utils/uiUtils.ts
+- **handleGenerate** found in:
+  - client/src/components/character/CharacterGenerationModal.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **saveMutation** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **processDataForSave** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **arrayFields** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/lib/utils/characterUtils.ts
+  - server/fieldMapper.ts
+  - server/utils/responseProcessing.ts
+  - server/utils/responseProcessing.ts
+- **requiredFields** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/lib/utils/characterUtils.ts
+- **canProceed** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - server/characterFieldEnhancement.ts
+- **handleNext** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterOnboarding.tsx
+- **arrayValue** found in:
+  - client/src/components/character/CharacterGuidedCreation.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/lib/utils/entityUtils.ts
+- **calculateCompleteness** found in:
+  - client/src/components/character/CharacterInsights.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **filledFields** found in:
+  - client/src/components/character/CharacterInsights.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/utils/entityUtils.ts
+  - server/characterEnhancement.ts
+- **traits** found in:
+  - client/src/components/character/CharacterInsights.tsx
+  - server/simpleExtractor.ts
+- **saved** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useProjectsLogic.ts
+  - client/src/hooks/useProjectsLogic.ts
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useWidgetManagement.ts
+  - client/src/lib/utils/uiUtils.ts
+  - client/src/lib/utils/uiUtils.ts
+- **character** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+  - server/storage/mockStorage.ts
+- **identityFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **appearanceFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **personalityFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **abilitiesFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **backgroundFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **relationshipsFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **metaFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **countFilledFields** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **identityCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **appearanceCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **personalityCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **abilitiesCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **backgroundCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **relationshipsCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **metaCount** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **totalFilled** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **role** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - server/services/aiGeneration.ts
+- **roleA** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **roleB** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **handleSelectTemplate** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterTemplates.tsx
+- **createdCharacter** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterManager.tsx
+- **handleImageGenerated** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **handleImageUploaded** found in:
+  - client/src/components/character/CharacterManager.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+- **generateCharacterPrompt** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - server/utils/characterPromptBuilder.ts
+- **prompt** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/lib/services/imageGeneration.ts
+  - server/aiExtractor.ts
+  - server/characterEnhancement.ts
+  - server/characterGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+- **updatedGallery** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+- **mainImage** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+- **handleDragOver** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/hooks/useDragAndDrop.ts
+- **handleDragLeave** found in:
+  - client/src/components/character/CharacterPortraitModalImproved.tsx
+  - client/src/hooks/useDragAndDrop.ts
+- **updatedRelationships** found in:
+  - client/src/components/character/CharacterRelationships.tsx
+  - client/src/components/character/CharacterRelationships.tsx
+  - client/src/components/character/CharacterRelationships.tsx
+- **categories** found in:
+  - client/src/components/character/CharacterTemplates.tsx
+  - client/src/components/world/WorldBible.tsx
+- **ICON_COMPONENTS** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **handleSave** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/components/writing/WritingEditor.tsx
+  - client/src/components/character/hooks/useCharacterForm.ts
+- **cleanData** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **handleCancel** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **handleAIEnhance** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **enhancedData** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **processedEnhancedData** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **sectionFields** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+- **updatedData** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedView.tsx
+- **handleInputChange** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+- **section** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/character/shared/FormSection.tsx
+  - server/fieldMapper.ts
+- **isActive** found in:
+  - client/src/components/character/CharacterUnifiedView.tsx
+  - client/src/components/theme-toggle.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/pages/workspace.tsx
+- **controller** found in:
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/utils/fetchHandler.ts
+- **completeness** found in:
+  - client/src/components/character/CharacterUnifiedViewPremium.tsx
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+- **FieldRenderer** found in:
+  - client/src/components/character/FieldRenderer.tsx
+  - client/src/components/character/shared/FieldRenderer.tsx
+- **items** found in:
+  - client/src/components/character/shared/FieldRenderer.tsx
+  - server/characterGeneration.ts
+  - server/coordinateExtractor.ts
+  - server/fieldMapper.ts
+  - server/fieldMapper.ts
+- **summary** found in:
+  - client/src/components/dev/CreativeDebugPanel.tsx
+  - client/src/pages/DebugDemo.tsx
+  - client/src/lib/security.ts
+- **formatDuration** found in:
+  - client/src/components/dev/CreativeDebugPanel.tsx
+  - client/src/components/dev/LiveWritingPreview.tsx
+- **wordCount** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/hooks/useWritingSession.ts
+  - client/src/hooks/useWritingSession.ts
+- **now** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/hooks/useOptimizedScroll.ts
+  - client/src/hooks/useWritingSession.ts
+  - client/src/lib/store.ts
+  - server/characterFieldEnhancement.ts
+  - server/characterFieldEnhancement.ts
+  - server/dev-optimization.ts
+  - server/services/aiGeneration.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+- **wordsWritten** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/hooks/useWritingSession.ts
+- **currentWPM** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/hooks/useWritingSession.ts
+- **hours** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/components/dev/WritingMetrics.tsx
+- **mins** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/components/dev/WritingMetrics.tsx
+- **recentAvg** found in:
+  - client/src/components/dev/LiveWritingPreview.tsx
+  - client/src/hooks/useHotReloadMetrics.ts
+- **forceCleanup** found in:
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/hooks/useMemoryMonitor.ts
+- **memory** found in:
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/hooks/useCreativeDebugger.ts
+  - client/src/hooks/useMemoryMonitor.ts
+  - client/src/utils/memoryAnalyzer.ts
+- **renderTime** found in:
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/hooks/useCreativeDebugger.ts
+  - client/src/hooks/useHotReloadMetrics.ts
+  - client/src/hooks/useHotReloadMetrics.ts
+- **componentCount** found in:
+  - client/src/components/dev/PerformanceDashboard.tsx
+  - client/src/utils/memoryAnalyzer.ts
+- **newSet** found in:
+  - client/src/components/dev/QuickActionsPanel.tsx
+  - client/src/lib/utils/uiUtils.ts
+  - client/src/lib/utils/uiUtils.ts
+- **results** found in:
+  - client/src/components/dev/QuickActionsPanel.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+- **WritingMetrics** found in:
+  - client/src/components/dev/WritingMetrics.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+- **productivity** found in:
+  - client/src/components/dev/WritingMetrics.tsx
+  - client/src/hooks/useWritingSession.ts
+- **ProjectsView** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsView.tsx
+- **handleScroll** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - client/src/pages/landing/LandingPage.tsx
+  - client/src/hooks/useOptimizedScroll.ts
+- **filteredProjects** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsView.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/hooks/useProjectsLogic.ts
+- **calculateProgress** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsView.tsx
+- **ProjectCard** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/components/projects/ProjectsList.tsx
+- **getProjectIcon** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsView.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/components/projects/ProjectsList.tsx
+- **ProjectIcon** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/components/projects/ProjectsList.tsx
+- **ProjectListItem** found in:
+  - client/src/components/project/NewProjectsView.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/components/projects/ProjectsList.tsx
+- **genres** found in:
+  - client/src/components/project/ProjectCreationWizard.tsx
+  - server/characterGeneration.ts
+- **DEFAULT_WIDGETS** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useWidgetManagement.ts
+- **handleSaveGoals** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectModals.tsx
+- **handleCreateTask** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/projects/ProjectModals.tsx
+- **updateViewMode** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **updateSortBy** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **draggedIndex** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/hooks/useDragAndDrop.ts
+- **targetIndex** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/world/WorldBible.tsx
+  - client/src/hooks/useDragAndDrop.ts
+- **temp** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/components/project/ProjectsPageRedesign.tsx
+- **handleWidgetDragStart** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useWidgetManagement.ts
+- **handleWidgetDragOver** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useWidgetManagement.ts
+- **handleWidgetDrop** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useWidgetManagement.ts
+- **toggleTaskCompletion** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useTaskManagement.ts
+- **uniqueGenres** found in:
+  - client/src/components/project/ProjectsPageRedesign.tsx
+  - client/src/hooks/useProjectsLogic.ts
+- **genreArray** found in:
+  - client/src/components/project/ProjectsView.tsx
+  - client/src/components/project/ProjectsView.tsx
+- **DashboardWidgets** found in:
+  - client/src/components/projects/DashboardWidgets.tsx
+  - client/src/components/projects/DashboardWidgets.tsx
+- **ProjectModals** found in:
+  - client/src/components/projects/LazyProjectComponents.tsx
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/projects/ProjectModals.tsx
+- **LazyProjectsList** found in:
+  - client/src/components/projects/LazyProjectComponents.tsx
+  - client/src/components/projects/LazyProjectComponents.tsx
+- **ProjectsList** found in:
+  - client/src/components/projects/LazyProjectComponents.tsx
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/components/projects/ProjectsList.tsx
+- **LazyProjectModals** found in:
+  - client/src/components/projects/LazyProjectComponents.tsx
+  - client/src/components/projects/LazyProjectComponents.tsx
+- **message** found in:
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/lib/utils/errorHandling.ts
+  - client/src/utils/resizeObserverFix.ts
+  - server/index.ts
+- **handleToggleTask** found in:
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/projects/QuickTasksWidget.tsx
+- **handleDeleteTask** found in:
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/projects/QuickTasksWidget.tsx
+- **handleEditTask** found in:
+  - client/src/components/projects/ProjectModals.tsx
+  - client/src/components/projects/QuickTasksWidget.tsx
+- **ProjectsFilters** found in:
+  - client/src/components/projects/ProjectsFilters.tsx
+  - client/src/components/projects/ProjectsFilters.tsx
+- **handleSearchChange** found in:
+  - client/src/components/projects/ProjectsFilters.tsx
+  - client/src/components/projects/ProjectsPage.tsx
+- **option** found in:
+  - client/src/components/projects/ProjectsFilters.tsx
+  - client/src/components/projects/ProjectsFilters.tsx
+- **ProjectsHeader** found in:
+  - client/src/components/projects/ProjectsHeader.tsx
+  - client/src/components/projects/ProjectsHeader.tsx
+- **filtered** found in:
+  - client/src/components/projects/ProjectsList.tsx
+  - client/src/hooks/useProjectsLogic.ts
+- **ProjectsPage** found in:
+  - client/src/components/projects/ProjectsPage.tsx
+  - client/src/components/projects/ProjectsPage.tsx
+- **QuickTasksWidget** found in:
+  - client/src/components/projects/QuickTasksWidget.tsx
+  - client/src/components/projects/QuickTasksWidget.tsx
+- **errorId** found in:
+  - client/src/components/ui/ErrorBoundary.tsx
+  - client/src/components/ui/ErrorBoundary.tsx
+  - client/src/components/ui/ErrorBoundary.tsx
+- **sizeClasses** found in:
+  - client/src/components/ui/LoadingStates.tsx
+  - client/src/components/ui/LoadingStates.tsx
+- **LITERARY_WORDS** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - server/routes/dailyContent.ts
+- **getRandomItem** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - server/routes/dailyContent.ts
+- **waitTime** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+- **headers** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/lib/queryClient.ts
+  - client/src/lib/queryClient.ts
+- **interval** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/pages/landing/LandingPage.tsx
+  - client/src/lib/backup/replitBackup.ts
+- **stored** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/lib/backup/replitBackup.ts
+- **parsed** found in:
+  - client/src/components/ui/MessageOfTheDay.tsx
+  - client/src/hooks/useTaskManagement.ts
+  - server/utils/responseProcessing.ts
+- **context** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/components/ui/carousel.tsx
+  - client/src/components/ui/chart.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/components/ui/toggle-group.tsx
+- **addToast** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **id** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/components/ui/form.tsx
+  - client/src/lib/utils/uiUtils.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+- **newToast** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **duration** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/hooks/useComponentPreloader.ts
+  - client/src/hooks/useCreativeDebugger.ts
+  - client/src/hooks/useWritingSession.ts
+  - client/src/lib/utils/uiUtils.ts
+  - server/dev-optimization.ts
+  - server/index.ts
+- **removeToast** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **config** found in:
+  - client/src/components/ui/Toast.tsx
+  - server/services/aiGeneration.ts
+- **promise** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/hooks/useComponentPreloader.ts
+- **errorText** found in:
+  - client/src/components/ui/Toast.tsx
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/utils/apiUtils.ts
+- **Comp** found in:
+  - client/src/components/ui/breadcrumb.tsx
+  - client/src/components/ui/button.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/components/ui/sidebar.tsx
+- **handleKeyDown** found in:
+  - client/src/components/ui/carousel.tsx
+  - client/src/components/ui/sidebar.tsx
+  - client/src/hooks/useAccessibility.ts
+  - client/src/hooks/useAccessibility.ts
+  - client/src/lib/utils/uiUtils.ts
+- **export** found in:
+  - client/src/components/ui/chart.tsx
+  - client/src/utils/globalErrorHandler.ts
+  - server/auth.ts
+  - server/auth.ts
+  - server/auth.ts
+- **key** found in:
+  - client/src/components/ui/chart.tsx
+  - client/src/components/ui/chart.tsx
+  - client/src/components/ui/chart.tsx
+  - client/src/lib/utils/uiUtils.ts
+  - client/src/utils/memoryOptimizer.ts
+  - server/dev-optimization.ts
+- **itemConfig** found in:
+  - client/src/components/ui/chart.tsx
+  - client/src/components/ui/chart.tsx
+  - client/src/components/ui/chart.tsx
+- **open** found in:
+  - client/src/components/ui/sidebar.tsx
+  - client/src/lib/utils/uiUtils.ts
+- **state** found in:
+  - client/src/components/ui/sidebar.tsx
+  - client/src/lib/store.ts
+  - client/src/lib/store.ts
+- **query** found in:
+  - client/src/components/world/WorldBible.tsx
+  - client/src/lib/utils/entityUtils.ts
+- **WritingEditor** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/components/writing/WritingEditor.tsx
+- **StoryOutlineEditor** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/components/writing/StoryOutlineEditor.tsx
+- **startTime** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/hooks/useComponentPreloader.ts
+  - server/__tests__/api/projects.test.ts
+  - server/routes/dailyContent.ts
+- **LazyWritingEditor** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+- **LazyStoryOutlineEditor** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+- **LazyWritingMetrics** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/components/writing/LazyWritingComponents.tsx
+- **metrics** found in:
+  - client/src/components/writing/LazyWritingComponents.tsx
+  - client/src/lib/store.ts
+- **newOutline** found in:
+  - client/src/components/writing/StoryOutlineEditor.tsx
+  - client/src/components/writing/StoryOutlineEditor.tsx
+  - client/src/components/writing/StoryOutlineEditor.tsx
+  - server/storage/databaseStorage.ts
+  - server/storage/mockStorage.ts
+- **words** found in:
+  - client/src/components/writing/WritingEditor.tsx
+  - client/src/components/writing/WritingEditor.tsx
+- **passwordSchema** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - server/auth.ts
+- **signupSchema** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - server/auth.ts
+- **loginSchema** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+  - server/auth.ts
+- **checkPasswordStrength** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **checks** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **score** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **signupForm** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **loginForm** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **signupMutation** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **loginMutation** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **onSignup** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **onLogin** found in:
+  - client/src/pages/AuthPage.tsx
+  - client/src/pages/AuthPageRedesign.tsx
+- **trustIndicators** found in:
+  - client/src/pages/landing/FeatureCards.tsx
+  - client/src/pages/landing/LandingPage.tsx
+- **FeatureCards** found in:
+  - client/src/pages/landing/FeatureCards.tsx
+  - client/src/pages/landing/FeatureCards.tsx
+- **LandingPage** found in:
+  - client/src/pages/landing/LandingPage.tsx
+  - client/src/pages/workspace.tsx
+- **projects** found in:
+  - client/src/pages/workspace.tsx
+  - server/routes/projects.ts
+  - server/storage/mockStorage.ts
+- **validateForm** found in:
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/lib/utils/formUtils.ts
+- **errors** found in:
+  - client/src/components/character/hooks/useCharacterForm.ts
+  - client/src/lib/utils/characterUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+- **mediaQuery** found in:
+  - client/src/hooks/useAccessibility.ts
+  - client/src/hooks/useAccessibility.ts
+- **handleChange** found in:
+  - client/src/hooks/useAccessibility.ts
+  - client/src/hooks/useAccessibility.ts
+- **rect** found in:
+  - client/src/hooks/useAccessibility.ts
+  - client/src/hooks/useAccessibility.ts
+- **minSize** found in:
+  - client/src/hooks/useAccessibility.ts
+  - client/src/hooks/useAccessibility.ts
+- **preloadPromises** found in:
+  - client/src/hooks/useComponentPreloader.ts
+  - client/src/hooks/useComponentPreloader.ts
+- **timestamp** found in:
+  - client/src/hooks/useCreativeDebugger.ts
+  - client/src/lib/store.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+- **entry** found in:
+  - client/src/hooks/useHotReloadMetrics.ts
+  - server/dev-optimization.ts
+- **status** found in:
+  - client/src/hooks/useHotReloadMetrics.ts
+  - server/index.ts
+- **total** found in:
+  - client/src/hooks/useMemoryMonitor.ts
+  - client/src/hooks/useProjectsLogic.ts
+  - client/src/lib/utils/entityUtils.ts
+- **today** found in:
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useWritingSession.ts
+  - client/src/hooks/useWritingSession.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+- **todayTasks** found in:
+  - client/src/hooks/useTaskManagement.ts
+  - server/routes/tasks.ts
+- **totalTasks** found in:
+  - client/src/hooks/useTaskManagement.ts
+  - server/routes/tasks.ts
+- **completedTasks** found in:
+  - client/src/hooks/useTaskManagement.ts
+  - server/routes/tasks.ts
+- **newProgress** found in:
+  - client/src/hooks/useTaskManagement.ts
+  - client/src/hooks/useTaskManagement.ts
+- **newSession** found in:
+  - client/src/hooks/useWritingSession.ts
+  - server/storage/databaseStorage.ts
+  - server/storage/mockStorage.ts
+- **endTime** found in:
+  - client/src/hooks/useWritingSession.ts
+  - server/__tests__/api/projects.test.ts
+- **backupData** found in:
+  - client/src/lib/backup/replitBackup.ts
+  - client/src/lib/backup/replitBackup.ts
+  - client/src/lib/backup/replitBackup.ts
+  - client/src/lib/backup/replitBackup.ts
+- **backups** found in:
+  - client/src/lib/backup/replitBackup.ts
+  - client/src/lib/backup/replitBackup.ts
+- **modeFields** found in:
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/config/experienceModes.ts
+  - client/src/lib/config/experienceModes.ts
+- **field** found in:
+  - client/src/lib/config/experienceModes.ts
+  - server/fieldMapper.ts
+- **apiRequest** found in:
+  - client/src/lib/queryClient.ts
+  - client/src/utils/fetchHandler.ts
+- **authState** found in:
+  - client/src/lib/queryClient.ts
+  - client/src/lib/queryClient.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+  - client/src/lib/services/taskService.ts
+- **res** found in:
+  - client/src/lib/queryClient.ts
+  - client/src/lib/queryClient.ts
+  - server/__tests__/setup.ts
+- **savedCharacter** found in:
+  - client/src/lib/services/characterCreationService.ts
+  - client/src/lib/services/characterCreationService.ts
+- **isClient** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - client/src/lib/services/geminiService.ts
+  - client/src/lib/services/imageGeneration.ts
+- **getGeminiClient** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - server/characterGeneration.ts
+  - server/imageGeneration.ts
+- **apiKey** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - client/src/lib/services/imageGeneration.ts
+  - server/characterEnhancement.ts
+  - server/characterGeneration.ts
+  - server/imageGeneration.ts
+  - server/imageGeneration.ts
+  - server/services/aiGeneration.ts
+- **generateContextualCharacter** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - server/characterGeneration.ts
+- **generatedCharacter** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - server/services/characterGeneration.ts
+- **buildProjectContext** found in:
+  - client/src/lib/services/characterGeneration.ts
+  - server/characterGeneration.ts
+- **generateCharacterImage** found in:
+  - client/src/lib/services/geminiService.ts
+  - server/imageGeneration.ts
+- **generateCharacterPortrait** found in:
+  - client/src/lib/services/imageGeneration.ts
+  - server/characterPortraitGenerator.ts
+- **client** found in:
+  - client/src/lib/services/imageGeneration.ts
+  - server/characterGeneration.ts
+- **cached** found in:
+  - client/src/lib/store.ts
+  - server/dev-optimization.ts
+  - server/routes/dailyContent.ts
+- **newCache** found in:
+  - client/src/lib/store.ts
+  - client/src/lib/store.ts
+  - client/src/lib/store.ts
+- **isValidationError** found in:
+  - client/src/lib/utils/apiUtils.ts
+  - client/src/lib/utils/errorHandling.ts
+- **name** found in:
+  - client/src/lib/utils/entityUtils.ts
+  - client/src/lib/utils/entityUtils.ts
+  - server/services/aiGeneration.ts
+  - server/utils/fallbackGenerator.ts
+- **entityError** found in:
+  - client/src/lib/utils/errorHandling.ts
+  - client/src/lib/utils/errorHandling.ts
+- **errorObj** found in:
+  - client/src/lib/utils/errorHandling.ts
+  - client/src/lib/utils/errorHandling.ts
+- **newErrors** found in:
+  - client/src/lib/utils/formUtils.ts
+  - client/src/lib/utils/uiUtils.ts
+- **debounce** found in:
+  - client/src/lib/utils/formUtils.ts
+  - client/src/utils/memoryOptimizer.ts
+- **item** found in:
+  - client/src/lib/utils/uiUtils.ts
+  - server/coordinateExtractor.ts
+- **for** found in:
+  - client/src/utils/memoryOptimizer.ts
+  - server/__tests__/setup.ts
+- **app** found in:
+  - server/__tests__/api/projects.test.ts
+  - server/index.ts
+- **mockProjects** found in:
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+- **newProjectData** found in:
+  - server/__tests__/api/projects.test.ts
+  - server/__tests__/api/projects.test.ts
+- **updateData** found in:
+  - server/__tests__/api/projects.test.ts
+  - server/routes/tasks.ts
+- **extractCharacterFromText** found in:
+  - server/aiExtractor.ts
+  - server/characterExtractor.ts
+  - server/coordinateExtractor.ts
+  - server/fieldMapper.ts
+  - server/simpleExtractor.ts
+- **genAI** found in:
+  - server/aiExtractor.ts
+  - server/services/characterGeneration.ts
+- **physicalParts** found in:
+  - server/aiExtractor.ts
+  - server/coordinateExtractor.ts
+  - server/fieldMapper.ts
+- **authHeader** found in:
+  - server/auth.ts
+  - server/auth.ts
+  - server/routes.ts
+- **decoded** found in:
+  - server/auth.ts
+  - server/auth.ts
+- **session** found in:
+  - server/auth.ts
+  - server/auth.ts
+  - server/storage/mockStorage.ts
+- **validatedData** found in:
+  - server/auth.ts
+  - server/auth.ts
+  - server/routes/outlines.ts
+  - server/routes/outlines.ts
+  - server/routes/projects.ts
+  - server/routes/prose.ts
+  - server/routes/prose.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+- **expiresAt** found in:
+  - server/auth.ts
+  - server/auth.ts
+- **ai** found in:
+  - server/characterEnhancement.ts
+  - server/characterExtractor.ts
+  - server/imageGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+- **systemPrompt** found in:
+  - server/characterEnhancement.ts
+  - server/characterExtractor.ts
+- **page** found in:
+  - server/characterExtractor.ts
+  - server/vite.ts
+- **fallbackContent** found in:
+  - server/characterFieldEnhancement.ts
+  - server/characterFieldEnhancement.ts
+  - server/characterFieldEnhancement.ts
+- **model** found in:
+  - server/characterGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/aiGeneration.ts
+  - server/services/characterGeneration.ts
+- **nameMatch** found in:
+  - server/characterGeneration.ts
+  - server/simpleExtractor.ts
+- **genreGuidance** found in:
+  - server/characterGeneration.ts
+  - server/characterGeneration.ts
+- **guidance** found in:
+  - server/characterGeneration.ts
+  - server/characterGeneration.ts
+- **pattern** found in:
+  - server/coordinateExtractor.ts
+  - server/coordinateExtractor.ts
+- **match** found in:
+  - server/coordinateExtractor.ts
+  - server/coordinateExtractor.ts
+- **colorMatch** found in:
+  - server/coordinateExtractor.ts
+  - server/coordinateExtractor.ts
+- **cacheKey** found in:
+  - server/dev-optimization.ts
+  - server/routes/dailyContent.ts
+- **start** found in:
+  - server/dev-optimization.ts
+  - server/index.ts
+- **sentences** found in:
+  - server/fieldMapper.ts
+  - server/fieldMapper.ts
+- **ageMatch** found in:
+  - server/fieldMapper.ts
+  - server/simpleExtractor.ts
+- **heightMatch** found in:
+  - server/fieldMapper.ts
+  - server/simpleExtractor.ts
+- **optimizedPrompt** found in:
+  - server/imageGeneration.ts
+  - server/imageGeneration.ts
+- **mimeType** found in:
+  - server/imageGeneration.ts
+  - server/utils/imageCompression.ts
+- **upload** found in:
+  - server/routes/characters.ts
+  - server/routes.ts
+- **allowedTypes** found in:
+  - server/routes/characters.ts
+  - server/routes.ts
+- **transformedData** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/services/characterGeneration.ts
+  - server/utils/characterTransformers.ts
+- **generateUniqueId** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+- **randomPart** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+- **extraRandom** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/services/characterGeneration.ts
+- **errorMessage** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+  - server/routes.ts
+  - server/routes.ts
+- **portraitUrl** found in:
+  - server/routes/characters.ts
+  - server/routes/characters.ts
+  - server/routes.ts
+- **imageUrl** found in:
+  - server/routes/characters.ts
+  - server/routes.ts
+- **router** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/tasks.ts
+- **word** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/dailyContent.ts
+- **userId** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/projects.ts
+  - server/routes/projects.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+- **hasApiKey** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/dailyContent.ts
+- **fallback** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/dailyContent.ts
+- **aiWorking** found in:
+  - server/routes/dailyContent.ts
+  - server/routes/dailyContent.ts
+- **outline** found in:
+  - server/routes/outlines.ts
+  - server/routes/outlines.ts
+- **document** found in:
+  - server/routes/prose.ts
+  - server/routes/prose.ts
+- **taskId** found in:
+  - server/routes/tasks.ts
+  - server/routes/tasks.ts
+- **race** found in:
+  - server/services/aiGeneration.ts
+  - server/utils/fallbackGenerator.ts
+- **background** found in:
+  - server/services/aiGeneration.ts
+  - server/utils/fallbackGenerator.ts
+- **goals** found in:
+  - server/services/aiGeneration.ts
+  - server/utils/fallbackGenerator.ts
+- **newUser** found in:
+  - server/storage/databaseStorage.ts
+  - server/storage/mockStorage.ts
+- **newCharacter** found in:
+  - server/storage/databaseStorage.ts
+  - server/storage/mockStorage.ts
+- **existing** found in:
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+  - server/storage/mockStorage.ts
+- **converted** found in:
+  - server/utils/responseProcessing.ts
+  - server/utils/responseProcessing.ts

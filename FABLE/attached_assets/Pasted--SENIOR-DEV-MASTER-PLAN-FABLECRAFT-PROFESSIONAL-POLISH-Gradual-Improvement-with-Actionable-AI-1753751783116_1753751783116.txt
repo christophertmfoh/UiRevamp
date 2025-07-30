@@ -1,0 +1,64 @@
+# SENIOR DEV MASTER PLAN - FABLECRAFT PROFESSIONAL POLISH
+## Gradual Improvement with Actionable AI Prompts
+
+**Date**: January 29, 2025  
+**Approach**: Preserve core systems, improve incrementally  
+**Each step**: Ready-to-execute AI prompt for senior-level implementation
+
+---
+
+## **PHASE 1: PROFESSIONAL LANDING & AUTH (Week 1)**
+
+### **PROMPT 1.1: Create Professional Landing Page**
+```
+Create a professional marketing landing page for FableCraft creative writing platform.
+
+REQUIREMENTS:
+- Create client/src/pages/landing/LandingPage.tsx with modern hero section
+- Include sections: Hero, Features, Pricing, Testimonials, Footer
+- Use existing Radix UI + Tailwind CSS components
+- Hero: "The Future of Creative Writing" with AI-powered features
+- Features: Character Generation (164+ fields), World Building, Real-time Collaboration
+- Pricing: Free tier (3 projects) + Professional ($19/month unlimited)
+- Responsive design with professional animations
+- Include proper TypeScript types
+- Add to routing in client/src/App.tsx
+
+PRESERVE: All existing functionality, just add new landing page
+```
+
+### **PROMPT 1.2: Improve Authentication Flow**
+```
+Enhance the existing authentication system with professional UX.
+
+REQUIREMENTS:
+- Improve client/src/pages/AuthPageRedesign.tsx with split-screen design
+- Left side: Branding with creative quote, right side: clean auth form
+- Add proper form validation with React Hook Form + Zod
+- Include social auth buttons (even if not functional yet)
+- Add password strength indicator for signup
+- Implement proper loading states and error handling
+- Use existing JWT authentication backend
+- Add smooth transitions with Framer Motion
+
+PRESERVE: Existing auth logic, database integration, JWT tokens
+```
+
+### **PROMPT 1.3: Professional Navigation System**
+```
+Create a professional sidebar navigation similar to Notion.
+
+REQUIREMENTS:
+- Create client/src/components/navigation/Sidebar.tsx
+- Sections: Dashboard, Projects, Characters, World Bible, AI Assistant, Settings
+- User profile section at top with avatar and workspace selector
+- Recent projects list with project type icons
+- Collapsible sidebar with keyboard shortcut (⌘\)
+- Active state highlighting and smooth hover effects
+- Use existing routing system, don't break current navigation
+- Mobile-responsive with overlay on small screens
+
+PRESERVE: All existing routes and functionality, enhance navigation UX
+```
+
+---

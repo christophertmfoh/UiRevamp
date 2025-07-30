@@ -1,267 +1,243 @@
-# FableCraft - Professional Creative Writing Platform
+# 🎭 FableCraft - Modern Creative Writing Platform
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](package.json)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.3.11-blue.svg)](https://reactjs.org/)
+> **Professional creative writing environment built for modern teams and individual creators**
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-blue.svg)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-passing-green.svg)](#testing)
 
-> Creative writing platform optimized for Replit development with AI integration, intuitive project management, and collaborative features.
+## 🚀 **What is FableCraft?**
 
-## 🚀 **Overview**
+FableCraft is a modern creative writing platform designed for novelists, screenwriters, and storytellers. Think **Notion meets Sudowrite** - a comprehensive workspace for creative projects with AI-powered assistance.
 
-FableCraft is a creative development environment designed for writers, storytellers, and creative teams. Built with modern Replit-native architecture, it provides intuitive tools for novel writing, screenplay development, character management, and collaborative storytelling.
+### **✨ Core Features**
 
-### **Key Features**
+- **📖 Multi-Format Writing** - Novels, screenplays, short stories
+- **👥 Character Management** - Deep character development with relationships
+- **🌍 World Building** - Comprehensive world bible system
+- **🤖 AI Assistant** - Integrated creative writing help
+- **📊 Progress Tracking** - Goals, analytics, and productivity insights
+- **🎨 Professional Themes** - Beautiful writing environments
+- **👥 Collaboration** - Team projects and sharing
 
-- 🎭 **Advanced Project Management** - Multi-format support (novels, screenplays, short stories)
-- 🤖 **AI-Powered Writing Assistant** - Integrated content generation and creative support
-- 👥 **Character Development System** - Comprehensive character profiles with relationship mapping
-- 📖 **Story Structure Tools** - Outline management and narrative architecture
-- 🎨 **Professional Theming** - 7 custom themes optimized for writing environments
-- 📊 **Progress Tracking** - Goals, metrics, and productivity analytics
-- 🔒 **Development Security** - Secure authentication and data protection for creative workflow
+## 🏗️ **Project Structure**
 
-## 🏗️ **Architecture**
-
-### **Technology Stack**
+This repository contains both the **legacy system** (in `FABLE/`) and the **new modern architecture**:
 
 ```
-Frontend:  React 18 + TypeScript + Vite + Tailwind CSS
-Backend:   Node.js + Express + TypeScript
-Database:  PostgreSQL + Drizzle ORM
-State:     Zustand + React Query
-Testing:   Vitest + Testing Library + Supertest
-AI:        Google Generative AI + OpenAI Integration
-```
-
-### **Project Structure**
-
-```
-fablecraft/
-├── src/                    # Frontend application
-│   ├── components/         # React components
-│   ├── hooks/             # Custom React hooks
-│   ├── lib/               # Utilities and configurations
-│   └── __tests__/         # Frontend tests
-├── server/                # Backend API
-│   ├── routes/            # API endpoints
-│   ├── storage/           # Data layer abstraction
-│   └── __tests__/         # Backend tests
-├── shared/                # Shared types and schemas
+NEW_FABLECRAFT_REPO/
+├── FABLE/                  # Legacy system (reference/migration)
+│   ├── client/            # Old React frontend
+│   ├── server/            # Old Node.js backend
+│   └── shared/            # Shared utilities
+├── frontend/              # NEW: Modern React 19 frontend
+├── backend/               # NEW: Modern Node.js backend
+├── shared/                # NEW: Shared types and utilities
 ├── docs/                  # Documentation
-│   ├── api/               # API documentation
-│   ├── deployment/        # Deployment guides
-│   └── development/       # Development guides
-└── scripts/               # Automation scripts
+└── deployment/            # Deployment configurations
 ```
+
+## 🎯 **New Architecture Goals**
+
+### **Frontend** (React 19 + TypeScript)
+- **Modern App Shell** - Notion-style sidebar navigation
+- **Workspace Architecture** - Project-centric interface
+- **Real-time Collaboration** - Live editing and sharing
+- **Professional UI** - shadcn/ui + Tailwind CSS
+- **Performance First** - Optimized for large documents
+
+### **Backend** (Node.js + TypeScript)
+- **RESTful API** - Clean, documented endpoints
+- **Real-time Features** - WebSocket support
+- **AI Integration** - OpenAI/Google AI APIs
+- **Database** - PostgreSQL + Drizzle ORM
+- **Authentication** - Secure user management
+
+### **Developer Experience**
+- **Type Safety** - Full TypeScript coverage
+- **Modern Tooling** - Vite, ESLint, Prettier
+- **Testing** - Vitest + Testing Library
+- **Documentation** - Comprehensive guides
+- **Deployment** - Replit + production ready
 
 ## 🚀 **Quick Start**
 
 ### **Prerequisites**
-
-- Node.js 18+ and npm 8+
-- PostgreSQL 14+ (or use development mock storage)
+- Node.js 20+
+- PostgreSQL (or use Replit Database)
 - Git
 
-### **Installation**
-
+### **1. Clone & Setup**
 ```bash
-# Clone the repository
-git clone https://github.com/christophertmfoh/UiRevamp.git
+git clone <your-new-repo-url>
 cd fablecraft
-
-# Install dependencies
 npm install
+```
 
-# Set up environment variables
+### **2. Environment Setup**
+```bash
+# Copy environment template
 cp .env.example .env
-# Edit .env with your configuration
 
-# Run development server
+# Add your configuration
+VITE_API_URL=http://localhost:3001
+DATABASE_URL=your_database_url
+OPENAI_API_KEY=your_openai_key
+```
+
+### **3. Development**
+```bash
+# Start frontend (port 5173)
+npm run dev:frontend
+
+# Start backend (port 3001)  
+npm run dev:backend
+
+# Start both
 npm run dev
 ```
 
-The application will be available at `http://localhost:5000`
+### **4. Database Setup**
+```bash
+# Generate and run migrations
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+```
 
-### **Development Setup**
+## 📁 **New Architecture Detailed**
+
+### **Frontend Structure**
+```
+frontend/
+├── src/
+│   ├── app/              # App shell and routing
+│   ├── features/         # Feature-based modules
+│   │   ├── auth/         # Authentication
+│   │   ├── projects/     # Project management
+│   │   ├── writing/      # Writing interface
+│   │   ├── characters/   # Character system
+│   │   └── world/        # World building
+│   ├── shared/           # Shared components & utilities
+│   │   ├── ui/           # UI component library
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── stores/       # State management
+│   │   └── utils/        # Utility functions
+│   └── assets/           # Static assets
+```
+
+### **Backend Structure**
+```
+backend/
+├── src/
+│   ├── api/              # API route handlers
+│   ├── services/         # Business logic
+│   ├── database/         # Database schema & migrations
+│   ├── middleware/       # Express middleware
+│   ├── integrations/     # External APIs (AI, etc.)
+│   └── utils/            # Utility functions
+```
+
+## 🛠 **Available Scripts**
 
 ```bash
-# Run tests
-npm test
+# Development
+npm run dev                 # Start both frontend & backend
+npm run dev:frontend        # Frontend only (port 5173)
+npm run dev:backend         # Backend only (port 3001)
 
-# Run tests with coverage
-npm run test:coverage
+# Building
+npm run build              # Build both
+npm run build:frontend     # Build frontend only
+npm run build:backend      # Build backend only
 
-# Lint code
-npm run lint
+# Testing  
+npm run test               # Run all tests
+npm run test:frontend      # Frontend tests only
+npm run test:backend       # Backend tests only
 
-# Format code
-npm run format
+# Database
+npm run db:generate        # Generate migrations
+npm run db:migrate         # Run migrations
+npm run db:seed           # Seed test data
 
-# Type checking
-npm run type-check
+# Code Quality
+npm run lint              # Lint all code
+npm run type-check        # TypeScript check
+npm run format           # Format with Prettier
+```
 
-# Pre-commit checks
-npm run pre-commit
+## 🎨 **Key Features Deep Dive**
+
+### **📖 Writing Environment**
+- **Distraction-free editor** with markdown support
+- **Multiple document types** (chapters, scenes, notes)
+- **Version history** and automatic saves
+- **Export options** (PDF, DOCX, Fountain)
+
+### **👥 Character System**
+- **Character profiles** with photos and details
+- **Relationship mapping** between characters
+- **Character arcs** and development tracking
+- **AI-generated character insights**
+
+### **🌍 World Building**
+- **Location library** with descriptions and maps
+- **Timeline management** for complex narratives
+- **Research organization** and note-taking
+- **Consistency checking** across documents
+
+### **🤖 AI Integration**
+- **Writing suggestions** and continuation
+- **Character dialogue** generation
+- **Plot development** assistance
+- **Grammar and style** improvements
+
+## 🚢 **Deployment**
+
+### **Replit Deployment**
+```bash
+# Optimized for Replit hosting
+npm run deploy:replit
+```
+
+### **Production Deployment**
+```bash
+# Build for production
+npm run build
+
+# Deploy to your hosting platform
+npm run deploy:production
 ```
 
 ## 📚 **Documentation**
 
-### **For Developers**
-- [Development Setup Guide](docs/development/setup.md)
-- [API Documentation](docs/api/README.md)
-- [Testing Guide](docs/development/testing.md)
-- [Contributing Guidelines](docs/development/contributing.md)
-
-### **For DevOps/Deployment**
-- [Deployment Guide](docs/deployment/README.md)
-- [Environment Configuration](docs/deployment/environment.md)
-- [Security Guidelines](docs/deployment/security.md)
-
-### **For Business/Product**
-- [Feature Overview](docs/features.md)
-- [User Guide](docs/user-guide.md)
-- [API Reference](docs/api/reference.md)
-
-## 🧪 **Testing**
-
-### **Test Coverage**
-
-- **Unit Tests**: Component and utility testing
-- **Integration Tests**: API endpoint testing
-- **E2E Tests**: User journey validation
-- **Performance Tests**: Load and response time testing
-
-```bash
-# Run all tests
-npm test
-
-# Run specific test suites
-npm run test:unit
-npm run test:integration
-npm run test:e2e
-
-# Generate coverage reports
-npm run test:coverage
-
-# View coverage report
-npx vite preview --outDir coverage
-```
-
-### **Quality Assurance**
-
-- **ESLint**: Code quality and consistency
-- **Prettier**: Code formatting
-- **TypeScript**: Type safety
-- **Husky**: Pre-commit hooks
-- **Vitest**: Fast testing framework
-
-## 🚀 **Development & Deployment**
-
-### **Replit Development Environment**
-
-```bash
-# Quick development setup
-npm run dev
-
-# Performance-optimized development
-npm run dev:performance
-
-# Build for testing
-npm run build
-```
-
-### **Environment Variables**
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DATABASE_URL` | PostgreSQL connection string | Yes (Production) |
-| `GEMINI_API_KEY` | Google AI API key | No |
-| `OPENAI_API_KEY` | OpenAI API key | No |
-| `NODE_ENV` | Environment (development/production) | Yes |
-| `PORT` | Server port (default: 5000) | No |
-
-### **Replit Development**
-
-```bash
-# One-command setup for Replit
-npm run replit:setup
-
-# Optimized development with performance monitoring
-npm run dev:performance
-
-# Clean slate optimization
-npm run replit:optimize
-```
-
-## 🔒 **Security**
-
-- **Authentication**: Secure session management
-- **Data Validation**: Input sanitization and validation
-- **API Security**: Rate limiting and CORS protection  
-- **Dependency Scanning**: Automated vulnerability checks
-- **Environment Isolation**: Secure configuration management
-
-## 📈 **Performance**
-
-- **Bundle Optimization**: Code splitting and tree shaking
-- **Caching Strategy**: Intelligent API and asset caching
-- **Database Optimization**: Query optimization and indexing
-- **CDN Ready**: Static asset optimization
-- **Monitoring**: Performance metrics and alerting
+- [**Development Guide**](docs/DEVELOPMENT.md) - Setup and workflow
+- [**API Documentation**](docs/API.md) - Backend endpoints
+- [**Component Library**](docs/COMPONENTS.md) - Frontend components
+- [**Database Schema**](docs/DATABASE.md) - Data structure
+- [**Deployment Guide**](docs/DEPLOYMENT.md) - Production setup
 
 ## 🤝 **Contributing**
 
-We welcome contributions from the community! Please read our [Contributing Guidelines](docs/development/contributing.md) before submitting pull requests.
-
-### **Development Workflow**
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`npm run pre-commit`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-## 📋 **Roadmap**
-
-### **Current Version (v1.0.0)**
-- ✅ Core writing platform
-- ✅ Character management system
-- ✅ AI integration
-- ✅ Professional theming
-- ✅ Enterprise testing framework
-
-### **Upcoming Features**
-- 🚧 Real-time collaboration
-- 🚧 Advanced AI features
-- 🚧 Mobile application
-- 🚧 Publishing integration
-- 🚧 Team management
+1. **Fork the repository**
+2. **Create feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Commit changes** (`git commit -m 'Add amazing feature'`)
+4. **Push to branch** (`git push origin feature/amazing-feature`)
+5. **Open Pull Request**
 
 ## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 **Support**
+## 🙏 **Acknowledgments**
 
-- **Documentation**: Check our [docs](docs/) directory
-- **Issues**: Report bugs via [GitHub Issues](https://github.com/christophertmfoh/UiRevamp/issues)
-- **Discussions**: Join our [GitHub Discussions](https://github.com/christophertmfoh/UiRevamp/discussions)
-
-## 📊 **Stats**
-
-- **Lines of Code**: 50,000+
-- **Test Coverage**: 80%+
-- **Components**: 100+
-- **API Endpoints**: 50+
-- **Supported Themes**: 7
-- **Languages**: TypeScript, JavaScript, CSS
+- **Inspiration**: Notion, Sudowrite, Scrivener, Linear
+- **UI Framework**: shadcn/ui component library
+- **Icons**: Lucide React
+- **Fonts**: Inter, Playfair Display
 
 ---
 
-**Built with ❤️ by the FableCraft team**
-
-*Professional creative writing platform for the modern age.*
+**Ready to craft amazing stories!** ✨
