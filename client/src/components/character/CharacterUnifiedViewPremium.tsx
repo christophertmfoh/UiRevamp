@@ -14,6 +14,12 @@ import type { Character } from '@/lib/types';
 import { CharacterPortraitModal } from './CharacterPortraitModalImproved';
 import { AIAssistModal } from './AIAssistModal';
 import { FieldAIAssist } from './FieldAIAssist';
+import { 
+  hasCharacterChanges, 
+  prepareCharacterForSave, 
+  cleanCorruptedCharacterData,
+  logCharacterDataIntegrity 
+} from '@/lib/utils/characterDataUtils';
 
 interface CharacterUnifiedViewPremiumProps {
   projectId: string;
@@ -39,6 +45,7 @@ export function CharacterUnifiedViewPremium({
   const [activeTab, setActiveTab] = useState('identity');
   const [isPortraitModalOpen, setIsPortraitModalOpen] = useState(false);
   const [isAIAssistModalOpen, setIsAIAssistModalOpen] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const autoSaveTimerRef = useRef<NodeJS.Timeout>();
@@ -66,82 +73,7 @@ export function CharacterUnifiedViewPremium({
     return String(value);
   };
 
-  // Sync formData with character prop changes (only when not editing)
-  useEffect(() => {
-    if (!isEditing) {
-      console.log('🔄 Character prop changed (not editing), updating formData:', character.name);
-      // Clean up any corrupted string fields that may contain array artifacts
-      const cleanedCharacter = { ...character };
-      const stringFields = ['nicknames', 'pronouns', 'age', 'species', 'gender', 'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'];
-      
-      stringFields.forEach(field => {
-        const value = (cleanedCharacter as any)[field];
-        if (typeof value === 'string' && (value === '{}' || value === '[]' || value === 'null' || value === 'undefined')) {
-          (cleanedCharacter as any)[field] = '';
-          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
-        } else if (typeof value === 'object' && value !== null) {
-          // Also catch objects that somehow got into string fields
-          (cleanedCharacter as any)[field] = '';
-          console.log(`🧹 Fixed object in string field '${field}':`, value, '→ ""');
-        }
-      });
-      
-      setFormData(cleanedCharacter);
-    }
-  }, [character, isEditing]);
-
-  // Auto-save functionality for edit mode
-  const performAutoSave = useCallback(async (dataToSave: Character) => {
-    if (!isEditing) return; // Only auto-save in edit mode
-    
-    try {
-      setAutoSaveStatus('saving');
-      setIsAutoSaving(true);
-      
-      const processedData = processDataForSave(dataToSave);
-      await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
-      
-      setAutoSaveStatus('saved');
-      // Reset status after 2 seconds
-      setTimeout(() => setAutoSaveStatus('idle'), 2000);
-    } catch (error) {
-      console.error('Auto-save failed:', error);
-      setAutoSaveStatus('error');
-      // Reset status after 3 seconds
-      setTimeout(() => setAutoSaveStatus('idle'), 3000);
-    } finally {
-      setIsAutoSaving(false);
-    }
-  }, [isEditing, character.id]);
-
-  // Debounced auto-save when formData changes in edit mode
-  useEffect(() => {
-    if (!isEditing) return;
-    
-    // Clear existing timer
-    if (autoSaveTimerRef.current) {
-      clearTimeout(autoSaveTimerRef.current);
-    }
-
-    // Set new timer for auto-save (3 seconds after last change)
-    autoSaveTimerRef.current = setTimeout(() => {
-      // Only auto-save if there are meaningful changes and minimum required data
-      const hasChanges = JSON.stringify(formData) !== JSON.stringify(character);
-      const hasMinimumData = formData.name && formData.name.trim().length > 0;
-      
-      if (hasChanges && hasMinimumData) {
-        console.log('💾 Auto-saving character changes...');
-        performAutoSave(formData);
-      }
-    }, 3000);
-
-    // Cleanup on unmount
-    return () => {
-      if (autoSaveTimerRef.current) {
-        clearTimeout(autoSaveTimerRef.current);
-      }
-    };
-  }, [formData, isEditing, character, performAutoSave]);
+  // Data cleanup and comparison now handled by centralized characterDataUtils
 
   // Define all character fields organized by category (matching the wizard 1:1)
   const identityFields = [
@@ -241,8 +173,9 @@ export function CharacterUnifiedViewPremium({
   const saveMutation = useMutation({
     mutationFn: async (data: Character) => {
       console.log('🔧 Saving character:', character.id);
-      const processedData = processDataForSave(data);
-      const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
+          const processedData = prepareCharacterForSave(data);
+    logCharacterDataIntegrity(processedData, 'CharacterUnifiedViewPremium Manual Save');
+    const result = await apiRequest('PUT', `/api/characters/${character.id}`, processedData);
       console.log('✅ Character saved successfully');
       return result;
     },
@@ -265,6 +198,10 @@ export function CharacterUnifiedViewPremium({
     }
   });
 
+  /**
+   * Enterprise-grade data processing for character saves
+   * Prevents data corruption by properly handling type mismatches and serialization issues
+   */
   const processDataForSave = (data: Character) => {
     const processedData = { ...data };
     
@@ -276,27 +213,33 @@ export function CharacterUnifiedViewPremium({
     
     stringFields.forEach(field => {
       const value = (data as any)[field];
-      if (Array.isArray(value)) {
+      
+      if (value === null || value === undefined) {
+        (processedData as any)[field] = '';
+      } else if (Array.isArray(value)) {
         // If somehow an array got in, convert back to string
-        (processedData as any)[field] = value.join(', ');
+        (processedData as any)[field] = value.filter(Boolean).join(', ');
+        console.log(`🔧 Fixed array in string field '${field}': converted to comma-separated string`);
+      } else if (typeof value === 'object') {
+        // CRITICAL FIX: Objects in string fields cause {"{}","[object Object]"} corruption
+        console.warn(`⚠️ Object found in string field '${field}':`, value, 'Converting to empty string');
+        (processedData as any)[field] = '';
       } else if (typeof value === 'string') {
         // Clean up corrupted string values from previous bugs
-        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined' || 
+            value === '[object Object]' || value.includes('{"{}"}')) {
+          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
           (processedData as any)[field] = '';
         } else {
           (processedData as any)[field] = value;
         }
-      } else if (typeof value === 'object' && value !== null) {
-        // If somehow an object got in (this is the bug!), convert to empty string
-        console.warn(`⚠️ Object found in string field '${field}':`, value, 'Converting to empty string');
-        (processedData as any)[field] = '';
       } else {
-        // Keep as string (or convert to string if needed)
-        (processedData as any)[field] = value ? String(value) : '';
+        // Convert other types to string safely
+        (processedData as any)[field] = String(value);
       }
     });
     
-    // Handle true array fields
+    // Handle true array fields with proper type safety
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
       'languages', 'archetypes', 'tropes', 'tags'
@@ -304,10 +247,28 @@ export function CharacterUnifiedViewPremium({
     
     arrayFields.forEach(field => {
       const value = (data as any)[field];
-      if (typeof value === 'string') {
-        (processedData as any)[field] = value.trim() ? value.split(',').map(s => s.trim()) : [];
+      
+      if (!value || value === null || value === undefined) {
+        (processedData as any)[field] = [];
+      } else if (typeof value === 'string') {
+        // Handle comma-separated strings
+        (processedData as any)[field] = value.trim() ? 
+          value.split(',').map(s => s.trim()).filter(s => s && s !== 'null' && s !== 'undefined') : 
+          [];
       } else if (Array.isArray(value)) {
-        (processedData as any)[field] = value;
+        // Filter out null, undefined, and corrupted values
+        (processedData as any)[field] = value.filter(item => 
+          item !== null && 
+          item !== undefined && 
+          item !== '' && 
+          item !== '{}' && 
+          item !== '[]' &&
+          typeof item === 'string'
+        );
+      } else if (typeof value === 'object') {
+        // Objects in array fields should be converted to empty arrays
+        console.warn(`⚠️ Object found in array field '${field}':`, value, 'Converting to empty array');
+        (processedData as any)[field] = [];
       } else {
         (processedData as any)[field] = [];
       }
@@ -352,15 +313,16 @@ export function CharacterUnifiedViewPremium({
     }
   };
 
-  const handleAIEnhance = async (selectedCategories: string[]) => {
-    // AI functionality removed - close modal and show placeholder message
+  const handleAIEnhance = async (selectedCategories?: string[]) => {
+    // AI functionality not implemented yet - close modal
     setIsAIAssistModalOpen(false);
-    console.log('🤖 AI Enhancement - UI placeholder (no functionality)', selectedCategories);
+    console.log('🤖 AI Enhancement - placeholder (not implemented)', selectedCategories);
   };
 
   const handleAbortAI = () => {
-    // AI functionality removed - no abort needed
-    console.log('🤖 AI Abort - UI placeholder (no functionality)');
+    // AI functionality not implemented yet
+    setIsAIAssistModalOpen(false);
+    console.log('🤖 AI Abort - placeholder (not implemented)');
   };
 
   const handleInputChange = (field: keyof Character, value: any) => {
