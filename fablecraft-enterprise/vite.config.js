@@ -22,16 +22,33 @@ export default defineConfig(async () => {
         plugins: [
             react(),
             ...(bundleAnalyzer ? [bundleAnalyzer] : []),
+            // Custom plugin to suppress WebSocket errors
+            {
+                name: 'suppress-websocket-errors',
+                configureServer(server) {
+                    const originalWs = server.ws;
+                    if (originalWs) {
+                        originalWs.on('error', () => {
+                            // Silently ignore WebSocket errors
+                        });
+                    }
+                }
+            }
         ],
         server: {
             host: '0.0.0.0',
             port: 5173,
             strictPort: false,
-            hmr: false, // Disable HMR completely
+            hmr: {
+                overlay: false, // Disable error overlay
+                port: 5173,
+                host: 'localhost',
+                protocol: 'ws',
+            },
             allowedHosts: true,
-        },
-        define: {
-            'import.meta.hot': 'undefined', // Completely disable HMR client
+            watch: {
+                usePolling: true,
+            },
         },
         resolve: {
             alias: {
