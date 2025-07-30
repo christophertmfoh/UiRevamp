@@ -7,13 +7,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Plus, Search, ArrowUpDown, Filter, Grid3X3, List, MoreVertical } from 'lucide-react';
 // Using standard fetch for API calls
 import { showErrorToast, showSuccessToast } from '../../../client/src/lib/utils/errorHandling';
-import type { UniversalEntityConfig } from '../config/EntityConfig';
+import type { EnhancedUniversalEntityConfig } from '../config/EntityConfig';
 import { UniversalEntityCard } from './UniversalEntityCard';
 import { UniversalEntityForm } from './UniversalEntityForm';
 import { UniversalEntityDetailView } from './UniversalEntityDetailView';
 
 interface UniversalEntityManagerProps {
-  config: UniversalEntityConfig;
+  config: EnhancedUniversalEntityConfig;
   projectId: string;
   selectedEntityId?: string | null;
   onClearSelection?: () => void;
@@ -41,7 +41,7 @@ export function UniversalEntityManager({
   // Sort state with persistence
   const [sortBy, setSortBy] = useState<SortOption>(() => {
     const saved = localStorage.getItem(getSortStorageKey());
-    return saved || config.display.defaultSortField;
+    return saved || config.displayConfig?.defaultSortField || 'name';
   });
 
   const handleSortChange = (option: SortOption) => {
@@ -85,11 +85,11 @@ export function UniversalEntityManager({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.entityType] });
       setIsCreating(false);
-      showSuccessToast(`${config.name} created successfully`);
+      showSuccessToast(`${config.displayName} created successfully`);
     },
     onError: (error) => {
       console.error(`Error creating ${config.entityType}:`, error);
-      showErrorToast(`Failed to create ${config.name.toLowerCase()}`);
+      showErrorToast(`Failed to create ${config.displayName.toLowerCase()}`);
     }
   });
 
@@ -108,11 +108,11 @@ export function UniversalEntityManager({
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.entityType] });
       setIsEditing(false);
       setEditingEntity(null);
-      showSuccessToast(`${config.name} updated successfully`);
+      showSuccessToast(`${config.displayName} updated successfully`);
     },
     onError: (error) => {
       console.error(`Error updating ${config.entityType}:`, error);
-      showErrorToast(`Failed to update ${config.name.toLowerCase()}`);
+      showErrorToast(`Failed to update ${config.displayName.toLowerCase()}`);
     }
   });
 
@@ -126,11 +126,11 @@ export function UniversalEntityManager({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, config.entityType] });
-      showSuccessToast(`${config.name} deleted successfully`);
+      showSuccessToast(`${config.displayName} deleted successfully`);
     },
     onError: (error) => {
       console.error(`Error deleting ${config.entityType}:`, error);
-      showErrorToast(`Failed to delete ${config.name.toLowerCase()}`);
+      showErrorToast(`Failed to delete ${config.displayName.toLowerCase()}`);
     }
   });
 
@@ -149,7 +149,8 @@ export function UniversalEntityManager({
     if (!searchQuery.trim()) return true;
     
     const searchLower = searchQuery.toLowerCase();
-    return config.display.searchFields.some(field => {
+    const searchFields = config.displayConfig?.searchFields || ['name', 'description'];
+    return searchFields.some(field => {
       const value = entity[field];
       if (typeof value === 'string') {
         return value.toLowerCase().includes(searchLower);
@@ -165,7 +166,8 @@ export function UniversalEntityManager({
 
   // Sort entities
   const sortedEntities = [...filteredEntities].sort((a, b) => {
-    const sortConfig = config.display.sortOptions.find(opt => opt.key === sortBy);
+    const sortOptions = config.displayConfig?.sortOptions || [{ key: 'name', label: 'Name', direction: 'asc' }];
+    const sortConfig = sortOptions.find(opt => opt.key === sortBy);
     const direction = sortConfig?.direction || 'asc';
     
     const aValue = a[sortBy] || '';
@@ -265,7 +267,7 @@ export function UniversalEntityManager({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">{config.pluralName}</h1>
+          <h1 className="text-3xl font-bold">{config.pluralDisplayName}</h1>
           <p className="text-muted-foreground">{config.description}</p>
         </div>
         <Button 
@@ -273,7 +275,7 @@ export function UniversalEntityManager({
           className="gap-2"
         >
           <Plus className="h-4 w-4" />
-          Create {config.name}
+          Create {config.displayName}
         </Button>
       </div>
 
@@ -283,7 +285,7 @@ export function UniversalEntityManager({
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder={`Search ${config.pluralName.toLowerCase()}...`}
+            placeholder={`Search ${config.pluralDisplayName.toLowerCase()}...`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -299,7 +301,7 @@ export function UniversalEntityManager({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {config.display.sortOptions.map((option) => (
+            {(config.displayConfig?.sortOptions || []).map((option) => (
               <DropdownMenuItem
                 key={option.key}
                 onClick={() => handleSortChange(option.key)}
@@ -333,14 +335,14 @@ export function UniversalEntityManager({
 
       {/* Entity Count */}
       <div className="text-sm text-muted-foreground">
-        {filteredEntities.length} of {entities.length} {config.pluralName.toLowerCase()}
+        {filteredEntities.length} of {entities.length} {config.pluralDisplayName.toLowerCase()}
         {searchQuery && ` matching "${searchQuery}"`}
       </div>
 
       {/* Loading */}
       {isLoading && (
         <div className="text-center py-8">
-          <div className="text-muted-foreground">Loading {config.pluralName.toLowerCase()}...</div>
+          <div className="text-muted-foreground">Loading {config.pluralDisplayName.toLowerCase()}...</div>
         </div>
       )}
 
@@ -349,13 +351,13 @@ export function UniversalEntityManager({
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-16">
             <config.icon className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No {config.pluralName} Yet</h3>
+            <h3 className="text-lg font-semibold mb-2">No {config.pluralDisplayName} Yet</h3>
             <p className="text-muted-foreground text-center mb-4">
-              Get started by creating your first {config.name.toLowerCase()}.
+              Get started by creating your first {config.displayName.toLowerCase()}.
             </p>
             <Button onClick={() => setIsCreating(true)} className="gap-2">
               <Plus className="h-4 w-4" />
-              Create {config.name}
+              Create {config.displayName}
             </Button>
           </CardContent>
         </Card>
@@ -389,7 +391,7 @@ export function UniversalEntityManager({
             <Search className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No Results Found</h3>
             <p className="text-muted-foreground text-center mb-4">
-              No {config.pluralName.toLowerCase()} match your search criteria.
+              No {config.pluralDisplayName.toLowerCase()} match your search criteria.
             </p>
             <Button 
               variant="outline" 
