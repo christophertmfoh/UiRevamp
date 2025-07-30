@@ -1,0 +1,4330 @@
+{
+  "timestamp": "2025-07-28T21:35:54.357Z",
+  "summary": {
+    "apiEndpoints": 20,
+    "uiComponents": 91,
+    "pages": 9,
+    "duplicates": 319
+  },
+  "details": {
+    "apiEndpoints": [
+      [
+        "GET /api/projects/:projectId/characters",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "GET",
+          "route": "/api/projects/:projectId/characters",
+          "lineNumber": 35
+        }
+      ],
+      [
+        "POST /api/projects/:projectId/characters",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "POST",
+          "route": "/api/projects/:projectId/characters",
+          "lineNumber": 47
+        }
+      ],
+      [
+        "PUT /api/characters/:id",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "PUT",
+          "route": "/api/characters/:id",
+          "lineNumber": 84
+        }
+      ],
+      [
+        "DELETE /api/characters/:id",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "DELETE",
+          "route": "/api/characters/:id",
+          "lineNumber": 109
+        }
+      ],
+      [
+        "POST /api/projects/:projectId/characters/generate-from-template",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "POST",
+          "route": "/api/projects/:projectId/characters/generate-from-template",
+          "lineNumber": 121
+        }
+      ],
+      [
+        "POST /api/projects/:projectId/characters/generate",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "POST",
+          "route": "/api/projects/:projectId/characters/generate",
+          "lineNumber": 175
+        }
+      ],
+      [
+        "POST /api/characters/:id/generate-image",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "POST",
+          "route": "/api/characters/:id/generate-image",
+          "lineNumber": 228
+        }
+      ],
+      [
+        "POST /api/projects/:projectId/characters/import",
+        {
+          "file": "server/routes/characters.ts",
+          "method": "POST",
+          "route": "/api/projects/:projectId/characters/import",
+          "lineNumber": 246
+        }
+      ],
+      [
+        "POST /api/generate",
+        {
+          "file": "server/routes/dailyContent.ts",
+          "method": "POST",
+          "route": "/api/generate",
+          "lineNumber": 235
+        }
+      ],
+      [
+        "GET /api/health",
+        {
+          "file": "server/routes/dailyContent.ts",
+          "method": "GET",
+          "route": "/api/health",
+          "lineNumber": 332
+        }
+      ],
+      [
+        "GET /api/test-ai",
+        {
+          "file": "server/routes/dailyContent.ts",
+          "method": "GET",
+          "route": "/api/test-ai",
+          "lineNumber": 342
+        }
+      ],
+      [
+        "GET /api/",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "GET",
+          "route": "/api/",
+          "lineNumber": 23
+        }
+      ],
+      [
+        "GET /api/:id",
+        {
+          "file": "server/routes/projects.ts",
+          "method": "GET",
+          "route": "/api/:id",
+          "lineNumber": 26
+        }
+      ],
+      [
+        "POST /api/",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "POST",
+          "route": "/api/",
+          "lineNumber": 68
+        }
+      ],
+      [
+        "PUT /api/:id",
+        {
+          "file": "server/routes/projects.ts",
+          "method": "PUT",
+          "route": "/api/:id",
+          "lineNumber": 121
+        }
+      ],
+      [
+        "DELETE /api/:id",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "DELETE",
+          "route": "/api/:id",
+          "lineNumber": 132
+        }
+      ],
+      [
+        "GET /api/today",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "GET",
+          "route": "/api/today",
+          "lineNumber": 40
+        }
+      ],
+      [
+        "GET /api/goals",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "GET",
+          "route": "/api/goals",
+          "lineNumber": 154
+        }
+      ],
+      [
+        "POST /api/goals",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "POST",
+          "route": "/api/goals",
+          "lineNumber": 179
+        }
+      ],
+      [
+        "GET /api/stats",
+        {
+          "file": "server/routes/tasks.ts",
+          "method": "GET",
+          "route": "/api/stats",
+          "lineNumber": 224
+        }
+      ]
+    ],
+    "uiComponents": [
+      [
+        "App",
+        {
+          "file": "client/src/App.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": true
+        }
+      ],
+      [
+        "FloatingOrbs",
+        {
+          "file": "client/src/components/FloatingOrbs.tsx",
+          "features": [],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectModal",
+        {
+          "file": "client/src/components/Modals.tsx",
+          "features": [
+            "forms",
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ConfirmDeleteModal",
+        {
+          "file": "client/src/components/Modals.tsx",
+          "features": [
+            "forms",
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ImportManuscriptModal",
+        {
+          "file": "client/src/components/Modals.tsx",
+          "features": [
+            "forms",
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "IntelligentImportModal",
+        {
+          "file": "client/src/components/Modals.tsx",
+          "features": [
+            "forms",
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "AIAssistModal",
+        {
+          "file": "client/src/components/character/AIAssistModal.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterArcTracker",
+        {
+          "file": "client/src/components/character/CharacterArcTracker.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterCard",
+        {
+          "file": "client/src/components/character/CharacterCard.tsx",
+          "features": [
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterCreationLaunch",
+        {
+          "file": "client/src/components/character/CharacterCreationLaunch.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterDetailAccordion",
+        {
+          "file": "client/src/components/character/CharacterDetailAccordion.tsx",
+          "features": [
+            "characters",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterDetailView",
+        {
+          "file": "client/src/components/character/CharacterDetailView.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterDocumentUpload",
+        {
+          "file": "client/src/components/character/CharacterDocumentUpload.tsx",
+          "features": [
+            "modals",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterFormExpanded",
+        {
+          "file": "client/src/components/character/CharacterFormExpanded.tsx",
+          "features": [
+            "forms",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterGenerationModal",
+        {
+          "file": "client/src/components/character/CharacterGenerationModal.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterGuidedCreation",
+        {
+          "file": "client/src/components/character/CharacterGuidedCreation.tsx",
+          "features": [
+            "theming",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterInsights",
+        {
+          "file": "client/src/components/character/CharacterInsights.tsx",
+          "features": [
+            "ai",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterManager",
+        {
+          "file": "client/src/components/character/CharacterManager.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterOnboarding",
+        {
+          "file": "client/src/components/character/CharacterOnboarding.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterPortraitModal",
+        {
+          "file": "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "ai",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterRelationships",
+        {
+          "file": "client/src/components/character/CharacterRelationships.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterTemplates",
+        {
+          "file": "client/src/components/character/CharacterTemplates.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterUnifiedView",
+        {
+          "file": "client/src/components/character/CharacterUnifiedView.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterUnifiedViewPremium",
+        {
+          "file": "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "ai",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "FieldAIAssist",
+        {
+          "file": "client/src/components/character/FieldAIAssist.tsx",
+          "features": [
+            "ai",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "FieldRenderer",
+        {
+          "file": "client/src/components/character/shared/FieldRenderer.tsx",
+          "features": [
+            "ai"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ImagePreviewModal",
+        {
+          "file": "client/src/components/character/ImagePreviewModal.tsx",
+          "features": [
+            "modals",
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "RelationshipSelect",
+        {
+          "file": "client/src/components/character/RelationshipSelects.tsx",
+          "features": [],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "STRENGTH",
+        {
+          "file": "client/src/components/character/RelationshipSelects.tsx",
+          "features": [],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "STATUS",
+        {
+          "file": "client/src/components/character/RelationshipSelects.tsx",
+          "features": [],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CharacterProgress",
+        {
+          "file": "client/src/components/character/shared/CharacterProgress.tsx",
+          "features": [
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "QuickProgress",
+        {
+          "file": "client/src/components/character/shared/CharacterProgress.tsx",
+          "features": [
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "FormSection",
+        {
+          "file": "client/src/components/character/shared/FormSection.tsx",
+          "features": [
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CreativeDebugPanel",
+        {
+          "file": "client/src/components/dev/CreativeDebugPanel.tsx",
+          "features": [],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LiveWritingPreview",
+        {
+          "file": "client/src/components/dev/LiveWritingPreview.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CompactWritingPreview",
+        {
+          "file": "client/src/components/dev/LiveWritingPreview.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "PerformanceDashboard",
+        {
+          "file": "client/src/components/dev/PerformanceDashboard.tsx",
+          "features": [
+            "crud"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "QuickActionsPanel",
+        {
+          "file": "client/src/components/dev/QuickActionsPanel.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "QuickActionsFAB",
+        {
+          "file": "client/src/components/dev/QuickActionsPanel.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "WritingMetrics",
+        {
+          "file": "client/src/components/dev/WritingMetrics.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsView",
+        {
+          "file": "client/src/components/project/ProjectsView.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": true
+        }
+      ],
+      [
+        "ProjectCreationWizard",
+        {
+          "file": "client/src/components/project/ProjectCreationWizard.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectDashboard",
+        {
+          "file": "client/src/components/project/ProjectDashboard.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": true
+        }
+      ],
+      [
+        "ProjectsPageRedesign",
+        {
+          "file": "client/src/components/project/ProjectsPageRedesign.tsx",
+          "features": [
+            "modals",
+            "theming",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "DashboardWidgets",
+        {
+          "file": "client/src/components/projects/DashboardWidgets.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LazyProjectsList",
+        {
+          "file": "client/src/components/projects/LazyProjectComponents.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LazyProjectModals",
+        {
+          "file": "client/src/components/projects/LazyProjectComponents.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectModals",
+        {
+          "file": "client/src/components/projects/ProjectModals.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsFilters",
+        {
+          "file": "client/src/components/projects/ProjectsFilters.tsx",
+          "features": [
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsHeader",
+        {
+          "file": "client/src/components/projects/ProjectsHeader.tsx",
+          "features": [
+            "theming",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsList",
+        {
+          "file": "client/src/components/projects/ProjectsList.tsx",
+          "features": [
+            "ai",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsPage",
+        {
+          "file": "client/src/components/projects/ProjectsPage.tsx",
+          "features": [
+            "modals",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ProjectsStats",
+        {
+          "file": "client/src/components/projects/ProjectsStats.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "QuickTasksWidget",
+        {
+          "file": "client/src/components/projects/QuickTasksWidget.tsx",
+          "features": [
+            "modals",
+            "crud"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ThemeProvider",
+        {
+          "file": "client/src/components/theme-provider.tsx",
+          "features": [
+            "theming"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ThemeToggle",
+        {
+          "file": "client/src/components/theme-toggle.tsx",
+          "features": [
+            "theming"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "EmptyState",
+        {
+          "file": "client/src/components/ui/EmptyStates.tsx",
+          "features": [
+            "ai",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "EmptyProjectsState",
+        {
+          "file": "client/src/components/ui/EmptyStates.tsx",
+          "features": [
+            "ai",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "EmptySearchState",
+        {
+          "file": "client/src/components/ui/EmptyStates.tsx",
+          "features": [
+            "ai",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ErrorState",
+        {
+          "file": "client/src/components/ui/EmptyStates.tsx",
+          "features": [
+            "ai",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "AsyncErrorBoundary",
+        {
+          "file": "client/src/components/ui/ErrorBoundary.tsx",
+          "features": [],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "ComponentErrorFallback",
+        {
+          "file": "client/src/components/ui/ErrorBoundary.tsx",
+          "features": [],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "PageErrorFallback",
+        {
+          "file": "client/src/components/ui/ErrorBoundary.tsx",
+          "features": [],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingSkeleton",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingSpinner",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingDots",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingCard",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingProjectCard",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingStatsCard",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingHeader",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingTable",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingButton",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingGrid",
+        {
+          "file": "client/src/components/ui/LoadingStates.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "MessageOfTheDay",
+        {
+          "file": "client/src/components/ui/MessageOfTheDay.tsx",
+          "features": [
+            "crud",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": true
+        }
+      ],
+      [
+        "ToastProvider",
+        {
+          "file": "client/src/components/ui/Toast.tsx",
+          "features": [
+            "crud"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LoadingModal",
+        {
+          "file": "client/src/components/ui/loading-modal.tsx",
+          "features": [
+            "modals",
+            "characters"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "WorldBible",
+        {
+          "file": "client/src/components/world/WorldBible.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LazyWritingEditor",
+        {
+          "file": "client/src/components/writing/LazyWritingComponents.tsx",
+          "features": [
+            "ai",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LazyStoryOutlineEditor",
+        {
+          "file": "client/src/components/writing/LazyWritingComponents.tsx",
+          "features": [
+            "ai",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LazyWritingMetrics",
+        {
+          "file": "client/src/components/writing/LazyWritingComponents.tsx",
+          "features": [
+            "ai",
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "StoryOutlineEditor",
+        {
+          "file": "client/src/components/writing/StoryOutlineEditor.tsx",
+          "features": [
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "WritingEditor",
+        {
+          "file": "client/src/components/writing/WritingEditor.tsx",
+          "features": [
+            "crud",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "AuthPage",
+        {
+          "file": "client/src/pages/AuthPage.tsx",
+          "features": [
+            "forms",
+            "theming",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "AuthPageRedesign",
+        {
+          "file": "client/src/pages/AuthPageRedesign.tsx",
+          "features": [
+            "forms",
+            "theming",
+            "characters"
+          ],
+          "hasHooks": true,
+          "hasAPI": true,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "DebugDemo",
+        {
+          "file": "client/src/pages/DebugDemo.tsx",
+          "features": [
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "CTASection",
+        {
+          "file": "client/src/pages/landing/CTASection.tsx",
+          "features": [
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "FeatureCards",
+        {
+          "file": "client/src/pages/landing/FeatureCards.tsx",
+          "features": [
+            "ai",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "HeroSection",
+        {
+          "file": "client/src/pages/landing/HeroSection.tsx",
+          "features": [
+            "ai",
+            "projects"
+          ],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "LandingPage",
+        {
+          "file": "client/src/pages/landing/LandingPage.tsx",
+          "features": [
+            "theming",
+            "ai",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": true
+        }
+      ],
+      [
+        "NotFound",
+        {
+          "file": "client/src/pages/not-found.tsx",
+          "features": [],
+          "hasHooks": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "hasAuth": false
+        }
+      ],
+      [
+        "Workspace",
+        {
+          "file": "client/src/pages/workspace.tsx",
+          "features": [
+            "modals",
+            "ai",
+            "crud",
+            "characters",
+            "projects"
+          ],
+          "hasHooks": true,
+          "hasAPI": false,
+          "hasRouting": true,
+          "hasAuth": false
+        }
+      ]
+    ],
+    "pages": [
+      [
+        "AuthPage",
+        {
+          "file": "client/src/pages/AuthPage.tsx",
+          "hasAuth": false,
+          "hasAPI": true,
+          "hasRouting": false,
+          "complexity": 14
+        }
+      ],
+      [
+        "AuthPageRedesign",
+        {
+          "file": "client/src/pages/AuthPageRedesign.tsx",
+          "hasAuth": false,
+          "hasAPI": true,
+          "hasRouting": false,
+          "complexity": 17
+        }
+      ],
+      [
+        "DebugDemo",
+        {
+          "file": "client/src/pages/DebugDemo.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 6
+        }
+      ],
+      [
+        "CTASection",
+        {
+          "file": "client/src/pages/landing/CTASection.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 0
+        }
+      ],
+      [
+        "FeatureCards",
+        {
+          "file": "client/src/pages/landing/FeatureCards.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 2
+        }
+      ],
+      [
+        "HeroSection",
+        {
+          "file": "client/src/pages/landing/HeroSection.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 0
+        }
+      ],
+      [
+        "LandingPage",
+        {
+          "file": "client/src/pages/landing/LandingPage.tsx",
+          "hasAuth": true,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 12
+        }
+      ],
+      [
+        "not-found",
+        {
+          "file": "client/src/pages/not-found.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 0
+        }
+      ],
+      [
+        "workspace",
+        {
+          "file": "client/src/pages/workspace.tsx",
+          "hasAuth": false,
+          "hasAPI": false,
+          "hasRouting": false,
+          "complexity": 21
+        }
+      ]
+    ],
+    "duplicates": [
+      {
+        "function": "path",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/pages/workspace.tsx",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "storedUser",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx"
+        ]
+      },
+      {
+        "function": "user",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "fetchProjects",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx"
+        ]
+      },
+      {
+        "function": "token",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "response",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/App.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/FieldAIAssist.tsx",
+          "client/src/components/project/ProjectsView.tsx",
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/hooks/useAuth.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterGeneration.ts",
+          "client/src/lib/services/imageGeneration.ts",
+          "client/src/lib/services/imageGeneration.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/utils/fetchHandler.ts",
+          "client/src/utils/fetchHandler.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/aiExtractor.ts",
+          "server/characterEnhancement.ts",
+          "server/characterExtractor.ts",
+          "server/characterGeneration.ts",
+          "server/imageGeneration.ts",
+          "server/imageGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "projectsData",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/App.tsx"
+        ]
+      },
+      {
+        "function": "timer",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/components/ui/Toast.tsx",
+          "client/src/hooks/useComponentPreloader.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "project",
+        "files": [
+          "client/src/App.tsx",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/projects.ts",
+          "server/routes/projects.ts",
+          "server/routes/projects.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "url",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/lib/backup/replitBackup.ts",
+          "server/vite.ts"
+        ]
+      },
+      {
+        "function": "to",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/utils/memoryOptimizer.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "newProject",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/components/Modals.tsx",
+          "server/storage/databaseStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "error",
+        "files": [
+          "client/src/App.tsx",
+          "client/src/components/ui/ErrorBoundary.tsx",
+          "client/src/components/ui/Toast.tsx",
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "client/src/lib/queryClient.ts"
+        ]
+      },
+      {
+        "function": "updated",
+        "files": [
+          "client/src/App.tsx",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "toast",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/project/ProjectCreationWizard.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/ui/MessageOfTheDay.tsx"
+        ]
+      },
+      {
+        "function": "queryClient",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/apiUtils.ts"
+        ]
+      },
+      {
+        "function": "handleSubmit",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx"
+        ]
+      },
+      {
+        "function": "projectData",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "server/routes/projects.ts"
+        ]
+      },
+      {
+        "function": "handleDelete",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "handleDrag",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx"
+        ]
+      },
+      {
+        "function": "handleDrop",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/hooks/useDragAndDrop.ts"
+        ]
+      },
+      {
+        "function": "handleFileSelect",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx"
+        ]
+      },
+      {
+        "function": "text",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/lib/queryClient.ts",
+          "server/characterGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "data",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/hooks/useAuth.ts",
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/errorHandling.ts",
+          "server/characterExtractor.ts"
+        ]
+      },
+      {
+        "function": "files",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx"
+        ]
+      },
+      {
+        "function": "file",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx"
+        ]
+      },
+      {
+        "function": "isValidFileType",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx"
+        ]
+      },
+      {
+        "function": "validTypes",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDocumentUpload.tsx"
+        ]
+      },
+      {
+        "function": "content",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "server/imageGeneration.ts",
+          "server/routes/dailyContent.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "readFileContent",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/lib/utils.ts"
+        ]
+      },
+      {
+        "function": "reader",
+        "files": [
+          "client/src/components/Modals.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/lib/backup/replitBackup.ts",
+          "client/src/lib/utils.ts"
+        ]
+      },
+      {
+        "function": "handleSelectAll",
+        "files": [
+          "client/src/components/character/AIAssistModal.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "totalFields",
+        "files": [
+          "client/src/components/character/AIAssistModal.tsx",
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "IconComponent",
+        "files": [
+          "client/src/components/character/AIAssistModal.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/project/ProjectsView.tsx",
+          "client/src/components/theme-toggle.tsx",
+          "client/src/pages/landing/FeatureCards.tsx",
+          "client/src/pages/landing/FeatureCards.tsx",
+          "client/src/pages/landing/LandingPage.tsx",
+          "client/src/pages/landing/LandingPage.tsx",
+          "client/src/pages/workspace.tsx"
+        ]
+      },
+      {
+        "function": "isSelected",
+        "files": [
+          "client/src/components/character/AIAssistModal.tsx",
+          "client/src/components/character/CharacterCreationLaunch.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "updatedArcs",
+        "files": [
+          "client/src/components/character/CharacterArcTracker.tsx",
+          "client/src/components/character/CharacterArcTracker.tsx"
+        ]
+      },
+      {
+        "function": "CharacterCard",
+        "files": [
+          "client/src/components/character/CharacterCard.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "Icon",
+        "files": [
+          "client/src/components/character/CharacterCreationLaunch.tsx",
+          "client/src/components/character/CharacterGenerationModal.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterRelationships.tsx",
+          "client/src/components/character/CharacterTemplates.tsx",
+          "client/src/components/project/ProjectCreationWizard.tsx",
+          "client/src/components/project/ProjectDashboard.tsx",
+          "client/src/components/project/ProjectDashboard.tsx",
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/components/ui/Toast.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/pages/workspace.tsx"
+        ]
+      },
+      {
+        "function": "renderField",
+        "files": [
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/shared/FieldRenderer.tsx"
+        ]
+      },
+      {
+        "function": "fields",
+        "files": [
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterInsights.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "client/src/components/world/WorldBible.tsx"
+        ]
+      },
+      {
+        "function": "value",
+        "files": [
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/utils/characterUtils.ts",
+          "client/src/lib/utils/characterUtils.ts",
+          "client/src/lib/utils/characterUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "server/aiExtractor.ts",
+          "server/characterEnhancement.ts",
+          "server/utils/responseProcessing.ts"
+        ]
+      },
+      {
+        "function": "result",
+        "files": [
+          "client/src/components/character/CharacterDetailAccordion.tsx",
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/FieldAIAssist.tsx",
+          "client/src/components/dev/QuickActionsPanel.tsx",
+          "client/src/components/ui/Toast.tsx",
+          "client/src/lib/services/imageGeneration.ts",
+          "server/characterEnhancement.ts",
+          "server/characterExtractor.ts",
+          "server/characterGeneration.ts",
+          "server/characterPortraitGenerator.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/routes.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/characterGeneration.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/databaseStorage.ts"
+        ]
+      },
+      {
+        "function": "handleFileInputChange",
+        "files": [
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx"
+        ]
+      },
+      {
+        "function": "formData",
+        "files": [
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/utils/apiUtils.ts"
+        ]
+      },
+      {
+        "function": "errorData",
+        "files": [
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/lib/services/characterGeneration.ts",
+          "client/src/lib/services/imageGeneration.ts"
+        ]
+      },
+      {
+        "function": "characterData",
+        "files": [
+          "client/src/components/character/CharacterDocumentUpload.tsx",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts",
+          "server/aiExtractor.ts",
+          "server/characterExtractor.ts",
+          "server/characterExtractor.ts",
+          "server/coordinateExtractor.ts",
+          "server/fieldMapper.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "initialData",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "createMutation",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts"
+        ]
+      },
+      {
+        "function": "updateMutation",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts"
+        ]
+      },
+      {
+        "function": "processedData",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/lib/utils/entityUtils.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "updateField",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/lib/utils/formUtils.ts"
+        ]
+      },
+      {
+        "function": "isLoading",
+        "files": [
+          "client/src/components/character/CharacterFormExpanded.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "handleGenerate",
+        "files": [
+          "client/src/components/character/CharacterGenerationModal.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "saveMutation",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "processDataForSave",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "arrayFields",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/lib/utils/characterUtils.ts",
+          "server/fieldMapper.ts",
+          "server/utils/responseProcessing.ts",
+          "server/utils/responseProcessing.ts"
+        ]
+      },
+      {
+        "function": "requiredFields",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/lib/utils/characterUtils.ts"
+        ]
+      },
+      {
+        "function": "canProceed",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "server/characterFieldEnhancement.ts"
+        ]
+      },
+      {
+        "function": "handleNext",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterOnboarding.tsx"
+        ]
+      },
+      {
+        "function": "arrayValue",
+        "files": [
+          "client/src/components/character/CharacterGuidedCreation.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "calculateCompleteness",
+        "files": [
+          "client/src/components/character/CharacterInsights.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "filledFields",
+        "files": [
+          "client/src/components/character/CharacterInsights.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "server/characterEnhancement.ts"
+        ]
+      },
+      {
+        "function": "traits",
+        "files": [
+          "client/src/components/character/CharacterInsights.tsx",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "saved",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useProjectsLogic.ts",
+          "client/src/hooks/useProjectsLogic.ts",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useWidgetManagement.ts",
+          "client/src/lib/utils/uiUtils.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "character",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "identityFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "appearanceFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "personalityFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "abilitiesFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "backgroundFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "relationshipsFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "metaFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "countFilledFields",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "identityCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "appearanceCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "personalityCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "abilitiesCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "backgroundCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "relationshipsCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "metaCount",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "totalFilled",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "role",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "roleA",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "roleB",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "handleSelectTemplate",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterTemplates.tsx"
+        ]
+      },
+      {
+        "function": "createdCharacter",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterManager.tsx"
+        ]
+      },
+      {
+        "function": "handleImageGenerated",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "handleImageUploaded",
+        "files": [
+          "client/src/components/character/CharacterManager.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx"
+        ]
+      },
+      {
+        "function": "generateCharacterPrompt",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "server/utils/characterPromptBuilder.ts"
+        ]
+      },
+      {
+        "function": "prompt",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/lib/services/imageGeneration.ts",
+          "server/aiExtractor.ts",
+          "server/characterEnhancement.ts",
+          "server/characterGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "updatedGallery",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx"
+        ]
+      },
+      {
+        "function": "mainImage",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/components/character/CharacterPortraitModalImproved.tsx"
+        ]
+      },
+      {
+        "function": "handleDragOver",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/hooks/useDragAndDrop.ts"
+        ]
+      },
+      {
+        "function": "handleDragLeave",
+        "files": [
+          "client/src/components/character/CharacterPortraitModalImproved.tsx",
+          "client/src/hooks/useDragAndDrop.ts"
+        ]
+      },
+      {
+        "function": "updatedRelationships",
+        "files": [
+          "client/src/components/character/CharacterRelationships.tsx",
+          "client/src/components/character/CharacterRelationships.tsx",
+          "client/src/components/character/CharacterRelationships.tsx"
+        ]
+      },
+      {
+        "function": "categories",
+        "files": [
+          "client/src/components/character/CharacterTemplates.tsx",
+          "client/src/components/world/WorldBible.tsx"
+        ]
+      },
+      {
+        "function": "ICON_COMPONENTS",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "handleSave",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/components/writing/WritingEditor.tsx",
+          "client/src/components/character/hooks/useCharacterForm.ts"
+        ]
+      },
+      {
+        "function": "cleanData",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "handleCancel",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "handleAIEnhance",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "enhancedData",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "processedEnhancedData",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "sectionFields",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx"
+        ]
+      },
+      {
+        "function": "updatedData",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedView.tsx"
+        ]
+      },
+      {
+        "function": "handleInputChange",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx"
+        ]
+      },
+      {
+        "function": "section",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/character/shared/FormSection.tsx",
+          "server/fieldMapper.ts"
+        ]
+      },
+      {
+        "function": "isActive",
+        "files": [
+          "client/src/components/character/CharacterUnifiedView.tsx",
+          "client/src/components/theme-toggle.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/pages/workspace.tsx"
+        ]
+      },
+      {
+        "function": "controller",
+        "files": [
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/utils/fetchHandler.ts"
+        ]
+      },
+      {
+        "function": "completeness",
+        "files": [
+          "client/src/components/character/CharacterUnifiedViewPremium.tsx",
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "FieldRenderer",
+        "files": [
+          "client/src/components/character/FieldRenderer.tsx",
+          "client/src/components/character/shared/FieldRenderer.tsx"
+        ]
+      },
+      {
+        "function": "items",
+        "files": [
+          "client/src/components/character/shared/FieldRenderer.tsx",
+          "server/characterGeneration.ts",
+          "server/coordinateExtractor.ts",
+          "server/fieldMapper.ts",
+          "server/fieldMapper.ts"
+        ]
+      },
+      {
+        "function": "summary",
+        "files": [
+          "client/src/components/dev/CreativeDebugPanel.tsx",
+          "client/src/pages/DebugDemo.tsx",
+          "client/src/lib/security.ts"
+        ]
+      },
+      {
+        "function": "formatDuration",
+        "files": [
+          "client/src/components/dev/CreativeDebugPanel.tsx",
+          "client/src/components/dev/LiveWritingPreview.tsx"
+        ]
+      },
+      {
+        "function": "wordCount",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/hooks/useWritingSession.ts",
+          "client/src/hooks/useWritingSession.ts"
+        ]
+      },
+      {
+        "function": "now",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/hooks/useOptimizedScroll.ts",
+          "client/src/hooks/useWritingSession.ts",
+          "client/src/lib/store.ts",
+          "server/characterFieldEnhancement.ts",
+          "server/characterFieldEnhancement.ts",
+          "server/dev-optimization.ts",
+          "server/services/aiGeneration.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "wordsWritten",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/hooks/useWritingSession.ts"
+        ]
+      },
+      {
+        "function": "currentWPM",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/hooks/useWritingSession.ts"
+        ]
+      },
+      {
+        "function": "hours",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/components/dev/WritingMetrics.tsx"
+        ]
+      },
+      {
+        "function": "mins",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/components/dev/WritingMetrics.tsx"
+        ]
+      },
+      {
+        "function": "recentAvg",
+        "files": [
+          "client/src/components/dev/LiveWritingPreview.tsx",
+          "client/src/hooks/useHotReloadMetrics.ts"
+        ]
+      },
+      {
+        "function": "forceCleanup",
+        "files": [
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/hooks/useMemoryMonitor.ts"
+        ]
+      },
+      {
+        "function": "memory",
+        "files": [
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/hooks/useCreativeDebugger.ts",
+          "client/src/hooks/useMemoryMonitor.ts",
+          "client/src/utils/memoryAnalyzer.ts"
+        ]
+      },
+      {
+        "function": "renderTime",
+        "files": [
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/hooks/useCreativeDebugger.ts",
+          "client/src/hooks/useHotReloadMetrics.ts",
+          "client/src/hooks/useHotReloadMetrics.ts"
+        ]
+      },
+      {
+        "function": "componentCount",
+        "files": [
+          "client/src/components/dev/PerformanceDashboard.tsx",
+          "client/src/utils/memoryAnalyzer.ts"
+        ]
+      },
+      {
+        "function": "newSet",
+        "files": [
+          "client/src/components/dev/QuickActionsPanel.tsx",
+          "client/src/lib/utils/uiUtils.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "results",
+        "files": [
+          "client/src/components/dev/QuickActionsPanel.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx"
+        ]
+      },
+      {
+        "function": "WritingMetrics",
+        "files": [
+          "client/src/components/dev/WritingMetrics.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx"
+        ]
+      },
+      {
+        "function": "productivity",
+        "files": [
+          "client/src/components/dev/WritingMetrics.tsx",
+          "client/src/hooks/useWritingSession.ts"
+        ]
+      },
+      {
+        "function": "ProjectsView",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsView.tsx"
+        ]
+      },
+      {
+        "function": "handleScroll",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "client/src/pages/landing/LandingPage.tsx",
+          "client/src/hooks/useOptimizedScroll.ts"
+        ]
+      },
+      {
+        "function": "filteredProjects",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsView.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/hooks/useProjectsLogic.ts"
+        ]
+      },
+      {
+        "function": "calculateProgress",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsView.tsx"
+        ]
+      },
+      {
+        "function": "ProjectCard",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/components/projects/ProjectsList.tsx"
+        ]
+      },
+      {
+        "function": "getProjectIcon",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsView.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/components/projects/ProjectsList.tsx"
+        ]
+      },
+      {
+        "function": "ProjectIcon",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/components/projects/ProjectsList.tsx"
+        ]
+      },
+      {
+        "function": "ProjectListItem",
+        "files": [
+          "client/src/components/project/NewProjectsView.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/components/projects/ProjectsList.tsx"
+        ]
+      },
+      {
+        "function": "genres",
+        "files": [
+          "client/src/components/project/ProjectCreationWizard.tsx",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "DEFAULT_WIDGETS",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useWidgetManagement.ts"
+        ]
+      },
+      {
+        "function": "handleSaveGoals",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectModals.tsx"
+        ]
+      },
+      {
+        "function": "handleCreateTask",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/projects/ProjectModals.tsx"
+        ]
+      },
+      {
+        "function": "updateViewMode",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "updateSortBy",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "draggedIndex",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/hooks/useDragAndDrop.ts"
+        ]
+      },
+      {
+        "function": "targetIndex",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/hooks/useDragAndDrop.ts"
+        ]
+      },
+      {
+        "function": "temp",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/components/project/ProjectsPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "handleWidgetDragStart",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useWidgetManagement.ts"
+        ]
+      },
+      {
+        "function": "handleWidgetDragOver",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useWidgetManagement.ts"
+        ]
+      },
+      {
+        "function": "handleWidgetDrop",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useWidgetManagement.ts"
+        ]
+      },
+      {
+        "function": "toggleTaskCompletion",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useTaskManagement.ts"
+        ]
+      },
+      {
+        "function": "uniqueGenres",
+        "files": [
+          "client/src/components/project/ProjectsPageRedesign.tsx",
+          "client/src/hooks/useProjectsLogic.ts"
+        ]
+      },
+      {
+        "function": "genreArray",
+        "files": [
+          "client/src/components/project/ProjectsView.tsx",
+          "client/src/components/project/ProjectsView.tsx"
+        ]
+      },
+      {
+        "function": "DashboardWidgets",
+        "files": [
+          "client/src/components/projects/DashboardWidgets.tsx",
+          "client/src/components/projects/DashboardWidgets.tsx"
+        ]
+      },
+      {
+        "function": "ProjectModals",
+        "files": [
+          "client/src/components/projects/LazyProjectComponents.tsx",
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/projects/ProjectModals.tsx"
+        ]
+      },
+      {
+        "function": "LazyProjectsList",
+        "files": [
+          "client/src/components/projects/LazyProjectComponents.tsx",
+          "client/src/components/projects/LazyProjectComponents.tsx"
+        ]
+      },
+      {
+        "function": "ProjectsList",
+        "files": [
+          "client/src/components/projects/LazyProjectComponents.tsx",
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/components/projects/ProjectsList.tsx"
+        ]
+      },
+      {
+        "function": "LazyProjectModals",
+        "files": [
+          "client/src/components/projects/LazyProjectComponents.tsx",
+          "client/src/components/projects/LazyProjectComponents.tsx"
+        ]
+      },
+      {
+        "function": "message",
+        "files": [
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/lib/utils/errorHandling.ts",
+          "client/src/utils/resizeObserverFix.ts",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "handleToggleTask",
+        "files": [
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/projects/QuickTasksWidget.tsx"
+        ]
+      },
+      {
+        "function": "handleDeleteTask",
+        "files": [
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/projects/QuickTasksWidget.tsx"
+        ]
+      },
+      {
+        "function": "handleEditTask",
+        "files": [
+          "client/src/components/projects/ProjectModals.tsx",
+          "client/src/components/projects/QuickTasksWidget.tsx"
+        ]
+      },
+      {
+        "function": "ProjectsFilters",
+        "files": [
+          "client/src/components/projects/ProjectsFilters.tsx",
+          "client/src/components/projects/ProjectsFilters.tsx"
+        ]
+      },
+      {
+        "function": "handleSearchChange",
+        "files": [
+          "client/src/components/projects/ProjectsFilters.tsx",
+          "client/src/components/projects/ProjectsPage.tsx"
+        ]
+      },
+      {
+        "function": "option",
+        "files": [
+          "client/src/components/projects/ProjectsFilters.tsx",
+          "client/src/components/projects/ProjectsFilters.tsx"
+        ]
+      },
+      {
+        "function": "ProjectsHeader",
+        "files": [
+          "client/src/components/projects/ProjectsHeader.tsx",
+          "client/src/components/projects/ProjectsHeader.tsx"
+        ]
+      },
+      {
+        "function": "filtered",
+        "files": [
+          "client/src/components/projects/ProjectsList.tsx",
+          "client/src/hooks/useProjectsLogic.ts"
+        ]
+      },
+      {
+        "function": "ProjectsPage",
+        "files": [
+          "client/src/components/projects/ProjectsPage.tsx",
+          "client/src/components/projects/ProjectsPage.tsx"
+        ]
+      },
+      {
+        "function": "QuickTasksWidget",
+        "files": [
+          "client/src/components/projects/QuickTasksWidget.tsx",
+          "client/src/components/projects/QuickTasksWidget.tsx"
+        ]
+      },
+      {
+        "function": "errorId",
+        "files": [
+          "client/src/components/ui/ErrorBoundary.tsx",
+          "client/src/components/ui/ErrorBoundary.tsx",
+          "client/src/components/ui/ErrorBoundary.tsx"
+        ]
+      },
+      {
+        "function": "sizeClasses",
+        "files": [
+          "client/src/components/ui/LoadingStates.tsx",
+          "client/src/components/ui/LoadingStates.tsx"
+        ]
+      },
+      {
+        "function": "LITERARY_WORDS",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "getRandomItem",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "waitTime",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "headers",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/queryClient.ts"
+        ]
+      },
+      {
+        "function": "interval",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/pages/landing/LandingPage.tsx",
+          "client/src/lib/backup/replitBackup.ts"
+        ]
+      },
+      {
+        "function": "stored",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/lib/backup/replitBackup.ts"
+        ]
+      },
+      {
+        "function": "parsed",
+        "files": [
+          "client/src/components/ui/MessageOfTheDay.tsx",
+          "client/src/hooks/useTaskManagement.ts",
+          "server/utils/responseProcessing.ts"
+        ]
+      },
+      {
+        "function": "context",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/components/ui/carousel.tsx",
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/components/ui/toggle-group.tsx"
+        ]
+      },
+      {
+        "function": "addToast",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "id",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/components/ui/form.tsx",
+          "client/src/lib/utils/uiUtils.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "newToast",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "duration",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/hooks/useComponentPreloader.ts",
+          "client/src/hooks/useCreativeDebugger.ts",
+          "client/src/hooks/useWritingSession.ts",
+          "client/src/lib/utils/uiUtils.ts",
+          "server/dev-optimization.ts",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "removeToast",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "config",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "promise",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/hooks/useComponentPreloader.ts"
+        ]
+      },
+      {
+        "function": "errorText",
+        "files": [
+          "client/src/components/ui/Toast.tsx",
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/utils/apiUtils.ts"
+        ]
+      },
+      {
+        "function": "Comp",
+        "files": [
+          "client/src/components/ui/breadcrumb.tsx",
+          "client/src/components/ui/button.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/components/ui/sidebar.tsx"
+        ]
+      },
+      {
+        "function": "handleKeyDown",
+        "files": [
+          "client/src/components/ui/carousel.tsx",
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "export",
+        "files": [
+          "client/src/components/ui/chart.tsx",
+          "client/src/utils/globalErrorHandler.ts",
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "key",
+        "files": [
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/ui/chart.tsx",
+          "client/src/lib/utils/uiUtils.ts",
+          "client/src/utils/memoryOptimizer.ts",
+          "server/dev-optimization.ts"
+        ]
+      },
+      {
+        "function": "itemConfig",
+        "files": [
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/ui/chart.tsx",
+          "client/src/components/ui/chart.tsx"
+        ]
+      },
+      {
+        "function": "open",
+        "files": [
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "state",
+        "files": [
+          "client/src/components/ui/sidebar.tsx",
+          "client/src/lib/store.ts",
+          "client/src/lib/store.ts"
+        ]
+      },
+      {
+        "function": "query",
+        "files": [
+          "client/src/components/world/WorldBible.tsx",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "WritingEditor",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/components/writing/WritingEditor.tsx"
+        ]
+      },
+      {
+        "function": "StoryOutlineEditor",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/components/writing/StoryOutlineEditor.tsx"
+        ]
+      },
+      {
+        "function": "startTime",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/hooks/useComponentPreloader.ts",
+          "server/__tests__/api/projects.test.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "LazyWritingEditor",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx"
+        ]
+      },
+      {
+        "function": "LazyStoryOutlineEditor",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx"
+        ]
+      },
+      {
+        "function": "LazyWritingMetrics",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/components/writing/LazyWritingComponents.tsx"
+        ]
+      },
+      {
+        "function": "metrics",
+        "files": [
+          "client/src/components/writing/LazyWritingComponents.tsx",
+          "client/src/lib/store.ts"
+        ]
+      },
+      {
+        "function": "newOutline",
+        "files": [
+          "client/src/components/writing/StoryOutlineEditor.tsx",
+          "client/src/components/writing/StoryOutlineEditor.tsx",
+          "client/src/components/writing/StoryOutlineEditor.tsx",
+          "server/storage/databaseStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "words",
+        "files": [
+          "client/src/components/writing/WritingEditor.tsx",
+          "client/src/components/writing/WritingEditor.tsx"
+        ]
+      },
+      {
+        "function": "passwordSchema",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "signupSchema",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "loginSchema",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "checkPasswordStrength",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "checks",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "score",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "signupForm",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "loginForm",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "signupMutation",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "loginMutation",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "onSignup",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "onLogin",
+        "files": [
+          "client/src/pages/AuthPage.tsx",
+          "client/src/pages/AuthPageRedesign.tsx"
+        ]
+      },
+      {
+        "function": "trustIndicators",
+        "files": [
+          "client/src/pages/landing/FeatureCards.tsx",
+          "client/src/pages/landing/LandingPage.tsx"
+        ]
+      },
+      {
+        "function": "FeatureCards",
+        "files": [
+          "client/src/pages/landing/FeatureCards.tsx",
+          "client/src/pages/landing/FeatureCards.tsx"
+        ]
+      },
+      {
+        "function": "LandingPage",
+        "files": [
+          "client/src/pages/landing/LandingPage.tsx",
+          "client/src/pages/workspace.tsx"
+        ]
+      },
+      {
+        "function": "projects",
+        "files": [
+          "client/src/pages/workspace.tsx",
+          "server/routes/projects.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "validateForm",
+        "files": [
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/lib/utils/formUtils.ts"
+        ]
+      },
+      {
+        "function": "errors",
+        "files": [
+          "client/src/components/character/hooks/useCharacterForm.ts",
+          "client/src/lib/utils/characterUtils.ts",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "mediaQuery",
+        "files": [
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/hooks/useAccessibility.ts"
+        ]
+      },
+      {
+        "function": "handleChange",
+        "files": [
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/hooks/useAccessibility.ts"
+        ]
+      },
+      {
+        "function": "rect",
+        "files": [
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/hooks/useAccessibility.ts"
+        ]
+      },
+      {
+        "function": "minSize",
+        "files": [
+          "client/src/hooks/useAccessibility.ts",
+          "client/src/hooks/useAccessibility.ts"
+        ]
+      },
+      {
+        "function": "preloadPromises",
+        "files": [
+          "client/src/hooks/useComponentPreloader.ts",
+          "client/src/hooks/useComponentPreloader.ts"
+        ]
+      },
+      {
+        "function": "timestamp",
+        "files": [
+          "client/src/hooks/useCreativeDebugger.ts",
+          "client/src/lib/store.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "entry",
+        "files": [
+          "client/src/hooks/useHotReloadMetrics.ts",
+          "server/dev-optimization.ts"
+        ]
+      },
+      {
+        "function": "status",
+        "files": [
+          "client/src/hooks/useHotReloadMetrics.ts",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "total",
+        "files": [
+          "client/src/hooks/useMemoryMonitor.ts",
+          "client/src/hooks/useProjectsLogic.ts",
+          "client/src/lib/utils/entityUtils.ts"
+        ]
+      },
+      {
+        "function": "today",
+        "files": [
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useWritingSession.ts",
+          "client/src/hooks/useWritingSession.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "todayTasks",
+        "files": [
+          "client/src/hooks/useTaskManagement.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "totalTasks",
+        "files": [
+          "client/src/hooks/useTaskManagement.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "completedTasks",
+        "files": [
+          "client/src/hooks/useTaskManagement.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "newProgress",
+        "files": [
+          "client/src/hooks/useTaskManagement.ts",
+          "client/src/hooks/useTaskManagement.ts"
+        ]
+      },
+      {
+        "function": "newSession",
+        "files": [
+          "client/src/hooks/useWritingSession.ts",
+          "server/storage/databaseStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "endTime",
+        "files": [
+          "client/src/hooks/useWritingSession.ts",
+          "server/__tests__/api/projects.test.ts"
+        ]
+      },
+      {
+        "function": "backupData",
+        "files": [
+          "client/src/lib/backup/replitBackup.ts",
+          "client/src/lib/backup/replitBackup.ts",
+          "client/src/lib/backup/replitBackup.ts",
+          "client/src/lib/backup/replitBackup.ts"
+        ]
+      },
+      {
+        "function": "backups",
+        "files": [
+          "client/src/lib/backup/replitBackup.ts",
+          "client/src/lib/backup/replitBackup.ts"
+        ]
+      },
+      {
+        "function": "modeFields",
+        "files": [
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/config/experienceModes.ts",
+          "client/src/lib/config/experienceModes.ts"
+        ]
+      },
+      {
+        "function": "field",
+        "files": [
+          "client/src/lib/config/experienceModes.ts",
+          "server/fieldMapper.ts"
+        ]
+      },
+      {
+        "function": "apiRequest",
+        "files": [
+          "client/src/lib/queryClient.ts",
+          "client/src/utils/fetchHandler.ts"
+        ]
+      },
+      {
+        "function": "authState",
+        "files": [
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts",
+          "client/src/lib/services/taskService.ts"
+        ]
+      },
+      {
+        "function": "res",
+        "files": [
+          "client/src/lib/queryClient.ts",
+          "client/src/lib/queryClient.ts",
+          "server/__tests__/setup.ts"
+        ]
+      },
+      {
+        "function": "savedCharacter",
+        "files": [
+          "client/src/lib/services/characterCreationService.ts",
+          "client/src/lib/services/characterCreationService.ts"
+        ]
+      },
+      {
+        "function": "isClient",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "client/src/lib/services/geminiService.ts",
+          "client/src/lib/services/imageGeneration.ts"
+        ]
+      },
+      {
+        "function": "getGeminiClient",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "server/characterGeneration.ts",
+          "server/imageGeneration.ts"
+        ]
+      },
+      {
+        "function": "apiKey",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "client/src/lib/services/imageGeneration.ts",
+          "server/characterEnhancement.ts",
+          "server/characterGeneration.ts",
+          "server/imageGeneration.ts",
+          "server/imageGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "generateContextualCharacter",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "generatedCharacter",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "buildProjectContext",
+        "files": [
+          "client/src/lib/services/characterGeneration.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "generateCharacterImage",
+        "files": [
+          "client/src/lib/services/geminiService.ts",
+          "server/imageGeneration.ts"
+        ]
+      },
+      {
+        "function": "generateCharacterPortrait",
+        "files": [
+          "client/src/lib/services/imageGeneration.ts",
+          "server/characterPortraitGenerator.ts"
+        ]
+      },
+      {
+        "function": "client",
+        "files": [
+          "client/src/lib/services/imageGeneration.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "cached",
+        "files": [
+          "client/src/lib/store.ts",
+          "server/dev-optimization.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "newCache",
+        "files": [
+          "client/src/lib/store.ts",
+          "client/src/lib/store.ts",
+          "client/src/lib/store.ts"
+        ]
+      },
+      {
+        "function": "isValidationError",
+        "files": [
+          "client/src/lib/utils/apiUtils.ts",
+          "client/src/lib/utils/errorHandling.ts"
+        ]
+      },
+      {
+        "function": "name",
+        "files": [
+          "client/src/lib/utils/entityUtils.ts",
+          "client/src/lib/utils/entityUtils.ts",
+          "server/services/aiGeneration.ts",
+          "server/utils/fallbackGenerator.ts"
+        ]
+      },
+      {
+        "function": "entityError",
+        "files": [
+          "client/src/lib/utils/errorHandling.ts",
+          "client/src/lib/utils/errorHandling.ts"
+        ]
+      },
+      {
+        "function": "errorObj",
+        "files": [
+          "client/src/lib/utils/errorHandling.ts",
+          "client/src/lib/utils/errorHandling.ts"
+        ]
+      },
+      {
+        "function": "newErrors",
+        "files": [
+          "client/src/lib/utils/formUtils.ts",
+          "client/src/lib/utils/uiUtils.ts"
+        ]
+      },
+      {
+        "function": "debounce",
+        "files": [
+          "client/src/lib/utils/formUtils.ts",
+          "client/src/utils/memoryOptimizer.ts"
+        ]
+      },
+      {
+        "function": "item",
+        "files": [
+          "client/src/lib/utils/uiUtils.ts",
+          "server/coordinateExtractor.ts"
+        ]
+      },
+      {
+        "function": "for",
+        "files": [
+          "client/src/utils/memoryOptimizer.ts",
+          "server/__tests__/setup.ts"
+        ]
+      },
+      {
+        "function": "app",
+        "files": [
+          "server/__tests__/api/projects.test.ts",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "mockProjects",
+        "files": [
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts"
+        ]
+      },
+      {
+        "function": "newProjectData",
+        "files": [
+          "server/__tests__/api/projects.test.ts",
+          "server/__tests__/api/projects.test.ts"
+        ]
+      },
+      {
+        "function": "updateData",
+        "files": [
+          "server/__tests__/api/projects.test.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "extractCharacterFromText",
+        "files": [
+          "server/aiExtractor.ts",
+          "server/characterExtractor.ts",
+          "server/coordinateExtractor.ts",
+          "server/fieldMapper.ts",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "genAI",
+        "files": [
+          "server/aiExtractor.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "physicalParts",
+        "files": [
+          "server/aiExtractor.ts",
+          "server/coordinateExtractor.ts",
+          "server/fieldMapper.ts"
+        ]
+      },
+      {
+        "function": "authHeader",
+        "files": [
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "decoded",
+        "files": [
+          "server/auth.ts",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "session",
+        "files": [
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "validatedData",
+        "files": [
+          "server/auth.ts",
+          "server/auth.ts",
+          "server/routes/outlines.ts",
+          "server/routes/outlines.ts",
+          "server/routes/projects.ts",
+          "server/routes/prose.ts",
+          "server/routes/prose.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "expiresAt",
+        "files": [
+          "server/auth.ts",
+          "server/auth.ts"
+        ]
+      },
+      {
+        "function": "ai",
+        "files": [
+          "server/characterEnhancement.ts",
+          "server/characterExtractor.ts",
+          "server/imageGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts"
+        ]
+      },
+      {
+        "function": "systemPrompt",
+        "files": [
+          "server/characterEnhancement.ts",
+          "server/characterExtractor.ts"
+        ]
+      },
+      {
+        "function": "page",
+        "files": [
+          "server/characterExtractor.ts",
+          "server/vite.ts"
+        ]
+      },
+      {
+        "function": "fallbackContent",
+        "files": [
+          "server/characterFieldEnhancement.ts",
+          "server/characterFieldEnhancement.ts",
+          "server/characterFieldEnhancement.ts"
+        ]
+      },
+      {
+        "function": "model",
+        "files": [
+          "server/characterGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/aiGeneration.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "nameMatch",
+        "files": [
+          "server/characterGeneration.ts",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "genreGuidance",
+        "files": [
+          "server/characterGeneration.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "guidance",
+        "files": [
+          "server/characterGeneration.ts",
+          "server/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "pattern",
+        "files": [
+          "server/coordinateExtractor.ts",
+          "server/coordinateExtractor.ts"
+        ]
+      },
+      {
+        "function": "match",
+        "files": [
+          "server/coordinateExtractor.ts",
+          "server/coordinateExtractor.ts"
+        ]
+      },
+      {
+        "function": "colorMatch",
+        "files": [
+          "server/coordinateExtractor.ts",
+          "server/coordinateExtractor.ts"
+        ]
+      },
+      {
+        "function": "cacheKey",
+        "files": [
+          "server/dev-optimization.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "start",
+        "files": [
+          "server/dev-optimization.ts",
+          "server/index.ts"
+        ]
+      },
+      {
+        "function": "sentences",
+        "files": [
+          "server/fieldMapper.ts",
+          "server/fieldMapper.ts"
+        ]
+      },
+      {
+        "function": "ageMatch",
+        "files": [
+          "server/fieldMapper.ts",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "heightMatch",
+        "files": [
+          "server/fieldMapper.ts",
+          "server/simpleExtractor.ts"
+        ]
+      },
+      {
+        "function": "optimizedPrompt",
+        "files": [
+          "server/imageGeneration.ts",
+          "server/imageGeneration.ts"
+        ]
+      },
+      {
+        "function": "mimeType",
+        "files": [
+          "server/imageGeneration.ts",
+          "server/utils/imageCompression.ts"
+        ]
+      },
+      {
+        "function": "upload",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "allowedTypes",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "transformedData",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/services/characterGeneration.ts",
+          "server/utils/characterTransformers.ts"
+        ]
+      },
+      {
+        "function": "generateUniqueId",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "randomPart",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "extraRandom",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/services/characterGeneration.ts"
+        ]
+      },
+      {
+        "function": "errorMessage",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts",
+          "server/routes.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "portraitUrl",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes/characters.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "imageUrl",
+        "files": [
+          "server/routes/characters.ts",
+          "server/routes.ts"
+        ]
+      },
+      {
+        "function": "router",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "word",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "userId",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/projects.ts",
+          "server/routes/projects.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "hasApiKey",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "fallback",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "aiWorking",
+        "files": [
+          "server/routes/dailyContent.ts",
+          "server/routes/dailyContent.ts"
+        ]
+      },
+      {
+        "function": "outline",
+        "files": [
+          "server/routes/outlines.ts",
+          "server/routes/outlines.ts"
+        ]
+      },
+      {
+        "function": "document",
+        "files": [
+          "server/routes/prose.ts",
+          "server/routes/prose.ts"
+        ]
+      },
+      {
+        "function": "taskId",
+        "files": [
+          "server/routes/tasks.ts",
+          "server/routes/tasks.ts"
+        ]
+      },
+      {
+        "function": "race",
+        "files": [
+          "server/services/aiGeneration.ts",
+          "server/utils/fallbackGenerator.ts"
+        ]
+      },
+      {
+        "function": "background",
+        "files": [
+          "server/services/aiGeneration.ts",
+          "server/utils/fallbackGenerator.ts"
+        ]
+      },
+      {
+        "function": "goals",
+        "files": [
+          "server/services/aiGeneration.ts",
+          "server/utils/fallbackGenerator.ts"
+        ]
+      },
+      {
+        "function": "newUser",
+        "files": [
+          "server/storage/databaseStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "newCharacter",
+        "files": [
+          "server/storage/databaseStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "existing",
+        "files": [
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts",
+          "server/storage/mockStorage.ts"
+        ]
+      },
+      {
+        "function": "converted",
+        "files": [
+          "server/utils/responseProcessing.ts",
+          "server/utils/responseProcessing.ts"
+        ]
+      }
+    ]
+  }
+}
