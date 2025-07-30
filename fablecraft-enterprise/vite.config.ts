@@ -34,7 +34,7 @@ export default defineConfig(async (): Promise<UserConfig> => {
         port: 5173,
         host: '0.0.0.0'
       },
-      allowedHosts: 'all',
+      allowedHosts: true,
     },
     resolve: {
       alias: {
