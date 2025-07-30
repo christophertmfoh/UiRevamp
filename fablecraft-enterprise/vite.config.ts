@@ -45,8 +45,13 @@ export default defineConfig(async (): Promise<UserConfig> => {
       hmr: {
         overlay: false, // Disable error overlay
         port: 5173,
+        host: 'localhost',
+        protocol: 'ws',
       },
       allowedHosts: true,
+      watch: {
+        usePolling: true,
+      },
     },
     resolve: {
       alias: {
