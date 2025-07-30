@@ -67,26 +67,80 @@ export function CharacterUnifiedViewPremium({
     return String(value);
   };
 
+  /**
+   * Enterprise-grade data cleanup utility
+   * Fixes existing data corruption when component loads
+   */
+  const cleanupCharacterData = (char: Character): Character => {
+    const cleaned = { ...char };
+    
+    // Clean string fields from corruption
+    const stringFields = [
+      'name', 'nicknames', 'pronouns', 'age', 'species', 'gender',
+      'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
+    ];
+    
+    stringFields.forEach(field => {
+      const value = (cleaned as any)[field];
+      
+      if (value === null || value === undefined) {
+        (cleaned as any)[field] = '';
+      } else if (typeof value === 'object') {
+        console.log(`🧹 Fixed object in string field '${field}':`, value, '→ ""');
+        (cleaned as any)[field] = '';
+      } else if (Array.isArray(value)) {
+        console.log(`🧹 Fixed array in string field '${field}':`, value, '→ comma-separated string');
+        (cleaned as any)[field] = value.filter(Boolean).join(', ');
+      } else if (typeof value === 'string') {
+        // Fix double-stringified objects and other corruption patterns
+        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined' ||
+            value === '[object Object]' || value.includes('{"{}"}') || value.includes('"null"')) {
+          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
+          (cleaned as any)[field] = '';
+        } else {
+          (cleaned as any)[field] = value;
+        }
+      } else {
+        (cleaned as any)[field] = String(value);
+      }
+    });
+    
+    // Clean array fields from corruption
+    const arrayFields = [
+      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+      'languages', 'archetypes', 'tropes', 'tags'
+    ];
+    
+    arrayFields.forEach(field => {
+      const value = (cleaned as any)[field];
+      
+      if (!value || value === null || value === undefined) {
+        (cleaned as any)[field] = [];
+      } else if (typeof value === 'string') {
+        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+          (cleaned as any)[field] = [];
+        } else {
+          (cleaned as any)[field] = value.split(',').map(s => s.trim()).filter(s => s && s !== 'null');
+        }
+      } else if (Array.isArray(value)) {
+        (cleaned as any)[field] = value.filter(item => 
+          item !== null && item !== undefined && item !== '' && 
+          item !== '{}' && item !== '[]' && typeof item === 'string'
+        );
+      } else {
+        console.log(`🧹 Fixed non-array in array field '${field}':`, value, '→ []');
+        (cleaned as any)[field] = [];
+      }
+    });
+    
+    return cleaned;
+  };
+
   // Sync formData with character prop changes (only when not editing)
   useEffect(() => {
     if (!isEditing) {
       console.log('🔄 Character prop changed (not editing), updating formData:', character.name);
-      // Clean up any corrupted string fields that may contain array artifacts
-      const cleanedCharacter = { ...character };
-      const stringFields = ['nicknames', 'pronouns', 'age', 'species', 'gender', 'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'];
-      
-      stringFields.forEach(field => {
-        const value = (cleanedCharacter as any)[field];
-        if (typeof value === 'string' && (value === '{}' || value === '[]' || value === 'null' || value === 'undefined')) {
-          (cleanedCharacter as any)[field] = '';
-          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
-        } else if (typeof value === 'object' && value !== null) {
-          // Also catch objects that somehow got into string fields
-          (cleanedCharacter as any)[field] = '';
-          console.log(`🧹 Fixed object in string field '${field}':`, value, '→ ""');
-        }
-      });
-      
+      const cleanedCharacter = cleanupCharacterData(character);
       setFormData(cleanedCharacter);
     }
   }, [character, isEditing]);
@@ -127,7 +181,7 @@ export function CharacterUnifiedViewPremium({
     // Set new timer for auto-save (3 seconds after last change)
     autoSaveTimerRef.current = setTimeout(() => {
       // Only auto-save if there are meaningful changes and minimum required data
-      const hasChanges = JSON.stringify(formData) !== JSON.stringify(character);
+      const hasChanges = hasSignificantCharacterChanges(formData, character);
       const hasMinimumData = formData.name && formData.name.trim().length > 0;
       
       if (hasChanges && hasMinimumData) {
@@ -143,6 +197,95 @@ export function CharacterUnifiedViewPremium({
       }
     };
   }, [formData, isEditing, character, performAutoSave]);
+
+  /**
+   * Deep comparison utility for character data that properly handles different data types
+   * and avoids JSON.stringify serialization issues that cause data corruption
+   */
+  const hasSignificantCharacterChanges = (current: Character, original: Character): boolean => {
+    // Normalize both objects to ensure consistent comparison
+    const normalizeCharacterData = (char: Character) => {
+      const normalized = { ...char };
+      
+      // Normalize string fields - ensure they are strings and handle edge cases
+      const stringFields = [
+        'name', 'nicknames', 'pronouns', 'age', 'species', 'gender',
+        'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality'
+      ];
+      
+      stringFields.forEach(field => {
+        const value = (normalized as any)[field];
+        if (value === null || value === undefined) {
+          (normalized as any)[field] = '';
+        } else if (typeof value === 'object') {
+          // Fix: Objects in string fields should be empty strings
+          (normalized as any)[field] = '';
+        } else if (Array.isArray(value)) {
+          // Fix: Arrays in string fields should be joined
+          (normalized as any)[field] = value.join(', ');
+        } else if (typeof value === 'string') {
+          // Fix: Clean corrupted string values
+          if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+            (normalized as any)[field] = '';
+          } else {
+            (normalized as any)[field] = value;
+          }
+        } else {
+          (normalized as any)[field] = String(value);
+        }
+      });
+      
+      // Normalize array fields
+      const arrayFields = [
+        'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+        'languages', 'archetypes', 'tropes', 'tags'
+      ];
+      
+      arrayFields.forEach(field => {
+        const value = (normalized as any)[field];
+        if (!value || value === null || value === undefined) {
+          (normalized as any)[field] = [];
+        } else if (typeof value === 'string') {
+          (normalized as any)[field] = value.trim() ? value.split(',').map(s => s.trim()) : [];
+        } else if (Array.isArray(value)) {
+          (normalized as any)[field] = value.filter(Boolean);
+        } else {
+          (normalized as any)[field] = [];
+        }
+      });
+      
+      return normalized;
+    };
+    
+    const normalizedCurrent = normalizeCharacterData(current);
+    const normalizedOriginal = normalizeCharacterData(original);
+    
+    // Compare meaningful fields only (avoid comparing timestamps and internal fields)
+    const fieldsToCompare = [
+      'name', 'nicknames', 'pronouns', 'age', 'species', 'gender',
+      'occupation', 'title', 'birthdate', 'birthplace', 'currentLocation', 'nationality',
+      'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
+      'languages', 'archetypes', 'tropes', 'tags',
+      'physicalDescription', 'backstory', 'goals', 'motivations'
+    ];
+    
+    for (const field of fieldsToCompare) {
+      const currentValue = (normalizedCurrent as any)[field];
+      const originalValue = (normalizedOriginal as any)[field];
+      
+      // Deep comparison for arrays
+      if (Array.isArray(currentValue) && Array.isArray(originalValue)) {
+        if (currentValue.length !== originalValue.length) return true;
+        for (let i = 0; i < currentValue.length; i++) {
+          if (currentValue[i] !== originalValue[i]) return true;
+        }
+      } else if (currentValue !== originalValue) {
+        return true;
+      }
+    }
+    
+    return false;
+  };
 
   // Define all character fields organized by category (matching the wizard 1:1)
   const identityFields = [
@@ -266,6 +409,10 @@ export function CharacterUnifiedViewPremium({
     }
   });
 
+  /**
+   * Enterprise-grade data processing for character saves
+   * Prevents data corruption by properly handling type mismatches and serialization issues
+   */
   const processDataForSave = (data: Character) => {
     const processedData = { ...data };
     
@@ -277,27 +424,33 @@ export function CharacterUnifiedViewPremium({
     
     stringFields.forEach(field => {
       const value = (data as any)[field];
-      if (Array.isArray(value)) {
+      
+      if (value === null || value === undefined) {
+        (processedData as any)[field] = '';
+      } else if (Array.isArray(value)) {
         // If somehow an array got in, convert back to string
-        (processedData as any)[field] = value.join(', ');
+        (processedData as any)[field] = value.filter(Boolean).join(', ');
+        console.log(`🔧 Fixed array in string field '${field}': converted to comma-separated string`);
+      } else if (typeof value === 'object') {
+        // CRITICAL FIX: Objects in string fields cause {"{}","[object Object]"} corruption
+        console.warn(`⚠️ Object found in string field '${field}':`, value, 'Converting to empty string');
+        (processedData as any)[field] = '';
       } else if (typeof value === 'string') {
         // Clean up corrupted string values from previous bugs
-        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+        if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined' || 
+            value === '[object Object]' || value.includes('{"{}"}')) {
+          console.log(`🧹 Cleaned corrupted string field '${field}': "${value}" → ""`);
           (processedData as any)[field] = '';
         } else {
           (processedData as any)[field] = value;
         }
-      } else if (typeof value === 'object' && value !== null) {
-        // If somehow an object got in (this is the bug!), convert to empty string
-        console.warn(`⚠️ Object found in string field '${field}':`, value, 'Converting to empty string');
-        (processedData as any)[field] = '';
       } else {
-        // Keep as string (or convert to string if needed)
-        (processedData as any)[field] = value ? String(value) : '';
+        // Convert other types to string safely
+        (processedData as any)[field] = String(value);
       }
     });
     
-    // Handle true array fields
+    // Handle true array fields with proper type safety
     const arrayFields = [
       'personalityTraits', 'abilities', 'skills', 'talents', 'expertise', 
       'languages', 'archetypes', 'tropes', 'tags'
@@ -305,10 +458,28 @@ export function CharacterUnifiedViewPremium({
     
     arrayFields.forEach(field => {
       const value = (data as any)[field];
-      if (typeof value === 'string') {
-        (processedData as any)[field] = value.trim() ? value.split(',').map(s => s.trim()) : [];
+      
+      if (!value || value === null || value === undefined) {
+        (processedData as any)[field] = [];
+      } else if (typeof value === 'string') {
+        // Handle comma-separated strings
+        (processedData as any)[field] = value.trim() ? 
+          value.split(',').map(s => s.trim()).filter(s => s && s !== 'null' && s !== 'undefined') : 
+          [];
       } else if (Array.isArray(value)) {
-        (processedData as any)[field] = value;
+        // Filter out null, undefined, and corrupted values
+        (processedData as any)[field] = value.filter(item => 
+          item !== null && 
+          item !== undefined && 
+          item !== '' && 
+          item !== '{}' && 
+          item !== '[]' &&
+          typeof item === 'string'
+        );
+      } else if (typeof value === 'object') {
+        // Objects in array fields should be converted to empty arrays
+        console.warn(`⚠️ Object found in array field '${field}':`, value, 'Converting to empty array');
+        (processedData as any)[field] = [];
       } else {
         (processedData as any)[field] = [];
       }

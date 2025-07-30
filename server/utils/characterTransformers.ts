@@ -21,18 +21,20 @@ const KEEP_AS_ARRAY_FIELDS = [
 export function transformCharacterData(data: Record<string, unknown>): Record<string, unknown> {
   const transformedData = { ...data };
   
-  // Transform array fields to comma-separated strings
+  // Transform array fields to comma-separated strings with enterprise-grade corruption detection
   ARRAY_TO_STRING_FIELDS.forEach(field => {
     if (Array.isArray(transformedData[field])) {
-      transformedData[field] = transformedData[field].join(', ');
+      transformedData[field] = transformedData[field].filter(Boolean).join(', ');
     } else if (typeof transformedData[field] === 'object' && transformedData[field] !== null) {
-      // Fix: Don't let objects get stored as strings (this causes the "{}" bug)
+      // CRITICAL FIX: Don't let objects get stored as strings (this causes the "{\"{}\"}" bug)
       console.warn(`⚠️ Object found in string field '${field}' during server transform:`, transformedData[field], 'Converting to empty string');
       transformedData[field] = '';
     } else if (typeof transformedData[field] === 'string') {
       // Clean up any corrupted values that might have slipped through
       const value = transformedData[field] as string;
-      if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined') {
+      if (value === '{}' || value === '[]' || value === 'null' || value === 'undefined' ||
+          value === '[object Object]' || value.includes('{"{}"}') || value.includes('"null"') ||
+          value.startsWith('{"') || value.includes('\\u') || value.includes('\\x')) {
         console.log(`🧹 Server: Cleaned corrupted string field '${field}': "${value}" → ""`);
         transformedData[field] = '';
       }
