@@ -1,9 +1,9 @@
 modules = ["nodejs-20", "web", "postgresql-16"]
-run = "npm run dev"
+run = "cd fablecraft-enterprise && npm run dev"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable_24_05"
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -47,8 +47,8 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
+args = "cd fablecraft-enterprise && npm run dev"
+waitForPort = 5174
 
 [agent]
 integrations = ["javascript_openai==1.0.0", "javascript_database==1.0.0", "javascript_anthropic==1.0.0", "javascript_log_in_with_replit==1.0.0", "javascript_gemini==1.0.0"]
