@@ -1,0 +1,28 @@
+run = "cd /workspace/fablecraft-clean && npm run dev"
+hidden = [".config", "tsconfig.json", "tsconfig.node.json", "vite.config.js", ".gitignore"]
+
+[nix]
+channel = "stable-24_05"
+
+[env]
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+VITE_HOST = "0.0.0.0"
+VITE_PORT = "5173"
+
+[packager]
+language = "nodejs"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+enabledForHosting = false
+
+[[ports]]
+localPort = 5173
+externalPort = 3000
+
+[languages]
+[languages.typescript]
+pattern = "**/{*.ts,*.tsx}"
+[languages.typescript.languageServer]
+start = "typescript-language-server --stdio"

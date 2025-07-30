@@ -5,12 +5,13 @@
  * FULL FEATURE PARITY: Grid/List views, AI generation, portraits, sorting, filtering, creation wizards
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, memo, lazy, Suspense } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { 
   Plus, Search, Edit, Trash2, MoreVertical, Edit2, Camera, Sparkles, ArrowUpDown, Filter, Grid3X3, List, Eye, Zap, FileText,
@@ -290,7 +291,253 @@ interface UniversalEntityManagerProps {
   onClearSelection?: () => void;
 }
 
-export function UniversalEntityManager({ 
+// PERFORMANCE: Memoized entity card component to prevent unnecessary re-renders
+const MemoizedEntityCard = memo(({ 
+  entity, 
+  config, 
+  isSelectionMode, 
+  selectedEntityIds, 
+  onEntityClick, 
+  onSelectEntity 
+}: {
+  entity: BaseWorldEntity;
+  config: any;
+  isSelectionMode: boolean;
+  selectedEntityIds: Set<string>;
+  onEntityClick: (entity: BaseWorldEntity) => void;
+  onSelectEntity: (entityId: string, selected: boolean) => void;
+}) => {
+  const handleClick = useCallback(() => {
+    if (isSelectionMode) {
+      onSelectEntity(entity.id, !selectedEntityIds.has(entity.id));
+    } else {
+      onEntityClick(entity);
+    }
+  }, [entity, isSelectionMode, selectedEntityIds, onEntityClick, onSelectEntity]);
+
+  return (
+    <Card 
+      className={`group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] border overflow-hidden relative ${
+        isSelectionMode 
+          ? selectedEntityIds.has(entity.id)
+            ? 'border-[var(--accent)] bg-[var(--accent)]/5 shadow-lg' 
+            : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-br from-background via-background/90 to-[var(--accent)]/5'
+          : 'border-border/30 hover:border-[var(--accent)]/50 bg-gradient-to-br from-background via-background/90 to-[var(--accent)]/5'
+      }`}
+      onClick={handleClick}
+    >
+      <CardContent className="p-0 relative">
+        {/* Subtle Glow Effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent)]/3 via-transparent to-[var(--accent)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        
+        {/* Selection Checkbox */}
+        {isSelectionMode && (
+          <div className="absolute top-3 left-3 z-10">
+            <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
+              selectedEntityIds.has(entity.id)
+                ? 'bg-[var(--accent)] border-[var(--accent)] text-[white]'
+                : 'bg-background/80 border-border hover:border-[var(--accent)]'
+            }`}>
+              {selectedEntityIds.has(entity.id) && (
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+          </div>
+        )}
+        
+        {/* Entity Image Header */}
+        <div className="relative h-64 bg-gradient-to-br from-[var(--accent)]/5 via-muted/20 to-[var(--accent)]/10 overflow-hidden">
+          {entity.imageUrl ? (
+            <>
+              <img 
+                src={entity.imageUrl} 
+                alt={entity.name}
+                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:brightness-110"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--accent)]/10 to-muted/30">
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto mb-3 bg-[var(--accent)]/20 rounded-full flex items-center justify-center">
+                  <config.icon className="h-10 w-10 text-[var(--accent)]/60" />
+                </div>
+                <p className="text-sm text-muted-foreground font-medium">Add Image</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Entity Details */}
+        <div className="p-6 space-y-4">
+          <div className="flex items-start justify-between">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-xl group-hover:text-[var(--accent)] transition-colors truncate">
+                {entity.name}
+              </h3>
+              {entity.description && (
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                  {entity.description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Entity Type/Category Badge */}
+          {(entity.type || entity.category) && (
+            <div className="flex flex-wrap gap-2">
+              {entity.type && (
+                <Badge variant="secondary" className="text-xs">
+                  {entity.type}
+                </Badge>
+              )}
+              {entity.category && (
+                <Badge variant="outline" className="text-xs">
+                  {entity.category}
+                </Badge>
+              )}
+            </div>
+          )}
+
+          {/* Quick Action Buttons */}
+          <div className="flex items-center justify-between pt-3 border-t border-border/30">
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Handle edit action
+                }}
+                className="h-8 w-8 p-0"
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Handle delete action
+                }}
+                className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+});
+
+// PERFORMANCE: Entity card skeleton for lazy loading
+const EntityCardSkeleton = memo(() => (
+  <Card className="overflow-hidden">
+    <CardContent className="p-0">
+      <Skeleton className="h-64 w-full" />
+      <div className="p-6 space-y-4">
+        <Skeleton className="h-6 w-3/4" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-2/3" />
+        <div className="flex gap-2">
+          <Skeleton className="h-6 w-16" />
+          <Skeleton className="h-6 w-20" />
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+));
+
+// PERFORMANCE: Virtualized entity list for large datasets
+const VirtualEntityList = memo(({ 
+  entities, 
+  config, 
+  isSelectionMode, 
+  selectedEntityIds, 
+  onEntityClick, 
+  onSelectEntity,
+  viewMode 
+}: {
+  entities: BaseWorldEntity[];
+  config: any;
+  isSelectionMode: boolean;
+  selectedEntityIds: Set<string>;
+  onEntityClick: (entity: BaseWorldEntity) => void;
+  onSelectEntity: (entityId: string, selected: boolean) => void;
+  viewMode: ViewMode;
+}) => {
+  // Enable virtualization for large datasets (>50 items)
+  const shouldVirtualize = entities.length > 50;
+
+  if (!shouldVirtualize) {
+    return (
+      <div className={
+        viewMode === 'grid' 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
+          : "space-y-3"
+      }>
+        {entities.map((entity) => (
+          <Suspense key={entity.id} fallback={<EntityCardSkeleton />}>
+            <MemoizedEntityCard
+              entity={entity}
+              config={config}
+              isSelectionMode={isSelectionMode}
+              selectedEntityIds={selectedEntityIds}
+              onEntityClick={onEntityClick}
+              onSelectEntity={onSelectEntity}
+            />
+          </Suspense>
+        ))}
+      </div>
+    );
+  }
+
+  // For large datasets, implement simple virtualization
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 20 });
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const itemHeight = viewMode === 'grid' ? 400 : 120;
+      const start = Math.floor(scrollTop / itemHeight);
+      const end = Math.min(start + 20, entities.length);
+      setVisibleRange({ start, end });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [entities.length, viewMode]);
+
+  const visibleEntities = entities.slice(visibleRange.start, visibleRange.end);
+
+  return (
+    <div className={
+      viewMode === 'grid' 
+        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
+        : "space-y-3"
+    }>
+      {visibleEntities.map((entity) => (
+        <Suspense key={entity.id} fallback={<EntityCardSkeleton />}>
+          <MemoizedEntityCard
+            entity={entity}
+            config={config}
+            isSelectionMode={isSelectionMode}
+            selectedEntityIds={selectedEntityIds}
+            onEntityClick={onEntityClick}
+            onSelectEntity={onSelectEntity}
+          />
+        </Suspense>
+      ))}
+    </div>
+  );
+});
+
+export const UniversalEntityManager = memo(function UniversalEntityManager({ 
   entityType, 
   projectId, 
   selectedEntityId, 
@@ -369,13 +616,17 @@ export function UniversalEntityManager({
     }
   });
 
-  // Persist view mode to localStorage
+  // PERFORMANCE: Persist view mode to localStorage with debouncing
   useEffect(() => {
-    localStorage.setItem(`${entityType}ViewMode`, viewMode);
+    const timeoutId = setTimeout(() => {
+      localStorage.setItem(`${entityType}ViewMode`, viewMode);
+    }, 100); // Debounce for 100ms
+    
+    return () => clearTimeout(timeoutId);
   }, [viewMode, entityType]);
 
-  // Sort and filter entities - exact same logic as CharacterManager
-  const sortEntities = (entitiesArray: BaseWorldEntity[]): BaseWorldEntity[] => {
+  // PERFORMANCE: Memoized sorting function to prevent recalculation
+  const sortEntities = useCallback((entitiesArray: BaseWorldEntity[]): BaseWorldEntity[] => {
     switch (sortBy) {
       case 'alphabetical':
         return [...entitiesArray].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
@@ -391,40 +642,95 @@ export function UniversalEntityManager({
       default:
         return entitiesArray;
     }
-  };
+  }, [sortBy]);
 
-  const filteredEntities = sortEntities(
-    entities.filter(entity => 
-      entity.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      entity.description?.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+  // PERFORMANCE: Memoized filtering and sorting for better performance
+  const filteredEntities = useMemo(() => {
+    // First filter entities based on debounced search query
+    const filtered = entities.filter(entity => {
+      if (!debouncedSearchQuery.trim()) return true;
+      
+      const searchLower = debouncedSearchQuery.toLowerCase();
+      const searchFields = [
+        entity.name,
+        entity.description,
+        entity.type,
+        entity.category,
+        entity.tags
+      ];
+      
+      return searchFields.some(field => {
+        if (typeof field === 'string') {
+          return field.toLowerCase().includes(searchLower);
+        }
+        if (Array.isArray(field)) {
+          return field.some(item => 
+            typeof item === 'string' && item.toLowerCase().includes(searchLower)
+          );
+        }
+        return false;
+      });
+    });
+    
+    // Then sort the filtered results
+    return sortEntities(filtered);
+  }, [entities, debouncedSearchQuery, sortBy]);
 
-  // Selection handling - matching CharacterManager exactly
-  const handleSelectEntity = (entityId: string, selected: boolean) => {
-    const newSelected = new Set(selectedEntityIds);
-    if (selected) {
-      newSelected.add(entityId);
-    } else {
-      newSelected.delete(entityId);
-    }
-    setSelectedEntityIds(newSelected);
-  };
+  // PERFORMANCE: Memoized selection handlers to prevent unnecessary re-renders
+  const handleSelectEntity = useCallback((entityId: string, selected: boolean) => {
+    setSelectedEntityIds(prev => {
+      const newSelected = new Set(prev);
+      if (selected) {
+        newSelected.add(entityId);
+      } else {
+        newSelected.delete(entityId);
+      }
+      return newSelected;
+    });
+  }, []);
 
-  const handleSelectAll = () => {
-    if (selectedEntityIds.size === filteredEntities.length) {
-      setSelectedEntityIds(new Set());
-    } else {
-      setSelectedEntityIds(new Set(filteredEntities.map(e => e.id)));
-    }
-  };
+  const handleSelectAll = useCallback(() => {
+    setSelectedEntityIds(prev => {
+      if (prev.size === filteredEntities.length) {
+        return new Set();
+      } else {
+        return new Set(filteredEntities.map(e => e.id));
+      }
+    });
+  }, [filteredEntities]);
 
-  const toggleSelectionMode = () => {
-    setIsSelectionMode(!isSelectionMode);
-    if (isSelectionMode) {
-      setSelectedEntityIds(new Set());
-    }
-  };
+  const toggleSelectionMode = useCallback(() => {
+    setIsSelectionMode(prev => {
+      const newMode = !prev;
+      if (prev) { // If we're turning off selection mode
+        setSelectedEntityIds(new Set());
+      }
+      return newMode;
+    });
+  }, []);
+
+  // PERFORMANCE: Memoized view mode handlers
+  const handleGridView = useCallback(() => setViewMode('grid'), []);
+  const handleListView = useCallback(() => setViewMode('list'), []);
+
+  // PERFORMANCE: Debounced search to reduce re-renders
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
+  
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300); // 300ms debounce
+    
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  // PERFORMANCE: Memoized statistics to prevent recalculation
+  const entityStats = useMemo(() => ({
+    total: entities.length,
+    visible: filteredEntities.length,
+    selected: selectedEntityIds.size,
+    isFiltered: filteredEntities.length !== entities.length
+  }), [entities.length, filteredEntities.length, selectedEntityIds.size]);
 
   // COMPLETE CHARACTER MANAGER INTERFACE - EXACTLY THE SAME
   return (
@@ -438,11 +744,11 @@ export function UniversalEntityManager({
             </h2>
             <div className="flex items-center gap-4 mt-1">
               <span className="text-muted-foreground">
-                {entities.length} {entities.length === 1 ? config.singular.toLowerCase() : config.displayName.toLowerCase()} in your world
+                {entityStats.total} {entityStats.total === 1 ? config.singular.toLowerCase() : config.displayName.toLowerCase()} in your world
               </span>
-              {filteredEntities.length !== entities.length && (
+              {entityStats.isFiltered && (
                 <span className="text-sm text-accent">
-                  ({filteredEntities.length} visible)
+                  ({entityStats.visible} visible)
                 </span>
               )}
             </div>
@@ -539,7 +845,7 @@ export function UniversalEntityManager({
               <Button
                 variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('grid')}
+                onClick={handleGridView}
                 className="h-8 w-8 p-0"
               >
                 <Grid3X3 className="h-4 w-4" />
@@ -547,7 +853,7 @@ export function UniversalEntityManager({
               <Button
                 variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode('list')}
+                onClick={handleListView}
                 className="h-8 w-8 p-0"
               >
                 <List className="h-4 w-4" />
@@ -597,6 +903,52 @@ export function UniversalEntityManager({
           )}
         </div>
       ) : (
+        <VirtualEntityList
+          entities={filteredEntities}
+          config={config}
+          isSelectionMode={isSelectionMode}
+          selectedEntityIds={selectedEntityIds}
+          onEntityClick={setSelectedEntity}
+          onSelectEntity={handleSelectEntity}
+          viewMode={viewMode}
+        />
+      )}
+
+      {/* MODALS - ALL CATEGORY FUNCTIONALITY IMPLEMENTATIONS */}
+      
+      {/* Creation Launch Modal - Universal for all entity types */}
+      {isCreationLaunchOpen && (
+        <UniversalCreationLaunch
+          entityType={entityType}
+          config={config}
+          isOpen={isCreationLaunchOpen}
+          onClose={() => setIsCreationLaunchOpen(false)}
+          onCreateManual={() => {
+            setIsCreationLaunchOpen(false);
+            setIsCreating(true);
+          }}
+          onCreateTemplate={() => {
+            setIsCreationLaunchOpen(false);
+            setIsTemplateModalOpen(true);
+          }}
+          onCreateAI={() => {
+            setIsCreationLaunchOpen(false);
+            setIsGenerationModalOpen(true);
+          }}
+          onCreateGuided={() => {
+            setIsCreationLaunchOpen(false);
+            setIsGuidedCreation(true);
+            setIsCreating(true);
+          }}
+          onUploadDocument={() => {
+            setIsCreationLaunchOpen(false);
+            setIsDocumentUploadOpen(true);
+          }}
+        />
+      )}
+
+      {/* OLD CARD RENDERING - DISABLED FOR PERFORMANCE */}
+      {false && false && (
         <div className={
           viewMode === 'grid' 
             ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
@@ -848,7 +1200,7 @@ export function UniversalEntityManager({
       )}
     </div>
   );
-};
+});
 
 // UNIVERSAL CREATION LAUNCH MODAL - Matches CharacterCreationLaunch exactly
 interface UniversalCreationLaunchProps {

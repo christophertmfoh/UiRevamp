@@ -9,6 +9,12 @@ import { apiRequest } from '@/lib/queryClient';
 import type { Character } from '@/lib/types';
 import { FIELD_DEFINITIONS, getFieldDefinition } from '@/lib/config/fieldConfig';
 import { calculateEntityCompleteness } from '@/lib/utils/entityUtils';
+import { 
+  hasCharacterChanges, 
+  prepareCharacterForSave, 
+  cleanCorruptedCharacterData,
+  logCharacterDataIntegrity 
+} from '@/lib/utils/characterDataUtils';
 
 interface UseCharacterFormProps {
   projectId: string;
@@ -20,9 +26,14 @@ interface UseCharacterFormProps {
 export function useCharacterForm({ projectId, character, onSave, onCancel }: UseCharacterFormProps) {
   const queryClient = useQueryClient();
   
-  // Form state
+  // Form state with data corruption prevention
   const [formData, setFormData] = useState<Partial<Character>>(() => {
-    if (character) return character;
+    if (character) {
+      // Clean any existing corruption when initializing
+      const cleaned = cleanCorruptedCharacterData(character);
+      logCharacterDataIntegrity(cleaned, 'Form Initialization');
+      return cleaned;
+    }
     
     // Initialize with default values
     const defaultValues: Partial<Character> = {
@@ -44,10 +55,12 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
   const [fieldEnhancements, setFieldEnhancements] = useState<Record<string, boolean>>({});
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
-  // Mutations
+  // Mutations with data integrity protection
   const createMutation = useMutation({
     mutationFn: async (data: Partial<Character>): Promise<Character> => {
-      const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, data);
+      const cleanData = prepareCharacterForSave(data);
+      logCharacterDataIntegrity(cleanData, 'Character Creation');
+      const response = await apiRequest('POST', `/api/projects/${projectId}/characters`, cleanData);
       return response as unknown as Character;
     },
     onSuccess: (newCharacter: Character) => {
@@ -58,7 +71,9 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
 
   const updateMutation = useMutation({
     mutationFn: async (data: Character): Promise<Character> => {
-      const response = await apiRequest('PUT', `/api/characters/${data.id}`, data);
+      const cleanData = prepareCharacterForSave(data) as Character;
+      logCharacterDataIntegrity(cleanData, 'Character Update');
+      const response = await apiRequest('PUT', `/api/characters/${data.id}`, cleanData);
       return response as unknown as Character;
     },
     onSuccess: (updatedCharacter: Character) => {
@@ -137,16 +152,13 @@ export function useCharacterForm({ projectId, character, onSave, onCancel }: Use
     }
   }, [character, formData, validateForm, createMutation, updateMutation]);
 
-  // Computed values
+  // Computed values with safe comparison
   const isLoading = createMutation.isPending || updateMutation.isPending;
   const hasChanges = useMemo(() => {
     if (!character) return Object.keys(formData).length > 1; // More than just projectId
     
-    return Object.keys(formData).some(key => {
-      const formValue = (formData as any)[key];
-      const originalValue = (character as any)[key];
-      return JSON.stringify(formValue) !== JSON.stringify(originalValue);
-    });
+    // CRITICAL FIX: Use safe comparison instead of JSON.stringify
+    return hasCharacterChanges(formData, character);
   }, [character, formData]);
 
   const completionStats = useMemo(() => {
