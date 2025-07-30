@@ -1,6 +1,6 @@
 {
   "statistics": {
-    "detectionDate": "2025-07-30T22:35:55.946Z",
+    "detectionDate": "2025-07-30T22:46:01.832Z",
     "formats": {
       "javascript": {
         "sources": {
@@ -93,8 +93,8 @@
             "newClones": 0
           },
           "src/components/ui/button.tsx": {
-            "lines": 55,
-            "tokens": 385,
+            "lines": 27,
+            "tokens": 242,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -105,8 +105,8 @@
             "newClones": 0
           },
           "src/components/ui/badge.tsx": {
-            "lines": 35,
-            "tokens": 238,
+            "lines": 16,
+            "tokens": 154,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -166,8 +166,8 @@
           }
         },
         "total": {
-          "lines": 345,
-          "tokens": 2684,
+          "lines": 298,
+          "tokens": 2457,
           "sources": 7,
           "clones": 0,
           "duplicatedLines": 0,
@@ -180,6 +180,30 @@
       },
       "typescript": {
         "sources": {
+          "src/components/ui/button-variants.ts": {
+            "lines": 36,
+            "tokens": 166,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/components/ui/badge-variants.ts": {
+            "lines": 27,
+            "tokens": 107,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/test/setup.ts": {
             "lines": 74,
             "tokens": 572,
@@ -206,9 +230,9 @@
           }
         },
         "total": {
-          "lines": 79,
-          "tokens": 633,
-          "sources": 2,
+          "lines": 142,
+          "tokens": 906,
+          "sources": 4,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -248,9 +272,9 @@
       }
     },
     "total": {
-      "lines": 560,
-      "tokens": 4379,
-      "sources": 15,
+      "lines": 576,
+      "tokens": 4425,
+      "sources": 17,
       "clones": 0,
       "duplicatedLines": 0,
       "duplicatedTokens": 0,
