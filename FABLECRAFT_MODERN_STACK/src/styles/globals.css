@@ -55,7 +55,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -63,7 +65,7 @@
   .fable-gradient {
     @apply bg-gradient-to-r from-fable-orange to-fable-orange-light;
   }
-  
+
   .fable-text-gradient {
     @apply bg-gradient-to-r from-fable-orange to-fable-orange-light bg-clip-text text-transparent;
   }

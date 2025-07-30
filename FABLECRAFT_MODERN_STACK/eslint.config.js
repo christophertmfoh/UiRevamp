@@ -5,6 +5,7 @@ import { fixupPluginRules } from '@eslint/compat';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
@@ -20,6 +21,7 @@ export default [
     ],
   },
   js.configs.recommended,
+  prettierConfig, // Disable ESLint formatting rules that conflict with Prettier
   {
     files: ['**/*.{js,ts,tsx}'],
     plugins: {
