@@ -52,6 +52,8 @@
     "audit-ci": "^7.1.0",
     "autoprefixer": "^10.4.20",
     "better-npm-audit": "^3.11.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.0",
