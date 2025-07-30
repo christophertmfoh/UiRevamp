@@ -39,12 +39,12 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     performance: {
       avgRenderTime: 0,
       peakMemory: 0,
-      actionCount: 0
-    }
+      actionCount: 0,
+    },
   }))
 
-  const [isDebugMode, setIsDebugMode] = useState(() => 
-    localStorage.getItem('creative-debug') === 'true'
+  const [isDebugMode, setIsDebugMode] = useState(
+    () => localStorage.getItem('creative-debug') === 'true',
   )
 
   // Track session duration
@@ -62,63 +62,78 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
   useEffect(() => {
     if (isDebugMode && renderStart > 0) {
       const renderTime = performance.now() - renderStart
-      
-      setSession(prev => ({
+
+      setSession((prev) => ({
         ...prev,
         performance: {
           ...prev.performance,
           avgRenderTime: (prev.performance.avgRenderTime + renderTime) / 2,
-                       peakMemory: Math.max(prev.performance.peakMemory, (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0)
-        }
+          peakMemory: Math.max(
+            prev.performance.peakMemory,
+            (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory
+              ?.usedJSHeapSize || 0,
+          ),
+        },
       }))
     }
   }, [isDebugMode, renderStart])
 
   // Log actions
-  const logAction = useCallback((action: string, data?: unknown) => {
-    if (!isDebugMode) return
+  const logAction = useCallback(
+    (action: string, data?: unknown) => {
+      if (!isDebugMode) return
 
-    const debugInfo: DebugInfo = {
-      timestamp: new Date(),
-      context,
-      action,
-      data,
-      performance: {
-        renderTime: performance.now() - renderStart,
-                   memory: (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0
+      const debugInfo: DebugInfo = {
+        timestamp: new Date(),
+        context,
+        action,
+        data,
+        performance: {
+          renderTime: performance.now() - renderStart,
+          memory:
+            (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory
+              ?.usedJSHeapSize || 0,
+        },
       }
-    }
 
-    setSession(prev => ({
-      ...prev,
-      actions: [...prev.actions.slice(-49), debugInfo], // Keep last 50 actions
-      performance: {
-        ...prev.performance,
-        actionCount: prev.performance.actionCount + 1
-      }
-    }))
-  }, [isDebugMode, context, renderStart])
+      setSession((prev) => ({
+        ...prev,
+        actions: [...prev.actions.slice(-49), debugInfo], // Keep last 50 actions
+        performance: {
+          ...prev.performance,
+          actionCount: prev.performance.actionCount + 1,
+        },
+      }))
+    },
+    [isDebugMode, context, renderStart],
+  )
 
   // Log errors
-  const logError = useCallback((error: Error) => {
-    if (!isDebugMode) return
+  const logError = useCallback(
+    (error: Error) => {
+      if (!isDebugMode) return
 
-    setSession(prev => ({
-      ...prev,
-      errors: [...prev.errors.slice(-19), {
-        error,
-        context,
-        timestamp: new Date()
-      }] // Keep last 20 errors
-    }))
-  }, [isDebugMode, context])
+      setSession((prev) => ({
+        ...prev,
+        errors: [
+          ...prev.errors.slice(-19),
+          {
+            error,
+            context,
+            timestamp: new Date(),
+          },
+        ], // Keep last 20 errors
+      }))
+    },
+    [isDebugMode, context],
+  )
 
   // Toggle debug mode
   const toggleDebugMode = useCallback(() => {
     const newMode = !isDebugMode
     setIsDebugMode(newMode)
     localStorage.setItem('creative-debug', newMode.toString())
-    
+
     if (newMode) {
       logAction('debug_mode_enabled')
     } else {
@@ -135,8 +150,8 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       performance: {
         avgRenderTime: 0,
         peakMemory: 0,
-        actionCount: 0
-      }
+        actionCount: 0,
+      },
     })
     logAction('session_cleared')
   }, [logAction])
@@ -151,7 +166,7 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       avgRenderTime: session.performance.avgRenderTime,
       peakMemory: session.performance.peakMemory,
       recentActions: session.actions.slice(-10),
-      recentErrors: session.errors.slice(-5)
+      recentErrors: session.errors.slice(-5),
     }
   }, [context, sessionDuration, session])
 
@@ -161,11 +176,11 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
       session,
       summary: getDebugSummary(),
       exportedAt: new Date(),
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
     }
 
     const blob = new Blob([JSON.stringify(debugData, null, 2)], {
-      type: 'application/json'
+      type: 'application/json',
     })
 
     const url = URL.createObjectURL(blob)
@@ -212,6 +227,6 @@ export const useCreativeDebugger = (context: string = 'unknown') => {
     logError,
     clearSession,
     getDebugSummary,
-    exportDebugData
+    exportDebugData,
   }
 }

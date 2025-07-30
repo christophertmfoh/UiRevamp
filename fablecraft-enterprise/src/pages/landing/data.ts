@@ -61,7 +61,8 @@ export const processSteps: ProcessStep[] = [
     icon: PenTool,
     title: 'Contextual Writing',
     description: 'Write within living worlds',
-    detail: 'Every word informed by your story bible - characters, places, history at your fingertips',
+    detail:
+      'Every word informed by your story bible - characters, places, history at your fingertips',
   },
   {
     icon: Palette,
@@ -80,15 +81,18 @@ export const trustIndicators: TrustIndicator[] = [
 
 export const testimonials: Testimonial[] = [
   {
-    quote: "FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories.",
-    author: { name: "Sarah Chen", role: "Fantasy Novelist", initials: "SL" }
+    quote:
+      'FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories.',
+    author: { name: 'Sarah Chen', role: 'Fantasy Novelist', initials: 'SL' },
   },
   {
-    quote: "Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly.",
-    author: { name: "Marcus Rivera", role: "Screenwriter", initials: "MR" }
+    quote:
+      'Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly.',
+    author: { name: 'Marcus Rivera', role: 'Screenwriter', initials: 'MR' },
   },
   {
-    quote: "The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team.",
-    author: { name: "Alex Thompson", role: "Graphic Novelist", initials: "AT" }
-  }
+    quote:
+      "The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team.",
+    author: { name: 'Alex Thompson', role: 'Graphic Novelist', initials: 'AT' },
+  },
 ]

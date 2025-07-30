@@ -10,7 +10,7 @@ interface TestimonialCardProps {
 export function TestimonialCard({ quote, author }: TestimonialCardProps) {
   return (
     <Card className="group relative cursor-pointer overflow-hidden border-border bg-card/80 backdrop-blur-lg transition-all duration-500 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/3 to-primary/2 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
+      <div className="via-accent/3 to-primary/2 absolute inset-0 bg-gradient-to-br from-primary/5 opacity-0 transition-all duration-700 group-hover:opacity-100"></div>
 
       <CardContent className="relative z-10 space-y-6 p-8">
         <div className="mb-4 flex space-x-1">

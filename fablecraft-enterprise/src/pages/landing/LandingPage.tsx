@@ -42,8 +42,6 @@ interface LandingPageProps {
   isAuthenticated: boolean
 }
 
-
-
 export function LandingPage({
   onNavigate,
   onNewProject,
@@ -325,11 +323,11 @@ export function LandingPage({
             </h2>
           </div>
 
-                  <div className="grid gap-8 md:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} quote={testimonial.quote} author={testimonial.author} />
-          ))}
-        </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={index} quote={testimonial.quote} author={testimonial.author} />
+            ))}
+          </div>
         </div>
       </section>
 

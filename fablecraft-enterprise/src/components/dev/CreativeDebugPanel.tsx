@@ -2,14 +2,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
-  Bug, 
-  Download,
-  Trash2,
-  ChevronRight,
-  ChevronDown,
-  EyeOff
-} from 'lucide-react'
+import { Bug, Download, Trash2, ChevronRight, ChevronDown, EyeOff } from 'lucide-react'
 import { useCreativeDebugger } from '@/hooks/useCreativeDebugger'
 
 /**
@@ -22,9 +15,9 @@ interface CreativeDebugPanelProps {
   collapsed?: boolean
 }
 
-export function CreativeDebugPanel({ 
+export function CreativeDebugPanel({
   context = 'debug-panel',
-  collapsed = false 
+  collapsed = false,
 }: CreativeDebugPanelProps) {
   const {
     isDebugMode,
@@ -42,13 +35,8 @@ export function CreativeDebugPanel({
   if (!isDebugMode) {
     return (
       <div className="fixed bottom-4 right-4 z-50">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={toggleDebugMode}
-          className="shadow-lg"
-        >
-          <Bug className="h-4 w-4 mr-2" />
+        <Button variant="outline" size="sm" onClick={toggleDebugMode} className="shadow-lg">
+          <Bug className="mr-2 h-4 w-4" />
           Debug
         </Button>
       </div>
@@ -57,10 +45,10 @@ export function CreativeDebugPanel({
 
   return (
     <div className="fixed bottom-4 right-4 z-50 w-80">
-      <Card className="shadow-xl border-primary/20">
+      <Card className="border-primary/20 shadow-xl">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm">
               <Bug className="h-4 w-4" />
               Creative Debug
             </CardTitle>
@@ -94,7 +82,7 @@ export function CreativeDebugPanel({
         {isExpanded && (
           <CardContent className="pt-0">
             {/* Overview Stats */}
-            <div className="grid grid-cols-3 gap-2 mb-4">
+            <div className="mb-4 grid grid-cols-3 gap-2">
               <div className="text-center">
                 <div className="text-lg font-bold text-primary">{actionCount}</div>
                 <div className="text-xs text-muted-foreground">Actions</div>
@@ -112,23 +100,13 @@ export function CreativeDebugPanel({
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2 mb-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={exportDebugData}
-                className="flex-1"
-              >
-                <Download className="h-3 w-3 mr-1" />
+            <div className="mb-4 flex gap-2">
+              <Button variant="outline" size="sm" onClick={exportDebugData} className="flex-1">
+                <Download className="mr-1 h-3 w-3" />
                 Export
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={clearSession}
-                className="flex-1"
-              >
-                <Trash2 className="h-3 w-3 mr-1" />
+              <Button variant="outline" size="sm" onClick={clearSession} className="flex-1">
+                <Trash2 className="mr-1 h-3 w-3" />
                 Clear
               </Button>
             </div>
@@ -136,9 +114,9 @@ export function CreativeDebugPanel({
             {/* Recent Actions */}
             <div className="space-y-2">
               <div className="text-xs font-medium text-muted-foreground">Recent Actions</div>
-              <div className="max-h-40 overflow-y-auto space-y-1">
+              <div className="max-h-40 space-y-1 overflow-y-auto">
                 {session.actions.slice(-5).map((action, index) => (
-                  <div key={index} className="text-xs p-2 rounded bg-muted/50">
+                  <div key={index} className="rounded bg-muted/50 p-2 text-xs">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">{action.action}</span>
                       <Badge variant="outline" className="text-xs">
@@ -154,7 +132,7 @@ export function CreativeDebugPanel({
             </div>
 
             {/* Keyboard Shortcuts */}
-            <div className="mt-4 pt-2 border-t text-xs text-muted-foreground">
+            <div className="mt-4 border-t pt-2 text-xs text-muted-foreground">
               Press Ctrl+Shift+D to toggle debug mode
             </div>
           </CardContent>
