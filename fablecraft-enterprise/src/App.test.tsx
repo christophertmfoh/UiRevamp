@@ -1,7 +1,6 @@
-import { describe, expect, it } from 'vitest'
-
+import { render, screen } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
 import App from './App'
-import { render, screen } from './test/test-utils'
 
 describe('App Component', () => {
   it('renders without crashing', () => {
@@ -9,63 +8,46 @@ describe('App Component', () => {
     expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
   })
 
-  it('displays the header with navigation items', () => {
+  it('displays the theme system demo', () => {
     render(<App />)
 
     // Check header elements
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
-    expect(screen.getByText('Characters')).toBeInTheDocument()
-    expect(screen.getByText('Projects')).toBeInTheDocument()
-    expect(screen.getByText('World Bible')).toBeInTheDocument()
+    expect(screen.getByText('FableCraft Enterprise')).toBeInTheDocument()
+    expect(screen.getByText('Sign In')).toBeInTheDocument()
+    expect(screen.getByText('Toggle theme')).toBeInTheDocument()
   })
 
-  it('shows quick stats in the sidebar', () => {
+  it('shows the theme system ready card', () => {
     render(<App />)
 
-    expect(screen.getByText('Quick Stats')).toBeInTheDocument()
-    expect(screen.getByText('Total Characters')).toBeInTheDocument()
-    expect(screen.getByText('Active Projects')).toBeInTheDocument()
-    expect(screen.getByText('TypeScript Errors')).toBeInTheDocument()
+    expect(screen.getByText('🎉 Theme System Ready!')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'The theme system is working perfectly. Try switching themes using the toggle in the header.',
+      ),
+    ).toBeInTheDocument()
   })
 
-  it('displays zero TypeScript errors in green', () => {
+  it('displays completed setup section', () => {
     render(<App />)
 
-    const errorCount = screen.getByText('0', { selector: '.text-green-400' })
-    expect(errorCount).toBeInTheDocument()
+    expect(screen.getByText('✅ Completed Setup')).toBeInTheDocument()
+    expect(screen.getByText('• UI Components migrated')).toBeInTheDocument()
+    expect(screen.getByText('• Theme system configured')).toBeInTheDocument()
   })
 
-  it('switches between tabs when clicked', async () => {
-    const { user } = render(<App />)
-
-    // Initially on overview tab
-    expect(screen.getByText('Welcome to FableCraft Enterprise')).toBeInTheDocument()
-
-    // Click on Setup tab
-    const setupTab = screen.getByText('Setup')
-    await user.click(setupTab)
-
-    // Should show setup content
-    expect(screen.getByText('Installed Dependencies')).toBeInTheDocument()
-    expect(screen.getByText('Tailwind CSS')).toBeInTheDocument()
-
-    // Click on Documentation tab
-    const docsTab = screen.getByText('Documentation')
-    await user.click(docsTab)
-
-    // Should show documentation content
-    expect(screen.getByText('Getting Started')).toBeInTheDocument()
-    expect(screen.getByText('Configure testing with Vitest')).toBeInTheDocument()
-  })
-
-  it('has accessible navigation buttons', () => {
+  it('shows next steps section', () => {
     render(<App />)
 
-    const buttons = screen.getAllByRole('button')
-    expect(buttons.length).toBeGreaterThan(0)
+    expect(screen.getByText('🚀 Next Steps')).toBeInTheDocument()
+    expect(screen.getByText('• Migrate Landing Page')).toBeInTheDocument()
+    expect(screen.getByText('• Migrate Auth Page')).toBeInTheDocument()
+  })
 
-    // Check specific buttons
-    expect(screen.getByText('New Project')).toHaveClass('bg-blue-600')
-    expect(screen.getByText('Settings')).toBeInTheDocument()
+  it('has theme toggle button', () => {
+    render(<App />)
+
+    const themeToggle = screen.getByText('Toggle theme')
+    expect(themeToggle).toBeInTheDocument()
   })
 })

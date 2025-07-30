@@ -9,12 +9,12 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="system" enableSystem>
-      <div className="min-h-screen bg-background">
+      <div className="bg-background min-h-screen">
         {/* Floating orbs background */}
         <FloatingOrbs />
 
         {/* Header */}
-        <header className="relative z-10 border-b border-border bg-card/50 backdrop-blur-sm">
+        <header className="border-border bg-card/50 relative z-10 border-b backdrop-blur-sm">
           <div className="container mx-auto px-4">
             <div className="flex h-16 items-center justify-between">
               <h1 className="bg-gradient-to-r from-[hsl(var(--gradient-brand-start))] to-[hsl(var(--gradient-brand-end))] bg-clip-text text-2xl font-bold text-transparent">
@@ -37,15 +37,15 @@ function App() {
               <CardHeader>
                 <CardTitle>🎉 Theme System Ready!</CardTitle>
                 <CardDescription>
-                  The theme system is working perfectly. Try switching themes using the toggle in the
-                  header.
+                  The theme system is working perfectly. Try switching themes using the toggle in
+                  the header.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <h3 className="font-semibold">✅ Completed Setup</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
+                    <ul className="text-muted-foreground space-y-1 text-sm">
                       <li>• UI Components migrated</li>
                       <li>• Theme system configured</li>
                       <li>• Auth store ready</li>
@@ -55,7 +55,7 @@ function App() {
                   </div>
                   <div className="space-y-2">
                     <h3 className="font-semibold">🚀 Next Steps</h3>
-                    <ul className="space-y-1 text-sm text-muted-foreground">
+                    <ul className="text-muted-foreground space-y-1 text-sm">
                       <li>• Migrate Landing Page</li>
                       <li>• Migrate Auth Page</li>
                       <li>• Test auth flow</li>
@@ -83,9 +83,7 @@ function App() {
                 <div className="space-y-2 font-mono text-sm">
                   <div>
                     <span className="text-muted-foreground">API URL:</span>{' '}
-                    <span className="text-primary">
-                      {import.meta.env.VITE_API_URL || '/api'}
-                    </span>
+                    <span className="text-primary">{import.meta.env.VITE_API_URL || '/api'}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Environment:</span>{' '}

@@ -35,7 +35,7 @@ interface AuthState {
 /**
  * Authentication store using Zustand with persistence
  * Handles user authentication state across the application
- * 
+ *
  * @example
  * ```tsx
  * const { user, login, logout } = useAuth()
@@ -160,7 +160,7 @@ export const useAuth = create<AuthState>()(
 /**
  * Hook to initialize auth state on app load
  * Checks authentication status when component mounts
- * 
+ *
  * @example
  * ```tsx
  * function App() {

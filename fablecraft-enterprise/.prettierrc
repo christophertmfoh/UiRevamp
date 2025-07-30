@@ -9,29 +9,11 @@
   "endOfLine": "lf",
   "bracketSpacing": true,
   "jsxSingleQuote": false,
-  "jsxBracketSameLine": false,
+  "bracketSameLine": false,
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "css",
   "embeddedLanguageFormatting": "auto",
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
-  ],
-  "importOrder": [
-    "^react$",
-    "^react/(.*)$",
-    "^next/(.*)$",
-    "<THIRD_PARTY_MODULES>",
-    "^@/types/(.*)$",
-    "^@/lib/(.*)$",
-    "^@/hooks/(.*)$",
-    "^@/components/(.*)$",
-    "^@/features/(.*)$",
-    "^@/(.*)$",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindConfig": "./tailwind.config.js",
   "tailwindFunctions": ["cn", "clsx"]
 }
