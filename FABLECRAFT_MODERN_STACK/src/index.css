@@ -17,10 +17,47 @@
     font-feature-settings: 'cv03', 'cv04', 'cv11';
     font-variation-settings: 'slnt' 0;
     text-rendering: optimizeLegibility;
+    
+    /* Subtle Old Paper Texture - Theme Reactive */
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    
+    /* Old Paper Texture using CSS patterns */
+    background-image: 
+      /* Fine grain noise */
+      radial-gradient(circle at 1px 1px, hsl(var(--texture-grain)) 1px, transparent 0),
+      /* Larger texture pattern */
+      radial-gradient(circle at 3px 3px, hsl(var(--texture-grain)) 0.5px, transparent 0),
+      /* Subtle paper fibers */
+      linear-gradient(45deg, transparent 48%, hsl(var(--texture-fiber)) 49%, hsl(var(--texture-fiber)) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, hsl(var(--texture-fiber)) 49%, hsl(var(--texture-fiber)) 51%, transparent 52%);
+    
+    background-size: 4px 4px, 8px 8px, 12px 12px, 12px 12px;
+    background-position: 0 0, 2px 2px, 0 0, 6px 6px;
+    
+    /* Blend with theme colors */
+    mix-blend-mode: var(--texture-blend-mode);
+    opacity: var(--texture-opacity);
   }
 
   /* SMOOTH THEME TRANSITIONS - CSS Custom Properties Only */
   :root {
+    /* Texture Variables - Light Theme Default */
+    --texture-grain: 0 0% 45% / 0.03; /* Very subtle grain */
+    --texture-fiber: 0 0% 40% / 0.015; /* Barely visible fibers */
+    --texture-opacity: 0.6;
+    --texture-blend-mode: multiply;
+    
     /* Transition ONLY theme-related CSS custom properties */
     transition: 
       --background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -45,7 +82,11 @@
       --orb-primary 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --orb-secondary 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --auth-button-primary 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      --auth-button-primary-hover 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --auth-button-primary-hover 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      /* Texture transition */
+      --texture-grain 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      --texture-fiber 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      --texture-opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* BUTTON LAG FIX - Hardware Acceleration + Containment for React + Vite + Tailwind v4 */
@@ -191,5 +232,67 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Theme-Specific Paper Texture Variables */
+  .theme-light {
+    --texture-grain: 25 15% 40% / 0.025; /* Warm parchment grain */
+    --texture-fiber: 25 10% 35% / 0.012; /* Subtle warm fibers */
+    --texture-opacity: 0.5;
+    --texture-blend-mode: multiply;
+  }
+
+  .theme-dark {
+    --texture-grain: 220 8% 65% / 0.02; /* Cool dark grain */
+    --texture-fiber: 220 5% 70% / 0.01; /* Subtle blue-gray fibers */
+    --texture-opacity: 0.4;
+    --texture-blend-mode: screen;
+  }
+
+  .theme-arctic-focus {
+    --texture-grain: 200 20% 85% / 0.015; /* Clean arctic grain */
+    --texture-fiber: 200 15% 88% / 0.008; /* Minimal cool fibers */
+    --texture-opacity: 0.3;
+    --texture-blend-mode: multiply;
+  }
+
+  .theme-golden-hour {
+    --texture-grain: 35 25% 45% / 0.03; /* Warm golden grain */
+    --texture-fiber: 35 20% 50% / 0.015; /* Golden sunset fibers */
+    --texture-opacity: 0.6;
+    --texture-blend-mode: multiply;
+  }
+
+  .theme-midnight-ink {
+    --texture-grain: 240 10% 70% / 0.025; /* Deep night grain */
+    --texture-fiber: 240 8% 75% / 0.012; /* Midnight blue fibers */
+    --texture-opacity: 0.35;
+    --texture-blend-mode: screen;
+  }
+
+  .theme-forest-manuscript {
+    --texture-grain: 140 12% 60% / 0.022; /* Forest green grain */
+    --texture-fiber: 140 8% 65% / 0.011; /* Moss-like fibers */
+    --texture-opacity: 0.4;
+    --texture-blend-mode: screen;
+  }
+
+  .theme-starlit-prose {
+    --texture-grain: 260 15% 65% / 0.02; /* Purple night grain */
+    --texture-fiber: 260 12% 70% / 0.01; /* Starlit purple fibers */
+    --texture-opacity: 0.35;
+    --texture-blend-mode: screen;
+  }
+
+  .theme-coffee-house {
+    --texture-grain: 25 35% 35% / 0.035; /* Rich coffee grain */
+    --texture-fiber: 25 30% 40% / 0.018; /* Coffee bean fibers */
+    --texture-opacity: 0.7;
+    --texture-blend-mode: multiply;
+  }
+
+  /* Utility to disable texture (add .no-texture to body) */
+  .no-texture body::before {
+    display: none !important;
   }
 }
