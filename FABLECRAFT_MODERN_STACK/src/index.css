@@ -470,32 +470,36 @@
    /* Firefly rising animation - organic floating movement */
    @keyframes firefly-rise {
      0% {
-       transform: translateY(0px) translateX(0px) scale(0);
+       bottom: -10px;
+       transform: translateX(0px) scale(1);
        opacity: 0;
      }
-     3% {
+     5% {
        opacity: 1;
-       transform: translateY(-15px) translateX(0px) scale(1);
+       bottom: 50px;
+       transform: translateX(10px) scale(1);
      }
-     15% {
-       transform: translateY(-150px) translateX(25px) scale(1);
+     25% {
+       bottom: 25vh;
+       transform: translateX(-20px) scale(1);
      }
-     35% {
-       transform: translateY(-35vh) translateX(-15px) scale(1);
-     }
-     55% {
-       transform: translateY(-55vh) translateX(30px) scale(1);
+     50% {
+       bottom: 50vh;
+       transform: translateX(30px) scale(1);
      }
      75% {
-       transform: translateY(-75vh) translateX(-10px) scale(1);
+       bottom: 75vh;
+       transform: translateX(-15px) scale(1);
        opacity: 0.8;
      }
      95% {
-       transform: translateY(-95vh) translateX(20px) scale(1);
-       opacity: 0.2;
+       bottom: 95vh;
+       transform: translateX(10px) scale(1);
+       opacity: 0.3;
      }
      100% {
-       transform: translateY(-100vh) translateX(0px) scale(0);
+       bottom: 100vh;
+       transform: translateX(0px) scale(0);
        opacity: 0;
      }
    }
