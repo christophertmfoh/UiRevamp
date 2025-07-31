@@ -129,9 +129,11 @@ export const FeatureCards = memo(function FeatureCards({
         
         {/* Enhanced Header Section */}
         <div className="heading-group">
-          <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 inline-block">
-            Revolutionary Creative Technology
-          </Badge>
+          <div className="flex items-center justify-center">
+            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300">
+              Revolutionary Creative Technology
+            </Badge>
+          </div>
           
           <h2 
             id="features-heading"
@@ -144,7 +146,7 @@ export const FeatureCards = memo(function FeatureCards({
           </h2>
           
           <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium",
+            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-golden-lg sm:text-golden-xl lg:text-golden-2xl"
           )}>
             Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
