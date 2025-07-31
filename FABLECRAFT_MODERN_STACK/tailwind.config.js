@@ -8,6 +8,12 @@ export default {
     './src/**/*.{ts,tsx}',
     './index.html'
   ],
+  // Safelist to preserve theme selectors
+  safelist: [
+    {
+      pattern: /data-theme/,
+    }
+  ],
   prefix: "",
   theme: {
     container: {
