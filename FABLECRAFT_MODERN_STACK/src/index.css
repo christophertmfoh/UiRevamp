@@ -302,6 +302,38 @@
   /* ===== ATMOSPHERIC DEPTH SYSTEM ===== */
   /* Creates natural visual hierarchy without boxy containers */
   
+  /* UNIVERSAL DROP SHADOW SYSTEM - Subtle depth for all elements */
+  section,
+  .card,
+  .hero,
+  nav,
+  article,
+  .feature-card,
+  .process-step,
+  .testimonial-card,
+  .pricing-card,
+  button,
+  .btn,
+  input,
+  textarea,
+  select {
+    filter: drop-shadow(0 1px 3px hsl(var(--foreground) / 0.1)) 
+            drop-shadow(0 1px 2px hsl(var(--foreground) / 0.06));
+    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Enhanced shadows on hover */
+  button:hover,
+  .btn:hover,
+  .card:hover,
+  .feature-card:hover,
+  .process-step:hover,
+  .testimonial-card:hover,
+  .pricing-card:hover {
+    filter: drop-shadow(0 4px 6px hsl(var(--foreground) / 0.1)) 
+            drop-shadow(0 2px 4px hsl(var(--foreground) / 0.06));
+  }
+
   /* Subtle content elevation - no boxes, just natural light/shadow */
   .content-atmosphere {
     position: relative;

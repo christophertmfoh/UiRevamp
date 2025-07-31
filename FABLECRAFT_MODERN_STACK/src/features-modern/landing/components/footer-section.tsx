@@ -30,7 +30,7 @@ export const FooterSection = memo(
   }: FooterSectionProps) => {
     return (
       <footer
-        className={`relative z-10 border-t border-border section-spacing-compact px-8 bg-gradient-to-t from-muted/30 to-transparent ${className}`}
+        className={`relative z-10 section-spacing-compact px-8 bg-gradient-to-t from-muted/30 to-transparent ${className}`}
       >
         <div className='max-w-7xl mx-auto text-center'>
           {showBranding && (
