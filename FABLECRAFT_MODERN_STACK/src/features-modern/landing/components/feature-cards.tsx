@@ -125,15 +125,15 @@ export const FeatureCards = memo(function FeatureCards({
       )}
       aria-labelledby="features-heading"
     >
-      <div className="text-center space-y-12 lg:space-y-16">
+      <div className="text-center">
         
         {/* Enhanced Header Section */}
         <div className="heading-group">
           <div className="flex items-center justify-center gap-2">
-            <div 
-              className="w-2 h-2 rounded-full animate-pulse bg-primary"
-              aria-hidden="true"
-            />
+                         <div 
+               className="w-3 h-3 rounded-full animate-pulse bg-primary"
+               aria-hidden="true"
+             />
             <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300">
               Revolutionary Creative Technology
             </Badge>
@@ -161,7 +161,7 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Trust Indicators Section */}
         {showTrustIndicators && (
           <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-normal"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-normal mt-acquaintances"
             role="region"
             aria-labelledby="trust-indicators-heading"
           >
@@ -217,7 +217,7 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Key Benefits Section */}
         {showKeyBenefits && (
           <div 
-            className="grid grid-cols-1 md:grid-cols-3 grid-normal mt-friends"
+            className="grid grid-cols-1 md:grid-cols-3 grid-normal mt-acquaintances"
             role="region"
             aria-labelledby="key-benefits-heading"
           >
