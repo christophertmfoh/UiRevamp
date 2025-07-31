@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Theme Test</title>
+  <script>
+    // Test theme switching
+    function testTheme() {
+      const results = {
+        localStorage: localStorage.getItem('fablecraft-theme'),
+        dataTheme: document.documentElement.getAttribute('data-theme'),
+        classList: document.documentElement.classList.toString(),
+        computedBackground: window.getComputedStyle(document.documentElement).getPropertyValue('--background'),
+        computedForeground: window.getComputedStyle(document.documentElement).getPropertyValue('--foreground')
+      };
+      
+      console.log('Theme Test Results:', results);
+      document.getElementById('results').textContent = JSON.stringify(results, null, 2);
+    }
+    
+    function setTheme(theme) {
+      localStorage.setItem('fablecraft-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      testTheme();
+    }
+  </script>
+</head>
+<body onload="testTheme()">
+  <h1>Theme System Test</h1>
+  <button onclick="setTheme('light')">Light</button>
+  <button onclick="setTheme('dark')">Dark</button>
+  <button onclick="setTheme('arctic-focus')">Arctic Focus</button>
+  <button onclick="setTheme('golden-hour')">Golden Hour</button>
+  <button onclick="setTheme('midnight-ink')">Midnight Ink</button>
+  <button onclick="setTheme('forest-manuscript')">Forest Manuscript</button>
+  <button onclick="setTheme('starlit-prose')">Starlit Prose</button>
+  <button onclick="setTheme('coffee-house')">Coffee House</button>
+  <pre id="results"></pre>
+</body>
+</html>

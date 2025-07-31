@@ -5,7 +5,33 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FableCraft - Modern Creative Writing Platform" />
-    <title>FableCraft - Creative Writing Platform</title>
+    <title>Fablecraft - Where Stories Come to Life</title>
+    <!-- Theme initialization script to prevent FOUC -->
+    <script>
+      (function() {
+        try {
+          // Get the theme from localStorage with the correct key
+          const storageKey = 'fablecraft-theme';
+          const savedTheme = localStorage.getItem(storageKey);
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          
+          let theme = savedTheme || 'light';
+          
+          // Handle system theme
+          if (theme === 'system' || !savedTheme) {
+            theme = prefersDark ? 'dark' : 'light';
+          }
+          
+          // Apply theme to html element
+          document.documentElement.setAttribute('data-theme', theme);
+          
+          // Also add to classList for compatibility
+          document.documentElement.classList.add(theme);
+        } catch (e) {
+          console.error('Theme initialization error:', e);
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
