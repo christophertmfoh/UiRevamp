@@ -1,7 +1,15 @@
 import { LandingPage } from '@/features-modern/landing/landing-page';
 import { ThemeProvider } from '@/app/providers/theme-provider';
+import { useEffect } from 'react';
 
 export function HomePage() {
+  // Debug theme application on mount
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug('HomePage: Initial theme attribute:', document.documentElement.getAttribute('data-theme'));
+    }
+  }, []);
+
   // Mock handlers for landing page functionality
   const handleNavigate = (_view: string) => {
     // TODO: Implement navigation logic
@@ -24,7 +32,8 @@ export function HomePage() {
       attribute='data-theme'
       defaultTheme='light'
       enableSystem
-      disableTransitionOnChange
+      disableTransitionOnChange={false}
+      storageKey='fablecraft-theme'
       themes={[
         'light',
         'arctic-focus',
@@ -37,7 +46,7 @@ export function HomePage() {
         'system',
       ]}
     >
-      <div className='min-h-screen bg-background'>
+      <div className='min-h-screen bg-background transition-colors duration-200'>
         <LandingPage
           onNavigate={handleNavigate}
           onNewProject={handleNewProject}

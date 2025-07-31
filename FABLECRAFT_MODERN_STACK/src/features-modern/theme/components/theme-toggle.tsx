@@ -51,7 +51,12 @@ export function ThemeToggle() {
 
   React.useEffect(() => {
     setMounted(true)
-  }, [])
+    // Debug logging to help troubleshoot theme issues
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug('ThemeToggle: Current theme:', theme)
+      console.debug('ThemeToggle: Document data-theme:', document.documentElement.getAttribute('data-theme'))
+    }
+  }, [theme])
 
   if (!mounted) {
     return (
@@ -75,6 +80,20 @@ export function ThemeToggle() {
 
   const CurrentIcon = getCurrentIcon()
   
+  const handleThemeChange = (themeKey: string) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug('ThemeToggle: Changing theme to:', themeKey)
+    }
+    setTheme(themeKey)
+    
+    // Force a slight delay to ensure theme is applied
+    setTimeout(() => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.debug('ThemeToggle: Theme changed to:', document.documentElement.getAttribute('data-theme'))
+      }
+    }, 100)
+  }
+  
   const renderThemesByCategory = (category: ThemeConfig['category']) => {
     return Object.entries(themeConfig)
       .filter(([, config]) => config.category === category)
@@ -85,7 +104,7 @@ export function ThemeToggle() {
         return (
           <DropdownMenuItem
             key={themeKey}
-            onClick={() => setTheme(themeKey)}
+            onClick={() => handleThemeChange(themeKey)}
             className="flex items-center justify-between gap-3 px-3 py-3 hover:bg-accent/10 cursor-pointer group"
           >
             <div className="flex items-center gap-3">
