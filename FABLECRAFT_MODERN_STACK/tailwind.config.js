@@ -8,11 +8,26 @@ export default {
     './src/**/*.{ts,tsx}',
     './index.html'
   ],
-  // Safelist to preserve theme selectors
+  // CRITICAL: Safelist all theme-related selectors to prevent purging
   safelist: [
+    // Theme attribute selectors
+    '[data-theme="light"]',
+    '[data-theme="dark"]',
+    '[data-theme="arctic-focus"]',
+    '[data-theme="golden-hour"]',
+    '[data-theme="midnight-ink"]',
+    '[data-theme="forest-manuscript"]',
+    '[data-theme="starlit-prose"]',
+    '[data-theme="coffee-house"]',
+    // Gradient classes used in footer
+    'gradient-primary',
+    'gradient-primary-br',
+    'gradient-primary-text',
+    // Any dynamic classes
     {
-      pattern: /data-theme/,
-    }
+      pattern: /^(bg|text|border|ring)-(primary|secondary|accent|muted|destructive|card|popover)(-foreground)?$/,
+      variants: ['hover', 'focus', 'active', 'group-hover'],
+    },
   ],
   prefix: "",
   theme: {

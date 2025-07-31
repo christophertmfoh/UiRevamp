@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
+// CRITICAL: Import theme CSS to ensure it's included in production
 import './shared/lib/theme/variables.css';
 import App from './App.tsx';
 import { ThemeProvider } from './app/providers/theme-provider';
