@@ -275,7 +275,7 @@ describe('ThemeToggle Component', () => {
     it('handles theme switching state correctly', () => {
       mockTheme.mockReturnValue('parchment-classic');
       
-      render(
+      const { rerender } = render(
         <TestWrapper>
           <ThemeToggle />
         </TestWrapper>
@@ -287,8 +287,8 @@ describe('ThemeToggle Component', () => {
       // Switch to dark theme
       mockTheme.mockReturnValue('dark');
       
-      // Re-render with new theme
-      render(
+      // Re-render with new theme using rerender to avoid multiple DOM instances
+      rerender(
         <TestWrapper>
           <ThemeToggle />
         </TestWrapper>
