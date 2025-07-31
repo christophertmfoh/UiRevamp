@@ -29,7 +29,7 @@ export function ThemeProvider({
   defaultTheme = 'system',
   enableSystem = true,
   themes = ['light', 'dark', 'arctic-focus', 'golden-hour', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house', 'system'],
-  disableTransitionOnChange = false,
+  disableTransitionOnChange = true,
   storageKey = 'fablecraft-theme'
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(() => {
@@ -57,13 +57,20 @@ export function ThemeProvider({
     return t
   }
 
-  // Apply theme to DOM
+  // Apply theme to DOM with proper transition handling
   const applyTheme = (t: Theme) => {
     const resolved = resolveTheme(t)
     const root = document.documentElement
 
+    // Create style element for disabling transitions during theme change
+    const disableTransitionsStyle = document.createElement('style')
+    const css = document.createTextNode(':root { transition: none !important; }')
+    disableTransitionsStyle.appendChild(css)
+
+    // Disable transitions using the research-backed approach
     if (disableTransitionOnChange) {
-      root.style.transition = 'none'
+      // Add the disable-transitions style
+      document.head.appendChild(disableTransitionsStyle)
     }
 
     if (attribute === 'class') {
@@ -83,9 +90,26 @@ export function ThemeProvider({
     }
 
     if (disableTransitionOnChange) {
-      // Force reflow
-      void root.offsetHeight
-      root.style.transition = ''
+      // Use the modern approach: getComputedStyle forces browser to apply styles
+      // This ensures transitions are disabled before the theme change is visible
+      if (typeof window.getComputedStyle !== 'undefined') {
+        // Force browser to process the transition disable
+        window.getComputedStyle(disableTransitionsStyle).opacity
+        // Remove the disable style immediately after
+        document.head.removeChild(disableTransitionsStyle)
+      } else if (typeof window.requestAnimationFrame !== 'undefined') {
+        // Fallback for older browsers: use requestAnimationFrame
+        window.requestAnimationFrame(() => {
+          document.head.removeChild(disableTransitionsStyle)
+        })
+      } else {
+        // Ultimate fallback: setTimeout
+        setTimeout(() => {
+          if (document.head.contains(disableTransitionsStyle)) {
+            document.head.removeChild(disableTransitionsStyle)
+          }
+        }, 100)
+      }
     }
   }
 
