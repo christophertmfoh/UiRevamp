@@ -36,6 +36,7 @@ export function HomePage() {
         'coffee-house',
         'system',
       ]}
+      storageKey='fablecraft-theme'
     >
       <div className='min-h-screen bg-background'>
         <LandingPage

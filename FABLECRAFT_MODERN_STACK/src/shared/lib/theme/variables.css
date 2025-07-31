@@ -14,7 +14,7 @@
 
   /* Default Light: Parchment Classic - Warm cream with burgundy (WCAG AA compliant) */
   :root,
-  :root[data-theme="light"] {
+  [data-theme="light"] {
     --background: 45 25% 96%; /* Warm parchment */
     --foreground: 15 25% 15%; /* Dark brown (8.1:1) */
     --card: 45 20% 93%; /* Card surface */
@@ -61,7 +61,7 @@
   }
 
   /* Arctic Focus - Cool blues and whites (minimal, clean) */
-  :root[data-theme="arctic-focus"] {
+  [data-theme="arctic-focus"] {
     --background: 200 15% 97%; /* Cool white */
     --foreground: 210 25% 15%; /* Dark blue-gray (8.3:1) */
     --card: 200 10% 94%; /* Card */
@@ -106,7 +106,7 @@
   }
 
   /* Golden Hour - Warm yellows optimized for inspiration */
-  :root[data-theme="golden-hour"] {
+  [data-theme="golden-hour"] {
     --background: 45 20% 96%; /* Warm cream */
     --foreground: 25 30% 15%; /* Dark brown (8.5:1) */
     --card: 45 15% 93%; /* Card */
@@ -153,7 +153,7 @@
   /* ===== DARK THEMES ===== */
 
   /* Dark Default: Rich charcoal with warm accents (WCAG AA) */
-  :root[data-theme="dark"] {
+  [data-theme="dark"] {
     --background: 220 15% 8%; /* Rich charcoal */
     --foreground: 45 15% 93%; /* Warm white (11.2:1) */
     --card: 220 12% 10%; /* Card surface */
@@ -198,7 +198,7 @@
   }
 
   /* Midnight Ink - Deep blue-black for focused writing */
-  :root[data-theme="midnight-ink"] {
+  [data-theme="midnight-ink"] {
     --background: 220 25% 6%; /* Deep blue-black */
     --foreground: 200 20% 92%; /* Cool white (14.1:1) */
     --card: 220 20% 8%; /* Card surface */
@@ -243,7 +243,7 @@
   }
 
   /* Forest Manuscript - Deep greens for nature-inspired writing */
-  :root[data-theme="forest-manuscript"] {
+  [data-theme="forest-manuscript"] {
     --background: 140 15% 8%; /* Deep forest green */
     --foreground: 120 15% 90%; /* Soft white (11.8:1) */
     --card: 140 12% 10%; /* Card surface */
@@ -288,7 +288,7 @@
   }
 
   /* Starlit Prose - Purple-black for mystical writing */
-  :root[data-theme="starlit-prose"] {
+  [data-theme="starlit-prose"] {
     --background: 260 20% 7%; /* Deep purple-black */
     --foreground: 280 15% 90%; /* Lavender white (12.5:1) */
     --card: 260 15% 9%; /* Card surface */
@@ -333,7 +333,7 @@
   }
 
   /* Coffee House - Rich browns for cozy writing */
-  :root[data-theme="coffee-house"] {
+  [data-theme="coffee-house"] {
     --background: 25 15% 9%; /* Deep coffee brown */
     --foreground: 35 15% 88%; /* Cream white (10.8:1) */
     --card: 25 12% 11%; /* Card surface */
