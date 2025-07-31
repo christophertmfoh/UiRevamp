@@ -175,15 +175,15 @@ export function CTASection({
                   "hover:shadow-lg hover:scale-105 hover:-translate-y-1"
                 )}>
                   <CardContent className="p-6 text-center space-y-4">
-                    <div className={cn(
-                      "w-12 h-12 bg-green-500/10 hover:bg-green-500/20 rounded-xl",
-                      "flex items-center justify-center mx-auto transition-all duration-300",
-                      "group-hover:scale-110 group-hover:rotate-3"
-                    )}>
-                      <Star className="w-6 h-6 text-green-500 group-hover:scale-110 transition-transform duration-300" />
-                    </div>
-                    <div className="mt-best-friends space-y-1">
-                      <div className="text-2xl sm:text-3xl font-bold text-foreground group-hover:text-green-500 transition-colors duration-300">
+                                         <div className={cn(
+                       "w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl",
+                       "flex items-center justify-center mx-auto transition-all duration-300",
+                       "group-hover:scale-110 group-hover:rotate-3"
+                     )}>
+                       <Star className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+                     </div>
+                     <div className="mt-best-friends space-y-1">
+                       <div className="text-2xl sm:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                         4.9★
                       </div>
                       <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
