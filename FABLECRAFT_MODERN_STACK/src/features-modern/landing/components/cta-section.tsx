@@ -135,7 +135,7 @@ export function CTASection({
           </div>
           
           {/* Enhanced Button Section with Z-Pattern Conversion Flow */}
-          <div className="flex flex-col sm:flex-row gap-friends justify-center items-center max-w-2xl mx-auto mt-acquaintances">
+          <div className="flex flex-col sm:flex-row gap-neighbors justify-center items-center max-w-2xl mx-auto mt-acquaintances">
             
             {/* Primary CTA Button */}
             <Button 
@@ -145,7 +145,7 @@ export function CTASection({
                 "group relative w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground",
                 "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-lg hover:shadow-xl rounded-xl transition-all duration-300",
-                "hover:scale-105 hover:-translate-y-1",
+                "hover:scale-102 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
               aria-label={`${primaryButtonText} - Start creating your story project`}
@@ -169,7 +169,7 @@ export function CTASection({
                 "group relative w-full sm:w-auto border-border hover:bg-accent hover:text-accent-foreground",
                 "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-md hover:shadow-lg rounded-xl transition-all duration-300",
-                "hover:scale-105 hover:-translate-y-1",
+                "hover:scale-102 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
               aria-label={`${secondaryButtonText} - Browse existing story projects`}
