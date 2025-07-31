@@ -1,0 +1,354 @@
+/* 
+ * FABLECRAFT MATHEMATICAL SPACING SYSTEM
+ * 8-Point Grid Foundation with Golden Ratio Typography
+ * 
+ * RESEARCH-BACKED DESIGN PRINCIPLES:
+ * - 8px base unit for mathematical consistency
+ * - Golden ratio (1.618) for proportional scaling
+ * - Spacing friendship levels for visual hierarchy
+ * - Mobile-first responsive relationships
+ * 
+ * USAGE:
+ * - Import into main CSS: @import './spacing.css';
+ * - Apply classes: space-best-friends, text-golden-lg, etc.
+ * - Override with CSS custom properties for component APIs
+ */
+
+/* ================================================================
+   CSS CUSTOM PROPERTIES - DESIGN TOKENS
+   ================================================================ */
+
+:root {
+  /* 8-Point Grid Foundation */
+  --space-unit: 8px;
+  --space-2: calc(var(--space-unit) * 2);  /* 16px */
+  --space-3: calc(var(--space-unit) * 3);  /* 24px */
+  --space-4: calc(var(--space-unit) * 4);  /* 32px */
+  --space-6: calc(var(--space-unit) * 6);  /* 48px */
+  --space-8: calc(var(--space-unit) * 8);  /* 64px */
+  --space-12: calc(var(--space-unit) * 12); /* 96px */
+  --space-16: calc(var(--space-unit) * 16); /* 128px */
+
+  /* Golden Ratio Typography Scale (1.618) */
+  --golden-ratio: 1.618;
+  --text-base: 16px;
+  --text-golden-sm: calc(var(--text-base) / var(--golden-ratio));    /* ~9.88px */
+  --text-golden-md: var(--text-base);                                /* 16px */
+  --text-golden-lg: calc(var(--text-base) * var(--golden-ratio));    /* ~25.88px */
+  --text-golden-xl: calc(var(--text-golden-lg) * var(--golden-ratio)); /* ~41.85px */
+  --text-golden-2xl: calc(var(--text-golden-xl) * var(--golden-ratio)); /* ~67.67px */
+  --text-golden-3xl: calc(var(--text-golden-2xl) * var(--golden-ratio)); /* ~109.46px */
+  --text-golden-4xl: calc(var(--text-golden-3xl) * var(--golden-ratio)); /* ~177.11px */
+  --text-golden-5xl: calc(var(--text-golden-4xl) * var(--golden-ratio)); /* ~286.57px */
+
+  /* Section Spacing for Professional Layout */
+  --section-spacing: var(--space-16);      /* 128px */
+  --section-spacing-hero: var(--space-12); /* 96px */
+  --section-spacing-compact: var(--space-8); /* 64px */
+
+  /* Component Spacing APIs */
+  --component-inner: var(--space-4);       /* 32px */
+  --component-comfortable: var(--space-3); /* 24px */
+  --component-cozy: var(--space-2);        /* 16px */
+  --component-tight: var(--space-unit);    /* 8px */
+}
+
+/* ================================================================
+   SPACING FRIENDSHIP LEVELS
+   Mathematical relationships for visual hierarchy
+   ================================================================ */
+
+/* Best Friends (8px) - Closely related content */
+.space-best-friends {
+  gap: var(--space-unit);
+}
+
+.mb-best-friends {
+  margin-bottom: var(--space-unit);
+}
+
+.mt-best-friends {
+  margin-top: var(--space-unit);
+}
+
+.p-best-friends {
+  padding: var(--space-unit);
+}
+
+/* Friends (16px) - Related content */
+.space-friends {
+  gap: var(--space-2);
+}
+
+.mb-friends {
+  margin-bottom: var(--space-2);
+}
+
+.mt-friends {
+  margin-top: var(--space-2);
+}
+
+.p-friends {
+  padding: var(--space-2);
+}
+
+/* Acquaintances (24px) - Separate but related areas */
+.space-acquaintances {
+  gap: var(--space-3);
+}
+
+.mb-acquaintances {
+  margin-bottom: var(--space-3);
+}
+
+.mt-acquaintances {
+  margin-top: var(--space-3);
+}
+
+.p-acquaintances {
+  padding: var(--space-3);
+}
+
+/* Neighbors (32px) - Component boundaries */
+.space-neighbors {
+  gap: var(--space-4);
+}
+
+.mb-neighbors {
+  margin-bottom: var(--space-4);
+}
+
+.mt-neighbors {
+  margin-top: var(--space-4);
+}
+
+.p-neighbors {
+  padding: var(--space-4);
+}
+
+/* Strangers (48px) - Distinct sections */
+.space-strangers {
+  gap: var(--space-6);
+}
+
+.mb-strangers {
+  margin-bottom: var(--space-6);
+}
+
+.mt-strangers {
+  margin-top: var(--space-6);
+}
+
+.p-strangers {
+  padding: var(--space-6);
+}
+
+/* ================================================================
+   GOLDEN RATIO TYPOGRAPHY CLASSES
+   Professional proportional text scaling
+   ================================================================ */
+
+.text-golden-sm {
+  font-size: var(--text-golden-sm);
+  line-height: calc(var(--text-golden-sm) * 1.5);
+}
+
+.text-golden-md {
+  font-size: var(--text-golden-md);
+  line-height: calc(var(--text-golden-md) * 1.5);
+}
+
+.text-golden-lg {
+  font-size: var(--text-golden-lg);
+  line-height: calc(var(--text-golden-lg) * 1.4);
+}
+
+.text-golden-xl {
+  font-size: var(--text-golden-xl);
+  line-height: calc(var(--text-golden-xl) * 1.3);
+}
+
+.text-golden-2xl {
+  font-size: var(--text-golden-2xl);
+  line-height: calc(var(--text-golden-2xl) * 1.2);
+}
+
+.text-golden-3xl {
+  font-size: var(--text-golden-3xl);
+  line-height: calc(var(--text-golden-3xl) * 1.1);
+}
+
+.text-golden-4xl {
+  font-size: var(--text-golden-4xl);
+  line-height: calc(var(--text-golden-4xl) * 1.05);
+}
+
+.text-golden-5xl {
+  font-size: var(--text-golden-5xl);
+  line-height: calc(var(--text-golden-5xl) * 1.0);
+}
+
+/* ================================================================
+   SECTION SPACING UTILITIES
+   Professional page layout spacing
+   ================================================================ */
+
+.section-spacing {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+.section-spacing-hero {
+  padding-top: var(--section-spacing-hero);
+  padding-bottom: var(--section-spacing-hero);
+}
+
+.section-spacing-compact {
+  padding-top: var(--section-spacing-compact);
+  padding-bottom: var(--section-spacing-compact);
+}
+
+/* ================================================================
+   MATHEMATICAL GRID UTILITIES
+   Consistent spacing for layout grids
+   ================================================================ */
+
+.grid-tight {
+  gap: var(--space-unit);
+}
+
+.grid-normal {
+  gap: var(--space-3);
+}
+
+.grid-comfortable {
+  gap: var(--space-4);
+}
+
+.grid-spacious {
+  gap: var(--space-6);
+}
+
+/* ================================================================
+   COMPONENT GROUP UTILITIES
+   Pre-defined spacing combinations for common patterns
+   ================================================================ */
+
+.heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-unit);
+}
+
+.content-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.action-group {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+/* ================================================================
+   RESPONSIVE MATHEMATICAL RELATIONSHIPS
+   Mobile-first scaling with preserved proportions
+   ================================================================ */
+
+@media (max-width: 480px) {
+  :root {
+    --section-spacing: var(--space-8);      /* 64px on mobile */
+    --section-spacing-hero: var(--space-6); /* 48px on mobile */
+    --component-inner: var(--space-3);      /* 24px on mobile */
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    --section-spacing: var(--space-16);     /* 128px on tablet+ */
+    --section-spacing-hero: var(--space-12); /* 96px on tablet+ */
+    --component-inner: var(--space-4);      /* 32px on tablet+ */
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --section-spacing: calc(var(--space-16) * 1.25);     /* 160px on desktop */
+    --section-spacing-hero: calc(var(--space-12) * 1.25); /* 120px on desktop */
+  }
+}
+
+/* ================================================================
+   UTILITY OVERRIDES
+   For component-specific mathematical adjustments
+   ================================================================ */
+
+.p-comfortable {
+  padding: var(--component-comfortable);
+}
+
+.p-spacious {
+  padding: var(--space-6);
+}
+
+.gap-mathematical {
+  gap: var(--space-3);
+}
+
+/* ================================================================
+   ACCESSIBILITY & PERFORMANCE
+   Touch targets and visual clarity
+   ================================================================ */
+
+.touch-target {
+  min-height: 44px; /* WCAG AA minimum touch target */
+  min-width: 44px;
+}
+
+.focus-mathematical {
+  outline-offset: var(--space-unit);
+}
+
+/* ================================================================
+   COMPONENT API OVERRIDES
+   For advanced mathematical spacing control
+   ================================================================ */
+
+.mathematical-spacing-override {
+  --space-override: var(--space-3);
+}
+
+.mathematical-spacing-override * {
+  gap: var(--space-override);
+}
+
+/* ================================================================
+   Z-PATTERN LAYOUT UTILITIES
+   Strategic positioning for conversion optimization
+   ================================================================ */
+
+.z-pattern-section {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-areas: 
+    "top-left top-right"
+    "bottom-left bottom-right";
+}
+
+.z-top-left { grid-area: top-left; }
+.z-top-right { grid-area: top-right; }
+.z-bottom-left { grid-area: bottom-left; }
+.z-bottom-right { grid-area: bottom-right; }
+
+@media (max-width: 768px) {
+  .z-pattern-section {
+    grid-template-areas: 
+      "top-left"
+      "top-right" 
+      "bottom-left"
+      "bottom-right";
+    grid-template-columns: 1fr;
+  }
+}
