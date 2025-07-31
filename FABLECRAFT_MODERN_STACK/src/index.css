@@ -321,30 +321,58 @@
     );
   }
 
-  /* Content elements get subtle background tint and soft glow */
+  /* Content elements - pure typography, no visual containers */
   .card,
   .feature-card,
   .process-step,
   .testimonial-card,
   .pricing-card {
-    background: hsl(var(--background) / 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 16px;
+    /* NO background, NO borders, NO visual containers */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
   }
 
-  /* Subtle content lift on hover - no borders, just enhanced background */
+  /* Hover effects through text enhancement only */
   .card:hover,
   .feature-card:hover,
   .process-step:hover,
   .testimonial-card:hover,
   .pricing-card:hover {
-    background: hsl(var(--background) / 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     transform: translateY(-1px);
+  }
+
+  /* Enhanced text contrast on hover */
+  .card:hover h1,
+  .card:hover h2,
+  .card:hover h3,
+  .card:hover h4,
+  .card:hover h5,
+  .card:hover h6,
+  .feature-card:hover h1,
+  .feature-card:hover h2,
+  .feature-card:hover h3,
+  .feature-card:hover h4,
+  .feature-card:hover h5,
+  .feature-card:hover h6,
+  .process-step:hover h1,
+  .process-step:hover h2,
+  .process-step:hover h3,
+  .process-step:hover h4,
+  .process-step:hover h5,
+  .process-step:hover h6,
+  .testimonial-card:hover h1,
+  .testimonial-card:hover h2,
+  .testimonial-card:hover h3,
+  .testimonial-card:hover h4,
+  .testimonial-card:hover h5,
+  .testimonial-card:hover h6,
+  .pricing-card:hover h1,
+  .pricing-card:hover h2,
+  .pricing-card:hover h3,
+  .pricing-card:hover h4,
+  .pricing-card:hover h5,
+  .pricing-card:hover h6 {
+    text-shadow: 0 2px 4px hsl(var(--foreground) / 0.2);
   }
 
   /* Subtle content elevation - no boxes, just natural light/shadow */
