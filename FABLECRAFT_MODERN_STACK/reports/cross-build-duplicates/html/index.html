@@ -1,0 +1,1478 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Copy/Paste Detector Report</title><link href="styles/tailwind.css" rel="stylesheet"><link href="styles/prism.css" rel="stylesheet"></head><body class="bg-gray-100"><header class="bg-white shadow py-4"><div class="container mx-auto px-4"><h1 class="text-3xl font-semibold text-gray-800">jscpd - copy/paste report</h1></div></header><main class="container mx-auto my-8 p-4 bg-white shadow rounded"><section class="mb-8" id="dashboard"><h2 class="text-2xl font-semibold text-gray-700 mb-4">Dashboard</h2><div class="grid grid-cols-4 gap-4"><div class="bg-blue-200 p-4 rounded text-center"><h3 class="text-lg font-semibold text-blue-800 mb-2">Total Files</h3><span class="text-4xl font-bold text-blue-800">377</span></div><div class="bg-green-200 p-4 rounded text-center"><h3 class="text-lg font-semibold text-green-800 mb-2">Total Lines of Code</h3><span class="text-4xl font-bold text-green-800">59371</span></div><div class="bg-yellow-200 p-4 rounded text-center"><h3 class="text-lg font-semibold text-yellow-800 mb-2">Number of Clones</h3><span class="text-4xl font-bold text-yellow-800">76</span></div><div class="bg-red-200 p-4 rounded text-center"><h3 class="text-lg font-semibold text-red-800 mb-2">Duplicated Lines</h3><span class="text-4xl font-bold text-red-800">1469 (2.47%)</span></div></div></section><section class="mb-8" id="formats"><h2 class="text-2xl font-semibold text-gray-700 mb-4">Formats with Duplications</h2><table class="w-full table-auto"><thead><tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"><th class="py-3 px-6 text-left">Format</th><th class="py-3 px-6 text-left">Files</th><th class="py-3 px-6 text-left">Lines</th><th class="py-3 px-6 text-left">Clones</th><th class="py-3 px-6 text-left">Duplicated Lines</th><th class="py-3 px-6 text-left">Duplicated Tokens</th></tr></thead><tbody><tr class="bg-white border-b border-gray-200 text-gray-800 text-sm"><td class="py-3 px-6"><a class="text-blue-600 hover:underline" href="#tsx-clones">tsx</a></td><td class="py-3 px-6">157</td><td class="py-3 px-6">32720</td><td class="py-3 px-6">56</td><td class="py-3 px-6">955</td><td class="py-3 px-6">8135</td></tr><tr class="bg-white border-b border-gray-200 text-gray-800 text-sm"><td class="py-3 px-6"><a class="text-blue-600 hover:underline" href="#css-clones">css</a></td><td class="py-3 px-6">4</td><td class="py-3 px-6">645</td><td class="py-3 px-6">1</td><td class="py-3 px-6">66</td><td class="py-3 px-6">364</td></tr><tr class="bg-white border-b border-gray-200 text-gray-800 text-sm"><td class="py-3 px-6"><a class="text-blue-600 hover:underline" href="#javascript-clones">javascript</a></td><td class="py-3 px-6">143</td><td class="py-3 px-6">16393</td><td class="py-3 px-6">11</td><td class="py-3 px-6">360</td><td class="py-3 px-6">2850</td></tr><tr class="bg-white border-b border-gray-200 text-gray-800 text-sm"><td class="py-3 px-6"><a class="text-blue-600 hover:underline" href="#typescript-clones">typescript</a></td><td class="py-3 px-6">73</td><td class="py-3 px-6">9613</td><td class="py-3 px-6">8</td><td class="py-3 px-6">88</td><td class="py-3 px-6">731</td></tr></tbody></table></section><section class="mb-8" id="txt-clones"><a name="tsx-clones"></a><h2 class="text-2xl font-semibold text-gray-700 mb-4">tsx</h2><div class="divide-y divide-gray-200 border-b-2"><div class="py-4"><p class="text-gray-600">../client/src/components/character/shared/IdentityExample.tsx (Line 158:3 - Line 166:8), ../client/src/components/character/shared/IdentityExample.tsx (Line 22:5 - Line 30:5)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn1" onclick="toggleCodeBlock('cloneGroup1', 'expandBtn1', 'collapseBtn1')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn1" onclick="toggleCodeBlock('cloneGroup1', 'expandBtn1', 'collapseBtn1')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup1"><code class="language-tsx text-sm text-gray-800">return (
+    &lt;Card className=&quot;w-full&quot;&gt;
+      &lt;CardHeader className=&quot;flex flex-row items-center justify-between&quot;&gt;
+        &lt;div className=&quot;flex items-center gap-3&quot;&gt;
+          &lt;div className=&quot;p-2 rounded-lg bg-primary/10&quot;&gt;
+            &lt;User className=&quot;h-5 w-5 text-primary&quot; /&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;CardTitle&gt;Identity - Display</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/shared/DisplayField.tsx (Line 43:2 - Line 51:2), ../client/src/components/character/shared/FieldRenderer.tsx (Line 160:2 - Line 168:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn2" onclick="toggleCodeBlock('cloneGroup2', 'expandBtn2', 'collapseBtn2')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn2" onclick="toggleCodeBlock('cloneGroup2', 'expandBtn2', 'collapseBtn2')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup2"><code class="language-tsx text-sm text-gray-800">(
+        &lt;div className=&quot;flex flex-wrap gap-1&quot;&gt;
+          {value.map((item, index) =&gt; (
+            &lt;Badge key={index} variant=&quot;secondary&quot; className=&quot;text-xs&quot;&gt;
+              {item}
+            &lt;/Badge&gt;
+          ))}
+        &lt;/div&gt;
+      );</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/LandingPage.tsx (Line 363:170 - Line 372:149), ../fablecraft-enterprise/src/pages/landing/LandingPage.tsx (Line 224:170 - Line 234:120)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn3" onclick="toggleCodeBlock('cloneGroup3', 'expandBtn3', 'collapseBtn3')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn3" onclick="toggleCodeBlock('cloneGroup3', 'expandBtn3', 'collapseBtn3')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup3"><code class="language-tsx text-sm text-gray-800">&quot;&gt;
+              Follow our proven 6-step process used by professional writers worldwide. Each stage builds 
+              seamlessly into the next, ensuring your creative vision stays consistent from start to finish.
+            &lt;/p&gt;
+          &lt;/div&gt;
+
+          {/* Process Flow */}
+          &lt;div className=&quot;relative&quot;&gt;
+            {/* Connection line */}
+            &lt;div className=&quot;absolute top-16 left-0 right-0 h-1 gradient-primary dark:from-emerald-600/30 dark:via-stone-600/30 dark:to-amber-600/30 hidden lg:block rounded-full</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/LandingPage.tsx (Line 487:5 - Line 500:188), ../client/src/pages/landing/LandingPage.tsx (Line 463:2 - Line 475:172)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn4" onclick="toggleCodeBlock('cloneGroup4', 'expandBtn4', 'collapseBtn4')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn4" onclick="toggleCodeBlock('cloneGroup4', 'expandBtn4', 'collapseBtn4')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup4"><code class="language-tsx text-sm text-gray-800">&gt;
+
+            &lt;Card className=&quot;group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative&quot;&gt;
+              &lt;div className=&quot;absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700&quot; 
+                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}&gt;&lt;/div&gt;
+              
+              &lt;CardContent className=&quot;relative z-10 p-8 space-y-6&quot;&gt;
+                &lt;div className=&quot;flex space-x-1 mb-4&quot;&gt;
+                  {[...Array(5)].map((_, i) =&gt; (
+                    &lt;Star key={i} className=&quot;w-5 h-5 fill-primary text-primary&quot; /&gt;
+                  ))}
+                &lt;/div&gt;
+                &lt;p className=&quot;text-foreground italic leading-relaxed&quot;&gt;
+                  &quot;Finally, a platform that gets the creative process. The world bible feature keeps all my storylines consistent, and the collaboration tools let my writing partner contribute seamlessly.&quot;</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/LandingPage.tsx (Line 508:13 - Line 525:193), ../client/src/pages/landing/LandingPage.tsx (Line 483:9 - Line 475:172)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn5" onclick="toggleCodeBlock('cloneGroup5', 'expandBtn5', 'collapseBtn5')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn5" onclick="toggleCodeBlock('cloneGroup5', 'expandBtn5', 'collapseBtn5')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup5"><code class="language-tsx text-sm text-gray-800">&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/CardContent&gt;
+            &lt;/Card&gt;
+
+            &lt;Card className=&quot;group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative&quot;&gt;
+              &lt;div className=&quot;absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700&quot; 
+                   style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}&gt;&lt;/div&gt;
+              
+              &lt;CardContent className=&quot;relative z-10 p-8 space-y-6&quot;&gt;
+                &lt;div className=&quot;flex space-x-1 mb-4&quot;&gt;
+                  {[...Array(5)].map((_, i) =&gt; (
+                    &lt;Star key={i} className=&quot;w-5 h-5 fill-primary text-primary&quot; /&gt;
+                  ))}
+                &lt;/div&gt;
+                &lt;p className=&quot;text-foreground italic leading-relaxed&quot;&gt;
+                  &quot;The visual storytelling features are incredible. I can generate consistent character art and storyboards that perfectly match my written descriptions. It's like having a whole creative team.&quot;</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/LandingPage.tsx (Line 567:40 - Line 574:21), ../fablecraft-enterprise/src/pages/landing/LandingPage.tsx (Line 359:35 - Line 366:21)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn6" onclick="toggleCodeBlock('cloneGroup6', 'expandBtn6', 'collapseBtn6')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn6" onclick="toggleCodeBlock('cloneGroup6', 'expandBtn6', 'collapseBtn6')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup6"><code class="language-tsx text-sm text-gray-800">&quot;&gt;Free&lt;/div&gt;
+                    &lt;p className=&quot;text-muted-foreground&quot;&gt;Perfect for getting started&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                
+                &lt;div className=&quot;space-y-3 text-left&quot;&gt;
+                  &lt;div className=&quot;flex items-center space-x-3&quot;&gt;
+                    &lt;CheckCircle className=&quot;w-5 h-5 text-primary</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/LandingPage.tsx (Line 613:40 - Line 620:21), ../fablecraft-enterprise/src/pages/landing/LandingPage.tsx (Line 404:35 - Line 413:21)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn7" onclick="toggleCodeBlock('cloneGroup7', 'expandBtn7', 'collapseBtn7')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn7" onclick="toggleCodeBlock('cloneGroup7', 'expandBtn7', 'collapseBtn7')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup7"><code class="language-tsx text-sm text-gray-800">&quot;&gt;$19&lt;span className=&quot;text-lg text-muted-foreground&quot;&gt;/month&lt;/span&gt;&lt;/div&gt;
+                    &lt;p className=&quot;text-muted-foreground&quot;&gt;For serious storytellers&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+                
+                &lt;div className=&quot;space-y-3 text-left&quot;&gt;
+                  &lt;div className=&quot;flex items-center space-x-3&quot;&gt;
+                    &lt;CheckCircle className=&quot;w-5 h-5 text-primary</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/HeroSection.tsx (Line 33:137 - Line 40:79), ../fablecraft-enterprise/src/pages/landing/HeroSection.tsx (Line 32:144 - Line 39:61)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn8" onclick="toggleCodeBlock('cloneGroup8', 'expandBtn8', 'collapseBtn8')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn8" onclick="toggleCodeBlock('cloneGroup8', 'expandBtn8', 'collapseBtn8')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup8"><code class="language-tsx text-sm text-gray-800">&quot;&gt;
+            From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
+            and graphic novels with AI that understands the art of storytelling. Your imagination, 
+            amplified by intelligence.
+          &lt;/p&gt;
+
+          {/* Action Buttons */}
+          &lt;div className=&quot;flex flex-col sm:flex-row gap-lg pt-xl justify-center mobile-stack mobile-full</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/landing/FeatureCards.tsx (Line 63:22 - Line 83:2), ../client/src/pages/landing/LandingPage.tsx (Line 432:24 - Line 448:3)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn9" onclick="toggleCodeBlock('cloneGroup9', 'expandBtn9', 'collapseBtn9')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn9" onclick="toggleCodeBlock('cloneGroup9', 'expandBtn9', 'collapseBtn9')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup9"><code class="language-tsx text-sm text-gray-800">style={{ background: 'linear-gradient(135deg, hsl(var(--orb-primary) / 0.05) 0%, hsl(var(--orb-secondary) / 0.03) 50%, hsl(var(--orb-primary) / 0.02) 100%)' }}&gt;&lt;/div&gt;
+                
+                &lt;CardContent className=&quot;relative z-10 p-8 text-center space-y-6&quot;&gt;
+                  &lt;div className=&quot;w-16 h-16 gradient-primary-br rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500&quot;&gt;
+                    &lt;IconComponent className=&quot;w-8 h-8 text-primary-foreground group-hover:scale-110 transition-transform duration-300&quot; /&gt;
+                  &lt;/div&gt;
+                  &lt;div className=&quot;space-y-2&quot;&gt;
+                    &lt;div className=&quot;text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent group-hover:from-primary group-hover:to-foreground transition-all duration-500&quot;&gt;
+                      {indicator.number}
+                    &lt;/div&gt;
+                    &lt;div className=&quot;text-muted-foreground font-semibold group-hover:text-foreground transition-colors duration-300&quot;&gt;
+                      {indicator.label}
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/CardContent&gt;
+              &lt;/Card&gt;
+            );
+          })}
+        &lt;/div&gt;
+
+        {</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/worldBible/UniversalCreationLaunch.tsx (Line 298:17 - Line 312:2), ../client/src/components/worldBible/UniversalPortraitModal.tsx (Line 302:8 - Line 316:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn15" onclick="toggleCodeBlock('cloneGroup15', 'expandBtn15', 'collapseBtn15')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn15" onclick="toggleCodeBlock('cloneGroup15', 'expandBtn15', 'collapseBtn15')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup15"><code class="language-tsx text-sm text-gray-800">, 
+    factions: 'Faction',
+    items: 'Item',
+    magic: 'Magic System',
+    bestiary: 'Creature',
+    languages: 'Language',
+    cultures: 'Culture',
+    prophecies: 'Prophecy',
+    themes: 'Theme'
+  };
+
+  return (
+    &lt;Dialog open={isOpen} onOpenChange={onClose}&gt;
+      &lt;DialogContent className=&quot;max-w-4xl max-h-[90vh] overflow-hidden&quot;&gt;
+        &lt;DialogHeader </code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/ui/tabs.tsx (Line 6:1 - Line 53:2), ../fablecraft-enterprise/src/components/ui/tabs.tsx (Line 6:1 - Line 53:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn16" onclick="toggleCodeBlock('cloneGroup16', 'expandBtn16', 'collapseBtn16')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn16" onclick="toggleCodeBlock('cloneGroup16', 'expandBtn16', 'collapseBtn16')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup16"><code class="language-tsx text-sm text-gray-800">const Tabs = TabsPrimitive.Root
+
+const TabsList = React.forwardRef&lt;
+  React.ElementRef&lt;typeof TabsPrimitive.List&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof TabsPrimitive.List&gt;
+&gt;(({ className, ...props }, ref) =&gt; (
+  &lt;TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      &quot;inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+TabsList.displayName = TabsPrimitive.List.displayName
+
+const TabsTrigger = React.forwardRef&lt;
+  React.ElementRef&lt;typeof TabsPrimitive.Trigger&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof TabsPrimitive.Trigger&gt;
+&gt;(({ className, ...props }, ref) =&gt; (
+  &lt;TabsPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      &quot;inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+
+const TabsContent = React.forwardRef&lt;
+  React.ElementRef&lt;typeof TabsPrimitive.Content&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof TabsPrimitive.Content&gt;
+&gt;(({ className, ...props }, ref) =&gt; (
+  &lt;TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      &quot;mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+TabsContent.displayName = TabsPrimitive.Content.displayName
+
+export { Tabs, TabsList, TabsTrigger, TabsContent }</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/ui/dropdown-menu.tsx (Line 7:1 - Line 173:2), ../fablecraft-enterprise/src/components/ui/dropdown-menu.tsx (Line 7:1 - Line 163:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn17" onclick="toggleCodeBlock('cloneGroup17', 'expandBtn17', 'collapseBtn17')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn17" onclick="toggleCodeBlock('cloneGroup17', 'expandBtn17', 'collapseBtn17')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup17"><code class="language-tsx text-sm text-gray-800">const DropdownMenu = DropdownMenuPrimitive.Root
+
+const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
+const DropdownMenuGroup = DropdownMenuPrimitive.Group
+
+const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+
+const DropdownMenuSub = DropdownMenuPrimitive.Sub
+
+const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+
+const DropdownMenuSubTrigger = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.SubTrigger&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.SubTrigger&gt; &amp; {
+    inset?: boolean
+  }
+&gt;(({ className, inset, children, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.SubTrigger
+    ref={ref}
+    className={cn(
+      &quot;flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0&quot;,
+      inset &amp;&amp; &quot;pl-8&quot;,
+      className
+    )}
+    {...props}
+  &gt;
+    {children}
+    &lt;ChevronRight className=&quot;ml-auto&quot; /&gt;
+  &lt;/DropdownMenuPrimitive.SubTrigger&gt;
+))
+DropdownMenuSubTrigger.displayName =
+  DropdownMenuPrimitive.SubTrigger.displayName
+
+const DropdownMenuSubContent = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.SubContent&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.SubContent&gt;
+&gt;(({ className, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.SubContent
+    ref={ref}
+    className={cn(
+      &quot;z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-dropdown-menu-content-transform-origin]&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+DropdownMenuSubContent.displayName =
+  DropdownMenuPrimitive.SubContent.displayName
+
+const DropdownMenuContent = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.Content&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.Content&gt;
+&gt;(({ className, sideOffset = 4, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.Portal&gt;
+    &lt;DropdownMenuPrimitive.Content
+      ref={ref}
+      sideOffset={sideOffset}
+      className={cn(
+        &quot;z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-dropdown-menu-content-transform-origin]&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  &lt;/DropdownMenuPrimitive.Portal&gt;
+))
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
+
+const DropdownMenuItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.Item&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.Item&gt; &amp; {
+    inset?: boolean
+  }
+&gt;(({ className, inset, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0&quot;,
+      inset &amp;&amp; &quot;pl-8&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+const DropdownMenuCheckboxItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.CheckboxItem&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.CheckboxItem&gt;
+&gt;(({ className, children, checked, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50&quot;,
+      className
+    )}
+    checked={checked}
+    {...props}
+  &gt;
+    &lt;span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;&gt;
+      &lt;DropdownMenuPrimitive.ItemIndicator&gt;
+        &lt;Check className=&quot;h-4 w-4&quot; /&gt;
+      &lt;/DropdownMenuPrimitive.ItemIndicator&gt;
+    &lt;/span&gt;
+    {children}
+  &lt;/DropdownMenuPrimitive.CheckboxItem&gt;
+))
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName
+
+const DropdownMenuRadioItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.RadioItem&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.RadioItem&gt;
+&gt;(({ className, children, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50&quot;,
+      className
+    )}
+    {...props}
+  &gt;
+    &lt;span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;&gt;
+      &lt;DropdownMenuPrimitive.ItemIndicator&gt;
+        &lt;Circle className=&quot;h-2 w-2 fill-current&quot; /&gt;
+      &lt;/DropdownMenuPrimitive.ItemIndicator&gt;
+    &lt;/span&gt;
+    {children}
+  &lt;/DropdownMenuPrimitive.RadioItem&gt;
+))
+DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName
+
+const DropdownMenuLabel = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.Label&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.Label&gt; &amp; {
+    inset?: boolean
+  }
+&gt;(({ className, inset, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      &quot;px-2 py-1.5 text-sm font-semibold&quot;,
+      inset &amp;&amp; &quot;pl-8&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
+
+const DropdownMenuSeparator = React.forwardRef&lt;
+  React.ElementRef&lt;typeof DropdownMenuPrimitive.Separator&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof DropdownMenuPrimitive.Separator&gt;
+&gt;(({ className, ...props }, ref) =&gt; (
+  &lt;DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn(&quot;-mx-1 my-1 h-px bg-muted&quot;, className)}
+    {...props}
+  /&gt;
+))
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
+
+const DropdownMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes&lt;HTMLSpanElement&gt;) =&gt; {
+  return (</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/ui/LoadingStates.tsx (Line 163:15 - Line 169:2), ../client/src/components/ui/LoadingStates.tsx (Line 154:41 - Line 161:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn19" onclick="toggleCodeBlock('cloneGroup19', 'expandBtn19', 'collapseBtn19')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn19" onclick="toggleCodeBlock('cloneGroup19', 'expandBtn19', 'collapseBtn19')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup19"><code class="language-tsx text-sm text-gray-800">&quot;&gt;
+          &lt;LoadingSkeleton height=&quot;16px&quot; width=&quot;20%&quot; /&gt;
+          &lt;LoadingSkeleton height=&quot;16px&quot; width=&quot;30%&quot; /&gt;
+          &lt;LoadingSkeleton height=&quot;16px&quot; width=&quot;25%&quot; /&gt;
+          &lt;LoadingSkeleton height=&quot;16px&quot; width=&quot;25%&quot; /&gt;
+        &lt;/div&gt;
+      )</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/projects/ProjectsPage.tsx (Line 107:9 - Line 147:13), ../client/src/pages/landing/LandingPage.tsx (Line 157:9 - Line 197:17)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn20" onclick="toggleCodeBlock('cloneGroup20', 'expandBtn20', 'collapseBtn20')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn20" onclick="toggleCodeBlock('cloneGroup20', 'expandBtn20', 'collapseBtn20')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup20"><code class="language-tsx text-sm text-gray-800">{/* Noise Texture Overlay */}
+        &lt;div 
+          className=&quot;absolute inset-0 opacity-[0.015] dark:opacity-[0.02]&quot;
+          style={{
+            backgroundImage: `url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;)`,
+            transform: `translateY(${scrollY * 0.05}px)`
+          }}
+        /&gt;
+
+        {/* Animated Geometric Patterns */}
+        &lt;svg className=&quot;absolute inset-0 w-full h-full opacity-5 dark:opacity-10&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+          &lt;defs&gt;
+            &lt;pattern id=&quot;grid&quot; width=&quot;60&quot; height=&quot;60&quot; patternUnits=&quot;userSpaceOnUse&quot;&gt;
+              &lt;circle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;0.5&quot; fill=&quot;currentColor&quot; className=&quot;text-foreground/20&quot;/&gt;
+            &lt;/pattern&gt;
+          &lt;/defs&gt;
+          &lt;rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;url(#grid)&quot; style={{ transform: `translateY(${scrollY * 0.1}px)` }}/&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+
+      {/* Floating Orbs with Parallax */}
+      &lt;div className=&quot;absolute inset-0 overflow-hidden&quot;&gt;
+        &lt;div 
+          className=&quot;absolute top-1/4 left-1/4 w-64 h-64 rounded-full&quot;
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-primary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${scrollY * 0.02}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(40px)'
+          }}
+        /&gt;
+        &lt;div 
+          className=&quot;absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full&quot;
+          style={{
+            background: 'radial-gradient(circle, hsl(var(--orb-secondary) / 0.1) 0%, transparent 70%)',
+            transform: `translate(${-scrollY * 0.03}px, ${-scrollY * 0.1}px) scale(${1 + scrollY * 0.0001})`,
+            filter: 'blur(30px)'
+          }}
+        /&gt;
+      &lt;/div&gt;
+
+      {/* Header */</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/projects/ProjectsList.tsx (Line 92:16 - Line 112:160), ../client/src/components/projects/ProjectsList.tsx (Line 37:12 - Line 57:194)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn21" onclick="toggleCodeBlock('cloneGroup21', 'expandBtn21', 'collapseBtn21')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn21" onclick="toggleCodeBlock('cloneGroup21', 'expandBtn21', 'collapseBtn21')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup21"><code class="language-tsx text-sm text-gray-800">({ 
+  project, 
+  onSelect 
+}: { 
+  project: Project; 
+  onSelect: (project: Project) =&gt; void 
+}) {
+  const getProjectIcon = (type: string) =&gt; {
+    switch (type?.toLowerCase()) {
+      case 'novel': return BookOpen;
+      case 'screenplay': return FileText;
+      case 'graphic novel': return Image;
+      default: return PenTool;
+    }
+  };
+
+  const ProjectIcon = getProjectIcon(project.type || '');
+
+  return (
+    &lt;Card 
+      className=&quot;group card-enhanced surface-elevated backdrop-blur-xl border-border/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/project/ProjectCreationWizard.tsx (Line 1:1 - Line 12:6), ../client/src/components/worldBible/UniversalPortraitModal.tsx (Line 7:1 - Line 13:7)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn22" onclick="toggleCodeBlock('cloneGroup22', 'expandBtn22', 'collapseBtn22')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn22" onclick="toggleCodeBlock('cloneGroup22', 'expandBtn22', 'collapseBtn22')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup22"><code class="language-tsx text-sm text-gray-800">import React, { useState } from 'react';
+import { 
+  Dialog, 
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/project/ProjectCreationWizard.tsx (Line 147:6 - Line 159:7), ../client/src/components/project/ProjectCreationWizard.tsx (Line 131:7 - Line 143:9)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn23" onclick="toggleCodeBlock('cloneGroup23', 'expandBtn23', 'collapseBtn23')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn23" onclick="toggleCodeBlock('cloneGroup23', 'expandBtn23', 'collapseBtn23')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup23"><code class="language-tsx text-sm text-gray-800">.&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;ArrowRight className=&quot;w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300&quot; /&gt;
+          &lt;/div&gt;
+        &lt;/Card&gt;
+
+        &lt;Card 
+          className=&quot;group cursor-pointer hover:scale-[1.02] transition-all duration-300 surface-elevated backdrop-blur-xl border-border/30 hover:shadow-2xl&quot;
+          onClick={() =&gt; setMode('upload')}
+        &gt;
+          &lt;div className=&quot;p-6 flex items-start space-x-4&quot;&gt;
+            &lt;div className=&quot;w-14 h-14 rounded-xl gradient-primary-br flex items-center justify-center group-hover:scale-110 transition-transform duration-300&quot;&gt;
+              &lt;Upload</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/project/ProjectCreationWizard.tsx (Line 458:11 - Line 478:7), ../client/src/components/project/ProjectCreationWizard.tsx (Line 414:9 - Line 434:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn24" onclick="toggleCodeBlock('cloneGroup24', 'expandBtn24', 'collapseBtn24')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn24" onclick="toggleCodeBlock('cloneGroup24', 'expandBtn24', 'collapseBtn24')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup24"><code class="language-tsx text-sm text-gray-800">&lt;/li&gt;
+              &lt;/ul&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/Card&gt;
+
+        &lt;div className=&quot;flex justify-between&quot;&gt;
+          &lt;Button
+            variant=&quot;outline&quot;
+            onClick={() =&gt; setMode('selection')}
+            className=&quot;flex items-center border-border text-foreground hover:bg-accent/10&quot;
+          &gt;
+            &lt;ArrowLeft className=&quot;w-4 h-4 mr-2&quot; /&gt;
+            Back
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  };
+
+  return</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterRelationships.tsx (Line 346:12 - Line 363:27), ../client/src/components/character/CharacterRelationships.tsx (Line 241:2 - Line 258:22)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn27" onclick="toggleCodeBlock('cloneGroup27', 'expandBtn27', 'collapseBtn27')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn27" onclick="toggleCodeBlock('cloneGroup27', 'expandBtn27', 'collapseBtn27')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup27"><code class="language-tsx text-sm text-gray-800"> /&gt;
+                  &lt;/SelectTrigger&gt;
+                  &lt;SelectContent&gt;
+                    {RELATIONSHIP_TYPES.map((type) =&gt; (
+                      &lt;SelectItem key={type.value} value={type.value}&gt;
+                        &lt;div className=&quot;flex items-center gap-2&quot;&gt;
+                          &lt;type.icon className=&quot;h-4 w-4&quot; /&gt;
+                          {type.label}
+                        &lt;/div&gt;
+                      &lt;/SelectItem&gt;
+                    ))}
+                  &lt;/SelectContent&gt;
+                &lt;/Select&gt;
+              &lt;/div&gt;
+
+              &lt;div className=&quot;grid grid-cols-2 gap-4&quot;&gt;
+                &lt;div&gt;
+                  &lt;Label htmlFor=&quot;edit-relationship-strength</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterRelationships.tsx (Line 371:12 - Line 383:25), ../client/src/components/character/CharacterRelationships.tsx (Line 264:2 - Line 276:20)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn28" onclick="toggleCodeBlock('cloneGroup28', 'expandBtn28', 'collapseBtn28')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn28" onclick="toggleCodeBlock('cloneGroup28', 'expandBtn28', 'collapseBtn28')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup28"><code class="language-tsx text-sm text-gray-800"> /&gt;
+                    &lt;/SelectTrigger&gt;
+                    &lt;SelectContent&gt;
+                      &lt;SelectItem value=&quot;weak&quot;&gt;Weak&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;moderate&quot;&gt;Moderate&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;strong&quot;&gt;Strong&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;intense&quot;&gt;Intense&lt;/SelectItem&gt;
+                    &lt;/SelectContent&gt;
+                  &lt;/Select&gt;
+                &lt;/div&gt;
+
+                &lt;div&gt;
+                  &lt;Label htmlFor=&quot;edit-relationship-status</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterRelationships.tsx (Line 391:12 - Line 404:30), ../client/src/components/character/CharacterRelationships.tsx (Line 282:2 - Line 295:25)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn29" onclick="toggleCodeBlock('cloneGroup29', 'expandBtn29', 'collapseBtn29')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn29" onclick="toggleCodeBlock('cloneGroup29', 'expandBtn29', 'collapseBtn29')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup29"><code class="language-tsx text-sm text-gray-800"> /&gt;
+                    &lt;/SelectTrigger&gt;
+                    &lt;SelectContent&gt;
+                      &lt;SelectItem value=&quot;active&quot;&gt;Active&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;past&quot;&gt;Past&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;complicated&quot;&gt;Complicated&lt;/SelectItem&gt;
+                      &lt;SelectItem value=&quot;unknown&quot;&gt;Unknown&lt;/SelectItem&gt;
+                    &lt;/SelectContent&gt;
+                  &lt;/Select&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div&gt;
+                &lt;Label htmlFor=&quot;edit-relationship-description</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 1:1 - Line 13:10), ../client/src/components/worldBible/UniversalPortraitModal.tsx (Line 7:1 - Line 19:17)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn31" onclick="toggleCodeBlock('cloneGroup31', 'expandBtn31', 'collapseBtn31')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn31" onclick="toggleCodeBlock('cloneGroup31', 'expandBtn31', 'collapseBtn31')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup31"><code class="language-tsx text-sm text-gray-800">import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Upload, Sparkles, Image, Check, Star, Trash2, Download, Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
+import type { Character</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 29:28 - Line 40:16), ../client/src/components/worldBible/UniversalPortraitModal.tsx (Line 171:28 - Line 182:13)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn32" onclick="toggleCodeBlock('cloneGroup32', 'expandBtn32', 'collapseBtn32')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn32" onclick="toggleCodeBlock('cloneGroup32', 'expandBtn32', 'collapseBtn32')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup32"><code class="language-tsx text-sm text-gray-800">) {
+  const queryClient = useQueryClient();
+  const [activeTab, setActiveTab] = useState('generate');
+  const [artStyle, setArtStyle] = useState('');
+  const [additionalDetails, setAdditionalDetails] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedImagePreview, setSelectedImagePreview] = useState&lt;string | null&gt;(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const [newGeneratedImage, setNewGeneratedImage] = useState&lt;string | null&gt;(null);
+  const [showFullScreenGallery, setShowFullScreenGallery] = useState(false);
+  const [portraitGallery</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 228:2 - Line 236:9), ../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 204:2 - Line 212:10)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn33" onclick="toggleCodeBlock('cloneGroup33', 'expandBtn33', 'collapseBtn33')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn33" onclick="toggleCodeBlock('cloneGroup33', 'expandBtn33', 'collapseBtn33')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup33"><code class="language-tsx text-sm text-gray-800">updatedPortraits: Array&lt;{id: string, url: string, isMain: boolean}&gt;) =&gt; {
+    try {
+      const response = await fetch(`/api/characters/${character.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 864:7 - Line 925:3), ../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 772:7 - Line 834:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn34" onclick="toggleCodeBlock('cloneGroup34', 'expandBtn34', 'collapseBtn34')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn34" onclick="toggleCodeBlock('cloneGroup34', 'expandBtn34', 'collapseBtn34')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup34"><code class="language-tsx text-sm text-gray-800">{/* Image Preview Modal */}
+      {selectedImagePreview &amp;&amp; (
+        &lt;Dialog open={!!selectedImagePreview} onOpenChange={() =&gt; setSelectedImagePreview(null)}&gt;
+          &lt;DialogContent className=&quot;max-w-4xl p-0 bg-transparent border-0 shadow-none [&amp;&gt;button]:hidden&quot;&gt;
+            &lt;div className=&quot;relative bg-black/90 rounded-lg overflow-hidden&quot;&gt;
+              &lt;img 
+                src={selectedImagePreview} 
+                alt={`Full size portrait of ${character.name}`}
+                className=&quot;w-full h-auto max-h-[80vh] object-contain&quot;
+              /&gt;
+              
+              {/* Navigation arrows - only show if more than 1 image */}
+              {portraitGallery.length &gt; 1 &amp;&amp; (
+                &lt;&gt;
+                  &lt;Button
+                    variant=&quot;ghost&quot;
+                    size=&quot;sm&quot;
+                    onClick={() =&gt; navigateToImage('prev')}
+                    className=&quot;absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full&quot;
+                  &gt;
+                    &lt;ChevronLeft className=&quot;h-6 w-6&quot; /&gt;
+                  &lt;/Button&gt;
+                  &lt;Button
+                    variant=&quot;ghost&quot;
+                    size=&quot;sm&quot;
+                    onClick={() =&gt; navigateToImage('next')}
+                    className=&quot;absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full&quot;
+                  &gt;
+                    &lt;ChevronRight className=&quot;h-6 w-6&quot; /&gt;
+                  &lt;/Button&gt;
+                &lt;/&gt;
+              )}
+              
+              {/* Custom close button */}
+              &lt;Button
+                variant=&quot;ghost&quot;
+                size=&quot;sm&quot;
+                onClick={() =&gt; setSelectedImagePreview(null)}
+                className=&quot;absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 z-50&quot;
+              &gt;
+                &lt;X className=&quot;h-4 w-4&quot; /&gt;
+              &lt;/Button&gt;
+              
+              {/* Image counter and info */}
+              &lt;div className=&quot;absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6&quot;&gt;
+                &lt;div className=&quot;flex items-center justify-between&quot;&gt;
+                  &lt;div&gt;
+                    &lt;h3 className=&quot;text-accent-foreground font-semibold text-lg&quot;&gt;{character.name}&lt;/h3&gt;
+                    &lt;p className=&quot;text-accent-foreground/80 text-sm&quot;&gt;Character Portrait&lt;/p&gt;
+                  &lt;/div&gt;
+                  {portraitGallery.length &gt; 1 &amp;&amp; (
+                    &lt;div className=&quot;text-accent-foreground/80 text-sm&quot;&gt;
+                      {getCurrentImageIndex() + 1} of {portraitGallery.length}
+                    &lt;/div&gt;
+                  )}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/DialogContent&gt;
+        &lt;/Dialog&gt;
+      )}
+    &lt;/</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterOnboarding.tsx (Line 138:7 - Line 144:5), ../client/src/components/character/CharacterOnboarding.tsx (Line 119:13 - Line 125:3)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn35" onclick="toggleCodeBlock('cloneGroup35', 'expandBtn35', 'collapseBtn35')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn35" onclick="toggleCodeBlock('cloneGroup35', 'expandBtn35', 'collapseBtn35')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup35"><code class="language-tsx text-sm text-gray-800">&quot;&gt;
+            &lt;CardContent className=&quot;p-4&quot;&gt;
+              &lt;div className=&quot;flex items-center justify-between mb-2&quot;&gt;
+                &lt;div className=&quot;flex items-center gap-2&quot;&gt;
+                  &lt;Star className=&quot;h-5 w-5 text-yellow-500&quot; /&gt;
+                  &lt;Star className=&quot;h-5 w-5 text-yellow-500&quot; /&gt;
+                  &lt;Star</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 284:11 - Line 291:9), ../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 264:7 - Line 271:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn38" onclick="toggleCodeBlock('cloneGroup38', 'expandBtn38', 'collapseBtn38')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn38" onclick="toggleCodeBlock('cloneGroup38', 'expandBtn38', 'collapseBtn38')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup38"><code class="language-tsx text-sm text-gray-800">) {
+      return (
+        &lt;div className=&quot;space-y-2&quot;&gt;
+          &lt;Label htmlFor={field.key} className=&quot;text-sm font-medium text-foreground&quot;&gt;
+            {field.label}
+            {field.required &amp;&amp; &lt;span className=&quot;text-destructive ml-1&quot;&gt;*&lt;/span&gt;}
+          &lt;/Label&gt;
+          &lt;Textarea</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 305:9 - Line 312:7), ../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 264:7 - Line 271:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn39" onclick="toggleCodeBlock('cloneGroup39', 'expandBtn39', 'collapseBtn39')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn39" onclick="toggleCodeBlock('cloneGroup39', 'expandBtn39', 'collapseBtn39')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup39"><code class="language-tsx text-sm text-gray-800">) {
+      return (
+        &lt;div className=&quot;space-y-2&quot;&gt;
+          &lt;Label htmlFor={field.key} className=&quot;text-sm font-medium text-foreground&quot;&gt;
+            {field.label}
+            {field.required &amp;&amp; &lt;span className=&quot;text-destructive ml-1&quot;&gt;*&lt;/span&gt;}
+          &lt;/Label&gt;
+          &lt;select</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 333:7 - Line 339:4), ../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 265:7 - Line 271:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn40" onclick="toggleCodeBlock('cloneGroup40', 'expandBtn40', 'collapseBtn40')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn40" onclick="toggleCodeBlock('cloneGroup40', 'expandBtn40', 'collapseBtn40')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup40"><code class="language-tsx text-sm text-gray-800">return (
+        &lt;div className=&quot;space-y-2&quot;&gt;
+          &lt;Label htmlFor={field.key} className=&quot;text-sm font-medium text-foreground&quot;&gt;
+            {field.label}
+            {field.required &amp;&amp; &lt;span className=&quot;text-destructive ml-1&quot;&gt;*&lt;/span&gt;}
+          &lt;/Label&gt;
+          &lt;div</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 4:23 - Line 10:5), ../client/src/components/character/CharacterUnifiedView.tsx (Line 5:24 - Line 11:5)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn44" onclick="toggleCodeBlock('cloneGroup44', 'expandBtn44', 'collapseBtn44')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn44" onclick="toggleCodeBlock('cloneGroup44', 'expandBtn44', 'collapseBtn44')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup44"><code class="language-tsx text-sm text-gray-800">;
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Save</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 75:29 - Line 88:13), ../client/src/components/character/CharacterFormExpanded.tsx (Line 55:29 - Line 68:15)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn45" onclick="toggleCodeBlock('cloneGroup45', 'expandBtn45', 'collapseBtn45')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn45" onclick="toggleCodeBlock('cloneGroup45', 'expandBtn45', 'collapseBtn45')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup45"><code class="language-tsx text-sm text-gray-800">);
+      return response.json();
+    },
+    onSuccess: (savedCharacter) =&gt; {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, 'characters'] });
+      if (onSave) {
+        onSave(savedCharacter);
+      } else {
+        onCancel();
+      }
+    }
+  });
+
+  const handleSubmit</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 160:14 - Line 176:4), ../client/src/components/character/FieldRenderer.tsx (Line 59:2 - Line 75:10)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn46" onclick="toggleCodeBlock('cloneGroup46', 'expandBtn46', 'collapseBtn46')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn46" onclick="toggleCodeBlock('cloneGroup46', 'expandBtn46', 'collapseBtn46')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup46"><code class="language-tsx text-sm text-gray-800">&gt;
+                &lt;SelectValue placeholder={field.placeholder} /&gt;
+              &lt;/SelectTrigger&gt;
+              &lt;SelectContent&gt;
+                {field.options?.map((option: string) =&gt; (
+                  &lt;SelectItem key={option} value={option}&gt;
+                    {option}
+                  &lt;/SelectItem&gt;
+                ))}
+              &lt;/SelectContent&gt;
+            &lt;/Select&gt;
+          &lt;/div&gt;
+        );
+      
+      case 'array':
+        return (
+          &lt;div key</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 226:10 - Line 237:2), ../client/src/components/character/CharacterUnifiedView.tsx (Line 192:2 - Line 203:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn47" onclick="toggleCodeBlock('cloneGroup47', 'expandBtn47', 'collapseBtn47')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn47" onclick="toggleCodeBlock('cloneGroup47', 'expandBtn47', 'collapseBtn47')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup47"><code class="language-tsx text-sm text-gray-800">;
+
+  return (
+    &lt;div className=&quot;space-y-6&quot;&gt;
+      {/* Header */}
+      &lt;div className=&quot;flex items-center justify-between&quot;&gt;
+        &lt;Button variant=&quot;ghost&quot; onClick={onCancel} className=&quot;gap-2&quot;&gt;
+          &lt;ArrowLeft className=&quot;h-4 w-4&quot; /&gt;
+          Back to Characters
+        &lt;/Button&gt;
+        &lt;div className=&quot;flex gap-2&quot;&gt;
+          &lt;</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterDocumentUploadUnified.tsx (Line 79:2 - Line 91:15), ../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 408:2 - Line 420:11)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn48" onclick="toggleCodeBlock('cloneGroup48', 'expandBtn48', 'collapseBtn48')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn48" onclick="toggleCodeBlock('cloneGroup48', 'expandBtn48', 'collapseBtn48')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup48"><code class="language-tsx text-sm text-gray-800">= (e: React.DragEvent) =&gt; {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) =&gt; {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  };
+
+  const handleDragOver</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterDetailAccordion.tsx (Line 98:7 - Line 119:7), ../client/src/components/character/CharacterDetailAccordion.tsx (Line 70:7 - Line 91:3)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn49" onclick="toggleCodeBlock('cloneGroup49', 'expandBtn49', 'collapseBtn49')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn49" onclick="toggleCodeBlock('cloneGroup49', 'expandBtn49', 'collapseBtn49')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup49"><code class="language-tsx text-sm text-gray-800">if (showEmptyState) {
+        return (
+          &lt;div&gt;
+            &lt;h4 className=&quot;font-semibold mb-2 text-foreground&quot;&gt;{label}&lt;/h4&gt;
+            &lt;div className=&quot;text-center py-4 text-muted-foreground&quot;&gt;
+              &lt;div className=&quot;text-sm&quot;&gt;No {label.toLowerCase()} added yet&lt;/div&gt;
+              &lt;Button 
+                variant=&quot;ghost&quot; 
+                size=&quot;sm&quot; 
+                className=&quot;mt-1 text-accent hover:text-accent/80 text-xs&quot;
+                onClick={() =&gt; onEdit(character)}
+              &gt;
+                + Add {label}
+              &lt;/Button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        );
+      }
+      return null;
+    }
+    
+    return</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterDetailAccordion.tsx (Line 151:2 - Line 158:13), ../client/src/components/character/CharacterDetailAccordion.tsx (Line 70:2 - Line 77:17)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn50" onclick="toggleCodeBlock('cloneGroup50', 'expandBtn50', 'collapseBtn50')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn50" onclick="toggleCodeBlock('cloneGroup50', 'expandBtn50', 'collapseBtn50')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup50"><code class="language-tsx text-sm text-gray-800">{
+    return (
+      &lt;div&gt;
+        &lt;h4 className=&quot;font-semibold mb-2 text-foreground&quot;&gt;{label}&lt;/h4&gt;
+        &lt;div className=&quot;text-center py-4 text-muted-foreground&quot;&gt;
+          &lt;div className=&quot;text-sm&quot;&gt;No {label.toLowerCase()} added yet&lt;/div&gt;
+          &lt;Button 
+            </code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterDetailAccordion.tsx (Line 196:5 - Line 208:2), ../client/src/components/character/CharacterUnifiedView.tsx (Line 191:5 - Line 238:13)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn51" onclick="toggleCodeBlock('cloneGroup51', 'expandBtn51', 'collapseBtn51')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn51" onclick="toggleCodeBlock('cloneGroup51', 'expandBtn51', 'collapseBtn51')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup51"><code class="language-tsx text-sm text-gray-800">);
+  };
+
+  return (
+    &lt;div className=&quot;space-y-6&quot;&gt;
+      {/* Header */}
+      &lt;div className=&quot;flex items-center justify-between&quot;&gt;
+        &lt;Button variant=&quot;ghost&quot; onClick={onBack} className=&quot;gap-2&quot;&gt;
+          &lt;ArrowLeft className=&quot;h-4 w-4&quot; /&gt;
+          Back to Characters
+        &lt;/Button&gt;
+        &lt;div className=&quot;flex gap-2&quot;&gt;
+          &lt;Button </code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterCreationLaunch.tsx (Line 66:5 - Line 78:7), ../client/src/components/worldBible/UniversalCreationLaunch.tsx (Line 284:5 - Line 296:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn52" onclick="toggleCodeBlock('cloneGroup52', 'expandBtn52', 'collapseBtn52')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn52" onclick="toggleCodeBlock('cloneGroup52', 'expandBtn52', 'collapseBtn52')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup52"><code class="language-tsx text-sm text-gray-800">}
+  ];
+
+  const handleOptionSelect = (optionId: string, action: () =&gt; void) =&gt; {
+    setSelectedOption(optionId);
+    setTimeout(() =&gt; {
+      action();
+      onClose();
+      setSelectedOption('');
+    }, 200);
+  };
+
+  return</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterArcTracker.tsx (Line 1:1 - Line 7:9), ../client/src/components/character/CharacterRelationships.tsx (Line 1:1 - Line 7:7)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn53" onclick="toggleCodeBlock('cloneGroup53', 'expandBtn53', 'collapseBtn53')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn53" onclick="toggleCodeBlock('cloneGroup53', 'expandBtn53', 'collapseBtn53')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup53"><code class="language-tsx text-sm text-gray-800">import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterArcTracker.tsx (Line 1:8 - Line 8:7), ../client/src/components/character/CharacterUnifiedView.tsx (Line 2:24 - Line 9:5)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn54" onclick="toggleCodeBlock('cloneGroup54', 'expandBtn54', 'collapseBtn54')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn54" onclick="toggleCodeBlock('cloneGroup54', 'expandBtn54', 'collapseBtn54')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup54"><code class="language-tsx text-sm text-gray-800">;
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 154:17 - Line 165:6), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 133:2 - Line 144:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn55" onclick="toggleCodeBlock('cloneGroup55', 'expandBtn55', 'collapseBtn55')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn55" onclick="toggleCodeBlock('cloneGroup55', 'expandBtn55', 'collapseBtn55')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup55"><code class="language-tsx text-sm text-gray-800">);
+      
+      renderWithProviders(&lt;CharacterManager {...defaultProps} /&gt;);
+      
+      await waitFor(() =&gt; {
+        expect(screen.getByText('Aragorn')).toBeInTheDocument();
+      });
+      
+      const editButton = screen.getByText(/edit/i);
+      fireEvent.click(editButton);
+      
+      const</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 204:37 - Line 214:13), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 131:53 - Line 141:11)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn56" onclick="toggleCodeBlock('cloneGroup56', 'expandBtn56', 'collapseBtn56')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn56" onclick="toggleCodeBlock('cloneGroup56', 'expandBtn56', 'collapseBtn56')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup56"><code class="language-tsx text-sm text-gray-800">, async () =&gt; {
+      const mockCharacter = characterTestUtils.createMockCharacter({ name: 'Aragorn' });
+      mockCharacterService.getCharacters.mockResolvedValue([mockCharacter]);
+      
+      renderWithProviders(&lt;CharacterManager {...defaultProps} /&gt;);
+      
+      await waitFor(() =&gt; {
+        expect(screen.getByText('Aragorn')).toBeInTheDocument();
+      });
+      
+      const deleteButton</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 206:2 - Line 217:19), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 184:5 - Line 195:20)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn57" onclick="toggleCodeBlock('cloneGroup57', 'expandBtn57', 'collapseBtn57')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn57" onclick="toggleCodeBlock('cloneGroup57', 'expandBtn57', 'collapseBtn57')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup57"><code class="language-tsx text-sm text-gray-800">);
+      
+      renderWithProviders(&lt;CharacterManager {...defaultProps} /&gt;);
+      
+      await waitFor(() =&gt; {
+        expect(screen.getByText('Aragorn')).toBeInTheDocument();
+      });
+      
+      const deleteButton = screen.getByText(/delete/i);
+      fireEvent.click(deleteButton);
+      
+      // Cancel deletion</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 242:7 - Line 252:11), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 132:2 - Line 141:11)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn58" onclick="toggleCodeBlock('cloneGroup58', 'expandBtn58', 'collapseBtn58')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn58" onclick="toggleCodeBlock('cloneGroup58', 'expandBtn58', 'collapseBtn58')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup58"><code class="language-tsx text-sm text-gray-800">});
+      
+      mockCharacterService.getCharacters.mockResolvedValue([mockCharacter]);
+      
+      renderWithProviders(&lt;CharacterManager {...defaultProps} /&gt;);
+      
+      await waitFor(() =&gt; {
+        expect(screen.getByText('Aragorn')).toBeInTheDocument();
+      });
+      
+      const viewButton</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 349:2 - Line 358:47), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 132:2 - Line 141:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn59" onclick="toggleCodeBlock('cloneGroup59', 'expandBtn59', 'collapseBtn59')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn59" onclick="toggleCodeBlock('cloneGroup59', 'expandBtn59', 'collapseBtn59')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup59"><code class="language-tsx text-sm text-gray-800">);
+      mockCharacterService.getCharacters.mockResolvedValue([mockCharacter]);
+      
+      renderWithProviders(&lt;CharacterManager {...defaultProps} /&gt;);
+      
+      await waitFor(() =&gt; {
+        expect(screen.getByText('Aragorn')).toBeInTheDocument();
+      });
+      
+      // Update character and measure re-render time</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/__tests__/components/CharacterManager.test.tsx (Line 392:7 - Line 399:7), ../client/src/__tests__/components/CharacterManager.test.tsx (Line 100:7 - Line 107:21)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn60" onclick="toggleCodeBlock('cloneGroup60', 'expandBtn60', 'collapseBtn60')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn60" onclick="toggleCodeBlock('cloneGroup60', 'expandBtn60', 'collapseBtn60')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup60"><code class="language-tsx text-sm text-gray-800">const nameInput = await screen.findByLabelText(/character name/i);
+      fireEvent.change(nameInput, { target: { value: 'New Hero' } });
+      
+      const saveButton = screen.getByText(/save/i);
+      fireEvent.click(saveButton);
+      
+      await waitFor(() =&gt; {
+        expect(screen</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/AuthPageRedesign.tsx (Line 80:6 - Line 89:6), ../client/src/pages/landing/LandingPage.tsx (Line 132:2 - Line 141:7)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn62" onclick="toggleCodeBlock('cloneGroup62', 'expandBtn62', 'collapseBtn62')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn62" onclick="toggleCodeBlock('cloneGroup62', 'expandBtn62', 'collapseBtn62')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup62"><code class="language-tsx text-sm text-gray-800">);
+
+  // Parallax scrolling effect
+  useEffect(() =&gt; {
+    const handleScroll = () =&gt; setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () =&gt; window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/AuthPageRedesign.tsx (Line 136:18 - Line 144:15), ../client/src/pages/AuthPageRedesign.tsx (Line 109:19 - Line 117:16)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn63" onclick="toggleCodeBlock('cloneGroup63', 'expandBtn63', 'collapseBtn63')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn63" onclick="toggleCodeBlock('cloneGroup63', 'expandBtn63', 'collapseBtn63')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup63"><code class="language-tsx text-sm text-gray-800">, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Login failed'</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/AuthPageRedesign.tsx (Line 144:15 - Line 157:15), ../client/src/pages/AuthPageRedesign.tsx (Line 117:16 - Line 130:16)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn64" onclick="toggleCodeBlock('cloneGroup64', 'expandBtn64', 'collapseBtn64')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn64" onclick="toggleCodeBlock('cloneGroup64', 'expandBtn64', 'collapseBtn64')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup64"><code class="language-tsx text-sm text-gray-800">);
+      }
+      
+      return await response.json();
+    },
+    onSuccess: (result) =&gt; {
+      // Store token with consistent key name for App.tsx
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('fablecraft_token', result.token);
+      localStorage.setItem('fablecraft_user', JSON.stringify(result.user));
+      onAuth({ username: result.user.username, token: result.token });
+    },
+    onError: (error: any) =&gt; {
+      setError(error.message || 'Login failed'</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/theme-toggle.tsx (Line 136:12 - Line 152:90), ../fablecraft-enterprise/src/components/theme/theme-toggle.tsx (Line 143:9 - Line 159:90)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn67" onclick="toggleCodeBlock('cloneGroup67', 'expandBtn67', 'collapseBtn67')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn67" onclick="toggleCodeBlock('cloneGroup67', 'expandBtn67', 'collapseBtn67')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup67"><code class="language-tsx text-sm text-gray-800">].name
+  }
+
+  const CurrentIcon = getCurrentIcon()
+  
+  const renderThemesByCategory = (category: string) =&gt; {
+    return Object.entries(themeConfig)
+      .filter(([_, config]) =&gt; config.category === category)
+      .map(([themeKey, config]) =&gt; {
+        const IconComponent = config.icon
+        const isActive = theme === themeKey
+        
+        return (
+          &lt;DropdownMenuItem
+            key={themeKey}
+            onClick={() =&gt; setTheme(themeKey)}
+            className=&quot;flex items-center justify-between gap-3 px-3 py-3 hover:bg-accent/10 cursor-pointer group</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/Modals.tsx (Line 557:2 - Line 574:6), ../client/src/components/Modals.tsx (Line 375:6 - Line 392:3)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn68" onclick="toggleCodeBlock('cloneGroup68', 'expandBtn68', 'collapseBtn68')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn68" onclick="toggleCodeBlock('cloneGroup68', 'expandBtn68', 'collapseBtn68')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup68"><code class="language-tsx text-sm text-gray-800">);
+
+  const handleDrag = (e: React.DragEvent) =&gt; {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === &quot;dragenter&quot; || e.type === &quot;dragover&quot;) {
+      setDragActive(true);
+    } else if (e.type === &quot;dragleave&quot;) {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) =&gt; {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    const</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/Modals.tsx (Line 593:2 - Line 609:16), ../client/src/components/Modals.tsx (Line 575:2 - Line 591:17)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn69" onclick="toggleCodeBlock('cloneGroup69', 'expandBtn69', 'collapseBtn69')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn69" onclick="toggleCodeBlock('cloneGroup69', 'expandBtn69', 'collapseBtn69')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup69"><code class="language-tsx text-sm text-gray-800">files.length &gt; 0) {
+      const file = files[0];
+      if (file &amp;&amp; isValidFileType(file)) {
+        setFile(file);
+        if (!projectName) {
+          setProjectName(file.name.replace(/\.[^/.]+$/, ''));
+        }
+      } else {
+        toast.error(
+          &quot;Invalid File Type&quot;,
+          &quot;Please select a TXT, PDF, or DOCX file.&quot;
+        );
+      }
+    }
+  };
+
+  const isValidFileType</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/Modals.tsx (Line 735:4 - Line 758:9), ../client/src/components/Modals.tsx (Line 447:2 - Line 469:11)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn70" onclick="toggleCodeBlock('cloneGroup70', 'expandBtn70', 'collapseBtn70')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn70" onclick="toggleCodeBlock('cloneGroup70', 'expandBtn70', 'collapseBtn70')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup70"><code class="language-tsx text-sm text-gray-800">&gt;
+
+          {/* File Upload Area */}
+          &lt;div
+            className={`creative-card border-2 border-dashed transition-colors p-8 text-center cursor-pointer ${
+              dragActive ? 'border-accent bg-accent/10' : 'border-border hover:border-accent/50'
+            }`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+            onClick={() =&gt; document.getElementById('intelligent-file-upload')?.click()}
+          &gt;
+            &lt;Upload className=&quot;h-12 w-12 mx-auto mb-4 text-muted-foreground&quot; /&gt;
+            {file ? (
+              &lt;div&gt;
+                &lt;div className=&quot;font-medium text-accent&quot;&gt;{file.name}&lt;/div&gt;
+                &lt;div className=&quot;text-sm text-muted-foreground&quot;&gt;
+                  {(file.size / 1024).toFixed(1)} KB
+                &lt;/div&gt;
+              &lt;/div&gt;
+            ) : (
+              &lt;div&gt;
+                &lt;div className=&quot;font-medium mb-2&quot;&gt;Drop your document</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/Modals.tsx (Line 788:13 - Line 816:3), ../client/src/components/Modals.tsx (Line 168:17 - Line 196:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn71" onclick="toggleCodeBlock('cloneGroup71', 'expandBtn71', 'collapseBtn71')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn71" onclick="toggleCodeBlock('cloneGroup71', 'expandBtn71', 'collapseBtn71')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup71"><code class="language-tsx text-sm text-gray-800">&lt;div className=&quot;space-y-2&quot;&gt;
+              &lt;Label className=&quot;font-medium&quot;&gt;Project Type&lt;/Label&gt;
+              &lt;Select value={projectType} onValueChange={(value: 'novel' | 'screenplay' | 'comic') =&gt; setProjectType(value)}&gt;
+                &lt;SelectTrigger className=&quot;creative-card&quot;&gt;
+                  &lt;SelectValue /&gt;
+                &lt;/SelectTrigger&gt;
+                &lt;SelectContent className=&quot;creative-card&quot;&gt;
+                  &lt;SelectItem value=&quot;novel&quot;&gt;
+                    &lt;div className=&quot;flex items-center&quot;&gt;
+                      &lt;BookOpen className=&quot;h-4 w-4 mr-2&quot; /&gt;
+                      Novel
+                    &lt;/div&gt;
+                  &lt;/SelectItem&gt;
+                  &lt;SelectItem value=&quot;screenplay&quot;&gt;
+                    &lt;div className=&quot;flex items-center&quot;&gt;
+                      &lt;FileText className=&quot;h-4 w-4 mr-2&quot; /&gt;
+                      Screenplay
+                    &lt;/div&gt;
+                  &lt;/SelectItem&gt;
+                  &lt;SelectItem value=&quot;comic&quot;&gt;
+                    &lt;div className=&quot;flex items-center&quot;&gt;
+                      &lt;Sparkles className=&quot;h-4 w-4 mr-2&quot; /&gt;
+                      Comic/Graphic Novel
+                    &lt;/div&gt;
+                  &lt;/SelectItem&gt;
+                &lt;/SelectContent&gt;
+              &lt;/Select&gt;
+            &lt;/div&gt;
+          &lt;/</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/Modals.tsx (Line 832:4 - Line 851:9), ../client/src/components/Modals.tsx (Line 507:7 - Line 526:4)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn72" onclick="toggleCodeBlock('cloneGroup72', 'expandBtn72', 'collapseBtn72')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn72" onclick="toggleCodeBlock('cloneGroup72', 'expandBtn72', 'collapseBtn72')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup72"><code class="language-tsx text-sm text-gray-800">&gt;
+                &lt;/div&gt;
+              &lt;/CardContent&gt;
+            &lt;/Card&gt;
+          )}
+
+          {/* Actions */}
+          &lt;div className=&quot;flex justify-end space-x-3&quot;&gt;
+            &lt;Button variant=&quot;outline&quot; onClick={onClose} disabled={isProcessing}&gt;
+              Cancel
+            &lt;/Button&gt;
+            &lt;Button 
+              onClick={processDocument} 
+              disabled={!file || !projectName.trim() || isProcessing}
+              className=&quot;candlelight-glow&quot;
+            &gt;
+              {isProcessing ? (
+                &lt;&gt;
+                  &lt;div className=&quot;animate-spin h-4 w-4 mr-2 border-2 border-current border-t-transparent rounded-full&quot; /&gt;
+                  Processing Document</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/App.tsx (Line 323:3 - Line 356:69), ../client/src/App.tsx (Line 202:5 - Line 235:3)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn75" onclick="toggleCodeBlock('cloneGroup75', 'expandBtn75', 'collapseBtn75')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn75" onclick="toggleCodeBlock('cloneGroup75', 'expandBtn75', 'collapseBtn75')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup75"><code class="language-tsx text-sm text-gray-800">const fetchProjects = async () =&gt; {
+    try {
+      if (!isAuthenticated || !user) return;
+      
+      // Get token from Zustand store first, fallback to localStorage
+      const token = useAuth.getState().token || localStorage.getItem('fablecraft_token') || localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('/api/projects', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const projectsData = await response.json();
+        // Server now filters by user ID, so we can trust the response
+        setProjects(projectsData);
+        console.log(`📊 Loaded ${projectsData.length} projects for user: ${user.username}`);
+      } else {
+        // Don't log errors for expected 401/403 responses
+        if (response.status !== 401 &amp;&amp; response.status !== 403) {
+          console.warn('Projects fetch failed:', response.status);
+        }
+      }
+    } catch (error) {
+      // Only log actual network errors, not auth failures
+      if (error instanceof Error &amp;&amp; error.name !== 'AbortError') {
+        console.warn('Projects fetch error:', error.message);
+      }
+    }
+  };
+
+  // Removed duplicate useEffect - already defined at top of component</code></pre></div><!-- Add more clone groups for .txt format as needed         // Add more clone groups for .txt format as needed--></div><a name="css-clones"></a><h2 class="text-2xl font-semibold text-gray-700 mb-4">css</h2><div class="divide-y divide-gray-200 border-b-2"><div class="py-4"><p class="text-gray-600">../fablecraft-enterprise/src/index.css (Line 6:2 - Line 72:2), ../fablecraft-production/src/index.css (Line 2:2 - Line 68:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn0" onclick="toggleCodeBlock('cloneGroup0', 'expandBtn0', 'collapseBtn0')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn0" onclick="toggleCodeBlock('cloneGroup0', 'expandBtn0', 'collapseBtn0')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup0"><code class="language-css text-sm text-gray-800">system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}</code></pre></div><!-- Add more clone groups for .txt format as needed         // Add more clone groups for .txt format as needed--></div><a name="javascript-clones"></a><h2 class="text-2xl font-semibold text-gray-700 mb-4">javascript</h2><div class="divide-y divide-gray-200 border-b-2"><div class="py-4"><p class="text-gray-600">../client/src/components/worldBible/UniversalEntityCreationSystem.tsx (Line 682:6 - Line 712:7), ../client/src/components/worldBible/UniversalEntityCreationSystem.tsx (Line 671:7 - Line 684:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn14" onclick="toggleCodeBlock('cloneGroup14', 'expandBtn14', 'collapseBtn14')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn14" onclick="toggleCodeBlock('cloneGroup14', 'expandBtn14', 'collapseBtn14')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup14"><code class="language-javascript text-sm text-gray-800">}
+            onChange={(e) =&gt; updateField(field.key, e.target.value)}
+            placeholder={field.placeholder}
+            className=&quot;bg-background/50 border-border/20 focus:border-accent/50&quot;
+          /&gt;
+        )}
+
+        {field.type === 'date' &amp;&amp; (
+          &lt;Input
+            id={field.key}
+            type=&quot;date&quot;
+            value={value}
+            onChange={(e) =&gt; updateField(field.key, e.target.value)}
+            className=&quot;bg-background/50 border-border/20 focus:border-accent/50&quot;
+          /&gt;
+        )}
+
+        {field.maxLength &amp;&amp; (
+          &lt;p className=&quot;text-xs text-muted-foreground text-right&quot;&gt;
+            {value.toString().length} / {field.maxLength}
+          &lt;/p&gt;
+        )}
+      &lt;/div&gt;
+    );
+  };
+
+  const EntityIcon = entityConfig.icon;
+
+  if (mode === 'selection') {
+    return (
+      &lt;Dialog open={isOpen</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/ui/context-menu.tsx (Line 65:7 - Line 145:52), ../client/src/components/ui/menubar.tsx (Line 122:9 - Line 202:36)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn18" onclick="toggleCodeBlock('cloneGroup18', 'expandBtn18', 'collapseBtn18')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn18" onclick="toggleCodeBlock('cloneGroup18', 'expandBtn18', 'collapseBtn18')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup18"><code class="language-javascript text-sm text-gray-800">)}
+      {...props}
+    /&gt;
+  &lt;/ContextMenuPrimitive.Portal&gt;
+))
+ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName
+
+const ContextMenuItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof ContextMenuPrimitive.Item&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof ContextMenuPrimitive.Item&gt; &amp; {
+    inset?: boolean
+  }
+&gt;(({ className, inset, ...props }, ref) =&gt; (
+  &lt;ContextMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50&quot;,
+      inset &amp;&amp; &quot;pl-8&quot;,
+      className
+    )}
+    {...props}
+  /&gt;
+))
+ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName
+
+const ContextMenuCheckboxItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof ContextMenuPrimitive.CheckboxItem&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof ContextMenuPrimitive.CheckboxItem&gt;
+&gt;(({ className, children, checked, ...props }, ref) =&gt; (
+  &lt;ContextMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50&quot;,
+      className
+    )}
+    checked={checked}
+    {...props}
+  &gt;
+    &lt;span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;&gt;
+      &lt;ContextMenuPrimitive.ItemIndicator&gt;
+        &lt;Check className=&quot;h-4 w-4&quot; /&gt;
+      &lt;/ContextMenuPrimitive.ItemIndicator&gt;
+    &lt;/span&gt;
+    {children}
+  &lt;/ContextMenuPrimitive.CheckboxItem&gt;
+))
+ContextMenuCheckboxItem.displayName =
+  ContextMenuPrimitive.CheckboxItem.displayName
+
+const ContextMenuRadioItem = React.forwardRef&lt;
+  React.ElementRef&lt;typeof ContextMenuPrimitive.RadioItem&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof ContextMenuPrimitive.RadioItem&gt;
+&gt;(({ className, children, ...props }, ref) =&gt; (
+  &lt;ContextMenuPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      &quot;relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50&quot;,
+      className
+    )}
+    {...props}
+  &gt;
+    &lt;span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;&gt;
+      &lt;ContextMenuPrimitive.ItemIndicator&gt;
+        &lt;Circle className=&quot;h-2 w-2 fill-current&quot; /&gt;
+      &lt;/ContextMenuPrimitive.ItemIndicator&gt;
+    &lt;/span&gt;
+    {children}
+  &lt;/ContextMenuPrimitive.RadioItem&gt;
+))
+ContextMenuRadioItem.displayName = ContextMenuPrimitive.RadioItem.displayName
+
+const ContextMenuLabel = React.forwardRef&lt;
+  React.ElementRef&lt;typeof ContextMenuPrimitive.Label&gt;,
+  React.ComponentPropsWithoutRef&lt;typeof ContextMenuPrimitive.Label&gt; &amp; {
+    inset?: boolean
+  }
+&gt;(({ className, inset, ...props }, ref) =&gt; (
+  &lt;ContextMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      &quot;px-2 py-1.5 text-sm font-semibold text-foreground&quot;</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/FieldRenderer.tsx (Line 40:8 - Line 56:7), ../client/src/components/character/FieldRenderer.tsx (Line 26:8 - Line 42:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn25" onclick="toggleCodeBlock('cloneGroup25', 'expandBtn25', 'collapseBtn25')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn25" onclick="toggleCodeBlock('cloneGroup25', 'expandBtn25', 'collapseBtn25')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup25"><code class="language-javascript text-sm text-gray-800">={field.key}&gt;{field.label}&lt;/Label&gt;
+            &lt;Textarea
+              id={field.key}
+              value={value || ''}
+              onChange={(e) =&gt; onChange(field.key, e.target.value)}
+              placeholder={`Enter ${field.label.toLowerCase()}...`}
+              className=&quot;creative-input min-h-[100px] resize-y&quot;
+            /&gt;
+          &lt;/div&gt;
+        );
+      
+      case 'select':
+        return (
+          &lt;div className=&quot;space-y-2&quot;&gt;
+            &lt;Label htmlFor={field.key}&gt;{field.label}&lt;/Label&gt;
+            &lt;Select 
+              value={value </code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/FieldRenderer.tsx (Line 81:26 - Line 113:6), ../client/src/components/character/FieldRenderer.tsx (Line 31:5 - Line 40:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn26" onclick="toggleCodeBlock('cloneGroup26', 'expandBtn26', 'collapseBtn26')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn26" onclick="toggleCodeBlock('cloneGroup26', 'expandBtn26', 'collapseBtn26')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup26"><code class="language-javascript text-sm text-gray-800">}
+              className=&quot;creative-input&quot;
+            /&gt;
+          &lt;/div&gt;
+        );
+      
+      default:
+        return (
+          &lt;div className=&quot;space-y-2&quot;&gt;
+            &lt;Label htmlFor={field.key}&gt;{field.label}&lt;/Label&gt;
+            &lt;Input
+              id={field.key}
+              value={value || ''}
+              onChange={(e) =&gt; onChange(field.key, e.target.value)}
+              placeholder={`Enter ${field.label.toLowerCase()}...`}
+              className=&quot;creative-input&quot;
+            /&gt;
+          &lt;/div&gt;
+        );
+    }
+  } else {
+    // View mode
+    return (
+      &lt;div className=&quot;space-y-2&quot;&gt;
+        &lt;Label className=&quot;text-muted-foreground&quot;&gt;{field.label}&lt;/Label&gt;
+        {(!value || (Array.isArray(value) &amp;&amp; value.length === 0) || (typeof value === 'string' &amp;&amp; value.trim() === '')) ? (
+          &lt;div className=&quot;text-sm text-muted-foreground italic&quot;&gt;
+            No {field.label.toLowerCase()} added yet
+          &lt;/div&gt;
+        ) : Array.isArray(value) ? (
+          &lt;div className=&quot;flex flex-wrap gap-1&quot;&gt;
+            {value.map((item: string, index: number) =&gt; (
+              &lt;Badge key={index</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 836:2 - Line 901:2), ../client/src/components/character/CharacterPortraitModalImproved.tsx (Line 740:22 - Line 809:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn30" onclick="toggleCodeBlock('cloneGroup30', 'expandBtn30', 'collapseBtn30')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn30" onclick="toggleCodeBlock('cloneGroup30', 'expandBtn30', 'collapseBtn30')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup30"><code class="language-javascript text-sm text-gray-800">}&gt;
+          &lt;DialogContent className=&quot;max-w-md [&amp;&gt;button]:hidden&quot;&gt;
+            &lt;div className=&quot;flex flex-col items-center text-center space-y-6 py-8&quot;&gt;
+              &lt;div className=&quot;relative&quot;&gt;
+                &lt;div className=&quot;w-16 h-16 border-4 border-accent/30 border-t-accent rounded-full animate-spin&quot;&gt;&lt;/div&gt;
+                &lt;Sparkles className=&quot;w-6 h-6 text-accent absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2&quot; /&gt;
+              &lt;/div&gt;
+              
+              &lt;div className=&quot;space-y-2&quot;&gt;
+                &lt;h3 className=&quot;text-xl font-bold text-accent&quot;&gt;Generating Portrait&lt;/h3&gt;
+                &lt;p className=&quot;text-muted-foreground&quot;&gt;
+                  Creating a high-quality portrait of {character.name} with AI...
+                &lt;/p&gt;
+              &lt;/div&gt;
+
+              &lt;div className=&quot;w-full space-y-2&quot;&gt;
+                &lt;div className=&quot;h-2 bg-muted rounded-full overflow-hidden&quot;&gt;
+                  &lt;div className=&quot;h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-pulse&quot;&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;p className=&quot;text-xs text-muted-foreground&quot;&gt;
+                  Using comprehensive character data{artStyle ? `, ${artStyle} style` : ''}{additionalDetails ? `, ${additionalDetails}` : ''} and professional quality enhancement
+                &lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/DialogContent&gt;
+        &lt;/Dialog&gt;
+      )}
+
+      {/* Image Preview Modal */}
+      {selectedImagePreview &amp;&amp; (
+        &lt;Dialog open={!!selectedImagePreview} onOpenChange={() =&gt; setSelectedImagePreview(null)}&gt;
+          &lt;DialogContent className=&quot;max-w-4xl p-0 bg-transparent border-0 shadow-none [&amp;&gt;button]:hidden&quot;&gt;
+            &lt;div className=&quot;relative bg-black/90 rounded-lg overflow-hidden&quot;&gt;
+              &lt;img 
+                src={selectedImagePreview} 
+                alt={`Full size portrait of ${character.name}`}
+                className=&quot;w-full h-auto max-h-[80vh] object-contain&quot;
+              /&gt;
+              
+              {/* Navigation arrows - only show if more than 1 image */}
+              {portraitGallery.length &gt; 1 &amp;&amp; (
+                &lt;&gt;
+                  &lt;Button
+                    variant=&quot;ghost&quot;
+                    size=&quot;sm&quot;
+                    onClick={() =&gt; navigateToImage('prev')}
+                    className=&quot;absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full&quot;
+                  &gt;
+                    &lt;ChevronLeft className=&quot;h-6 w-6&quot; /&gt;
+                  &lt;/Button&gt;
+                  &lt;Button
+                    variant=&quot;ghost&quot;
+                    size=&quot;sm&quot;
+                    onClick={() =&gt; navigateToImage('next')}
+                    className=&quot;absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-accent-foreground border-0 h-12 w-12 rounded-full&quot;
+                  &gt;
+                    &lt;ChevronRight className=&quot;h-6 w-6&quot; /&gt;
+                  &lt;/Button&gt;
+                &lt;/&gt;
+              )}
+              
+              {/* Custom close button */}
+              &lt;Button
+                variant=&quot;ghost&quot;
+                size=&quot;sm&quot;
+                onClick={() =&gt; setSelectedImagePreview(null)}</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 287:8 - Line 297:15), ../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 267:8 - Line 277:20)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn36" onclick="toggleCodeBlock('cloneGroup36', 'expandBtn36', 'collapseBtn36')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn36" onclick="toggleCodeBlock('cloneGroup36', 'expandBtn36', 'collapseBtn36')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup36"><code class="language-javascript text-sm text-gray-800">={field.key} className=&quot;text-sm font-medium text-foreground&quot;&gt;
+            {field.label}
+            {field.required &amp;&amp; &lt;span className=&quot;text-destructive ml-1&quot;&gt;*&lt;/span&gt;}
+          &lt;/Label&gt;
+          &lt;Textarea
+            id={field.key}
+            value={value as string}
+            onChange={(e) =&gt; updateField(field.key, e.target.value)}
+            placeholder={field.placeholder}
+            className={cn(
+              </code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 297:2 - Line 316:3), ../client/src/components/character/CharacterGuidedCreationUnified.tsx (Line 276:2 - Line 295:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn37" onclick="toggleCodeBlock('cloneGroup37', 'expandBtn37', 'collapseBtn37')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn37" onclick="toggleCodeBlock('cloneGroup37', 'expandBtn37', 'collapseBtn37')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup37"><code class="language-javascript text-sm text-gray-800">
+              field.required &amp;&amp; !value &amp;&amp; &quot;border-destructive&quot;
+            )}
+          /&gt;
+        &lt;/div&gt;
+      );
+    }
+
+    if (field.type === 'select') {
+      return (
+        &lt;div className=&quot;space-y-2&quot;&gt;
+          &lt;Label htmlFor={field.key} className=&quot;text-sm font-medium text-foreground&quot;&gt;
+            {field.label}
+            {field.required &amp;&amp; &lt;span className=&quot;text-destructive ml-1&quot;&gt;*&lt;/span&gt;}
+          &lt;/Label&gt;
+          &lt;select
+            id={field.key}
+            value={value as string}
+            onChange={(e) =&gt; updateField(field.key, e.target.value)}
+            className={cn</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 141:12 - Line 157:4), ../client/src/components/worldBible/UniversalEntityCreationSystem.tsx (Line 638:10 - Line 650:10)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn41" onclick="toggleCodeBlock('cloneGroup41', 'expandBtn41', 'collapseBtn41')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn41" onclick="toggleCodeBlock('cloneGroup41', 'expandBtn41', 'collapseBtn41')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup41"><code class="language-javascript text-sm text-gray-800">}
+                /&gt;
+              )}
+            &lt;/div&gt;
+            &lt;Textarea
+              id={field.key}
+              value={value}
+              onChange={(e) =&gt; updateField(field.key, e.target.value)}
+              placeholder={field.placeholder}
+              rows={field.rows || 3}
+            /&gt;
+          &lt;/div&gt;
+        );
+      
+      case 'select':
+        return (
+          &lt;div key={field.key</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 176:4 - Line 201:4), ../client/src/components/character/CharacterFormExpanded.tsx (Line 131:3 - Line 150:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn42" onclick="toggleCodeBlock('cloneGroup42', 'expandBtn42', 'collapseBtn42')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn42" onclick="toggleCodeBlock('cloneGroup42', 'expandBtn42', 'collapseBtn42')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup42"><code class="language-javascript text-sm text-gray-800">} className=&quot;col-span-2&quot;&gt;
+            &lt;div className=&quot;flex items-center justify-between mb-2&quot;&gt;
+              &lt;Label htmlFor={field.key}&gt;{field.label} (comma-separated)&lt;/Label&gt;
+              {character &amp;&amp; (
+                &lt;FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) =&gt; updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                /&gt;
+              )}
+            &lt;/div&gt;
+            &lt;Input
+              id={field.key}
+              value={value}
+              onChange={(e) =&gt; updateField(field.key, e.target.value)}
+              placeholder={field.placeholder}
+            /&gt;
+          &lt;/div&gt;
+        );
+      
+      default: // text
+        return (
+          &lt;div key={field.key</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/components/character/CharacterFormExpanded.tsx (Line 194:12 - Line 232:9), ../client/src/components/character/CharacterFormExpanded.tsx (Line 165:7 - Line 150:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn43" onclick="toggleCodeBlock('cloneGroup43', 'expandBtn43', 'collapseBtn43')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn43" onclick="toggleCodeBlock('cloneGroup43', 'expandBtn43', 'collapseBtn43')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup43"><code class="language-javascript text-sm text-gray-800">}
+            /&gt;
+          &lt;/div&gt;
+        );
+      
+      default: // text
+        return (
+          &lt;div key={field.key}&gt;
+            &lt;div className=&quot;flex items-center justify-between mb-2&quot;&gt;
+              &lt;Label htmlFor={field.key}&gt;{field.label}&lt;/Label&gt;
+              {character &amp;&amp; (
+                &lt;FieldAIAssist
+                  character={character}
+                  fieldKey={field.key}
+                  fieldLabel={field.label}
+                  currentValue={value}
+                  onFieldUpdate={(newValue) =&gt; updateField(field.key, newValue)}
+                  disabled={isEnhancing}
+                /&gt;
+              )}
+            &lt;/div&gt;
+            &lt;Input
+              id={field.key}
+              value={value}
+              onChange={(e) =&gt; updateField(field.key, e.target.value)}
+              placeholder={field.placeholder}
+            /&gt;
+          &lt;/div&gt;
+        );
+    }
+  };
+
+  const isLoading = createMutation.isPending || updateMutation.isPending;
+
+  return (
+    &lt;div className=&quot;space-y-6&quot;&gt;
+      {/* Header */}
+      &lt;div className=&quot;flex items-center justify-between&quot;&gt;
+        &lt;Button variant=&quot;ghost&quot; onClick={onCancel</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/pages/AuthPageRedesign.tsx (Line 704:2 - Line 733:15), ../client/src/pages/AuthPageRedesign.tsx (Line 510:29 - Line 534:14)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn61" onclick="toggleCodeBlock('cloneGroup61', 'expandBtn61', 'collapseBtn61')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn61" onclick="toggleCodeBlock('cloneGroup61', 'expandBtn61', 'collapseBtn61')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup61"><code class="language-javascript text-sm text-gray-800">}}
+                                &gt;
+                                  {passwordStrength.checks[key as keyof typeof passwordStrength.checks] ? (
+                                    &lt;Check className=&quot;w-3 h-3&quot; /&gt;
+                                  ) : (
+                                    &lt;X className=&quot;w-3 h-3&quot; /&gt;
+                                  )}
+                                  {label}
+                                &lt;/motion.div&gt;
+                              ))}
+                            &lt;/div&gt;
+                          &lt;/motion.div&gt;
+                        )}
+                      &lt;/div&gt;
+                    &lt;/CardContent&gt;
+                    &lt;CardFooter className=&quot;px-0 pb-0&quot;&gt;
+                      &lt;Button 
+                        type=&quot;submit&quot; 
+                        className=&quot;w-full h-11 font-medium&quot;
+                        style={{
+                          backgroundColor: `hsl(var(--auth-button-primary))`,
+                          color: `hsl(var(--auth-panel-text))`
+                        }}
+                        onMouseEnter={(e) =&gt; {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary-hover))`;
+                        }}
+                        onMouseLeave={(e) =&gt; {
+                          (e.target as HTMLElement).style.backgroundColor = `hsl(var(--auth-button-primary))`;
+                        }}
+                        disabled={signupMutation</code></pre></div><!-- Add more clone groups for .txt format as needed         // Add more clone groups for .txt format as needed--></div><a name="typescript-clones"></a><h2 class="text-2xl font-semibold text-gray-700 mb-4">typescript</h2><div class="divide-y divide-gray-200 border-b-2"><div class="py-4"><p class="text-gray-600">../client/src/lib/utils/apiUtils.ts (Line 141:2 - Line 155:4), ../client/src/lib/utils/apiUtils.ts (Line 118:2 - Line 132:4)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn10" onclick="toggleCodeBlock('cloneGroup10', 'expandBtn10', 'collapseBtn10')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn10" onclick="toggleCodeBlock('cloneGroup10', 'expandBtn10', 'collapseBtn10')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup10"><code class="language-typescript text-sm text-gray-800">);
+    },
+    onSuccess: (data, variables, context) =&gt; {
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', variables.projectId, entityType] 
+      });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
+
+/**
+ * Hook for batch updating entities
+ */</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/lib/utils/apiUtils.ts (Line 164:2 - Line 176:27), ../client/src/lib/utils/apiUtils.ts (Line 141:2 - Line 132:4)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn11" onclick="toggleCodeBlock('cloneGroup11', 'expandBtn11', 'collapseBtn11')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn11" onclick="toggleCodeBlock('cloneGroup11', 'expandBtn11', 'collapseBtn11')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup11"><code class="language-typescript text-sm text-gray-800">});
+    },
+    onSuccess: (data, variables, context) =&gt; {
+      queryClient.invalidateQueries({ 
+        queryKey: ['/api/projects', variables.projectId, entityType] 
+      });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
+
+// ===== QUERY HOOKS =====</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/lib/utils/apiUtils.ts (Line 384:7 - Line 396:4), ../client/src/lib/utils/apiUtils.ts (Line 68:7 - Line 82:4)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn12" onclick="toggleCodeBlock('cloneGroup12', 'expandBtn12', 'collapseBtn12')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn12" onclick="toggleCodeBlock('cloneGroup12', 'expandBtn12', 'collapseBtn12')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup12"><code class="language-typescript text-sm text-gray-800">});
+    },
+    onSuccess: (data, variables, context) =&gt; {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}
+
+/**
+ * Hook for batch update operations
+ */</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/lib/utils/apiUtils.ts (Line 408:7 - Line 416:2), ../client/src/lib/utils/apiUtils.ts (Line 68:7 - Line 78:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn13" onclick="toggleCodeBlock('cloneGroup13', 'expandBtn13', 'collapseBtn13')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn13" onclick="toggleCodeBlock('cloneGroup13', 'expandBtn13', 'collapseBtn13')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup13"><code class="language-typescript text-sm text-gray-800">});
+    },
+    onSuccess: (data, variables, context) =&gt; {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+}</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/hooks/useCreativeDebugger.ts (Line 33:1 - Line 44:2), ../fablecraft-enterprise/src/hooks/useCreativeDebugger.ts (Line 32:1 - Line 42:2)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn65" onclick="toggleCodeBlock('cloneGroup65', 'expandBtn65', 'collapseBtn65')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn65" onclick="toggleCodeBlock('cloneGroup65', 'expandBtn65', 'collapseBtn65')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup65"><code class="language-typescript text-sm text-gray-800">}
+
+export const useCreativeDebugger = (context: string = 'unknown') =&gt; {
+  const [session, setSession] = useState&lt;CreativeSession&gt;(() =&gt; ({
+    startTime: new Date(),
+    actions: [],
+    errors: [],
+    performance: {
+      avgRenderTime: 0,
+      peakMemory: 0,
+      actionCount: 0
+    }</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/hooks/useComponentPreloader.ts (Line 72:2 - Line 80:48), ../client/src/hooks/useComponentPreloader.ts (Line 64:2 - Line 72:6)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn66" onclick="toggleCodeBlock('cloneGroup66', 'expandBtn66', 'collapseBtn66')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn66" onclick="toggleCodeBlock('cloneGroup66', 'expandBtn66', 'collapseBtn66')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup66"><code class="language-typescript text-sm text-gray-800">= useCallback((path: string) =&gt; {
+    return () =&gt; {
+      if (!preloadedComponents.current.has(path)) {
+        preloadComponent(path).catch(() =&gt; {});
+      }
+    };
+  }, [preloadComponent]);
+
+  // Preload high priority components immediately</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/test-setup.ts (Line 7:2 - Line 17:2), ../fablecraft-enterprise/src/test/setup.ts (Line 14:2 - Line 26:29)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn73" onclick="toggleCodeBlock('cloneGroup73', 'expandBtn73', 'collapseBtn73')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn73" onclick="toggleCodeBlock('cloneGroup73', 'expandBtn73', 'collapseBtn73')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup73"><code class="language-typescript text-sm text-gray-800">=&gt; ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});</code></pre></div><div class="py-4"><p class="text-gray-600">../client/src/test-setup.ts (Line 13:5 - Line 26:31), ../client/src/test/setup.ts (Line 21:5 - Line 34:29)</p><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2" id="expandBtn74" onclick="toggleCodeBlock('cloneGroup74', 'expandBtn74', 'collapseBtn74')">Show code</button><button class="bg-gray-500 text-white px-1 py-0.5 text-xs rounded focus:outline-none ml-2 hidden" id="collapseBtn74" onclick="toggleCodeBlock('cloneGroup74', 'expandBtn74', 'collapseBtn74')">Hide code</button><pre class="bg-gray-100 border border-gray-200 p-4 rounded mt-2 hidden" id="cloneGroup74"><code class="language-typescript text-sm text-gray-800">addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
+
+// Mock ResizeObserver
+global.ResizeObserver = vi.fn().mockImplementation(() =&gt; ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
+// Mock IntersectionObserver  </code></pre></div><!-- Add more clone groups for .txt format as needed         // Add more clone groups for .txt format as needed--></div></section><!-- Add more sections for other formats and clone groups as needed--></main><footer class="bg-white shadow mt-8 py-4"><div class="container mx-auto px-4 text-center"><p class="text-sm text-gray-600">This report is generated by jscpd, an open-source copy/paste detector.</p><p class="text-sm text-gray-600">jscpd is licensed under the MIT License.</p><a class="text-blue-500 text-sm" href="https://github.com/kucherenko/jscpd" target="_blank" rel="noopener noreferrer">View jscpd on GitHub</a></div></footer><script src="js/prism.js"></script><script>function toggleCodeBlock(codeBlockId, expandBtnId, collapseBtnId) {
+  const codeBlock = document.getElementById(codeBlockId);
+  const expandBtn = document.getElementById(expandBtnId);
+  const collapseBtn = document.getElementById(collapseBtnId);
+
+  codeBlock.classList.toggle('hidden');
+  expandBtn.classList.toggle('hidden');
+  collapseBtn.classList.toggle('hidden');
+}</script></body></html>
