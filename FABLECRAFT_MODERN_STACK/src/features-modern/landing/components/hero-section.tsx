@@ -94,7 +94,7 @@ export function HeroSection({
               onClick={onNewProject}
               className={cn(
                 "group relative w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground",
-                "p-neighbors text-golden-lg font-semibold shadow-lg hover:shadow-xl",
+                "p-neighbors text-golden-xl font-semibold shadow-lg hover:shadow-xl",
                 "rounded-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
@@ -113,7 +113,7 @@ export function HeroSection({
               onClick={onNavigateToProjects}
               className={cn(
                 "group relative w-full sm:w-auto border-border hover:bg-accent hover:text-accent-foreground",
-                "p-neighbors text-golden-lg font-semibold shadow-md hover:shadow-lg",
+                "p-neighbors text-golden-xl font-semibold shadow-md hover:shadow-lg",
                 "rounded-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
