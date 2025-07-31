@@ -1,6 +1,6 @@
 /**
  * Landing Feature - Barrel Exports
- * 
+ *
  * Provides clean, organized exports for the landing page feature
  * following Feature-Sliced Design (FSD) architecture patterns.
  */
@@ -15,6 +15,5 @@ export { CTASection } from './components/cta-section';
 export { ProcessSteps } from './components/process-steps';
 
 // Type exports for external usage
-export type { 
-  // Re-export component prop types if needed externally
-} from './landing-page';
+export type {} from // Re-export component prop types if needed externally
+'./landing-page';

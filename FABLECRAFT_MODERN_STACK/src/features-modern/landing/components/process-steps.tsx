@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
 import type { ComponentType } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { 
+import {
   Lightbulb,
   Library,
   BookOpen,
   Compass,
   PenTool,
-  Palette
+  Palette,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -36,192 +36,208 @@ interface ProcessStepsProps {
  * Default process steps data
  */
 const defaultProcessSteps: ProcessStep[] = [
-  { 
-    icon: Lightbulb, 
-    title: "Ideation", 
-    description: "From spark to story seed",
-    detail: "Transform fleeting inspiration into rich narrative foundations with AI guidance",
-    category: "Creative"
+  {
+    icon: Lightbulb,
+    title: 'Ideation',
+    description: 'From spark to story seed',
+    detail:
+      'Transform fleeting inspiration into rich narrative foundations with AI guidance',
+    category: 'Creative',
   },
-  { 
-    icon: Library, 
-    title: "World Crafting", 
-    description: "Build living story universes",
-    detail: "Characters, places, cultures - all interconnected in your digital story bible",
-    category: "World Building"
+  {
+    icon: Library,
+    title: 'World Crafting',
+    description: 'Build living story universes',
+    detail:
+      'Characters, places, cultures - all interconnected in your digital story bible',
+    category: 'World Building',
   },
-  { 
-    icon: BookOpen, 
-    title: "Manuscript Import", 
-    description: "Breathe life into existing work",
-    detail: "Upload character sheets and documents - AI extracts deep story insights",
-    category: "Content"
+  {
+    icon: BookOpen,
+    title: 'Manuscript Import',
+    description: 'Breathe life into existing work',
+    detail:
+      'Upload character sheets and documents - AI extracts deep story insights',
+    category: 'Content',
   },
-  { 
-    icon: Compass, 
-    title: "Story Architecture", 
-    description: "Blueprint your narrative",
-    detail: "AI-assisted plotting that weaves through your carefully crafted world",
-    category: "Structure"
+  {
+    icon: Compass,
+    title: 'Story Architecture',
+    description: 'Blueprint your narrative',
+    detail:
+      'AI-assisted plotting that weaves through your carefully crafted world',
+    category: 'Structure',
   },
-  { 
-    icon: PenTool, 
-    title: "Contextual Writing", 
-    description: "Write within living worlds",
-    detail: "Every word informed by your story bible - characters, places, history at your fingertips",
-    category: "Writing"
+  {
+    icon: PenTool,
+    title: 'Contextual Writing',
+    description: 'Write within living worlds',
+    detail:
+      'Every word informed by your story bible - characters, places, history at your fingertips',
+    category: 'Writing',
   },
-  { 
-    icon: Palette, 
-    title: "Visual Storytelling", 
-    description: "Pictures worth a thousand words",
-    detail: "Generate consistent artwork, storyboards, and multimedia from your narrative",
-    category: "Visual"
-  }
+  {
+    icon: Palette,
+    title: 'Visual Storytelling',
+    description: 'Pictures worth a thousand words',
+    detail:
+      'Generate consistent artwork, storyboards, and multimedia from your narrative',
+    category: 'Visual',
+  },
 ];
 
 /**
  * Enhanced Process Steps Component
- * 
+ *
  * FEATURES:
  * - Theme-aware styling with CSS custom properties
  * - Responsive grid layout that adapts to screen size
  * - Enhanced accessibility with proper ARIA labels
  * - Smooth animations and transitions
  * - Component variants for different use cases
- * 
+ *
  * @param props - Process steps configuration
  * @returns JSX element for the process steps section
  */
-export function ProcessSteps({ 
+export function ProcessSteps({
   className,
   variant = 'default',
-  steps = defaultProcessSteps
+  steps = defaultProcessSteps,
 }: ProcessStepsProps) {
   const isCompact = variant === 'compact';
 
   return (
-    <section 
+    <section
       className={cn(
-        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-        isCompact ? "py-12" : "py-16 sm:py-20 lg:py-24",
+        'relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8',
+        isCompact ? 'py-12' : 'py-16 sm:py-20 lg:py-24',
         className
       )}
-      aria-labelledby="process-heading"
+      aria-labelledby='process-heading'
     >
-      <div className="text-center space-y-12 lg:space-y-16">
-        
+      <div className='text-center space-y-12 lg:space-y-16'>
         {/* Header Section */}
-        <div className="space-y-4 lg:space-y-6">
-          <Badge 
-            className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md"
-            aria-label="Process workflow indicator"
+        <div className='space-y-4 lg:space-y-6'>
+          <Badge
+            className='bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md'
+            aria-label='Process workflow indicator'
           >
             How It Works
           </Badge>
-          
-          <h2 
-            id="process-heading"
+
+          <h2
+            id='process-heading'
             className={cn(
-              "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm",
-              isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl"
+              'font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm',
+              isCompact
+                ? 'text-2xl sm:text-3xl lg:text-4xl'
+                : 'text-3xl sm:text-4xl lg:text-5xl'
             )}
           >
             Your Complete Writing Workflow
           </h2>
-          
-          <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium",
-            isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
-          )}>
-            Follow our proven 6-step process used by professional writers worldwide. Each stage builds 
-            seamlessly into the next, ensuring your creative vision stays consistent from start to finish.
+
+          <p
+            className={cn(
+              'text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium',
+              isCompact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'
+            )}
+          >
+            Follow our proven 6-step process used by professional writers
+            worldwide. Each stage builds seamlessly into the next, ensuring your
+            creative vision stays consistent from start to finish.
           </p>
         </div>
 
         {/* Process Flow */}
-        <div className="relative" role="list" aria-label="Writing process steps">
-          
+        <div
+          className='relative'
+          role='list'
+          aria-label='Writing process steps'
+        >
           {/* Connection line for desktop */}
-          <div 
-            className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 hidden lg:block rounded-full"
-            aria-hidden="true"
+          <div
+            className='absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 hidden lg:block rounded-full'
+            aria-hidden='true'
           />
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 lg:gap-8">
+
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 lg:gap-8'>
             {steps.map((step, index) => {
               const IconComponent = step.icon;
               return (
-                <div 
+                <div
                   key={index}
-                  className="text-center space-y-4 relative group"
-                  role="listitem"
+                  className='text-center space-y-4 relative group'
+                  role='listitem'
                   tabIndex={0}
                   aria-labelledby={`step-title-${index}`}
                   aria-describedby={`step-description-${index} step-detail-${index}`}
                 >
                   {/* Step number indicator */}
-                  <div className="absolute -top-2 -left-2 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold z-20">
+                  <div className='absolute -top-2 -left-2 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold z-20'>
                     {index + 1}
                   </div>
-                  
+
                   {/* Icon container */}
-                  <div className={cn(
-                    "w-24 h-24 lg:w-28 lg:h-28 bg-card/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl",
-                    "flex items-center justify-center mx-auto shadow-lg border border-border",
-                    "transition-all duration-500 cursor-pointer relative z-10",
-                    "group-hover:shadow-xl group-hover:scale-105 group-hover:-translate-y-2 group-hover:rotate-3",
-                    "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
-                  )}>
-                    
+                  <div
+                    className={cn(
+                      'w-24 h-24 lg:w-28 lg:h-28 bg-card/90 backdrop-blur-sm rounded-2xl lg:rounded-3xl',
+                      'flex items-center justify-center mx-auto shadow-lg border border-border',
+                      'transition-all duration-500 cursor-pointer relative z-10',
+                      'group-hover:shadow-xl group-hover:scale-105 group-hover:-translate-y-2 group-hover:rotate-3',
+                      'focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2'
+                    )}
+                  >
                     {/* Hover background effect */}
-                    <div className="absolute inset-0 rounded-2xl lg:rounded-3xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
+                    <div className='absolute inset-0 rounded-2xl lg:rounded-3xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
+
                     {/* Icon */}
-                    <div className={cn(
-                      "w-12 h-12 lg:w-16 lg:h-16 bg-primary/10 hover:bg-primary/20 rounded-xl lg:rounded-2xl",
-                      "flex items-center justify-center shadow-md transition-all duration-500",
-                      "group-hover:shadow-lg group-hover:scale-110"
-                    )}>
-                      <IconComponent 
-                        className="w-6 h-6 lg:w-8 lg:h-8 text-primary group-hover:scale-110 transition-transform duration-300" 
-                        aria-hidden="true"
+                    <div
+                      className={cn(
+                        'w-12 h-12 lg:w-16 lg:h-16 bg-primary/10 hover:bg-primary/20 rounded-xl lg:rounded-2xl',
+                        'flex items-center justify-center shadow-md transition-all duration-500',
+                        'group-hover:shadow-lg group-hover:scale-110'
+                      )}
+                    >
+                      <IconComponent
+                        className='w-6 h-6 lg:w-8 lg:h-8 text-primary group-hover:scale-110 transition-transform duration-300'
+                        aria-hidden='true'
                       />
                     </div>
                   </div>
-                  
+
                   {/* Content */}
-                  <div className="space-y-2 lg:space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
-                    <h3 
+                  <div className='space-y-2 lg:space-y-3 group-hover:-translate-y-1 transition-transform duration-300'>
+                    <h3
                       id={`step-title-${index}`}
-                      className="font-bold text-base lg:text-lg text-foreground group-hover:text-primary transition-colors duration-300 leading-tight"
+                      className='font-bold text-base lg:text-lg text-foreground group-hover:text-primary transition-colors duration-300 leading-tight'
                     >
                       {step.title}
                     </h3>
-                    
-                    <p 
+
+                    <p
                       id={`step-description-${index}`}
-                      className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 font-medium leading-relaxed"
+                      className='text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 font-medium leading-relaxed'
                     >
                       {step.description}
                     </p>
-                    
-                    <p 
+
+                    <p
                       id={`step-detail-${index}`}
                       className={cn(
-                        "text-xs text-muted-foreground transition-all duration-500 font-medium leading-relaxed",
-                        "opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
+                        'text-xs text-muted-foreground transition-all duration-500 font-medium leading-relaxed',
+                        'opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0'
                       )}
                     >
                       {step.detail}
                     </p>
-                    
+
                     {/* Category badge for detailed view */}
                     {step.category && !isCompact && (
-                      <Badge 
-                        variant="secondary" 
+                      <Badge
+                        variant='secondary'
                         className={cn(
-                          "text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2"
+                          'text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2'
                         )}
                       >
                         {step.category}

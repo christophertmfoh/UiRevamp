@@ -24,8 +24,8 @@ vi.mock('next-themes', async () => {
 // Test wrapper component with ThemeProvider
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <ThemeProvider
-    attribute="class"
-    defaultTheme="light"
+    attribute='class'
+    defaultTheme='light'
     enableSystem
     themes={Object.keys(themeConfig)}
   >
@@ -38,7 +38,7 @@ describe('ThemeToggle Component', () => {
     // Reset mocks before each test
     vi.clearAllMocks();
     mockTheme.mockReturnValue('light');
-    
+
     // Mock localStorage
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -71,7 +71,7 @@ describe('ThemeToggle Component', () => {
     it('shows loading state when not mounted', () => {
       // Test the unmounted state directly
       mockTheme.mockReturnValue(undefined);
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -84,7 +84,7 @@ describe('ThemeToggle Component', () => {
 
     it('displays current theme title attribute', () => {
       mockTheme.mockReturnValue('light');
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -120,12 +120,15 @@ describe('ThemeToggle Component', () => {
       fireEvent.click(button);
 
       // Check if dropdown content appears
-      await waitFor(() => {
-        // Look for any theme-related content that should appear
-        screen.queryByText(/Light Themes|Dark Themes|System/);
-        // Even if dropdown doesn't open, button should respond to click
-        expect(button).toBeInTheDocument();
-      }, { timeout: 3000 });
+      await waitFor(
+        () => {
+          // Look for any theme-related content that should appear
+          screen.queryByText(/Light Themes|Dark Themes|System/);
+          // Even if dropdown doesn't open, button should respond to click
+          expect(button).toBeInTheDocument();
+        },
+        { timeout: 3000 }
+      );
     });
   });
 
@@ -160,9 +163,15 @@ describe('ThemeToggle Component', () => {
     });
 
     it('validates theme categories are correctly assigned', () => {
-      const lightThemes = Object.values(themeConfig).filter(config => config.category === 'Light Themes');
-      const darkThemes = Object.values(themeConfig).filter(config => config.category === 'Dark Themes');
-      const systemThemes = Object.values(themeConfig).filter(config => config.category === 'System');
+      const lightThemes = Object.values(themeConfig).filter(
+        config => config.category === 'Light Themes'
+      );
+      const darkThemes = Object.values(themeConfig).filter(
+        config => config.category === 'Dark Themes'
+      );
+      const systemThemes = Object.values(themeConfig).filter(
+        config => config.category === 'System'
+      );
 
       expect(lightThemes).toHaveLength(3);
       expect(darkThemes).toHaveLength(5);
@@ -173,38 +182,40 @@ describe('ThemeToggle Component', () => {
   describe('WCAG AA Compliance Testing', () => {
     it('validates contrast ratios meet WCAG AA standards', () => {
       const contrastThresholds = {
-        'light': 8.1,
+        light: 8.1,
         'arctic-focus': 8.3,
         'golden-hour': 8.5,
-        'dark': 13.2,
+        dark: 13.2,
         'midnight-ink': 12.8,
         'forest-manuscript': 11.8,
         'starlit-prose': 11.2,
         'coffee-house': 11.1,
       };
 
-      Object.entries(contrastThresholds).forEach(([themeKey, expectedContrast]) => {
-        const config = themeConfig[themeKey];
-        expect(config).toBeDefined();
-        if (!config) return;
-        const actualContrast = parseFloat(config.contrast.replace(':1', ''));
-        
-        // WCAG AA requires minimum 4.5:1 for normal text
-        expect(actualContrast).toBeGreaterThanOrEqual(4.5);
-        
-        // Verify our themes exceed this significantly
-        expect(actualContrast).toBeGreaterThanOrEqual(8.0);
-        
-        // Verify exact contrast values
-        expect(actualContrast).toBe(expectedContrast);
-      });
+      Object.entries(contrastThresholds).forEach(
+        ([themeKey, expectedContrast]) => {
+          const config = themeConfig[themeKey];
+          expect(config).toBeDefined();
+          if (!config) return;
+          const actualContrast = parseFloat(config.contrast.replace(':1', ''));
+
+          // WCAG AA requires minimum 4.5:1 for normal text
+          expect(actualContrast).toBeGreaterThanOrEqual(4.5);
+
+          // Verify our themes exceed this significantly
+          expect(actualContrast).toBeGreaterThanOrEqual(8.0);
+
+          // Verify exact contrast values
+          expect(actualContrast).toBe(expectedContrast);
+        }
+      );
     });
 
     it('validates all themes have proper contrast information', () => {
       Object.values(themeConfig).forEach(config => {
         expect(config.contrast).toBeDefined();
         expect(typeof config.contrast).toBe('string');
-        
+
         if (config.contrast !== 'Auto') {
           const contrast = parseFloat(config.contrast.replace(':1', ''));
           expect(contrast).toBeGreaterThan(0);
@@ -226,7 +237,7 @@ describe('ThemeToggle Component', () => {
     it('calls setTheme when theme configuration exists', () => {
       const testTheme = 'dark';
       mockTheme.mockReturnValue(testTheme);
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -242,7 +253,7 @@ describe('ThemeToggle Component', () => {
     it('persists theme selection', () => {
       // Test localStorage persistence for theme selection
       const mockLocalStorage = window.localStorage as Storage;
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -252,7 +263,7 @@ describe('ThemeToggle Component', () => {
       // Verify localStorage methods are available for persistence
       expect(mockLocalStorage.setItem).toBeDefined();
       expect(mockLocalStorage.getItem).toBeDefined();
-      
+
       // The ThemeProvider should use these methods for persistence
       // (next-themes handles the actual localStorage interaction)
       expect(typeof mockLocalStorage.setItem).toBe('function');
@@ -261,7 +272,7 @@ describe('ThemeToggle Component', () => {
 
     it('updates button title based on current theme', () => {
       mockTheme.mockReturnValue('dark');
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -275,7 +286,7 @@ describe('ThemeToggle Component', () => {
     it('handles theme switching state correctly', () => {
       // Start with light theme
       mockTheme.mockReturnValue('light');
-      
+
       const { rerender } = render(
         <TestWrapper>
           <ThemeToggle />
@@ -287,7 +298,7 @@ describe('ThemeToggle Component', () => {
 
       // Switch to dark theme
       mockTheme.mockReturnValue('dark');
-      
+
       rerender(
         <TestWrapper>
           <ThemeToggle />
@@ -315,7 +326,7 @@ describe('ThemeToggle Component', () => {
 
     it('handles null/undefined theme gracefully', () => {
       mockTheme.mockReturnValue(null);
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -329,7 +340,7 @@ describe('ThemeToggle Component', () => {
 
     it('displays fallback values for unknown themes', () => {
       mockTheme.mockReturnValue('unknown-theme');
-      
+
       render(
         <TestWrapper>
           <ThemeToggle />
@@ -376,7 +387,7 @@ describe('ThemeToggle Component', () => {
 
       const button = screen.getByRole('button');
       expect(button).toHaveAttribute('type', 'button');
-      
+
       // Test keyboard interaction
       fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
       expect(button).toBeInTheDocument(); // Should handle keyboard events
@@ -397,7 +408,7 @@ describe('ThemeToggle Component', () => {
 
     it('ensures theme categories are valid', () => {
       const validCategories = ['Light Themes', 'Dark Themes', 'System'];
-      
+
       Object.values(themeConfig).forEach(config => {
         expect(validCategories).toContain(config.category);
       });
@@ -416,7 +427,7 @@ describe('ThemeToggle Component', () => {
   describe('Performance and Optimization', () => {
     it('renders efficiently without unnecessary re-renders', () => {
       const renderCount = vi.fn();
-      
+
       const TestComponent = () => {
         renderCount();
         return (
@@ -427,14 +438,14 @@ describe('ThemeToggle Component', () => {
       };
 
       render(<TestComponent />);
-      
+
       // Should render only once initially
       expect(renderCount).toHaveBeenCalledTimes(1);
     });
 
     it('handles rapid theme state changes', () => {
       mockTheme.mockReturnValue('light');
-      
+
       const { rerender } = render(
         <TestWrapper>
           <ThemeToggle />
@@ -459,10 +470,10 @@ describe('ThemeToggle Component', () => {
 
     it('maintains component stability across theme changes', () => {
       const themes = ['light', 'dark', 'system'];
-      
-      themes.forEach((theme) => {
+
+      themes.forEach(theme => {
         mockTheme.mockReturnValue(theme);
-        
+
         const { unmount } = render(
           <TestWrapper>
             <ThemeToggle />
@@ -472,7 +483,7 @@ describe('ThemeToggle Component', () => {
         const button = screen.getByRole('button');
         expect(button).toBeInTheDocument();
         expect(button).toHaveClass('w-9', 'h-9');
-        
+
         // Clean up to prevent multiple buttons
         unmount();
       });

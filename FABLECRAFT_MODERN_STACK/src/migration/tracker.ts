@@ -1,9 +1,9 @@
 /**
  * Enterprise Migration Tracking System
- * 
+ *
  * Tracks the progress of asset migration from legacy builds into FABLECRAFT_MODERN_STACK
  * following Feature-Sliced Design architecture and enterprise development practices.
- * 
+ *
  * @version 1.0.0
  * @created Step 1.3.2 - Target Structure Preparation
  */
@@ -14,22 +14,22 @@
 export interface MigrationStep {
   /** Unique identifier for the migration step */
   id: string;
-  
+
   /** Migration phase (e.g., 'Phase 1', 'Phase 2', etc.) */
   phase: string;
-  
+
   /** Component or system being migrated */
   component: string;
-  
+
   /** Current status of the migration step */
   status: 'pending' | 'in-progress' | 'completed' | 'failed';
-  
+
   /** Git commit hash or branch state for rollback */
   rollbackPoint: string;
-  
+
   /** Dependencies required for this migration step */
   dependencies: string[];
-  
+
   /** Validation criteria that must be met for completion */
   validationCriteria: string[];
 }
@@ -40,22 +40,22 @@ export interface MigrationStep {
 export interface MigrationPhase {
   /** Phase identifier */
   id: string;
-  
+
   /** Human-readable phase name */
   name: string;
-  
+
   /** Phase description */
   description: string;
-  
+
   /** Steps within this phase */
   steps: MigrationStep[];
-  
+
   /** Overall phase status */
   status: 'pending' | 'in-progress' | 'completed' | 'failed';
-  
+
   /** Estimated duration for the phase */
   estimatedDuration: string;
-  
+
   /** Risk level for the phase */
   riskLevel: 'low' | 'medium' | 'high';
 }
@@ -66,22 +66,22 @@ export interface MigrationPhase {
 export interface MigrationTracker {
   /** Migration project name */
   projectName: string;
-  
+
   /** Migration start timestamp */
   startedAt: Date;
-  
+
   /** Migration completion timestamp */
   completedAt?: Date;
-  
+
   /** Current active phase */
   currentPhase: string;
-  
+
   /** Current active step */
   currentStep: string;
-  
+
   /** All migration phases */
   phases: MigrationPhase[];
-  
+
   /** Overall migration status */
   status: 'pending' | 'in-progress' | 'completed' | 'failed';
 }
@@ -99,7 +99,7 @@ export class MigrationTrackerService {
       currentPhase: 'Phase 1',
       currentStep: 'Step 1.1',
       phases: [],
-      status: 'pending'
+      status: 'pending',
     };
   }
 
@@ -113,7 +113,11 @@ export class MigrationTrackerService {
   /**
    * Update step status
    */
-  updateStepStatus(phaseId: string, stepId: string, status: MigrationStep['status']): void {
+  updateStepStatus(
+    phaseId: string,
+    stepId: string,
+    status: MigrationStep['status']
+  ): void {
     const phase = this.tracker.phases.find(p => p.id === phaseId);
     if (phase) {
       const step = phase.steps.find(s => s.id === stepId);
