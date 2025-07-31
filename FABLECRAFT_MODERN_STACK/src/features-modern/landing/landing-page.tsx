@@ -25,7 +25,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { ThemeTest } from '@/features-modern/theme/components/theme-test';
 
 // Lazy load non-critical components for better performance
 const FeatureCards = React.lazy(() =>
@@ -347,20 +346,6 @@ export function LandingPage({
           variant={variant}
         />
       </ErrorBoundary>
-
-      {/* TEMPORARY: Theme Testing Component */}
-      <div className="py-12 px-6 bg-card/50">
-        <div className="max-w-4xl mx-auto">
-          <ThemeTest />
-        </div>
-      </div>
-
-      {/* TEMPORARY: Theme Testing Component */}
-      <div className="py-12 px-6 bg-card/50">
-        <div className="max-w-4xl mx-auto">
-          <ThemeTest />
-        </div>
-      </div>
 
       {/* Footer */}
       <ErrorBoundary onError={handleComponentError}>
