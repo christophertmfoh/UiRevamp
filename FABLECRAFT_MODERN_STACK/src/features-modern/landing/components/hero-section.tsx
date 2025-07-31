@@ -58,7 +58,7 @@ export function HeroSection({
               className="w-2 h-2 rounded-full animate-pulse bg-primary"
               aria-hidden="true"
             />
-            <span className="text-golden-sm font-semibold text-foreground uppercase tracking-wide leading-tight">
+            <span className="text-xs font-semibold text-foreground uppercase tracking-wide leading-tight">
               End-to-End Creative Production Suite
             </span>
           </div>
