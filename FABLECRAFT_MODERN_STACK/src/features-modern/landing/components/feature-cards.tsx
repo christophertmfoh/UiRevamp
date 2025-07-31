@@ -120,7 +120,7 @@ export const FeatureCards = memo(function FeatureCards({
     <section 
       className={cn(
         "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-        isCompact ? "py-12" : "section-spacing",
+        isCompact ? "py-12" : "section-spacing-compact",
         className
       )}
       aria-labelledby="features-heading"
@@ -138,7 +138,7 @@ export const FeatureCards = memo(function FeatureCards({
           <h2 
             id="features-heading"
             className={cn(
-              "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm",
+              "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm mt-best-friends",
               isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-golden-3xl sm:text-golden-4xl lg:text-golden-5xl xl:text-6xl"
             )}
           >
