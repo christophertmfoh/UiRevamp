@@ -1,0 +1,249 @@
+/**
+ * FABLECRAFT DESIGN SYSTEM - MATHEMATICAL SPACING
+ * 
+ * Based on research-backed principles:
+ * - 8-point grid system for consistency
+ * - Golden ratio (1.618) for proportional relationships  
+ * - Spacing friendship levels for content relationships
+ * - Z-pattern layout optimization for landing pages
+ * 
+ * SPACING FRIENDSHIP LEVELS:
+ * - Best Friends (8px): Closely related elements (heading + description)
+ * - Friends (16px): Related elements (cards, buttons to content)
+ * - Acquaintances (24px): Somewhat related (sections within components)
+ * - Neighbors (32px): Different but nearby (component padding)
+ * - Strangers (48px+): Separate sections (section-to-section)
+ * 
+ * Mathematical progression: 8, 16, 24, 32, 48, 64, 80, 96, 128
+ */
+
+@layer utilities {
+  /* ===== CONTENT RELATIONSHIP SPACING ===== */
+
+  /* Best Friends - Closely related content */
+  .space-best-friends {
+    @apply space-y-2; /* 8px - heading to description, label to input */
+  }
+
+  .gap-best-friends {
+    @apply gap-2; /* 8px - icon to text, closely related items */
+  }
+
+  .mb-best-friends {
+    @apply mb-2; /* 8px - tight element separation */
+  }
+
+  /* Friends - Related content */
+  .space-friends {
+    @apply space-y-4; /* 16px - button to content, cards to each other */
+  }
+
+  .gap-friends {
+    @apply gap-4; /* 16px - grid items, related buttons */
+  }
+
+  .mb-friends {
+    @apply mb-4; /* 16px - related element separation */
+  }
+
+  /* Acquaintances - Somewhat related */
+  .space-acquaintances {
+    @apply space-y-6; /* 24px - sections within components */
+  }
+
+  .gap-acquaintances {
+    @apply gap-6; /* 24px - card grids, form sections */
+  }
+
+  .mb-acquaintances {
+    @apply mb-6; /* 24px - component internal spacing */
+  }
+
+  /* Neighbors - Different but nearby */
+  .space-neighbors {
+    @apply space-y-8; /* 32px - component internal sections */
+  }
+
+  .gap-neighbors {
+    @apply gap-8; /* 32px - larger grid spacing */
+  }
+
+  .mb-neighbors {
+    @apply mb-8; /* 32px - component separation */
+  }
+
+  /* Strangers - Separate sections */
+  .space-strangers {
+    @apply space-y-12; /* 48px - section to section */
+  }
+
+  .gap-strangers {
+    @apply gap-12; /* 48px - major layout separations */
+  }
+
+  .mb-strangers {
+    @apply mb-12; /* 48px - section separation */
+  }
+
+  /* Extended Strangers - Major separations */
+  .space-extended {
+    @apply space-y-16; /* 64px - major section separation */
+  }
+
+  .gap-extended {
+    @apply gap-16; /* 64px - large layout gaps */
+  }
+
+  .mb-extended {
+    @apply mb-16; /* 64px - major separation */
+  }
+
+  /* ===== CONTAINER PADDING SYSTEM ===== */
+
+  /* Micro padding - tight components */
+  .p-micro {
+    @apply p-3; /* 12px - small buttons, badges */
+  }
+
+  /* Compact padding - standard components */
+  .p-compact {
+    @apply p-4; /* 16px - buttons, small cards */
+  }
+
+  /* Comfortable padding - content components */
+  .p-comfortable {
+    @apply p-6; /* 24px - cards, forms */
+  }
+
+  /* Spacious padding - major components */
+  .p-spacious {
+    @apply p-8; /* 32px - large cards, testimonials */
+  }
+
+  /* Generous padding - hero sections */
+  .p-generous {
+    @apply p-12; /* 48px - hero content, major sections */
+  }
+
+  /* ===== RESPONSIVE SECTION SPACING ===== */
+
+  /* Section spacing with responsive scaling */
+  .section-spacing {
+    @apply py-12 sm:py-16 lg:py-20 xl:py-24; /* 48px -> 96px */
+  }
+
+  .section-spacing-compact {
+    @apply py-8 sm:py-12 lg:py-16; /* 32px -> 64px */
+  }
+
+  .section-spacing-hero {
+    @apply py-16 sm:py-20 lg:py-24 xl:py-32; /* 64px -> 128px */
+  }
+
+  /* ===== GOLDEN RATIO SCALING ===== */
+
+  /* Typography scaling based on golden ratio (1.618) */
+  .text-golden-xs {
+    @apply text-xs; /* 12px base */
+  }
+
+  .text-golden-sm {
+    @apply text-sm; /* 14px ≈ 12 * 1.167 */
+  }
+
+  .text-golden-base {
+    @apply text-base; /* 16px ≈ 14 * 1.143 */
+  }
+
+  .text-golden-lg {
+    @apply text-lg; /* 18px ≈ 16 * 1.125 */
+  }
+
+  .text-golden-xl {
+    @apply text-xl; /* 20px ≈ 18 * 1.111 */
+  }
+
+  .text-golden-2xl {
+    @apply text-2xl; /* 24px ≈ 20 * 1.2 */
+  }
+
+  .text-golden-3xl {
+    @apply text-3xl; /* 30px ≈ 24 * 1.25 */
+  }
+
+  .text-golden-4xl {
+    @apply text-4xl; /* 36px ≈ 30 * 1.2 */
+  }
+
+  .text-golden-5xl {
+    @apply text-5xl; /* 48px ≈ 36 * 1.333 */
+  }
+
+  /* ===== VISUAL HIERARCHY SPACING ===== */
+
+  /* Heading to subheading relationships */
+  .heading-group {
+    @apply space-y-2; /* 8px - tight heading relationships */
+  }
+
+  /* Content block relationships */
+  .content-block {
+    @apply space-y-4; /* 16px - paragraph to paragraph */
+  }
+
+  /* Action area relationships */
+  .action-group {
+    @apply space-y-6; /* 24px - buttons and form elements */
+  }
+
+  /* Component internal structure */
+  .component-inner {
+    @apply space-y-8; /* 32px - internal component sections */
+  }
+
+  /* ===== GRID SYSTEM SPACING ===== */
+
+  /* Grid gaps following 8-point system */
+  .grid-tight {
+    @apply gap-4; /* 16px - tight grid */
+  }
+
+  .grid-normal {
+    @apply gap-6; /* 24px - standard grid */
+  }
+
+  .grid-loose {
+    @apply gap-8; /* 32px - loose grid */
+  }
+
+  .grid-spacious {
+    @apply gap-12; /* 48px - spacious grid */
+  }
+}
+
+/* ===== MATHEMATICAL SPACING REFERENCE ===== 
+ * 
+ * 8px System Progression:
+ * 0.5rem = 8px   (best friends)
+ * 1rem   = 16px  (friends) 
+ * 1.5rem = 24px  (acquaintances)
+ * 2rem   = 32px  (neighbors)
+ * 3rem   = 48px  (strangers)
+ * 4rem   = 64px  (extended strangers)
+ * 5rem   = 80px  (major separation)
+ * 6rem   = 96px  (section separation)
+ * 8rem   = 128px (hero separation)
+ * 
+ * Golden Ratio Applications:
+ * - Content width to sidebar: 1.618:1
+ * - Section height ratios: multiply by 1.618
+ * - Typography scale: progressive scaling
+ * - Image aspect ratios: 16:10 ≈ 1.618:1
+ * 
+ * Z-Pattern Layout Guide:
+ * - Top-left: Logo/brand (start)
+ * - Top-right: CTA/navigation (attention)
+ * - Bottom-left: Secondary info (support)
+ * - Bottom-right: Main CTA (conversion)
+ * 
+ */

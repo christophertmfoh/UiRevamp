@@ -1,4 +1,5 @@
-@import './shared/lib/theme/variables.css';
+@import "./shared/lib/theme/variables.css";
+@import "./shared/lib/design-system/spacing.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,25 +12,33 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-feature-settings: 'cv03', 'cv04', 'cv11';
-    font-variation-settings: 'slnt' 0;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    font-feature-settings: "cv03", "cv04", "cv11";
+    font-variation-settings: "slnt" 0;
     text-rendering: optimizeLegibility;
   }
 
   /* Theme transition classes for smooth switching */
   .theme-transition {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
   }
 
   /* Enhanced scrollbar utilities - using theme variables */
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    display: none; /* Safari and Chrome */
   }
 
   /* Floating orb background effects using theme variables */
@@ -80,7 +89,8 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px) translateX(0px) scale(1);
     }
     25% {
@@ -96,7 +106,10 @@
 
   /* Interactive element effects using theme variables */
   .interactive-element {
-    transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease,
+      background-color 0.2s ease;
   }
 
   .interactive-element:hover {
