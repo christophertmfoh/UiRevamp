@@ -74,7 +74,7 @@ const defaultPricingTiers: PricingTier[] = [
       { id: 'advanced-features', text: 'Advanced Creative Features', included: true },
       { id: 'basic-collaboration', text: 'Basic Collaboration Tools', included: true },
       { id: 'enhanced-export', text: 'Enhanced Export Options', included: true },
-      { id: 'email-support', text: 'Email Support', included: true },
+      { id: 'project-templates', text: 'Professional Project Templates', included: true },
     ],
   },
   {
@@ -145,7 +145,7 @@ const PricingCard = memo(
 
     return (
       <Card
-        className={`group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative ${tier.isPopular ? 'border-primary' : ''}`}
+        className={`group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative flex-1 min-w-[280px] ${tier.isPopular ? 'border-primary' : ''}`}
       >
         <div
           className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700'
@@ -242,8 +242,8 @@ export const PricingSection = memo(
             </p>
           </div>
 
-          {/* Pricing Cards with Mathematical Grid */}
-          <div className='grid md:grid-cols-2 grid-normal max-w-4xl mx-auto mt-acquaintances'>
+          {/* Pricing Cards in Straight Line */}
+          <div className='flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto mt-acquaintances overflow-x-auto lg:overflow-visible'>
             {tiers.map(tier => (
               <PricingCard
                 key={tier.id}
