@@ -1,0 +1,53 @@
+src/features-modern/landing/components/footer-section.tsx:        className={`relative z-10 border-t border-border py-20 px-8 bg-gradient-to-t from-muted/30 to-transparent ${className}`}
+src/features-modern/landing/components/footer-section.tsx:        <div className='max-w-7xl mx-auto text-center space-y-8'>
+src/features-modern/landing/components/pricing-section.tsx:          <div className='absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 rounded-bl-lg text-sm font-semibold'>
+src/features-modern/landing/components/pricing-section.tsx:        <CardContent className='relative z-10 p-8 space-y-6'>
+src/features-modern/landing/components/pricing-section.tsx:          <div className='space-y-4'>
+src/features-modern/landing/components/pricing-section.tsx:            <div className='space-y-2'>
+src/features-modern/landing/components/pricing-section.tsx:          <div className='space-y-3 text-left'>
+src/features-modern/landing/components/pricing-section.tsx:            className='w-full btn-enhanced gradient-primary text-primary-foreground px-6 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl rounded-2xl focus-ring'
+src/features-modern/landing/components/pricing-section.tsx:        className={`relative z-10 max-w-7xl mx-auto px-8 py-24 ${className}`}
+src/features-modern/landing/components/pricing-section.tsx:        <div className='text-center space-y-16'>
+src/features-modern/landing/components/pricing-section.tsx:          <div className='space-y-6'>
+src/features-modern/landing/components/pricing-section.tsx:          <div className='grid md:grid-cols-2 gap-8 max-w-4xl mx-auto'>
+src/features-modern/landing/components/process-steps.tsx:        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+src/features-modern/landing/components/process-steps.tsx:        isCompact ? "py-12" : "py-16 sm:py-20 lg:py-24",
+src/features-modern/landing/components/process-steps.tsx:      <div className="text-center space-y-12 lg:space-y-16">
+src/features-modern/landing/components/process-steps.tsx:        <div className="space-y-4 lg:space-y-6">
+src/features-modern/landing/components/process-steps.tsx:          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 lg:gap-8">
+src/features-modern/landing/components/process-steps.tsx:                  className="text-center space-y-4 relative group"
+src/features-modern/landing/components/process-steps.tsx:                  <div className="space-y-2 lg:space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
+src/features-modern/landing/components/process-steps.tsx:                          "text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2"
+src/features-modern/landing/components/cta-section.tsx:        "relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8",
+src/features-modern/landing/components/cta-section.tsx:        isCompact ? "py-12 sm:py-16" : "py-16 sm:py-20 lg:py-32",
+src/features-modern/landing/components/cta-section.tsx:          "relative z-10 text-center space-y-6 lg:space-y-8",
+src/features-modern/landing/components/cta-section.tsx:          <div className="space-y-6 lg:space-y-8">
+src/features-modern/landing/components/cta-section.tsx:          <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center items-center max-w-2xl mx-auto">
+src/features-modern/landing/components/cta-section.tsx:                "px-8 lg:px-12 py-4 lg:py-6 text-base lg:text-lg font-semibold",
+src/features-modern/landing/components/cta-section.tsx:                "px-8 lg:px-12 py-4 lg:py-6 text-base lg:text-lg font-semibold",
+src/features-modern/landing/components/cta-section.tsx:            <div className="pt-6 border-t border-border/50 mt-8">
+src/features-modern/landing/components/hero-section.tsx:        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+src/features-modern/landing/components/hero-section.tsx:        isCompact ? "py-8 sm:py-12 lg:py-16" : "py-16 sm:py-20 lg:py-24",
+src/features-modern/landing/components/hero-section.tsx:      <div className="text-center space-y-6 lg:space-y-8 max-w-5xl mx-auto">
+src/features-modern/landing/components/hero-section.tsx:        <div className="space-y-6 lg:space-y-8">
+src/features-modern/landing/components/hero-section.tsx:          <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-lg hover:shadow-xl transition-all duration-300">
+src/features-modern/landing/components/hero-section.tsx:          <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center items-center max-w-lg mx-auto sm:max-w-none">
+src/features-modern/landing/components/hero-section.tsx:                "px-8 py-4 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl",
+src/features-modern/landing/components/hero-section.tsx:                "px-8 py-4 text-base sm:text-lg font-semibold shadow-md hover:shadow-lg",
+src/features-modern/landing/components/testimonials-section.tsx:      <CardContent className='relative z-10 p-8 space-y-6'>
+src/features-modern/landing/components/testimonials-section.tsx:        <div className='flex space-x-1 mb-4'>
+src/features-modern/landing/components/testimonials-section.tsx:        className={`relative z-10 max-w-7xl mx-auto px-8 py-24 ${className}`}
+src/features-modern/landing/components/testimonials-section.tsx:        <div className='text-center space-y-16'>
+src/features-modern/landing/components/testimonials-section.tsx:          <div className='space-y-6'>
+src/features-modern/landing/components/testimonials-section.tsx:          <div className='grid md:grid-cols-3 gap-8'>
+src/features-modern/landing/components/feature-cards.tsx:        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+src/features-modern/landing/components/feature-cards.tsx:        isCompact ? "py-12" : "py-16 sm:py-20 lg:py-24",
+src/features-modern/landing/components/feature-cards.tsx:      <div className="text-center space-y-12 lg:space-y-16">
+src/features-modern/landing/components/feature-cards.tsx:        <div className="space-y-4 lg:space-y-6">
+src/features-modern/landing/components/feature-cards.tsx:            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+src/features-modern/landing/components/feature-cards.tsx:                  <CardContent className="p-6 text-center space-y-4">
+src/features-modern/landing/components/feature-cards.tsx:                    <div className="space-y-1">
+src/features-modern/landing/components/feature-cards.tsx:                        <p className="text-xs text-muted-foreground mt-2">
+src/features-modern/landing/components/feature-cards.tsx:            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 pt-8"
+src/features-modern/landing/components/feature-cards.tsx:                    "group bg-card hover:bg-accent/30 rounded-2xl p-6 lg:p-8 space-y-6",
+src/features-modern/landing/components/feature-cards.tsx:                  <div className="space-y-3 text-center">
