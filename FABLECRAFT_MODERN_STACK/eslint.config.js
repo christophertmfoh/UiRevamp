@@ -17,6 +17,7 @@ export default [
       'coverage',
       'reports',
       'report',
+      'scripts',
       '*.config.js',
       '*.config.ts'
     ],
