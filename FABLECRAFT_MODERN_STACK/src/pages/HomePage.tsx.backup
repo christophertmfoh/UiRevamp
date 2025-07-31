@@ -21,23 +21,13 @@ export function HomePage() {
 
   return (
     <ThemeProvider
-      attribute='class'
-      defaultTheme='light'
+      attribute="class"
+      defaultTheme="light"
       enableSystem
       disableTransitionOnChange
-      themes={[
-        'light',
-        'arctic-focus',
-        'golden-hour',
-        'dark',
-        'midnight-ink',
-        'forest-manuscript',
-        'starlit-prose',
-        'coffee-house',
-        'system',
-      ]}
+      themes={['light', 'arctic-focus', 'golden-hour', 'dark', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house', 'system']}
     >
-      <div className='min-h-screen bg-background'>
+      <div className="min-h-screen bg-background">
         <LandingPage
           onNavigate={handleNavigate}
           onNewProject={handleNewProject}

@@ -5,6 +5,9 @@ import { ErrorBoundary } from '@/shared/components/error-boundary';
 import { ThemeToggle } from '@/features-modern/theme/components/theme-toggle';
 import { HeroSection } from './components/hero-section';
 import { CTASection } from './components/cta-section';
+import { TestimonialsSection } from './components/testimonials-section';
+import { PricingSection } from './components/pricing-section';
+import { FooterSection } from './components/footer-section';
 import { Button } from '@/components/ui/button';
 import {
   Feather,
@@ -243,52 +246,10 @@ function NavigationHeader({
 }
 
 /**
- * Footer Component
- */
-function Footer() {
-  return (
-    <footer
-      className='relative z-10 border-t border-border py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-t from-muted/20 to-transparent'
-      role='contentinfo'
-    >
-      <div className='max-w-7xl mx-auto text-center space-y-6'>
-        {/* Brand Section */}
-        <div className='flex items-center justify-center space-x-3 group cursor-pointer'>
-          <div className='w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 group-hover:rotate-3 transition-all duration-500'>
-            <Feather
-              className='w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300'
-              aria-hidden='true'
-            />
-          </div>
-          <span className='text-2xl font-black bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:from-primary group-hover:to-primary/70 transition-all duration-300'>
-            Fablecraft
-          </span>
-        </div>
-
-        {/* Tagline */}
-        <p className='text-lg text-muted-foreground font-medium'>
-          Where every story finds its voice
-        </p>
-
-        {/* Made with love */}
-        <div className='flex items-center justify-center space-x-2 text-sm text-muted-foreground'>
-          <span>Made with</span>
-          <div
-            className='w-3 h-3 rounded-full bg-gradient-to-r from-primary to-accent animate-pulse'
-            aria-hidden='true'
-          />
-          <span>for storytellers everywhere</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-/**
  * Enhanced Landing Page Component
  *
  * CRITICAL OPTIMIZATIONS IMPLEMENTED:
- * - Reduced file size through component splitting (682 lines → ~280 lines)
+ * - Component splitting for better maintainability
  * - Implemented lazy loading for performance (FeatureCards, ProcessSteps)
  * - Added error boundaries for graceful error handling
  * - Integrated with modern routing (React Router compatible)
@@ -296,6 +257,7 @@ function Footer() {
  * - Theme-aware styling throughout
  * - Responsive design with mobile-first approach
  * - Performance optimized with Suspense boundaries
+ * - Added missing sections: Testimonials, Pricing, Footer
  *
  * @param props - Landing page configuration
  * @returns JSX element for the complete landing page
@@ -362,6 +324,20 @@ export function LandingPage({
         </Suspense>
       </ErrorBoundary>
 
+      {/* Testimonials Section */}
+      <ErrorBoundary onError={handleComponentError}>
+        <TestimonialsSection />
+      </ErrorBoundary>
+
+      {/* Pricing Section */}
+      <ErrorBoundary onError={handleComponentError}>
+        <PricingSection
+          isAuthenticated={isAuthenticated}
+          onAuth={onAuth}
+          onNavigate={onNavigate}
+        />
+      </ErrorBoundary>
+
       {/* Call-to-Action Section */}
       <ErrorBoundary onError={handleComponentError}>
         <CTASection
@@ -373,7 +349,7 @@ export function LandingPage({
 
       {/* Footer */}
       <ErrorBoundary onError={handleComponentError}>
-        <Footer />
+        <FooterSection />
       </ErrorBoundary>
     </div>
   );
