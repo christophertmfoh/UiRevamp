@@ -1,0 +1,22 @@
+CLIENT BUILD FILES:
+../client/src/pages/landing/FeatureCards.tsx
+../client/src/pages/landing/index.ts
+../client/src/pages/landing/HeroSection.tsx
+../client/src/pages/landing/CTASection.tsx
+../client/src/pages/landing/LandingPage.tsx
+../client/src/components/theme-provider.tsx
+../client/src/components/theme-toggle.tsx
+../client/src/pages/AuthPageRedesign.tsx
+
+FABLECRAFT-ENTERPRISE BUILD FILES:
+../fablecraft-enterprise/src/pages/landing/TestimonialCard.tsx
+../fablecraft-enterprise/src/pages/landing/index.ts
+../fablecraft-enterprise/src/pages/landing/HeroSection.tsx
+../fablecraft-enterprise/src/pages/landing/CTASection.tsx
+../fablecraft-enterprise/src/pages/landing/data.ts
+../fablecraft-enterprise/src/pages/landing/LandingPage.tsx
+../fablecraft-enterprise/src/components/theme/theme-toggle.tsx
+../fablecraft-enterprise/src/components/theme/index.ts
+../fablecraft-enterprise/src/components/theme/theme-provider.tsx
+
+FABLECRAFT-PRODUCTION BUILD FILES:
