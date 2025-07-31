@@ -129,7 +129,7 @@ export const FeatureCards = memo(function FeatureCards({
         
         {/* Enhanced Header Section */}
         <div className="heading-group">
-          <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
+          <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 inline-block">
             Revolutionary Creative Technology
           </Badge>
           
@@ -176,7 +176,7 @@ export const FeatureCards = memo(function FeatureCards({
                   role="article"
                   aria-label={`${indicator.number} ${indicator.label}`}
                 >
-                  <CardContent className="p-comfortable text-center space-y-4">
+                  <CardContent className="p-6 text-center space-y-4">
                     <div className={cn(
                       "w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl",
                       "flex items-center justify-center mx-auto transition-all duration-300",
@@ -192,7 +192,7 @@ export const FeatureCards = memo(function FeatureCards({
                       <div className="text-2xl sm:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                         {indicator.number}
                       </div>
-                      <div className="text-golden-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                      <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                         {indicator.label}
                       </div>
                       {isDetailed && indicator.description && (
@@ -261,7 +261,7 @@ export const FeatureCards = memo(function FeatureCards({
                     
                     <p 
                       id={`benefit-description-${index}`}
-                      className="text-golden-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-relaxed"
+                      className="text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-relaxed"
                     >
                       {benefit.description}
                     </p>
