@@ -71,16 +71,21 @@ const TestimonialCard = memo(
         }}
       />
 
-      <CardContent className='relative z-10 p-8 space-y-6'>
-        <div className='flex space-x-1 mb-4'>
+      <CardContent className='relative z-10 p-8'>
+        {/* Stars Rating */}
+        <div className='flex space-x-1'>
           {[...Array(testimonial.rating)].map((_, i) => (
             <Star key={i} className='w-5 h-5 fill-primary text-primary' />
           ))}
         </div>
-        <p className='text-foreground italic leading-relaxed'>
+        
+        {/* Quote Content */}
+        <p className='text-foreground italic leading-relaxed mt-best-friends'>
           {testimonial.content}
         </p>
-        <div className='flex items-center space-x-3'>
+        
+        {/* Author Information */}
+        <div className='flex items-center gap-3 mt-friends'>
           <div className='w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center'>
             <span className='text-primary-foreground font-bold text-sm'>
               {testimonial.initials}
@@ -90,7 +95,7 @@ const TestimonialCard = memo(
             <div className='font-semibold text-foreground'>
               {testimonial.name}
             </div>
-            <div className='text-sm text-muted-foreground'>
+            <div className='text-sm text-muted-foreground mt-best-friends'>
               {testimonial.role}
             </div>
           </div>
@@ -112,19 +117,26 @@ export const TestimonialsSection = memo(
   }: TestimonialsSectionProps) => {
     return (
       <section
-        className={`relative z-10 max-w-7xl mx-auto px-8 py-24 ${className}`}
+        className={`relative z-10 max-w-7xl mx-auto px-8 section-spacing-compact ${className}`}
       >
-        <div className='text-center space-y-16'>
-          <div className='space-y-6'>
-            <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md'>
-              Trusted by Professional Writers
-            </Badge>
-            <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight'>
+        <div className='text-center'>
+          {/* Header Section with Mathematical Spacing */}
+          <div className='flex flex-col items-center'>
+            {/* Badge with Pulsing Dot */}
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+              <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md text-base px-4 py-2'>
+                Trusted by Professional Writers
+              </Badge>
+            </div>
+            
+            <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight mt-best-friends'>
               What Our Users Are Saying
             </h2>
           </div>
 
-          <div className='grid md:grid-cols-3 gap-8'>
+          {/* Testimonial Cards with Mathematical Grid */}
+          <div className='grid md:grid-cols-3 grid-normal mt-acquaintances'>
             {testimonials.map(testimonial => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
