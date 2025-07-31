@@ -364,8 +364,8 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 // Heading → Description: mt-friends (16px)
 // Description → Cards: mt-acquaintances (24px)
 // Card grid: grid-normal (24px)
-// Card internal: space-y-4 (NOT component-inner)
-// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, avoid component-inner
+// Card internal: Individual mt-* classes (NOT space-y-* or component-inner)
+// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, individual mt-* for precise control
 ```
 
 #### **2.5.2: Content Hierarchy**
@@ -377,17 +377,17 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 // Quote → Author: mt-friends (16px)
 // Avatar → Name: mt-best-friends (8px)
 // Name → Role: mt-best-friends (8px)
-// **LESSON LEARNED:** Use mt-* instead of space-* for proper margin control
+// **LESSON LEARNED:** Use individual mt-* instead of space-* for proper margin control
 ```
 
 **✅ VALIDATION CRITERIA:**
 
 - [ ] Testimonial cards follow mathematical grid (24px)
-- [ ] Internal content hierarchy uses friendship spacing
-- [ ] Typography scales with golden ratio (but keeps readability)
-- [ ] Card padding sufficient to prevent content clipping
+- [ ] Internal content hierarchy uses individual mt-* friendship spacing
+- [ ] Typography maintains readability (avoid excessive text-golden-sm)
+- [ ] Card padding sufficient to prevent content clipping (p-6)
 - [ ] Social proof visually prominent
-- [ ] Section spacing flows with page rhythm
+- [ ] Section spacing flows with page rhythm (section-spacing-compact)
 - [ ] Mobile readability maintained
 - [ ] Build passes without errors
 
@@ -417,9 +417,9 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 // Heading → Description: mt-friends (16px)
 // Description → Cards: mt-acquaintances (24px)
 // Price grid: grid-normal (24px)
-// Card internal: space-y-4 (NOT component-inner)
+// Card internal: Individual mt-* classes (NOT space-y-* or component-inner)
 // Card padding: p-6 (sufficient to prevent clipping)
-// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, adequate padding prevents clipping
+// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, individual mt-* for precise control
 ```
 
 #### **2.6.2: Visual Hierarchy**
@@ -429,19 +429,19 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 ```typescript
 // Price → Period: mt-best-friends (8px)
 // Price/Period → Features: mt-friends (16px)
-// Features list: space-y-2 (8px between items)
+// Features list: Individual mt-* classes (NOT space-y-*)
 // Features → CTA: mt-acquaintances (24px)
-// **LESSON LEARNED:** Mathematical progression creates visual clarity
+// **LESSON LEARNED:** Individual mt-* progression creates visual clarity and control
 ```
 
 **✅ VALIDATION CRITERIA:**
 
 - [ ] Pricing cards mathematically spaced (24px grid)
-- [ ] Feature lists consistent hierarchy (friendship spacing)
+- [ ] Feature lists consistent hierarchy (individual mt-* friendship spacing)
 - [ ] CTA buttons optimally sized (44px touch targets)
-- [ ] Price prominence follows golden ratio (without sacrificing readability)
-- [ ] Card internals use space-y-* not component-inner
-- [ ] Adequate padding prevents content clipping
+- [ ] Price prominence maintains readability (avoid excessive text-golden-sm)
+- [ ] Card internals use individual mt-* not space-y-* or component-inner
+- [ ] Adequate padding prevents content clipping (p-6)
 - [ ] Mobile pricing comparison clear
 - [ ] Build passes without errors
 
@@ -465,9 +465,9 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 ```typescript
 // Logo → Links: mt-friends (16px)
-// Link groups: space-y-4 (16px between groups)
+// Link groups: Individual mt-* classes (NOT space-y-*)
 // Links → Copyright: mt-acquaintances (24px)
-// **LESSON LEARNED:** Footer should follow same friendship spacing as other sections
+// **LESSON LEARNED:** Footer should follow same individual mt-* friendship spacing as other sections
 ```
 
 #### **2.7.2: Final Visual Balance**
@@ -477,7 +477,7 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 ```typescript
 // Logo → Tagline: mt-best-friends (8px)
 // Content sections: mt-friends (16px)
-// Legal text: Readable size (avoid golden-sm for legal text)
+// Legal text: Readable size (avoid excessive text-golden-sm for legal text)
 // **LESSON LEARNED:** Legal text must remain readable, avoid excessive size reduction
 ```
 
@@ -485,9 +485,9 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 - [ ] Footer spacing completes page hierarchy
 - [ ] Visual weight balances header
-- [ ] Mathematical consistency maintained (friendship spacing)
-- [ ] Legal text remains readable (no excessive golden-sm)
-- [ ] Section spacing flows with page rhythm
+- [ ] Mathematical consistency maintained (individual mt-* friendship spacing)
+- [ ] Legal text remains readable (no excessive text-golden-sm)
+- [ ] Section spacing flows with page rhythm (section-spacing-compact)
 - [ ] Mobile footer functional
 - [ ] Build passes without errors
 
