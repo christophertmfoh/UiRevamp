@@ -48,6 +48,39 @@
       --auth-button-primary-hover 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* BUTTON LAG FIX - Hardware Acceleration + Containment for React + Vite + Tailwind v4 */
+  button, 
+  [role="button"], 
+  a[href], 
+  input[type="submit"], 
+  input[type="button"] {
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    
+    /* Optimize for theme transitions */
+    will-change: background-color, color, border-color, box-shadow;
+    
+    /* Contain layout and paint changes to this element */
+    contain: layout style paint;
+    
+    /* Smooth theme property transitions */
+    transition: 
+      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Remove will-change after theme transitions complete */
+  button:not(:hover):not(:focus):not(:active), 
+  [role="button"]:not(:hover):not(:focus):not(:active) {
+    will-change: auto;
+  }
+
   /* Disable transitions when themes are being switched programmatically */
   .disable-theme-transitions {
     transition: none !important;
