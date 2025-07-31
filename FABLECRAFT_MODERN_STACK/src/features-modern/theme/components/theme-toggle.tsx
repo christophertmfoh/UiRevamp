@@ -1,174 +1,114 @@
 'use client'
 
-import * as React from 'react'
-import { Palette, Check } from 'lucide-react'
-import { useTheme } from 'next-themes'
-
-import { Button } from '@/components/ui/button'
+import { Monitor, Moon, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu'
-import { themeConfig, getThemeConfig, type ThemeConfig } from '../config/theme-config'
+} from '@/components/ui/dropdown-menu';
+import { useTheme } from '../hooks/useTheme';
 
-/**
- * FABLECRAFT THEME SYSTEM v2.0
- * Research-based themes optimized for writers and creative professionals
- * All themes tested for WCAG AA contrast compliance (4.5:1 minimum)
- * Focus on eye comfort, engagement, and long writing sessions
- * 
- * Fablecraft Modern Stack - Enterprise Theme System
- * 
- * FEATURES:
- * - 8 research-based writer-focused themes
- * - Enhanced TypeScript interfaces and type safety
- * - WCAG AA compliance maintained (4.5:1+ contrast ratios)
- * - Theme persistence via localStorage
- * - All styling uses CSS custom properties
- */
+const themeConfig = {
+  system: { icon: Monitor, label: 'System' },
+  light: { icon: Sun, label: 'Light' },
+  dark: { icon: Moon, label: 'Dark' },
+  'arctic-focus': { icon: Sun, label: 'Arctic Focus' },
+  'golden-hour': { icon: Sun, label: 'Golden Hour' },
+  'midnight-ink': { icon: Moon, label: 'Midnight Ink' },
+  'forest-manuscript': { icon: Moon, label: 'Forest Manuscript' },
+  'starlit-prose': { icon: Moon, label: 'Starlit Prose' },
+  'coffee-house': { icon: Moon, label: 'Coffee House' },
+} as const;
 
-
-
-/**
- * Enhanced Theme Toggle Component
- * 
- * Features:
- * - 8 custom writer-focused themes + system theme
- * - WCAG AA compliant contrast ratios (4.5:1 minimum)
- * - Theme persistence via localStorage
- * - Responsive design with proper accessibility
- * - All colors use CSS custom properties (no hardcoded values)
- * 
- * @returns JSX element for theme selection dropdown
- */
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return (
-      <Button variant="outline" size="sm" className="px-0 w-9 h-9">
-        <Palette className="h-[1.2rem] w-[1.2rem]" />
-      </Button>
-    )
-  }
-
-  const getCurrentIcon = () => {
-    if (!theme) return Palette
-    const config = getThemeConfig(theme)
-    return config?.icon || Palette
-  }
-
-  const getCurrentThemeName = () => {
-    if (!theme) return 'Theme'
-    const config = getThemeConfig(theme)
-    return config?.name || 'Theme'
-  }
-
-  const CurrentIcon = getCurrentIcon()
+  const { theme, setTheme, resolvedTheme } = useTheme();
   
-  const renderThemesByCategory = (category: ThemeConfig['category']) => {
-    return Object.entries(themeConfig)
-      .filter(([, config]) => config.category === category)
-      .map(([themeKey, config]) => {
-        const IconComponent = config.icon
-        const isActive = theme === themeKey
-        
-        return (
-          <DropdownMenuItem
-            key={themeKey}
-            onClick={() => setTheme(themeKey)}
-            className="flex items-center justify-between gap-3 px-3 py-3 hover:bg-accent/10 cursor-pointer group"
-          >
-            <div className="flex items-center gap-3">
-              <div className={`p-1.5 rounded-md transition-colors ${
-                isActive ? 'bg-primary/20' : 'bg-muted/50 group-hover:bg-accent/20'
-              }`}>
-                <IconComponent className={`h-4 w-4 ${
-                  isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
-                }`} />
-              </div>
-              <div className="flex flex-col">
-                <span className={`text-sm font-medium ${
-                  isActive ? 'text-primary' : 'text-foreground'
-                }`}>
-                  {config.name}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {config.mood} • {config.contrast}
-                </span>
-              </div>
-            </div>
-            {isActive && (
-              <Check className="h-4 w-4 text-primary" />
-            )}
-          </DropdownMenuItem>
-        )
-      })
-  }
+  // Get current icon based on resolved theme
+  const getCurrentIcon = () => {
+    if (theme === 'system') return Monitor;
+    const isDark = resolvedTheme === 'dark' || 
+                   resolvedTheme.includes('dark') || 
+                   resolvedTheme.includes('midnight') || 
+                   resolvedTheme.includes('starlit') || 
+                   resolvedTheme.includes('coffee') ||
+                   resolvedTheme.includes('forest');
+    return isDark ? Moon : Sun;
+  };
+
+  const CurrentIcon = getCurrentIcon();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="px-0 w-9 h-9 hover:bg-accent/10 text-primary theme-transition"
-          title={getCurrentThemeName()}
-        >
-          <CurrentIcon className="h-[1.2rem] w-[1.2rem]" />
+        <Button variant="ghost" size="icon" className="relative">
+          <CurrentIcon className="h-5 w-5 transition-all" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
-        align="end" 
-        className="w-80 bg-card/95 border-border/30 backdrop-blur-sm theme-transition"
-      >
-        <div className="p-2">
-          <DropdownMenuLabel className="text-sm font-semibold text-foreground flex items-center gap-2 px-1">
-            <Palette className="h-4 w-4 text-primary" />
-            <span>Writer-Focused Themes</span>
-          </DropdownMenuLabel>
-          <p className="text-xs text-muted-foreground px-1 mt-1 mb-2">
-            Optimized for long writing sessions with WCAG AA contrast
-          </p>
-        </div>
-        
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuLabel>Theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
-        <div className="p-1">
-          <DropdownMenuLabel className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-            Light Themes
-          </DropdownMenuLabel>
-          {renderThemesByCategory('Light Themes')}
-        </div>
+        {/* System preference */}
+        <DropdownMenuItem
+          onClick={() => setTheme('system')}
+          className="cursor-pointer"
+        >
+          <Monitor className="mr-2 h-4 w-4" />
+          <span>System</span>
+          {theme === 'system' && (
+            <span className="ml-auto text-xs text-muted-foreground">✓</span>
+          )}
+        </DropdownMenuItem>
         
         <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Light Themes</DropdownMenuLabel>
         
-        <div className="p-1">
-          <DropdownMenuLabel className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-            Dark Themes
-          </DropdownMenuLabel>
-          {renderThemesByCategory('Dark Themes')}
-        </div>
+        {/* Light themes */}
+        {['light', 'arctic-focus', 'golden-hour'].map((t) => {
+          const config = themeConfig[t as keyof typeof themeConfig];
+          const Icon = config.icon;
+          return (
+            <DropdownMenuItem
+              key={t}
+              onClick={() => setTheme(t as any)}
+              className="cursor-pointer"
+            >
+              <Icon className="mr-2 h-4 w-4" />
+              <span>{config.label}</span>
+              {theme === t && (
+                <span className="ml-auto text-xs text-muted-foreground">✓</span>
+              )}
+            </DropdownMenuItem>
+          );
+        })}
         
         <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Dark Themes</DropdownMenuLabel>
         
-        <div className="p-1">
-          <DropdownMenuLabel className="text-xs font-medium text-muted-foreground px-2 py-1 uppercase tracking-wide">
-            System
-          </DropdownMenuLabel>
-          {renderThemesByCategory('System')}
-        </div>
+        {/* Dark themes */}
+        {['dark', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'].map((t) => {
+          const config = themeConfig[t as keyof typeof themeConfig];
+          const Icon = config.icon;
+          return (
+            <DropdownMenuItem
+              key={t}
+              onClick={() => setTheme(t as any)}
+              className="cursor-pointer"
+            >
+              <Icon className="mr-2 h-4 w-4" />
+              <span>{config.label}</span>
+              {theme === t && (
+                <span className="ml-auto text-xs text-muted-foreground">✓</span>
+              )}
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
