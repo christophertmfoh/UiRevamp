@@ -3,8 +3,17 @@
 import React, { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Lightbulb, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { 
+  CheckCircle, 
+  Zap, 
+  Film,
+  Music,
+  Share2,
+  Globe,
+  Camera,
+  Palette
+} from 'lucide-react';
 
 /**
  * Enhanced TypeScript interfaces for Feature Cards
@@ -33,56 +42,74 @@ interface FeatureCardsProps {
 }
 
 /**
- * Default trust indicators data with enhanced structure
+ * Default trust indicators data with enhanced multimedia focus
  */
 const defaultTrustIndicators: TrustIndicator[] = [
   { 
-    number: "500M+", 
-    label: "Words Generated", 
-    icon: CheckCircle,
-    description: "Words created by our AI writing assistant"
+    number: "1M+", 
+    label: "Creative Assets Generated", 
+    icon: Palette,
+    description: "Images, videos, and audio files created"
   },
   { 
-    number: "50K+", 
-    label: "Stories Created", 
-    icon: Lightbulb,
-    description: "Complete stories written on our platform"
+    number: "250K+", 
+    label: "Multimedia Projects", 
+    icon: Film,
+    description: "Complete creative productions from concept to final export"
   },
   { 
-    number: "99%", 
-    label: "Uptime Guarantee", 
+    number: "99.9%", 
+    label: "Production Uptime", 
     icon: Zap,
-    description: "Reliable service availability"
+    description: "Reliable multimedia rendering and AI services"
   },
   { 
-    number: "100%", 
-    label: "Workflow Integration", 
+    number: "50+", 
+    label: "Creative Tools Integrated", 
     icon: CheckCircle,
-    description: "Seamless integration with your creative process"
+    description: "Seamless integration across the entire creative pipeline"
   }
 ];
 
 /**
- * Default key benefits data with enhanced structure
+ * Default key benefits data with enhanced multimedia structure
  */
 const defaultKeyBenefits: KeyBenefit[] = [
   {
-    icon: CheckCircle,
-    title: 'World Bible Intelligence',
-    description: 'Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe.',
+    icon: Globe,
+    title: 'Intelligent World Building',
+    description: 'Create interconnected characters, locations, cultures, and factions with AI that understands your entire creative universe across all media formats.',
     category: 'World Building'
   },
   {
-    icon: Lightbulb,
-    title: 'Contextual Story AI',
-    description: 'Get intelligent suggestions that respect your established lore, character arcs, and narrative consistency across all projects.',
-    category: 'AI Assistance'
+    icon: Film,
+    title: 'Visual Storytelling Pipeline',
+    description: 'Transform your written content into storyboards, concept art, and videos with AI-powered visual generation trained on your creative style.',
+    category: 'Visual Production'
+  },
+  {
+    icon: Music,
+    title: 'Audio & Score Production',
+    description: 'Generate voices, compose scores, and create soundscapes with our integrated DAW. From dialogue to orchestra, bring your worlds to life with sound.',
+    category: 'Audio Production'
+  },
+  {
+    icon: Share2,
+    title: 'Community & Publishing',
+    description: 'Share your creations, collaborate in real-time, and publish across multiple formats. Build your audience and connect with fellow creators.',
+    category: 'Community'
+  },
+  {
+    icon: Camera,
+    title: 'Pre-Visualization Suite',
+    description: 'Create professional pre-vis sequences from your storyboards. Generate image-to-video content for shorts, demos, and full productions.',
+    category: 'Pre-Visualization'
   },
   {
     icon: Zap,
-    title: 'Visual Production Ready',
-    description: 'From concept art to final graphics, transform your written stories into visual masterpieces with integrated design tools.',
-    category: 'Visual Design'
+    title: 'AI-Powered Workflow',
+    description: 'Intelligent assistance throughout your creative process. From ideation to publication, AI amplifies your creativity without replacing your vision.',
+    category: 'AI Integration'
   }
 ];
 
@@ -146,15 +173,16 @@ export const FeatureCards = memo(function FeatureCards({
               isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-golden-3xl sm:text-golden-4xl lg:text-golden-5xl xl:text-6xl"
             )}
           >
-            The Creative Industry's First True End-to-End Suite
+            The Creative Industry's First Complete Multimedia Suite
           </h2>
           
           <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
+            "text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-golden-lg sm:text-golden-xl lg:text-golden-2xl"
           )}>
-            Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
-            platform that understands your entire creative process from world-building to visual production.
+            Break free from scattered tools. Fablecraft replaces 50+ applications with one intelligent 
+            platform that understands your entire creative process from world-building to video production, 
+            audio scoring, and community publishing.
           </p>
         </div>
 

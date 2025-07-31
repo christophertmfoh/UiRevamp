@@ -57,7 +57,7 @@ export function CTASection({
             className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-lg hover:shadow-xl transition-shadow duration-300 text-base px-4 py-2"
           >
             <Sparkles className="w-4 h-4 mr-2" />
-            Start Your Creative Revolution
+            Join the Creative Revolution
           </Badge>
         </div>
       </div>
@@ -95,14 +95,14 @@ export function CTASection({
                 className="text-golden-3xl sm:text-golden-4xl lg:text-golden-5xl xl:text-6xl font-black leading-[1.1] tracking-tight mb-6"
               >
                 <span className="bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
-                  Ready to Transform Your Creative Process?
+                  Ready to Revolutionize Creative Production?
                 </span>
               </h2>
               
               {/* Supporting Copy */}
               <p className="text-golden-lg sm:text-golden-xl lg:text-golden-2xl text-muted-foreground max-w-3xl mx-auto lg:mx-0 leading-relaxed font-medium mt-friends mb-8">
-                Join thousands of creators who've revolutionized their storytelling workflow. 
-                From concept to completion in minutes, not months.
+                Join thousands of creators who've replaced entire creative workflows with one intelligent platform. 
+                From concept to publication, from script to screen, from silence to symphony — all in one revolutionary suite.
               </p>
               
               {/* CTA Buttons - Same styling as other sections */}
@@ -134,8 +134,8 @@ export function CTASection({
               
               {/* Trust Signal */}
               <p className="text-sm text-muted-foreground mt-8 lg:text-left text-center">
-                <span className="font-medium text-foreground">Free to start</span> • No credit card required • 
-                <span className="font-medium text-foreground">Cancel anytime</span>
+                <span className="font-medium text-foreground">Free to start</span> • Complete multimedia suite • 
+                <span className="font-medium text-foreground">No vendor lock-in</span>
               </p>
             </div>
             

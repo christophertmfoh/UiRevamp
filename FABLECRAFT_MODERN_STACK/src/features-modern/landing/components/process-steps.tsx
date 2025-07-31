@@ -1,22 +1,24 @@
 'use client'
 
-import type { ComponentType } from 'react';
+import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Lightbulb,
-  Library,
-  BookOpen,
-  Compass,
-  PenTool,
-  Palette
-} from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { 
+  Lightbulb, 
+  Globe, 
+  PenTool, 
+  Palette, 
+  Camera, 
+  Music, 
+  Film, 
+  Share2
+} from 'lucide-react';
 
 /**
  * Process step interface
  */
 interface ProcessStep {
-  icon: ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
   detail: string;
@@ -33,50 +35,64 @@ interface ProcessStepsProps {
 }
 
 /**
- * Default process steps data
+ * Default process steps data with multimedia pipeline focus
  */
 const defaultProcessSteps: ProcessStep[] = [
   { 
     icon: Lightbulb, 
-    title: "Ideation", 
-    description: "From spark to story seed",
-    detail: "Transform fleeting inspiration into rich narrative foundations with AI guidance",
-    category: "Creative"
+    title: "Ideation & Concept", 
+    description: "From spark to creative foundation",
+    detail: "Transform fleeting inspiration into rich creative concepts with AI-guided brainstorming across all media",
+    category: "Creative Foundation"
   },
   { 
-    icon: Library, 
-    title: "World Crafting", 
-    description: "Build living story universes",
-    detail: "Characters, places, cultures - all interconnected in your digital story bible",
-    category: "World Building"
-  },
-  { 
-    icon: BookOpen, 
-    title: "Manuscript Import", 
-    description: "Breathe life into existing work",
-    detail: "Upload character sheets and documents - AI extracts deep story insights",
-    category: "Content"
-  },
-  { 
-    icon: Compass, 
-    title: "Story Architecture", 
-    description: "Blueprint your narrative",
-    detail: "AI-assisted plotting that weaves through your carefully crafted world",
-    category: "Structure"
+    icon: Globe, 
+    title: "World Building", 
+    description: "Build living creative universes",
+    detail: "Characters, places, cultures, and lore - all interconnected in your intelligent creative bible",
+    category: "Universe Creation"
   },
   { 
     icon: PenTool, 
-    title: "Contextual Writing", 
-    description: "Write within living worlds",
-    detail: "Every word informed by your story bible - characters, places, history at your fingertips",
-    category: "Writing"
+    title: "Content Creation", 
+    description: "Write across multiple formats",
+    detail: "Craft novels, screenplays, poetry, and D&D campaigns with AI that understands your world's context",
+    category: "Writing & Scripting"
   },
   { 
     icon: Palette, 
-    title: "Visual Storytelling", 
-    description: "Pictures worth a thousand words",
-    detail: "Generate consistent artwork, storyboards, and multimedia from your narrative",
-    category: "Visual"
+    title: "Visual Development", 
+    description: "From words to visual concepts",
+    detail: "Generate storyboards, concept art, and character designs from your written content",
+    category: "Visual Design"
+  },
+  { 
+    icon: Camera, 
+    title: "Pre-Visualization", 
+    description: "Bring storyboards to life",
+    detail: "Create professional pre-vis sequences and generate image-to-video content for demos and shorts",
+    category: "Video Production"
+  },
+  { 
+    icon: Music, 
+    title: "Audio & Scoring", 
+    description: "Soundscapes that complete worlds",
+    detail: "Generate voices, compose scores, and create immersive audio with our integrated production suite",
+    category: "Audio Production"
+  },
+  { 
+    icon: Film, 
+    title: "Post-Production", 
+    description: "Polish and perfect your vision",
+    detail: "Edit, combine, and export your multimedia projects across all formats with professional tools",
+    category: "Final Production"
+  },
+  { 
+    icon: Share2, 
+    title: "Publishing & Community", 
+    description: "Share and collaborate globally",
+    detail: "Publish across platforms, build communities, and collaborate with creators worldwide",
+    category: "Distribution"
   }
 ];
 
@@ -131,15 +147,16 @@ export function ProcessSteps({
               isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl"
             )}
           >
-            Your Complete Writing Workflow
+            Your Complete Creative Production Pipeline
           </h2>
           
           <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
+            "text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
           )}>
-            Follow our proven 6-step process used by professional writers worldwide. Each stage builds 
-            seamlessly into the next, ensuring your creative vision stays consistent from start to finish.
+            Follow our proven 8-stage multimedia production process used by creative professionals worldwide. 
+            Each stage builds seamlessly into the next, ensuring your creative vision stays consistent from 
+            initial concept to final publication.
           </p>
         </div>
 

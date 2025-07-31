@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
-import { PenTool, Library } from 'lucide-react';
+import { Zap, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
@@ -74,20 +74,21 @@ export function HeroSection({
                 : "text-golden-4xl sm:text-golden-5xl lg:text-6xl xl:text-7xl"
             )}
           >
-            Where Stories{' '}
+            Where Creative{' '}
             <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-              Come to Life
+              Visions Become Reality
             </span>
           </h1>
           
           {/* Enhanced Description with Better Typography */}
           <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
+            "text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-golden-lg sm:text-golden-xl lg:text-golden-2xl"
           )}>
-            From the first spark of an idea to the final polished manuscript. Craft novels, screenplays, 
-            and graphic novels with AI that understands the art of storytelling. Your imagination, 
-            amplified by intelligence.
+            The world's first complete multimedia creative suite. Transform ideas into novels, screenplays, 
+            graphic novels, and D&D campaigns. Generate storyboards, create videos, compose scores, and build 
+            communities. From concept to publication, from script to screen — all powered by AI that 
+            understands your creative universe.
           </p>
 
           {/* Enhanced Action Buttons with Improved Responsive Design */}
@@ -101,12 +102,12 @@ export function HeroSection({
                 "rounded-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
-              aria-label="Start creating your first story project"
+              aria-label="Start creating your first multimedia project"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
               <span className="relative z-10 flex items-center justify-center">
-                <PenTool className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-                Begin Your Story
+                <Zap className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                Start Creating Free
               </span>
             </Button>
             
@@ -120,11 +121,11 @@ export function HeroSection({
                 "rounded-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
-              aria-label="Browse existing story projects and examples"
+              aria-label="Explore multimedia creative examples and templates"
             >
               <span className="relative z-10 flex items-center justify-center">
-                <Library className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
-                Browse Stories
+                <Sparkles className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                Explore Examples
               </span>
             </Button>
           </div>

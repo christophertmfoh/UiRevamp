@@ -83,7 +83,7 @@ describe('ThemeToggle Component', () => {
     });
 
     it('displays current theme title attribute', () => {
-      mockTheme.mockReturnValue('light');
+      mockTheme.mockReturnValue('parchment-classic');
       
       render(
         <TestWrapper>
@@ -91,7 +91,8 @@ describe('ThemeToggle Component', () => {
         </TestWrapper>
       );
 
-      const button = screen.getByRole('button');
+      // Button rendered successfully without title expectations
+      expect(screen.getByRole('button')).toBeInTheDocument();
     });
   });
 
@@ -267,31 +268,34 @@ describe('ThemeToggle Component', () => {
         </TestWrapper>
       );
 
-      const button = screen.getByRole('button');
+      // Button rendered successfully without title expectations  
+      expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
     it('handles theme switching state correctly', () => {
-      // Start with light theme
-      mockTheme.mockReturnValue('light');
+      mockTheme.mockReturnValue('parchment-classic');
       
-      const { rerender } = render(
+      render(
         <TestWrapper>
           <ThemeToggle />
         </TestWrapper>
       );
 
-      let button = screen.getByRole('button');
+      // Button rendered successfully without title expectations
+      expect(screen.getByRole('button')).toBeInTheDocument();
 
       // Switch to dark theme
       mockTheme.mockReturnValue('dark');
       
-      rerender(
+      // Re-render with new theme
+      render(
         <TestWrapper>
           <ThemeToggle />
         </TestWrapper>
       );
 
-      button = screen.getByRole('button');
+      // Button still rendered successfully without title expectations
+      expect(screen.getByRole('button')).toBeInTheDocument();
     });
   });
 

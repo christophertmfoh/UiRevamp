@@ -40,38 +40,46 @@ interface PricingSectionProps {
   onNavigate?: (view: string) => void;
 }
 
-const DEFAULT_PRICING_TIERS: PricingTier[] = [
+/**
+ * Default pricing tiers with multimedia capabilities
+ */
+const defaultPricingTiers: PricingTier[] = [
   {
-    id: 'storyteller',
-    name: 'Storyteller',
+    id: 'free',
+    name: 'Creative Starter',
     price: 'Free',
-    description: 'Perfect for getting started',
-    ctaText: 'Get Started Free',
+    period: '',
+    description: 'Perfect for exploring the full creative suite',
+    isPopular: false,
+    ctaText: 'Start Creating Free',
     features: [
-      { id: 'projects-3', text: '3 Projects', included: true },
-      {
-        id: 'character-gen',
-        text: 'Character Generation (164+ fields)',
-        included: true,
-      },
-      { id: 'world-bible', text: 'World Bible', included: true },
-      { id: 'ai-story', text: 'AI Story Assistance', included: true },
+      { id: 'projects-3', text: '3 Multimedia Projects', included: true },
+      { id: 'world-bible', text: 'World Bible & Character Generator', included: true },
+      { id: 'basic-writing', text: 'Basic Writing Tools (Novels, Scripts)', included: true },
+      { id: 'basic-visual', text: 'Basic Storyboarding & Concept Art', included: true },
+      { id: 'basic-audio', text: 'Basic Voice & Sound Generation', included: true },
+      { id: 'community-access', text: 'Community Access & Sharing', included: true },
+      { id: 'export-basic', text: 'Standard Export Formats', included: true },
     ],
   },
   {
     id: 'professional',
-    name: 'Professional',
-    price: '$19',
+    name: 'Creative Studio',
+    price: '$29',
     period: '/month',
-    description: 'For serious storytellers',
+    description: 'Complete multimedia production powerhouse',
     isPopular: true,
-    ctaText: 'Start Professional Trial',
+    ctaText: 'Unleash Full Creative Power',
     features: [
-      { id: 'projects-unlimited', text: 'Unlimited Projects', included: true },
-      { id: 'advanced-ai', text: 'Advanced Character AI', included: true },
-      { id: 'collaboration', text: 'Real-time Collaboration', included: true },
-      { id: 'export-tools', text: 'Export & Publishing Tools', included: true },
-      { id: 'priority-support', text: 'Priority Support', included: true },
+      { id: 'projects-unlimited', text: 'Unlimited Multimedia Projects', included: true },
+      { id: 'advanced-ai', text: 'Advanced AI Across All Media', included: true },
+      { id: 'video-generation', text: 'Pre-vis & Video Generation', included: true },
+      { id: 'audio-suite', text: 'Full Audio Production Suite & DAW', included: true },
+      { id: 'dnd-expansion', text: 'D&D Campaign Builder (Coming Soon)', included: true },
+      { id: 'collaboration', text: 'Real-time Collaboration & Teams', included: true },
+      { id: 'publishing-tools', text: 'Publishing & Distribution Tools', included: true },
+      { id: 'custom-models', text: 'Custom AI Model Training', included: true },
+      { id: 'priority-support', text: 'Priority Support & Beta Access', included: true },
     ],
   },
 ];
@@ -170,7 +178,7 @@ PricingCard.displayName = 'PricingCard';
  */
 export const PricingSection = memo(
   ({
-    tiers = DEFAULT_PRICING_TIERS,
+    tiers = defaultPricingTiers,
     className = '',
     onSelectPlan,
     isAuthenticated = false,
