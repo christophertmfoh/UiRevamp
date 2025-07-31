@@ -63,7 +63,7 @@ export function CTASection({
     <section 
       className={cn(
         "relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8",
-        isCompact ? "py-12 sm:py-16" : "py-16 sm:py-20 lg:py-32",
+        isCompact ? "py-12 sm:py-16" : "section-spacing-compact",
         className
       )}
       aria-labelledby="cta-heading"
@@ -91,12 +91,12 @@ export function CTASection({
         )}
         
         <div className={cn(
-          "relative z-10 text-center space-y-6 lg:space-y-8",
+          "relative z-10 text-center",
           isCompact ? "p-6 sm:p-8 lg:p-12" : "p-8 sm:p-12 lg:p-16"
         )}>
           
           {/* Enhanced Header Section */}
-          <div className="space-y-6 lg:space-y-8">
+          <div className="heading-group">
             
             {/* Icon with theme-aware styling */}
             {!isMinimal && (
@@ -117,9 +117,9 @@ export function CTASection({
             <h2 
               id="cta-heading"
               className={cn(
-                "font-black leading-[1.1] tracking-tight",
+                "font-black leading-[1.1] tracking-tight mt-best-friends",
                 "bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent",
-                isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl"
+                isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-golden-3xl sm:text-golden-4xl lg:text-golden-5xl xl:text-6xl"
               )}
             >
               {title}
@@ -127,15 +127,15 @@ export function CTASection({
             
             {/* Enhanced subtitle */}
             <p className={cn(
-              "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium",
-              isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
+              "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
+              isCompact ? "text-base sm:text-lg" : "text-golden-lg sm:text-golden-xl"
             )}>
               {subtitle}
             </p>
           </div>
           
-          {/* Enhanced Button Section with Better Mobile Responsiveness */}
-          <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center items-center max-w-2xl mx-auto">
+          {/* Enhanced Button Section with Z-Pattern Conversion Flow */}
+          <div className="flex flex-col sm:flex-row gap-friends justify-center items-center max-w-2xl mx-auto mt-acquaintances">
             
             {/* Primary CTA Button */}
             <Button 
@@ -143,7 +143,7 @@ export function CTASection({
               size="lg"
               className={cn(
                 "group relative w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground",
-                "px-8 lg:px-12 py-4 lg:py-6 text-base lg:text-lg font-semibold",
+                "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-lg hover:shadow-xl rounded-xl transition-all duration-300",
                 "hover:scale-105 hover:-translate-y-1",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
@@ -167,7 +167,7 @@ export function CTASection({
               variant="outline"
               className={cn(
                 "group relative w-full sm:w-auto border-border hover:bg-accent hover:text-accent-foreground",
-                "px-8 lg:px-12 py-4 lg:py-6 text-base lg:text-lg font-semibold",
+                "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-md hover:shadow-lg rounded-xl transition-all duration-300",
                 "hover:scale-105 hover:-translate-y-1",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
