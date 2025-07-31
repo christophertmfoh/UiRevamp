@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { useEffect, useState, useCallback } from 'react'
-
 import { ThemeContext } from './theme-context'
 
 type Theme = 'light' | 'dark' | 'arctic-focus' | 'golden-hour' | 'midnight-ink' | 'forest-manuscript' | 'starlit-prose' | 'coffee-house' | 'system'
@@ -19,10 +18,9 @@ interface ThemeProviderProps {
 
 const isDarkTheme = (theme: Theme): boolean => {
   return theme.includes('dark') || 
-         theme.includes('midnight') || 
-         theme.includes('forest') || 
-         theme.includes('starlit') || 
-         theme.includes('coffee')
+         theme === 'midnight-ink' || 
+         theme === 'forest-manuscript' || 
+         theme === 'starlit-prose'
 }
 
 const safeLocalStorage = {
@@ -39,157 +37,97 @@ const safeLocalStorage = {
     try {
       window.localStorage.setItem(key, value)
     } catch {
-      // Silently fail - localStorage may be disabled
+      // Silently fail if localStorage is not available
     }
   }
 }
 
 export function ThemeProvider({
   children,
-  attribute = 'data-theme',
-  defaultTheme = 'system',
+  attribute = "class",
+  defaultTheme = "system",
   enableSystem = true,
   themes = ['light', 'dark', 'arctic-focus', 'golden-hour', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house', 'system'],
-  disableTransitionOnChange = true,
-  storageKey = 'fablecraft-theme'
+  disableTransitionOnChange = false,
+  storageKey = "theme",
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    const stored = safeLocalStorage.getItem(storageKey) as Theme
-    return stored && themes.includes(stored) ? stored : defaultTheme
-  })
-
+  const [theme, setThemeState] = useState<Theme>(defaultTheme)
   const [mounted, setMounted] = useState(false)
 
-  // Handle system theme
-  const getSystemTheme = useCallback((): Theme => {
-    if (typeof window === 'undefined') return 'light'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  }, [])
+  const setTheme = useCallback((newTheme: Theme) => {
+    if (!disableTransitionOnChange) {
+      const css = document.createElement("style")
+      css.appendChild(
+        document.createTextNode(
+          `* {
+             -webkit-transition: none !important;
+             -moz-transition: none !important;
+             -o-transition: none !important;
+             -ms-transition: none !important;
+             transition: none !important;
+           }`
+        )
+      )
+      document.head.appendChild(css)
 
-  // Resolve the actual theme to apply
-  const resolveTheme = useCallback((t: Theme): Theme => {
-    if (t === 'system' && enableSystem) {
-      return getSystemTheme()
+      // Force browser reflow
+      void window.getComputedStyle(css).opacity
+      document.head.removeChild(css)
     }
-    return t
-  }, [enableSystem, getSystemTheme])
 
-  // Apply theme to DOM with proper transition handling
-  const applyTheme = useCallback((t: Theme) => {
-    if (typeof window === 'undefined') return
+    const resolvedTheme = newTheme === 'system' && enableSystem
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : newTheme
+
+    setThemeState(newTheme)
     
-    const resolved = resolveTheme(t)
-    const root = document.documentElement
-
-    // Create style element for disabling transitions during theme change
-    const disableTransitionsStyle = document.createElement('style')
-    const css = document.createTextNode(':root { transition: none !important; }')
-    disableTransitionsStyle.appendChild(css)
-
-    // Disable transitions using the research-backed approach
-    if (disableTransitionOnChange) {
-      document.head.appendChild(disableTransitionsStyle)
-    }
-
-    if (attribute === 'class') {
-      // Remove all theme classes
-      themes.forEach(themeClass => {
-        if (themeClass !== 'system') {
-          root.classList.remove(themeClass)
-        }
-      })
-      // Add new theme class
-      if (resolved !== 'light') {
-        root.classList.add(resolved)
+    if (attribute === "class") {
+      document.documentElement.className = document.documentElement.className
+        .replace(/theme-\w+/g, '')
+        .trim()
+      document.documentElement.classList.add(`theme-${resolvedTheme}`)
+      
+      // Apply dark mode class for CSS compatibility
+      if (isDarkTheme(resolvedTheme)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
       }
     } else {
-      // Set data-theme attribute
-      root.setAttribute(attribute, resolved)
+      document.documentElement.setAttribute(attribute, resolvedTheme)
     }
 
-    if (disableTransitionOnChange) {
-      // Use the modern approach: getComputedStyle forces browser to apply styles
-      if (typeof window.getComputedStyle !== 'undefined') {
-        window.getComputedStyle(disableTransitionsStyle).opacity
-        document.head.removeChild(disableTransitionsStyle)
-      } else if (typeof window.requestAnimationFrame !== 'undefined') {
-        window.requestAnimationFrame(() => {
-          document.head.removeChild(disableTransitionsStyle)
-        })
-      } else {
-        // Ultimate fallback: setTimeout
-        window.setTimeout(() => {
-          if (document.head.contains(disableTransitionsStyle)) {
-            document.head.removeChild(disableTransitionsStyle)
-          }
-        }, 100)
-      }
-    }
-  }, [attribute, themes, disableTransitionOnChange, resolveTheme])
-
-  // Set theme and persist to localStorage
-  const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme)
     safeLocalStorage.setItem(storageKey, newTheme)
-  }, [storageKey])
+  }, [attribute, enableSystem, disableTransitionOnChange, storageKey])
 
-  // Apply theme on mount and when it changes
   useEffect(() => {
+    const stored = safeLocalStorage.getItem(storageKey) as Theme | null
+    const initialTheme = stored && themes.includes(stored) ? stored : defaultTheme
+    setTheme(initialTheme)
     setMounted(true)
-  }, [])
+  }, [defaultTheme, setTheme, storageKey, themes])
 
   useEffect(() => {
-    if (!mounted) return
-    applyTheme(theme)
-  }, [theme, mounted, applyTheme])
-
-  // Listen for system theme changes
-  useEffect(() => {
-    if (!enableSystem || !mounted || typeof window === 'undefined') return
+    if (!enableSystem || theme !== 'system' || !mounted) return
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = () => {
-      if (theme === 'system') {
-        applyTheme('system')
-      }
-    }
-
+    const handleChange = () => setTheme('system')
+    
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [theme, enableSystem, mounted, applyTheme])
+  }, [enableSystem, theme, setTheme, mounted])
 
-  // Listen for storage changes (sync across tabs)
-  useEffect(() => {
-    if (!mounted || typeof window === 'undefined') return
-
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === storageKey && e.newValue) {
-        const newTheme = e.newValue as Theme
-        if (themes.includes(newTheme)) {
-          setThemeState(newTheme)
-        }
-      }
-    }
-
-    window.addEventListener('storage', handleStorage)
-    return () => window.removeEventListener('storage', handleStorage)
-  }, [storageKey, themes, mounted])
-
-  // Prevent flash of unstyled content
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    
-    const root = document.documentElement
-    const colorScheme = theme === 'system' ? '' : isDarkTheme(theme) ? 'dark' : 'light'
-    root.style.colorScheme = colorScheme
-  }, [theme])
-
-  if (!mounted) {
-    return <>{children}</>
-  }
+  const value = React.useMemo(
+    () => ({
+      theme,
+      setTheme,
+      themes,
+    }),
+    [theme, setTheme, themes]
+  )
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, themes }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   )
