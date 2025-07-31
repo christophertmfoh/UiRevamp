@@ -1,3 +1,6 @@
+/* Mathematical Spacing System Import - Must be first for PostCSS compliance */
+@import './shared/lib/design-system/spacing.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
