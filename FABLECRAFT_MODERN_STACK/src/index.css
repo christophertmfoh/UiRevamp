@@ -315,7 +315,7 @@
     position: relative;
   }
 
-  /* Universal subtle ambient glow - pure accent color themed */
+  /* SMART CONTRAST AMBIENT GLOW - Automatically visible in all themes */
   section::before {
     content: '';
     position: absolute;
@@ -325,25 +325,37 @@
     bottom: -15%;
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--accent) / 0.04) 0%,
-      hsl(var(--accent) / 0.02) 50%,
+      light-dark(
+        oklch(from hsl(var(--accent)) calc(l * 0.3) c h / 0.12),
+        oklch(from hsl(var(--accent)) calc(l * 1.8) c h / 0.08)
+      ) 0%,
+      light-dark(
+        oklch(from hsl(var(--accent)) calc(l * 0.2) c h / 0.06),
+        oklch(from hsl(var(--accent)) calc(l * 1.6) c h / 0.04)
+      ) 50%,
       transparent 80%
     );
     filter: blur(80px);
     z-index: -1;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.8;
   }
 
-  /* Hero gets enhanced accent presence */
+  /* Hero gets enhanced smart contrast presence */
   .hero-ambient-glow::before {
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--accent) / 0.06) 0%,
-      hsl(var(--accent) / 0.03) 50%,
+      light-dark(
+        oklch(from hsl(var(--accent)) calc(l * 0.25) c h / 0.18),
+        oklch(from hsl(var(--accent)) calc(l * 2.2) c h / 0.12)
+      ) 0%,
+      light-dark(
+        oklch(from hsl(var(--accent)) calc(l * 0.15) c h / 0.09),
+        oklch(from hsl(var(--accent)) calc(l * 1.8) c h / 0.06)
+      ) 50%,
       transparent 80%
     );
-    opacity: 0.7;
+    opacity: 1.0;
   }
 
   /* Content elements - pure typography, no visual containers */
