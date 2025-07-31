@@ -106,4 +106,20 @@
   .interactive-element:active {
     transform: scale(0.98);
   }
+
+  /* Gradient utilities using theme variables */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  }
+
+  .gradient-primary-br {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.9));
+  }
+
+  .gradient-primary-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
