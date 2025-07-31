@@ -302,60 +302,49 @@
   /* ===== ATMOSPHERIC DEPTH SYSTEM ===== */
   /* Creates natural visual hierarchy without boxy containers */
   
-  /* MODERN GLASSMORPHISM SEPARATION - Professional depth without borders */
-  section,
+  /* CONTENT CONTRAST SYSTEM - Typography and gradient-based separation */
+  
+  /* Enhanced typography contrast for better separation */
+  h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0 1px 3px hsl(var(--foreground) / 0.15);
+    letter-spacing: -0.02em;
+  }
+
+  /* Section-level background gradients for subtle separation */
+  section {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--muted) / 0.03) 0%,
+      transparent 50%,
+      hsl(var(--accent) / 0.02) 100%
+    );
+  }
+
+  /* Content elements get subtle background tint and soft glow */
   .card,
-  .hero,
-  nav,
-  article,
   .feature-card,
   .process-step,
   .testimonial-card,
   .pricing-card {
-    /* Glassmorphism: Transparency + Background Blur + Subtle Light Border */
-    background: hsl(var(--background) / 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.2);
-    border-radius: 12px;
-    box-shadow: 
-      0 8px 32px hsl(var(--foreground) / 0.1),
-      inset 0 1px 0 hsl(var(--background) / 0.2);
+    background: hsl(var(--background) / 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
 
-  /* Enhanced glassmorphic effect on hover */
+  /* Subtle content lift on hover - no borders, just enhanced background */
   .card:hover,
   .feature-card:hover,
   .process-step:hover,
   .testimonial-card:hover,
   .pricing-card:hover {
     background: hsl(var(--background) / 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-color: hsl(var(--border) / 0.3);
-    transform: translateY(-2px);
-    box-shadow: 
-      0 12px 40px hsl(var(--foreground) / 0.15),
-      inset 0 1px 0 hsl(var(--background) / 0.3);
-  }
-
-  /* Buttons get subtle glassmorphism but stay functional */
-  button,
-  .btn {
-    background: hsl(var(--background) / 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid hsl(var(--border) / 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  button:hover,
-  .btn:hover {
-    background: hsl(var(--primary) / 0.1);
-    border-color: hsl(var(--primary) / 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    transform: translateY(-1px);
   }
 
   /* Subtle content elevation - no boxes, just natural light/shadow */
