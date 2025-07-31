@@ -292,36 +292,19 @@ export function LandingPage({
       role='main'
       aria-label='Fablecraft landing page'
     >
-      {/* Fantasy Atmospheric Effects */}
-      <div className="floating-particles" aria-hidden="true" />
-      <div className="floating-particles" aria-hidden="true" style={{ animationDelay: '7s' }} />
-      <div className="floating-particles" aria-hidden="true" style={{ animationDelay: '14s' }} />
-      <div className="ambient-orbs" aria-hidden="true">
-        <div className="ambient-orb" />
-        <div className="ambient-orb" />
-        <div className="ambient-orb" />
-        <div className="ambient-orb" style={{ 
-          width: '70px', 
-          height: '70px', 
-          top: '80%', 
-          left: '80%', 
-          animationDelay: '22s',
-          animationDuration: '26s'
-        }} />
-        <div className="ambient-orb" style={{ 
-          width: '40px', 
-          height: '40px', 
-          top: '10%', 
-          right: '30%', 
-          animationDelay: '30s',
-          animationDuration: '22s'
-        }} />
+      {/* Sparks of Ideas - Creative Ember Effect */}
+      <div className="idea-sparks" aria-hidden="true">
+        <div className="spark" style={{ left: '10%', animationDelay: '0s' }} />
+        <div className="spark" style={{ left: '25%', animationDelay: '3s' }} />
+        <div className="spark" style={{ left: '45%', animationDelay: '6s' }} />
+        <div className="spark" style={{ left: '65%', animationDelay: '9s' }} />
+        <div className="spark" style={{ left: '80%', animationDelay: '12s' }} />
+        <div className="spark" style={{ left: '90%', animationDelay: '15s' }} />
+        <div className="spark spark-small" style={{ left: '15%', animationDelay: '18s' }} />
+        <div className="spark spark-small" style={{ left: '35%', animationDelay: '21s' }} />
+        <div className="spark spark-bright" style={{ left: '55%', animationDelay: '24s' }} />
+        <div className="spark spark-small" style={{ left: '75%', animationDelay: '27s' }} />
       </div>
-      <div className="energy-wisps" aria-hidden="true" />
-      <div className="energy-wisps" aria-hidden="true" style={{ 
-        animationDelay: '15s',
-        top: '70%'
-      }} />
       {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
         <NavigationHeader

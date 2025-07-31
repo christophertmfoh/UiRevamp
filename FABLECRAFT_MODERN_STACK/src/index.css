@@ -412,209 +412,141 @@
     pointer-events: none;
   }
 
-  /* ===== FANTASY ATMOSPHERE EFFECTS ===== */
-  /* Subtle spacey/fantasy atmospheric elements */
+     /* ===== SPARKS OF IDEAS EFFECT ===== */
+   /* Creative ember/spark particles floating upward - representing ideas being born */
 
-  /* Floating particles effect */
-  .floating-particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-    overflow: hidden;
-  }
+   .idea-sparks {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     pointer-events: none;
+     z-index: 5;
+     overflow: hidden;
+   }
 
-     .floating-particles::before,
-   .floating-particles::after {
-     content: '';
+   .spark {
      position: absolute;
+     width: 3px;
+     height: 3px;
+     background: radial-gradient(
+       circle,
+       hsl(var(--primary) / 0.8) 0%,
+       hsl(var(--primary) / 0.4) 40%,
+       transparent 70%
+     );
+     border-radius: 50%;
+     bottom: -10px;
+     animation: spark-rise 8s infinite ease-out;
+     box-shadow: 
+       0 0 6px hsl(var(--primary) / 0.6),
+       0 0 12px hsl(var(--primary) / 0.3);
+   }
+
+   .spark-small {
+     width: 2px;
+     height: 2px;
+     animation-duration: 6s;
+     opacity: 0.7;
+   }
+
+   .spark-bright {
      width: 4px;
      height: 4px;
-     background: radial-gradient(circle, hsl(var(--primary) / 0.6) 0%, transparent 70%);
-     border-radius: 50%;
-     animation: float-drift 15s infinite linear;
-     box-shadow: 0 0 8px hsl(var(--primary) / 0.3);
+     animation-duration: 10s;
+     box-shadow: 
+       0 0 8px hsl(var(--primary) / 0.8),
+       0 0 16px hsl(var(--primary) / 0.4),
+       0 0 24px hsl(var(--primary) / 0.2);
    }
 
-   .floating-particles::before {
-     top: -10px;
-     left: 20%;
-     animation-delay: 0s;
-     animation-duration: 12s;
+   /* Spark rising animation - like ideas floating up */
+   @keyframes spark-rise {
+     0% {
+       transform: translateY(0px) translateX(0px) scale(0);
+       opacity: 0;
+     }
+     5% {
+       opacity: 1;
+       transform: translateY(-20px) translateX(0px) scale(1);
+     }
+     20% {
+       opacity: 1;
+       transform: translateY(-200px) translateX(15px) scale(1.1);
+     }
+     50% {
+       opacity: 0.8;
+       transform: translateY(-50vh) translateX(-10px) scale(0.9);
+     }
+     80% {
+       opacity: 0.4;
+       transform: translateY(-80vh) translateX(20px) scale(1.2);
+     }
+     100% {
+       transform: translateY(-100vh) translateX(0px) scale(0);
+       opacity: 0;
+     }
    }
 
-   .floating-particles::after {
-     top: -10px;
-     left: 70%;
-     animation-delay: 6s;
-     animation-duration: 18s;
-   }
-
-  /* Ambient orbs - very subtle */
-  .ambient-orbs {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 3;
-    overflow: hidden;
-  }
-
-     .ambient-orb {
-     position: absolute;
-     border-radius: 50%;
-     filter: blur(3px);
-     opacity: 0.4;
-     animation: orb-drift 25s infinite ease-in-out;
-     box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
-   }
-
-   .ambient-orb:nth-child(1) {
-     width: 80px;
-     height: 80px;
-     background: radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, transparent 70%);
-     top: 20%;
-     left: 10%;
-     animation-delay: 0s;
-     animation-duration: 20s;
-   }
-
-   .ambient-orb:nth-child(2) {
-     width: 60px;
-     height: 60px;
-     background: radial-gradient(circle, hsl(var(--accent) / 0.3) 0%, transparent 70%);
-     top: 60%;
-     right: 15%;
-     animation-delay: 8s;
-     animation-duration: 28s;
-   }
-
-   .ambient-orb:nth-child(3) {
-     width: 50px;
-     height: 50px;
-     background: radial-gradient(circle, hsl(var(--muted-foreground) / 0.25) 0%, transparent 70%);
-     bottom: 30%;
-     left: 60%;
-     animation-delay: 15s;
-     animation-duration: 24s;
-   }
-
-  /* Subtle energy wisps */
-  .energy-wisps {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 4;
-    overflow: hidden;
-  }
-
-     .energy-wisps::before {
-     content: '';
-     position: absolute;
-     width: 300px;
-     height: 3px;
-     background: linear-gradient(
-       90deg,
-       transparent 0%,
-       hsl(var(--primary) / 0.2) 30%,
-       hsl(var(--primary) / 0.4) 50%,
-       hsl(var(--primary) / 0.2) 70%,
-       transparent 100%
+   /* Theme-specific spark colors */
+   .theme-golden-hour .spark {
+     background: radial-gradient(
+       circle,
+       hsl(45 80% 60% / 0.9) 0%,
+       hsl(35 70% 50% / 0.5) 40%,
+       transparent 70%
      );
-     top: 40%;
-     left: -300px;
-     border-radius: 3px;
-     filter: blur(2px);
-     animation: wisp-flow 30s infinite linear;
-     box-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+     box-shadow: 
+       0 0 6px hsl(45 80% 60% / 0.7),
+       0 0 12px hsl(35 70% 50% / 0.4);
    }
 
-  /* Animations */
-  @keyframes float-drift {
-    0% {
-      transform: translateY(100vh) translateX(0px) scale(0);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-      transform: translateY(90vh) translateX(10px) scale(1);
-    }
-    90% {
-      opacity: 1;
-      transform: translateY(-10vh) translateX(-10px) scale(1);
-    }
-    100% {
-      transform: translateY(-20vh) translateX(0px) scale(0);
-      opacity: 0;
-    }
-  }
+   .theme-midnight-ink .spark {
+     background: radial-gradient(
+       circle,
+       hsl(240 60% 70% / 0.8) 0%,
+       hsl(240 50% 60% / 0.4) 40%,
+       transparent 70%
+     );
+     box-shadow: 
+       0 0 6px hsl(240 60% 70% / 0.6),
+       0 0 12px hsl(240 50% 60% / 0.3);
+   }
 
-  @keyframes orb-drift {
-    0%, 100% {
-      transform: translate(0px, 0px) scale(1);
-      opacity: 0.15;
-    }
-    25% {
-      transform: translate(30px, -20px) scale(1.1);
-      opacity: 0.2;
-    }
-    50% {
-      transform: translate(-20px, 15px) scale(0.9);
-      opacity: 0.1;
-    }
-    75% {
-      transform: translate(15px, 25px) scale(1.05);
-      opacity: 0.18;
-    }
-  }
+   .theme-forest-manuscript .spark {
+     background: radial-gradient(
+       circle,
+       hsl(140 50% 60% / 0.8) 0%,
+       hsl(140 40% 50% / 0.4) 40%,
+       transparent 70%
+     );
+     box-shadow: 
+       0 0 6px hsl(140 50% 60% / 0.6),
+       0 0 12px hsl(140 40% 50% / 0.3);
+   }
 
-  @keyframes wisp-flow {
-    0% {
-      left: -200px;
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    80% {
-      opacity: 1;
-    }
-    100% {
-      left: 100vw;
-      opacity: 0;
-    }
-  }
+   .theme-starlit-prose .spark {
+     background: radial-gradient(
+       circle,
+       hsl(260 70% 75% / 0.9) 0%,
+       hsl(260 60% 65% / 0.5) 40%,
+       transparent 70%
+     );
+     box-shadow: 
+       0 0 6px hsl(260 70% 75% / 0.7),
+       0 0 12px hsl(260 60% 65% / 0.4);
+   }
 
-  /* Theme-specific fantasy effects */
-  .theme-midnight-ink .ambient-orb:nth-child(1) {
-    background: radial-gradient(circle, hsl(240 50% 60% / 0.15) 0%, transparent 70%);
-  }
-
-  .theme-forest-manuscript .ambient-orb:nth-child(2) {
-    background: radial-gradient(circle, hsl(140 40% 50% / 0.12) 0%, transparent 70%);
-  }
-
-  .theme-starlit-prose .floating-particles::before,
-  .theme-starlit-prose .floating-particles::after {
-    background: radial-gradient(circle, hsl(260 60% 70% / 0.25) 0%, transparent 70%);
-  }
-
-  .theme-coffee-house .energy-wisps::before {
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(25 60% 50% / 0.08) 30%,
-      hsl(25 60% 50% / 0.15) 50%,
-      hsl(25 60% 50% / 0.08) 70%,
-      transparent 100%
-    );
-  }
+   .theme-coffee-house .spark {
+     background: radial-gradient(
+       circle,
+       hsl(25 70% 55% / 0.9) 0%,
+       hsl(25 60% 45% / 0.5) 40%,
+       transparent 70%
+     );
+     box-shadow: 
+       0 0 6px hsl(25 70% 55% / 0.7),
+       0 0 12px hsl(25 60% 45% / 0.4);
+   }
 }
