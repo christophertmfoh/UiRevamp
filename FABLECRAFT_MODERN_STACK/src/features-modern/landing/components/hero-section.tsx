@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { PenTool, Library } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -53,15 +54,18 @@ export function HeroSection({
         <div className="heading-group">
           
           {/* Enhanced Badge with Theme Integration */}
-          <div className="inline-flex items-center space-x-2 px-1.5 py-1.5 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-lg hover:shadow-xl transition-all duration-300">
+          <Badge 
+            className="inline-flex items-center space-x-2 bg-card/90 text-foreground border-border font-semibold backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
+            aria-label="Creative production suite badge"
+          >
             <div 
               className="w-2 h-2 rounded-full animate-pulse bg-primary"
               aria-hidden="true"
             />
-            <span className="text-xs font-semibold text-foreground tracking-normal leading-tight">
+            <span className="text-xs tracking-normal leading-tight">
               End-to-End Creative Production Suite
             </span>
-          </div>
+          </Badge>
           
           {/* Enhanced Main Heading with Theme-Aware Typography */}
           <h1 
