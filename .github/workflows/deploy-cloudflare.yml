@@ -30,6 +30,11 @@ jobs:
       - name: Build project
         run: npm run build
         working-directory: ./FABLECRAFT_MODERN_STACK
+        env:
+          VITE_ENABLE_DEBUG: true
+          VITE_ENABLE_DEV_TOOLS: true
+          VITE_SHOW_CONSOLE_LOGS: true
+          VITE_BUILD_MODE: preview
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
