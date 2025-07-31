@@ -179,7 +179,7 @@ export const FeatureCards = memo(function FeatureCards({
                   role="article"
                   aria-label={`${indicator.number} ${indicator.label}`}
                 >
-                  <CardContent className="p-comfortable text-center component-inner">
+                  <CardContent className="p-comfortable text-center space-y-4">
                     <div className={cn(
                       "w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl",
                       "flex items-center justify-center mx-auto transition-all duration-300",
@@ -228,7 +228,7 @@ export const FeatureCards = memo(function FeatureCards({
                 <div 
                   key={index}
                   className={cn(
-                    "group bg-card hover:bg-accent/30 rounded-2xl p-comfortable component-inner",
+                    "group bg-card hover:bg-accent/30 rounded-2xl p-comfortable space-y-6",
                     "border border-border hover:border-primary/50 transition-all duration-500",
                     "hover:shadow-lg hover:scale-105 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                   )}
@@ -257,7 +257,7 @@ export const FeatureCards = memo(function FeatureCards({
                     </h4>
                     
                                           {isDetailed && benefit.category && (
-                        <Badge variant="secondary" className="text-golden-sm">
+                        <Badge variant="secondary">
                           {benefit.category}
                         </Badge>
                       )}
