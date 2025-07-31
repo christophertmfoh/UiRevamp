@@ -221,22 +221,7 @@ export function CTASection({
               </div>
             </div>
           </div>
-          
-          {/* Bottom Social Proof - Same pattern as other sections */}
-          <div className="mt-16 pt-8 border-t border-border/50">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-6">
-                Trusted by creators at leading companies
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-                {['Netflix', 'Disney', 'HBO', 'Amazon Studios', 'Pixar'].map((company, index) => (
-                  <div key={index} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">
-                    {company}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+
         </CardContent>
       </Card>
     </section>
