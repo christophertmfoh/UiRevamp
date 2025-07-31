@@ -6,33 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FableCraft - Modern Creative Writing Platform" />
     <title>Fablecraft - Where Stories Come to Life</title>
-    <!-- CRITICAL: Ensure React is available globally BEFORE any modules load -->
-    <script>
-      // This MUST be a blocking script to ensure it runs before ES modules
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.__REACT_DEVTOOLS_GLOBAL_HOOK__ || { isDisabled: true };
-      
-      // Pre-create React object to prevent undefined errors
-      window.React = {
-        useLayoutEffect: function() {},
-        useEffect: function() {},
-        createElement: function() {},
-        Fragment: {},
-        StrictMode: {},
-        Suspense: {},
-        lazy: function() {},
-        memo: function() {},
-        forwardRef: function() {},
-        createContext: function() {},
-        useContext: function() {},
-        useState: function() {},
-        useReducer: function() {},
-        useCallback: function() {},
-        useMemo: function() {},
-        useRef: function() {},
-        useImperativeHandle: function() {},
-        useDebugValue: function() {}
-      };
-    </script>
     <!-- Theme initialization script to prevent FOUC -->
     <script>
       (function() {
