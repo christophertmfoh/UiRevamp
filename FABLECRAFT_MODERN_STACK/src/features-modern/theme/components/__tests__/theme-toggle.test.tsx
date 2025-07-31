@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from '@/app/providers/theme-provider';
 import { ThemeToggle } from '../theme-toggle';
 import { themeConfig } from '../../config/theme-config';
 
@@ -27,7 +27,7 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     attribute="class"
     defaultTheme="light"
     enableSystem
-    themes={Object.keys(themeConfig)}
+    themes={['light', 'dark', 'arctic-focus', 'golden-hour', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house', 'system']}
   >
     {children}
   </ThemeProvider>

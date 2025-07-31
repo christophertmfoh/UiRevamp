@@ -10,36 +10,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useTheme } from '../hooks/useTheme';
+import { useTheme } from '@/app/providers/theme-provider';
 
 const themeConfig = {
-  system: { icon: Monitor, label: 'System' },
-  light: { icon: Sun, label: 'Light' },
-  dark: { icon: Moon, label: 'Dark' },
-  'arctic-focus': { icon: Sun, label: 'Arctic Focus' },
-  'golden-hour': { icon: Sun, label: 'Golden Hour' },
-  'midnight-ink': { icon: Moon, label: 'Midnight Ink' },
-  'forest-manuscript': { icon: Moon, label: 'Forest Manuscript' },
-  'starlit-prose': { icon: Moon, label: 'Starlit Prose' },
-  'coffee-house': { icon: Moon, label: 'Coffee House' },
+  system: { icon: Monitor, label: 'System', description: 'Follow system preference' },
+  light: { icon: Sun, label: 'Light', description: 'Default light theme' },
+  dark: { icon: Moon, label: 'Dark', description: 'Default dark theme' },
+  'arctic-focus': { icon: Sun, label: 'Arctic Focus', description: 'Cool blues and whites' },
+  'golden-hour': { icon: Sun, label: 'Golden Hour', description: 'Warm yellows' },
+  'midnight-ink': { icon: Moon, label: 'Midnight Ink', description: 'Deep blue-black' },
+  'forest-manuscript': { icon: Moon, label: 'Forest Manuscript', description: 'Green and brown' },
+  'starlit-prose': { icon: Moon, label: 'Starlit Prose', description: 'Purple cosmic' },
+  'coffee-house': { icon: Moon, label: 'Coffee House', description: 'Warm browns' },
 } as const;
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   
-  // Get current icon based on resolved theme
-  const getCurrentIcon = () => {
-    if (theme === 'system') return Monitor;
-    const isDark = resolvedTheme === 'dark' || 
-                   resolvedTheme.includes('dark') || 
-                   resolvedTheme.includes('midnight') || 
-                   resolvedTheme.includes('starlit') || 
-                   resolvedTheme.includes('coffee') ||
-                   resolvedTheme.includes('forest');
-    return isDark ? Moon : Sun;
-  };
-
-  const CurrentIcon = getCurrentIcon();
+  // Get current theme config
+  const currentConfig = themeConfig[theme as keyof typeof themeConfig] || themeConfig.light;
+  const CurrentIcon = currentConfig.icon;
 
   return (
     <DropdownMenu>
@@ -49,7 +39,7 @@ export function ThemeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>Theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
@@ -58,11 +48,16 @@ export function ThemeToggle() {
           onClick={() => setTheme('system')}
           className="cursor-pointer"
         >
-          <Monitor className="mr-2 h-4 w-4" />
-          <span>System</span>
-          {theme === 'system' && (
-            <span className="ml-auto text-xs text-muted-foreground">✓</span>
-          )}
+          <div className="flex items-center gap-3 w-full">
+            <Monitor className="h-4 w-4" />
+            <div className="flex-1">
+              <div className="font-medium">System</div>
+              <div className="text-xs text-muted-foreground">Follow system preference</div>
+            </div>
+            {theme === 'system' && (
+              <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
+            )}
+          </div>
         </DropdownMenuItem>
         
         <DropdownMenuSeparator />
@@ -78,11 +73,16 @@ export function ThemeToggle() {
               onClick={() => setTheme(t as any)}
               className="cursor-pointer"
             >
-              <Icon className="mr-2 h-4 w-4" />
-              <span>{config.label}</span>
-              {theme === t && (
-                <span className="ml-auto text-xs text-muted-foreground">✓</span>
-              )}
+              <div className="flex items-center gap-3 w-full">
+                <Icon className="h-4 w-4" />
+                <div className="flex-1">
+                  <div className="font-medium">{config.label}</div>
+                  <div className="text-xs text-muted-foreground">{config.description}</div>
+                </div>
+                {theme === t && (
+                  <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
+                )}
+              </div>
             </DropdownMenuItem>
           );
         })}
@@ -100,11 +100,16 @@ export function ThemeToggle() {
               onClick={() => setTheme(t as any)}
               className="cursor-pointer"
             >
-              <Icon className="mr-2 h-4 w-4" />
-              <span>{config.label}</span>
-              {theme === t && (
-                <span className="ml-auto text-xs text-muted-foreground">✓</span>
-              )}
+              <div className="flex items-center gap-3 w-full">
+                <Icon className="h-4 w-4" />
+                <div className="flex-1">
+                  <div className="font-medium">{config.label}</div>
+                  <div className="text-xs text-muted-foreground">{config.description}</div>
+                </div>
+                {theme === t && (
+                  <div className="ml-auto h-2 w-2 rounded-full bg-primary" />
+                )}
+              </div>
             </DropdownMenuItem>
           );
         })}

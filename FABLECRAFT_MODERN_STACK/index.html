@@ -15,18 +15,24 @@
           const savedTheme = localStorage.getItem(storageKey);
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           
-          let theme = savedTheme || 'light';
+          let theme = savedTheme || 'system';
+          let resolvedTheme = theme;
           
           // Handle system theme
-          if (theme === 'system' || !savedTheme) {
-            theme = prefersDark ? 'dark' : 'light';
+          if (theme === 'system') {
+            resolvedTheme = prefersDark ? 'dark' : 'light';
           }
           
           // Apply theme to html element
-          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-theme', resolvedTheme);
           
-          // Also add to classList for compatibility
-          document.documentElement.classList.add(theme);
+          // Set color scheme for browser UI
+          const isDark = resolvedTheme === 'dark' || 
+                        resolvedTheme.includes('midnight') || 
+                        resolvedTheme.includes('forest') || 
+                        resolvedTheme.includes('starlit') || 
+                        resolvedTheme.includes('coffee');
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
         } catch (e) {
           console.error('Theme initialization error:', e);
         }
