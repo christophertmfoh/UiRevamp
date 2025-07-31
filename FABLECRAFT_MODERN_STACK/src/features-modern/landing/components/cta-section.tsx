@@ -62,13 +62,12 @@ export function CTASection({
         </div>
       </div>
 
-      {/* Main CTA Card - Using same Card component as other sections */}
-      <Card className={cn(
-        "group bg-card hover:bg-accent/50 border-border transition-all duration-500",
-        "hover:shadow-lg hover:scale-105 hover:-translate-y-1",
-        "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
-        theme === 'gradient' && "bg-gradient-to-br from-card via-card/95 to-accent/30"
-      )}>
+             {/* Main CTA Card - Using same Card component as other sections */}
+       <Card className={cn(
+         "bg-card border-border",
+         "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
+         theme === 'gradient' && "bg-gradient-to-br from-card via-card/95 to-accent/30"
+       )}>
         <CardContent className="p-8 sm:p-12 lg:p-16">
           
           {/* Content Grid - Same structure as feature cards */}
@@ -77,17 +76,17 @@ export function CTASection({
             {/* Content Column */}
             <div className="text-center lg:text-left">
               
-              {/* Icon Container - Matching feature cards styling */}
-              {!isMinimal && (
-                <div className={cn(
-                  "w-20 h-20 bg-primary/10 hover:bg-primary/20 rounded-2xl",
-                  "flex items-center justify-center mx-auto lg:mx-0 mb-6 transition-all duration-500",
-                  "group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg"
-                )}>
-                  <Zap 
-                    className="w-10 h-10 text-primary group-hover:scale-110 transition-transform duration-300" 
-                    aria-hidden="true"
-                  />
+                             {/* Icon Container - Matching feature cards styling */}
+               {!isMinimal && (
+                 <div className={cn(
+                   "w-20 h-20 bg-primary/10 hover:bg-primary/20 rounded-2xl",
+                   "flex items-center justify-center mx-auto lg:mx-0 mb-6 transition-all duration-500",
+                   "hover:scale-110 hover:rotate-3 hover:shadow-lg"
+                 )}>
+                                     <Zap 
+                     className="w-10 h-10 text-primary hover:scale-110 transition-transform duration-300" 
+                     aria-hidden="true"
+                   />
                 </div>
               )}
               
