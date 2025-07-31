@@ -315,7 +315,7 @@
     position: relative;
   }
 
-  /* SMART CONTRAST AMBIENT GLOW - Automatically visible in all themes */
+  /* UNIVERSAL BROWSER COMPATIBLE AMBIENT GLOW - Manual theme colors for visibility */
   section::before {
     content: '';
     position: absolute;
@@ -325,14 +325,8 @@
     bottom: -15%;
     background: radial-gradient(
       ellipse at center,
-      light-dark(
-        oklch(from hsl(var(--accent)) calc(l * 0.3) c h / 0.12),
-        oklch(from hsl(var(--accent)) calc(l * 1.8) c h / 0.08)
-      ) 0%,
-      light-dark(
-        oklch(from hsl(var(--accent)) calc(l * 0.2) c h / 0.06),
-        oklch(from hsl(var(--accent)) calc(l * 1.6) c h / 0.04)
-      ) 50%,
+      hsl(var(--accent) / 0.15) 0%,
+      hsl(var(--accent) / 0.08) 50%,
       transparent 80%
     );
     filter: blur(80px);
@@ -341,21 +335,52 @@
     opacity: 0.8;
   }
 
-  /* Hero gets enhanced smart contrast presence */
+  /* Hero gets enhanced presence */
   .hero-ambient-glow::before {
     background: radial-gradient(
       ellipse at center,
-      light-dark(
-        oklch(from hsl(var(--accent)) calc(l * 0.25) c h / 0.18),
-        oklch(from hsl(var(--accent)) calc(l * 2.2) c h / 0.12)
-      ) 0%,
-      light-dark(
-        oklch(from hsl(var(--accent)) calc(l * 0.15) c h / 0.09),
-        oklch(from hsl(var(--accent)) calc(l * 1.8) c h / 0.06)
-      ) 50%,
+      hsl(var(--accent) / 0.25) 0%,
+      hsl(var(--accent) / 0.12) 50%,
       transparent 80%
     );
     opacity: 1.0;
+  }
+
+  /* THEME-SPECIFIC HIGH CONTRAST OVERRIDES - Manual for maximum visibility */
+  .theme-light section::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--accent) / 0.25) 0%,
+      hsl(var(--accent) / 0.15) 50%,
+      transparent 80%
+    );
+  }
+
+  .theme-light .hero-ambient-glow::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--accent) / 0.35) 0%,
+      hsl(var(--accent) / 0.20) 50%,
+      transparent 80%
+    );
+  }
+
+  .theme-dark section::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--accent) / 0.20) 0%,
+      hsl(var(--accent) / 0.10) 50%,
+      transparent 80%
+    );
+  }
+
+  .theme-dark .hero-ambient-glow::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--accent) / 0.30) 0%,
+      hsl(var(--accent) / 0.15) 50%,
+      transparent 80%
+    );
   }
 
   /* Content elements - pure typography, no visual containers */
