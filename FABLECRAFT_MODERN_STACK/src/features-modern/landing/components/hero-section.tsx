@@ -51,10 +51,10 @@ export function HeroSection({
     >
       {/* Centered Hero Content */}
       <div className="text-center heading-group max-w-5xl mx-auto">
-        <div className="heading-group">
+        <div className="heading-group flex flex-col items-center">
           
           {/* Enhanced Badge with Theme Integration */}
-          <div className="inline-flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <div 
               className="w-2 h-2 rounded-full animate-pulse bg-primary"
               aria-hidden="true"
