@@ -1,5 +1,63 @@
 @import "./shared/lib/theme/variables.css";
 @import "./shared/lib/design-system/spacing.css";
+
+/* PRODUCTION THEME FIXES */
+/* Force all theme variables to be included in production builds */
+:root {
+  /* Ensure custom themes are always included, even if build optimization tries to remove them */
+  --production-theme-force-include: 'light';
+}
+
+/* Explicit !important overrides for production builds where CSS variables might not apply correctly */
+[data-theme="arctic-focus"] * {
+  --background: 200 15% 97% !important;
+  --foreground: 210 25% 15% !important;
+  --primary: 210 70% 40% !important;
+}
+
+[data-theme="golden-hour"] * {
+  --background: 45 20% 96% !important;
+  --foreground: 25 30% 15% !important;
+  --primary: 45 80% 40% !important;
+}
+
+[data-theme="midnight-ink"] * {
+  --background: 230 25% 8% !important;
+  --foreground: 45 10% 92% !important;
+  --primary: 45 70% 55% !important;
+}
+
+[data-theme="forest-manuscript"] * {
+  --background: 140 25% 8% !important;
+  --foreground: 60 10% 92% !important;
+  --primary: 140 60% 45% !important;
+}
+
+[data-theme="starlit-prose"] * {
+  --background: 270 25% 8% !important;
+  --foreground: 200 10% 92% !important;
+  --primary: 270 60% 55% !important;
+}
+
+[data-theme="coffee-house"] * {
+  --background: 25 25% 8% !important;
+  --foreground: 45 10% 92% !important;
+  --primary: 25 70% 50% !important;
+}
+
+/* Ensure theme transitions work in production */
+html[data-theme] {
+  color-scheme: light dark !important;
+  transition: color-scheme 200ms ease !important;
+}
+
+html[data-theme*="dark"] {
+  color-scheme: dark !important;
+}
+
+html[data-theme*="light"] {
+  color-scheme: light !important;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
