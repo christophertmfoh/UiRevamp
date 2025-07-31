@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { PenTool, Library } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 /**
  * Enhanced TypeScript interfaces for Hero Section
@@ -53,7 +54,7 @@ export function HeroSection({
         <div className="heading-group">
           
           {/* Enhanced Badge with Theme Integration */}
-          <span className="inline-flex items-center gap-2 bg-card/90 text-foreground border border-border font-semibold backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-full px-2 py-1">
+          <Badge className="bg-card/90 text-foreground border border-border font-semibold backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2">
             <div 
               className="w-2 h-2 rounded-full animate-pulse bg-primary"
               aria-hidden="true"
@@ -61,7 +62,7 @@ export function HeroSection({
             <span className="text-xs tracking-normal leading-tight">
               End-to-End Creative Production Suite
             </span>
-          </span>
+          </Badge>
           
           {/* Enhanced Main Heading with Theme-Aware Typography */}
           <h1 
