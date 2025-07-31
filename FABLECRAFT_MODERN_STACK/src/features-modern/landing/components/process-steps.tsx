@@ -104,26 +104,30 @@ export function ProcessSteps({
     <section 
       className={cn(
         "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-        isCompact ? "py-12" : "py-16 sm:py-20 lg:py-24",
+        isCompact ? "py-12" : "section-spacing-compact",
         className
       )}
       aria-labelledby="process-heading"
     >
-      <div className="text-center space-y-12 lg:space-y-16">
+      <div className="text-center">
         
-        {/* Header Section */}
-        <div className="space-y-4 lg:space-y-6">
-          <Badge 
-            className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md"
-            aria-label="Process workflow indicator"
-          >
-            How It Works
-          </Badge>
+        {/* Header Section with Mathematical Spacing */}
+        <div className="flex flex-col items-center">
+          {/* Badge with Pulsing Dot */}
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+            <Badge 
+              className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md text-base px-4 py-2"
+              aria-label="Process workflow indicator"
+            >
+              How It Works
+            </Badge>
+          </div>
           
           <h2 
             id="process-heading"
             className={cn(
-              "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm",
+              "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm mt-best-friends",
               isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl"
             )}
           >
@@ -131,7 +135,7 @@ export function ProcessSteps({
           </h2>
           
           <p className={cn(
-            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium",
+            "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
           )}>
             Follow our proven 6-step process used by professional writers worldwide. Each stage builds 
@@ -139,8 +143,8 @@ export function ProcessSteps({
           </p>
         </div>
 
-        {/* Process Flow */}
-        <div className="relative" role="list" aria-label="Writing process steps">
+        {/* Process Flow with Mathematical Grid */}
+        <div className="relative mt-acquaintances" role="list" aria-label="Writing process steps">
           
           {/* Connection line for desktop */}
           <div 
@@ -148,13 +152,13 @@ export function ProcessSteps({
             aria-hidden="true"
           />
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 grid-normal">
             {steps.map((step, index) => {
               const IconComponent = step.icon;
               return (
                 <div 
                   key={index}
-                  className="text-center space-y-4 relative group"
+                  className="text-center relative group"
                   role="listitem"
                   tabIndex={0}
                   aria-labelledby={`step-title-${index}`}
@@ -190,18 +194,18 @@ export function ProcessSteps({
                     </div>
                   </div>
                   
-                  {/* Content */}
-                  <div className="space-y-2 lg:space-y-3 group-hover:-translate-y-1 transition-transform duration-300">
+                  {/* Content with Mathematical Friendship Spacing */}
+                  <div className="group-hover:-translate-y-1 transition-transform duration-300">
                     <h3 
                       id={`step-title-${index}`}
-                      className="font-bold text-base lg:text-lg text-foreground group-hover:text-primary transition-colors duration-300 leading-tight"
+                      className="font-bold text-base lg:text-lg text-foreground group-hover:text-primary transition-colors duration-300 leading-tight mt-best-friends"
                     >
                       {step.title}
                     </h3>
                     
                     <p 
                       id={`step-description-${index}`}
-                      className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 font-medium leading-relaxed"
+                      className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 font-medium leading-relaxed mt-best-friends"
                     >
                       {step.description}
                     </p>
@@ -209,7 +213,7 @@ export function ProcessSteps({
                     <p 
                       id={`step-detail-${index}`}
                       className={cn(
-                        "text-xs text-muted-foreground transition-all duration-500 font-medium leading-relaxed",
+                        "text-xs text-muted-foreground transition-all duration-500 font-medium leading-relaxed mt-friends",
                         "opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
                       )}
                     >
@@ -221,7 +225,7 @@ export function ProcessSteps({
                       <Badge 
                         variant="secondary" 
                         className={cn(
-                          "text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2"
+                          "text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-best-friends"
                         )}
                       >
                         {step.category}
