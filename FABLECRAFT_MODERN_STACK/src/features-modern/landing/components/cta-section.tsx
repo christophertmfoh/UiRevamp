@@ -135,7 +135,7 @@ export function CTASection({
           </div>
           
           {/* Enhanced Button Section with Z-Pattern Conversion Flow */}
-          <div className="flex flex-col space-strangers justify-center items-center max-w-2xl mx-auto mt-acquaintances">
+          <div className="flex flex-col space-neighbors justify-center items-center max-w-2xl mx-auto mt-acquaintances">
             
             {/* Primary CTA Button */}
             <Button 
