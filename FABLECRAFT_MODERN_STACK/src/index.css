@@ -302,7 +302,7 @@
   /* ===== ATMOSPHERIC DEPTH SYSTEM ===== */
   /* Creates natural visual hierarchy without boxy containers */
   
-  /* SUBTLE SEPARATION SYSTEM - Light outline for element definition */
+  /* MODERN GLASSMORPHISM SEPARATION - Professional depth without borders */
   section,
   .card,
   .hero,
@@ -312,30 +312,50 @@
   .process-step,
   .testimonial-card,
   .pricing-card {
-    border: 1px solid hsl(var(--border) / 0.3);
-    border-radius: 8px;
-    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Glassmorphism: Transparency + Background Blur + Subtle Light Border */
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.2);
+    border-radius: 12px;
+    box-shadow: 
+      0 8px 32px hsl(var(--foreground) / 0.1),
+      inset 0 1px 0 hsl(var(--background) / 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Enhanced border on hover */
+  /* Enhanced glassmorphic effect on hover */
   .card:hover,
   .feature-card:hover,
   .process-step:hover,
   .testimonial-card:hover,
   .pricing-card:hover {
-    border-color: hsl(var(--border) / 0.6);
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-color: hsl(var(--border) / 0.3);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 40px hsl(var(--foreground) / 0.15),
+      inset 0 1px 0 hsl(var(--background) / 0.3);
   }
 
-  /* Button separation (keep existing button styles, just add subtle border) */
+  /* Buttons get subtle glassmorphism but stay functional */
   button,
   .btn {
-    border: 1px solid hsl(var(--border) / 0.2);
-    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: hsl(var(--background) / 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   button:hover,
   .btn:hover {
-    border-color: hsl(var(--primary) / 0.5);
+    background: hsl(var(--primary) / 0.1);
+    border-color: hsl(var(--primary) / 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   /* Subtle content elevation - no boxes, just natural light/shadow */
