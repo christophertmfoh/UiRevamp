@@ -1,5 +1,3 @@
-// CRITICAL: Import React shim FIRST to ensure global availability
-import './react-shim';
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,16 +7,13 @@ import './shared/lib/theme/variables.css';
 import App from './App.tsx';
 import { ThemeProvider } from './app/providers/theme-provider';
 
-// CRITICAL: Ensure React is available globally BEFORE any components load
-if (typeof window !== 'undefined') {
-  // Merge with any existing React object (from polyfill)
-  const existingReact = window.React || {};
-  window.React = Object.assign(existingReact, React);
+// Ensure React is available globally after import
+if (typeof window !== 'undefined' && window.React) {
+  // Merge the stub React with the real React
+  Object.assign(window.React, React);
   
-  // Ensure useLayoutEffect is available
-  if (!window.React.useLayoutEffect) {
-    window.React.useLayoutEffect = React.useLayoutEffect || React.useEffect;
-  }
+  // Extend window type
+  (window as any).ReactDOM = { createRoot };
 }
 
 // Add error handling

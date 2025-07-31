@@ -6,15 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FableCraft - Modern Creative Writing Platform" />
     <title>Fablecraft - Where Stories Come to Life</title>
-    <!-- Critical: Ensure React is available globally before modules load -->
+    <!-- CRITICAL: Ensure React is available globally BEFORE any modules load -->
     <script>
-      // Pre-initialize window.React to prevent useLayoutEffect errors
-      window.React = window.React || {};
-      window.React.useLayoutEffect = window.React.useLayoutEffect || function(effect, deps) {
-        // Fallback implementation that uses useEffect in production
-        if (typeof window !== 'undefined' && window.React && window.React.useEffect) {
-          return window.React.useEffect(effect, deps);
-        }
+      // This MUST be a blocking script to ensure it runs before ES modules
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.__REACT_DEVTOOLS_GLOBAL_HOOK__ || { isDisabled: true };
+      
+      // Pre-create React object to prevent undefined errors
+      window.React = {
+        useLayoutEffect: function() {},
+        useEffect: function() {},
+        createElement: function() {},
+        Fragment: {},
+        StrictMode: {},
+        Suspense: {},
+        lazy: function() {},
+        memo: function() {},
+        forwardRef: function() {},
+        createContext: function() {},
+        useContext: function() {},
+        useState: function() {},
+        useReducer: function() {},
+        useCallback: function() {},
+        useMemo: function() {},
+        useRef: function() {},
+        useImperativeHandle: function() {},
+        useDebugValue: function() {}
       };
     </script>
     <!-- Theme initialization script to prevent FOUC -->
