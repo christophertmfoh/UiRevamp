@@ -292,85 +292,61 @@ export function LandingPage({
       role='main'
       aria-label='Fablecraft landing page'
     >
-      {/* Navigation Header - Floating above everything */}
+      {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="floating-nav">
-          <NavigationHeader
-            isAuthenticated={isAuthenticated}
-            user={user}
-            onAuth={onAuth}
-            onLogout={onLogout}
-            onNavigate={onNavigate}
-          />
-        </div>
+        <NavigationHeader
+          isAuthenticated={isAuthenticated}
+          user={user}
+          onAuth={onAuth}
+          onLogout={onLogout}
+          onNavigate={onNavigate}
+        />
       </ErrorBoundary>
 
-      {/* Hero Section - Elevated content */}
+      {/* Hero Section */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="hero-elevated mx-auto max-w-7xl px-6 py-16 my-8">
-          <HeroSection
-            onNewProject={onNewProject}
-            onNavigateToProjects={() => onNavigate('projects')}
-            variant={variant}
-          />
-        </div>
+        <HeroSection
+          onNewProject={onNewProject}
+          onNavigateToProjects={() => onNavigate('projects')}
+          variant={variant}
+        />
       </ErrorBoundary>
 
-      {/* Feature Cards - Layer 1 depth */}
+      {/* Feature Cards */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="section-layer-1 py-16">
-          <Suspense fallback={<LoadingFallback />}>
-            <div className="content-lift">
-              <FeatureCards variant={variant} />
-            </div>
-          </Suspense>
-        </div>
+        <Suspense fallback={<LoadingFallback />}>
+          <FeatureCards variant={variant} />
+        </Suspense>
       </ErrorBoundary>
 
-      {/* Process Steps - Layer 2 depth */}
+      {/* Process Steps */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="section-layer-2 py-16">
-          <Suspense fallback={<LoadingFallback />}>
-            <div className="content-lift">
-              <ProcessSteps variant={variant} />
-            </div>
-          </Suspense>
-        </div>
+        <Suspense fallback={<LoadingFallback />}>
+          <ProcessSteps variant={variant} />
+        </Suspense>
       </ErrorBoundary>
 
-      {/* Testimonials Section - Paper card style */}
+      {/* Testimonials Section */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="py-16">
-          <div className="paper-card mx-auto max-w-6xl px-8 py-12">
-            <TestimonialsSection />
-          </div>
-        </div>
+        <TestimonialsSection />
       </ErrorBoundary>
 
-      {/* Pricing Section - Layer 1 depth */}
+      {/* Pricing Section */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="section-layer-1 py-16">
-          <div className="content-lift">
-            <PricingSection
-              isAuthenticated={isAuthenticated}
-              onAuth={onAuth}
-              onNavigate={onNavigate}
-            />
-          </div>
-        </div>
+        <PricingSection
+          isAuthenticated={isAuthenticated}
+          onAuth={onAuth}
+          onNavigate={onNavigate}
+        />
       </ErrorBoundary>
 
-      {/* Call-to-Action Section - Elevated */}
+      {/* Call-to-Action Section */}
       <ErrorBoundary onError={handleComponentError}>
-        <div className="py-16">
-          <div className="hero-elevated mx-auto max-w-5xl px-8 py-12">
-            <CTASection
-              onNewProject={onNewProject}
-              onNavigateToProjects={() => onNavigate('projects')}
-              variant={variant}
-            />
-          </div>
-        </div>
+        <CTASection
+          onNewProject={onNewProject}
+          onNavigateToProjects={() => onNavigate('projects')}
+          variant={variant}
+        />
       </ErrorBoundary>
 
       {/* Footer */}
