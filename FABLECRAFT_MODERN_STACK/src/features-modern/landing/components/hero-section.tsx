@@ -42,7 +42,7 @@ export function HeroSection({
   return (
     <section 
       className={cn(
-        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+        "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-ambient-glow",
         isCompact ? "py-8 sm:py-12 lg:py-16" : "section-spacing-hero",
         className
       )}
