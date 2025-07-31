@@ -30,19 +30,27 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 999;
+    z-index: -1;
     
-    /* SUPER OBVIOUS TEST TEXTURE - You WILL see this! */
-    background: 
-      /* Large visible dots */
-      radial-gradient(circle at 10px 10px, rgba(139, 69, 19, 0.3) 2px, transparent 3px),
-      /* Diagonal lines */
-      repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(139, 69, 19, 0.1) 8px, rgba(139, 69, 19, 0.1) 12px),
-      /* Crosshatch */
-      repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(160, 82, 45, 0.1) 8px, rgba(160, 82, 45, 0.1) 12px);
+    /* Subtle Old Paper Texture - Theme Reactive */
+    background-image: 
+      /* Fine paper grain */
+      radial-gradient(circle at 1px 1px, hsl(var(--texture-grain)) 0.8px, transparent 0),
+      /* Medium grain pattern */
+      radial-gradient(circle at 3px 2px, hsl(var(--texture-grain)) 0.5px, transparent 0),
+      /* Paper fibers - vertical */
+      linear-gradient(90deg, transparent 49%, hsl(var(--texture-fiber)) 50%, transparent 51%),
+      /* Paper fibers - horizontal */
+      linear-gradient(0deg, transparent 49%, hsl(var(--texture-fiber)) 50%, transparent 51%),
+      /* Diagonal texture */
+      linear-gradient(45deg, transparent 48%, hsl(var(--texture-fiber)) 49%, hsl(var(--texture-fiber)) 51%, transparent 52%);
     
-    background-size: 20px 20px, 16px 16px, 16px 16px;
-    opacity: 0.8;
+    background-size: 3px 3px, 6px 6px, 8px 8px, 8px 8px, 12px 12px;
+    background-position: 0 0, 1px 1px, 0 0, 4px 4px, 6px 6px;
+    
+    /* Blend with theme colors */
+    mix-blend-mode: var(--texture-blend-mode);
+    opacity: var(--texture-opacity);
   }
 
   /* SMOOTH THEME TRANSITIONS - CSS Custom Properties Only */
@@ -229,60 +237,60 @@
     background-clip: text;
   }
 
-  /* Theme-Specific Paper Texture Variables - ENHANCED VISIBILITY */
+  /* Theme-Specific Paper Texture Variables - Subtle & Professional */
   .theme-light {
-    --texture-grain: 25 15% 40% / 0.08; /* Warm parchment grain - MORE VISIBLE */
-    --texture-fiber: 25 10% 35% / 0.04; /* Subtle warm fibers - MORE VISIBLE */
-    --texture-opacity: 0.8;
+    --texture-grain: 30 20% 45% / 0.04; /* Warm parchment grain */
+    --texture-fiber: 30 15% 40% / 0.02; /* Subtle warm fibers */
+    --texture-opacity: 0.4;
     --texture-blend-mode: multiply;
   }
 
   .theme-dark {
-    --texture-grain: 220 8% 65% / 0.06; /* Cool dark grain - MORE VISIBLE */
-    --texture-fiber: 220 5% 70% / 0.03; /* Subtle blue-gray fibers - MORE VISIBLE */
-    --texture-opacity: 0.7;
+    --texture-grain: 220 10% 70% / 0.03; /* Cool dark grain */
+    --texture-fiber: 220 8% 75% / 0.015; /* Subtle blue-gray fibers */
+    --texture-opacity: 0.3;
     --texture-blend-mode: screen;
   }
 
   .theme-arctic-focus {
-    --texture-grain: 200 20% 85% / 0.05; /* Clean arctic grain - MORE VISIBLE */
-    --texture-fiber: 200 15% 88% / 0.025; /* Minimal cool fibers - MORE VISIBLE */
-    --texture-opacity: 0.6;
+    --texture-grain: 200 25% 80% / 0.025; /* Clean arctic grain */
+    --texture-fiber: 200 20% 85% / 0.012; /* Minimal cool fibers */
+    --texture-opacity: 0.25;
     --texture-blend-mode: multiply;
   }
 
   .theme-golden-hour {
-    --texture-grain: 35 25% 45% / 0.1; /* Warm golden grain - MORE VISIBLE */
-    --texture-fiber: 35 20% 50% / 0.05; /* Golden sunset fibers - MORE VISIBLE */
-    --texture-opacity: 0.9;
+    --texture-grain: 40 30% 50% / 0.05; /* Warm golden grain */
+    --texture-fiber: 40 25% 55% / 0.025; /* Golden sunset fibers */
+    --texture-opacity: 0.5;
     --texture-blend-mode: multiply;
   }
 
   .theme-midnight-ink {
-    --texture-grain: 240 10% 70% / 0.07; /* Deep night grain - MORE VISIBLE */
-    --texture-fiber: 240 8% 75% / 0.035; /* Midnight blue fibers - MORE VISIBLE */
-    --texture-opacity: 0.65;
+    --texture-grain: 240 12% 75% / 0.035; /* Deep night grain */
+    --texture-fiber: 240 10% 80% / 0.018; /* Midnight blue fibers */
+    --texture-opacity: 0.3;
     --texture-blend-mode: screen;
   }
 
   .theme-forest-manuscript {
-    --texture-grain: 140 12% 60% / 0.065; /* Forest green grain - MORE VISIBLE */
-    --texture-fiber: 140 8% 65% / 0.032; /* Moss-like fibers - MORE VISIBLE */
-    --texture-opacity: 0.7;
+    --texture-grain: 140 15% 65% / 0.032; /* Forest green grain */
+    --texture-fiber: 140 12% 70% / 0.016; /* Moss-like fibers */
+    --texture-opacity: 0.32;
     --texture-blend-mode: screen;
   }
 
   .theme-starlit-prose {
-    --texture-grain: 260 15% 65% / 0.06; /* Purple night grain - MORE VISIBLE */
-    --texture-fiber: 260 12% 70% / 0.03; /* Starlit purple fibers - MORE VISIBLE */
-    --texture-opacity: 0.65;
+    --texture-grain: 260 18% 70% / 0.03; /* Purple night grain */
+    --texture-fiber: 260 15% 75% / 0.015; /* Starlit purple fibers */
+    --texture-opacity: 0.28;
     --texture-blend-mode: screen;
   }
 
   .theme-coffee-house {
-    --texture-grain: 25 35% 35% / 0.12; /* Rich coffee grain - MOST VISIBLE */
-    --texture-fiber: 25 30% 40% / 0.06; /* Coffee bean fibers - MOST VISIBLE */
-    --texture-opacity: 1.0;
+    --texture-grain: 25 40% 40% / 0.06; /* Rich coffee grain */
+    --texture-fiber: 25 35% 45% / 0.03; /* Coffee bean fibers */
+    --texture-opacity: 0.6;
     --texture-blend-mode: multiply;
   }
 
