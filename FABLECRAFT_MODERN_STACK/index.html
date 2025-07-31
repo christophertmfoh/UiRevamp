@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FableCraft - Modern Creative Writing Platform" />
     <title>Fablecraft - Where Stories Come to Life</title>
+    <!-- Polyfill for useLayoutEffect in production -->
+    <script>
+      if (typeof window !== 'undefined' && !window.React) {
+        window.React = { useLayoutEffect: function() {} };
+      }
+    </script>
     <!-- Theme initialization script to prevent FOUC -->
     <script>
       (function() {

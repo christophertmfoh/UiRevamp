@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
@@ -6,6 +6,11 @@ import './index.css';
 import './shared/lib/theme/variables.css';
 import App from './App.tsx';
 import { ThemeProvider } from './app/providers/theme-provider';
+
+// Ensure React is available globally for production builds
+if (typeof window !== 'undefined') {
+  window.React = React;
+}
 
 // Add error handling
 window.addEventListener('error', (e) => {

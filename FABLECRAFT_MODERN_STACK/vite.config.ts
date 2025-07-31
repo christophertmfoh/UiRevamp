@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       react({
         // Fix for useLayoutEffect error in production
         jsxRuntime: 'automatic',
+        jsxImportSource: 'react',
       }),
       // Compression for production builds
       isProd && compression({
