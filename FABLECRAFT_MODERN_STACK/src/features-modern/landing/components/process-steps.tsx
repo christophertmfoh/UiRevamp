@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import type { ComponentType } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { 
   Lightbulb,
@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
  * Process step interface
  */
 interface ProcessStep {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   title: string;
   description: string;
   detail: string;
