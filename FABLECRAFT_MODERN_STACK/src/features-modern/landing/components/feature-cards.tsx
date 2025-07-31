@@ -120,7 +120,7 @@ export const FeatureCards = memo(function FeatureCards({
     <section 
       className={cn(
         "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-        isCompact ? "py-12" : "py-16 sm:py-20 lg:py-24",
+        isCompact ? "py-12" : "section-spacing",
         className
       )}
       aria-labelledby="features-heading"
@@ -128,7 +128,7 @@ export const FeatureCards = memo(function FeatureCards({
       <div className="text-center space-y-12 lg:space-y-16">
         
         {/* Enhanced Header Section */}
-        <div className="space-y-4 lg:space-y-6">
+        <div className="heading-group">
           <Badge 
             className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300"
             aria-label="Feature highlight badge"
@@ -140,7 +140,7 @@ export const FeatureCards = memo(function FeatureCards({
             id="features-heading"
             className={cn(
               "font-black text-foreground leading-[1.2] tracking-tight drop-shadow-sm",
-              isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl xl:text-6xl"
+              isCompact ? "text-2xl sm:text-3xl lg:text-4xl" : "text-golden-3xl sm:text-golden-4xl lg:text-golden-5xl xl:text-6xl"
             )}
           >
             The Creative Industry's First True End-to-End Suite
@@ -148,7 +148,7 @@ export const FeatureCards = memo(function FeatureCards({
           
           <p className={cn(
             "text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium",
-            isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl lg:text-2xl"
+            isCompact ? "text-base sm:text-lg" : "text-golden-lg sm:text-golden-xl lg:text-golden-2xl"
           )}>
             Break free from scattered tools. Fablecraft replaces 15+ applications with one intelligent 
             platform that understands your entire creative process from world-building to visual production.
@@ -158,7 +158,7 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Trust Indicators Section */}
         {showTrustIndicators && (
           <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-normal"
             role="region"
             aria-labelledby="trust-indicators-heading"
           >
@@ -179,7 +179,7 @@ export const FeatureCards = memo(function FeatureCards({
                   role="article"
                   aria-label={`${indicator.number} ${indicator.label}`}
                 >
-                  <CardContent className="p-6 text-center space-y-4">
+                  <CardContent className="p-comfortable text-center component-inner">
                     <div className={cn(
                       "w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl",
                       "flex items-center justify-center mx-auto transition-all duration-300",
@@ -191,11 +191,11 @@ export const FeatureCards = memo(function FeatureCards({
                       />
                     </div>
                     
-                    <div className="space-y-1">
+                    <div className="mt-best-friends space-y-1">
                       <div className="text-2xl sm:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                         {indicator.number}
                       </div>
-                      <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                      <div className="text-golden-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                         {indicator.label}
                       </div>
                       {isDetailed && indicator.description && (
@@ -214,7 +214,7 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Key Benefits Section */}
         {showKeyBenefits && (
           <div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 pt-8"
+            className="grid grid-cols-1 md:grid-cols-3 grid-normal pt-8"
             role="region"
             aria-labelledby="key-benefits-heading"
           >
@@ -228,7 +228,7 @@ export const FeatureCards = memo(function FeatureCards({
                 <div 
                   key={index}
                   className={cn(
-                    "group bg-card hover:bg-accent/30 rounded-2xl p-6 lg:p-8 space-y-6",
+                    "group bg-card hover:bg-accent/30 rounded-2xl p-comfortable component-inner",
                     "border border-border hover:border-primary/50 transition-all duration-500",
                     "hover:shadow-lg hover:scale-105 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                   )}
@@ -248,23 +248,23 @@ export const FeatureCards = memo(function FeatureCards({
                     />
                   </div>
                   
-                  <div className="space-y-3 text-center">
-                    <h4 
-                      id={`benefit-title-${index}`}
-                      className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300"
-                    >
+                  <div className="mt-best-friends space-y-4 text-center">
+                                          <h4 
+                        id={`benefit-title-${index}`}
+                        className="text-golden-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300"
+                      >
                       {benefit.title}
                     </h4>
                     
-                    {isDetailed && benefit.category && (
-                      <Badge variant="secondary" className="text-xs">
-                        {benefit.category}
-                      </Badge>
-                    )}
+                                          {isDetailed && benefit.category && (
+                        <Badge variant="secondary" className="text-golden-sm">
+                          {benefit.category}
+                        </Badge>
+                      )}
                     
                     <p 
                       id={`benefit-description-${index}`}
-                      className="text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-relaxed"
+                      className="text-golden-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 leading-relaxed"
                     >
                       {benefit.description}
                     </p>
