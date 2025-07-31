@@ -153,12 +153,12 @@ const PricingCard = memo(
         />
 
         {tier.isPopular && (
-          <div className='absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 rounded-bl-lg text-sm font-semibold'>
+          <div className='absolute top-2 right-2 bg-primary text-primary-foreground px-3 py-1 rounded-lg text-sm font-semibold z-20'>
             Most Popular
           </div>
         )}
 
-        <CardContent className='relative z-10 p-6'>
+        <CardContent className={`relative z-10 p-6 ${tier.isPopular ? 'pt-12' : ''}`}>
           {/* Plan Name */}
           <h3 className='text-2xl font-bold text-heading-primary'>
             {tier.name}
