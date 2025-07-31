@@ -34,7 +34,7 @@ export const FooterSection = memo(
       >
         <div className='max-w-7xl mx-auto text-center'>
           {showBranding && (
-            <div className='flex items-center justify-center space-x-4 group cursor-pointer'>
+            <div className='flex items-center justify-center gap-4 group cursor-pointer'>
               <div className='w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500'>
                 <Feather className='w-7 h-7 text-primary-foreground group-hover:scale-110 transition-transform duration-300' />
               </div>
@@ -48,7 +48,7 @@ export const FooterSection = memo(
           <p className='text-xl text-foreground/80 font-medium mt-best-friends'>{tagline}</p>
 
           {/* Made with Love Line with Mathematical Spacing */}
-          <div className='flex items-center justify-center space-x-2 text-sm text-muted-foreground mt-friends'>
+          <div className='flex items-center justify-center gap-2 text-sm text-muted-foreground mt-friends'>
             <span>{subtitle}</span>
             <div
               className='w-4 h-4 rounded-full animate-pulse'
