@@ -36,7 +36,7 @@ const ProcessSteps = React.lazy(() =>
  * Enhanced TypeScript interfaces for Landing Page
  */
 interface LandingPageProps {
-  onNavigate: (view: string) => void;
+  onNavigate: (_view: string) => void;   
   onNewProject: () => void;
   onAuth: () => void;
   onLogout: () => Promise<void>;

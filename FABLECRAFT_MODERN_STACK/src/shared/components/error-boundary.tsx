@@ -132,10 +132,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       errorInfo
     });
 
-    // Log error for monitoring/debugging
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
-    // Call custom error handler if provided
+    // Call custom error handler if provided (for logging/monitoring)
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }

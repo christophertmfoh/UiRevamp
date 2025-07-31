@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Lightbulb, Zap } from 'lucide-react';
@@ -102,7 +102,7 @@ const defaultKeyBenefits: KeyBenefit[] = [
  * @param props - Feature cards configuration
  * @returns JSX element for the feature cards section
  */
-export const FeatureCards = React.memo(function FeatureCards({ 
+export const FeatureCards = memo(function FeatureCards({ 
   className = '',
   variant = 'default',
   showTrustIndicators = true,

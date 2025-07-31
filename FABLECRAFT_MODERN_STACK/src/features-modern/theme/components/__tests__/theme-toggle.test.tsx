@@ -241,7 +241,7 @@ describe('ThemeToggle Component', () => {
 
     it('persists theme selection', () => {
       // Test localStorage persistence for theme selection
-      const mockLocalStorage = window.localStorage as any;
+      const mockLocalStorage = window.localStorage as Storage;
       
       render(
         <TestWrapper>
