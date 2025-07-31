@@ -427,30 +427,31 @@
     overflow: hidden;
   }
 
-  .floating-particles::before,
-  .floating-particles::after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: float-drift 25s infinite linear;
-  }
+     .floating-particles::before,
+   .floating-particles::after {
+     content: '';
+     position: absolute;
+     width: 4px;
+     height: 4px;
+     background: radial-gradient(circle, hsl(var(--primary) / 0.6) 0%, transparent 70%);
+     border-radius: 50%;
+     animation: float-drift 15s infinite linear;
+     box-shadow: 0 0 8px hsl(var(--primary) / 0.3);
+   }
 
-  .floating-particles::before {
-    top: -10px;
-    left: 20%;
-    animation-delay: 0s;
-    animation-duration: 20s;
-  }
+   .floating-particles::before {
+     top: -10px;
+     left: 20%;
+     animation-delay: 0s;
+     animation-duration: 12s;
+   }
 
-  .floating-particles::after {
-    top: -10px;
-    left: 70%;
-    animation-delay: 10s;
-    animation-duration: 30s;
-  }
+   .floating-particles::after {
+     top: -10px;
+     left: 70%;
+     animation-delay: 6s;
+     animation-duration: 18s;
+   }
 
   /* Ambient orbs - very subtle */
   .ambient-orbs {
@@ -464,43 +465,44 @@
     overflow: hidden;
   }
 
-  .ambient-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(2px);
-    opacity: 0.15;
-    animation: orb-drift 40s infinite ease-in-out;
-  }
+     .ambient-orb {
+     position: absolute;
+     border-radius: 50%;
+     filter: blur(3px);
+     opacity: 0.4;
+     animation: orb-drift 25s infinite ease-in-out;
+     box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+   }
 
-  .ambient-orb:nth-child(1) {
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, transparent 70%);
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-    animation-duration: 35s;
-  }
+   .ambient-orb:nth-child(1) {
+     width: 80px;
+     height: 80px;
+     background: radial-gradient(circle, hsl(var(--primary) / 0.4) 0%, transparent 70%);
+     top: 20%;
+     left: 10%;
+     animation-delay: 0s;
+     animation-duration: 20s;
+   }
 
-  .ambient-orb:nth-child(2) {
-    width: 40px;
-    height: 40px;
-    background: radial-gradient(circle, hsl(var(--accent) / 0.15) 0%, transparent 70%);
-    top: 60%;
-    right: 15%;
-    animation-delay: 15s;
-    animation-duration: 45s;
-  }
+   .ambient-orb:nth-child(2) {
+     width: 60px;
+     height: 60px;
+     background: radial-gradient(circle, hsl(var(--accent) / 0.3) 0%, transparent 70%);
+     top: 60%;
+     right: 15%;
+     animation-delay: 8s;
+     animation-duration: 28s;
+   }
 
-  .ambient-orb:nth-child(3) {
-    width: 30px;
-    height: 30px;
-    background: radial-gradient(circle, hsl(var(--muted-foreground) / 0.1) 0%, transparent 70%);
-    bottom: 30%;
-    left: 60%;
-    animation-delay: 25s;
-    animation-duration: 40s;
-  }
+   .ambient-orb:nth-child(3) {
+     width: 50px;
+     height: 50px;
+     background: radial-gradient(circle, hsl(var(--muted-foreground) / 0.25) 0%, transparent 70%);
+     bottom: 30%;
+     left: 60%;
+     animation-delay: 15s;
+     animation-duration: 24s;
+   }
 
   /* Subtle energy wisps */
   .energy-wisps {
@@ -514,25 +516,26 @@
     overflow: hidden;
   }
 
-  .energy-wisps::before {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--primary) / 0.1) 30%,
-      hsl(var(--primary) / 0.2) 50%,
-      hsl(var(--primary) / 0.1) 70%,
-      transparent 100%
-    );
-    top: 40%;
-    left: -200px;
-    border-radius: 2px;
-    filter: blur(1px);
-    animation: wisp-flow 50s infinite linear;
-  }
+     .energy-wisps::before {
+     content: '';
+     position: absolute;
+     width: 300px;
+     height: 3px;
+     background: linear-gradient(
+       90deg,
+       transparent 0%,
+       hsl(var(--primary) / 0.2) 30%,
+       hsl(var(--primary) / 0.4) 50%,
+       hsl(var(--primary) / 0.2) 70%,
+       transparent 100%
+     );
+     top: 40%;
+     left: -300px;
+     border-radius: 3px;
+     filter: blur(2px);
+     animation: wisp-flow 30s infinite linear;
+     box-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+   }
 
   /* Animations */
   @keyframes float-drift {

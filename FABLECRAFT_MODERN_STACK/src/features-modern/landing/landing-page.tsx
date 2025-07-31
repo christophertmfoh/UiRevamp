@@ -294,12 +294,34 @@ export function LandingPage({
     >
       {/* Fantasy Atmospheric Effects */}
       <div className="floating-particles" aria-hidden="true" />
+      <div className="floating-particles" aria-hidden="true" style={{ animationDelay: '7s' }} />
+      <div className="floating-particles" aria-hidden="true" style={{ animationDelay: '14s' }} />
       <div className="ambient-orbs" aria-hidden="true">
         <div className="ambient-orb" />
         <div className="ambient-orb" />
         <div className="ambient-orb" />
+        <div className="ambient-orb" style={{ 
+          width: '70px', 
+          height: '70px', 
+          top: '80%', 
+          left: '80%', 
+          animationDelay: '22s',
+          animationDuration: '26s'
+        }} />
+        <div className="ambient-orb" style={{ 
+          width: '40px', 
+          height: '40px', 
+          top: '10%', 
+          right: '30%', 
+          animationDelay: '30s',
+          animationDuration: '22s'
+        }} />
       </div>
       <div className="energy-wisps" aria-hidden="true" />
+      <div className="energy-wisps" aria-hidden="true" style={{ 
+        animationDelay: '15s',
+        top: '70%'
+      }} />
       {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
         <NavigationHeader
