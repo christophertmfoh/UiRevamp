@@ -298,4 +298,154 @@
   .no-texture body::before {
     display: none !important;
   }
+
+  /* ===== DEPTH & ELEVATION SYSTEM ===== */
+  /* Creates visual hierarchy and "space" between elements and textured background */
+  
+  /* Base elevation classes - creates floating effect */
+  .elevation-none {
+    box-shadow: none;
+    transform: translateZ(0);
+  }
+  
+  .elevation-sm {
+    box-shadow: 
+      0 1px 3px hsl(var(--foreground) / 0.05),
+      0 1px 2px hsl(var(--foreground) / 0.02);
+    transform: translateZ(0);
+  }
+  
+  .elevation-md {
+    box-shadow: 
+      0 4px 6px hsl(var(--foreground) / 0.07),
+      0 2px 4px hsl(var(--foreground) / 0.03),
+      0 0 0 1px hsl(var(--border) / 0.5);
+    transform: translateZ(0);
+  }
+  
+  .elevation-lg {
+    box-shadow: 
+      0 8px 25px hsl(var(--foreground) / 0.1),
+      0 4px 10px hsl(var(--foreground) / 0.05),
+      0 0 0 1px hsl(var(--border) / 0.3);
+    transform: translateZ(0);
+  }
+  
+  .elevation-xl {
+    box-shadow: 
+      0 12px 40px hsl(var(--foreground) / 0.12),
+      0 6px 20px hsl(var(--foreground) / 0.06),
+      0 0 0 1px hsl(var(--border) / 0.2);
+    transform: translateZ(0);
+  }
+
+  /* Paper-like content containers */
+  .paper-card {
+    background: hsl(var(--card));
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border) / 0.3);
+    backdrop-filter: blur(8px);
+    box-shadow: 
+      0 8px 32px hsl(var(--foreground) / 0.08),
+      0 4px 16px hsl(var(--foreground) / 0.04),
+      inset 0 1px 0 hsl(var(--background) / 0.8);
+    position: relative;
+    z-index: 10;
+  }
+
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background) / 0.1) 0%,
+      transparent 50%,
+      hsl(var(--foreground) / 0.02) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Floating navigation */
+  .floating-nav {
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    box-shadow: 
+      0 8px 32px hsl(var(--foreground) / 0.1),
+      0 2px 8px hsl(var(--foreground) / 0.05);
+    position: relative;
+    z-index: 50;
+  }
+
+  /* Hero content elevation */
+  .hero-elevated {
+    position: relative;
+    z-index: 20;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.8) 0%,
+      hsl(var(--card) / 0.6) 100%
+    );
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid hsl(var(--border) / 0.2);
+    box-shadow: 
+      0 16px 64px hsl(var(--foreground) / 0.1),
+      0 8px 32px hsl(var(--foreground) / 0.05),
+      inset 0 1px 0 hsl(var(--background) / 0.9);
+  }
+
+  /* Section depth layers */
+  .section-layer-1 {
+    position: relative;
+    z-index: 15;
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(8px);
+  }
+
+  .section-layer-2 {
+    position: relative;
+    z-index: 12;
+    background: hsl(var(--background) / 0.5);
+    backdrop-filter: blur(6px);
+  }
+
+  /* Interactive depth on hover */
+  .depth-hover {
+    transition: 
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .depth-hover:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 
+      0 12px 48px hsl(var(--foreground) / 0.12),
+      0 6px 24px hsl(var(--foreground) / 0.06),
+      0 0 0 1px hsl(var(--border) / 0.2);
+  }
+
+  /* Content lift effect */
+  .content-lift {
+    position: relative;
+    z-index: 25;
+    transform: translateZ(0);
+  }
+
+  .content-lift::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: radial-gradient(
+      circle at center,
+      hsl(var(--background) / 0.8) 0%,
+      hsl(var(--background) / 0.4) 40%,
+      transparent 70%
+    );
+    border-radius: 20px;
+    z-index: -1;
+    filter: blur(8px);
+  }
 }

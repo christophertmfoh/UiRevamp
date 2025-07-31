@@ -184,7 +184,7 @@ export const FeatureCards = memo(function FeatureCards({
                   key={index}
                   className={cn(
                     "group bg-card hover:bg-accent/50 border-border transition-all duration-500",
-                    "hover:shadow-lg hover:scale-105 hover:-translate-y-1",
+                    "elevation-sm depth-hover",
                     "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                   )}
                   role="article"
@@ -241,7 +241,7 @@ export const FeatureCards = memo(function FeatureCards({
                   className={cn(
                     "group bg-card hover:bg-accent/30 rounded-2xl p-comfortable space-y-6",
                     "border border-border hover:border-primary/50 transition-all duration-500",
-                    "hover:shadow-lg hover:scale-105 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
+                    "elevation-md depth-hover focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                   )}
                   role="article"
                   tabIndex={0}
