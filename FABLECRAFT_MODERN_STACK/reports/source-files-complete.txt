@@ -1,0 +1,67 @@
+=== COMPREHENSIVE CLIENT BUILD INVENTORY ===
+
+LANDING PAGE FILES:
+../client/src/pages/landing/FeatureCards.tsx
+../client/src/pages/landing/index.ts
+../client/src/pages/landing/HeroSection.tsx
+../client/src/pages/landing/CTASection.tsx
+../client/src/pages/landing/LandingPage.tsx
+
+THEME SYSTEM FILES:
+../client/src/components/theme-toggle.tsx
+../client/src/components/theme-provider.tsx
+
+AUTHENTICATION FILES:
+../client/src/pages/AuthPageRedesign.tsx
+../client/src/features/auth/index.ts
+
+ALL CLIENT HOOKS:
+../client/src/hooks/useCreativeDebugger.ts
+../client/src/hooks/useComponentPreloader.ts
+../client/src/hooks/useTaskManagement.ts
+../client/src/hooks/useProjectsLogic.ts
+../client/src/hooks/useAccessibility.ts
+../client/src/hooks/useModernWebSocket.ts
+../client/src/hooks/useDragAndDrop.ts
+../client/src/hooks/useMemoryMonitor.ts
+../client/src/hooks/useWidgetManagement.ts
+../client/src/hooks/useAuth.ts
+../client/src/hooks/useMemoryOptimizedState.ts
+../client/src/hooks/use-mobile.tsx
+../client/src/hooks/useOptimizedScroll.ts
+../client/src/hooks/useWritingSession.ts
+../client/src/hooks/useHotReloadMetrics.ts
+../client/src/hooks/useModernState.ts
+
+EXISTING CLIENT FEATURES:
+../client/src/features/auth/index.ts
+../client/src/features/projects/index.ts
+../client/src/features/characters/index.ts
+../client/src/features/writing/index.ts
+
+=== FABLECRAFT-ENTERPRISE BUILD INVENTORY ===
+
+LANDING PAGE FILES:
+../fablecraft-enterprise/src/pages/landing/TestimonialCard.tsx
+../fablecraft-enterprise/src/pages/landing/index.ts
+../fablecraft-enterprise/src/pages/landing/HeroSection.tsx
+../fablecraft-enterprise/src/pages/landing/CTASection.tsx
+../fablecraft-enterprise/src/pages/landing/data.ts
+../fablecraft-enterprise/src/pages/landing/LandingPage.tsx
+
+THEME SYSTEM FILES:
+../fablecraft-enterprise/src/components/theme/theme-toggle.tsx
+../fablecraft-enterprise/src/components/theme/index.ts
+../fablecraft-enterprise/src/components/theme/theme-provider.tsx
+
+ALL ENTERPRISE FEATURES:
+No features directory in enterprise
+
+=== FABLECRAFT-PRODUCTION BUILD INVENTORY ===
+
+../fablecraft-production/src/index.css
+../fablecraft-production/src/App.tsx
+../fablecraft-production/src/vite-env.d.ts
+../fablecraft-production/src/assets/react.svg
+../fablecraft-production/src/App.css
+../fablecraft-production/src/main.tsx
