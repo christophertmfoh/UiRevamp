@@ -292,18 +292,32 @@ export function LandingPage({
       role='main'
       aria-label='Fablecraft landing page'
     >
-      {/* Sparks of Ideas - Creative Ember Effect */}
+      {/* Firefly Atmosphere - Natural Floating Effect */}
       <div className="idea-sparks" aria-hidden="true">
-        <div className="spark" style={{ left: '10%', animationDelay: '0s' }} />
-        <div className="spark" style={{ left: '25%', animationDelay: '3s' }} />
-        <div className="spark" style={{ left: '45%', animationDelay: '6s' }} />
-        <div className="spark" style={{ left: '65%', animationDelay: '9s' }} />
-        <div className="spark" style={{ left: '80%', animationDelay: '12s' }} />
-        <div className="spark" style={{ left: '90%', animationDelay: '15s' }} />
-        <div className="spark spark-small" style={{ left: '15%', animationDelay: '18s' }} />
-        <div className="spark spark-small" style={{ left: '35%', animationDelay: '21s' }} />
-        <div className="spark spark-bright" style={{ left: '55%', animationDelay: '24s' }} />
-        <div className="spark spark-small" style={{ left: '75%', animationDelay: '27s' }} />
+        {/* Primary firefly wave - spread across screen */}
+        <div className="spark" style={{ left: '8%', animationDelay: '0s' }} />
+        <div className="spark spark-small" style={{ left: '16%', animationDelay: '3.2s' }} />
+        <div className="spark spark-bright" style={{ left: '28%', animationDelay: '1.8s' }} />
+        <div className="spark spark-small" style={{ left: '37%', animationDelay: '7.1s' }} />
+        <div className="spark" style={{ left: '49%', animationDelay: '2.5s' }} />
+        <div className="spark spark-bright" style={{ left: '62%', animationDelay: '5.7s' }} />
+        <div className="spark spark-small" style={{ left: '73%', animationDelay: '8.9s' }} />
+        <div className="spark" style={{ left: '84%', animationDelay: '4.3s' }} />
+        <div className="spark spark-small" style={{ left: '93%', animationDelay: '9.6s' }} />
+        
+        {/* Secondary wave for natural depth */}
+        <div className="spark spark-small" style={{ left: '12%', animationDelay: '11.2s' }} />
+        <div className="spark" style={{ left: '23%', animationDelay: '13.8s' }} />
+        <div className="spark spark-small" style={{ left: '41%', animationDelay: '12.5s' }} />
+        <div className="spark spark-bright" style={{ left: '58%', animationDelay: '14.7s' }} />
+        <div className="spark spark-small" style={{ left: '71%', animationDelay: '16.1s' }} />
+        <div className="spark" style={{ left: '89%', animationDelay: '15.4s' }} />
+        
+        {/* Subtle background layer */}
+        <div className="spark spark-small" style={{ left: '4%', animationDelay: '18.2s' }} />
+        <div className="spark spark-small" style={{ left: '33%', animationDelay: '19.8s' }} />
+        <div className="spark spark-small" style={{ left: '67%', animationDelay: '20.5s' }} />
+        <div className="spark spark-small" style={{ left: '96%', animationDelay: '21.3s' }} />
       </div>
       {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
