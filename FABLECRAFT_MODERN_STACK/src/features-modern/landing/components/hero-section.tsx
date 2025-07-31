@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Zap, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import { BadgeWithDot } from '@/shared/components/badge-with-dot';
 
 /**
  * Enhanced TypeScript interfaces for Hero Section
@@ -54,29 +54,25 @@ export function HeroSection({
         <div className="heading-group flex flex-col items-center">
           
           {/* Enhanced Badge with Theme Integration */}
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-4 h-4 rounded-full animate-pulse bg-primary"
-              aria-hidden="true"
-            />
-            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 text-base px-4 py-2">
-              End-to-End Creative Production Suite
-            </Badge>
-          </div>
+          <BadgeWithDot>
+            End-to-End Creative Production Suite
+          </BadgeWithDot>
           
           {/* Enhanced Main Heading with Theme-Aware Typography */}
           <h1 
             id="hero-heading"
             className={cn(
-              "font-black text-foreground leading-[1.1] tracking-tight drop-shadow-sm mt-best-friends",
+              "font-black leading-[1.1] tracking-tight drop-shadow-sm mt-best-friends",
               isCompact 
                 ? "text-3xl sm:text-4xl lg:text-5xl" 
                 : "text-golden-4xl sm:text-golden-5xl lg:text-6xl xl:text-7xl"
             )}
           >
-            Where Creative{' '}
+            <span className="text-foreground">
+              Where Creative Visions{' '}
+            </span>
             <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-              Visions Become Reality
+              Become Reality
             </span>
           </h1>
           

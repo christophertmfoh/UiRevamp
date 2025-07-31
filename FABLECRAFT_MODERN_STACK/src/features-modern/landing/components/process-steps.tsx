@@ -5,12 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { 
   Lightbulb, 
-  Globe, 
   PenTool, 
   Palette, 
   Camera, 
   Music, 
-  Film, 
   Share2
 } from 'lucide-react';
 
@@ -35,22 +33,15 @@ interface ProcessStepsProps {
 }
 
 /**
- * Default process steps data with multimedia pipeline focus
+ * Default process steps data with strategic multimedia pipeline focus (reduced to 6 core steps)
  */
 const defaultProcessSteps: ProcessStep[] = [
   { 
     icon: Lightbulb, 
-    title: "Ideation & Concept", 
-    description: "From spark to creative foundation",
-    detail: "Transform fleeting inspiration into rich creative concepts with AI-guided brainstorming across all media",
-    category: "Creative Foundation"
-  },
-  { 
-    icon: Globe, 
-    title: "World Building", 
-    description: "Build living creative universes",
-    detail: "Characters, places, cultures, and lore - all interconnected in your intelligent creative bible",
-    category: "Universe Creation"
+    title: "Ideation & World Building", 
+    description: "From concept to living universes",
+    detail: "Transform inspiration into rich creative concepts with AI-guided brainstorming and interconnected world creation",
+    category: "Foundation"
   },
   { 
     icon: PenTool, 
@@ -68,24 +59,17 @@ const defaultProcessSteps: ProcessStep[] = [
   },
   { 
     icon: Camera, 
-    title: "Pre-Visualization", 
+    title: "Video Production", 
     description: "Bring storyboards to life",
-    detail: "Create professional pre-vis sequences and generate image-to-video content for demos and shorts",
+    detail: "Create professional pre-vis sequences and generate image-to-video content for demos and productions",
     category: "Video Production"
   },
   { 
     icon: Music, 
-    title: "Audio & Scoring", 
-    description: "Soundscapes that complete worlds",
-    detail: "Generate voices, compose scores, and create immersive audio with our integrated production suite",
-    category: "Audio Production"
-  },
-  { 
-    icon: Film, 
-    title: "Post-Production", 
-    description: "Polish and perfect your vision",
-    detail: "Edit, combine, and export your multimedia projects across all formats with professional tools",
-    category: "Final Production"
+    title: "Audio & Post-Production", 
+    description: "Complete with sound and polish",
+    detail: "Generate voices, compose scores, and finalize your multimedia projects with professional editing tools",
+    category: "Audio & Finishing"
   },
   { 
     icon: Share2, 
@@ -154,7 +138,7 @@ export function ProcessSteps({
             "text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium mt-friends",
             isCompact ? "text-base sm:text-lg" : "text-lg sm:text-xl"
           )}>
-            Follow our proven 8-stage multimedia production process used by creative professionals worldwide. 
+            Follow our proven 6-stage multimedia production process used by creative professionals worldwide. 
             Each stage builds seamlessly into the next, ensuring your creative vision stays consistent from 
             initial concept to final publication.
           </p>

@@ -31,11 +31,11 @@ const DEFAULT_TESTIMONIALS: Testimonial[] = [
   {
     id: 'testimonial-1',
     name: 'Sarah Chen',
-    role: 'Fantasy Novelist',
-    initials: 'SL',
+    role: 'Multimedia Creator',
+    initials: 'SC',
     rating: 5,
     content:
-      'FableCraft transformed how I develop characters. The AI understands nuance in ways I never expected, and the 164+ fields capture every detail that matters to my stories.',
+      'Fablecraft replaced my entire creative workflow. From writing my novel to generating storyboards and creating promotional videos, everything is connected. The AI understands my world so well, it feels like having a creative partner who never forgets anything.',
   },
   {
     id: 'testimonial-2',

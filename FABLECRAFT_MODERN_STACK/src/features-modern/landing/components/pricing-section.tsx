@@ -41,25 +41,40 @@ interface PricingSectionProps {
 }
 
 /**
- * Default pricing tiers with multimedia capabilities
+ * Default pricing tiers with 4-tier structure
  */
 const defaultPricingTiers: PricingTier[] = [
   {
     id: 'free',
-    name: 'Creative Starter',
+    name: 'Free',
     price: 'Free',
     period: '',
-    description: 'Perfect for exploring the full creative suite',
+    description: 'Get started with limited features',
     isPopular: false,
-    ctaText: 'Start Creating Free',
+    ctaText: 'Start Free',
     features: [
-      { id: 'projects-3', text: '3 Multimedia Projects', included: true },
-      { id: 'world-bible', text: 'World Bible & Character Generator', included: true },
-      { id: 'basic-writing', text: 'Basic Writing Tools (Novels, Scripts)', included: true },
-      { id: 'basic-visual', text: 'Basic Storyboarding & Concept Art', included: true },
-      { id: 'basic-audio', text: 'Basic Voice & Sound Generation', included: true },
+      { id: 'projects-3', text: '3 Free Projects', included: true },
+      { id: 'ai-credits-limited', text: 'Limited Free AI Credits/Month', included: true },
+      { id: 'basic-features', text: 'All Basic Features', included: true },
       { id: 'community-access', text: 'Community Access & Sharing', included: true },
-      { id: 'export-basic', text: 'Standard Export Formats', included: true },
+      { id: 'standard-export', text: 'Standard Export & Sharing', included: true },
+    ],
+  },
+  {
+    id: 'starter',
+    name: 'Starter',
+    price: '$15',
+    period: '/month',
+    description: 'Perfect for serious creators',
+    isPopular: false,
+    ctaText: 'Choose Starter',
+    features: [
+      { id: 'projects-unlimited', text: 'Unlimited Projects', included: true },
+      { id: 'ai-credits-standard', text: 'Standard AI Credits/Month', included: true },
+      { id: 'advanced-features', text: 'Advanced Creative Features', included: true },
+      { id: 'basic-collaboration', text: 'Basic Collaboration Tools', included: true },
+      { id: 'enhanced-export', text: 'Enhanced Export Options', included: true },
+      { id: 'email-support', text: 'Email Support', included: true },
     ],
   },
   {
@@ -69,17 +84,34 @@ const defaultPricingTiers: PricingTier[] = [
     period: '/month',
     description: 'Complete multimedia production powerhouse',
     isPopular: true,
-    ctaText: 'Unleash Full Creative Power',
+    ctaText: 'Unleash Full Power',
     features: [
       { id: 'projects-unlimited', text: 'Unlimited Multimedia Projects', included: true },
-      { id: 'advanced-ai', text: 'Advanced AI Across All Media', included: true },
+      { id: 'ai-credits-premium', text: 'Premium AI Credits/Month', included: true },
       { id: 'video-generation', text: 'Pre-vis & Video Generation', included: true },
       { id: 'audio-suite', text: 'Full Audio Production Suite & DAW', included: true },
-      { id: 'dnd-expansion', text: 'D&D Campaign Builder (Coming Soon)', included: true },
-      { id: 'collaboration', text: 'Real-time Collaboration & Teams', included: true },
+      { id: 'collaboration-advanced', text: 'Advanced Collaboration & Teams', included: true },
       { id: 'publishing-tools', text: 'Publishing & Distribution Tools', included: true },
       { id: 'custom-models', text: 'Custom AI Model Training', included: true },
       { id: 'priority-support', text: 'Priority Support & Beta Access', included: true },
+    ],
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: 'Contact',
+    period: 'for pricing',
+    description: 'Custom solutions for teams and organizations',
+    isPopular: false,
+    ctaText: 'Contact Sales',
+    features: [
+      { id: 'everything-included', text: 'Everything in Creative Studio', included: true },
+      { id: 'unlimited-credits', text: 'Unlimited AI Credits', included: true },
+      { id: 'custom-integrations', text: 'Custom Integrations & API Access', included: true },
+      { id: 'dedicated-support', text: 'Dedicated Account Manager', included: true },
+      { id: 'sso-security', text: 'SSO & Advanced Security', included: true },
+      { id: 'custom-training', text: 'Custom Training & Onboarding', included: true },
+      { id: 'sla-guarantee', text: 'SLA Guarantee', included: true },
     ],
   },
 ];

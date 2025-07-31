@@ -8,10 +8,8 @@ import {
   CheckCircle, 
   Zap, 
   Film,
-  Music,
   Share2,
   Globe,
-  Camera,
   Palette
 } from 'lucide-react';
 
@@ -72,7 +70,7 @@ const defaultTrustIndicators: TrustIndicator[] = [
 ];
 
 /**
- * Default key benefits data with enhanced multimedia structure
+ * Default key benefits data with strategic multimedia focus (reduced to 3 core benefits)
  */
 const defaultKeyBenefits: KeyBenefit[] = [
   {
@@ -83,33 +81,15 @@ const defaultKeyBenefits: KeyBenefit[] = [
   },
   {
     icon: Film,
-    title: 'Visual Storytelling Pipeline',
-    description: 'Transform your written content into storyboards, concept art, and videos with AI-powered visual generation trained on your creative style.',
-    category: 'Visual Production'
-  },
-  {
-    icon: Music,
-    title: 'Audio & Score Production',
-    description: 'Generate voices, compose scores, and create soundscapes with our integrated DAW. From dialogue to orchestra, bring your worlds to life with sound.',
-    category: 'Audio Production'
+    title: 'Complete Production Pipeline',
+    description: 'Transform your written content into storyboards, videos, and audio productions with AI-powered generation trained on your creative style.',
+    category: 'Visual & Audio Production'
   },
   {
     icon: Share2,
     title: 'Community & Publishing',
     description: 'Share your creations, collaborate in real-time, and publish across multiple formats. Build your audience and connect with fellow creators.',
     category: 'Community'
-  },
-  {
-    icon: Camera,
-    title: 'Pre-Visualization Suite',
-    description: 'Create professional pre-vis sequences from your storyboards. Generate image-to-video content for shorts, demos, and full productions.',
-    category: 'Pre-Visualization'
-  },
-  {
-    icon: Zap,
-    title: 'AI-Powered Workflow',
-    description: 'Intelligent assistance throughout your creative process. From ideation to publication, AI amplifies your creativity without replacing your vision.',
-    category: 'AI Integration'
   }
 ];
 
