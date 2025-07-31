@@ -82,6 +82,7 @@ export default [
       'prefer-template': 'error',
       
       // TypeScript rules
+      "no-unused-vars": "off", // Use @typescript-eslint/no-unused-vars instead
       '@typescript-eslint/no-unused-vars': ['error', { 
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',

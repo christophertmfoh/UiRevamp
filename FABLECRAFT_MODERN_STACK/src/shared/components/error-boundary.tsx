@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
@@ -35,57 +36,63 @@ interface ErrorFallbackProps {
 /**
  * Default Error Fallback Component
  */
-function DefaultErrorFallback({ error, resetError, className }: ErrorFallbackProps) {
+function DefaultErrorFallback({
+  error,
+  resetError,
+  className,
+}: ErrorFallbackProps) {
   return (
-    <div className={`min-h-[400px] flex items-center justify-center p-8 ${className || ''}`}>
-      <div className="text-center space-y-6 max-w-md mx-auto">
-        
+    <div
+      className={`min-h-[400px] flex items-center justify-center p-8 ${className || ''}`}
+    >
+      <div className='text-center space-y-6 max-w-md mx-auto'>
         {/* Error Icon */}
-        <div className="w-16 h-16 bg-destructive/10 rounded-2xl flex items-center justify-center mx-auto">
-          <AlertTriangle className="w-8 h-8 text-destructive" />
+        <div className='w-16 h-16 bg-destructive/10 rounded-2xl flex items-center justify-center mx-auto'>
+          <AlertTriangle className='w-8 h-8 text-destructive' />
         </div>
-        
+
         {/* Error Message */}
-        <div className="space-y-3">
-          <h2 className="text-2xl font-bold text-foreground">
+        <div className='space-y-3'>
+          <h2 className='text-2xl font-bold text-foreground'>
             Something went wrong
           </h2>
-          <p className="text-muted-foreground">
-            We encountered an unexpected error while loading this section. 
-            Please try refreshing the page or contact support if the problem persists.
+          <p className='text-muted-foreground'>
+            We encountered an unexpected error while loading this section.
+            Please try refreshing the page or contact support if the problem
+            persists.
           </p>
-          
+
           {/* Error Details (Development only) */}
           {process.env.NODE_ENV === 'development' && error && (
-            <details className="mt-4 p-4 bg-muted rounded-lg text-left">
-              <summary className="cursor-pointer font-medium text-sm text-foreground mb-2">
+            <details className='mt-4 p-4 bg-muted rounded-lg text-left'>
+              <summary className='cursor-pointer font-medium text-sm text-foreground mb-2'>
                 Error Details (Development)
               </summary>
-              <pre className="text-xs text-muted-foreground overflow-auto max-h-32">
+              <pre className='text-xs text-muted-foreground overflow-auto max-h-32'>
                 {error.stack}
               </pre>
             </details>
           )}
         </div>
-        
+
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button 
+        <div className='flex flex-col sm:flex-row gap-3 justify-center'>
+          <Button
             onClick={resetError}
-            className="flex items-center gap-2"
-            aria-label="Retry loading this section"
+            className='flex items-center gap-2'
+            aria-label='Retry loading this section'
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className='w-4 h-4' />
             Try Again
           </Button>
-          
-          <Button 
-            variant="outline"
-            onClick={() => window.location.href = '/'}
-            className="flex items-center gap-2"
-            aria-label="Return to homepage"
+
+          <Button
+            variant='outline'
+            onClick={() => (window.location.href = '/')}
+            className='flex items-center gap-2'
+            aria-label='Return to homepage'
           >
-            <Home className="w-4 h-4" />
+            <Home className='w-4 h-4' />
             Go Home
           </Button>
         </div>
@@ -96,10 +103,10 @@ function DefaultErrorFallback({ error, resetError, className }: ErrorFallbackPro
 
 /**
  * Error Boundary Component
- * 
+ *
  * Catches JavaScript errors anywhere in the child component tree,
  * logs those errors, and displays a fallback UI instead of the component tree that crashed.
- * 
+ *
  * FEATURES:
  * - Catches and handles React component errors gracefully
  * - Provides user-friendly error fallback UI
@@ -107,11 +114,14 @@ function DefaultErrorFallback({ error, resetError, className }: ErrorFallbackPro
  * - Development-friendly error details
  * - Accessibility compliant error states
  * - Customizable fallback components
- * 
+ *
  * @param props - Error boundary configuration
  * @returns Error boundary wrapper component
  */
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -119,9 +129,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     // Update state so the next render will show the fallback UI
-    return { 
-      hasError: true, 
-      error 
+    return {
+      hasError: true,
+      error,
     };
   }
 
@@ -129,7 +139,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     // Update state with error info
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Call custom error handler if provided (for logging/monitoring)
@@ -144,10 +154,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   resetError = () => {
-    this.setState({ 
-      hasError: false, 
-      error: undefined, 
-      errorInfo: undefined 
+    this.setState({
+      hasError: false,
+      error: undefined,
+      errorInfo: undefined,
     });
   };
 
@@ -155,10 +165,14 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (this.state.hasError) {
       // Render custom fallback UI or default
       const FallbackComponent = this.props.fallback || DefaultErrorFallback;
-      
+
       return (
-        <div className={this.props.className} role="alert" aria-live="assertive">
-          <FallbackComponent 
+        <div
+          className={this.props.className}
+          role='alert'
+          aria-live='assertive'
+        >
+          <FallbackComponent
             error={this.state.error}
             resetError={this.resetError}
             className={this.props.className}
@@ -174,7 +188,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
 /**
  * Hook-based Error Boundary for functional components
- * 
+ *
  * @param onError - Error handler callback
  * @returns Error boundary wrapper component
  */
@@ -189,13 +203,13 @@ export function withErrorBoundary<P extends object>(
   );
 
   WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-  
+
   return WrappedComponent;
 }
 
 /**
  * React Hook for error handling in functional components
- * 
+ *
  * @returns Error boundary utilities
  */
 export function useErrorHandler() {

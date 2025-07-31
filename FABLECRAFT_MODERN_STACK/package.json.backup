@@ -84,17 +84,5 @@
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix --config ./eslint.config.js",
-      "prettier --write"
-    ],
-    "*.{css,md}": [
-      "prettier --write"
-    ],
-    "*.json": [
-      "prettier --write"
-    ]
   }
 }
