@@ -315,7 +315,7 @@
     position: relative;
   }
 
-  /* Universal subtle ambient glow for all sections */
+  /* Universal subtle ambient glow - pure accent color themed */
   section::before {
     content: '';
     position: absolute;
@@ -325,44 +325,25 @@
     bottom: -15%;
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--primary) / 0.03) 0%,
-      hsl(var(--accent) / 0.02) 40%,
+      hsl(var(--accent) / 0.04) 0%,
+      hsl(var(--accent) / 0.02) 50%,
       transparent 80%
     );
     filter: blur(80px);
     z-index: -1;
     pointer-events: none;
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
-  /* Hero gets slightly more presence */
+  /* Hero gets enhanced accent presence */
   .hero-ambient-glow::before {
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--primary) / 0.05) 0%,
-      hsl(var(--accent) / 0.03) 40%,
+      hsl(var(--accent) / 0.06) 0%,
+      hsl(var(--accent) / 0.03) 50%,
       transparent 80%
     );
-    opacity: 0.6;
-  }
-
-  /* Theme-specific ambient enhancement */
-  .theme-dark section::before {
-    background: radial-gradient(
-      ellipse at center,
-      hsl(var(--primary) / 0.04) 0%,
-      hsl(var(--accent) / 0.03) 40%,
-      transparent 80%
-    );
-  }
-
-  .theme-dark .hero-ambient-glow::before {
-    background: radial-gradient(
-      ellipse at center,
-      hsl(var(--primary) / 0.07) 0%,
-      hsl(var(--accent) / 0.04) 40%,
-      transparent 80%
-    );
+    opacity: 0.7;
   }
 
   /* Content elements - pure typography, no visual containers */
