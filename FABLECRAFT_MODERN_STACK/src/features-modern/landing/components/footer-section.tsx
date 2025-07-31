@@ -30,9 +30,9 @@ export const FooterSection = memo(
   }: FooterSectionProps) => {
     return (
       <footer
-        className={`relative z-10 border-t border-border py-20 px-8 bg-gradient-to-t from-muted/30 to-transparent ${className}`}
+        className={`relative z-10 border-t border-border section-spacing-compact px-8 bg-gradient-to-t from-muted/30 to-transparent ${className}`}
       >
-        <div className='max-w-7xl mx-auto text-center space-y-8'>
+        <div className='max-w-7xl mx-auto text-center'>
           {showBranding && (
             <div className='flex items-center justify-center space-x-4 group cursor-pointer'>
               <div className='w-14 h-14 gradient-primary-br rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500'>
@@ -44,9 +44,11 @@ export const FooterSection = memo(
             </div>
           )}
 
-          <p className='text-xl text-foreground/80 font-medium'>{tagline}</p>
+          {/* Tagline with Mathematical Spacing */}
+          <p className='text-xl text-foreground/80 font-medium mt-best-friends'>{tagline}</p>
 
-          <div className='flex items-center justify-center space-x-2 text-sm text-muted-foreground'>
+          {/* Made with Love Line with Mathematical Spacing */}
+          <div className='flex items-center justify-center space-x-2 text-sm text-muted-foreground mt-friends'>
             <span>{subtitle}</span>
             <div
               className='w-4 h-4 rounded-full animate-pulse'
