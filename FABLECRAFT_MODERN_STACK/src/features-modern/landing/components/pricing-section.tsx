@@ -121,36 +121,39 @@ const PricingCard = memo(
           </div>
         )}
 
-        <CardContent className='relative z-10 p-8 space-y-6'>
-          <div className='space-y-4'>
-            <h3 className='text-2xl font-bold text-heading-primary'>
-              {tier.name}
-            </h3>
-            <div className='space-y-2'>
-              <div className='text-4xl font-bold text-heading-primary'>
-                {tier.price}
-                {tier.period && (
-                  <span className='text-lg text-muted-foreground'>
-                    {tier.period}
-                  </span>
-                )}
-              </div>
-              <p className='text-muted-foreground'>{tier.description}</p>
+        <CardContent className='relative z-10 p-6'>
+          {/* Plan Name */}
+          <h3 className='text-2xl font-bold text-heading-primary'>
+            {tier.name}
+          </h3>
+          
+          {/* Price and Period */}
+          <div className='mt-best-friends'>
+            <div className='text-4xl font-bold text-heading-primary'>
+              {tier.price}
+              {tier.period && (
+                <span className='text-lg text-muted-foreground'>
+                  {tier.period}
+                </span>
+              )}
             </div>
+            <p className='text-muted-foreground mt-best-friends'>{tier.description}</p>
           </div>
 
-          <div className='space-y-3 text-left'>
-            {tier.features.map(feature => (
-              <div key={feature.id} className='flex items-center space-x-3'>
+          {/* Features List */}
+          <div className='text-left mt-friends'>
+            {tier.features.map((feature, index) => (
+              <div key={feature.id} className={`flex items-center gap-3 ${index > 0 ? 'mt-2' : ''}`}>
                 <CheckCircle className='w-5 h-5 text-primary flex-shrink-0' />
                 <span className='text-foreground'>{feature.text}</span>
               </div>
             ))}
           </div>
 
+          {/* CTA Button */}
           <Button
             onClick={handleCTAClick}
-            className='w-full btn-enhanced gradient-primary text-primary-foreground px-6 py-3 text-lg font-semibold shadow-xl hover:shadow-2xl rounded-2xl focus-ring'
+            className='w-full btn-enhanced gradient-primary text-primary-foreground px-6 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl rounded-2xl focus-ring mt-acquaintances'
           >
             {tier.ctaText}
           </Button>
@@ -176,23 +179,31 @@ export const PricingSection = memo(
   }: PricingSectionProps) => {
     return (
       <section
-        className={`relative z-10 max-w-7xl mx-auto px-8 py-24 ${className}`}
+        className={`relative z-10 max-w-7xl mx-auto px-8 section-spacing-compact ${className}`}
       >
-        <div className='text-center space-y-16'>
-          <div className='space-y-6'>
-            <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md'>
-              Simple, Transparent Pricing
-            </Badge>
-            <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight'>
+        <div className='text-center'>
+          {/* Header Section with Mathematical Spacing */}
+          <div className='flex flex-col items-center'>
+            {/* Badge with Pulsing Dot */}
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+              <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md text-base px-4 py-2'>
+                Simple, Transparent Pricing
+              </Badge>
+            </div>
+            
+            <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight mt-best-friends'>
               Start Free, Scale with Your Stories
             </h2>
-            <p className='text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal'>
+            
+            <p className='text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal mt-friends'>
               Whether you're writing your first novel or managing an entire
               creative universe, we have a plan that grows with your ambition.
             </p>
           </div>
 
-          <div className='grid md:grid-cols-2 gap-8 max-w-4xl mx-auto'>
+          {/* Pricing Cards with Mathematical Grid */}
+          <div className='grid md:grid-cols-2 grid-normal max-w-4xl mx-auto mt-acquaintances'>
             {tiers.map(tier => (
               <PricingCard
                 key={tier.id}
