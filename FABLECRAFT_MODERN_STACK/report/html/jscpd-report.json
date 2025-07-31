@@ -1,9 +1,153 @@
 {
   "statistics": {
-    "detectionDate": "2025-07-30T23:46:35.856Z",
+    "detectionDate": "2025-07-31T12:26:57.598Z",
     "formats": {
       "javascript": {
         "sources": {
+          "src/features-modern/theme/components/__tests__/theme-toggle.test.tsx": {
+            "lines": 0,
+            "tokens": 8,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/theme/components/theme-toggle.tsx": {
+            "lines": 38,
+            "tokens": 262,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/testimonials-section.tsx": {
+            "lines": 61,
+            "tokens": 435,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/process-steps.tsx": {
+            "lines": 120,
+            "tokens": 703,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/pricing-section.tsx": {
+            "lines": 95,
+            "tokens": 672,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/hero-section.tsx": {
+            "lines": 78,
+            "tokens": 477,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/footer-section.tsx": {
+            "lines": 23,
+            "tokens": 159,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/feature-cards.tsx": {
+            "lines": 145,
+            "tokens": 910,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/cta-section.tsx": {
+            "lines": 111,
+            "tokens": 556,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/shared/components/error-boundary.tsx": {
+            "lines": 132,
+            "tokens": 782,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/landing-page.tsx": {
+            "lines": 286,
+            "tokens": 1618,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/components/ui/dropdown-menu.tsx": {
+            "lines": 149,
+            "tokens": 983,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/components/ui/card.tsx": {
             "lines": 63,
             "tokens": 446,
@@ -64,6 +208,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/pages/HomePage.tsx": {
+            "lines": 21,
+            "tokens": 97,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/App.tsx": {
             "lines": 1,
             "tokens": 27,
@@ -78,9 +234,9 @@
           }
         },
         "total": {
-          "lines": 65,
-          "tokens": 521,
-          "sources": 6,
+          "lines": 1324,
+          "tokens": 8183,
+          "sources": 19,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -92,6 +248,150 @@
       },
       "tsx": {
         "sources": {
+          "src/features-modern/theme/components/__tests__/theme-toggle.test.tsx": {
+            "lines": 480,
+            "tokens": 3815,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 24,
+            "duplicatedTokens": 154,
+            "percentage": 5,
+            "percentageTokens": 4.04,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/theme/components/theme-toggle.tsx": {
+            "lines": 192,
+            "tokens": 1246,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/testimonials-section.tsx": {
+            "lines": 137,
+            "tokens": 837,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/process-steps.tsx": {
+            "lines": 238,
+            "tokens": 1290,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/pricing-section.tsx": {
+            "lines": 212,
+            "tokens": 1518,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/hero-section.tsx": {
+            "lines": 133,
+            "tokens": 722,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/footer-section.tsx": {
+            "lines": 65,
+            "tokens": 350,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/feature-cards.tsx": {
+            "lines": 279,
+            "tokens": 1651,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/components/cta-section.tsx": {
+            "lines": 199,
+            "tokens": 1074,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/shared/components/error-boundary.tsx": {
+            "lines": 233,
+            "tokens": 1340,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/landing-page.tsx": {
+            "lines": 355,
+            "tokens": 2111,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/components/ui/dropdown-menu.tsx": {
+            "lines": 199,
+            "tokens": 1273,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/components/ui/card.tsx": {
             "lines": 85,
             "tokens": 575,
@@ -140,6 +440,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/app/providers/theme-provider.tsx": {
+            "lines": 45,
+            "tokens": 200,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/pages/NotFoundPage.tsx": {
             "lines": 24,
             "tokens": 218,
@@ -153,8 +465,8 @@
             "newClones": 0
           },
           "src/pages/HomePage.tsx": {
-            "lines": 116,
-            "tokens": 1011,
+            "lines": 60,
+            "tokens": 348,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -190,9 +502,73 @@
           }
         },
         "total": {
-          "lines": 340,
-          "tokens": 2855,
-          "sources": 8,
+          "lines": 3051,
+          "tokens": 19619,
+          "sources": 21,
+          "clones": 1,
+          "duplicatedLines": 12,
+          "duplicatedTokens": 77,
+          "percentage": 0.39,
+          "percentageTokens": 0.39,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "css": {
+        "sources": {
+          "src/shared/lib/theme/variables.css": {
+            "lines": 378,
+            "tokens": 4062,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/shared/lib/design-system/spacing.css": {
+            "lines": 248,
+            "tokens": 800,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/styles/globals.css": {
+            "lines": 71,
+            "tokens": 544,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/index.css": {
+            "lines": 144,
+            "tokens": 765,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 841,
+          "tokens": 6171,
+          "sources": 4,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -204,6 +580,30 @@
       },
       "typescript": {
         "sources": {
+          "src/features-modern/theme/config/theme-config.ts": {
+            "lines": 123,
+            "tokens": 692,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/landing/index.ts": {
+            "lines": 19,
+            "tokens": 91,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/components/ui/button-variants.ts": {
             "lines": 36,
             "tokens": 166,
@@ -252,6 +652,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/migration/tracker.ts": {
+            "lines": 182,
+            "tokens": 1015,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/lib/utils.ts": {
             "lines": 5,
             "tokens": 61,
@@ -266,37 +678,9 @@
           }
         },
         "total": {
-          "lines": 153,
-          "tokens": 1017,
-          "sources": 5,
-          "clones": 0,
-          "duplicatedLines": 0,
-          "duplicatedTokens": 0,
-          "percentage": 0,
-          "percentageTokens": 0,
-          "newDuplicatedLines": 0,
-          "newClones": 0
-        }
-      },
-      "css": {
-        "sources": {
-          "src/styles/globals.css": {
-            "lines": 71,
-            "tokens": 544,
-            "sources": 1,
-            "clones": 0,
-            "duplicatedLines": 0,
-            "duplicatedTokens": 0,
-            "percentage": 0,
-            "percentageTokens": 0,
-            "newDuplicatedLines": 0,
-            "newClones": 0
-          }
-        },
-        "total": {
-          "lines": 71,
-          "tokens": 544,
-          "sources": 1,
+          "lines": 477,
+          "tokens": 2815,
+          "sources": 8,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -308,18 +692,55 @@
       }
     },
     "total": {
-      "lines": 629,
-      "tokens": 4937,
-      "sources": 20,
-      "clones": 0,
-      "duplicatedLines": 0,
-      "duplicatedTokens": 0,
-      "percentage": 0,
-      "percentageTokens": 0,
+      "lines": 5693,
+      "tokens": 36788,
+      "sources": 52,
+      "clones": 1,
+      "duplicatedLines": 12,
+      "duplicatedTokens": 77,
+      "percentage": 0.21,
+      "percentageTokens": 0.21,
       "newDuplicatedLines": 0,
       "newClones": 0
     }
   },
-  "duplicates": [],
+  "duplicates": [
+    {
+      "format": "tsx",
+      "lines": 13,
+      "fragment": ");\n      \n      render(\n        <TestWrapper>\n          <ThemeToggle />\n        </TestWrapper>\n      );\n\n      const button = screen.getByRole('button');\n      expect(button).toBeInTheDocument();\n      expect(button).toHaveAttribute('title', 'Theme');\n    });\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "src/features-modern/theme/components/__tests__/theme-toggle.test.tsx",
+        "start": 331,
+        "end": 343,
+        "startLoc": {
+          "line": 331,
+          "column": 16,
+          "position": 2679
+        },
+        "endLoc": {
+          "line": 343,
+          "column": 2,
+          "position": 2756
+        }
+      },
+      "secondFile": {
+        "name": "src/features-modern/theme/components/__tests__/theme-toggle.test.tsx",
+        "start": 317,
+        "end": 330,
+        "startLoc": {
+          "line": 317,
+          "column": 5,
+          "position": 2583
+        },
+        "endLoc": {
+          "line": 330,
+          "column": 3,
+          "position": 2661
+        }
+      }
+    }
+  ],
   "filename": "/workspace/FABLECRAFT_MODERN_STACK/node_modules/@jscpd/html-reporter/dist/templates/main.pug"
 }

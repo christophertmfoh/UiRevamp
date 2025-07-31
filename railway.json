@@ -16,7 +16,8 @@
       "variables": {
         "NODE_ENV": "development",
         "VITE_PORT": "$PORT",
-        "HOST": "0.0.0.0"
+        "HOST": "0.0.0.0",
+        "NODE_VERSION": "22.12.0"
       }
     }
   }
