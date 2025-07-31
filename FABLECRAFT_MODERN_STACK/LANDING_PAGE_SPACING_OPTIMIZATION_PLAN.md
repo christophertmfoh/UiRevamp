@@ -234,31 +234,51 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 - **Mathematical button relationships** for decision hierarchy
 - **Golden ratio proportions** for content-to-CTA balance
 
-#### **2.3.2: Mathematical Button Relationships**
+#### **2.3.2: Mathematical Section & Internal Spacing**
 
-**BUTTON SPACING:**
+**SECTION SPACING:**
 
 ```typescript
-// Section: py-16 sm:py-20 lg:py-32 → section-spacing-hero
-// Content group: space-y-6 lg:space-y-8 → heading-group
-// Description: space-y-6 → mb-friends
-// Button group: gap-4 lg:gap-6 → gap-friends
-// Button padding: px-8 lg:px-12 py-4 lg:py-6 → p-spacious
+// Section: py-16 sm:py-20 lg:py-32 → section-spacing-compact (64px)
+// **LESSON LEARNED:** Use compact spacing to prevent excessive gaps between sections
 ```
 
-#### **2.3.3: Typography Hierarchy**
+**INTERNAL SPACING HIERARCHY:**
+
+```typescript
+// Badge container (if present): flex items-center justify-center gap-2
+// **LESSON LEARNED:** Badges need flex containers for proper auto-sizing
+// Badge → Heading: mt-best-friends (8px)
+// Heading → Description: mt-friends (16px) 
+// Description → Buttons: mt-acquaintances (24px)
+// Button group internal: gap-friends (16px)
+// **LESSON LEARNED:** Use friendship spacing levels for consistent relationships
+```
+
+#### **2.3.3: Typography & Badge Handling**
 
 **CTA SCALING:**
 
-- Heading: Golden ratio scaling for urgency
-- Description: Optimal reading length (70 characters)
-- Button text: Mathematical sizing for touch targets
+```typescript
+// Badge (if present): 
+// <div className="flex items-center justify-center gap-2">
+//   <div className="w-2 h-2 rounded-full animate-pulse bg-primary" />
+//   <Badge className="...">CTA Badge Text</Badge>
+// </div>
+// **LESSON LEARNED:** Don't add text size classes to Badge - let component auto-size
+
+// Heading: Golden ratio scaling for urgency
+// Description: Keep readable sizes - avoid over-applying golden-sm to body text
+// Button text: Mathematical sizing for touch targets (44px minimum)
+```
 
 **✅ VALIDATION CRITERIA:**
 
 - [ ] CTA positioned in Z-pattern conversion area
-- [ ] Button relationships follow mathematical spacing
-- [ ] Typography hierarchy creates urgency
+- [ ] Badge (if present) uses flex container for proper sizing
+- [ ] Internal spacing follows friendship levels (8px → 16px → 24px)
+- [ ] Section uses section-spacing-compact to prevent excessive gaps
+- [ ] Typography hierarchy creates urgency without sacrificing readability
 - [ ] Touch targets meet accessibility standards (44px minimum)
 - [ ] Mobile conversion flow optimized
 - [ ] Build passes without errors
@@ -270,33 +290,47 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 **Duration:** 1 hour | **Risk:** Low | **Rollback:**
 `git checkout src/features-modern/landing/components/process-steps.tsx`
 
-#### **2.4.1: Mathematical Step Relationships**
+#### **2.4.1: Mathematical Section & Internal Spacing**
 
-**STEP SPACING:**
+**SECTION SPACING:**
 
 ```typescript
-// Section: py-16 sm:py-20 lg:py-24 → section-spacing
-// Header: space-y-4 lg:space-y-6 → heading-group
-// Step grid: gap-6 lg:gap-8 → grid-normal
-// Step internal: space-y-4 → space-friends
-// Step numbers: Mathematical sizing for hierarchy
+// Section: py-16 sm:py-20 lg:py-24 → section-spacing-compact (64px)
+// **LESSON LEARNED:** Maintain consistent compact spacing for visual flow
+```
+
+**INTERNAL SPACING HIERARCHY:**
+
+```typescript
+// Badge container (if present): flex items-center justify-center gap-2
+// Badge → Heading: mt-best-friends (8px)
+// Heading → Description: mt-friends (16px)
+// Description → Steps: mt-acquaintances (24px)
+// Step grid: grid-normal (24px)
+// Step card internal: space-y-4 (NOT component-inner)
+// **LESSON LEARNED:** Use space-y-* for card internals, component-inner causes conflicts
 ```
 
 #### **2.4.2: Visual Flow Implementation**
 
 **PROGRESSIVE DISCLOSURE:**
 
-- **Step numbering:** Golden ratio sizing
-- **Icon relationships:** Best friends spacing (8px)
-- **Content hierarchy:** Friends → Acquaintances progression
-- **Visual connections:** Mathematical spacing between steps
+```typescript
+// Step numbering: Golden ratio sizing (but maintain readability)
+// Icon → Number: mt-best-friends (8px)
+// Number → Title: mt-best-friends (8px) 
+// Title → Description: mt-friends (16px)
+// **LESSON LEARNED:** Consistent friendship spacing creates visual rhythm
+```
 
 **✅ VALIDATION CRITERIA:**
 
-- [ ] Step progression follows mathematical spacing
+- [ ] Step progression follows mathematical spacing (friendship levels)
 - [ ] Visual flow guides user through process
-- [ ] Typography hierarchy clear and readable
+- [ ] Typography hierarchy clear and readable (avoid over-golden-sm)
 - [ ] Icons and numbers properly proportioned
+- [ ] Card internals use space-y-* not component-inner
+- [ ] Section spacing maintains flow with previous sections
 - [ ] Mobile flow maintains logical progression
 - [ ] Build passes without errors
 
@@ -307,33 +341,47 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 **Duration:** 45 minutes | **Risk:** Low | **Rollback:**
 `git checkout src/features-modern/landing/components/testimonials-section.tsx`
 
-#### **2.5.1: Mathematical Card Layout**
+#### **2.5.1: Mathematical Section & Card Layout**
 
-**TESTIMONIAL SPACING:**
+**SECTION SPACING:**
 
 ```typescript
-// Section: py-24 → section-spacing
-// Header: space-y-6 → heading-group
-// Card grid: gap-8 → grid-normal
-// Card internal: space-y-6 → component-inner
-// Star ratings: gap-1 → gap-best-friends
+// Section: py-24 → section-spacing-compact (64px)
+// **LESSON LEARNED:** Consistent compact spacing for better page flow
+```
+
+**INTERNAL SPACING HIERARCHY:**
+
+```typescript
+// Badge container (if present): flex items-center justify-center gap-2
+// Badge → Heading: mt-best-friends (8px)
+// Heading → Description: mt-friends (16px)
+// Description → Cards: mt-acquaintances (24px)
+// Card grid: grid-normal (24px)
+// Card internal: space-y-4 (NOT component-inner)
+// **LESSON LEARNED:** Avoid component-inner for card internals
 ```
 
 #### **2.5.2: Content Hierarchy**
 
 **RELATIONSHIP STRUCTURE:**
 
-- **Stars → Quote:** space-friends (16px)
-- **Quote → Author:** space-acquaintances (24px)
-- **Avatar → Name:** space-best-friends (8px)
-- **Name → Role:** space-best-friends (8px)
+```typescript
+// Stars → Quote: mt-best-friends (8px)
+// Quote → Author: mt-friends (16px)
+// Avatar → Name: mt-best-friends (8px)
+// Name → Role: mt-best-friends (8px)
+// **LESSON LEARNED:** Use mt-* instead of space-* for proper margin control
+```
 
 **✅ VALIDATION CRITERIA:**
 
-- [ ] Testimonial cards follow mathematical grid
-- [ ] Internal content hierarchy consistent
-- [ ] Typography scales with golden ratio
+- [ ] Testimonial cards follow mathematical grid (24px)
+- [ ] Internal content hierarchy uses friendship spacing
+- [ ] Typography scales with golden ratio (but keeps readability)
+- [ ] Card padding sufficient to prevent content clipping
 - [ ] Social proof visually prominent
+- [ ] Section spacing flows with page rhythm
 - [ ] Mobile readability maintained
 - [ ] Build passes without errors
 
@@ -344,33 +392,48 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 **Duration:** 1 hour | **Risk:** Medium | **Rollback:**
 `git checkout src/features-modern/landing/components/pricing-section.tsx`
 
-#### **2.6.1: Mathematical Pricing Layout**
+#### **2.6.1: Mathematical Section & Pricing Layout**
 
-**PRICING STRUCTURE:**
+**SECTION SPACING:**
 
 ```typescript
-// Section: py-24 → section-spacing
-// Header: space-y-6 → heading-group
-// Price grid: gap-8 → grid-normal
-// Card internal: space-y-6 → component-inner
-// Feature list: space-y-3 → space-friends
+// Section: py-24 → section-spacing-compact (64px)
+// **LESSON LEARNED:** Maintain page flow with consistent spacing
+```
+
+**INTERNAL SPACING HIERARCHY:**
+
+```typescript
+// Badge container (if present): flex items-center justify-center gap-2
+// Badge → Heading: mt-best-friends (8px)
+// Heading → Description: mt-friends (16px)
+// Description → Cards: mt-acquaintances (24px)
+// Price grid: grid-normal (24px)
+// Card internal: space-y-4 (NOT component-inner)
+// Card padding: p-6 (sufficient to prevent clipping)
+// **LESSON LEARNED:** Adequate padding prevents content from clipping card edges
 ```
 
 #### **2.6.2: Visual Hierarchy**
 
 **PRICE RELATIONSHIPS:**
 
-- **Price → Period:** Golden ratio scaling
-- **Features:** Mathematical list spacing (16px)
-- **CTA button:** Optimal sizing for conversion
-- **Card separation:** Grid system consistency
+```typescript
+// Price → Period: mt-best-friends (8px)
+// Price/Period → Features: mt-friends (16px)
+// Features list: space-y-2 (8px between items)
+// Features → CTA: mt-acquaintances (24px)
+// **LESSON LEARNED:** Mathematical progression creates visual clarity
+```
 
 **✅ VALIDATION CRITERIA:**
 
-- [ ] Pricing cards mathematically spaced
-- [ ] Feature lists consistent hierarchy
-- [ ] CTA buttons optimally sized
-- [ ] Price prominence follows golden ratio
+- [ ] Pricing cards mathematically spaced (24px grid)
+- [ ] Feature lists consistent hierarchy (friendship spacing)
+- [ ] CTA buttons optimally sized (44px touch targets)
+- [ ] Price prominence follows golden ratio (without sacrificing readability)
+- [ ] Card internals use space-y-* not component-inner
+- [ ] Adequate padding prevents content clipping
 - [ ] Mobile pricing comparison clear
 - [ ] Build passes without errors
 
@@ -381,30 +444,42 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 **Duration:** 30 minutes | **Risk:** Low | **Rollback:**
 `git checkout src/features-modern/landing/components/footer-section.tsx`
 
-#### **2.7.1: Mathematical Footer Layout**
+#### **2.7.1: Mathematical Section & Footer Layout**
 
-**FOOTER SPACING:**
+**SECTION SPACING:**
 
 ```typescript
-// Section: py-20 → section-spacing
-// Content: space-y-8 → space-neighbors
-// Links: Mathematical grouping
-// Copyright: Optimal separation
+// Section: py-20 → section-spacing-compact (64px)
+// **LESSON LEARNED:** Complete page with consistent spacing rhythm
+```
+
+**INTERNAL SPACING HIERARCHY:**
+
+```typescript
+// Logo → Links: mt-friends (16px)
+// Link groups: space-y-4 (16px between groups)
+// Links → Copyright: mt-acquaintances (24px)
+// **LESSON LEARNED:** Footer should follow same friendship spacing as other sections
 ```
 
 #### **2.7.2: Final Visual Balance**
 
 **COMPLETION HIERARCHY:**
 
-- **Logo → Tagline:** Best friends relationship
-- **Content sections:** Neighbors spacing
-- **Legal text:** Appropriate visual weight
+```typescript
+// Logo → Tagline: mt-best-friends (8px)
+// Content sections: mt-friends (16px)
+// Legal text: Readable size (avoid golden-sm for legal text)
+// **LESSON LEARNED:** Legal text must remain readable, avoid excessive size reduction
+```
 
 **✅ VALIDATION CRITERIA:**
 
 - [ ] Footer spacing completes page hierarchy
 - [ ] Visual weight balances header
-- [ ] Mathematical consistency maintained
+- [ ] Mathematical consistency maintained (friendship spacing)
+- [ ] Legal text remains readable (no excessive golden-sm)
+- [ ] Section spacing flows with page rhythm
 - [ ] Mobile footer functional
 - [ ] Build passes without errors
 
