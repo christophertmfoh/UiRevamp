@@ -56,10 +56,10 @@ export function HeroSection({
           {/* Enhanced Badge with Theme Integration */}
           <div className="flex items-center gap-2">
             <div 
-              className="w-3 h-3 rounded-full animate-pulse bg-primary"
+              className="w-4 h-4 rounded-full animate-pulse bg-primary"
               aria-hidden="true"
             />
-            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300">
+            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 text-base px-4 py-2">
               End-to-End Creative Production Suite
             </Badge>
           </div>

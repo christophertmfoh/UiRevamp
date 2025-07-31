@@ -247,8 +247,9 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 ```typescript
 // Badge container (if present): flex items-center justify-center gap-2
-// Pulsing dot: w-3 h-3 rounded-full animate-pulse bg-primary
-// **LESSON LEARNED:** Badges need flex containers + slightly larger dots (w-3 h-3)
+// Pulsing dot: w-4 h-4 rounded-full animate-pulse bg-primary
+// Badge sizing: text-base px-4 py-2 (larger, more readable)
+// **LESSON LEARNED:** Badges need text-base px-4 py-2 for readability + w-4 h-4 dots
 // Badge → Heading: mt-best-friends (8px)
 // Heading → Description: mt-friends (16px) 
 // Description → Next Section: mt-acquaintances (24px)
@@ -263,10 +264,10 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 ```typescript
 // Badge (if present): 
 // <div className="flex items-center justify-center gap-2">
-//   <div className="w-3 h-3 rounded-full animate-pulse bg-primary" />
-//   <Badge className="...">CTA Badge Text</Badge>
+//   <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+//   <Badge className="... text-base px-4 py-2">CTA Badge Text</Badge>
 // </div>
-// **LESSON LEARNED:** Use w-3 h-3 for dots, don't add text size classes to Badge
+// **LESSON LEARNED:** Use w-4 h-4 for dots, text-base px-4 py-2 for readable badges
 
 // Heading: Golden ratio scaling for urgency
 // Description: Keep readable sizes - avoid over-applying golden-sm to body text
@@ -304,13 +305,14 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 ```typescript
 // Badge container (if present): flex items-center justify-center gap-2
-// Pulsing dot: w-3 h-3 rounded-full animate-pulse bg-primary
+// Pulsing dot: w-4 h-4 rounded-full animate-pulse bg-primary
+// Badge sizing: text-base px-4 py-2 (larger, more readable)
 // Badge → Heading: mt-best-friends (8px)
 // Heading → Description: mt-friends (16px)
 // Description → Steps: mt-acquaintances (24px)
 // Step grid: grid-normal (24px)
 // Step card internal: space-y-4 (NOT component-inner)
-// **LESSON LEARNED:** Use w-3 h-3 for dots, space-y-* for card internals
+// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, space-y-* for cards
 ```
 
 #### **2.4.2: Visual Flow Implementation**
@@ -356,13 +358,14 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 ```typescript
 // Badge container (if present): flex items-center justify-center gap-2
-// Pulsing dot: w-3 h-3 rounded-full animate-pulse bg-primary
+// Pulsing dot: w-4 h-4 rounded-full animate-pulse bg-primary
+// Badge sizing: text-base px-4 py-2 (larger, more readable)
 // Badge → Heading: mt-best-friends (8px)
 // Heading → Description: mt-friends (16px)
 // Description → Cards: mt-acquaintances (24px)
 // Card grid: grid-normal (24px)
 // Card internal: space-y-4 (NOT component-inner)
-// **LESSON LEARNED:** Use w-3 h-3 for dots, avoid component-inner for cards
+// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, avoid component-inner
 ```
 
 #### **2.5.2: Content Hierarchy**
@@ -408,14 +411,15 @@ grep -c "space-y-6\|space-y-8\|py-24\|py-16" src/features-modern/landing/compone
 
 ```typescript
 // Badge container (if present): flex items-center justify-center gap-2
-// Pulsing dot: w-3 h-3 rounded-full animate-pulse bg-primary
+// Pulsing dot: w-4 h-4 rounded-full animate-pulse bg-primary
+// Badge sizing: text-base px-4 py-2 (larger, more readable)
 // Badge → Heading: mt-best-friends (8px)
 // Heading → Description: mt-friends (16px)
 // Description → Cards: mt-acquaintances (24px)
 // Price grid: grid-normal (24px)
 // Card internal: space-y-4 (NOT component-inner)
 // Card padding: p-6 (sufficient to prevent clipping)
-// **LESSON LEARNED:** Use w-3 h-3 for dots, adequate padding prevents clipping
+// **LESSON LEARNED:** Use w-4 h-4 dots + text-base px-4 py-2 badges, adequate padding prevents clipping
 ```
 
 #### **2.6.2: Visual Hierarchy**

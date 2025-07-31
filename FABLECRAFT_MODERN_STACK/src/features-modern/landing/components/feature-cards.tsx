@@ -130,11 +130,11 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Header Section */}
         <div className="heading-group">
           <div className="flex items-center justify-center gap-2">
-                         <div 
-               className="w-3 h-3 rounded-full animate-pulse bg-primary"
-               aria-hidden="true"
-             />
-            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300">
+                                                   <div 
+                className="w-4 h-4 rounded-full animate-pulse bg-primary"
+                aria-hidden="true"
+              />
+            <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 text-base px-4 py-2">
               Revolutionary Creative Technology
             </Badge>
           </div>
