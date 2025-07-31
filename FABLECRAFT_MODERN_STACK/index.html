@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="FableCraft - Modern Creative Writing Platform" />
     <title>Fablecraft - Where Stories Come to Life</title>
-    <!-- Polyfill for useLayoutEffect in production -->
+    <!-- Critical: Ensure React is available globally before modules load -->
     <script>
-      if (typeof window !== 'undefined' && !window.React) {
-        window.React = { useLayoutEffect: function() {} };
-      }
+      // Pre-initialize window.React to prevent useLayoutEffect errors
+      window.React = window.React || {};
+      window.React.useLayoutEffect = window.React.useLayoutEffect || function(effect, deps) {
+        // Fallback implementation that uses useEffect in production
+        if (typeof window !== 'undefined' && window.React && window.React.useEffect) {
+          return window.React.useEffect(effect, deps);
+        }
+      };
     </script>
     <!-- Theme initialization script to prevent FOUC -->
     <script>
