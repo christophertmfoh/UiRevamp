@@ -302,7 +302,7 @@
   /* ===== ATMOSPHERIC DEPTH SYSTEM ===== */
   /* Creates natural visual hierarchy without boxy containers */
   
-  /* UNIVERSAL DROP SHADOW SYSTEM - Subtle depth for all elements */
+  /* SUBTLE SEPARATION SYSTEM - Light outline for element definition */
   section,
   .card,
   .hero,
@@ -311,27 +311,31 @@
   .feature-card,
   .process-step,
   .testimonial-card,
-  .pricing-card,
-  button,
-  .btn,
-  input,
-  textarea,
-  select {
-    filter: drop-shadow(0 1px 3px hsl(var(--foreground) / 0.1)) 
-            drop-shadow(0 1px 2px hsl(var(--foreground) / 0.06));
-    transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .pricing-card {
+    border: 1px solid hsl(var(--border) / 0.3);
+    border-radius: 8px;
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Enhanced shadows on hover */
-  button:hover,
-  .btn:hover,
+  /* Enhanced border on hover */
   .card:hover,
   .feature-card:hover,
   .process-step:hover,
   .testimonial-card:hover,
   .pricing-card:hover {
-    filter: drop-shadow(0 4px 6px hsl(var(--foreground) / 0.1)) 
-            drop-shadow(0 2px 4px hsl(var(--foreground) / 0.06));
+    border-color: hsl(var(--border) / 0.6);
+  }
+
+  /* Button separation (keep existing button styles, just add subtle border) */
+  button,
+  .btn {
+    border: 1px solid hsl(var(--border) / 0.2);
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button:hover,
+  .btn:hover {
+    border-color: hsl(var(--primary) / 0.5);
   }
 
   /* Subtle content elevation - no boxes, just natural light/shadow */

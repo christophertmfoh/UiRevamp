@@ -142,7 +142,7 @@ const PricingCard = memo(
 
     return (
       <Card
-        className={`group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative flex-1 min-w-[280px] ${tier.isPopular ? 'border-primary' : ''}`}
+        className={`group surface-elevated backdrop-blur-lg border-border hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer overflow-hidden relative flex-1 min-w-[280px] h-full flex flex-col ${tier.isPopular ? 'border-primary' : ''}`}
       >
         <div
           className='absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700'
@@ -158,7 +158,7 @@ const PricingCard = memo(
           </div>
         )}
 
-        <CardContent className={`relative z-10 p-6 ${tier.isPopular ? 'pt-12' : ''}`}>
+        <CardContent className={`relative z-10 p-6 ${tier.isPopular ? 'pt-12' : ''} flex flex-col h-full`}>
           {/* Plan Name */}
           <h3 className='text-2xl font-bold text-heading-primary'>
             {tier.name}
@@ -177,8 +177,8 @@ const PricingCard = memo(
             <p className='text-muted-foreground mt-best-friends'>{tier.description}</p>
           </div>
 
-          {/* Features List */}
-          <div className='text-left mt-friends'>
+          {/* Features List - flex-grow pushes button to bottom */}
+          <div className='text-left mt-friends flex-grow'>
             {tier.features.map((feature, index) => (
               <div key={feature.id} className={`flex items-center gap-3 ${index > 0 ? 'mt-2' : ''}`}>
                 <CheckCircle className='w-5 h-5 text-primary flex-shrink-0' />
@@ -187,7 +187,7 @@ const PricingCard = memo(
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - always at bottom */}
           <Button
             onClick={handleCTAClick}
             className='w-full btn-enhanced gradient-primary text-primary-foreground px-6 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl rounded-2xl focus-ring mt-acquaintances'
