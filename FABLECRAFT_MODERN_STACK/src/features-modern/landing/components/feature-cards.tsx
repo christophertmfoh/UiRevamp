@@ -129,7 +129,7 @@ export const FeatureCards = memo(function FeatureCards({
         
         {/* Enhanced Header Section */}
         <div className="heading-group">
-          <Badge className="bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md">
+          <Badge className="bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md">
             Revolutionary Creative Technology
           </Badge>
           
@@ -176,10 +176,10 @@ export const FeatureCards = memo(function FeatureCards({
                   role="article"
                   aria-label={`${indicator.number} ${indicator.label}`}
                 >
-                  <CardContent className="p-comfortable text-center flex flex-col items-center justify-center h-full">
+                  <CardContent className="p-comfortable text-center space-y-4">
                     <div className={cn(
                       "w-12 h-12 bg-primary/10 hover:bg-primary/20 rounded-xl",
-                      "flex items-center justify-center transition-all duration-300",
+                      "flex items-center justify-center mx-auto transition-all duration-300",
                       "group-hover:scale-110 group-hover:rotate-3"
                     )}>
                       <IconComponent 
@@ -211,7 +211,7 @@ export const FeatureCards = memo(function FeatureCards({
         {/* Enhanced Key Benefits Section */}
         {showKeyBenefits && (
           <div 
-            className="grid grid-cols-1 md:grid-cols-3 grid-normal mt-neighbors"
+            className="grid grid-cols-1 md:grid-cols-3 grid-normal mt-friends"
             role="region"
             aria-labelledby="key-benefits-heading"
           >
