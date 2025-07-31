@@ -7,80 +7,81 @@
  * Fablecraft Modern Stack - Enterprise Architecture
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap");
 
 @layer base {
   /* ===== LIGHT THEMES ===== */
-  
+
   /* Default Light: Parchment Classic - Warm cream with burgundy (WCAG AA compliant) */
-  :root {
-    --background: 45 25% 96%;              /* Warm parchment */
-    --foreground: 15 25% 15%;              /* Dark brown (8.1:1) */
-    --card: 45 20% 93%;                    /* Card surface */
-    --card-foreground: 15 25% 15%;         /* Dark brown text */
-    --popover: 45 20% 90%;                 /* Popover */
-    --popover-foreground: 15 25% 15%;      /* Dark brown text */
-    --primary: 350 70% 35%;                /* Rich burgundy (4.8:1) */
-    --primary-foreground: 45 25% 96%;      /* Light text on primary */
-    --secondary: 45 15% 88%;               /* Light tan */
-    --secondary-foreground: 15 25% 20%;    /* Darker brown (6.1:1) */
-    --muted: 45 15% 88%;                   /* Muted background */
-    --muted-foreground: 15 20% 35%;        /* Medium brown (4.6:1) */
-    --accent: 25 60% 40%;                  /* Warm brown accent (4.7:1) */
-    --accent-foreground: 45 25% 96%;       /* Light text on accent */
-    --destructive: 0 65% 45%;              /* Red (4.9:1) */
-    --destructive-foreground: 45 25% 96%;  /* Light text on destructive */
-    --border: 45 15% 82%;                  /* Visible border */
-    --input: 45 15% 90%;                   /* Input background */
-    --ring: 350 70% 35%;                   /* Focus ring: burgundy */
+  :root,
+  :root[data-theme="light"] {
+    --background: 45 25% 96%; /* Warm parchment */
+    --foreground: 15 25% 15%; /* Dark brown (8.1:1) */
+    --card: 45 20% 93%; /* Card surface */
+    --card-foreground: 15 25% 15%; /* Dark brown text */
+    --popover: 45 20% 90%; /* Popover */
+    --popover-foreground: 15 25% 15%; /* Dark brown text */
+    --primary: 350 70% 35%; /* Rich burgundy (4.8:1) */
+    --primary-foreground: 45 25% 96%; /* Light text on primary */
+    --secondary: 45 15% 88%; /* Light tan */
+    --secondary-foreground: 15 25% 20%; /* Darker brown (6.1:1) */
+    --muted: 45 15% 88%; /* Muted background */
+    --muted-foreground: 15 20% 35%; /* Medium brown (4.6:1) */
+    --accent: 25 60% 40%; /* Warm brown accent (4.7:1) */
+    --accent-foreground: 45 25% 96%; /* Light text on accent */
+    --destructive: 0 65% 45%; /* Red (4.9:1) */
+    --destructive-foreground: 45 25% 96%; /* Light text on destructive */
+    --border: 45 15% 82%; /* Visible border */
+    --input: 45 15% 90%; /* Input background */
+    --ring: 350 70% 35%; /* Focus ring: burgundy */
     --radius: 0.75rem;
-    
+
     /* Custom brand variables */
-    --gradient-brand-start: 350 70% 35%;   /* Burgundy */
-    --gradient-brand-end: 25 60% 40%;      /* Warm brown */
-    --gradient-brand-text: 15 25% 15%;     /* Dark text on gradients */
-    --surface-elevated: 45 20% 94%;        /* Elevated surface */
-    --surface-muted: 45 15% 90%;           /* Muted surface */
-    --orb-primary: 350 70% 35%;            /* Burgundy orb */
-    --orb-secondary: 25 60% 40%;           /* Brown orb */
-    
+    --gradient-brand-start: 350 70% 35%; /* Burgundy */
+    --gradient-brand-end: 25 60% 40%; /* Warm brown */
+    --gradient-brand-text: 15 25% 15%; /* Dark text on gradients */
+    --surface-elevated: 45 20% 94%; /* Elevated surface */
+    --surface-muted: 45 15% 90%; /* Muted surface */
+    --orb-primary: 350 70% 35%; /* Burgundy orb */
+    --orb-secondary: 25 60% 40%; /* Brown orb */
+
     /* Auth page specific theme colors */
-    --auth-brand-primary: 350 70% 35%;     /* Primary brand color */
-    --auth-brand-secondary: 25 60% 40%;    /* Secondary brand color */
+    --auth-brand-primary: 350 70% 35%; /* Primary brand color */
+    --auth-brand-secondary: 25 60% 40%; /* Secondary brand color */
     --auth-panel-gradient-from: 350 70% 35%; /* Burgundy */
-    --auth-panel-gradient-via: 350 70% 30%;  /* Darker burgundy */
-    --auth-panel-gradient-to: 25 60% 40%;    /* Warm brown */
-    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-gradient-via: 350 70% 30%; /* Darker burgundy */
+    --auth-panel-gradient-to: 25 60% 40%; /* Warm brown */
+    --auth-panel-text: 0 0% 100%; /* White text */
     --auth-panel-text-secondary: 350 70% 75%; /* Light burgundy */
-    --auth-form-bg: 45 25% 96%;             /* Warm parchment */
-    --auth-card-bg: 45 20% 93%;             /* Card surface */
-    --auth-input-border: 45 15% 82%;        /* Border */
-    --auth-button-primary: 350 70% 35%;     /* Burgundy */
+    --auth-form-bg: 45 25% 96%; /* Warm parchment */
+    --auth-card-bg: 45 20% 93%; /* Card surface */
+    --auth-input-border: 45 15% 82%; /* Border */
+    --auth-button-primary: 350 70% 35%; /* Burgundy */
     --auth-button-primary-hover: 350 70% 30%; /* Darker burgundy */
   }
 
   /* Arctic Focus - Cool blues and whites (minimal, clean) */
-  .arctic-focus {
-    --background: 200 15% 97%;             /* Cool white */
-    --foreground: 210 25% 15%;             /* Dark blue-gray (8.3:1) */
-    --card: 200 10% 94%;                   /* Card */
-    --card-foreground: 210 25% 15%;        /* Dark text */
-    --popover: 200 10% 91%;                /* Popover */
-    --popover-foreground: 210 25% 15%;     /* Dark text */
-    --primary: 210 70% 40%;                /* Professional blue (5.2:1) */
-    --primary-foreground: 200 15% 97%;     /* Light text on primary */
-    --secondary: 200 8% 90%;               /* Light blue-gray */
-    --secondary-foreground: 210 25% 20%;   /* Darker text (6.8:1) */
-    --muted: 200 8% 90%;                   /* Muted background */
-    --muted-foreground: 210 15% 40%;       /* Medium text (4.7:1) */
-    --accent: 200 60% 50%;                 /* Bright blue (4.6:1) */
-    --accent-foreground: 200 15% 97%;      /* Light text on accent */
-    --destructive: 0 65% 45%;              /* Red */
+  :root[data-theme="arctic-focus"] {
+    --background: 200 15% 97%; /* Cool white */
+    --foreground: 210 25% 15%; /* Dark blue-gray (8.3:1) */
+    --card: 200 10% 94%; /* Card */
+    --card-foreground: 210 25% 15%; /* Dark text */
+    --popover: 200 10% 91%; /* Popover */
+    --popover-foreground: 210 25% 15%; /* Dark text */
+    --primary: 210 70% 40%; /* Professional blue (5.2:1) */
+    --primary-foreground: 200 15% 97%; /* Light text on primary */
+    --secondary: 200 8% 90%; /* Light blue-gray */
+    --secondary-foreground: 210 25% 20%; /* Darker text (6.8:1) */
+    --muted: 200 8% 90%; /* Muted background */
+    --muted-foreground: 210 15% 40%; /* Medium text (4.7:1) */
+    --accent: 200 60% 50%; /* Bright blue (4.6:1) */
+    --accent-foreground: 200 15% 97%; /* Light text on accent */
+    --destructive: 0 65% 45%; /* Red */
     --destructive-foreground: 200 15% 97%; /* Light text */
-    --border: 200 8% 85%;                  /* Border */
-    --input: 200 8% 92%;                   /* Input */
-    --ring: 210 70% 40%;                   /* Focus ring */
-    
+    --border: 200 8% 85%; /* Border */
+    --input: 200 8% 92%; /* Input */
+    --ring: 210 70% 40%; /* Focus ring */
+
     --gradient-brand-start: 210 70% 40%;
     --gradient-brand-end: 200 60% 50%;
     --gradient-brand-text: 210 25% 15%;
@@ -88,44 +89,44 @@
     --surface-muted: 200 8% 92%;
     --orb-primary: 210 70% 40%;
     --orb-secondary: 200 60% 50%;
-    
+
     /* Auth page theme colors - Arctic Focus */
-    --auth-brand-primary: 210 70% 40%;     /* Professional blue */
-    --auth-brand-secondary: 200 60% 50%;   /* Bright blue */
+    --auth-brand-primary: 210 70% 40%; /* Professional blue */
+    --auth-brand-secondary: 200 60% 50%; /* Bright blue */
     --auth-panel-gradient-from: 210 70% 40%; /* Professional blue */
-    --auth-panel-gradient-via: 210 70% 35%;  /* Darker blue */
-    --auth-panel-gradient-to: 200 15% 25%;   /* Blue-gray */
-    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-gradient-via: 210 70% 35%; /* Darker blue */
+    --auth-panel-gradient-to: 200 15% 25%; /* Blue-gray */
+    --auth-panel-text: 0 0% 100%; /* White text */
     --auth-panel-text-secondary: 200 60% 85%; /* Light blue */
-    --auth-form-bg: 200 15% 97%;            /* Cool white */
-    --auth-card-bg: 200 10% 94%;            /* Light blue-gray */
-    --auth-input-border: 200 8% 85%;        /* Border */
-    --auth-button-primary: 210 70% 40%;     /* Professional blue */
+    --auth-form-bg: 200 15% 97%; /* Cool white */
+    --auth-card-bg: 200 10% 94%; /* Light blue-gray */
+    --auth-input-border: 200 8% 85%; /* Border */
+    --auth-button-primary: 210 70% 40%; /* Professional blue */
     --auth-button-primary-hover: 210 70% 35%; /* Darker blue */
   }
 
   /* Golden Hour - Warm yellows optimized for inspiration */
-  .golden-hour {
-    --background: 45 20% 96%;              /* Warm cream */
-    --foreground: 25 30% 15%;              /* Dark brown (8.5:1) */
-    --card: 45 15% 93%;                    /* Card */
-    --card-foreground: 25 30% 15%;         /* Dark text */
-    --popover: 45 15% 90%;                 /* Popover */
-    --popover-foreground: 25 30% 15%;      /* Dark text */
-    --primary: 45 80% 40%;                 /* Golden (4.9:1) */
-    --primary-foreground: 45 20% 96%;      /* Light text on primary */
-    --secondary: 45 12% 88%;               /* Light gold */
-    --secondary-foreground: 25 30% 20%;    /* Dark brown (6.3:1) */
-    --muted: 45 12% 88%;                   /* Muted background */
-    --muted-foreground: 25 25% 35%;        /* Medium brown (4.8:1) */
-    --accent: 35 70% 45%;                  /* Orange accent (4.6:1) */
-    --accent-foreground: 45 20% 96%;       /* Light text on accent */
-    --destructive: 0 65% 45%;              /* Red */
-    --destructive-foreground: 45 20% 96%;  /* Light text */
-    --border: 45 12% 82%;                  /* Border */
-    --input: 45 12% 90%;                   /* Input */
-    --ring: 45 80% 40%;                    /* Focus ring */
-    
+  :root[data-theme="golden-hour"] {
+    --background: 45 20% 96%; /* Warm cream */
+    --foreground: 25 30% 15%; /* Dark brown (8.5:1) */
+    --card: 45 15% 93%; /* Card */
+    --card-foreground: 25 30% 15%; /* Dark text */
+    --popover: 45 15% 90%; /* Popover */
+    --popover-foreground: 25 30% 15%; /* Dark text */
+    --primary: 45 80% 40%; /* Golden (4.9:1) */
+    --primary-foreground: 45 20% 96%; /* Light text on primary */
+    --secondary: 45 12% 88%; /* Light gold */
+    --secondary-foreground: 25 30% 20%; /* Dark brown (6.3:1) */
+    --muted: 45 12% 88%; /* Muted background */
+    --muted-foreground: 25 25% 35%; /* Medium brown (4.8:1) */
+    --accent: 35 70% 45%; /* Orange accent (4.6:1) */
+    --accent-foreground: 45 20% 96%; /* Light text on accent */
+    --destructive: 0 65% 45%; /* Red */
+    --destructive-foreground: 45 20% 96%; /* Light text */
+    --border: 45 12% 82%; /* Border */
+    --input: 45 12% 90%; /* Input */
+    --ring: 45 80% 40%; /* Focus ring */
+
     --gradient-brand-start: 45 80% 40%;
     --gradient-brand-end: 35 70% 45%;
     --gradient-brand-text: 25 30% 15%;
@@ -133,252 +134,246 @@
     --surface-muted: 45 12% 90%;
     --orb-primary: 45 80% 40%;
     --orb-secondary: 35 70% 45%;
-    
+
     /* Auth page theme colors - Golden Hour */
-    --auth-brand-primary: 45 80% 40%;       /* Golden */
-    --auth-brand-secondary: 35 70% 45%;     /* Orange accent */
+    --auth-brand-primary: 45 80% 40%; /* Golden */
+    --auth-brand-secondary: 35 70% 45%; /* Orange accent */
     --auth-panel-gradient-from: 45 80% 40%; /* Golden */
-    --auth-panel-gradient-via: 35 70% 35%;  /* Darker orange */
-    --auth-panel-gradient-to: 25 30% 25%;   /* Dark brown */
-    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-panel-gradient-via: 35 70% 35%; /* Darker orange */
+    --auth-panel-gradient-to: 25 30% 25%; /* Dark brown */
+    --auth-panel-text: 0 0% 100%; /* White text */
     --auth-panel-text-secondary: 45 60% 85%; /* Light gold */
-    --auth-form-bg: 45 20% 96%;             /* Warm cream */
-    --auth-card-bg: 45 15% 93%;             /* Card surface */
-    --auth-input-border: 45 12% 82%;        /* Border */
-    --auth-button-primary: 45 80% 40%;      /* Golden */
+    --auth-form-bg: 45 20% 96%; /* Warm cream */
+    --auth-card-bg: 45 15% 93%; /* Card surface */
+    --auth-input-border: 45 12% 82%; /* Border */
+    --auth-button-primary: 45 80% 40%; /* Golden */
     --auth-button-primary-hover: 45 80% 35%; /* Darker golden */
   }
 
   /* ===== DARK THEMES ===== */
 
-  /* Dark mode: Modern professional dark */
-  .dark {
-    --background: 220 15% 8%;              /* Deep dark */
-    --foreground: 210 15% 92%;             /* Light text (13.2:1) */
-    --card: 220 15% 11%;                   /* Card */
-    --card-foreground: 210 15% 92%;        /* Light text */
-    --popover: 220 15% 13%;                /* Popover */
-    --popover-foreground: 210 15% 92%;     /* Light text */
-    --primary: 160 80% 45%;                /* Emerald (4.7:1) */
-    --primary-foreground: 220 15% 8%;      /* Dark text on primary */
-    --secondary: 220 15% 16%;              /* Dark gray */
-    --secondary-foreground: 210 15% 88%;   /* Light text (11.8:1) */
-    --muted: 220 15% 16%;                  /* Muted background */
-    --muted-foreground: 210 10% 65%;       /* Medium text (4.9:1) */
-    --accent: 180 70% 50%;                 /* Cyan (4.8:1) */
-    --accent-foreground: 220 15% 8%;       /* Dark text on accent */
-    --destructive: 0 65% 55%;              /* Red (4.6:1) */
-    --destructive-foreground: 210 15% 92%; /* Light text */
-    --border: 220 15% 20%;                 /* Border */
-    --input: 220 15% 13%;                  /* Input */
-    --ring: 160 80% 45%;                   /* Focus ring */
-    
-    --gradient-brand-start: 160 80% 45%;
-    --gradient-brand-end: 180 70% 50%;
-    --gradient-brand-text: 210 15% 92%;
-    --surface-elevated: 220 15% 13%;
-    --surface-muted: 220 15% 10%;
-    --orb-primary: 160 80% 45%;
-    --orb-secondary: 180 70% 50%;
-    
-    /* Auth page theme colors - Dark Mode */
-    --auth-brand-primary: 160 80% 45%;      /* Emerald */
-    --auth-brand-secondary: 180 70% 50%;    /* Cyan */
-    --auth-panel-gradient-from: 160 80% 45%; /* Emerald */
-    --auth-panel-gradient-via: 160 80% 35%;  /* Darker emerald */
-    --auth-panel-gradient-to: 220 15% 16%;   /* Dark gray */
-    --auth-panel-text: 0 0% 100%;           /* White text */
-    --auth-panel-text-secondary: 160 80% 75%; /* Light emerald */
-    --auth-form-bg: 220 15% 8%;             /* Deep dark */
-    --auth-card-bg: 220 15% 11%;            /* Card surface */
-    --auth-input-border: 220 15% 20%;       /* Border */
-    --auth-button-primary: 160 80% 45%;     /* Emerald */
-    --auth-button-primary-hover: 160 80% 40%; /* Darker emerald */
+  /* Dark Default: Rich charcoal with warm accents (WCAG AA) */
+  :root[data-theme="dark"] {
+    --background: 220 15% 8%; /* Rich charcoal */
+    --foreground: 45 15% 93%; /* Warm white (11.2:1) */
+    --card: 220 12% 10%; /* Card surface */
+    --card-foreground: 45 15% 93%; /* Light text */
+    --popover: 220 12% 12%; /* Popover */
+    --popover-foreground: 45 15% 93%; /* Light text */
+    --primary: 350 70% 55%; /* Bright burgundy (4.5:1) */
+    --primary-foreground: 220 15% 8%; /* Dark text on primary */
+    --secondary: 220 10% 20%; /* Dark gray */
+    --secondary-foreground: 45 15% 85%; /* Light text (8.3:1) */
+    --muted: 220 10% 15%; /* Muted background */
+    --muted-foreground: 45 10% 65%; /* Medium light (4.6:1) */
+    --accent: 25 70% 55%; /* Orange accent (4.7:1) */
+    --accent-foreground: 220 15% 8%; /* Dark text on accent */
+    --destructive: 0 75% 60%; /* Bright red (4.5:1) */
+    --destructive-foreground: 220 15% 8%; /* Dark text on destructive */
+    --border: 220 10% 25%; /* Visible border */
+    --input: 220 10% 18%; /* Input background */
+    --ring: 350 70% 55%; /* Focus ring: bright burgundy */
+
+    --gradient-brand-start: 350 70% 55%;
+    --gradient-brand-end: 25 70% 55%;
+    --gradient-brand-text: 45 15% 93%;
+    --surface-elevated: 220 12% 12%;
+    --surface-muted: 220 10% 15%;
+    --orb-primary: 350 70% 55%;
+    --orb-secondary: 25 70% 55%;
+
+    /* Auth page theme colors - Dark */
+    --auth-brand-primary: 350 70% 55%; /* Bright burgundy */
+    --auth-brand-secondary: 25 70% 55%; /* Orange accent */
+    --auth-panel-gradient-from: 350 70% 55%; /* Bright burgundy */
+    --auth-panel-gradient-via: 350 70% 50%; /* Darker burgundy */
+    --auth-panel-gradient-to: 25 70% 50%; /* Darker orange */
+    --auth-panel-text: 0 0% 100%; /* White text */
+    --auth-panel-text-secondary: 350 50% 75%; /* Light burgundy */
+    --auth-form-bg: 220 15% 8%; /* Rich charcoal */
+    --auth-card-bg: 220 12% 10%; /* Card surface */
+    --auth-input-border: 220 10% 25%; /* Border */
+    --auth-button-primary: 350 70% 55%; /* Bright burgundy */
+    --auth-button-primary-hover: 350 70% 60%; /* Brighter burgundy */
   }
 
-  /* Midnight Ink - Deep navy with gold accents */
-  .midnight-ink {
-    --background: 210 50% 6%;              /* Deep navy */
-    --foreground: 45 15% 90%;              /* Warm white (12.8:1) */
-    --card: 210 40% 9%;                    /* Card */
-    --card-foreground: 45 15% 90%;         /* Warm white */
-    --popover: 210 40% 12%;                /* Popover */
-    --popover-foreground: 45 15% 90%;      /* Warm white */
-    --primary: 45 90% 55%;                 /* Bright gold (8.2:1) */
-    --primary-foreground: 210 50% 6%;      /* Dark text on primary */
-    --secondary: 210 40% 15%;              /* Dark blue */
-    --secondary-foreground: 45 15% 85%;    /* Light text (10.5:1) */
-    --muted: 210 40% 15%;                  /* Muted background */
-    --muted-foreground: 210 15% 65%;       /* Medium text (4.8:1) */
-    --accent: 42 80% 65%;                  /* Sandy gold (7.1:1) */
-    --accent-foreground: 210 50% 6%;       /* Dark text on accent */
-    --destructive: 0 65% 55%;              /* Red */
-    --destructive-foreground: 45 15% 90%;  /* Light text */
-    --border: 210 40% 18%;                 /* Border */
-    --input: 210 40% 12%;                  /* Input */
-    --ring: 45 90% 55%;                    /* Focus ring */
-    
-    --gradient-brand-start: 45 90% 55%;
-    --gradient-brand-end: 42 80% 65%;
-    --gradient-brand-text: 45 15% 90%;
-    --surface-elevated: 210 40% 12%;
-    --surface-muted: 210 40% 9%;
-    --orb-primary: 45 90% 55%;
-    --orb-secondary: 42 80% 65%;
-    
+  /* Midnight Ink - Deep blue-black for focused writing */
+  :root[data-theme="midnight-ink"] {
+    --background: 220 25% 6%; /* Deep blue-black */
+    --foreground: 200 20% 92%; /* Cool white (14.1:1) */
+    --card: 220 20% 8%; /* Card surface */
+    --card-foreground: 200 20% 92%; /* Light text */
+    --popover: 220 20% 10%; /* Popover */
+    --popover-foreground: 200 20% 92%; /* Light text */
+    --primary: 200 80% 60%; /* Bright blue (5.1:1) */
+    --primary-foreground: 220 25% 6%; /* Dark text on primary */
+    --secondary: 220 15% 18%; /* Dark blue-gray */
+    --secondary-foreground: 200 15% 85%; /* Light text (9.2:1) */
+    --muted: 220 15% 12%; /* Muted background */
+    --muted-foreground: 200 10% 65%; /* Medium light (4.9:1) */
+    --accent: 180 70% 55%; /* Cyan accent (4.8:1) */
+    --accent-foreground: 220 25% 6%; /* Dark text on accent */
+    --destructive: 0 75% 60%; /* Bright red */
+    --destructive-foreground: 220 25% 6%; /* Dark text */
+    --border: 220 15% 22%; /* Border */
+    --input: 220 15% 15%; /* Input */
+    --ring: 200 80% 60%; /* Focus ring */
+
+    --gradient-brand-start: 200 80% 60%;
+    --gradient-brand-end: 180 70% 55%;
+    --gradient-brand-text: 200 20% 92%;
+    --surface-elevated: 220 20% 10%;
+    --surface-muted: 220 15% 12%;
+    --orb-primary: 200 80% 60%;
+    --orb-secondary: 180 70% 55%;
+
     /* Auth page theme colors - Midnight Ink */
-    --auth-brand-primary: 45 90% 55%;       /* Bright gold */
-    --auth-brand-secondary: 42 80% 65%;     /* Sandy gold */
-    --auth-panel-gradient-from: 45 90% 55%; /* Bright gold */
-    --auth-panel-gradient-via: 45 90% 45%;  /* Darker gold */
-    --auth-panel-gradient-to: 210 40% 15%;  /* Dark blue */
-    --auth-panel-text: 0 0% 100%;           /* White text */
-    --auth-panel-text-secondary: 45 70% 85%; /* Light gold */
-    --auth-form-bg: 210 50% 6%;             /* Deep navy */
-    --auth-card-bg: 210 40% 9%;             /* Card surface */
-    --auth-input-border: 210 40% 18%;       /* Border */
-    --auth-button-primary: 45 90% 55%;      /* Bright gold */
-    --auth-button-primary-hover: 45 90% 50%; /* Darker gold */
+    --auth-brand-primary: 200 80% 60%; /* Bright blue */
+    --auth-brand-secondary: 180 70% 55%; /* Cyan accent */
+    --auth-panel-gradient-from: 200 80% 60%; /* Bright blue */
+    --auth-panel-gradient-via: 200 80% 55%; /* Darker blue */
+    --auth-panel-gradient-to: 180 70% 50%; /* Darker cyan */
+    --auth-panel-text: 0 0% 100%; /* White text */
+    --auth-panel-text-secondary: 200 60% 80%; /* Light blue */
+    --auth-form-bg: 220 25% 6%; /* Deep blue-black */
+    --auth-card-bg: 220 20% 8%; /* Card surface */
+    --auth-input-border: 220 15% 22%; /* Border */
+    --auth-button-primary: 200 80% 60%; /* Bright blue */
+    --auth-button-primary-hover: 200 80% 65%; /* Brighter blue */
   }
 
-  /* Forest Manuscript - Deep greens for focus */
-  .forest-manuscript {
-    --background: 150 40% 8%;              /* Deep forest */
-    --foreground: 120 10% 90%;             /* Light green-white (11.8:1) */
-    --card: 150 35% 11%;                   /* Card */
-    --card-foreground: 120 10% 90%;        /* Light text */
-    --popover: 150 35% 14%;                /* Popover */
-    --popover-foreground: 120 10% 90%;     /* Light text */
-    --primary: 120 60% 50%;                /* Forest green (4.9:1) */
-    --primary-foreground: 150 40% 8%;      /* Dark text on primary */
-    --secondary: 150 35% 17%;              /* Dark green */
-    --secondary-foreground: 120 10% 85%;   /* Light text (9.8:1) */
-    --muted: 150 35% 17%;                  /* Muted background */
-    --muted-foreground: 150 15% 65%;       /* Medium text (4.6:1) */
-    --accent: 140 50% 55%;                 /* Mint (5.2:1) */
-    --accent-foreground: 150 40% 8%;       /* Dark text on accent */
-    --destructive: 0 65% 55%;              /* Red */
-    --destructive-foreground: 120 10% 90%; /* Light text */
-    --border: 150 35% 20%;                 /* Border */
-    --input: 150 35% 14%;                  /* Input */
-    --ring: 120 60% 50%;                   /* Focus ring */
-    
-    --gradient-brand-start: 120 60% 50%;
-    --gradient-brand-end: 140 50% 55%;
-    --gradient-brand-text: 120 10% 90%;
-    --surface-elevated: 150 35% 14%;
-    --surface-muted: 150 35% 11%;
-    --orb-primary: 120 60% 50%;
-    --orb-secondary: 140 50% 55%;
-    
+  /* Forest Manuscript - Deep greens for nature-inspired writing */
+  :root[data-theme="forest-manuscript"] {
+    --background: 140 15% 8%; /* Deep forest green */
+    --foreground: 120 15% 90%; /* Soft white (11.8:1) */
+    --card: 140 12% 10%; /* Card surface */
+    --card-foreground: 120 15% 90%; /* Light text */
+    --popover: 140 12% 12%; /* Popover */
+    --popover-foreground: 120 15% 90%; /* Light text */
+    --primary: 120 60% 55%; /* Forest green (4.6:1) */
+    --primary-foreground: 140 15% 8%; /* Dark text on primary */
+    --secondary: 140 10% 20%; /* Dark green-gray */
+    --secondary-foreground: 120 10% 85%; /* Light text (8.7:1) */
+    --muted: 140 10% 15%; /* Muted background */
+    --muted-foreground: 120 8% 65%; /* Medium light (4.8:1) */
+    --accent: 80 50% 50%; /* Sage green (4.5:1) */
+    --accent-foreground: 140 15% 8%; /* Dark text on accent */
+    --destructive: 0 75% 60%; /* Bright red */
+    --destructive-foreground: 140 15% 8%; /* Dark text */
+    --border: 140 10% 25%; /* Border */
+    --input: 140 10% 18%; /* Input */
+    --ring: 120 60% 55%; /* Focus ring */
+
+    --gradient-brand-start: 120 60% 55%;
+    --gradient-brand-end: 80 50% 50%;
+    --gradient-brand-text: 120 15% 90%;
+    --surface-elevated: 140 12% 12%;
+    --surface-muted: 140 10% 15%;
+    --orb-primary: 120 60% 55%;
+    --orb-secondary: 80 50% 50%;
+
     /* Auth page theme colors - Forest Manuscript */
-    --auth-brand-primary: 120 60% 50%;      /* Forest green */
-    --auth-brand-secondary: 140 50% 55%;    /* Mint */
-    --auth-panel-gradient-from: 120 60% 50%; /* Forest green */
-    --auth-panel-gradient-via: 120 60% 40%;  /* Darker green */
-    --auth-panel-gradient-to: 150 35% 17%;   /* Dark green */
-    --auth-panel-text: 0 0% 100%;           /* White text */
+    --auth-brand-primary: 120 60% 55%; /* Forest green */
+    --auth-brand-secondary: 80 50% 50%; /* Sage green */
+    --auth-panel-gradient-from: 120 60% 55%; /* Forest green */
+    --auth-panel-gradient-via: 120 60% 50%; /* Darker green */
+    --auth-panel-gradient-to: 80 50% 45%; /* Darker sage */
+    --auth-panel-text: 0 0% 100%; /* White text */
     --auth-panel-text-secondary: 120 40% 75%; /* Light green */
-    --auth-form-bg: 150 40% 8%;             /* Deep forest */
-    --auth-card-bg: 150 35% 11%;            /* Card surface */
-    --auth-input-border: 150 35% 20%;       /* Border */
-    --auth-button-primary: 120 60% 50%;     /* Forest green */
-    --auth-button-primary-hover: 120 60% 45%; /* Darker green */
+    --auth-form-bg: 140 15% 8%; /* Deep forest green */
+    --auth-card-bg: 140 12% 10%; /* Card surface */
+    --auth-input-border: 140 10% 25%; /* Border */
+    --auth-button-primary: 120 60% 55%; /* Forest green */
+    --auth-button-primary-hover: 120 60% 60%; /* Brighter green */
   }
 
-  /* Starlit Prose - Purple with silver accents */
-  .starlit-prose {
-    --background: 270 25% 9%;              /* Deep purple */
-    --foreground: 210 10% 90%;             /* Cool white (11.2:1) */
-    --card: 270 20% 12%;                   /* Card */
-    --card-foreground: 210 10% 90%;        /* Cool white */
-    --popover: 270 20% 15%;                /* Popover */
-    --popover-foreground: 210 10% 90%;     /* Cool white */
-    --primary: 280 60% 65%;                /* Lavender (5.8:1) */
-    --primary-foreground: 270 25% 9%;      /* Dark text on primary */
-    --secondary: 270 20% 18%;              /* Dark purple */
-    --secondary-foreground: 210 10% 85%;   /* Light text (8.9:1) */
-    --muted: 270 20% 18%;                  /* Muted background */
-    --muted-foreground: 270 10% 65%;       /* Medium text (4.7:1) */
-    --accent: 0 0% 85%;                    /* Silver (9.1:1) */
-    --accent-foreground: 270 25% 9%;       /* Dark text on accent */
-    --destructive: 0 65% 55%;              /* Red */
-    --destructive-foreground: 210 10% 90%; /* Light text */
-    --border: 270 20% 22%;                 /* Border */
-    --input: 270 20% 15%;                  /* Input */
-    --ring: 280 60% 65%;                   /* Focus ring */
-    
-    --gradient-brand-start: 280 60% 65%;
-    --gradient-brand-end: 0 0% 85%;
-    --gradient-brand-text: 210 10% 90%;
-    --surface-elevated: 270 20% 15%;
-    --surface-muted: 270 20% 12%;
-    --orb-primary: 280 60% 65%;
-    --orb-secondary: 0 0% 85%;
-    
+  /* Starlit Prose - Purple-black for mystical writing */
+  :root[data-theme="starlit-prose"] {
+    --background: 260 20% 7%; /* Deep purple-black */
+    --foreground: 280 15% 90%; /* Lavender white (12.5:1) */
+    --card: 260 15% 9%; /* Card surface */
+    --card-foreground: 280 15% 90%; /* Light text */
+    --popover: 260 15% 11%; /* Popover */
+    --popover-foreground: 280 15% 90%; /* Light text */
+    --primary: 280 70% 60%; /* Bright purple (4.9:1) */
+    --primary-foreground: 260 20% 7%; /* Dark text on primary */
+    --secondary: 260 12% 18%; /* Dark purple-gray */
+    --secondary-foreground: 280 12% 85%; /* Light text (9.1:1) */
+    --muted: 260 12% 13%; /* Muted background */
+    --muted-foreground: 280 8% 65%; /* Medium light (4.7:1) */
+    --accent: 300 60% 55%; /* Magenta accent (4.6:1) */
+    --accent-foreground: 260 20% 7%; /* Dark text on accent */
+    --destructive: 0 75% 60%; /* Bright red */
+    --destructive-foreground: 260 20% 7%; /* Dark text */
+    --border: 260 12% 23%; /* Border */
+    --input: 260 12% 16%; /* Input */
+    --ring: 280 70% 60%; /* Focus ring */
+
+    --gradient-brand-start: 280 70% 60%;
+    --gradient-brand-end: 300 60% 55%;
+    --gradient-brand-text: 280 15% 90%;
+    --surface-elevated: 260 15% 11%;
+    --surface-muted: 260 12% 13%;
+    --orb-primary: 280 70% 60%;
+    --orb-secondary: 300 60% 55%;
+
     /* Auth page theme colors - Starlit Prose */
-    --auth-brand-primary: 280 60% 65%;      /* Lavender */
-    --auth-brand-secondary: 0 0% 85%;       /* Silver */
-    --auth-panel-gradient-from: 280 60% 65%; /* Lavender */
-    --auth-panel-gradient-via: 280 60% 55%;  /* Darker purple */
-    --auth-panel-gradient-to: 270 20% 18%;   /* Dark purple */
-    --auth-panel-text: 0 0% 100%;           /* White text */
-    --auth-panel-text-secondary: 280 40% 85%; /* Light lavender */
-    --auth-form-bg: 270 25% 9%;             /* Deep purple */
-    --auth-card-bg: 270 20% 12%;            /* Card surface */
-    --auth-input-border: 270 20% 22%;       /* Border */
-    --auth-button-primary: 280 60% 65%;     /* Lavender */
-    --auth-button-primary-hover: 280 60% 60%; /* Darker lavender */
+    --auth-brand-primary: 280 70% 60%; /* Bright purple */
+    --auth-brand-secondary: 300 60% 55%; /* Magenta accent */
+    --auth-panel-gradient-from: 280 70% 60%; /* Bright purple */
+    --auth-panel-gradient-via: 280 70% 55%; /* Darker purple */
+    --auth-panel-gradient-to: 300 60% 50%; /* Darker magenta */
+    --auth-panel-text: 0 0% 100%; /* White text */
+    --auth-panel-text-secondary: 280 50% 80%; /* Light purple */
+    --auth-form-bg: 260 20% 7%; /* Deep purple-black */
+    --auth-card-bg: 260 15% 9%; /* Card surface */
+    --auth-input-border: 260 12% 23%; /* Border */
+    --auth-button-primary: 280 70% 60%; /* Bright purple */
+    --auth-button-primary-hover: 280 70% 65%; /* Brighter purple */
   }
 
-  /* Coffee House - Rich browns and warm oranges */
-  .coffee-house {
-    --background: 25 25% 10%;              /* Dark coffee */
-    --foreground: 30 15% 88%;              /* Warm cream (11.1:1) */
-    --card: 25 20% 13%;                    /* Card */
-    --card-foreground: 30 15% 88%;         /* Warm cream */
-    --popover: 25 20% 16%;                 /* Popover */
-    --popover-foreground: 30 15% 88%;      /* Warm cream */
-    --primary: 25 70% 55%;                 /* Warm orange (5.1:1) */
-    --primary-foreground: 25 25% 10%;      /* Dark text on primary */
-    --secondary: 25 20% 19%;               /* Brown */
-    --secondary-foreground: 30 15% 83%;    /* Light cream (8.2:1) */
-    --muted: 25 20% 19%;                   /* Muted background */
-    --muted-foreground: 25 15% 65%;        /* Medium brown (4.8:1) */
-    --accent: 35 80% 60%;                  /* Golden (6.8:1) */
-    --accent-foreground: 25 25% 10%;       /* Dark text on accent */
-    --destructive: 0 65% 55%;              /* Red */
-    --destructive-foreground: 30 15% 88%;  /* Light text */
-    --border: 25 20% 23%;                  /* Border */
-    --input: 25 20% 16%;                   /* Input */
-    --ring: 25 70% 55%;                    /* Focus ring */
-    
-    --gradient-brand-start: 25 70% 55%;
-    --gradient-brand-end: 35 80% 60%;
-    --gradient-brand-text: 30 15% 88%;
-    --surface-elevated: 25 20% 16%;
-    --surface-muted: 25 20% 13%;
-    --orb-primary: 25 70% 55%;
-    --orb-secondary: 35 80% 60%;
-    
+  /* Coffee House - Rich browns for cozy writing */
+  :root[data-theme="coffee-house"] {
+    --background: 25 15% 9%; /* Deep coffee brown */
+    --foreground: 35 15% 88%; /* Cream white (10.8:1) */
+    --card: 25 12% 11%; /* Card surface */
+    --card-foreground: 35 15% 88%; /* Light text */
+    --popover: 25 12% 13%; /* Popover */
+    --popover-foreground: 35 15% 88%; /* Light text */
+    --primary: 35 70% 55%; /* Warm amber (4.8:1) */
+    --primary-foreground: 25 15% 9%; /* Dark text on primary */
+    --secondary: 25 10% 20%; /* Dark brown */
+    --secondary-foreground: 35 12% 85%; /* Light text (8.9:1) */
+    --muted: 25 10% 16%; /* Muted background */
+    --muted-foreground: 35 8% 65%; /* Medium light (4.9:1) */
+    --accent: 45 65% 50%; /* Golden accent (4.7:1) */
+    --accent-foreground: 25 15% 9%; /* Dark text on accent */
+    --destructive: 0 75% 60%; /* Bright red */
+    --destructive-foreground: 25 15% 9%; /* Dark text */
+    --border: 25 10% 26%; /* Border */
+    --input: 25 10% 19%; /* Input */
+    --ring: 35 70% 55%; /* Focus ring */
+
+    --gradient-brand-start: 35 70% 55%;
+    --gradient-brand-end: 45 65% 50%;
+    --gradient-brand-text: 35 15% 88%;
+    --surface-elevated: 25 12% 13%;
+    --surface-muted: 25 10% 16%;
+    --orb-primary: 35 70% 55%;
+    --orb-secondary: 45 65% 50%;
+
     /* Auth page theme colors - Coffee House */
-    --auth-brand-primary: 25 70% 55%;       /* Warm orange */
-    --auth-brand-secondary: 35 80% 60%;     /* Golden */
-    --auth-panel-gradient-from: 25 70% 55%; /* Warm orange */
-    --auth-panel-gradient-via: 25 70% 45%;  /* Darker orange */
-    --auth-panel-gradient-to: 25 20% 19%;   /* Brown */
-    --auth-panel-text: 0 0% 100%;           /* White text */
-    --auth-panel-text-secondary: 25 50% 85%; /* Light orange */
-    --auth-form-bg: 25 25% 10%;             /* Dark coffee */
-    --auth-card-bg: 25 20% 13%;             /* Card surface */
-    --auth-input-border: 25 20% 23%;        /* Border */
-    --auth-button-primary: 25 70% 55%;      /* Warm orange */
-    --auth-button-primary-hover: 25 70% 50%; /* Darker orange */
-  }
-
-  /* ===== SYSTEM THEME ===== */
-  
-  .system {
-    /* Will inherit from :root (light) or .dark based on system preference */
+    --auth-brand-primary: 35 70% 55%; /* Warm amber */
+    --auth-brand-secondary: 45 65% 50%; /* Golden accent */
+    --auth-panel-gradient-from: 35 70% 55%; /* Warm amber */
+    --auth-panel-gradient-via: 35 70% 50%; /* Darker amber */
+    --auth-panel-gradient-to: 45 65% 45%; /* Darker golden */
+    --auth-panel-text: 0 0% 100%; /* White text */
+    --auth-panel-text-secondary: 35 50% 75%; /* Light amber */
+    --auth-form-bg: 25 15% 9%; /* Deep coffee brown */
+    --auth-card-bg: 25 12% 11%; /* Card surface */
+    --auth-input-border: 25 10% 26%; /* Border */
+    --auth-button-primary: 35 70% 55%; /* Warm amber */
+    --auth-button-primary-hover: 35 70% 60%; /* Brighter amber */
   }
 }
