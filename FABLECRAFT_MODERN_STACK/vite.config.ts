@@ -10,17 +10,13 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production'
 
   return {
+    root: process.cwd(), // Explicitly set root for Vite 7
     base: '/', // Ensure base path is set
+    publicDir: 'public', // Explicitly set public directory
     plugins: [
       react({
         // Fix for useLayoutEffect error in production
         jsxRuntime: 'automatic',
-        babel: {
-          plugins: [
-            // Ensure React is properly imported in production
-            ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
-          ],
-        },
       }),
       // Compression for production builds
       isProd && compression({
