@@ -142,10 +142,10 @@ export function CTASection({
               onClick={onNewProject}
               size="lg"
               className={cn(
-                "group relative w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground",
+                "group relative w-full sm:w-48 bg-primary hover:bg-primary/90 text-primary-foreground",
                 "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-lg hover:shadow-xl rounded-xl transition-all duration-300",
-                "hover:scale-102 hover:-translate-y-0.5",
+                "hover:scale-105 hover:-translate-y-1",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
               aria-label={`${primaryButtonText} - Start creating your story project`}
@@ -166,10 +166,10 @@ export function CTASection({
               size="lg"
               variant="outline"
               className={cn(
-                "group relative w-full sm:w-auto border-border hover:bg-accent hover:text-accent-foreground",
+                "group relative w-full sm:w-48 border-border hover:bg-accent hover:text-accent-foreground",
                 "px-8 lg:px-12 py-4 lg:py-6 text-golden-lg font-semibold",
                 "shadow-md hover:shadow-lg rounded-xl transition-all duration-300",
-                "hover:scale-102 hover:-translate-y-0.5",
+                "hover:scale-105 hover:-translate-y-1",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               )}
               aria-label={`${secondaryButtonText} - Browse existing story projects`}
