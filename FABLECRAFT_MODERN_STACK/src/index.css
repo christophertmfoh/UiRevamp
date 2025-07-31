@@ -315,7 +315,7 @@
     position: relative;
   }
 
-  /* SUBTLE ACCENT-THEMED AMBIENT GLOW - Perfect visibility */
+  /* SMART CONTRAST AMBIENT GLOW - Uses primary color for better visibility */
   section::before {
     content: '';
     position: absolute;
@@ -325,7 +325,7 @@
     bottom: -15%;
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--accent) / 0.12) 0%,
+      hsl(var(--primary) / 0.08) 0%,
       transparent 80%
     );
     filter: blur(80px);
@@ -338,7 +338,7 @@
   .hero-ambient-glow::before {
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--accent) / 0.18) 0%,
+      hsl(var(--primary) / 0.12) 0%,
       transparent 80%
     );
     opacity: 1;
