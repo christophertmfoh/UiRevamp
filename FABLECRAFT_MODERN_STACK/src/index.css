@@ -310,15 +310,10 @@
     letter-spacing: -0.02em;
   }
 
-  /* Section-level background gradients for subtle separation */
+  /* Section-level - completely clean, no visual containers */
   section {
     position: relative;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--muted) / 0.03) 0%,
-      transparent 50%,
-      hsl(var(--accent) / 0.02) 100%
-    );
+    /* NO background, NO gradients, NO visual containers */
   }
 
   /* Content elements - pure typography, no visual containers */
