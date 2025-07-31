@@ -1,0 +1,1242 @@
+{
+  "statistics": {
+    "detectionDate": "2025-07-31T00:33:03.614Z",
+    "formats": {
+      "typescript": {
+        "sources": {
+          "../fablecraft-enterprise/src/pages/landing/index.ts": {
+            "lines": 9,
+            "tokens": 49,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/pages/landing/data.ts": {
+            "lines": 97,
+            "tokens": 642,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/components/ui/index.ts": {
+            "lines": 13,
+            "tokens": 65,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/components/theme/index.ts": {
+            "lines": 5,
+            "tokens": 17,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/test/setup.ts": {
+            "lines": 52,
+            "tokens": 426,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 10,
+            "duplicatedTokens": 93,
+            "percentage": 19.23,
+            "percentageTokens": 21.83,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/store/index.ts": {
+            "lines": 11,
+            "tokens": 117,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/lib/utils.ts": {
+            "lines": 5,
+            "tokens": 58,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/lib/utils.test.ts": {
+            "lines": 45,
+            "tokens": 401,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/hooks/useCreativeDebugger.ts": {
+            "lines": 231,
+            "tokens": 1770,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 11,
+            "duplicatedTokens": 105,
+            "percentage": 4.76,
+            "percentageTokens": 5.93,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/hooks/useAuth.ts": {
+            "lines": 202,
+            "tokens": 1190,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/api/client.ts": {
+            "lines": 125,
+            "tokens": 1026,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/api/auth.ts": {
+            "lines": 98,
+            "tokens": 488,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/character/shared/index.ts": {
+            "lines": 7,
+            "tokens": 43,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/character/shared/ComponentIndex.ts": {
+            "lines": 21,
+            "tokens": 86,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/character/hooks/useCharacterForm.ts": {
+            "lines": 189,
+            "tokens": 1825,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/shared/hooks/index.ts": {
+            "lines": 4,
+            "tokens": 52,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/shared/components/index.ts": {
+            "lines": 4,
+            "tokens": 48,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/uiUtils.ts": {
+            "lines": 455,
+            "tokens": 4181,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/index.ts": {
+            "lines": 12,
+            "tokens": 51,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/formUtils.ts": {
+            "lines": 250,
+            "tokens": 2159,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/errorHandling.ts": {
+            "lines": 248,
+            "tokens": 1932,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/entityUtils.ts": {
+            "lines": 255,
+            "tokens": 2299,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/characterUtils.ts": {
+            "lines": 136,
+            "tokens": 1181,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/characterDataUtils.ts": {
+            "lines": 228,
+            "tokens": 2062,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils/apiUtils.ts": {
+            "lines": 415,
+            "tokens": 3464,
+            "sources": 1,
+            "clones": 8,
+            "duplicatedLines": 92,
+            "duplicatedTokens": 696,
+            "percentage": 22.17,
+            "percentageTokens": 20.09,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/types/index.ts": {
+            "lines": 129,
+            "tokens": 823,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/types/characterTypes.ts": {
+            "lines": 193,
+            "tokens": 1303,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/services/taskService.ts": {
+            "lines": 108,
+            "tokens": 996,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/services/characterCreationService.ts": {
+            "lines": 392,
+            "tokens": 2830,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/hooks/index.ts": {
+            "lines": 59,
+            "tokens": 218,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/index.ts": {
+            "lines": 19,
+            "tokens": 75,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/fieldConfig.ts": {
+            "lines": 374,
+            "tokens": 2471,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/experienceModes.ts": {
+            "lines": 153,
+            "tokens": 1975,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/entityFieldConfigs.ts": {
+            "lines": 9,
+            "tokens": 83,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/characterFieldConfig.ts": {
+            "lines": 55,
+            "tokens": 335,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/config/baseFieldConfig.ts": {
+            "lines": 23,
+            "tokens": 147,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/backup/replitBackup.ts": {
+            "lines": 333,
+            "tokens": 2580,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/features/auth/index.ts": {
+            "lines": 6,
+            "tokens": 22,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/ui/styles.ts": {
+            "lines": 9,
+            "tokens": 55,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/character/index.ts": {
+            "lines": 8,
+            "tokens": 92,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/webVitals.ts": {
+            "lines": 52,
+            "tokens": 400,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/resizeObserverFix.ts": {
+            "lines": 61,
+            "tokens": 439,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/memoryOptimizer.ts": {
+            "lines": 95,
+            "tokens": 839,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/memoryAnalyzer.ts": {
+            "lines": 79,
+            "tokens": 742,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/globalErrorHandler.ts": {
+            "lines": 52,
+            "tokens": 346,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/utils/fetchHandler.ts": {
+            "lines": 67,
+            "tokens": 541,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/types/character.d.ts": {
+            "lines": 333,
+            "tokens": 2514,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/test/setup.ts": {
+            "lines": 42,
+            "tokens": 350,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 13,
+            "duplicatedTokens": 106,
+            "percentage": 30.95,
+            "percentageTokens": 30.29,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/utils.ts": {
+            "lines": 34,
+            "tokens": 347,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/useDebouncedSave.ts": {
+            "lines": 12,
+            "tokens": 114,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/types.ts": {
+            "lines": 333,
+            "tokens": 2384,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/store.ts": {
+            "lines": 366,
+            "tokens": 3418,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/security.ts": {
+            "lines": 112,
+            "tokens": 1030,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/queryClient.ts": {
+            "lines": 92,
+            "tokens": 832,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/index.ts": {
+            "lines": 6,
+            "tokens": 54,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/lib/design-system.ts": {
+            "lines": 90,
+            "tokens": 690,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useWritingSession.ts": {
+            "lines": 348,
+            "tokens": 3038,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useWidgetManagement.ts": {
+            "lines": 110,
+            "tokens": 968,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useTaskManagement.ts": {
+            "lines": 382,
+            "tokens": 4120,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useProjectsLogic.ts": {
+            "lines": 127,
+            "tokens": 1577,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useOptimizedScroll.ts": {
+            "lines": 57,
+            "tokens": 464,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useModernWebSocket.ts": {
+            "lines": 330,
+            "tokens": 2496,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useModernState.ts": {
+            "lines": 138,
+            "tokens": 1014,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useMemoryOptimizedState.ts": {
+            "lines": 49,
+            "tokens": 404,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useMemoryMonitor.ts": {
+            "lines": 81,
+            "tokens": 700,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useHotReloadMetrics.ts": {
+            "lines": 217,
+            "tokens": 1844,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useDragAndDrop.ts": {
+            "lines": 99,
+            "tokens": 868,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useCreativeDebugger.ts": {
+            "lines": 231,
+            "tokens": 2000,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 11,
+            "duplicatedTokens": 105,
+            "percentage": 4.76,
+            "percentageTokens": 5.25,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useComponentPreloader.ts": {
+            "lines": 112,
+            "tokens": 1042,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 158,
+            "percentage": 14.29,
+            "percentageTokens": 15.16,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useAuth.ts": {
+            "lines": 133,
+            "tokens": 963,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/hooks/useAccessibility.ts": {
+            "lines": 344,
+            "tokens": 3202,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/components/index.ts": {
+            "lines": 12,
+            "tokens": 63,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../client/src/test-setup.ts": {
+            "lines": 30,
+            "tokens": 273,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 23,
+            "duplicatedTokens": 199,
+            "percentage": 76.67,
+            "percentageTokens": 72.89,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 9613,
+          "tokens": 79713,
+          "sources": 73,
+          "clones": 8,
+          "duplicatedLines": 88,
+          "duplicatedTokens": 731,
+          "percentage": 0.92,
+          "percentageTokens": 0.92,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "css": {
+        "sources": {
+          "../fablecraft-enterprise/src/styles/globals.css": {
+            "lines": 466,
+            "tokens": 3840,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "../fablecraft-enterprise/src/index.css": {
+            "lines": 71,
+            "tokens": 387,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 537,
+          "tokens": 4227,
+          "sources": 2,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 10150,
+      "tokens": 83940,
+      "sources": 75,
+      "clones": 8,
+      "duplicatedLines": 88,
+      "duplicatedTokens": 731,
+      "percentage": 0.87,
+      "percentageTokens": 0.87,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "typescript",
+      "lines": 15,
+      "fragment": ");\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ \n        queryKey: ['/api/projects', variables.projectId, entityType] \n      });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}\n\n/**\n * Hook for batch updating entities\n */",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 141,
+        "end": 155,
+        "startLoc": {
+          "line": 141,
+          "column": 2,
+          "position": 1195
+        },
+        "endLoc": {
+          "line": 155,
+          "column": 4,
+          "position": 1285
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 118,
+        "end": 132,
+        "startLoc": {
+          "line": 118,
+          "column": 2,
+          "position": 959
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 4,
+          "position": 1049
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 13,
+      "fragment": "});\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ \n        queryKey: ['/api/projects', variables.projectId, entityType] \n      });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}\n\n// ===== QUERY HOOKS =====",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 164,
+        "end": 176,
+        "startLoc": {
+          "line": 164,
+          "column": 2,
+          "position": 1460
+        },
+        "endLoc": {
+          "line": 176,
+          "column": 27,
+          "position": 1551
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 141,
+        "end": 132,
+        "startLoc": {
+          "line": 141,
+          "column": 2,
+          "position": 1194
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 4,
+          "position": 1049
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 13,
+      "fragment": "});\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}\n\n/**\n * Hook for batch update operations\n */",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 384,
+        "end": 396,
+        "startLoc": {
+          "line": 384,
+          "column": 7,
+          "position": 3109
+        },
+        "endLoc": {
+          "line": 396,
+          "column": 4,
+          "position": 3194
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 68,
+        "end": 82,
+        "startLoc": {
+          "line": 68,
+          "column": 7,
+          "position": 469
+        },
+        "endLoc": {
+          "line": 82,
+          "column": 4,
+          "position": 558
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 9,
+      "fragment": "});\n    },\n    onSuccess: (data, variables, context) => {\n      queryClient.invalidateQueries({ queryKey: ['/api/projects', projectId, entityType] });\n      options?.onSuccess?.(data, variables, context);\n    },\n    ...options,\n  });\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 408,
+        "end": 416,
+        "startLoc": {
+          "line": 408,
+          "column": 7,
+          "position": 3382
+        },
+        "endLoc": {
+          "line": 416,
+          "column": 2,
+          "position": 3464
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/lib/utils/apiUtils.ts",
+        "start": 68,
+        "end": 78,
+        "startLoc": {
+          "line": 68,
+          "column": 7,
+          "position": 469
+        },
+        "endLoc": {
+          "line": 78,
+          "column": 2,
+          "position": 555
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 12,
+      "fragment": "}\n\nexport const useCreativeDebugger = (context: string = 'unknown') => {\n  const [session, setSession] = useState<CreativeSession>(() => ({\n    startTime: new Date(),\n    actions: [],\n    errors: [],\n    performance: {\n      avgRenderTime: 0,\n      peakMemory: 0,\n      actionCount: 0\n    }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/hooks/useCreativeDebugger.ts",
+        "start": 33,
+        "end": 44,
+        "startLoc": {
+          "line": 33,
+          "column": 1,
+          "position": 186
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 2,
+          "position": 291
+        }
+      },
+      "secondFile": {
+        "name": "../fablecraft-enterprise/src/hooks/useCreativeDebugger.ts",
+        "start": 32,
+        "end": 42,
+        "startLoc": {
+          "line": 32,
+          "column": 1,
+          "position": 155
+        },
+        "endLoc": {
+          "line": 42,
+          "column": 2,
+          "position": 258
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 9,
+      "fragment": "= useCallback((path: string) => {\n    return () => {\n      if (!preloadedComponents.current.has(path)) {\n        preloadComponent(path).catch(() => {});\n      }\n    };\n  }, [preloadComponent]);\n\n  // Preload high priority components immediately",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/hooks/useComponentPreloader.ts",
+        "start": 72,
+        "end": 80,
+        "startLoc": {
+          "line": 72,
+          "column": 2,
+          "position": 726
+        },
+        "endLoc": {
+          "line": 80,
+          "column": 48,
+          "position": 805
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/hooks/useComponentPreloader.ts",
+        "start": 64,
+        "end": 72,
+        "startLoc": {
+          "line": 64,
+          "column": 2,
+          "position": 643
+        },
+        "endLoc": {
+          "line": 72,
+          "column": 6,
+          "position": 722
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 11,
+      "fragment": "=> ({\n    matches: false,\n    media: query,\n    onchange: null,\n    addListener: vi.fn(), // deprecated\n    removeListener: vi.fn(), // deprecated\n    addEventListener: vi.fn(),\n    removeEventListener: vi.fn(),\n    dispatchEvent: vi.fn(),\n  })),\n});",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/test-setup.ts",
+        "start": 7,
+        "end": 17,
+        "startLoc": {
+          "line": 7,
+          "column": 2,
+          "position": 54
+        },
+        "endLoc": {
+          "line": 17,
+          "column": 2,
+          "position": 147
+        }
+      },
+      "secondFile": {
+        "name": "../fablecraft-enterprise/src/test/setup.ts",
+        "start": 14,
+        "end": 26,
+        "startLoc": {
+          "line": 14,
+          "column": 2,
+          "position": 91
+        },
+        "endLoc": {
+          "line": 26,
+          "column": 29,
+          "position": 186
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 14,
+      "fragment": "addEventListener: vi.fn(),\n    removeEventListener: vi.fn(),\n    dispatchEvent: vi.fn(),\n  })),\n});\n\n// Mock ResizeObserver\nglobal.ResizeObserver = vi.fn().mockImplementation(() => ({\n  observe: vi.fn(),\n  unobserve: vi.fn(),\n  disconnect: vi.fn(),\n}));\n\n// Mock IntersectionObserver  ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "../client/src/test-setup.ts",
+        "start": 13,
+        "end": 26,
+        "startLoc": {
+          "line": 13,
+          "column": 5,
+          "position": 107
+        },
+        "endLoc": {
+          "line": 26,
+          "column": 31,
+          "position": 213
+        }
+      },
+      "secondFile": {
+        "name": "../client/src/test/setup.ts",
+        "start": 21,
+        "end": 34,
+        "startLoc": {
+          "line": 21,
+          "column": 5,
+          "position": 137
+        },
+        "endLoc": {
+          "line": 34,
+          "column": 29,
+          "position": 243
+        }
+      }
+    }
+  ],
+  "filename": "/workspace/FABLECRAFT_MODERN_STACK/node_modules/@jscpd/html-reporter/dist/templates/main.pug"
+}
