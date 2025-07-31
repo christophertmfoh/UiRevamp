@@ -10,8 +10,18 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === 'production'
 
   return {
+    base: '/', // Ensure base path is set
     plugins: [
-      react(),
+      react({
+        // Fix for useLayoutEffect error in production
+        jsxRuntime: 'automatic',
+        babel: {
+          plugins: [
+            // Ensure React is properly imported in production
+            ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
+          ],
+        },
+      }),
       // Compression for production builds
       isProd && compression({
         algorithm: 'gzip',
@@ -46,6 +56,9 @@ export default defineConfig(({ mode }) => {
         '@/app': path.resolve(__dirname, './src/app'),
         '@/features-modern': path.resolve(__dirname, './src/features-modern'),
         '@/shared': path.resolve(__dirname, './src/shared'),
+        // Fix for React in production
+        'react': path.resolve(__dirname, './node_modules/react'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
       },
     },
     
@@ -141,10 +154,15 @@ export default defineConfig(({ mode }) => {
         'clsx',
         'tailwind-merge',
         'class-variance-authority',
+        '@radix-ui/react-accordion',
+        '@radix-ui/react-dropdown-menu',
+        '@radix-ui/react-slot',
       ],
       // Force consistent parsing
       esbuildOptions: {
         target: 'es2020',
+        // Fix for React in production
+        jsx: 'automatic',
       },
     },
     
