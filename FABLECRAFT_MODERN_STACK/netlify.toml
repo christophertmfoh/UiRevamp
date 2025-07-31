@@ -8,9 +8,6 @@
 [build.environment]
   # Node.js version for build environment
   NODE_VERSION = "18"
-  # Ensure proper npm version and build environment
-  NPM_FLAGS = "--prefix=/opt/buildhome/.nodejs/node_modules/.bin/"
-  NODE_ENV = "production"
 
 # SPA (Single Page Application) routing configuration
 [[redirects]]
