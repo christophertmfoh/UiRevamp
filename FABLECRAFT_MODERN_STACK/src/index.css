@@ -411,4 +411,207 @@
     );
     pointer-events: none;
   }
+
+  /* ===== FANTASY ATMOSPHERE EFFECTS ===== */
+  /* Subtle spacey/fantasy atmospheric elements */
+
+  /* Floating particles effect */
+  .floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .floating-particles::before,
+  .floating-particles::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float-drift 25s infinite linear;
+  }
+
+  .floating-particles::before {
+    top: -10px;
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 20s;
+  }
+
+  .floating-particles::after {
+    top: -10px;
+    left: 70%;
+    animation-delay: 10s;
+    animation-duration: 30s;
+  }
+
+  /* Ambient orbs - very subtle */
+  .ambient-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden;
+  }
+
+  .ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.15;
+    animation: orb-drift 40s infinite ease-in-out;
+  }
+
+  .ambient-orb:nth-child(1) {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, transparent 70%);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 35s;
+  }
+
+  .ambient-orb:nth-child(2) {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, hsl(var(--accent) / 0.15) 0%, transparent 70%);
+    top: 60%;
+    right: 15%;
+    animation-delay: 15s;
+    animation-duration: 45s;
+  }
+
+  .ambient-orb:nth-child(3) {
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, hsl(var(--muted-foreground) / 0.1) 0%, transparent 70%);
+    bottom: 30%;
+    left: 60%;
+    animation-delay: 25s;
+    animation-duration: 40s;
+  }
+
+  /* Subtle energy wisps */
+  .energy-wisps {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 4;
+    overflow: hidden;
+  }
+
+  .energy-wisps::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.1) 30%,
+      hsl(var(--primary) / 0.2) 50%,
+      hsl(var(--primary) / 0.1) 70%,
+      transparent 100%
+    );
+    top: 40%;
+    left: -200px;
+    border-radius: 2px;
+    filter: blur(1px);
+    animation: wisp-flow 50s infinite linear;
+  }
+
+  /* Animations */
+  @keyframes float-drift {
+    0% {
+      transform: translateY(100vh) translateX(0px) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(90vh) translateX(10px) scale(1);
+    }
+    90% {
+      opacity: 1;
+      transform: translateY(-10vh) translateX(-10px) scale(1);
+    }
+    100% {
+      transform: translateY(-20vh) translateX(0px) scale(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes orb-drift {
+    0%, 100% {
+      transform: translate(0px, 0px) scale(1);
+      opacity: 0.15;
+    }
+    25% {
+      transform: translate(30px, -20px) scale(1.1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: translate(-20px, 15px) scale(0.9);
+      opacity: 0.1;
+    }
+    75% {
+      transform: translate(15px, 25px) scale(1.05);
+      opacity: 0.18;
+    }
+  }
+
+  @keyframes wisp-flow {
+    0% {
+      left: -200px;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      left: 100vw;
+      opacity: 0;
+    }
+  }
+
+  /* Theme-specific fantasy effects */
+  .theme-midnight-ink .ambient-orb:nth-child(1) {
+    background: radial-gradient(circle, hsl(240 50% 60% / 0.15) 0%, transparent 70%);
+  }
+
+  .theme-forest-manuscript .ambient-orb:nth-child(2) {
+    background: radial-gradient(circle, hsl(140 40% 50% / 0.12) 0%, transparent 70%);
+  }
+
+  .theme-starlit-prose .floating-particles::before,
+  .theme-starlit-prose .floating-particles::after {
+    background: radial-gradient(circle, hsl(260 60% 70% / 0.25) 0%, transparent 70%);
+  }
+
+  .theme-coffee-house .energy-wisps::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(25 60% 50% / 0.08) 30%,
+      hsl(25 60% 50% / 0.15) 50%,
+      hsl(25 60% 50% / 0.08) 70%,
+      transparent 100%
+    );
+  }
 }

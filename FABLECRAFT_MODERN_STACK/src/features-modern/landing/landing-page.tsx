@@ -292,6 +292,14 @@ export function LandingPage({
       role='main'
       aria-label='Fablecraft landing page'
     >
+      {/* Fantasy Atmospheric Effects */}
+      <div className="floating-particles" aria-hidden="true" />
+      <div className="ambient-orbs" aria-hidden="true">
+        <div className="ambient-orb" />
+        <div className="ambient-orb" />
+        <div className="ambient-orb" />
+      </div>
+      <div className="energy-wisps" aria-hidden="true" />
       {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
         <NavigationHeader
