@@ -313,11 +313,28 @@ export function LandingPage({
         <div className="spark spark-small" style={{ left: '71%', animationDelay: '16.1s' }} />
         <div className="spark" style={{ left: '89%', animationDelay: '15.4s' }} />
         
-        {/* Subtle background layer */}
+        {/* Third wave - gentle fill */}
         <div className="spark spark-small" style={{ left: '4%', animationDelay: '18.2s' }} />
+        <div className="spark spark-small" style={{ left: '19%', animationDelay: '22.4s' }} />
         <div className="spark spark-small" style={{ left: '33%', animationDelay: '19.8s' }} />
+        <div className="spark" style={{ left: '46%', animationDelay: '24.1s' }} />
+        <div className="spark spark-small" style={{ left: '54%', animationDelay: '23.7s' }} />
         <div className="spark spark-small" style={{ left: '67%', animationDelay: '20.5s' }} />
+        <div className="spark spark-bright" style={{ left: '77%', animationDelay: '25.3s' }} />
+        <div className="spark spark-small" style={{ left: '85%', animationDelay: '26.8s' }} />
         <div className="spark spark-small" style={{ left: '96%', animationDelay: '21.3s' }} />
+        
+        {/* Fourth wave - sparse accents */}
+        <div className="spark spark-small" style={{ left: '6%', animationDelay: '28.5s' }} />
+        <div className="spark spark-small" style={{ left: '14%', animationDelay: '31.2s' }} />
+        <div className="spark spark-small" style={{ left: '26%', animationDelay: '29.7s' }} />
+        <div className="spark spark-small" style={{ left: '35%', animationDelay: '32.9s' }} />
+        <div className="spark spark-small" style={{ left: '44%', animationDelay: '30.1s' }} />
+        <div className="spark spark-small" style={{ left: '56%', animationDelay: '33.6s' }} />
+        <div className="spark spark-small" style={{ left: '65%', animationDelay: '34.8s' }} />
+        <div className="spark spark-small" style={{ left: '76%', animationDelay: '31.5s' }} />
+        <div className="spark spark-small" style={{ left: '87%', animationDelay: '35.2s' }} />
+        <div className="spark spark-small" style={{ left: '98%', animationDelay: '36.1s' }} />
       </div>
       {/* Navigation Header */}
       <ErrorBoundary onError={handleComponentError}>
