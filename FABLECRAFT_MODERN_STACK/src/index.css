@@ -310,43 +310,58 @@
     letter-spacing: -0.02em;
   }
 
-  /* Section-level - completely clean, no visual containers */
+  /* SUBTLE AMBIENT FLOW SYSTEM - Gentle atmospheric separation */
   section {
     position: relative;
-    /* NO background, NO gradients, NO visual containers */
   }
 
-  /* Hero-specific ambient glow - soft atmospheric effect */
-  .hero-ambient-glow {
-    position: relative;
-  }
-
-  .hero-ambient-glow::before {
+  /* Universal subtle ambient glow for all sections */
+  section::before {
     content: '';
     position: absolute;
-    top: -20%;
-    left: -10%;
-    right: -10%;
-    bottom: -20%;
+    top: -15%;
+    left: -5%;
+    right: -5%;
+    bottom: -15%;
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--primary) / 0.08) 0%,
-      hsl(var(--accent) / 0.05) 30%,
-      transparent 70%
+      hsl(var(--primary) / 0.03) 0%,
+      hsl(var(--accent) / 0.02) 40%,
+      transparent 80%
     );
-    filter: blur(60px);
+    filter: blur(80px);
     z-index: -1;
     pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* Hero gets slightly more presence */
+  .hero-ambient-glow::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--primary) / 0.05) 0%,
+      hsl(var(--accent) / 0.03) 40%,
+      transparent 80%
+    );
     opacity: 0.6;
   }
 
-  /* Theme-specific hero ambiance */
+  /* Theme-specific ambient enhancement */
+  .theme-dark section::before {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--primary) / 0.04) 0%,
+      hsl(var(--accent) / 0.03) 40%,
+      transparent 80%
+    );
+  }
+
   .theme-dark .hero-ambient-glow::before {
     background: radial-gradient(
       ellipse at center,
-      hsl(var(--primary) / 0.12) 0%,
-      hsl(var(--accent) / 0.08) 30%,
-      transparent 70%
+      hsl(var(--primary) / 0.07) 0%,
+      hsl(var(--accent) / 0.04) 40%,
+      transparent 80%
     );
   }
 
