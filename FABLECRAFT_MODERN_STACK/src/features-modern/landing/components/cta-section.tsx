@@ -65,7 +65,6 @@ export function CTASection({
              {/* Main CTA Card - Using same Card component as other sections */}
        <Card className={cn(
          "bg-card border-border",
-         "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2",
          theme === 'gradient' && "bg-gradient-to-br from-card via-card/95 to-accent/30"
        )}>
         <CardContent className="p-8 sm:p-12 lg:p-16">
