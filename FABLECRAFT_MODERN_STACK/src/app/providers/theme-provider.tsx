@@ -5,8 +5,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
 /**
  * Enhanced theme provider props with comprehensive TypeScript interfaces
- * Migrated from client/src/components/theme-provider.tsx - Step 2.1.2
- * Target: src/app/providers/theme-provider.tsx
+ * Fablecraft Modern Stack - Enterprise Architecture
  */
 interface ThemeProviderProps {
   children: React.ReactNode

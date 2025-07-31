@@ -1,18 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { 
-  Moon, 
-  Sun, 
-  Monitor, 
-  Palette,
-  Star,
-  Snowflake,
-  Coffee,
-  TreePine,
-  Crown,
-  Check
-} from 'lucide-react'
+import { Palette, Check } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { Button } from '@/components/ui/button'
@@ -24,6 +13,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
+import { themeConfig, getThemeConfig, type ThemeConfig } from '../config/theme-config'
 
 /**
  * FABLECRAFT THEME SYSTEM v2.0
@@ -31,102 +21,17 @@ import {
  * All themes tested for WCAG AA contrast compliance (4.5:1 minimum)
  * Focus on eye comfort, engagement, and long writing sessions
  * 
- * Migrated from client/src/components/theme-toggle.tsx - Step 2.1.3
- * Target: src/features-modern/theme/components/theme-toggle.tsx
+ * Fablecraft Modern Stack - Enterprise Theme System
  * 
- * CRITICAL FIXES APPLIED:
- * - Removed all hardcoded colors (none found in original)
- * - Enhanced with proper TypeScript interfaces
- * - Maintained WCAG AA compliance
- * - Preserved all 8 custom themes
- * - All styling uses theme variables and class-based styling
+ * FEATURES:
+ * - 8 research-based writer-focused themes
+ * - Enhanced TypeScript interfaces and type safety
+ * - WCAG AA compliance maintained (4.5:1+ contrast ratios)
+ * - Theme persistence via localStorage
+ * - All styling uses CSS custom properties
  */
 
-interface ThemeConfig {
-  name: string
-  icon: React.ComponentType<{ className?: string }>
-  description: string
-  category: 'Light Themes' | 'Dark Themes' | 'System'
-  contrast: string
-  mood: string
-}
 
-type ThemeConfigMap = Record<string, ThemeConfig>
-
-const themeConfig: ThemeConfigMap = {
-  light: {
-    name: 'Parchment Classic',
-    icon: Sun,
-    description: 'Warm cream with burgundy accents for traditional writing',
-    category: 'Light Themes',
-    contrast: '8.1:1',
-    mood: 'Traditional & Timeless'
-  },
-  'arctic-focus': {
-    name: 'Arctic Focus',
-    icon: Snowflake,
-    description: 'Cool blues and whites for clean, distraction-free writing',
-    category: 'Light Themes',
-    contrast: '8.3:1',
-    mood: 'Clean & Focused'
-  },
-  'golden-hour': {
-    name: 'Golden Hour',
-    icon: Crown,
-    description: 'Warm yellows and oranges for inspiring creative energy',
-    category: 'Light Themes',
-    contrast: '8.5:1',
-    mood: 'Inspiring & Optimistic'
-  },
-  dark: {
-    name: 'Fablecraft Dark',
-    icon: Moon,
-    description: 'Modern professional dark with emerald and cyan gradients',
-    category: 'Dark Themes',
-    contrast: '13.2:1',
-    mood: 'Modern & Focused'
-  },
-  'midnight-ink': {
-    name: 'Midnight Ink',
-    icon: Star,
-    description: 'Deep navy with gold accents - scholarly and magical',
-    category: 'Dark Themes',
-    contrast: '12.8:1',
-    mood: 'Scholarly & Premium'
-  },
-  'forest-manuscript': {
-    name: 'Forest Manuscript',
-    icon: TreePine,
-    description: 'Deep greens for natural, focused writing sessions',
-    category: 'Dark Themes',
-    contrast: '11.8:1',
-    mood: 'Natural & Calming'
-  },
-  'starlit-prose': {
-    name: 'Starlit Prose',
-    icon: Palette,
-    description: 'Dark purple with silver - mystical and poetic inspiration',
-    category: 'Dark Themes',
-    contrast: '11.2:1',
-    mood: 'Mystical & Poetic'
-  },
-  'coffee-house': {
-    name: 'Coffee House',
-    icon: Coffee,
-    description: 'Rich browns and warm oranges for cozy cafe writing vibes',
-    category: 'Dark Themes',
-    contrast: '11.1:1',
-    mood: 'Cozy & Inspiring'
-  },
-  system: {
-    name: 'Follow System',
-    icon: Monitor,
-    description: 'Automatically match your device preference',
-    category: 'System',
-    contrast: 'Auto',
-    mood: 'Adaptive'
-  }
-}
 
 /**
  * Enhanced Theme Toggle Component
@@ -157,17 +62,15 @@ export function ThemeToggle() {
   }
 
   const getCurrentIcon = () => {
-    if (!theme || !themeConfig[theme as keyof typeof themeConfig]) {
-      return Palette
-    }
-    return themeConfig[theme as keyof typeof themeConfig]?.icon || Palette
+    if (!theme) return Palette
+    const config = getThemeConfig(theme)
+    return config?.icon || Palette
   }
 
   const getCurrentThemeName = () => {
-    if (!theme || !themeConfig[theme as keyof typeof themeConfig]) {
-      return 'Theme'
-    }
-    return themeConfig[theme as keyof typeof themeConfig]?.name || 'Theme'
+    if (!theme) return 'Theme'
+    const config = getThemeConfig(theme)
+    return config?.name || 'Theme'
   }
 
   const CurrentIcon = getCurrentIcon()
