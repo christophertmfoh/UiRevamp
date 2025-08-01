@@ -244,5 +244,5 @@ export function generateCSSVariables(): string {
     cssVars.push(`--duration-${key}: ${value};`);
   });
   
-  return cssVars.join('\n  ');
+  return cssVars.join('\n');
 }
