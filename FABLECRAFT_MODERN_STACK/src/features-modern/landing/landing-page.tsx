@@ -105,13 +105,13 @@ function NavigationHeader({
             </span>
           </div>
 
-          {/* Community and Gallery Links */}
-          <div className='flex items-center space-x-6'>
+          {/* Professional Navigation Menu */}
+          <div className='flex items-center space-x-8'>
             <button
               onClick={() => {
                 /* Community functionality to be implemented */
               }}
-              className='text-lg font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer'
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer uppercase'
             >
               COMMUNITY
             </button>
@@ -119,9 +119,33 @@ function NavigationHeader({
               onClick={() => {
                 /* Gallery functionality to be implemented */
               }}
-              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer'
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer uppercase'
             >
               GALLERY
+            </button>
+            <button
+              onClick={() => {
+                /* Library functionality to be implemented */
+              }}
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer uppercase'
+            >
+              LIBRARY
+            </button>
+            <button
+              onClick={() => {
+                /* About functionality to be implemented */
+              }}
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer uppercase'
+            >
+              ABOUT
+            </button>
+            <button
+              onClick={() => {
+                /* Contact functionality to be implemented */
+              }}
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer uppercase'
+            >
+              CONTACT
             </button>
           </div>
 
