@@ -13,7 +13,7 @@
 - ❌ Missing motion tokens causing silent failures
 - ❌ No actual code complexity analysis configured
 - ❌ Superficial test coverage (89 lines for critical components)
-- ❌ No component isolation environment (Ladle/Storybook)
+- ❌ No visual regression testing setup
 - ❌ Performance optimizations missing
 - ❌ Accessibility gaps in interactive components
 
@@ -381,35 +381,31 @@ describe('Card', () => {
 });
 ```
 
-2. **Ladle Setup** (15 min)
+2. **Visual Regression Testing** (15 min)
 ```typescript
-// .ladle/config.mjs
-export default {
-  stories: 'src/**/*.stories.{js,jsx,ts,tsx}',
-  addons: {
-    theme: {
-      enabled: true,
-      defaultTheme: 'light',
-    },
-  },
-};
+// tests/visual/card.spec.ts
+import { test, expect } from '@playwright/test';
 
-// src/components/ui/card.stories.tsx
-import type { Story } from '@ladle/react';
-import { Card } from './card';
-
-export const Default: Story = () => (
-  <Card>Default Card</Card>
-);
-
-export const Variants: Story = () => (
-  <div className="space-y-4">
-    <Card variant="default">Default</Card>
-    <Card variant="glass">Glass</Card>
-    <Card variant="gradient">Gradient</Card>
-    <Card variant="glow">Glow</Card>
-  </div>
-);
+test.describe('Card Visual Tests', () => {
+  test('card variants render correctly', async ({ page }) => {
+    await page.goto('/components/card');
+    
+    // Test each variant
+    const variants = ['default', 'glass', 'gradient', 'glow'];
+    for (const variant of variants) {
+      const card = page.locator(`[data-variant="${variant}"]`);
+      await expect(card).toHaveScreenshot(`card-${variant}.png`);
+    }
+  });
+  
+  test('hover states work correctly', async ({ page }) => {
+    await page.goto('/components/card');
+    
+    const card = page.locator('[data-hover="lift"]');
+    await card.hover();
+    await expect(card).toHaveScreenshot('card-hover.png');
+  });
+});
 ```
 
 3. **Component Documentation** (10 min)
@@ -489,10 +485,10 @@ Cannot proceed until Design System is properly implemented.
    - Add import order rules
    - Enable tailwindcss plugin
 
-3. **Set Up Ladle** (PRIORITY)
-   - Install and configure
-   - Create stories for all components
-   - Add visual regression tests
+3. **Set Up Visual Regression Testing** (PRIORITY)
+   - Configure Playwright for visual tests
+   - Create baseline screenshots for all components
+   - Add CI integration for visual diffs
 
 4. **Implement Proper Testing** (PRIORITY)
    - Unit tests with Vitest
@@ -505,7 +501,7 @@ Cannot proceed until Design System is properly implemented.
 ## 🎯 **SUCCESS METRICS**
 
 - ✅ 100% Design token coverage (no hard-coded values)
-- ✅ All components have stories in Ladle
+- ✅ All components have visual regression tests
 - ✅ Test coverage > 80%
 - ✅ Zero accessibility violations
 - ✅ Bundle size < 150KB
