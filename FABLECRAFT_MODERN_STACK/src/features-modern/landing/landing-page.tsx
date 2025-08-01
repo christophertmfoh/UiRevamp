@@ -105,6 +105,26 @@ function NavigationHeader({
             </span>
           </div>
 
+          {/* Community and Gallery Links */}
+          <div className='flex items-center space-x-6'>
+            <button
+              onClick={() => {
+                /* Community functionality to be implemented */
+              }}
+              className='text-lg font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer'
+            >
+              COMMUNITY
+            </button>
+            <button
+              onClick={() => {
+                /* Gallery functionality to be implemented */
+              }}
+              className='text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide cursor-pointer'
+            >
+              GALLERY
+            </button>
+          </div>
+
           {/* Navigation Actions */}
           <div className='flex items-center space-x-4'>
             {/* Authentication Section */}

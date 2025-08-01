@@ -84,7 +84,7 @@ export function ThemeProvider({
     'lavender-dusk',
     'halloween',
     'cherry-lacquer',
-    'cyberpunk',
+    'netrunner',
     'moonlit-garden',
     'dragons-hoard',
     'system'
