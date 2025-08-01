@@ -1,16 +1,10 @@
 /** @type {import('@ladle/react').Config} */
 export default {
-  // Where to find stories
-  stories: 'src/**/*.stories.{js,jsx,ts,tsx,mdx}',
-  
-  // Default story when Ladle opens
-  defaultStory: 'ui-components--button--default',
-  
   // Port to run on
   port: 61000,
   
-  // Enable HMR
-  hmr: true,
+  // Default story when Ladle opens
+  defaultStory: 'ui-components--button--default',
   
   // Configure addons
   addons: {
@@ -28,11 +22,6 @@ export default {
     control: {
       enabled: true,
       defaultState: true,
-    },
-    // Story mode
-    mode: {
-      enabled: true,
-      defaultState: 'full',
     },
     // Accessibility addon
     a11y: {
@@ -53,12 +42,5 @@ export default {
       enabled: true,
       defaultState: true,
     },
-    // Disable source addon to fix error
-    source: {
-      enabled: false,
-    },
   },
-  
-  // Vite config
-  viteConfig: process.cwd() + '/vite.config.ladle.ts',
 }
