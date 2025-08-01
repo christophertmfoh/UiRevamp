@@ -5,6 +5,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* RTL Support */
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
 /* Import design system components */
 @import './shared/lib/design-system/dashboard-grid.css';
 

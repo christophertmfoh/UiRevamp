@@ -178,3 +178,6 @@ export function ThemeProvider({
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
+
+// Re-export useTheme for convenience
+export { useTheme } from './use-theme';
