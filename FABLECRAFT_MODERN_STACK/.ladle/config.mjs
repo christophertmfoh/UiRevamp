@@ -60,5 +60,5 @@ export default {
   },
   
   // Vite config
-  viteConfig: './vite.config.ts',
+  viteConfig: process.cwd() + '/vite.config.ladle.ts',
 }
