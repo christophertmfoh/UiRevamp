@@ -94,7 +94,7 @@
 
 ## 🎨 **PHASE 2.5: DESIGN SYSTEM ENHANCEMENT** 🔴 NEW PRIORITY
 *Fix visual cohesion before building more features*
-**Total Phase Timeline: 2 hours** (30 min + 45 min + 45 min)
+**Total Phase Timeline: 2.25 hours** (30 min + 45 min + 60 min)
 
 ### **STEP 2.5.1: Enhanced Components** 🔴 CURRENT
 - **Timeline:** 30 minutes
@@ -289,13 +289,149 @@ onClick={() => navigate('/auth')} // Instead of /login or /signup
 - Persistent error states during transitions
 
 ### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
-- **Timeline:** 45 minutes
-- **Goal:** Creative app feel
-- **Tasks:**
-  - Widget glass effects
-  - Hover animations
-  - Visual feedback
-  - Delightful interactions
+- **Timeline:** 60 minutes (increased for comprehensive implementation)
+- **Goal:** Transform dashboard into premium creative workspace matching landing page quality
+- **Research References:** Linear, Notion, Framer dashboards + Creative writing tools (Ulysses, Scrivener)
+
+**Industry Standards Applied:**
+- **Glass morphism widgets** - Popular in modern SaaS (Linear, Figma)
+- **Framer Motion animations** - Smooth widget transitions and micro-interactions
+- **Floating elements** - Ambient firefly animations from landing page
+- **Real-time data viz** - Interactive charts for writing progress
+- **Dark mode optimization** - Essential for long writing sessions
+- **Gradient overlays** - Mesh backgrounds for depth
+- **Widget hover states** - Lift, glow, scale effects
+- **Drag-and-drop** - Customizable widget arrangement (Phase 4)
+
+**Tasks:**
+
+**1. Enhanced Widget Components (20 min):**
+```typescript
+// Create reusable widget wrapper with glass effects
+const DashboardWidget = ({ 
+  variant: 'glass' | 'elevated' | 'gradient',
+  hover: 'lift' | 'glow' | 'scale' | 'all',
+  size: 'small' | 'medium' | 'large' | 'wide',
+  animate?: boolean
+}) => { ... }
+
+// Widget hover patterns:
+.widget-glass {
+  @apply glass-card hover-lift hover-glow;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.widget-elevated {
+  @apply bg-card shadow-lg hover:shadow-2xl hover:-translate-y-1;
+  box-shadow: 
+    0 10px 40px rgba(var(--primary), 0.1),
+    0 0 60px rgba(var(--primary), 0.05);
+}
+```
+
+**2. Ambient Background Effects (15 min):**
+```typescript
+// Firefly animations matching landing page
+const DashboardBackground = () => (
+  <>
+    {/* Gradient mesh background */}
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
+    
+    {/* Floating orbs for depth */}
+    <div className="absolute top-20 left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" />
+    
+    {/* Firefly sparks - creative inspiration theme */}
+    <div className="idea-sparks">
+      {Array.from({ length: 15 }).map((_, i) => (
+        <div 
+          key={i}
+          className="spark spark-small" 
+          style={{ 
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 30}s`
+          }} 
+        />
+      ))}
+    </div>
+  </>
+)
+```
+
+**3. Widget Micro-interactions (15 min):**
+```typescript
+// Framer Motion patterns for widgets
+const widgetVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  },
+  hover: {
+    y: -4,
+    transition: { duration: 0.2 }
+  }
+}
+
+// Progress animations for Writing Goals widget
+const progressVariants = {
+  initial: { width: 0 },
+  animate: { 
+    width: "var(--progress)",
+    transition: { duration: 1, ease: "easeOut" }
+  }
+}
+
+// Interactive charts with hover tooltips
+const chartHover = {
+  scale: 1.05,
+  filter: "brightness(1.1)",
+  transition: { duration: 0.2 }
+}
+```
+
+**4. Enhanced Typography & Data Viz (10 min):**
+```typescript
+// Golden ratio typography for stats
+.stat-value {
+  @apply text-golden-3xl font-black gradient-text;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+// Glass cards for project items
+.project-card {
+  @apply glass-card hover-lift active-press;
+  border: 1px solid rgba(var(--border), 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--card), 0.8) 0%,
+    rgba(var(--card), 0.4) 100%
+  );
+}
+
+// AI Generation widget with floating animation
+.ai-inspiration-card {
+  @apply glass-card animate-float;
+  background: linear-gradient(
+    to bottom right,
+    rgba(var(--primary), 0.05),
+    rgba(var(--secondary), 0.05)
+  );
+}
+```
+
+**Implementation Checklist:**
+- [ ] Import and integrate Framer Motion
+- [ ] Create DashboardWidget wrapper component
+- [ ] Add ambient background with fireflies
+- [ ] Enhance all 8 existing widgets with glass effects
+- [ ] Add hover animations to interactive elements
+- [ ] Implement progress bar animations
+- [ ] Add floating effect to AI inspiration widget
+- [ ] Apply gradient text to key metrics
+- [ ] Ensure dark mode optimization
+- [ ] Test all animations for performance
 
 ---
 
@@ -475,8 +611,19 @@ src/
 
 ### **THEN CONTINUE WITH:**
 - Phase 2.5.2: Dual card auth page implementation (45 min)
-- Phase 2.5.3: Dashboard modernization (45 min)
+- Phase 2.5.3: Dashboard modernization (60 min)
 - Phase 3: Widget extraction and development
+
+### **VISUAL COHESION CHECKLIST:**
+**Landing Page Elements to Carry Through:**
+- ✅ Firefly/spark animations (.idea-sparks)
+- ✅ Glass morphism (backdrop-blur-xl)
+- ✅ Hover effects (scale-105, shadow transitions)
+- ✅ Professional navigation (uppercase, tracking-wide)
+- ✅ Theme-aware styling (dark/light modes)
+- ✅ Gradient colors (primary/secondary usage)
+- ✅ Rounded corners (rounded-xl)
+- ✅ Shadow effects (shadow-md to shadow-lg)
 
 ---
 
