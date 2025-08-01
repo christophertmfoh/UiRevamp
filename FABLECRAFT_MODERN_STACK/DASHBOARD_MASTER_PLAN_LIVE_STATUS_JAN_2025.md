@@ -22,7 +22,7 @@
 
 ## 🎯 **ARCHITECTURE OVERVIEW**
 
-**Pre-Login Flow**: Landing → Sign Up/Login → Dashboard  
+**Pre-Login Flow**: Landing → Auth (Dual Card Login/Sign Up) → Dashboard  
 **Post-Login Flow**: Dashboard (with widgets) → Project Management  
 **Navigation**: Context-aware header (pre-login nav → post-login dropdown)  
 **Design Cohesion**: Mathematical spacing system + theme reactivity
@@ -104,14 +104,22 @@
   - Premium button variants
   - Consistent micro-interactions
 
-### **STEP 2.5.2: Auth Page Redesign** ⏳ NEXT
+### **STEP 2.5.2: Auth Page Redesign (Dual Card)** ⏳ NEXT
 - **Timeline:** 30 minutes
-- **Goal:** Premium login experience
+- **Goal:** Premium dual-card auth experience on single page
 - **Tasks:**
+  - Single page with dual card display (Login + Sign Up)
+  - Smooth card transitions/animations between forms
   - Gradient mesh background
-  - Glass card effects
+  - Glass card effects on both cards
   - Input focus glows
   - Brand personality
+  - Responsive layout (side-by-side on desktop, stacked on mobile)
+- **Implementation Notes:**
+  - Replace current `/login` and `/signup` routes with single `/auth` route
+  - Create new auth-page.tsx combining both forms
+  - Update navigation links in adaptive-header.tsx
+  - Maintain existing form validation and auth logic
 
 ### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
 - **Timeline:** 45 minutes
