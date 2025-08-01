@@ -411,6 +411,7 @@ const chartHover = {
 }
 
 // AI Generation widget with floating animation
+// Rotates through: Literary Facts, Writing Jokes, Prompts, Inspiration, Advice, Word of the Day
 .ai-inspiration-card {
   @apply glass-card animate-float;
   background: linear-gradient(
@@ -460,9 +461,17 @@ const chartHover = {
 - **Interaction**: Add/remove/complete tasks
 
 ### **STEP 3.5: AI Text Generations Widget** ❌ NOT STARTED
-- **Data**: Rotating showcase of AI-generated content
-- **UI**: Carousel/rotating display
-- **Interaction**: Cycling through 6 sample generations
+- **Data**: Rotating showcase of AI-generated content (6 specific types)
+- **UI**: Carousel/rotating display with smooth transitions
+- **Interaction**: Auto-rotating through 6 content types:
+  1. **Literary History Fact** - Fascinating facts about famous authors, books, or literary movements
+  2. **Writing Joke/Pun** - Clever wordplay and literary humor to lighten the mood
+  3. **Writing Prompt** - Creative story starters to spark imagination
+  4. **Writing Inspiration** - Motivational quotes and thoughts about the craft
+  5. **Writing Advice** - Practical tips from famous authors or writing techniques
+  6. **Word of the Day** - Expand vocabulary with definition and usage examples
+- **Timing**: Rotate every 30 seconds with manual navigation arrows
+- **Storage**: Content can be pre-generated or fetched from API
 
 ---
 
