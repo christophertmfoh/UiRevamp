@@ -1,6 +1,6 @@
 {
   "statistics": {
-    "detectionDate": "2025-08-01T13:48:33.656Z",
+    "detectionDate": "2025-08-01T13:57:09.553Z",
     "formats": {
       "javascript": {
         "sources": {
@@ -209,8 +209,8 @@
             "newClones": 0
           },
           "src/features-modern/landing/landing-page.tsx": {
-            "lines": 475,
-            "tokens": 2865,
+            "lines": 476,
+            "tokens": 2871,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -354,14 +354,14 @@
           }
         },
         "total": {
-          "lines": 2537,
-          "tokens": 16035,
+          "lines": 2538,
+          "tokens": 16041,
           "sources": 29,
           "clones": 1,
           "duplicatedLines": 77,
           "duplicatedTokens": 437,
-          "percentage": 3.04,
-          "percentageTokens": 2.73,
+          "percentage": 3.03,
+          "percentageTokens": 2.72,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -501,14 +501,14 @@
             "newClones": 0
           },
           "src/features-modern/dashboard/components/adaptive-header.tsx": {
-            "lines": 349,
-            "tokens": 2190,
+            "lines": 350,
+            "tokens": 2196,
             "sources": 1,
             "clones": 1,
-            "duplicatedLines": 19,
-            "duplicatedTokens": 129,
-            "percentage": 5.44,
-            "percentageTokens": 5.89,
+            "duplicatedLines": 20,
+            "duplicatedTokens": 135,
+            "percentage": 5.71,
+            "percentageTokens": 6.15,
             "newDuplicatedLines": 0,
             "newClones": 0
           },
@@ -573,14 +573,14 @@
             "newClones": 0
           },
           "src/features-modern/landing/landing-page.tsx": {
-            "lines": 544,
-            "tokens": 3358,
+            "lines": 545,
+            "tokens": 3364,
             "sources": 1,
             "clones": 3,
-            "duplicatedLines": 91,
-            "duplicatedTokens": 651,
-            "percentage": 16.73,
-            "percentageTokens": 19.39,
+            "duplicatedLines": 92,
+            "duplicatedTokens": 657,
+            "percentage": 16.88,
+            "percentageTokens": 19.53,
             "newDuplicatedLines": 0,
             "newClones": 0
           },
@@ -680,6 +680,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/app/providers/axe-provider.tsx": {
+            "lines": 39,
+            "tokens": 238,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/pages/NotFoundPage.tsx": {
             "lines": 24,
             "tokens": 218,
@@ -705,8 +717,8 @@
             "newClones": 0
           },
           "src/main.tsx": {
-            "lines": 24,
-            "tokens": 166,
+            "lines": 27,
+            "tokens": 189,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -730,14 +742,14 @@
           }
         },
         "total": {
-          "lines": 5260,
-          "tokens": 33537,
-          "sources": 30,
+          "lines": 5304,
+          "tokens": 33810,
+          "sources": 31,
           "clones": 4,
-          "duplicatedLines": 82,
-          "duplicatedTokens": 588,
+          "duplicatedLines": 83,
+          "duplicatedTokens": 594,
           "percentage": 1.56,
-          "percentageTokens": 1.75,
+          "percentageTokens": 1.76,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -1020,14 +1032,14 @@
       }
     },
     "total": {
-      "lines": 11167,
-      "tokens": 73044,
-      "sources": 78,
+      "lines": 11212,
+      "tokens": 73323,
+      "sources": 79,
       "clones": 5,
-      "duplicatedLines": 159,
-      "duplicatedTokens": 1025,
-      "percentage": 1.42,
-      "percentageTokens": 1.4,
+      "duplicatedLines": 160,
+      "duplicatedTokens": 1031,
+      "percentage": 1.43,
+      "percentageTokens": 1.41,
       "newDuplicatedLines": 0,
       "newClones": 0
     }
@@ -1143,37 +1155,37 @@
     },
     {
       "format": "tsx",
-      "lines": 20,
-      "fragment": "\n      role='navigation'\n      aria-label='Main navigation'\n    >\n      <div className='relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>\n        <div className='flex items-center justify-between'>\n          {/* Brand Logo */}\n          <div\n            className='flex items-center space-x-3 group cursor-pointer'\n            onClick={() => onNavigate('home')}\n          >\n            <div className='w-14 h-14 bg-primary/10 hover:bg-primary/20 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>\n              <Feather className='w-7 h-7 text-primary' aria-hidden='true' />\n            </div>\n            <span className='text-3xl font-black text-foreground tracking-wide'>\n              Fablecraft\n            </span>\n          </div>\n\n          {/* Professional Navigation Menu */",
+      "lines": 21,
+      "fragment": "\n      role='navigation'\n      aria-label='Main navigation'\n    >\n      <div className='relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>\n        <div className='flex items-center justify-between'>\n          {/* Brand Logo */}\n          <button\n            className='flex items-center space-x-3 group cursor-pointer bg-transparent border-none p-0'\n            onClick={() => onNavigate('home')}\n            aria-label='Go to home'\n          >\n            <div className='w-14 h-14 bg-primary/10 hover:bg-primary/20 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>\n              <Feather className='w-7 h-7 text-primary' aria-hidden='true' />\n            </div>\n            <span className='text-3xl font-black text-foreground tracking-wide'>\n              Fablecraft\n            </span>\n          </button>\n\n          {/* Professional Navigation Menu */",
       "tokens": 0,
       "firstFile": {
         "name": "src/features-modern/landing/landing-page.tsx",
         "start": 89,
-        "end": 108,
+        "end": 109,
         "startLoc": {
           "line": 89,
           "column": 2,
           "position": 615
         },
         "endLoc": {
-          "line": 108,
+          "line": 109,
           "column": 35,
-          "position": 744
+          "position": 750
         }
       },
       "secondFile": {
         "name": "src/features-modern/dashboard/components/adaptive-header.tsx",
         "start": 317,
-        "end": 336,
+        "end": 337,
         "startLoc": {
           "line": 317,
           "column": 2,
           "position": 1979
         },
         "endLoc": {
-          "line": 336,
+          "line": 337,
           "column": 26,
-          "position": 2115
+          "position": 2121
         }
       }
     },
@@ -1184,32 +1196,32 @@
       "tokens": 0,
       "firstFile": {
         "name": "src/features-modern/landing/landing-page.tsx",
-        "start": 445,
-        "end": 481,
+        "start": 446,
+        "end": 482,
         "startLoc": {
-          "line": 445,
+          "line": 446,
           "column": 9,
-          "position": 2711
+          "position": 2717
         },
         "endLoc": {
-          "line": 481,
+          "line": 482,
           "column": 3,
-          "position": 2972
+          "position": 2978
         }
       },
       "secondFile": {
         "name": "src/features-modern/landing/landing-page.tsx",
-        "start": 441,
-        "end": 461,
+        "start": 442,
+        "end": 462,
         "startLoc": {
-          "line": 441,
+          "line": 442,
           "column": 9,
-          "position": 2682
+          "position": 2688
         },
         "endLoc": {
-          "line": 461,
+          "line": 462,
           "column": 2,
-          "position": 2827
+          "position": 2833
         }
       }
     }
