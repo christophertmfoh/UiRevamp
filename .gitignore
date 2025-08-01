@@ -98,3 +98,5 @@ vite.config.ts.*
 # Development artifacts
 *.local
 .cache/
+*storybook.log
+storybook-static

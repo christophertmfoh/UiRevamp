@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
@@ -7,116 +10,110 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import prettierConfig from 'eslint-config-prettier';
 
-export default [
-  {
-    ignores: [
-      'dist',
-      'node_modules', 
-      'OLD_ASSETS/**',
-      '.husky',
-      'coverage',
-      'reports',
-      'report',
-      'scripts',
-      '*.config.js',
-      '*.config.ts'
-    ],
+export default [{
+  ignores: [
+    'dist',
+    'node_modules', 
+    'OLD_ASSETS/**',
+    '.husky',
+    'coverage',
+    'reports',
+    'report',
+    'scripts',
+    '*.config.js',
+    '*.config.ts'
+  ],
+}, js.configs.recommended, // Disable ESLint formatting rules that conflict with Prettier
+prettierConfig, {
+  files: ['**/*.{js,ts,tsx}'],
+  plugins: {
+    '@typescript-eslint': tseslint,
+    'react': fixupPluginRules(reactPlugin),
+    'react-hooks': fixupPluginRules(reactHooksPlugin),
+    'react-refresh': fixupPluginRules(reactRefreshPlugin),
   },
-  js.configs.recommended,
-  prettierConfig, // Disable ESLint formatting rules that conflict with Prettier
-  {
-    files: ['**/*.{js,ts,tsx}'],
-    plugins: {
-      '@typescript-eslint': tseslint,
-      'react': fixupPluginRules(reactPlugin),
-      'react-hooks': fixupPluginRules(reactHooksPlugin),
-      'react-refresh': fixupPluginRules(reactRefreshPlugin),
-    },
-    languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
-        project: './tsconfig.json',
+  languageOptions: {
+    parser: tsparser,
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
       },
-      globals: {
-        // Browser globals
-        document: 'readonly',
-        window: 'readonly',
-        navigator: 'readonly',
-        console: 'readonly',
-        // Node globals for build files
-        process: 'readonly',
-        Buffer: 'readonly',
-        global: 'readonly',
-        // TypeScript globals
-        HTMLElement: 'readonly',
-        HTMLDivElement: 'readonly',
-        HTMLButtonElement: 'readonly',
-        HTMLInputElement: 'readonly',
-        HTMLFormElement: 'readonly',
-        HTMLSpanElement: 'readonly',
-        HTMLImageElement: 'readonly',
-        HTMLAnchorElement: 'readonly',
-        Element: 'readonly',
-        Event: 'readonly',
-        MouseEvent: 'readonly',
-        KeyboardEvent: 'readonly',
-        HTMLElementTagNameMap: 'readonly',
-      },
+      project: './tsconfig.json',
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      // Core ESLint rules
-      'no-console': 'error',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      'no-debugger': 'error',
-      'eqeqeq': ['error', 'always'],
-      'prefer-template': 'error',
-      
-      // TypeScript rules
-      "no-unused-vars": "off", // Use @typescript-eslint/no-unused-vars instead
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        ignoreRestSiblings: true
-      }],
-      '@typescript-eslint/no-explicit-any': 'error',
-      
-      // React rules
-      'react/react-in-jsx-scope': 'off', // React 17+
-      'react/prop-types': 'off', // Using TypeScript
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      'react-refresh/only-export-components': 'warn',
+    globals: {
+      // Browser globals
+      document: 'readonly',
+      window: 'readonly',
+      navigator: 'readonly',
+      console: 'readonly',
+      // Node globals for build files
+      process: 'readonly',
+      Buffer: 'readonly',
+      global: 'readonly',
+      // TypeScript globals
+      HTMLElement: 'readonly',
+      HTMLDivElement: 'readonly',
+      HTMLButtonElement: 'readonly',
+      HTMLInputElement: 'readonly',
+      HTMLFormElement: 'readonly',
+      HTMLSpanElement: 'readonly',
+      HTMLImageElement: 'readonly',
+      HTMLAnchorElement: 'readonly',
+      Element: 'readonly',
+      Event: 'readonly',
+      MouseEvent: 'readonly',
+      KeyboardEvent: 'readonly',
+      HTMLElementTagNameMap: 'readonly',
     },
   },
-  {
-    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
-    rules: {
-      'no-console': 'off', // Allow console in tests
-      '@typescript-eslint/no-explicit-any': 'warn', // Allow any in tests
+  settings: {
+    react: {
+      version: 'detect',
     },
   },
-  {
-    files: ['**/*.config.{js,ts}', 'vite.config.ts', 'vitest.config.ts'],
-    languageOptions: {
-      globals: {
-        process: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-      },
-    },
-    rules: {
-      'no-console': 'off', // Allow console in config files
+  rules: {
+    // Core ESLint rules
+    'no-console': 'error',
+    'prefer-const': 'error',
+    'no-var': 'error',
+    'no-debugger': 'error',
+    'eqeqeq': ['error', 'always'],
+    'prefer-template': 'error',
+    
+    // TypeScript rules
+    "no-unused-vars": "off", // Use @typescript-eslint/no-unused-vars instead
+    '@typescript-eslint/no-unused-vars': ['error', { 
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+      ignoreRestSiblings: true
+    }],
+    '@typescript-eslint/no-explicit-any': 'error',
+    
+    // React rules
+    'react/react-in-jsx-scope': 'off', // React 17+
+    'react/prop-types': 'off', // Using TypeScript
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'react-refresh/only-export-components': 'warn',
+  },
+}, {
+  files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+  rules: {
+    'no-console': 'off', // Allow console in tests
+    '@typescript-eslint/no-explicit-any': 'warn', // Allow any in tests
+  },
+}, {
+  files: ['**/*.config.{js,ts}', 'vite.config.ts', 'vitest.config.ts'],
+  languageOptions: {
+    globals: {
+      process: 'readonly',
+      __dirname: 'readonly',
+      __filename: 'readonly',
     },
   },
-];
+  rules: {
+    'no-console': 'off', // Allow console in config files
+  },
+}, ...storybook.configs["flat/recommended"]];
