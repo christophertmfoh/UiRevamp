@@ -279,24 +279,29 @@ src/
 
 ## 🎯 **IMMEDIATE NEXT STEPS**
 
-### **CURRENT TASK: PHASE 3, STEP 3.1**
-**Extract hardcoded widgets from dashboard-page.tsx into modular components:**
+### **CURRENT TASK: PHASE 2.5, STEP 2.5.1**
+**Create enhanced components for visual consistency:**
 
-1. Create `src/features-modern/dashboard/widgets/` folder
-2. Extract each widget into its own component:
-   - `RecentProjectsWidget.tsx`
-   - `WritingGoalsWidget.tsx`
-   - `TodoListWidget.tsx`
-   - `AIGenerationsWidget.tsx`
-3. Update dashboard-page.tsx to use the new widget components
-4. Add proper TypeScript interfaces for widget props
-5. Ensure widgets use dashboard store for state management
+1. Create `src/components/ui/enhanced-card.tsx`
+2. Add animation utilities to `src/index.css`:
+   ```css
+   .hover-lift { /* hover animation */ }
+   .glass-card { /* glassmorphism */ }
+   .hover-glow { /* glow effect */ }
+   ```
+3. Test directly in dev server (http://localhost:5173)
+4. Ensure all 15 themes work with new components
+
+### **DEVELOPMENT WORKFLOW (NO LADLE)**
+- Develop components directly in the codebase
+- Use hot module replacement for instant feedback
+- Test with theme toggle in the running app
+- No story files needed - direct implementation
 
 ### **THEN CONTINUE WITH:**
-- Complete remaining Phase 3 steps (3.2-3.5)
-- Start Phase 4 properly (not fake implementation)
-- Add comprehensive testing
-- Fix Step 5.1 animations
+- Phase 2.5.2: Auth page redesign (30 min)
+- Phase 2.5.3: Dashboard modernization (45 min)
+- Phase 3: Widget extraction and development
 
 ---
 
