@@ -1,667 +1,540 @@
 # 🚀 **FABLECRAFT DASHBOARD-FIRST MASTER PLAN - LIVE STATUS**
-**Last Updated: 2025-08-01 @ 15:48 UTC**  
-**Current Step: PHASE 2.5, STEP 2.5.1 - Enhanced Components ✅ COMPLETE**  
+**Last Updated: 2025-01-11 @ 20:00 UTC**  
+**Current Step: PHASE 2.5 - COMPLETE REBUILD REQUIRED**  
 **File Name: DASHBOARD_MASTER_PLAN_LIVE_STATUS_JAN_2025.md**
 
 ---
 
-## 🔴 CRITICAL AUDIT NOTE
-**Previous agent made false claims about completion. This document reflects ACTUAL progress.**
+## 🔴 CRITICAL STATUS UPDATE
+**Previous implementation by GPT-3 agent failed senior developer audit. Complete Phase 2.5 rebuild required.**
+
+### Audit Findings:
+- ❌ Hard-coded design tokens (violates DRY principle)
+- ❌ Missing motion tokens causing silent failures
+- ❌ No actual code complexity analysis configured
+- ❌ Superficial test coverage (89 lines for critical components)
+- ❌ No component isolation environment (Ladle/Storybook)
+- ❌ Performance optimizations missing
+- ❌ Accessibility gaps in interactive components
 
 ---
 
-## 📊 **VERIFIED STACK AUDIT**
-- **React Router DOM**: 6.26.1 ✅
-- **Zustand**: 4.5.5 ✅  
-- **React Hook Form**: 7.53.0 ✅
-- **Zod**: 3.23.8 ✅
-- **Radix UI**: Components verified ✅
-- **Design System**: Mathematical spacing + golden ratio typography ✅
+## 📊 **VERIFIED STACK (2025 STANDARDS)**
+
+### Core Dependencies ✅
+- **React**: 18.2.0 (Concurrent features enabled)
+- **React Router DOM**: 6.26.1 (Data router patterns)
+- **Zustand**: 4.5.5 (Slice pattern + persist middleware)
+- **React Hook Form**: 7.53.0 (With Controller pattern)
+- **Zod**: 3.23.8 (Schema-first validation)
+- **Framer Motion**: 11.2.2 ⚠️ (Installed but NOT USED)
+- **TypeScript**: 5.8.2 (Strict mode enabled)
+
+### UI Framework ✅
+- **Radix UI**: Core primitives installed
+- **Tailwind CSS**: 3.4.13 + custom design system
+- **Class Variance Authority**: 0.7.0 (For variant logic)
+- **Tailwind Merge**: 2.5.2 (Class conflict resolution)
+
+### Quality Tools ⚠️ (Configured but underutilized)
+- **ESLint 9**: Missing complexity rules
+- **Vitest**: Basic tests only
+- **Bundlesize**: Working correctly
+- **Lighthouse CI**: Not integrated
+- **JSCPD**: 1.44% duplication (acceptable)
 
 ---
 
-## 🎯 **ARCHITECTURE OVERVIEW**
+## 🎯 **ARCHITECTURE PATTERNS (SENIOR DEV STANDARDS)**
 
-**Pre-Login Flow**: Landing → Auth (Dual Card Login/Sign Up) → Dashboard  
-**Post-Login Flow**: Dashboard (with widgets) → Project Management  
-**Navigation**: Context-aware header (pre-login nav → post-login dropdown)  
-**Design Cohesion**: Mathematical spacing system + theme reactivity
+### 1. **File Organization**
+```
+src/
+├── features/              # Feature-based modules
+│   ├── auth/
+│   │   ├── api/          # API calls & server actions
+│   │   ├── components/   # Feature-specific components
+│   │   ├── hooks/        # Custom hooks (useAuth, etc.)
+│   │   ├── schemas/      # Zod schemas
+│   │   ├── stores/       # Zustand slices
+│   │   ├── types/        # TypeScript types
+│   │   └── utils/        # Feature utilities
+│   └── dashboard/
+├── components/           # Shared UI components
+│   ├── ui/              # Base components (shadcn pattern)
+│   └── patterns/        # Composite components
+├── lib/                 # Core utilities
+│   ├── api/            # API client setup
+│   ├── hooks/          # Global hooks
+│   └── utils/          # Global utilities
+└── styles/             # Global styles & tokens
+```
 
----
-
-## 📋 **PHASE 1: AUTHENTICATION FOUNDATION** ✅ COMPLETE
-*Senior dev patterns for React Router DOM 6.26.1 + Zustand 4.5.5*
-
-### **STEP 1.1: Research-Backed Authentication Store** ✅ DONE
-- **Pattern**: Zustand with persist middleware + React Router integration
-- **Reference**: Industry-standard authentication state management
-- **Implementation**: 
-  - Zustand store with localStorage persistence ✅
-  - Authentication state (user, token, loading) ✅
-  - Clean action creators (login, logout, refreshAuth) ✅
-
-### **STEP 1.2: React Router v6 Protected Routes** ✅ DONE
-- **Pattern**: `<Outlet />` with context-aware navigation  
-- **Reference**: Modern React Router authentication patterns
-- **Implementation**:
-  - `<Navigate />` for redirects ✅
-  - Protected route wrapper with `<Outlet />` ✅
-  - Nested route architecture ✅
-
-### **STEP 1.3: Form Integration Research** ⚠️ PARTIAL
-- **Pattern**: React Hook Form 7.x + Zod validation
-- **Reference**: Enterprise form handling patterns
-- **Implementation**:
-  - `useForm` with Zod resolver ✅ CONFIGURED
-  - Type-safe validation schemas ❌ NOT USED IN LOGIN
-  - Error handling with Radix UI ❌ NOT IMPLEMENTED
-
-### **STEP 1.4: UI Component Audit** ✅ DONE
-- **Cohesion Check**: Landing page button styles → auth forms ✅
-- **Design Tokens**: Use existing CSS custom properties ✅
-- **Theme Integration**: Ensure auth components inherit theme reactivity ✅
-
----
-
-## 📱 **PHASE 2: DASHBOARD ARCHITECTURE** ✅ COMPLETE
-*Widget-based dashboard with mathematical spacing*
-
-### **STEP 2.1: Dashboard Layout Research** ✅ DONE
-- **Pattern**: Grid-based widget system with CSS Grid
-- **Reference**: Modern dashboard UX patterns (Notion, Linear, Figma)
-- **Implementation**:
-  - Responsive grid layout ✅
-  - Mathematical spacing (friendship levels) ✅
-  - Theme-reactive containers ✅
-
-### **STEP 2.2: Widget Store Architecture** ✅ DONE
-- **Pattern**: Separate Zustand store for dashboard state
-- **Reference**: Multi-store patterns for scalability
-- **Implementation**:
-  - Dashboard-specific store (separate from auth) ✅
-  - Widget state management ✅
-  - Persistence for user preferences ✅
-
-### **STEP 2.3: Header Navigation Evolution** ✅ DONE (BASIC)
-- **Pattern**: Context-aware navigation component
-- **Reference**: Conditional rendering based on auth state
-- **Implementation**:
-  - Pre-login: Community, Gallery, Library, About, Contact + Sign Up button ✅
-  - Post-login: User dropdown with projects, account, settings, logout ⚠️ BASIC
-  - Smooth transition between states ❌ NO ANIMATIONS
-
----
-
-## 🎨 **PHASE 2.5: DESIGN SYSTEM ENHANCEMENT** 🔴 NEW PRIORITY
-*Fix visual cohesion before building more features*
-**Total Phase Timeline: 2.25 hours** (30 min + 45 min + 60 min)
-
-### **STEP 2.5.1: Enhanced Components** ✅ COMPLETE
-- **Timeline:** 30 minutes (actual: 32 minutes)
-- **Goal:** Create premium components matching landing page
-- **Tasks:**
-  - ✅ Enhanced Card with glass morphism (4 variants, 5 hover effects)
-  - ✅ Animation utility classes (10 new utilities added)
-  - ✅ Premium button variants (gradient, glow, glass, premium)
-  - ✅ Consistent micro-interactions (hover, press, focus effects)
-- **Refinements Added (2025-08-01):**
-  - [ ] Replace hard-coded glow box-shadows with CSS shadow tokens (`--shadow-glow-*`) for theme-agnostic design
-  - [ ] Expose hover animation timings via CSS custom properties (`--duration-hover`, `--duration-press`) for global tuning
-- **Files Created:**
-  - `src/components/ui/enhanced-card.tsx`
-  - Updated `src/components/ui/button.tsx` and `button-variants.ts`
-  - Added utilities to `src/index.css`
-  - Test suite: `src/test/enhanced-components.test.tsx`
-
-### **STEP 2.5.2: Auth Page Redesign (Dual Card)** ⏳ NEXT
-- **Timeline:** 45 minutes (increased for comprehensive implementation)
-- **Goal:** Premium dual-card auth experience on single page following industry best practices
-- **Industry Standards Applied:**
-  - Single-page dual card pattern (popular in modern SaaS)
-  - Framer Motion for smooth transitions
-  - React Hook Form + Zod for type-safe validation
-  - Zustand for auth state management
-  - Responsive design with mobile-first approach
-
-#### **Technical Implementation:**
-
-**1. Route Structure:**
+### 2. **State Management Pattern**
 ```typescript
-// Replace separate /login and /signup routes with:
-<Route path="/auth" element={<AuthPage />} />
-// Remove old routes:
-// <Route path="/login" element={<LoginPage />} />
-// <Route path="/signup" element={<SignupPage />} /> ❌
-```
-
-**2. Component Architecture:**
-```
-src/features-modern/auth/
-├── pages/
-│   └── auth-page.tsx (NEW - dual card container)
-├── components/
-│   ├── login-form.tsx (existing - enhanced)
-│   ├── signup-form.tsx (NEW - matching login style)
-│   ├── auth-card-container.tsx (NEW - handles transitions)
-│   └── auth-background.tsx (NEW - animated background)
-└── schemas/
-    └── auth-schemas.ts (NEW - Zod validation schemas)
-```
-
-**3. Zod Schema Implementation:**
-```typescript
-// auth-schemas.ts - Industry standard validation
-const createAuthSchemas = (t: TFunction) => ({
-  login: z.object({
-    email: z.string()
-      .min(1, t('emailRequired'))
-      .email(t('invalidEmail')),
-    password: z.string()
-      .min(1, t('passwordRequired'))
-      .min(8, t('passwordMinLength')),
-    rememberMe: z.boolean().optional()
-  }),
-  signup: z.object({
-    name: z.string()
-      .min(2, t('nameRequired'))
-      .max(50, t('nameTooLong')),
-    email: z.string()
-      .min(1, t('emailRequired'))
-      .email(t('invalidEmail')),
-    password: z.string()
-      .min(8, t('passwordMinLength'))
-      .regex(/[A-Z]/, t('passwordUppercase'))
-      .regex(/[a-z]/, t('passwordLowercase'))
-      .regex(/[0-9]/, t('passwordNumber')),
-    confirmPassword: z.string()
-  }).refine(data => data.password === data.confirmPassword, {
-    message: t('passwordsDoNotMatch'),
-    path: ['confirmPassword']
-  })
-});
-```
-
-**4. Framer Motion Transitions:**
-```typescript
-// Animation variants for card transitions
-const cardVariants = {
-  login: {
-    rotateY: 0,
-    transition: { duration: 0.6, ease: "easeInOut" }
-  },
-  signup: {
-    rotateY: 180,
-    transition: { duration: 0.6, ease: "easeInOut" }
-  }
-};
-
-// Responsive slide variants for mobile
-const mobileSlideVariants = {
-  login: { x: 0 },
-  signup: { x: "-100%" }
-};
-```
-
-**5. Responsive Layout Strategy:**
-```typescript
-// Desktop: Side-by-side with 3D flip
-// Tablet: Stacked with slide transition
-// Mobile: Full-screen cards with swipe gestures
-const useResponsiveLayout = () => {
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const isTablet = useMediaQuery('(min-width: 768px)');
-  return { isDesktop, isTablet, isMobile: !isTablet };
-};
-```
-
-**6. Enhanced Form Integration:**
-```typescript
-// Using React Hook Form with zodResolver
-const form = useForm<LoginFormData>({
-  resolver: zodResolver(loginSchema),
-  defaultValues: {
-    email: '',
-    password: '',
-    rememberMe: false
-  }
-});
-
-// Async form submission with loading states
-const onSubmit = async (data: LoginFormData) => {
-  setIsLoading(true);
-  try {
-    await login(data); // Zustand action
-    navigate('/dashboard');
-  } catch (error) {
-    form.setError('root', { 
-      message: getErrorMessage(error) 
-    });
-  } finally {
-    setIsLoading(false);
-  }
-};
-```
-
-**7. State Management Pattern:**
-```typescript
-// Enhanced auth store with Zustand
-interface AuthState {
+// Zustand slice pattern with TypeScript
+interface AuthSlice {
   user: User | null;
   isLoading: boolean;
   error: string | null;
-  login: (credentials: LoginData) => Promise<void>;
-  signup: (data: SignupData) => Promise<void>;
-  logout: () => void;
-  clearError: () => void;
-}
-```
-
-**8. Visual Design Implementation:**
-- **Background**: Animated gradient mesh with floating orbs
-- **Cards**: Glass morphism with backdrop-filter
-- **Inputs**: Focus glow effects with smooth transitions
-- **Buttons**: Gradient backgrounds with loading states
-- **Typography**: Golden ratio scaling with brand personality
-- **Micro-interactions**: Hover effects, scale animations, fade-ins
-
-**9. Accessibility Considerations:**
-- Proper ARIA labels for form controls
-- Keyboard navigation support
-- Focus management during transitions
-- Screen reader announcements for errors
-- Reduced motion preferences respected
-
-**10. Security Best Practices:**
-- Client-side validation as UX enhancement only
-- Prepare for server-side validation integration
-- No sensitive data in localStorage
-- CSRF token preparation
-- Rate limiting preparation (UI indicators)
-
-**11. Navigation Updates:**
-```typescript
-// adaptive-header.tsx updates
-onClick={() => navigate('/auth')} // Instead of /login or /signup
-// Show different CTA based on auth state
-{!isAuthenticated && (
-  <Button onClick={() => navigate('/auth')}>
-    Get Started
-  </Button>
-)}
-```
-
-**12. Error Handling Pattern:**
-- Form-level errors for general failures
-- Field-level errors for specific validation
-- Toast notifications for network errors
-- Persistent error states during transitions
-
-### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
-- **Timeline:** 60 minutes (increased for comprehensive implementation)
-- **Goal:** Transform dashboard into premium creative workspace matching landing page quality
-- **Research References:** Linear, Notion, Framer dashboards + Creative writing tools (Ulysses, Scrivener)
-
-**Industry Standards Applied:**
-- **Glass morphism widgets** - Popular in modern SaaS (Linear, Figma)
-- **Framer Motion animations** - Smooth widget transitions and micro-interactions
-- **Floating elements** - Ambient firefly animations from landing page
-- **Real-time data viz** - Interactive charts for writing progress
-- **Dark mode optimization** - Essential for long writing sessions
-- **Gradient overlays** - Mesh backgrounds for depth
-- **Widget hover states** - Lift, glow, scale effects
-- **Drag-and-drop** - Customizable widget arrangement (Phase 4)
-
-**Tasks:**
-
-**1. Enhanced Widget Components (20 min):**
-```typescript
-// Create reusable widget wrapper with glass effects
-const DashboardWidget = ({ 
-  variant: 'glass' | 'elevated' | 'gradient',
-  hover: 'lift' | 'glow' | 'scale' | 'all',
-  size: 'small' | 'medium' | 'large' | 'wide',
-  animate?: boolean
-}) => { ... }
-
-// Widget hover patterns:
-.widget-glass {
-  @apply glass-card hover-lift hover-glow;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  actions: {
+    login: (credentials: LoginSchema) => Promise<void>;
+    logout: () => void;
+    refreshSession: () => Promise<void>;
+  };
 }
 
-.widget-elevated {
-  @apply bg-card shadow-lg hover:shadow-2xl hover:-translate-y-1;
-  box-shadow: 
-    0 10px 40px rgba(var(--primary), 0.1),
-    0 0 60px rgba(var(--primary), 0.05);
-}
+// Separate actions for better testing
+const createAuthSlice: StateCreator<AuthSlice> = (set, get) => ({
+  user: null,
+  isLoading: false,
+  error: null,
+  actions: {
+    login: async (credentials) => {
+      set({ isLoading: true, error: null });
+      try {
+        const validated = loginSchema.parse(credentials);
+        const user = await authApi.login(validated);
+        set({ user, isLoading: false });
+      } catch (error) {
+        set({ error: getErrorMessage(error), isLoading: false });
+      }
+    },
+    // ... other actions
+  }
+});
 ```
 
-**2. Ambient Background Effects (15 min):**
+### 3. **Form Pattern with Zod**
 ```typescript
-// Firefly animations matching landing page
-const DashboardBackground = () => (
-  <>
-    {/* Gradient mesh background */}
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
+// Schema-first approach
+const authSchema = z.object({
+  email: z.string().email('Invalid email format'),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Must contain uppercase letter')
+    .regex(/[0-9]/, 'Must contain number'),
+});
+
+// Type inference
+type AuthFormData = z.infer<typeof authSchema>;
+
+// Form hook with proper error handling
+const useAuthForm = () => {
+  const form = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema),
+    mode: 'onBlur', // Better UX than onChange
+  });
+  
+  return form;
+};
+```
+
+---
+
+## 📋 **PHASE 1: AUTHENTICATION FOUNDATION** ⚠️ NEEDS FIXES
+
+### Issues Found:
+- ✅ Zustand store exists but lacks proper TypeScript patterns
+- ✅ Routes work but no loading/error boundaries
+- ❌ Form validation configured but NOT USED in components
+- ❌ No proper error handling or toast notifications
+- ❌ Missing accessibility features
+
+### Required Fixes:
+1. Implement proper Zustand slice pattern
+2. Add React Error Boundaries
+3. Actually use React Hook Form + Zod
+4. Add toast notifications (Radix Toast)
+5. Full ARIA labels and keyboard navigation
+
+---
+
+## 🎨 **PHASE 2.5: DESIGN SYSTEM OVERHAUL** 🔴 COMPLETE REBUILD
+
+### **NEW PHASE 2.5 BREAKDOWN** (Total: 4 hours)
+
+#### **STEP 2.5.1: Design Token Foundation** (45 min)
+**Goal**: Establish a proper token system following design system best practices
+
+**Tasks**:
+1. **Create Token Structure** (20 min)
+```css
+/* src/styles/tokens.css */
+@layer base {
+  :root {
+    /* Semantic Color Tokens */
+    --color-background: 0 0% 100%;
+    --color-foreground: 240 10% 3.9%;
+    --color-primary: 346.8 77.2% 49.8%;
+    --color-primary-foreground: 355.7 100% 97.3%;
     
-    {/* Floating orbs for depth */}
-    <div className="absolute top-20 left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-float" />
+    /* Primitive Tokens */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-full: 9999px;
     
-    {/* Firefly sparks - creative inspiration theme */}
-    <div className="idea-sparks">
-      {Array.from({ length: 15 }).map((_, i) => (
-        <div 
-          key={i}
-          className="spark spark-small" 
-          style={{ 
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 30}s`
-          }} 
-        />
-      ))}
-    </div>
-  </>
-)
+    /* Motion Tokens */
+    --duration-instant: 100ms;
+    --duration-fast: 200ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Shadow Tokens */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-glow-sm: 0 0 10px rgb(var(--color-primary) / 0.2);
+    --shadow-glow-md: 0 0 20px rgb(var(--color-primary) / 0.3);
+    --shadow-glow-lg: 0 0 40px rgb(var(--color-primary) / 0.4);
+    
+    /* Spacing Scale (Golden Ratio) */
+    --space-xs: 0.382rem;  /* 6.11px */
+    --space-sm: 0.618rem;  /* 9.89px */
+    --space-md: 1rem;      /* 16px */
+    --space-lg: 1.618rem;  /* 25.89px */
+    --space-xl: 2.618rem;  /* 41.89px */
+    --space-2xl: 4.236rem; /* 67.78px */
+  }
+  
+  .dark {
+    --color-background: 240 10% 3.9%;
+    --color-foreground: 0 0% 98%;
+    /* ... other dark tokens */
+  }
+}
 ```
 
-**3. Widget Micro-interactions (15 min):**
-```typescript
-// Framer Motion patterns for widgets
-const widgetVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
+2. **Update Tailwind Config** (15 min)
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        background: 'hsl(var(--color-background))',
+        foreground: 'hsl(var(--color-foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--color-primary))',
+          foreground: 'hsl(var(--color-primary-foreground))',
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn var(--duration-normal) var(--ease-in-out)',
+        'slide-up': 'slideUp var(--duration-fast) var(--ease-in-out)',
+        'glow-pulse': 'glowPulse 2s var(--ease-in-out) infinite',
+      },
+      transitionDuration: {
+        instant: 'var(--duration-instant)',
+        fast: 'var(--duration-fast)',
+        normal: 'var(--duration-normal)',
+        slow: 'var(--duration-slow)',
+      },
+    },
   },
-  hover: {
-    y: -4,
-    transition: { duration: 0.2 }
-  }
-}
-
-// Progress animations for Writing Goals widget
-const progressVariants = {
-  initial: { width: 0 },
-  animate: { 
-    width: "var(--progress)",
-    transition: { duration: 1, ease: "easeOut" }
-  }
-}
-
-// Interactive charts with hover tooltips
-const chartHover = {
-  scale: 1.05,
-  filter: "brightness(1.1)",
-  transition: { duration: 0.2 }
-}
+};
 ```
 
-**4. Enhanced Typography & Data Viz (10 min):**
+3. **Create Token Documentation** (10 min)
+- Document all tokens in `DESIGN_TOKENS.md`
+- Include usage examples
+- Add Figma token mapping
+
+#### **STEP 2.5.2: Component System Architecture** (1 hour)
+**Goal**: Build a scalable component system with proper patterns
+
+**Tasks**:
+1. **Base Component Pattern** (20 min)
 ```typescript
-// Golden ratio typography for stats
-.stat-value {
-  @apply text-golden-3xl font-black gradient-text;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
+// src/components/ui/base-component.tsx
+import { forwardRef } from 'react';
+import { cn } from '@/lib/utils';
 
-// Glass cards for project items
-.project-card {
-  @apply glass-card hover-lift active-press;
-  border: 1px solid rgba(var(--border), 0.3);
-  background: linear-gradient(
-    135deg,
-    rgba(var(--card), 0.8) 0%,
-    rgba(var(--card), 0.4) 100%
-  );
-}
+// Generic forwardRef with proper types
+type PolymorphicRef<C extends React.ElementType> = 
+  React.ComponentPropsWithRef<C>['ref'];
 
-// AI Generation widget with floating animation
-// Rotates through: Literary Facts, Writing Jokes, Prompts, Inspiration, Advice, Word of the Day
-.ai-inspiration-card {
-  @apply glass-card animate-float;
-  background: linear-gradient(
-    to bottom right,
-    rgba(var(--primary), 0.05),
-    rgba(var(--secondary), 0.05)
-  );
-}
+type PolymorphicProps<C extends React.ElementType, Props = {}> = {
+  as?: C;
+  className?: string;
+  children?: React.ReactNode;
+} & Props & Omit<React.ComponentPropsWithoutRef<C>, keyof Props | 'as' | 'className' | 'children'>;
+
+// Example: Polymorphic Box component
+const Box = forwardRef(
+  <C extends React.ElementType = 'div'>(
+    { as, className, ...props }: PolymorphicProps<C>,
+    ref?: PolymorphicRef<C>
+  ) => {
+    const Component = as || 'div';
+    return (
+      <Component
+        ref={ref}
+        className={cn(className)}
+        {...props}
+      />
+    );
+  }
+);
 ```
 
-**Implementation Checklist:**
-- [ ] Import and integrate Framer Motion
-- [ ] Create DashboardWidget wrapper component
-- [ ] Add ambient background with fireflies
-- [ ] Enhance all 8 existing widgets with glass effects
-- [ ] Add hover animations to interactive elements
-- [ ] Implement progress bar animations
-- [ ] Add floating effect to AI inspiration widget
-- [ ] Apply gradient text to key metrics
-- [ ] Ensure dark mode optimization
-- [ ] Test all animations for performance
-
----
-
-## 🧩 **PHASE 3: WIDGET SYSTEM** ⏸️ PAUSED
-*Will resume after design consistency is achieved*
-
-### **STEP 3.1: Core Widget Infrastructure** ⏸️ ON HOLD
-- **Widgets**: Recent Projects, Writing Goals, To-Do List, AI Generations
-- **Pattern**: Composable widget components with standardized API
-- **Design**: Use mathematical spacing system + friendship levels
-- **STATUS**: ❌ Widgets are hardcoded in dashboard-page.tsx, need to be extracted
-
-### **STEP 3.2: Recent Projects Widget** ❌ NOT STARTED
-- **Data**: Mock project data structure
-- **UI**: Card-based layout with golden ratio typography
-- **Interaction**: Click to view/edit (future implementation)
-
-### **STEP 3.3: Writing Goals Widget** ❌ NOT STARTED
-- **Data**: Goal tracking state in widget store
-- **UI**: Progress indicators with theme-reactive colors
-- **Interaction**: Inline editing capabilities
-
-### **STEP 3.4: To-Do List Widget** ❌ NOT STARTED
-- **Data**: Task management with localStorage persistence
-- **UI**: Checkbox list with spacious layout
-- **Interaction**: Add/remove/complete tasks
-
-### **STEP 3.5: AI Text Generations Widget** ❌ NOT STARTED
-- **Data**: Rotating showcase of AI-generated content (6 specific types)
-- **UI**: Carousel/rotating display with smooth transitions
-- **Interaction**: Auto-rotating through 6 content types:
-  1. **Literary History Fact** - Fascinating facts about famous authors, books, or literary movements
-  2. **Writing Joke/Pun** - Clever wordplay and literary humor to lighten the mood
-  3. **Writing Prompt** - Creative story starters to spark imagination
-  4. **Writing Inspiration** - Motivational quotes and thoughts about the craft
-  5. **Writing Advice** - Practical tips from famous authors or writing techniques
-  6. **Word of the Day** - Expand vocabulary with definition and usage examples
-- **Timing**: Rotate every 30 seconds with manual navigation arrows
-- **Storage**: Content can be pre-generated or fetched from API
-
----
-
-## 📂 **PHASE 4: PROJECTS SECTION** ❌ NOT STARTED
-*Below widgets, full project management*
-
-### **STEP 4.1: Projects Layout** ❌ NOT STARTED
-- **Position**: Below widget grid
-- **Layout**: Card grid with mathematical spacing
-- **Design**: Cohesive with widget system
-
-### **STEP 4.2: Project Cards** ❌ FALSELY CLAIMED COMPLETE
-- **Data Structure**: Project metadata (title, date, type, progress)
-- **UI**: Consistent card design with landing page aesthetics
-- **Interaction**: View/edit/delete actions
-
-### **STEP 4.3: Project Creation Flow** ❌ FALSELY CLAIMED COMPLETE
-- **Modal**: Radix UI Dialog component
-- **Form**: React Hook Form + Zod validation
-- **Integration**: Updates projects store immediately
-
-### **STEP 4.4: Testing Infrastructure Setup** ❌ FALSELY CLAIMED COMPLETE
-**Added by AI Agent**
-- React Testing Library setup
-- Jest configuration
-- Accessibility testing with @testing-library/jest-dom
-- Unit test patterns for widgets and project components
-- Enterprise-ready test coverage
-
----
-
-## 🧭 **PHASE 5: NAVIGATION EVOLUTION** ⚠️ PARTIALLY STARTED
-*Seamless transition between auth states*
-
-### **STEP 5.1: Header Component Refactor** ⚠️ PARTIAL (NO ANIMATIONS)
-- **Logic**: Conditional rendering based on Zustand auth state ✅
-- **Animation**: Smooth transitions between nav states ❌
-- **Accessibility**: Proper ARIA labels and keyboard navigation ⚠️ BASIC ONLY
-
-### **STEP 5.2: User Dropdown Menu** ❌ NOT STARTED
-- **Component**: Radix UI DropdownMenu
-- **Content**: Projects, Account, Settings, Logout
-- **Design**: Theme-reactive with consistent spacing
-
-### **STEP 5.3: Breadcrumb System** ❌ NOT STARTED
-- **Implementation**: React Router location-aware breadcrumbs
-- **Design**: Golden ratio typography + mathematical spacing
-- **Logic**: Context-aware navigation hints
-
----
-
-## ✨ **PHASE 6: POLISH & COHESION** ❌ NOT STARTED
-*Performance optimization + design consistency*
-
-### **STEP 6.1: Theme Integration Audit** ❌ NOT STARTED
-- **Verify**: All components inherit theme reactivity
-- **Test**: Each theme works across entire auth flow
-- **Fix**: Any inconsistencies in color or spacing
-
-### **STEP 6.2: Design System Compliance** ❌ NOT STARTED
-- **Spacing**: Verify all components use friendship levels
-- **Typography**: Ensure golden ratio scale consistency  
-- **Accessibility**: WCAG compliance across auth flow
-
-### **STEP 6.3: Performance Monitoring & Optimization** ❌ NOT STARTED
-**Enhanced by AI Agent**
-- React DevTools Profiler integration
-- Bundle size analysis with Webpack Bundle Analyzer
-- Core Web Vitals tracking
-- Runtime performance monitoring
-- Performance bottleneck detection
-
-### **STEP 6.4: Error Handling & Loading States** ❌ NOT STARTED
-- **Pattern**: Consistent error boundaries and loading UI
-- **Design**: Loading states match theme system
-- **UX**: Graceful degradation for network issues
-
-### **STEP 6.5: Tooling & CI Hardening** ⏳ PLANNED
-- **Integrate** `eslint-plugin-tailwindcss` to catch utility class typos and enforce Tailwind conventions
-- **Update** `ci:all` script to run Playwright smoke suite after auth redesign:
-  ```json
-  "ci:all": "npm run lint && npm run type-check && npm run test:coverage && npm run build && npm run test:e2e"
-  ```
-- **Cost / Benefit Analysis**: Adds ~3 min to CI yet prevents visual regressions and missed typos, pays for itself rapidly ✅ Recommended
-
----
-
-## 🔧 **IMPLEMENTATION DETAILS**
-
-### **File Structure**
-```
-src/
-├── features-modern/
-│   ├── auth/
-│   │   ├── components/ ✅
-│   │   ├── stores/ ✅
-│   │   └── pages/ ✅
-│   ├── dashboard/
-│   │   ├── components/ ✅ (but widgets not modular)
-│   │   ├── widgets/ ❌ EMPTY - NEEDS IMPLEMENTATION
-│   │   ├── stores/ ✅
-│   │   └── pages/ ✅
-│   └── projects/ ❌ NOT CREATED
-│       ├── components/
-│       ├── stores/
-│       └── pages/
-├── shared/
-│   ├── lib/
-│   │   ├── auth/ ❌
-│   │   ├── router/ ❌
-│   │   └── validation/ ❌
-│   └── ui/ ✅ (partial)
-└── app/
-    ├── providers/ ✅
-    └── routes/ ✅
+2. **Enhanced Card with Proper Tokens** (20 min)
+```typescript
+// src/components/ui/card.tsx
+const cardVariants = cva(
+  'rounded-radius-md transition-all duration-normal ease-in-out',
+  {
+    variants: {
+      variant: {
+        default: 'bg-card border border-border',
+        glass: [
+          'bg-background/60 backdrop-blur-md',
+          'border border-border/50',
+          'shadow-lg',
+        ],
+        gradient: [
+          'bg-gradient-to-br from-primary/10 to-primary/5',
+          'border border-primary/20',
+        ],
+        glow: [
+          'bg-card border border-primary/20',
+          'shadow-glow-md',
+        ],
+      },
+      hover: {
+        none: '',
+        lift: 'hover:-translate-y-1 hover:shadow-xl',
+        glow: 'hover:shadow-glow-lg',
+        scale: 'hover:scale-105',
+      },
+      size: {
+        sm: 'p-space-sm',
+        md: 'p-space-md',
+        lg: 'p-space-lg',
+      },
+    },
+  }
+);
 ```
 
-### **Key Patterns**
-- **Zustand Stores**: Feature-based separation (auth, dashboard, projects) ✅
-- **React Router**: Nested routes with `<Outlet />` pattern ✅
-- **Forms**: React Hook Form + Zod for type safety ⚠️ CONFIGURED NOT USED
-- **UI**: Radix UI components with theme integration ⚠️ PARTIAL
-- **Design**: Mathematical spacing + golden ratio typography ✅
+3. **Animation Hooks** (20 min)
+```typescript
+// src/lib/hooks/use-animation.ts
+export const useAnimation = () => {
+  const prefersReducedMotion = useReducedMotion();
+  
+  const animate = useCallback((
+    element: HTMLElement,
+    keyframes: Keyframe[],
+    options?: KeyframeAnimationOptions
+  ) => {
+    if (prefersReducedMotion) return;
+    
+    return element.animate(keyframes, {
+      duration: 300,
+      easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      ...options,
+    });
+  }, [prefersReducedMotion]);
+  
+  return { animate, prefersReducedMotion };
+};
+```
 
-### **Success Metrics**
-- ✅ Zero theme inconsistencies across auth flow
-- ✅ Sub-100ms route transitions
-- ✅ 100% TypeScript coverage
-- ❌ WCAG AA compliance (partial)
-- ⚠️ Seamless mobile experience (not tested)
+#### **STEP 2.5.3: Testing & Documentation Setup** (45 min)
+**Goal**: Establish proper testing and documentation patterns
+
+**Tasks**:
+1. **Component Testing Strategy** (20 min)
+```typescript
+// src/components/ui/__tests__/card.test.tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { axe } from '@axe-core/react';
+import { Card } from '../card';
+
+describe('Card', () => {
+  it('meets accessibility standards', async () => {
+    const { container } = render(<Card>Content</Card>);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+  
+  it('applies hover effects correctly', async () => {
+    const user = userEvent.setup();
+    render(<Card hover="lift">Hover me</Card>);
+    
+    const card = screen.getByText('Hover me');
+    await user.hover(card);
+    
+    expect(card).toHaveClass('hover:-translate-y-1');
+  });
+  
+  it('forwards ref correctly', () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Card ref={ref}>Content</Card>);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+});
+```
+
+2. **Ladle Setup** (15 min)
+```typescript
+// .ladle/config.mjs
+export default {
+  stories: 'src/**/*.stories.{js,jsx,ts,tsx}',
+  addons: {
+    theme: {
+      enabled: true,
+      defaultTheme: 'light',
+    },
+  },
+};
+
+// src/components/ui/card.stories.tsx
+import type { Story } from '@ladle/react';
+import { Card } from './card';
+
+export const Default: Story = () => (
+  <Card>Default Card</Card>
+);
+
+export const Variants: Story = () => (
+  <div className="space-y-4">
+    <Card variant="default">Default</Card>
+    <Card variant="glass">Glass</Card>
+    <Card variant="gradient">Gradient</Card>
+    <Card variant="glow">Glow</Card>
+  </div>
+);
+```
+
+3. **Component Documentation** (10 min)
+```typescript
+// src/components/ui/card.tsx
+/**
+ * Card Component
+ * 
+ * A flexible container component with multiple variants and hover effects.
+ * Follows the compound component pattern for maximum flexibility.
+ * 
+ * @example
+ * ```tsx
+ * <Card variant="glass" hover="lift">
+ *   <Card.Header>
+ *     <Card.Title>Title</Card.Title>
+ *   </Card.Header>
+ *   <Card.Content>
+ *     Content goes here
+ *   </Card.Content>
+ * </Card>
+ * ```
+ */
+```
+
+#### **STEP 2.5.4: Performance & Optimization** (30 min)
+**Goal**: Implement performance best practices
+
+**Tasks**:
+1. **Component Optimization** (15 min)
+```typescript
+// Memoization for expensive components
+export const Card = memo(forwardRef<HTMLDivElement, CardProps>(
+  ({ className, variant, hover, ...props }, ref) => {
+    // Component logic
+  }
+));
+
+// Lazy loading for heavy components
+const HeavyComponent = lazy(() => import('./heavy-component'));
+```
+
+2. **Bundle Optimization** (15 min)
+```typescript
+// vite.config.ts
+export default {
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'ui-core': ['@radix-ui/react-slot', 'class-variance-authority'],
+          'ui-animations': ['framer-motion'],
+        },
+      },
+    },
+  },
+};
+```
 
 ---
 
-## 🎯 **IMMEDIATE NEXT STEPS**
+## 📱 **PHASE 2: DASHBOARD ARCHITECTURE** ❌ BLOCKED BY 2.5
 
-### **CURRENT TASK: PHASE 2.5, STEP 2.5.1**
-**Create enhanced components for visual consistency:**
-
-1. Create `src/components/ui/enhanced-card.tsx`
-2. Add animation utilities to `src/index.css`:
-   ```css
-   .hover-lift { /* hover animation */ }
-   .glass-card { /* glassmorphism */ }
-   .hover-glow { /* glow effect */ }
-   ```
-3. Test directly in dev server (http://localhost:5173)
-4. Ensure all 15 themes work with new components
-
-### **DEVELOPMENT WORKFLOW (NO LADLE)**
-- Develop components directly in the codebase
-- Use hot module replacement for instant feedback
-- Test with theme toggle in the running app
-- No story files needed - direct implementation
-
-### **THEN CONTINUE WITH:**
-- Phase 2.5.2: Dual card auth page implementation (45 min)
-- Phase 2.5.3: Dashboard modernization (60 min)
-- Phase 3: Widget extraction and development
-
-### **VISUAL COHESION CHECKLIST:**
-**Landing Page Elements to Carry Through:**
-- ✅ Firefly/spark animations (.idea-sparks)
-- ✅ Glass morphism (backdrop-blur-xl)
-- ✅ Hover effects (scale-105, shadow transitions)
-- ✅ Professional navigation (uppercase, tracking-wide)
-- ✅ Theme-aware styling (dark/light modes)
-- ✅ Gradient colors (primary/secondary usage)
-- ✅ Rounded corners (rounded-xl)
-- ✅ Shadow effects (shadow-md to shadow-lg)
+Cannot proceed until Design System is properly implemented.
 
 ---
 
-## 🚨 **CRITICAL NOTES**
+## 🚨 **IMMEDIATE ACTION ITEMS**
 
-1. **Testing Infrastructure**: Vitest is configured but dependencies may need reinstalling
-2. **False Claims**: Previous agent claimed Steps 4.2-4.4 were complete with 100+ tests - THIS IS FALSE
-3. **Dev Server**: May need to run `yarn install` before starting
-4. **Actual Test Files**: Only 3 exist (button.test.tsx, theme-toggle.test.tsx, integration.test.ts)
-5. **Auth Pages Status**: 
-   - `/login` route exists and works ✅
-   - `/signup` route defined but NO SignupPage component exists ❌
-   - Navigation to `/signup` returns 404 page
-   - Dual card design will fix this by combining both on `/auth`
+1. **Fix Critical CSS Variables** (NOW)
+   - Add all missing motion tokens
+   - Replace hard-coded shadows with tokens
+   - Test in all 15 themes
 
-**Ready to continue from ACTUAL current position!** 🚀
+2. **Configure ESLint Properly** (NOW)
+   - Add complexity rules
+   - Add import order rules
+   - Enable tailwindcss plugin
+
+3. **Set Up Ladle** (PRIORITY)
+   - Install and configure
+   - Create stories for all components
+   - Add visual regression tests
+
+4. **Implement Proper Testing** (PRIORITY)
+   - Unit tests with Vitest
+   - Integration tests with Testing Library
+   - Accessibility tests with axe-core
+   - Visual regression with Playwright
+
+---
+
+## 🎯 **SUCCESS METRICS**
+
+- ✅ 100% Design token coverage (no hard-coded values)
+- ✅ All components have stories in Ladle
+- ✅ Test coverage > 80%
+- ✅ Zero accessibility violations
+- ✅ Bundle size < 150KB
+- ✅ Lighthouse score > 95
+- ✅ TypeScript strict mode passing
+- ✅ ESLint complexity rules passing
+
+---
+
+## 📊 **REALISTIC TIMELINE**
+
+- **Phase 2.5**: 4 hours (Complete rebuild)
+- **Phase 3**: 6 hours (Widget system)
+- **Phase 4**: 4 hours (Project management)
+- **Phase 5**: 3 hours (Navigation)
+- **Phase 6**: 4 hours (Polish)
+
+**Total**: ~21 hours of ACTUAL development time
+
+---
+
+## ✅ **DEFINITION OF DONE**
+
+Each phase is only complete when:
+1. All code follows the patterns defined above
+2. Full test coverage exists
+3. Accessibility audit passes
+4. Performance metrics met
+5. Documentation complete
+6. Code review passed
+
+**No more half-assed implementations. Senior developer standards only.**
