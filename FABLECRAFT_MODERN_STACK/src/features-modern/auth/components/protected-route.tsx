@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { useIsAuthenticated, useAuthLoading, useAuthInitialized } from '../stores/auth-store'
+import { useAuthGuard } from '../hooks/use-auth-guard'
 
 /**
  * PROTECTED ROUTE COMPONENT
@@ -54,17 +54,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectTo = '/login',
   fallback: Fallback = DefaultLoadingFallback,
 }) => {
-  const isAuthenticated = useIsAuthenticated()
-  const isLoading = useAuthLoading()
-  const isInitialized = useAuthInitialized()
+  const { isLoading, shouldRedirect } = useAuthGuard()
   
   // Show loading state while authentication is being checked
-  if (isLoading || !isInitialized) {
+  if (isLoading) {
     return <Fallback />
   }
   
   // Redirect to login if not authenticated
-  if (!isAuthenticated) {
+  if (shouldRedirect) {
     return <Navigate to={redirectTo} replace />
   }
   
@@ -101,17 +99,15 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({
   redirectTo = '/login',
   fallback: Fallback = DefaultLoadingFallback,
 }) => {
-  const isAuthenticated = useIsAuthenticated()
-  const isLoading = useAuthLoading()
-  const isInitialized = useAuthInitialized()
+  const { isLoading, shouldRedirect } = useAuthGuard()
   
   // Show loading state while authentication is being checked
-  if (isLoading || !isInitialized) {
+  if (isLoading) {
     return <Fallback />
   }
   
   // Redirect to login if not authenticated
-  if (!isAuthenticated) {
+  if (shouldRedirect) {
     return <Navigate to={redirectTo} replace />
   }
   

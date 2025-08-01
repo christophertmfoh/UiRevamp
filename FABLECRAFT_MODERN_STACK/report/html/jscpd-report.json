@@ -1,6 +1,6 @@
 {
   "statistics": {
-    "detectionDate": "2025-08-01T13:39:45.068Z",
+    "detectionDate": "2025-08-01T13:48:33.656Z",
     "formats": {
       "javascript": {
         "sources": {
@@ -160,21 +160,9 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
-          "src/features-modern/auth/hooks/use-auth-guard.tsx": {
-            "lines": 0,
-            "tokens": 3,
-            "sources": 1,
-            "clones": 0,
-            "duplicatedLines": 0,
-            "duplicatedTokens": 0,
-            "percentage": 0,
-            "percentageTokens": 0,
-            "newDuplicatedLines": 0,
-            "newClones": 0
-          },
           "src/features-modern/auth/components/protected-route.tsx": {
-            "lines": 47,
-            "tokens": 201,
+            "lines": 45,
+            "tokens": 180,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -366,14 +354,14 @@
           }
         },
         "total": {
-          "lines": 2539,
-          "tokens": 16059,
-          "sources": 30,
+          "lines": 2537,
+          "tokens": 16035,
+          "sources": 29,
           "clones": 1,
           "duplicatedLines": 77,
           "duplicatedTokens": 437,
-          "percentage": 3.03,
-          "percentageTokens": 2.72,
+          "percentage": 3.04,
+          "percentageTokens": 2.73,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -536,27 +524,15 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
-          "src/features-modern/auth/hooks/use-auth-guard.tsx": {
-            "lines": 32,
-            "tokens": 165,
-            "sources": 1,
-            "clones": 0,
-            "duplicatedLines": 0,
-            "duplicatedTokens": 0,
-            "percentage": 0,
-            "percentageTokens": 0,
-            "newDuplicatedLines": 0,
-            "newClones": 0
-          },
           "src/features-modern/auth/components/protected-route.tsx": {
-            "lines": 121,
-            "tokens": 523,
+            "lines": 117,
+            "tokens": 475,
             "sources": 1,
             "clones": 2,
-            "duplicatedLines": 34,
-            "duplicatedTokens": 250,
-            "percentage": 28.1,
-            "percentageTokens": 47.8,
+            "duplicatedLines": 30,
+            "duplicatedTokens": 208,
+            "percentage": 25.64,
+            "percentageTokens": 43.79,
             "newDuplicatedLines": 0,
             "newClones": 0
           },
@@ -754,14 +730,14 @@
           }
         },
         "total": {
-          "lines": 5296,
-          "tokens": 33750,
-          "sources": 31,
+          "lines": 5260,
+          "tokens": 33537,
+          "sources": 30,
           "clones": 4,
-          "duplicatedLines": 84,
-          "duplicatedTokens": 609,
-          "percentage": 1.59,
-          "percentageTokens": 1.8,
+          "duplicatedLines": 82,
+          "duplicatedTokens": 588,
+          "percentage": 1.56,
+          "percentageTokens": 1.75,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -871,6 +847,18 @@
           "src/features-modern/auth/stores/auth-store.ts": {
             "lines": 257,
             "tokens": 1867,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/auth/hooks/use-auth-guard.ts": {
+            "lines": 18,
+            "tokens": 107,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -990,9 +978,9 @@
           }
         },
         "total": {
-          "lines": 1292,
-          "tokens": 9229,
-          "sources": 12,
+          "lines": 1310,
+          "tokens": 9336,
+          "sources": 13,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -1032,14 +1020,14 @@
       }
     },
     "total": {
-      "lines": 11187,
-      "tokens": 73174,
-      "sources": 79,
+      "lines": 11167,
+      "tokens": 73044,
+      "sources": 78,
       "clones": 5,
-      "duplicatedLines": 161,
-      "duplicatedTokens": 1046,
-      "percentage": 1.44,
-      "percentageTokens": 1.43,
+      "duplicatedLines": 159,
+      "duplicatedTokens": 1025,
+      "percentage": 1.42,
+      "percentageTokens": 1.4,
       "newDuplicatedLines": 0,
       "newClones": 0
     }
@@ -1119,37 +1107,37 @@
     },
     {
       "format": "tsx",
-      "lines": 18,
-      "fragment": "redirectTo = '/login',\n  fallback: Fallback = DefaultLoadingFallback,\n}) => {\n  const isAuthenticated = useIsAuthenticated()\n  const isLoading = useAuthLoading()\n  const isInitialized = useAuthInitialized()\n  \n  // Show loading state while authentication is being checked\n  if (isLoading || !isInitialized) {\n    return <Fallback />\n  }\n  \n  // Redirect to login if not authenticated\n  if (!isAuthenticated) {\n    return <Navigate to={redirectTo} replace />\n  }\n  \n  // Render protected content",
+      "lines": 16,
+      "fragment": "redirectTo = '/login',\n  fallback: Fallback = DefaultLoadingFallback,\n}) => {\n  const { isLoading, shouldRedirect } = useAuthGuard()\n  \n  // Show loading state while authentication is being checked\n  if (isLoading) {\n    return <Fallback />\n  }\n  \n  // Redirect to login if not authenticated\n  if (shouldRedirect) {\n    return <Navigate to={redirectTo} replace />\n  }\n  \n  // Render protected content",
       "tokens": 0,
       "firstFile": {
         "name": "src/features-modern/auth/components/protected-route.tsx",
-        "start": 101,
-        "end": 118,
+        "start": 99,
+        "end": 114,
         "startLoc": {
-          "line": 101,
+          "line": 99,
           "column": 3,
-          "position": 377
+          "position": 350
         },
         "endLoc": {
-          "line": 118,
+          "line": 114,
           "column": 28,
-          "position": 502
+          "position": 454
         }
       },
       "secondFile": {
         "name": "src/features-modern/auth/components/protected-route.tsx",
         "start": 54,
-        "end": 71,
+        "end": 69,
         "startLoc": {
           "line": 54,
           "column": 3,
-          "position": 179
+          "position": 173
         },
         "endLoc": {
-          "line": 71,
+          "line": 69,
           "column": 27,
-          "position": 304
+          "position": 277
         }
       }
     },
