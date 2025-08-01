@@ -28,8 +28,7 @@ export default {
     '[data-theme="dragons-hoard"]',
     // Specialty theme attribute selectors
     '[data-theme="halloween"]',
-    '[data-theme="cyberpunk"]',
-    '[data-theme="true-black-white"]',
+    '[data-theme="netrunner"]',
     // Gradient classes used in footer
     'gradient-primary',
     'gradient-primary-br',

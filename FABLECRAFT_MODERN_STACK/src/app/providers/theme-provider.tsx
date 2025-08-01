@@ -17,7 +17,7 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'cyberpunk'
+  | 'netrunner'
   | 'moonlit-garden'
   | 'dragons-hoard'
   | 'system'
@@ -41,7 +41,7 @@ const isDarkTheme = (theme: Theme): boolean => {
     'coffee-house',
     'halloween',
     'cherry-lacquer',
-    'cyberpunk',
+    'netrunner',
     'dragons-hoard'
   ]
   return darkThemes.includes(theme)

@@ -13,7 +13,7 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'cyberpunk'
+  | 'netrunner'
   | 'moonlit-garden'
   | 'dragons-hoard'
   | 'system'

@@ -410,36 +410,36 @@
   --auth-button-primary-hover: 350 75% 35%; /* Darker red */
 }
 
-/* Cyberpunk - Authentic neon dystopian theme */
-[data-theme="cyberpunk"] {
-  --background: 240 20% 6%; /* Deep cyber black */
-  --foreground: 180 25% 85%; /* Cyan white (7.8:1) */
-  --card: 240 25% 10%; /* Card surface */
-  --card-foreground: 180 25% 85%; /* Light cyan text */
-  --popover: 240 30% 12%; /* Popover */
-  --popover-foreground: 180 25% 85%; /* Light text */
-  --primary: 180 100% 45%; /* Bright neon cyan */
-  --primary-foreground: 240 20% 6%; /* Dark background text */
-  --secondary: 240 15% 18%; /* Dark cyber grey */
-  --secondary-foreground: 180 25% 85%; /* Light text */
-  --muted: 240 12% 15%; /* Muted */
-  --muted-foreground: 180 18% 65%; /* Muted cyan (4.8:1) */
-  --accent: 300 100% 45%; /* Neon magenta */
-  --accent-foreground: 240 20% 6%; /* Dark text */
-  --destructive: 0 100% 55%; /* Neon red */
-  --destructive-foreground: 240 20% 6%; /* Dark text - NO MORE WHITE! */
-  --border: 240 18% 25%; /* Border */
-  --input: 240 18% 20%; /* Input */
-  --ring: 180 100% 45%; /* Cyan focus ring */
-  --radius: 0.125rem; /* Sharp cyberpunk edges */
-  
+/* Netrunner - Cyberpunk Edgerunners inspired (yellow, black, blue) */
+[data-theme="netrunner"] {
+  --background: 0 0% 4%; /* Deep black background */
+  --foreground: 60 100% 95%; /* Bright yellow white (12:1) */
+  --card: 0 0% 8%; /* Dark card surface */
+  --card-foreground: 60 100% 95%; /* Bright yellow text */
+  --popover: 0 0% 10%; /* Popover */
+  --popover-foreground: 60 100% 95%; /* Light text */
+  --primary: 60 100% 50%; /* Electric yellow (#ffff00) */
+  --primary-foreground: 0 0% 4%; /* Deep black text */
+  --secondary: 0 0% 12%; /* Dark grey surface */
+  --secondary-foreground: 60 100% 95%; /* Yellow text */
+  --muted: 0 0% 10%; /* Muted */
+  --muted-foreground: 60 40% 70%; /* Muted yellow (4.5:1) */
+  --accent: 195 100% 50%; /* Electric cyan (#00bfff) */
+  --accent-foreground: 0 0% 4%; /* Deep black text */
+  --destructive: 0 100% 60%; /* Bright red */
+  --destructive-foreground: 0 0% 4%; /* Dark text */
+  --border: 0 0% 20%; /* Border */
+  --input: 0 0% 15%; /* Input */
+  --ring: 60 100% 50%; /* Yellow focus ring */
+  --radius: 0.125rem; /* Sharp edges */
+
   /* Theme-specific orb colors */
-  --orb-primary: 180 100% 55%; /* Bright cyan orb */
-  --orb-secondary: 300 100% 55%; /* Bright magenta orb */
-  
+  --orb-primary: 60 100% 60%; /* Bright yellow orb */
+  --orb-secondary: 195 100% 60%; /* Bright cyan orb */
+
   /* Auth button colors */
-  --auth-button-primary: 180 100% 40%; /* Strong neon cyan */
-  --auth-button-primary-hover: 180 100% 35%; /* Darker cyan */
+  --auth-button-primary: 60 100% 45%; /* Strong yellow */
+  --auth-button-primary-hover: 60 100% 40%; /* Darker yellow */
 }
 
 

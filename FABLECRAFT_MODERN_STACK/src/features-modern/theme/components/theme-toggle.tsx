@@ -26,7 +26,7 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'cyberpunk'
+  | 'netrunner'
   | 'moonlit-garden'
   | 'dragons-hoard'
   | 'system'
@@ -52,7 +52,7 @@ const themeConfig: Record<Theme, ThemeConfig> = {
   'moonlit-garden': { icon: Sun, label: 'Moonlit Garden', description: 'Mystical moonlit blues' },
   'halloween': { icon: Zap, label: 'Halloween', description: 'Spooky orange and black' },
   'cherry-lacquer': { icon: Moon, label: 'Cherry Lacquer', description: 'Luxury deep red' },
-  'cyberpunk': { icon: Zap, label: 'Cyberpunk', description: 'Neon cyan and magenta' },
+  'netrunner': { icon: Zap, label: 'Netrunner', description: 'Electric yellow and cyan' },
   'dragons-hoard': { icon: Moon, label: "Dragon's Hoard", description: 'Fantasy gold treasures' },
 } as const;
 
@@ -62,7 +62,7 @@ const classicLightThemes: readonly Theme[] = ['arctic-focus', 'golden-hour'] as 
 const classicDarkThemes: readonly Theme[] = ['midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'] as const;
 const modernLightThemes: readonly Theme[] = ['sunset-coral', 'lavender-dusk', 'moonlit-garden'] as const;
 const modernDarkThemes: readonly Theme[] = ['cherry-lacquer', 'dragons-hoard'] as const;
-const specialtyThemes: readonly Theme[] = ['halloween', 'cyberpunk'] as const;
+const specialtyThemes: readonly Theme[] = ['halloween', 'netrunner'] as const;
 
 interface ThemeMenuItemProps {
   theme: Theme;
