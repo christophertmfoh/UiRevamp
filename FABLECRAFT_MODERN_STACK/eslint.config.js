@@ -103,6 +103,23 @@ export default [
       }],
       '@typescript-eslint/no-explicit-any': 'error',
       
+      // Code Complexity Rules
+      'complexity': ['error', { max: 15 }], // Maximum cyclomatic complexity
+      'max-depth': ['error', 4], // Maximum block nesting depth
+      'max-lines-per-function': ['error', {
+        max: 100,
+        skipBlankLines: true,
+        skipComments: true
+      }],
+      'max-nested-callbacks': ['error', 3],
+      'max-params': ['error', 4], // Maximum function parameters
+      'max-statements': ['error', 20], // Maximum statements per function
+      'max-lines': ['error', {
+        max: 300,
+        skipBlankLines: true,
+        skipComments: true
+      }], // Maximum lines per file
+      
       // React rules
       'react/react-in-jsx-scope': 'off', // React 17+
       'react/prop-types': 'off', // Using TypeScript
