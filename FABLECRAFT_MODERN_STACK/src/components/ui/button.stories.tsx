@@ -65,6 +65,7 @@ export const Playground: Story = {
       defaultValue: 'Playground Button',
     },
   },
+  render: (args) => <Button {...args} />,
 }
 
 // Real-world example
