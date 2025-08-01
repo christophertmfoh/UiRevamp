@@ -6,16 +6,23 @@
 ---
 
 ## 🔴 CRITICAL STATUS UPDATE
-**Previous implementation by GPT-3 agent failed senior developer audit. Complete Phase 2.5 rebuild required.**
+**We need visual cohesion across Landing, Auth, and Dashboard to compete in the creative tools market.**
 
-### Audit Findings:
-- ❌ Hard-coded design tokens (violates DRY principle)
-- ❌ Missing motion tokens causing silent failures
-- ❌ No actual code complexity analysis configured
-- ❌ Superficial test coverage (89 lines for critical components)
-- ❌ No component isolation environment (Ladle/Storybook)
-- ❌ Performance optimizations missing
-- ❌ Accessibility gaps in interactive components
+### Current Issues:
+- ❌ Auth page has generic floating orbs (not fireflies)
+- ❌ Dashboard doesn't match landing page aesthetics
+- ❌ No consistent header/footer across pages
+- ❌ Button/card styles inconsistent
+- ❌ Missing professional polish
+
+### Competitive Landscape We're Targeting:
+- **Notion**: $10-20/month - Clean, glass morphism UI
+- **Scrivener**: $50 one-time - Professional writing features
+- **Ulysses**: $50/year - Beautiful, distraction-free
+- **Linear**: $8/month - Smooth animations, command palette
+- **Craft**: $10/month - Visual storytelling
+
+**Our Edge**: Firefly atmosphere + writing-focused features + visual cohesion
 
 ---
 
@@ -132,409 +139,446 @@ const useAuthForm = () => {
 
 ---
 
-## 📋 **PHASE 1: AUTHENTICATION FOUNDATION** ⚠️ NEEDS FIXES
+## 📋 **PHASE 1: AUTHENTICATION EXPERIENCE** 
 
-### Issues Found:
-- ✅ Zustand store exists but lacks proper TypeScript patterns
-- ✅ Routes work but no loading/error boundaries
-- ❌ Form validation configured but NOT USED in components
-- ❌ No proper error handling or toast notifications
-- ❌ Missing accessibility features
+**Goal**: Create a beautiful dual-card auth page that matches landing page aesthetics
 
-### Required Fixes:
-1. Implement proper Zustand slice pattern
-2. Add React Error Boundaries
-3. Actually use React Hook Form + Zod
-4. Add toast notifications (Radix Toast)
-5. Full ARIA labels and keyboard navigation
+### **STEP 1.1: Dual Card Layout** (1 hour)
+```typescript
+// Side-by-side cards on desktop, tabs on mobile
+- Login card (left/tab 1)
+- Signup card (right/tab 2)
+- Both using glass card style from landing
+- Smooth transitions between states
+```
+
+### **STEP 1.2: Form Polish** (1 hour)
+```typescript
+// Beautiful forms matching landing page
+- Input styles matching landing page
+- Button styles exactly like landing
+- Loading states with smooth transitions
+- Error messages with gentle animations
+- Success feedback
+```
+
+### **STEP 1.3: Authentication Flow** (1 hour)
+- Magic link option
+- Social auth buttons (Google, GitHub)
+- Remember me with elegant checkbox
+- Password strength indicator
+- Smooth redirects to dashboard
 
 ---
 
-## 🎨 **PHASE 2.5: DESIGN SYSTEM OVERHAUL** 🔴 COMPLETE REBUILD
+## 🎨 **PHASE 2.5: VISUAL COHESION IMPLEMENTATION** 🔴 COMPLETE REBUILD
 
-### **NEW PHASE 2.5 BREAKDOWN** (Total: 4 hours)
+**Goal**: Achieve 100% visual consistency between Landing, Auth, and Dashboard pages using Landing Page as the design source of truth.
 
-#### **STEP 2.5.1: Design Token Foundation** (45 min)
-**Goal**: Establish a proper token system following design system best practices
+### **LANDING PAGE VISUAL DNA** (What we're implementing everywhere):
+- ✨ Firefly atmosphere effects (not generic orbs)
+- 🎯 Specific button pattern: `bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-xl`
+- 🌊 Backdrop blur patterns: `backdrop-blur-xl` with `/95` opacity
+- 🎨 Consistent shadows: `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`
+- ⚡ Transition timing: `duration-300` with `hover:scale-105`
+- 📐 Border radius: `rounded-xl` (not `rounded-lg` or `rounded-md`)
+- 🎭 Theme-aware with proper dark/light support
+
+### **NEW PHASE 2.5 BREAKDOWN** (Total: 6 hours realistic)
+
+#### **STEP 2.5.1: Extract Landing Page Patterns** (1 hour)
+**Goal**: Create reusable utilities from Landing Page visual language
 
 **Tasks**:
-1. **Create Token Structure** (20 min)
-```css
-/* src/styles/tokens.css */
-@layer base {
-  :root {
-    /* Semantic Color Tokens */
-    --color-background: 0 0% 100%;
-    --color-foreground: 240 10% 3.9%;
-    --color-primary: 346.8 77.2% 49.8%;
-    --color-primary-foreground: 355.7 100% 97.3%;
-    
-    /* Primitive Tokens */
-    --radius-sm: 0.25rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-full: 9999px;
-    
-    /* Motion Tokens */
-    --duration-instant: 100ms;
-    --duration-fast: 200ms;
-    --duration-normal: 300ms;
-    --duration-slow: 500ms;
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    
-    /* Shadow Tokens */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    --shadow-glow-sm: 0 0 10px rgb(var(--color-primary) / 0.2);
-    --shadow-glow-md: 0 0 20px rgb(var(--color-primary) / 0.3);
-    --shadow-glow-lg: 0 0 40px rgb(var(--color-primary) / 0.4);
-    
-    /* Spacing Scale (Golden Ratio) */
-    --space-xs: 0.382rem;  /* 6.11px */
-    --space-sm: 0.618rem;  /* 9.89px */
-    --space-md: 1rem;      /* 16px */
-    --space-lg: 1.618rem;  /* 25.89px */
-    --space-xl: 2.618rem;  /* 41.89px */
-    --space-2xl: 4.236rem; /* 67.78px */
-  }
+1. **Create Shared Visual Utilities** (30 min)
+```typescript
+// src/shared/lib/visual-patterns.ts
+export const visualPatterns = {
+  // Button patterns from landing page
+  button: {
+    primary: 'bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 rounded-xl',
+    ghost: 'text-foreground/80 hover:text-foreground transition-colors duration-200',
+  },
   
-  .dark {
-    --color-background: 240 10% 3.9%;
-    --color-foreground: 0 0% 98%;
-    /* ... other dark tokens */
+  // Card patterns
+  card: {
+    glass: 'bg-card/95 backdrop-blur-xl border border-border shadow-xl rounded-xl',
+    hover: 'hover:bg-accent/10 transition-colors cursor-pointer',
+  },
+  
+  // Navigation patterns
+  nav: {
+    header: 'sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/20 shadow-sm',
+    item: 'text-sm font-semibold text-foreground/80 hover:text-foreground transition-colors duration-200 tracking-wide uppercase',
+  },
+  
+  // Effects
+  effects: {
+    iconHover: 'group-hover:scale-110 transition-transform duration-300',
+    dropdownTrigger: 'group-hover:rotate-180 transition-transform duration-300',
   }
 }
 ```
 
-2. **Update Tailwind Config** (15 min)
-```javascript
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        background: 'hsl(var(--color-background))',
-        foreground: 'hsl(var(--color-foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--color-primary))',
-          foreground: 'hsl(var(--color-primary-foreground))',
-        },
-      },
-      animation: {
-        'fade-in': 'fadeIn var(--duration-normal) var(--ease-in-out)',
-        'slide-up': 'slideUp var(--duration-fast) var(--ease-in-out)',
-        'glow-pulse': 'glowPulse 2s var(--ease-in-out) infinite',
-      },
-      transitionDuration: {
-        instant: 'var(--duration-instant)',
-        fast: 'var(--duration-fast)',
-        normal: 'var(--duration-normal)',
-        slow: 'var(--duration-slow)',
-      },
-    },
-  },
-};
-```
-
-3. **Create Token Documentation** (10 min)
-- Document all tokens in `DESIGN_TOKENS.md`
-- Include usage examples
-- Add Figma token mapping
-
-#### **STEP 2.5.2: Component System Architecture** (1 hour)
-**Goal**: Build a scalable component system with proper patterns
-
-**Tasks**:
-1. **Base Component Pattern** (20 min)
+2. **Move Firefly Effect to Shared Component** (20 min)
 ```typescript
-// src/components/ui/base-component.tsx
-import { forwardRef } from 'react';
-import { cn } from '@/lib/utils';
-
-// Generic forwardRef with proper types
-type PolymorphicRef<C extends React.ElementType> = 
-  React.ComponentPropsWithRef<C>['ref'];
-
-type PolymorphicProps<C extends React.ElementType, Props = {}> = {
-  as?: C;
-  className?: string;
-  children?: React.ReactNode;
-} & Props & Omit<React.ComponentPropsWithoutRef<C>, keyof Props | 'as' | 'className' | 'children'>;
-
-// Example: Polymorphic Box component
-const Box = forwardRef(
-  <C extends React.ElementType = 'div'>(
-    { as, className, ...props }: PolymorphicProps<C>,
-    ref?: PolymorphicRef<C>
-  ) => {
-    const Component = as || 'div';
-    return (
-      <Component
-        ref={ref}
-        className={cn(className)}
-        {...props}
-      />
-    );
-  }
-);
-```
-
-2. **Enhanced Card with Proper Tokens** (20 min)
-```typescript
-// src/components/ui/card.tsx
-const cardVariants = cva(
-  'rounded-radius-md transition-all duration-normal ease-in-out',
-  {
-    variants: {
-      variant: {
-        default: 'bg-card border border-border',
-        glass: [
-          'bg-background/60 backdrop-blur-md',
-          'border border-border/50',
-          'shadow-lg',
-        ],
-        gradient: [
-          'bg-gradient-to-br from-primary/10 to-primary/5',
-          'border border-primary/20',
-        ],
-        glow: [
-          'bg-card border border-primary/20',
-          'shadow-glow-md',
-        ],
-      },
-      hover: {
-        none: '',
-        lift: 'hover:-translate-y-1 hover:shadow-xl',
-        glow: 'hover:shadow-glow-lg',
-        scale: 'hover:scale-105',
-      },
-      size: {
-        sm: 'p-space-sm',
-        md: 'p-space-md',
-        lg: 'p-space-lg',
-      },
-    },
-  }
-);
-```
-
-3. **Animation Hooks** (20 min)
-```typescript
-// src/lib/hooks/use-animation.ts
-export const useAnimation = () => {
-  const prefersReducedMotion = useReducedMotion();
-  
-  const animate = useCallback((
-    element: HTMLElement,
-    keyframes: Keyframe[],
-    options?: KeyframeAnimationOptions
-  ) => {
-    if (prefersReducedMotion) return;
-    
-    return element.animate(keyframes, {
-      duration: 300,
-      easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-      ...options,
-    });
-  }, [prefersReducedMotion]);
-  
-  return { animate, prefersReducedMotion };
-};
-```
-
-#### **STEP 2.5.3: Testing & Documentation Setup** (45 min)
-**Goal**: Establish proper testing and documentation patterns
-
-**Tasks**:
-1. **Component Testing Strategy** (20 min)
-```typescript
-// src/components/ui/__tests__/card.test.tsx
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { axe } from '@axe-core/react';
-import { Card } from '../card';
-
-describe('Card', () => {
-  it('meets accessibility standards', async () => {
-    const { container } = render(<Card>Content</Card>);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-  
-  it('applies hover effects correctly', async () => {
-    const user = userEvent.setup();
-    render(<Card hover="lift">Hover me</Card>);
-    
-    const card = screen.getByText('Hover me');
-    await user.hover(card);
-    
-    expect(card).toHaveClass('hover:-translate-y-1');
-  });
-  
-  it('forwards ref correctly', () => {
-    const ref = createRef<HTMLDivElement>();
-    render(<Card ref={ref}>Content</Card>);
-    expect(ref.current).toBeInstanceOf(HTMLDivElement);
-  });
-});
-```
-
-2. **Ladle Setup** (15 min)
-```typescript
-// .ladle/config.mjs
-export default {
-  stories: 'src/**/*.stories.{js,jsx,ts,tsx}',
-  addons: {
-    theme: {
-      enabled: true,
-      defaultTheme: 'light',
-    },
-  },
-};
-
-// src/components/ui/card.stories.tsx
-import type { Story } from '@ladle/react';
-import { Card } from './card';
-
-export const Default: Story = () => (
-  <Card>Default Card</Card>
-);
-
-export const Variants: Story = () => (
-  <div className="space-y-4">
-    <Card variant="default">Default</Card>
-    <Card variant="glass">Glass</Card>
-    <Card variant="gradient">Gradient</Card>
-    <Card variant="glow">Glow</Card>
+// src/shared/components/firefly-atmosphere.tsx
+export const FireflyAtmosphere = () => (
+  <div className='idea-sparks' aria-hidden='true'>
+    {/* Copy exact firefly implementation from landing page */}
+    {/* Make it reusable for auth and dashboard */}
   </div>
-);
+)
 ```
 
-3. **Component Documentation** (10 min)
+3. **Create Consistent Spacing System** (10 min)
 ```typescript
-// src/components/ui/card.tsx
-/**
- * Card Component
- * 
- * A flexible container component with multiple variants and hover effects.
- * Follows the compound component pattern for maximum flexibility.
- * 
- * @example
- * ```tsx
- * <Card variant="glass" hover="lift">
- *   <Card.Header>
- *     <Card.Title>Title</Card.Title>
- *   </Card.Header>
- *   <Card.Content>
- *     Content goes here
- *   </Card.Content>
- * </Card>
- * ```
- */
+// Use exact spacing from landing: space-x-4, space-x-8, py-4, px-4 sm:px-6 lg:px-8
+export const spacing = {
+  nav: 'px-4 sm:px-6 lg:px-8 py-4',
+  section: 'py-16 px-4 sm:px-6 lg:px-8',
+  card: 'p-6',
+  button: 'px-4 py-2',
+}
 ```
 
-#### **STEP 2.5.4: Performance & Optimization** (30 min)
-**Goal**: Implement performance best practices
+#### **STEP 2.5.2: Refactor Auth Page** (1.5 hours)
+**Goal**: Replace generic auth page with Landing Page visual language
 
 **Tasks**:
-1. **Component Optimization** (15 min)
+1. **Replace Floating Orbs with Fireflies** (20 min)
 ```typescript
-// Memoization for expensive components
-export const Card = memo(forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, hover, ...props }, ref) => {
-    // Component logic
-  }
-));
+// src/features-modern/auth/pages/auth-page.tsx
+import { FireflyAtmosphere } from '@/shared/components/firefly-atmosphere';
+import { visualPatterns } from '@/shared/lib/visual-patterns';
 
-// Lazy loading for heavy components
-const HeavyComponent = lazy(() => import('./heavy-component'));
+// Remove AuthBackground component, use FireflyAtmosphere
+<div className="relative flex min-h-screen items-center justify-center bg-background">
+  <FireflyAtmosphere />
+  {/* Auth content */}
+</div>
 ```
 
-2. **Bundle Optimization** (15 min)
+2. **Update Auth Cards to Match Landing** (40 min)
 ```typescript
-// vite.config.ts
-export default {
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'ui-core': ['@radix-ui/react-slot', 'class-variance-authority'],
-          'ui-animations': ['framer-motion'],
-        },
-      },
-    },
-  },
-};
+// Use exact card pattern from landing dropdown
+<div className="bg-card/95 backdrop-blur-xl border border-border shadow-xl rounded-xl p-6">
+  <h2 className="text-2xl font-bold mb-4 text-foreground">Sign In</h2>
+  
+  {/* Update all buttons to match */}
+  <Button className={visualPatterns.button.primary}>
+    Sign In
+  </Button>
+</div>
+```
+
+3. **Add Navigation Header** (30 min)
+```typescript
+// Reuse NavigationHeader component from landing page
+// Or create simplified version with same styling
+<nav className={visualPatterns.nav.header}>
+  <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
+    {/* Logo and back button */}
+  </div>
+</nav>
+```
+
+#### **STEP 2.5.3: Refactor Dashboard Page** (1.5 hours)
+**Goal**: Transform dashboard to match Landing Page aesthetics
+
+**Tasks**:
+1. **Add Firefly Atmosphere** (20 min)
+```typescript
+// Add fireflies behind dashboard content
+<div className="min-h-screen bg-background">
+  <FireflyAtmosphere />
+  <NavigationHeader /> {/* Use same nav as landing */}
+  {/* Dashboard content */}
+</div>
+```
+
+2. **Update Widget Cards** (40 min)
+```typescript
+// Transform widgets to use landing card patterns
+<div className="bg-card/95 backdrop-blur-xl border border-border shadow-xl rounded-xl p-6 hover:shadow-2xl transition-all duration-300">
+  {/* Widget content */}
+</div>
+
+// Update buttons to match
+<button className={visualPatterns.button.primary}>
+  Start Creating
+</button>
+```
+
+3. **Consistent Spacing & Typography** (30 min)
+```typescript
+// Use landing page spacing system
+<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  {/* Match heading styles */}
+  <h1 className="text-3xl font-black text-foreground tracking-wide">
+    Welcome back
+  </h1>
+</main>
+```
+
+#### **STEP 2.5.4: Visual QA & Polish** (1 hour)
+**Goal**: Ensure perfect visual consistency across all pages
+
+**Tasks**:
+1. **Visual Consistency Checklist** (20 min)
+```typescript
+// Verify each page matches landing page:
+✓ Firefly effects working on all pages
+✓ All buttons use: bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg
+✓ All cards use: bg-card/95 backdrop-blur-xl rounded-xl
+✓ Consistent spacing: px-4 sm:px-6 lg:px-8
+✓ Transitions: duration-300 with hover:scale-105
+✓ Theme toggle works consistently
+✓ Typography matches: font-black, tracking-wide
+```
+
+2. **Fix Hard-Coded Values** (20 min)
+```typescript
+// Find and replace all instances:
+- shadow-sm → use from visualPatterns
+- duration-500 → duration-300
+- rounded-lg → rounded-xl
+- Any custom colors → use theme colors
+- Remove any conflicting animations
+```
+
+3. **Browser Testing** (20 min)
+```
+// Test in multiple browsers:
+✓ Chrome/Edge: Check backdrop blur support
+✓ Firefox: Verify animations smooth
+✓ Safari: Test -webkit prefixes
+✓ Mobile: Responsive layout works
+✓ Dark/Light modes: All themes consistent
 ```
 
 ---
 
-## 📱 **PHASE 2: DASHBOARD ARCHITECTURE** ❌ BLOCKED BY 2.5
+## 📱 **PHASE 2: DASHBOARD ARCHITECTURE** 
 
-Cannot proceed until Design System is properly implemented.
+**Goal**: Build a competitive creative dashboard that rivals Notion, Linear, and professional writing tools
+
+### **STEP 2.1: Widget System** (2 hours)
+```typescript
+// Widgets matching landing page glass cards
+- Welcome Widget (2 cols, personalized greeting)
+- Quick Stats (words written, projects active)
+- Recent Projects (with cover images)
+- Writing Goals (progress bars)
+- Inspiration Feed (writing prompts)
+- Community Updates
+```
+
+### **STEP 2.2: Adaptive Header/Footer** (1 hour)
+```typescript
+// Same header as landing but with workspace context
+- Logo (links to dashboard when logged in)
+- Workspace switcher
+- Project dropdown
+- User menu
+- Theme toggle
+// Footer with quick links to docs, community, support
+```
+
+### **STEP 2.3: Professional Features** (1 hour)
+- Command palette (⌘K)
+- Quick create button
+- Notification center
+- Search everything
+
+---
+
+## 🎯 **PHASE 3: PROJECT MANAGEMENT**
+
+**Goal**: Create a project workspace that rivals Scrivener and Google Docs
+
+### **STEP 3.1: Project Cards** (1.5 hours)
+```typescript
+// Beautiful project cards with:
+- Cover images (like Notion)
+- Progress indicators
+- Last edited
+- Quick actions on hover
+- Smooth transitions
+```
+
+### **STEP 3.2: Project Templates** (1 hour)
+- Novel template
+- Screenplay template
+- Short story collection
+- Poetry anthology
+- Blog/Article series
+
+### **STEP 3.3: Collaboration Features** (1.5 hours)
+- Share buttons (matching landing style)
+- Collaborator avatars
+- Real-time indicators
+- Comments/feedback system
+
+---
+
+## 🚀 **PHASE 4: WRITING EXPERIENCE**
+
+**Goal**: Build a distraction-free writing environment that competes with Ulysses/iA Writer
+
+### **STEP 4.1: Editor Polish** (2 hours)
+- Smooth transitions into focus mode
+- Typography that matches landing page
+- Typewriter mode
+- Dark/light/custom themes
+- Word count in status bar
+
+### **STEP 4.2: Rich Features** (1 hour)
+- Markdown support
+- Character/location quick insert
+- Writing statistics
+- Version history
+- Auto-save indicators
+
+---
+
+## 🎨 **PHASE 5: CREATIVE TOOLS**
+
+**Goal**: Add visual storytelling features that set us apart
+
+### **STEP 5.1: Character Builder** (1.5 hours)
+- Visual character cards
+- Relationship mapper
+- Character arc tracker
+- All matching landing page aesthetics
+
+### **STEP 5.2: World Building** (1.5 hours)
+- Location cards with images
+- Timeline visualizer
+- Map integration
+- Lore keeper
+
+---
+
+## ✨ **PHASE 6: POLISH & LAUNCH**
+
+**Goal**: Final polish to ensure we're best-in-class
+
+### **STEP 6.1: Performance** (1 hour)
+- Lazy load everything
+- Optimize animations
+- PWA features
+- Offline support
+
+### **STEP 6.2: Onboarding** (1 hour)
+- Beautiful welcome flow
+- Interactive tutorials
+- Sample projects
+- All with firefly effects
+
+### **STEP 6.3: Marketing Site** (1 hour)
+- Pricing page matching landing
+- Feature comparison
+- Customer testimonials
+- Blog/resources
 
 ---
 
 ## 🚨 **IMMEDIATE ACTION ITEMS**
 
-1. **Fix Critical CSS Variables** (NOW)
-   - Add all missing motion tokens
-   - Replace hard-coded shadows with tokens
-   - Test in all 15 themes
+1. **Extract Landing Page Patterns** (NOW)
+   - Create visual-patterns.ts with all button/card classes
+   - Move firefly effect to shared component
+   - Document exact spacing/typography patterns
 
-2. **Configure ESLint Properly** (NOW)
-   - Add complexity rules
-   - Add import order rules
-   - Enable tailwindcss plugin
+2. **Refactor Auth Page** (PRIORITY)
+   - Replace floating orbs with fireflies
+   - Update all cards to use bg-card/95 backdrop-blur-xl
+   - Match button styling exactly: shadow-md hover:shadow-lg
 
-3. **Set Up Ladle** (PRIORITY)
-   - Install and configure
-   - Create stories for all components
-   - Add visual regression tests
+3. **Refactor Dashboard Page** (PRIORITY)
+   - Add firefly atmosphere behind widgets
+   - Update widget cards to match landing cards
+   - Use consistent navigation header
 
-4. **Implement Proper Testing** (PRIORITY)
-   - Unit tests with Vitest
-   - Integration tests with Testing Library
-   - Accessibility tests with axe-core
-   - Visual regression with Playwright
+4. **Visual QA Pass** (CRITICAL)
+   - Side-by-side comparison of all three pages
+   - Fix any inconsistent shadows/transitions
+   - Verify theme switching works identically
 
 ---
 
 ## 🎯 **SUCCESS METRICS**
 
-- ✅ 100% Design token coverage (no hard-coded values)
-- ✅ All components have stories in Ladle
-- ✅ Test coverage > 80%
-- ✅ Zero accessibility violations
-- ✅ Bundle size < 150KB
-- ✅ Lighthouse score > 95
-- ✅ TypeScript strict mode passing
-- ✅ ESLint complexity rules passing
+### Visual Cohesion
+- ✅ Every page uses firefly atmosphere (no generic effects)
+- ✅ Consistent header/footer across entire app
+- ✅ All buttons match landing: `bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg`
+- ✅ All cards use glass style: `bg-card/95 backdrop-blur-xl rounded-xl`
+- ✅ Theme switching seamless everywhere
+
+### Professional Standards
+- ✅ Competes visually with Notion, Linear, Scrivener
+- ✅ Smooth transitions (all 300ms, no janky animations)
+- ✅ Responsive design works flawlessly
+- ✅ Accessibility built in (keyboard nav, ARIA labels)
+- ✅ Performance (90+ Lighthouse score)
+
+### User Experience
+- ✅ Writers feel inspired when they open the app
+- ✅ Dashboard feels powerful yet uncluttered
+- ✅ Writing experience is distraction-free
+- ✅ Everything feels cohesive and intentional
 
 ---
 
 ## 📊 **REALISTIC TIMELINE**
 
-- **Phase 2.5**: 4 hours (Complete rebuild)
-- **Phase 3**: 6 hours (Widget system)
-- **Phase 4**: 4 hours (Project management)
-- **Phase 5**: 3 hours (Navigation)
-- **Phase 6**: 4 hours (Polish)
+- **Phase 1**: 3 hours (Authentication Experience)
+- **Phase 2.5**: 6 hours (Visual Cohesion) 
+- **Phase 2**: 4 hours (Dashboard Architecture)
+- **Phase 3**: 4 hours (Project Management)
+- **Phase 4**: 3 hours (Writing Experience)
+- **Phase 5**: 3 hours (Creative Tools)
+- **Phase 6**: 3 hours (Polish & Launch)
 
-**Total**: ~21 hours of ACTUAL development time
+**Total**: ~26 hours for complete professional creative app
+
+**Priority Order**:
+1. Phase 2.5 (Visual Cohesion) - MUST DO FIRST
+2. Phase 1 (Auth) - Beautiful entry point
+3. Phase 2 (Dashboard) - Core experience
+4. Phase 3 (Projects) - Key functionality
+5. Phase 4-6 - Enhanced features
 
 ---
 
 ## ✅ **DEFINITION OF DONE**
 
-Each phase is only complete when:
-1. All code follows the patterns defined above
-2. Full test coverage exists
-3. Accessibility audit passes
-4. Performance metrics met
-5. Documentation complete
-6. Code review passed
+### Each Phase Complete When:
 
-**No more half-assed implementations. Senior developer standards only.**
+**Phase 2.5 (Visual Cohesion)**:
+- Landing, Auth, Dashboard share exact same visual language
+- Firefly effects on all pages
+- No more floating orbs or generic effects
+- All components match landing page styling
+
+**Phase 1 (Auth)**:
+- Beautiful dual-card layout
+- Forms feel premium (not generic)
+- Smooth transitions between login/signup
+- Magic link and social auth working
+
+**Phase 2 (Dashboard)**:
+- Widget system with glass cards
+- Adaptive header matching landing
+- Command palette (⌘K) working
+- Feels like Notion but for writers
+
+**Phase 3-6**:
+- Each feature matches established visual language
+- No new patterns introduced
+- Performance maintained
+- User experience delightful
+
+**Overall**: This feels like a $50/month creative writing tool, not a hobby project!
