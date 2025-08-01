@@ -1,6 +1,6 @@
 {
   "statistics": {
-    "detectionDate": "2025-08-01T13:57:09.553Z",
+    "detectionDate": "2025-08-01T14:45:33.234Z",
     "formats": {
       "javascript": {
         "sources": {
@@ -25,6 +25,18 @@
             "duplicatedTokens": 874,
             "percentage": 114.93,
             "percentageTokens": 97.87,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/theme/components/theme-toggle.stories.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
             "newDuplicatedLines": 0,
             "newClones": 0
           },
@@ -292,6 +304,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/components/ui/button.stories.tsx": {
+            "lines": 6,
+            "tokens": 88,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/components/ui/badge.tsx": {
             "lines": 0,
             "tokens": 13,
@@ -354,14 +378,14 @@
           }
         },
         "total": {
-          "lines": 2538,
-          "tokens": 16041,
-          "sources": 29,
+          "lines": 2544,
+          "tokens": 16132,
+          "sources": 31,
           "clones": 1,
           "duplicatedLines": 77,
           "duplicatedTokens": 437,
           "percentage": 3.03,
-          "percentageTokens": 2.72,
+          "percentageTokens": 2.71,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -383,6 +407,18 @@
           "src/features-modern/theme/components/theme-toggle.tsx": {
             "lines": 311,
             "tokens": 2041,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "src/features-modern/theme/components/theme-toggle.stories.tsx": {
+            "lines": 90,
+            "tokens": 837,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -656,6 +692,18 @@
             "newDuplicatedLines": 0,
             "newClones": 0
           },
+          "src/components/ui/button.stories.tsx": {
+            "lines": 86,
+            "tokens": 843,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
           "src/components/ui/badge.tsx": {
             "lines": 16,
             "tokens": 154,
@@ -669,8 +717,8 @@
             "newClones": 0
           },
           "src/app/providers/theme-provider.tsx": {
-            "lines": 179,
-            "tokens": 1271,
+            "lines": 182,
+            "tokens": 1287,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -742,14 +790,14 @@
           }
         },
         "total": {
-          "lines": 5304,
-          "tokens": 33810,
-          "sources": 31,
+          "lines": 5483,
+          "tokens": 35506,
+          "sources": 33,
           "clones": 4,
           "duplicatedLines": 83,
           "duplicatedTokens": 594,
-          "percentage": 1.56,
-          "percentageTokens": 1.76,
+          "percentage": 1.51,
+          "percentageTokens": 1.67,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -805,8 +853,8 @@
             "newClones": 0
           },
           "src/index.css": {
-            "lines": 705,
-            "tokens": 4487,
+            "lines": 714,
+            "tokens": 4517,
             "sources": 1,
             "clones": 0,
             "duplicatedLines": 0,
@@ -818,8 +866,8 @@
           }
         },
         "total": {
-          "lines": 2022,
-          "tokens": 13791,
+          "lines": 2031,
+          "tokens": 13821,
           "sources": 5,
           "clones": 0,
           "duplicatedLines": 0,
@@ -1032,14 +1080,14 @@
       }
     },
     "total": {
-      "lines": 11212,
-      "tokens": 73323,
-      "sources": 79,
+      "lines": 11406,
+      "tokens": 75140,
+      "sources": 83,
       "clones": 5,
       "duplicatedLines": 160,
       "duplicatedTokens": 1031,
-      "percentage": 1.43,
-      "percentageTokens": 1.41,
+      "percentage": 1.4,
+      "percentageTokens": 1.37,
       "newDuplicatedLines": 0,
       "newClones": 0
     }

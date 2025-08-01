@@ -37,35 +37,9 @@ export const States: Story = () => (
   </div>
 )
 
-// Interactive story with controls
-export const Playground: Story = {
-  args: {
-    children: 'Playground Button',
-    variant: 'default',
-    size: 'default',
-    disabled: false,
-  },
-  argTypes: {
-    variant: {
-      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
-      control: { type: 'select' },
-      defaultValue: 'default',
-    },
-    size: {
-      options: ['default', 'sm', 'lg', 'icon'],
-      control: { type: 'radio' },
-      defaultValue: 'default',
-    },
-    disabled: {
-      control: { type: 'boolean' },
-      defaultValue: false,
-    },
-    children: {
-      control: { type: 'text' },
-      defaultValue: 'Playground Button',
-    },
-  },
-  render: (args) => <Button {...args} />,
+// Interactive playground with controls
+export const Playground: Story = () => {
+  return <Button>Interactive Button - Use Ladle controls to modify</Button>
 }
 
 // Real-world example

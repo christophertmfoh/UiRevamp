@@ -179,5 +179,5 @@ export function ThemeProvider({
   );
 }
 
-// Re-export useTheme for convenience
-export { useTheme } from './use-theme';
+// Remove this export as it violates react-refresh rules
+// export { useTheme } from './use-theme';

@@ -15,6 +15,7 @@ export default [
       'node_modules', 
       'OLD_ASSETS/**',
       '.husky',
+      '.ladle',
       'coverage',
       'reports',
       'report',
