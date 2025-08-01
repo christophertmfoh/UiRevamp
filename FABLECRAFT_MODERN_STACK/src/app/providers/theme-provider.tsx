@@ -13,17 +13,17 @@ type Theme =
   | 'forest-manuscript' 
   | 'starlit-prose' 
   | 'coffee-house'
-  | 'ocean-depths'
   | 'sunset-coral'
-  | 'forest-sage' 
-  | 'ocean-teal'
   | 'lavender-dusk'
-  | 'midnight-amber'
-  | 'monochrome'
   | 'halloween'
-  | 'cyberpunk'
   | 'mystic-realm'
   | 'enchanted-forest'
+  | 'celestial-glow'
+  | 'cherry-lacquer'
+  | 'neon-pulse'
+  | 'retro-denim'
+  | 'high-contrast'
+  | 'inverted-mono'
   | 'system'
 
 interface ThemeProviderProps {
@@ -42,12 +42,13 @@ const isDarkTheme = (theme: Theme): boolean => {
     'midnight-ink',
     'forest-manuscript', 
     'starlit-prose',
-    'ocean-depths',
-    'midnight-amber',
+    'coffee-house',
     'halloween',
-    'cyberpunk',
     'mystic-realm',
-    'enchanted-forest'
+    'enchanted-forest',
+    'cherry-lacquer',
+    'neon-pulse',
+    'inverted-mono'
   ]
   return darkThemes.includes(theme)
 }
@@ -85,17 +86,17 @@ export function ThemeProvider({
     'forest-manuscript', 
     'starlit-prose', 
     'coffee-house',
-    'ocean-depths',
     'sunset-coral',
-    'forest-sage', 
-    'ocean-teal',
     'lavender-dusk',
-    'midnight-amber',
-    'monochrome',
     'halloween',
-    'cyberpunk',
     'mystic-realm',
     'enchanted-forest',
+    'celestial-glow',
+    'cherry-lacquer',
+    'neon-pulse',
+    'retro-denim',
+    'high-contrast',
+    'inverted-mono',
     'system'
   ],
   disableTransitionOnChange = false,

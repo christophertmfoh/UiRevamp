@@ -20,20 +20,19 @@ export default {
     '[data-theme="forest-manuscript"]',
     '[data-theme="starlit-prose"]',
     '[data-theme="coffee-house"]',
-    // Modern dual-color theme attribute selectors
-    '[data-theme="ocean-depths"]',
+    // Modern theme attribute selectors
     '[data-theme="sunset-coral"]',
-    '[data-theme="forest-sage"]',
-    '[data-theme="ocean-teal"]',
     '[data-theme="lavender-dusk"]',
-    '[data-theme="midnight-amber"]',
-    // Specialty theme attribute selectors
-    '[data-theme="monochrome"]',
-    '[data-theme="halloween"]',
-    '[data-theme="cyberpunk"]',
-    // Fantasy theme attribute selectors
+    '[data-theme="celestial-glow"]',
+    '[data-theme="cherry-lacquer"]',
+    '[data-theme="neon-pulse"]',
+    '[data-theme="retro-denim"]',
     '[data-theme="mystic-realm"]',
     '[data-theme="enchanted-forest"]',
+    // Specialty theme attribute selectors
+    '[data-theme="halloween"]',
+    '[data-theme="high-contrast"]',
+    '[data-theme="inverted-mono"]',
     // Gradient classes used in footer
     'gradient-primary',
     'gradient-primary-br',
