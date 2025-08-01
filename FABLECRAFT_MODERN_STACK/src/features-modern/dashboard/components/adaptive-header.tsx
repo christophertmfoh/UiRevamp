@@ -321,9 +321,10 @@ export const AdaptiveHeader: React.FC<AdaptiveHeaderProps> = ({
       <div className='relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
         <div className='flex items-center justify-between'>
           {/* Brand Logo */}
-          <div
-            className='flex items-center space-x-3 group cursor-pointer'
+          <button
+            className='flex items-center space-x-3 group cursor-pointer bg-transparent border-none p-0'
             onClick={() => navigate(isAuthenticated ? '/dashboard' : '/')}
+            aria-label='Go to home'
           >
             <div className='w-14 h-14 bg-primary/10 hover:bg-primary/20 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300'>
               <Feather className='w-7 h-7 text-primary' aria-hidden='true' />
@@ -331,7 +332,7 @@ export const AdaptiveHeader: React.FC<AdaptiveHeaderProps> = ({
             <span className='text-3xl font-black text-foreground tracking-wide'>
               Fablecraft
             </span>
-          </div>
+          </button>
 
           {/* Adaptive Navigation */}
           <div className='flex items-center space-x-4'>

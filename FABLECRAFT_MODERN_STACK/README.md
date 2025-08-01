@@ -132,6 +132,17 @@ npm run type-check       # TypeScript checking
 npm run test             # Run tests
 npm run test:ui          # Run tests with UI
 npm run test:coverage    # Coverage report
+
+# Code Analysis
+npm run analyze:deps     # Check for unused dependencies
+npm run analyze:bundle   # Check bundle sizes against limits
+npm run lighthouse       # Run Lighthouse performance audit
+npm run duplicates       # Find duplicate code
+npm run complexity       # Code complexity analysis
+
+# Accessibility
+npm run lint:a11y        # Run accessibility linting
+npm run check:all        # Run all quality checks (lint + a11y + type-check)
 ```
 
 ## 🎨 **STYLING**

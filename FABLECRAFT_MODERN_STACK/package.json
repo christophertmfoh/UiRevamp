@@ -22,7 +22,12 @@
     "bundle:analyze": "vite build --mode analyze",
     "prepare": "husky",
     "commit": "git-cz",
-    "ci:all": "npm run lint && npm run type-check && npm run test:coverage && npm run build"
+    "ci:all": "npm run lint && npm run type-check && npm run test:coverage && npm run build",
+    "analyze:deps": "depcheck",
+    "analyze:bundle": "bundlesize",
+    "lint:a11y": "eslint . --report-unused-disable-directives",
+    "lighthouse": "lhci autorun",
+    "check:all": "npm run lint && npm run lint:a11y && npm run type-check"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -43,11 +48,13 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.10.2",
     "@babel/plugin-transform-react-jsx": "^7.27.1",
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/compat": "^1.2.4",
     "@eslint/js": "^9.32.0",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.54.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -62,11 +69,15 @@
     "@vitest/ui": "^2.1.9",
     "audit-ci": "^7.1.0",
     "autoprefixer": "^10.4.20",
+    "axe-core": "^4.10.3",
     "better-npm-audit": "^3.11.0",
+    "bundlesize": "^0.18.2",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "depcheck": "^1.4.7",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-react-refresh": "^0.4.12",
@@ -101,5 +112,15 @@
     "*.json": [
       "prettier --write"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "dist/**/*.js",
+      "maxSize": "200 KB"
+    },
+    {
+      "path": "dist/**/*.css",
+      "maxSize": "50 KB"
+    }
+  ]
 }
