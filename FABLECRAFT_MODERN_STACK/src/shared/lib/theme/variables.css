@@ -263,3 +263,355 @@
   --auth-button-primary: 25 60% 45%; /* Warm caramel */
   --auth-button-primary-hover: 25 60% 40%; /* Darker caramel */
 }
+
+/* Ocean Depths - Cool blues and teals for focus */
+[data-theme="ocean-depths"] {
+  --background: 220 30% 8%; /* Deep ocean blue */
+  --foreground: 190 25% 90%; /* Light blue-white (8.1:1) */
+  --card: 220 30% 12%; /* Card surface */
+  --card-foreground: 190 25% 90%; /* Light text */
+  --popover: 220 30% 15%; /* Popover */
+  --popover-foreground: 190 25% 90%; /* Light text */
+  --primary: 190 85% 55%; /* Bright cyan */
+  --primary-foreground: 220 30% 8%; /* Dark text */
+  --secondary: 220 25% 18%; /* Dark blue */
+  --secondary-foreground: 190 25% 90%; /* Light text */
+  --muted: 220 25% 15%; /* Muted */
+  --muted-foreground: 190 20% 65%; /* Softer text (4.9:1) */
+  --accent: 180 70% 50%; /* Teal accent */
+  --accent-foreground: 220 30% 8%; /* Dark text */
+  --destructive: 0 70% 60%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 220 25% 18%; /* Border */
+  --input: 220 25% 18%; /* Input */
+  --ring: 190 85% 55%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 190 85% 55%; /* Cyan orb */
+  --orb-secondary: 180 70% 40%; /* Teal orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 190 85% 50%; /* Bright cyan */
+  --auth-button-primary-hover: 190 85% 45%; /* Darker cyan */
+}
+
+/* Sunset Coral - Warm coral and soft gold */
+[data-theme="sunset-coral"] {
+  --background: 30 15% 95%; /* Warm off-white */
+  --foreground: 15 25% 15%; /* Dark brown (13.7:1) */
+  --card: 30 20% 98%; /* Card surface */
+  --card-foreground: 15 25% 15%; /* Dark text */
+  --popover: 30 20% 96%; /* Popover */
+  --popover-foreground: 15 25% 15%; /* Dark text */
+  --primary: 15 75% 45%; /* Deep coral */
+  --primary-foreground: 30 15% 95%; /* Light text */
+  --secondary: 30 15% 85%; /* Light beige */
+  --secondary-foreground: 15 25% 15%; /* Dark text */
+  --muted: 30 10% 88%; /* Muted */
+  --muted-foreground: 15 15% 45%; /* Medium text (4.5:1) */
+  --accent: 45 85% 55%; /* Soft gold */
+  --accent-foreground: 45 25% 15%; /* Dark text */
+  --destructive: 0 70% 50%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 30 20% 85%; /* Border */
+  --input: 30 20% 90%; /* Input */
+  --ring: 15 75% 45%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 15 75% 55%; /* Coral orb */
+  --orb-secondary: 45 70% 65%; /* Gold orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 15 75% 50%; /* Coral */
+  --auth-button-primary-hover: 15 75% 40%; /* Darker coral */
+}
+
+/* Forest Sage - Deep forest green and warm cream */
+[data-theme="forest-sage"] {
+  --background: 150 8% 96%; /* Warm cream */
+  --foreground: 150 30% 20%; /* Deep forest (11.2:1) */
+  --card: 150 10% 98%; /* Card surface */
+  --card-foreground: 150 30% 20%; /* Dark text */
+  --popover: 150 10% 97%; /* Popover */
+  --popover-foreground: 150 30% 20%; /* Dark text */
+  --primary: 150 40% 35%; /* Forest green */
+  --primary-foreground: 150 8% 96%; /* Light text */
+  --secondary: 150 8% 88%; /* Light sage */
+  --secondary-foreground: 150 30% 20%; /* Dark text */
+  --muted: 150 6% 90%; /* Muted */
+  --muted-foreground: 150 20% 45%; /* Medium text (4.8:1) */
+  --accent: 25 35% 55%; /* Warm brown */
+  --accent-foreground: 25 10% 15%; /* Dark text */
+  --destructive: 0 70% 50%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 150 10% 85%; /* Border */
+  --input: 150 10% 92%; /* Input */
+  --ring: 150 40% 35%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 150 40% 45%; /* Green orb */
+  --orb-secondary: 25 35% 65%; /* Brown orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 150 40% 40%; /* Forest green */
+  --auth-button-primary-hover: 150 40% 30%; /* Darker green */
+}
+
+/* Ocean Teal - Deep teal and soft silver */
+[data-theme="ocean-teal"] {
+  --background: 200 10% 96%; /* Soft silver */
+  --foreground: 190 35% 20%; /* Deep teal (12.1:1) */
+  --card: 200 12% 98%; /* Card surface */
+  --card-foreground: 190 35% 20%; /* Dark text */
+  --popover: 200 12% 97%; /* Popover */
+  --popover-foreground: 190 35% 20%; /* Dark text */
+  --primary: 190 50% 35%; /* Deep teal */
+  --primary-foreground: 200 10% 96%; /* Light text */
+  --secondary: 200 8% 88%; /* Light silver */
+  --secondary-foreground: 190 35% 20%; /* Dark text */
+  --muted: 200 6% 90%; /* Muted */
+  --muted-foreground: 190 25% 45%; /* Medium text (4.9:1) */
+  --accent: 210 40% 55%; /* Steel blue */
+  --accent-foreground: 210 15% 15%; /* Dark text */
+  --destructive: 0 70% 50%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 200 10% 85%; /* Border */
+  --input: 200 10% 92%; /* Input */
+  --ring: 190 50% 35%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 190 50% 45%; /* Teal orb */
+  --orb-secondary: 210 40% 65%; /* Blue orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 190 50% 40%; /* Deep teal */
+  --auth-button-primary-hover: 190 50% 30%; /* Darker teal */
+}
+
+/* Lavender Dusk - Soft lavender and warm grey */
+[data-theme="lavender-dusk"] {
+  --background: 280 8% 96%; /* Warm grey */
+  --foreground: 280 25% 20%; /* Deep purple (11.8:1) */
+  --card: 280 10% 98%; /* Card surface */
+  --card-foreground: 280 25% 20%; /* Dark text */
+  --popover: 280 10% 97%; /* Popover */
+  --popover-foreground: 280 25% 20%; /* Dark text */
+  --primary: 280 35% 40%; /* Soft lavender */
+  --primary-foreground: 280 8% 96%; /* Light text */
+  --secondary: 280 6% 88%; /* Light grey */
+  --secondary-foreground: 280 25% 20%; /* Dark text */
+  --muted: 280 4% 90%; /* Muted */
+  --muted-foreground: 280 15% 45%; /* Medium text (4.7:1) */
+  --accent: 320 30% 55%; /* Soft pink */
+  --accent-foreground: 320 10% 15%; /* Dark text */
+  --destructive: 0 70% 50%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 280 8% 85%; /* Border */
+  --input: 280 8% 92%; /* Input */
+  --ring: 280 35% 40%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 280 35% 50%; /* Lavender orb */
+  --orb-secondary: 320 30% 65%; /* Pink orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 280 35% 45%; /* Lavender */
+  --auth-button-primary-hover: 280 35% 35%; /* Darker lavender */
+}
+
+/* Midnight Amber - Dark navy and golden amber */
+[data-theme="midnight-amber"] {
+  --background: 220 35% 8%; /* Dark navy */
+  --foreground: 45 25% 90%; /* Warm white (8.3:1) */
+  --card: 220 35% 12%; /* Card surface */
+  --card-foreground: 45 25% 90%; /* Light text */
+  --popover: 220 35% 15%; /* Popover */
+  --popover-foreground: 45 25% 90%; /* Light text */
+  --primary: 45 85% 55%; /* Golden amber */
+  --primary-foreground: 220 35% 8%; /* Dark text */
+  --secondary: 220 25% 18%; /* Dark blue */
+  --secondary-foreground: 45 25% 90%; /* Light text */
+  --muted: 220 25% 15%; /* Muted */
+  --muted-foreground: 45 20% 65%; /* Softer text (4.8:1) */
+  --accent: 35 75% 50%; /* Orange amber */
+  --accent-foreground: 35 25% 15%; /* Dark text */
+  --destructive: 0 70% 60%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 220 25% 18%; /* Border */
+  --input: 220 25% 18%; /* Input */
+  --ring: 45 85% 55%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 45 85% 65%; /* Amber orb */
+  --orb-secondary: 35 75% 60%; /* Orange orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 45 85% 50%; /* Golden amber */
+  --auth-button-primary-hover: 45 85% 40%; /* Darker amber */
+}
+
+/* Monochrome - Pure black and white */
+[data-theme="monochrome"] {
+  --background: 0 0% 98%; /* Pure white */
+  --foreground: 0 0% 8%; /* Pure black (12.6:1) */
+  --card: 0 0% 100%; /* Card surface */
+  --card-foreground: 0 0% 8%; /* Black text */
+  --popover: 0 0% 98%; /* Popover */
+  --popover-foreground: 0 0% 8%; /* Black text */
+  --primary: 0 0% 20%; /* Dark grey */
+  --primary-foreground: 0 0% 98%; /* White text */
+  --secondary: 0 0% 90%; /* Light grey */
+  --secondary-foreground: 0 0% 8%; /* Black text */
+  --muted: 0 0% 95%; /* Muted */
+  --muted-foreground: 0 0% 45%; /* Medium grey (4.6:1) */
+  --accent: 0 0% 35%; /* Medium grey */
+  --accent-foreground: 0 0% 98%; /* White text */
+  --destructive: 0 70% 50%; /* Error red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 0 0% 85%; /* Border */
+  --input: 0 0% 92%; /* Input */
+  --ring: 0 0% 20%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 0 0% 30%; /* Dark grey orb */
+  --orb-secondary: 0 0% 60%; /* Light grey orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 0 0% 25%; /* Dark grey */
+  --auth-button-primary-hover: 0 0% 15%; /* Darker grey */
+}
+
+/* Halloween - Orange and black spooky theme */
+[data-theme="halloween"] {
+  --background: 20 8% 8%; /* Dark charcoal */
+  --foreground: 35 15% 90%; /* Warm white (8.5:1) */
+  --card: 20 12% 12%; /* Card surface */
+  --card-foreground: 35 15% 90%; /* Light text */
+  --popover: 20 15% 15%; /* Popover */
+  --popover-foreground: 35 15% 90%; /* Light text */
+  --primary: 25 100% 55%; /* Bright orange */
+  --primary-foreground: 20 8% 8%; /* Dark text */
+  --secondary: 20 8% 18%; /* Dark grey */
+  --secondary-foreground: 35 15% 90%; /* Light text */
+  --muted: 20 8% 15%; /* Muted */
+  --muted-foreground: 35 10% 65%; /* Softer text (4.7:1) */
+  --accent: 45 90% 50%; /* Golden yellow */
+  --accent-foreground: 45 20% 15%; /* Dark text */
+  --destructive: 0 85% 60%; /* Spooky red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 20 15% 25%; /* Border */
+  --input: 20 15% 18%; /* Input */
+  --ring: 25 100% 55%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 25 100% 65%; /* Orange orb */
+  --orb-secondary: 45 90% 60%; /* Yellow orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 25 100% 50%; /* Halloween orange */
+  --auth-button-primary-hover: 25 100% 40%; /* Darker orange */
+}
+
+/* Cyberpunk - Neon colors with dark background */
+[data-theme="cyberpunk"] {
+  --background: 280 15% 6%; /* Dark purple-black */
+  --foreground: 180 20% 85%; /* Cyan-white (7.9:1) */
+  --card: 280 20% 10%; /* Card surface */
+  --card-foreground: 180 20% 85%; /* Light text */
+  --popover: 280 25% 12%; /* Popover */
+  --popover-foreground: 180 20% 85%; /* Light text */
+  --primary: 180 100% 50%; /* Neon cyan */
+  --primary-foreground: 280 15% 6%; /* Dark text */
+  --secondary: 280 15% 15%; /* Dark purple */
+  --secondary-foreground: 180 20% 85%; /* Light text */
+  --muted: 280 12% 12%; /* Muted */
+  --muted-foreground: 180 15% 65%; /* Softer text (4.5:1) */
+  --accent: 300 100% 50%; /* Neon magenta */
+  --accent-foreground: 300 20% 15%; /* Dark text */
+  --destructive: 0 100% 60%; /* Neon red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 280 20% 20%; /* Border */
+  --input: 280 20% 15%; /* Input */
+  --ring: 180 100% 50%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 180 100% 60%; /* Cyan orb */
+  --orb-secondary: 300 100% 60%; /* Magenta orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 180 100% 45%; /* Neon cyan */
+  --auth-button-primary-hover: 180 100% 35%; /* Darker cyan */
+}
+
+/* Mystic Realm - Fantasy theme with mystical purples and golds */
+[data-theme="mystic-realm"] {
+  --background: 270 25% 8%; /* Deep mystical purple */
+  --foreground: 50 20% 88%; /* Golden white (8.2:1) */
+  --card: 270 30% 12%; /* Card surface */
+  --card-foreground: 50 20% 88%; /* Light text */
+  --popover: 270 35% 15%; /* Popover */
+  --popover-foreground: 50 20% 88%; /* Light text */
+  --primary: 50 85% 55%; /* Mystical gold */
+  --primary-foreground: 270 25% 8%; /* Dark text */
+  --secondary: 270 20% 18%; /* Dark purple */
+  --secondary-foreground: 50 20% 88%; /* Light text */
+  --muted: 270 20% 15%; /* Muted */
+  --muted-foreground: 50 15% 65%; /* Softer text (4.6:1) */
+  --accent: 280 70% 55%; /* Mystic violet */
+  --accent-foreground: 280 15% 15%; /* Dark text */
+  --destructive: 0 75% 60%; /* Mystical red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 270 25% 22%; /* Border */
+  --input: 270 25% 18%; /* Input */
+  --ring: 50 85% 55%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 50 85% 65%; /* Gold orb */
+  --orb-secondary: 280 70% 65%; /* Violet orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 50 85% 50%; /* Mystical gold */
+  --auth-button-primary-hover: 50 85% 40%; /* Darker gold */
+}
+
+/* Enchanted Forest - Fantasy theme with magical greens and silvers */
+[data-theme="enchanted-forest"] {
+  --background: 150 20% 8%; /* Deep forest */
+  --foreground: 160 15% 88%; /* Silver-white (8.0:1) */
+  --card: 150 25% 12%; /* Card surface */
+  --card-foreground: 160 15% 88%; /* Light text */
+  --popover: 150 30% 15%; /* Popover */
+  --popover-foreground: 160 15% 88%; /* Light text */
+  --primary: 160 60% 55%; /* Enchanted silver */
+  --primary-foreground: 150 20% 8%; /* Dark text */
+  --secondary: 150 15% 18%; /* Dark green */
+  --secondary-foreground: 160 15% 88%; /* Light text */
+  --muted: 150 15% 15%; /* Muted */
+  --muted-foreground: 160 12% 65%; /* Softer text (4.5:1) */
+  --accent: 120 70% 50%; /* Magical green */
+  --accent-foreground: 120 15% 15%; /* Dark text */
+  --destructive: 0 70% 60%; /* Forest red */
+  --destructive-foreground: 0 0% 98%; /* White */
+  --border: 150 20% 22%; /* Border */
+  --input: 150 20% 18%; /* Input */
+  --ring: 160 60% 55%; /* Focus ring */
+  --radius: 0.5rem;
+  
+  /* Theme-specific orb colors */
+  --orb-primary: 160 60% 65%; /* Silver orb */
+  --orb-secondary: 120 70% 60%; /* Green orb */
+  
+  /* Auth button colors */
+  --auth-button-primary: 160 60% 50%; /* Enchanted silver */
+  --auth-button-primary-hover: 160 60% 40%; /* Darker silver */
+}

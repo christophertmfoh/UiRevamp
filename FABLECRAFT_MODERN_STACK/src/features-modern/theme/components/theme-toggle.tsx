@@ -1,6 +1,6 @@
 'use client'
 
-import { Monitor, Moon, Sun } from 'lucide-react';
+import { Monitor, Moon, Sun, Palette, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,10 +12,30 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/app/providers/use-theme';
 
-type Theme = 'light' | 'dark' | 'arctic-focus' | 'golden-hour' | 'midnight-ink' | 'forest-manuscript' | 'starlit-prose' | 'coffee-house' | 'system'
+type Theme = 
+  | 'light' 
+  | 'dark' 
+  | 'arctic-focus' 
+  | 'golden-hour' 
+  | 'midnight-ink' 
+  | 'forest-manuscript' 
+  | 'starlit-prose' 
+  | 'coffee-house'
+  | 'ocean-depths'
+  | 'sunset-coral'
+  | 'forest-sage' 
+  | 'ocean-teal'
+  | 'lavender-dusk'
+  | 'midnight-amber'
+  | 'monochrome'
+  | 'halloween'
+  | 'cyberpunk'
+  | 'mystic-realm'
+  | 'enchanted-forest'
+  | 'system'
 
 interface ThemeConfig {
-  icon: typeof Sun | typeof Moon | typeof Monitor;
+  icon: typeof Sun | typeof Moon | typeof Monitor | typeof Palette | typeof Sparkles | typeof Zap;
   label: string;
   description: string;
 }
@@ -30,11 +50,27 @@ const themeConfig: Record<Theme, ThemeConfig> = {
   'forest-manuscript': { icon: Moon, label: 'Forest Manuscript', description: 'Green and brown' },
   'starlit-prose': { icon: Moon, label: 'Starlit Prose', description: 'Purple cosmic' },
   'coffee-house': { icon: Moon, label: 'Coffee House', description: 'Warm browns' },
+  'ocean-depths': { icon: Moon, label: 'Ocean Depths', description: 'Cool blues and teals' },
+  'sunset-coral': { icon: Sun, label: 'Sunset Coral', description: 'Warm coral and gold' },
+  'forest-sage': { icon: Sun, label: 'Forest Sage', description: 'Deep green and cream' },
+  'ocean-teal': { icon: Sun, label: 'Ocean Teal', description: 'Deep teal and silver' },
+  'lavender-dusk': { icon: Sun, label: 'Lavender Dusk', description: 'Soft lavender and grey' },
+  'midnight-amber': { icon: Moon, label: 'Midnight Amber', description: 'Dark navy and gold' },
+  'monochrome': { icon: Palette, label: 'Monochrome', description: 'Pure black and white' },
+  'halloween': { icon: Zap, label: 'Halloween', description: 'Spooky orange and black' },
+  'cyberpunk': { icon: Zap, label: 'Cyberpunk', description: 'Neon colors' },
+  'mystic-realm': { icon: Sparkles, label: 'Mystic Realm', description: 'Mystical purples and golds' },
+  'enchanted-forest': { icon: Sparkles, label: 'Enchanted Forest', description: 'Magical greens and silvers' },
 } as const;
 
-// Type-safe theme arrays
-const lightThemes: readonly Theme[] = ['light', 'arctic-focus', 'golden-hour'] as const;
-const darkThemes: readonly Theme[] = ['dark', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'] as const;
+// Type-safe theme arrays organized by category
+const coreThemes: readonly Theme[] = ['light', 'dark'] as const;
+const classicLightThemes: readonly Theme[] = ['arctic-focus', 'golden-hour'] as const;
+const classicDarkThemes: readonly Theme[] = ['midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'] as const;
+const modernLightThemes: readonly Theme[] = ['sunset-coral', 'forest-sage', 'ocean-teal', 'lavender-dusk'] as const;
+const modernDarkThemes: readonly Theme[] = ['ocean-depths', 'midnight-amber'] as const;
+const specialtyThemes: readonly Theme[] = ['monochrome', 'halloween', 'cyberpunk'] as const;
+const fantasyThemes: readonly Theme[] = ['mystic-realm', 'enchanted-forest'] as const;
 
 interface ThemeMenuItemProps {
   theme: Theme;
@@ -92,10 +128,10 @@ export function ThemeToggle() {
         />
         
         <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Light Themes</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Core Themes</DropdownMenuLabel>
         
-        {/* Light themes */}
-        {lightThemes.map((themeOption) => (
+        {/* Core themes */}
+        {coreThemes.map((themeOption) => (
           <ThemeMenuItem
             key={themeOption}
             theme={themeOption}
@@ -105,10 +141,75 @@ export function ThemeToggle() {
         ))}
         
         <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Dark Themes</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Light Themes</DropdownMenuLabel>
         
-        {/* Dark themes */}
-        {darkThemes.map((themeOption) => (
+        {/* Classic light themes */}
+        {classicLightThemes.map((themeOption) => (
+          <ThemeMenuItem
+            key={themeOption}
+            theme={themeOption}
+            currentTheme={theme as Theme}
+            onThemeChange={setTheme}
+          />
+        ))}
+        
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Dark Themes</DropdownMenuLabel>
+        
+        {/* Classic dark themes */}
+        {classicDarkThemes.map((themeOption) => (
+          <ThemeMenuItem
+            key={themeOption}
+            theme={themeOption}
+            currentTheme={theme as Theme}
+            onThemeChange={setTheme}
+          />
+        ))}
+        
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Light Themes</DropdownMenuLabel>
+        
+        {/* Modern light themes */}
+        {modernLightThemes.map((themeOption) => (
+          <ThemeMenuItem
+            key={themeOption}
+            theme={themeOption}
+            currentTheme={theme as Theme}
+            onThemeChange={setTheme}
+          />
+        ))}
+        
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Dark Themes</DropdownMenuLabel>
+        
+        {/* Modern dark themes */}
+        {modernDarkThemes.map((themeOption) => (
+          <ThemeMenuItem
+            key={themeOption}
+            theme={themeOption}
+            currentTheme={theme as Theme}
+            onThemeChange={setTheme}
+          />
+        ))}
+        
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Specialty Themes</DropdownMenuLabel>
+        
+        {/* Specialty themes */}
+        {specialtyThemes.map((themeOption) => (
+          <ThemeMenuItem
+            key={themeOption}
+            theme={themeOption}
+            currentTheme={theme as Theme}
+            onThemeChange={setTheme}
+          />
+        ))}
+        
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs text-muted-foreground">Fantasy Themes</DropdownMenuLabel>
+        
+        {/* Fantasy themes */}
+        {fantasyThemes.map((themeOption) => (
           <ThemeMenuItem
             key={themeOption}
             theme={themeOption}

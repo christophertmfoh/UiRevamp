@@ -10,15 +10,30 @@ export default {
   ],
   // CRITICAL: Safelist all theme-related selectors to prevent purging
   safelist: [
-    // Theme attribute selectors
+    // Core theme attribute selectors
     '[data-theme="light"]',
     '[data-theme="dark"]',
+    // Classic theme attribute selectors
     '[data-theme="arctic-focus"]',
     '[data-theme="golden-hour"]',
     '[data-theme="midnight-ink"]',
     '[data-theme="forest-manuscript"]',
     '[data-theme="starlit-prose"]',
     '[data-theme="coffee-house"]',
+    // Modern dual-color theme attribute selectors
+    '[data-theme="ocean-depths"]',
+    '[data-theme="sunset-coral"]',
+    '[data-theme="forest-sage"]',
+    '[data-theme="ocean-teal"]',
+    '[data-theme="lavender-dusk"]',
+    '[data-theme="midnight-amber"]',
+    // Specialty theme attribute selectors
+    '[data-theme="monochrome"]',
+    '[data-theme="halloween"]',
+    '[data-theme="cyberpunk"]',
+    // Fantasy theme attribute selectors
+    '[data-theme="mystic-realm"]',
+    '[data-theme="enchanted-forest"]',
     // Gradient classes used in footer
     'gradient-primary',
     'gradient-primary-br',

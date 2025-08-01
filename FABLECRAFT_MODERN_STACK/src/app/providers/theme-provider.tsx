@@ -4,7 +4,27 @@ import * as React from 'react'
 import { useEffect, useState, useCallback } from 'react'
 import { ThemeContext } from './theme-context'
 
-type Theme = 'light' | 'dark' | 'arctic-focus' | 'golden-hour' | 'midnight-ink' | 'forest-manuscript' | 'starlit-prose' | 'coffee-house' | 'system'
+type Theme = 
+  | 'light' 
+  | 'dark' 
+  | 'arctic-focus' 
+  | 'golden-hour' 
+  | 'midnight-ink' 
+  | 'forest-manuscript' 
+  | 'starlit-prose' 
+  | 'coffee-house'
+  | 'ocean-depths'
+  | 'sunset-coral'
+  | 'forest-sage' 
+  | 'ocean-teal'
+  | 'lavender-dusk'
+  | 'midnight-amber'
+  | 'monochrome'
+  | 'halloween'
+  | 'cyberpunk'
+  | 'mystic-realm'
+  | 'enchanted-forest'
+  | 'system'
 
 interface ThemeProviderProps {
   children: React.ReactNode
@@ -17,10 +37,19 @@ interface ThemeProviderProps {
 }
 
 const isDarkTheme = (theme: Theme): boolean => {
-  return theme.includes('dark') || 
-         theme === 'midnight-ink' || 
-         theme === 'forest-manuscript' || 
-         theme === 'starlit-prose'
+  const darkThemes = [
+    'dark',
+    'midnight-ink',
+    'forest-manuscript', 
+    'starlit-prose',
+    'ocean-depths',
+    'midnight-amber',
+    'halloween',
+    'cyberpunk',
+    'mystic-realm',
+    'enchanted-forest'
+  ]
+  return darkThemes.includes(theme)
 }
 
 const safeLocalStorage = {
@@ -47,7 +76,28 @@ export function ThemeProvider({
   attribute = "class",
   defaultTheme = "system",
   enableSystem = true,
-  themes = ['light', 'dark', 'arctic-focus', 'golden-hour', 'midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house', 'system'],
+  themes = [
+    'light', 
+    'dark', 
+    'arctic-focus', 
+    'golden-hour', 
+    'midnight-ink', 
+    'forest-manuscript', 
+    'starlit-prose', 
+    'coffee-house',
+    'ocean-depths',
+    'sunset-coral',
+    'forest-sage', 
+    'ocean-teal',
+    'lavender-dusk',
+    'midnight-amber',
+    'monochrome',
+    'halloween',
+    'cyberpunk',
+    'mystic-realm',
+    'enchanted-forest',
+    'system'
+  ],
   disableTransitionOnChange = false,
   storageKey = "theme",
 }: ThemeProviderProps) {
