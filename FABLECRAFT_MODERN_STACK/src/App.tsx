@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { HomePage } from '@/pages/HomePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
-import { LoginPage } from '@/features-modern/auth/pages/login-page';
+import { AuthPage } from '@/features-modern/auth/pages/auth-page';
 import { ProtectedRoute } from '@/features-modern/auth/components/protected-route';
 import { DashboardPage } from '@/features-modern/dashboard/pages/dashboard-page';
 
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path='/' element={<HomePage />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route path='/auth' element={<AuthPage />} />
         
         {/* Protected Routes using React Router v6 composition pattern */}
         <Route element={<ProtectedRoute />}>

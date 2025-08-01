@@ -65,14 +65,14 @@ const PreLoginNavigation: React.FC = () => {
       {/* Auth Actions */}
       <div className='flex items-center space-x-4'>
         <Button
-          onClick={() => navigate('/login')}
+          onClick={() => navigate('/auth')}
           variant="outline"
           className='hidden sm:flex'
         >
           Sign In
         </Button>
         <Button
-          onClick={() => navigate('/signup')}
+          onClick={() => navigate('/auth')}
           className={cn(
             'bg-primary hover:bg-primary/90 text-primary-foreground',
             'px-6 py-2 font-semibold shadow-md hover:shadow-lg',
