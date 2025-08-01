@@ -140,6 +140,14 @@
       /* Texture transition */ --texture-grain 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --texture-fiber 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --texture-opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Design-token variables for glow shadows & motion */
+    --shadow-glow-1: 0 0 20px rgba(var(--primary), 0.15);
+    --shadow-glow-2: 0 0 40px rgba(var(--primary), 0.10);
+    --shadow-glow-3: 0 0 60px rgba(var(--primary), 0.05);
+
+    /* Motion timing tokens */
+    --duration-hover: 200ms;
+    --duration-press: 100ms;
   }
 
   /* BUTTON LAG FIX - Hardware Acceleration + Containment for React + Vite + Tailwind v4 */
@@ -718,7 +726,9 @@
 @layer utilities {
   /* Hover lift effect for cards and interactive elements */
   .hover-lift {
-    @apply transition-all duration-200 ease-out;
+    /* Use motion token instead of fixed duration */
+    @apply transition-all ease-out;
+    transition-duration: var(--duration-hover, 200ms);
   }
   .hover-lift:hover {
     @apply -translate-y-1 shadow-xl;
@@ -736,18 +746,21 @@
 
   /* Hover glow effect */
   .hover-glow {
-    @apply transition-shadow duration-300 ease-out;
+    @apply transition-shadow ease-out;
+    transition-duration: var(--duration-hover, 300ms);
   }
   .hover-glow:hover {
-    box-shadow: 
-      0 0 20px rgba(var(--primary), 0.15),
-      0 0 40px rgba(var(--primary), 0.1),
-      0 0 60px rgba(var(--primary), 0.05);
+    /* Theme-agnostic glow using tokenized shadows */
+    box-shadow:
+      var(--shadow-glow-1),
+      var(--shadow-glow-2),
+      var(--shadow-glow-3);
   }
 
   /* Scale animation on hover */
   .hover-scale {
-    @apply transition-transform duration-200 ease-out;
+    @apply transition-transform ease-out;
+    transition-duration: var(--duration-hover, 200ms);
   }
   .hover-scale:hover {
     @apply scale-105;
@@ -771,7 +784,8 @@
 
   /* Premium button press effect */
   .active-press {
-    @apply transition-all duration-100 ease-out;
+    @apply transition-all ease-out;
+    transition-duration: var(--duration-press, 100ms);
   }
   .active-press:active {
     @apply scale-95;
