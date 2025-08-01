@@ -61,7 +61,7 @@
 
 ## 🚀 THE PLAN: VISUAL CONSISTENCY FIRST
 
-### PHASE 1: Design System Enhancement (1 hour)
+### PHASE 1: Design System Enhancement (30 min)
 **Before continuing with widgets**
 
 1. **Create Enhanced Card Component**
@@ -75,11 +75,9 @@
 
 2. **Create Animation Utilities**
    ```css
-   /* Hover lift effect */
+   /* In index.css or new animations.css */
    .hover-lift
-   /* Glass morphism */
    .glass-card
-   /* Glow on hover */
    .hover-glow
    ```
 
@@ -89,7 +87,7 @@
    - Pressed states
    - Loading animations
 
-### PHASE 2: Auth Page Redesign (45 min)
+### PHASE 2: Auth Page Redesign (30 min)
 **Make it feel premium**
 
 1. **Background Enhancement**
@@ -108,7 +106,7 @@
    - Creative writing imagery
    - Inspirational quotes
 
-### PHASE 3: Dashboard Modernization (1 hour)
+### PHASE 3: Dashboard Modernization (45 min)
 **Before extracting widgets**
 
 1. **Enhanced Grid**
@@ -139,6 +137,7 @@ Using the enhanced components from Phases 1-3
 
 ### Step 1: Shared Animation Classes
 ```css
+/* Add to src/index.css */
 @layer utilities {
   .hover-lift {
     @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-xl;
@@ -154,10 +153,11 @@ Using the enhanced components from Phases 1-3
 }
 ```
 
-### Step 2: Enhanced Components in Ladle
-- Develop all enhancements in Ladle first
-- Test with all 15 themes
-- Ensure consistency
+### Step 2: Direct Development Workflow
+- Develop components directly in the codebase
+- Test immediately in the running app (http://localhost:5173)
+- Use hot module replacement for instant feedback
+- Test with theme toggle to ensure all 15 themes work
 
 ### Step 3: Progressive Enhancement
 - Start with auth page (smaller scope)
@@ -199,21 +199,20 @@ Using the enhanced components from Phases 1-3
    - Creative app personality
 
 3. **Technical Quality**
-   - All in Ladle stories
-   - Theme-aware
-   - Accessible
-   - Performant
+   - Theme-aware components
+   - Accessible (ARIA, focus states)
+   - Performant animations
 
 ---
 
 ## 🗓️ UPDATED TIMELINE
 
-1. **Today:** Design system enhancement (1 hour)
-2. **Next:** Auth page redesign (45 min)
-3. **Then:** Dashboard modernization (1 hour)
+1. **Now:** Design system enhancement (30 min)
+2. **Next:** Auth page redesign (30 min)
+3. **Then:** Dashboard modernization (45 min)
 4. **Finally:** Widget development with new design
 
-Total: ~3 hours before returning to widget development
+Total: ~1.75 hours before returning to widget development
 
 ---
 
@@ -227,12 +226,11 @@ Fix the design system first, then everything built on top will automatically loo
 
 ## 🚦 NEXT IMMEDIATE STEPS
 
-1. Stop Ladle error (already working on it)
-2. Create enhanced-card component
-3. Add animation utilities
-4. Build in Ladle with all themes
-5. Apply to auth page
-6. Then dashboard
-7. Then continue with widgets
+1. Create enhanced-card component in `src/components/ui/`
+2. Add animation utilities to `src/index.css`
+3. Test directly in the running app
+4. Apply to auth page
+5. Then dashboard
+6. Then continue with widgets
 
 This addresses your ADD by giving clear, sequential steps while fixing the core issue that's bothering you - the visual inconsistency.

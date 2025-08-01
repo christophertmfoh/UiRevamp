@@ -96,7 +96,7 @@
 *Fix visual cohesion before building more features*
 
 ### **STEP 2.5.1: Enhanced Components** 🔴 CURRENT
-- **Timeline:** 1 hour
+- **Timeline:** 30 minutes
 - **Goal:** Create premium components matching landing page
 - **Tasks:**
   - Enhanced Card with glass morphism
@@ -105,7 +105,7 @@
   - Consistent micro-interactions
 
 ### **STEP 2.5.2: Auth Page Redesign** ⏳ NEXT
-- **Timeline:** 45 minutes
+- **Timeline:** 30 minutes
 - **Goal:** Premium login experience
 - **Tasks:**
   - Gradient mesh background
@@ -114,7 +114,7 @@
   - Brand personality
 
 ### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
-- **Timeline:** 1 hour
+- **Timeline:** 45 minutes
 - **Goal:** Creative app feel
 - **Tasks:**
   - Widget glass effects
