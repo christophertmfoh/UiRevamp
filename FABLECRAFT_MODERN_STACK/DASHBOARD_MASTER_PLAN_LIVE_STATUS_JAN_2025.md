@@ -94,6 +94,7 @@
 
 ## 🎨 **PHASE 2.5: DESIGN SYSTEM ENHANCEMENT** 🔴 NEW PRIORITY
 *Fix visual cohesion before building more features*
+**Total Phase Timeline: 2 hours** (30 min + 45 min + 45 min)
 
 ### **STEP 2.5.1: Enhanced Components** 🔴 CURRENT
 - **Timeline:** 30 minutes
@@ -105,21 +106,187 @@
   - Consistent micro-interactions
 
 ### **STEP 2.5.2: Auth Page Redesign (Dual Card)** ⏳ NEXT
-- **Timeline:** 30 minutes
-- **Goal:** Premium dual-card auth experience on single page
-- **Tasks:**
-  - Single page with dual card display (Login + Sign Up)
-  - Smooth card transitions/animations between forms
-  - Gradient mesh background
-  - Glass card effects on both cards
-  - Input focus glows
-  - Brand personality
-  - Responsive layout (side-by-side on desktop, stacked on mobile)
-- **Implementation Notes:**
-  - Replace current `/login` and `/signup` routes with single `/auth` route
-  - Create new auth-page.tsx combining both forms
-  - Update navigation links in adaptive-header.tsx
-  - Maintain existing form validation and auth logic
+- **Timeline:** 45 minutes (increased for comprehensive implementation)
+- **Goal:** Premium dual-card auth experience on single page following industry best practices
+- **Industry Standards Applied:**
+  - Single-page dual card pattern (popular in modern SaaS)
+  - Framer Motion for smooth transitions
+  - React Hook Form + Zod for type-safe validation
+  - Zustand for auth state management
+  - Responsive design with mobile-first approach
+
+#### **Technical Implementation:**
+
+**1. Route Structure:**
+```typescript
+// Replace separate /login and /signup routes with:
+<Route path="/auth" element={<AuthPage />} />
+// Remove old routes:
+// <Route path="/login" element={<LoginPage />} />
+// <Route path="/signup" element={<SignupPage />} /> ❌
+```
+
+**2. Component Architecture:**
+```
+src/features-modern/auth/
+├── pages/
+│   └── auth-page.tsx (NEW - dual card container)
+├── components/
+│   ├── login-form.tsx (existing - enhanced)
+│   ├── signup-form.tsx (NEW - matching login style)
+│   ├── auth-card-container.tsx (NEW - handles transitions)
+│   └── auth-background.tsx (NEW - animated background)
+└── schemas/
+    └── auth-schemas.ts (NEW - Zod validation schemas)
+```
+
+**3. Zod Schema Implementation:**
+```typescript
+// auth-schemas.ts - Industry standard validation
+const createAuthSchemas = (t: TFunction) => ({
+  login: z.object({
+    email: z.string()
+      .min(1, t('emailRequired'))
+      .email(t('invalidEmail')),
+    password: z.string()
+      .min(1, t('passwordRequired'))
+      .min(8, t('passwordMinLength')),
+    rememberMe: z.boolean().optional()
+  }),
+  signup: z.object({
+    name: z.string()
+      .min(2, t('nameRequired'))
+      .max(50, t('nameTooLong')),
+    email: z.string()
+      .min(1, t('emailRequired'))
+      .email(t('invalidEmail')),
+    password: z.string()
+      .min(8, t('passwordMinLength'))
+      .regex(/[A-Z]/, t('passwordUppercase'))
+      .regex(/[a-z]/, t('passwordLowercase'))
+      .regex(/[0-9]/, t('passwordNumber')),
+    confirmPassword: z.string()
+  }).refine(data => data.password === data.confirmPassword, {
+    message: t('passwordsDoNotMatch'),
+    path: ['confirmPassword']
+  })
+});
+```
+
+**4. Framer Motion Transitions:**
+```typescript
+// Animation variants for card transitions
+const cardVariants = {
+  login: {
+    rotateY: 0,
+    transition: { duration: 0.6, ease: "easeInOut" }
+  },
+  signup: {
+    rotateY: 180,
+    transition: { duration: 0.6, ease: "easeInOut" }
+  }
+};
+
+// Responsive slide variants for mobile
+const mobileSlideVariants = {
+  login: { x: 0 },
+  signup: { x: "-100%" }
+};
+```
+
+**5. Responsive Layout Strategy:**
+```typescript
+// Desktop: Side-by-side with 3D flip
+// Tablet: Stacked with slide transition
+// Mobile: Full-screen cards with swipe gestures
+const useResponsiveLayout = () => {
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isTablet = useMediaQuery('(min-width: 768px)');
+  return { isDesktop, isTablet, isMobile: !isTablet };
+};
+```
+
+**6. Enhanced Form Integration:**
+```typescript
+// Using React Hook Form with zodResolver
+const form = useForm<LoginFormData>({
+  resolver: zodResolver(loginSchema),
+  defaultValues: {
+    email: '',
+    password: '',
+    rememberMe: false
+  }
+});
+
+// Async form submission with loading states
+const onSubmit = async (data: LoginFormData) => {
+  setIsLoading(true);
+  try {
+    await login(data); // Zustand action
+    navigate('/dashboard');
+  } catch (error) {
+    form.setError('root', { 
+      message: getErrorMessage(error) 
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
+```
+
+**7. State Management Pattern:**
+```typescript
+// Enhanced auth store with Zustand
+interface AuthState {
+  user: User | null;
+  isLoading: boolean;
+  error: string | null;
+  login: (credentials: LoginData) => Promise<void>;
+  signup: (data: SignupData) => Promise<void>;
+  logout: () => void;
+  clearError: () => void;
+}
+```
+
+**8. Visual Design Implementation:**
+- **Background**: Animated gradient mesh with floating orbs
+- **Cards**: Glass morphism with backdrop-filter
+- **Inputs**: Focus glow effects with smooth transitions
+- **Buttons**: Gradient backgrounds with loading states
+- **Typography**: Golden ratio scaling with brand personality
+- **Micro-interactions**: Hover effects, scale animations, fade-ins
+
+**9. Accessibility Considerations:**
+- Proper ARIA labels for form controls
+- Keyboard navigation support
+- Focus management during transitions
+- Screen reader announcements for errors
+- Reduced motion preferences respected
+
+**10. Security Best Practices:**
+- Client-side validation as UX enhancement only
+- Prepare for server-side validation integration
+- No sensitive data in localStorage
+- CSRF token preparation
+- Rate limiting preparation (UI indicators)
+
+**11. Navigation Updates:**
+```typescript
+// adaptive-header.tsx updates
+onClick={() => navigate('/auth')} // Instead of /login or /signup
+// Show different CTA based on auth state
+{!isAuthenticated && (
+  <Button onClick={() => navigate('/auth')}>
+    Get Started
+  </Button>
+)}
+```
+
+**12. Error Handling Pattern:**
+- Form-level errors for general failures
+- Field-level errors for specific validation
+- Toast notifications for network errors
+- Persistent error states during transitions
 
 ### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
 - **Timeline:** 45 minutes
@@ -307,7 +474,7 @@ src/
 - No story files needed - direct implementation
 
 ### **THEN CONTINUE WITH:**
-- Phase 2.5.2: Auth page redesign (30 min)
+- Phase 2.5.2: Dual card auth page implementation (45 min)
 - Phase 2.5.3: Dashboard modernization (45 min)
 - Phase 3: Widget extraction and development
 
@@ -319,5 +486,10 @@ src/
 2. **False Claims**: Previous agent claimed Steps 4.2-4.4 were complete with 100+ tests - THIS IS FALSE
 3. **Dev Server**: May need to run `yarn install` before starting
 4. **Actual Test Files**: Only 3 exist (button.test.tsx, theme-toggle.test.tsx, integration.test.ts)
+5. **Auth Pages Status**: 
+   - `/login` route exists and works ✅
+   - `/signup` route defined but NO SignupPage component exists ❌
+   - Navigation to `/signup` returns 404 page
+   - Dual card design will fix this by combining both on `/auth`
 
 **Ready to continue from ACTUAL current position!** 🚀
