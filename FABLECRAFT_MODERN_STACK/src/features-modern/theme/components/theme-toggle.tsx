@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { useTheme } from '@/app/providers/use-theme';
 
 type Theme = 
@@ -116,107 +117,122 @@ export function ThemeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="w-64">
+        <DropdownMenuLabel>Theme Selection</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
-        {/* System preference */}
-        <ThemeMenuItem
-          theme="system"
-          currentTheme={theme as Theme}
-          onThemeChange={setTheme}
-        />
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Core Themes</DropdownMenuLabel>
-        
-        {/* Core themes */}
-        {coreThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Light Themes</DropdownMenuLabel>
-        
-        {/* Classic light themes */}
-        {classicLightThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Dark Themes</DropdownMenuLabel>
-        
-        {/* Classic dark themes */}
-        {classicDarkThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Light Themes</DropdownMenuLabel>
-        
-        {/* Modern light themes */}
-        {modernLightThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Dark Themes</DropdownMenuLabel>
-        
-        {/* Modern dark themes */}
-        {modernDarkThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Specialty Themes</DropdownMenuLabel>
-        
-        {/* Specialty themes */}
-        {specialtyThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
-        
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-xs text-muted-foreground">Fantasy Themes</DropdownMenuLabel>
-        
-        {/* Fantasy themes */}
-        {fantasyThemes.map((themeOption) => (
-          <ThemeMenuItem
-            key={themeOption}
-            theme={themeOption}
-            currentTheme={theme as Theme}
-            onThemeChange={setTheme}
-          />
-        ))}
+        {/* Scrollable content area with responsive max height */}
+        <ScrollArea.Root className="h-full">
+          <ScrollArea.Viewport className="max-h-96 w-full">
+            {/* System preference */}
+            <ThemeMenuItem
+              theme="system"
+              currentTheme={theme as Theme}
+              onThemeChange={setTheme}
+            />
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Core Themes</DropdownMenuLabel>
+            
+            {/* Core themes */}
+            {coreThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Light Themes</DropdownMenuLabel>
+            
+            {/* Classic light themes */}
+            {classicLightThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Classic Dark Themes</DropdownMenuLabel>
+            
+            {/* Classic dark themes */}
+            {classicDarkThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Light Themes</DropdownMenuLabel>
+            
+            {/* Modern light themes */}
+            {modernLightThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Dark Themes</DropdownMenuLabel>
+            
+            {/* Modern dark themes */}
+            {modernDarkThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Specialty Themes</DropdownMenuLabel>
+            
+            {/* Specialty themes */}
+            {specialtyThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Fantasy Themes</DropdownMenuLabel>
+            
+            {/* Fantasy themes */}
+            {fantasyThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+          </ScrollArea.Viewport>
+          
+          {/* Custom styled scrollbar */}
+          <ScrollArea.Scrollbar 
+            className="flex select-none touch-none p-0.5 bg-transparent transition-colors duration-150 ease-out hover:bg-muted/50 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            orientation="vertical"
+          >
+            <ScrollArea.Thumb className="flex-1 bg-border rounded-full relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+          </ScrollArea.Scrollbar>
+          
+          <ScrollArea.Corner className="bg-transparent" />
+        </ScrollArea.Root>
       </DropdownMenuContent>
     </DropdownMenu>
   );
