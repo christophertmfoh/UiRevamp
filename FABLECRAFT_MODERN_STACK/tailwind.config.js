@@ -23,12 +23,8 @@ export default {
     // Modern theme attribute selectors
     '[data-theme="sunset-coral"]',
     '[data-theme="lavender-dusk"]',
-    '[data-theme="arctic-aurora"]',
-    '[data-theme="desert-mirage"]',
-    '[data-theme="cherry-lacquer"]',
-    '[data-theme="volcanic-ash"]',
-    // Fantasy theme attribute selectors
     '[data-theme="moonlit-garden"]',
+    '[data-theme="cherry-lacquer"]',
     '[data-theme="dragons-hoard"]',
     // Specialty theme attribute selectors
     '[data-theme="halloween"]',

@@ -376,37 +376,7 @@
 
 
 
-/* Volcanic Ash - Dark volcanic with molten orange */
-[data-theme="volcanic-ash"] {
-  --background: 15 10% 8%; /* Volcanic ash black */
-  --foreground: 30 20% 88%; /* Warm ash white (8.5:1) */
-  --card: 15 15% 12%; /* Card surface */
-  --card-foreground: 30 20% 88%; /* Light text */
-  --popover: 15 20% 15%; /* Popover */
-  --popover-foreground: 30 20% 88%; /* Light text */
-  --primary: 15 100% 55%; /* Molten orange */
-  --primary-foreground: 15 10% 8%; /* Dark text */
-  --secondary: 15 8% 18%; /* Dark ash */
-  --secondary-foreground: 30 20% 88%; /* Light text */
-  --muted: 15 8% 15%; /* Muted */
-  --muted-foreground: 30 15% 65%; /* Softer text (4.9:1) */
-  --accent: 5 90% 50%; /* Lava red */
-  --accent-foreground: 5 20% 15%; /* Dark text */
-  --destructive: 0 85% 60%; /* Volcanic red */
-  --destructive-foreground: 0 0% 98%; /* White */
-  --border: 15 12% 25%; /* Border */
-  --input: 15 12% 20%; /* Input */
-  --ring: 15 100% 55%; /* Focus ring */
-  --radius: 0.75rem; /* Rounded like lava */
-  
-  /* Theme-specific orb colors */
-  --orb-primary: 15 100% 65%; /* Molten orb */
-  --orb-secondary: 5 90% 60%; /* Lava orb */
-  
-  /* Auth button colors */
-  --auth-button-primary: 15 100% 50%; /* Molten orange */
-  --auth-button-primary-hover: 15 100% 45%; /* Darker molten */
-}
+
 
 /* Cherry Lacquer - Luxury deep red theme */
 [data-theme="cherry-lacquer"] {
@@ -442,131 +412,37 @@
 
 /* Cyberpunk - Authentic neon dystopian theme */
 [data-theme="cyberpunk"] {
-  --background: 240 15% 5%; /* Deep cyber black */
-  --foreground: 180 30% 88%; /* Cyan white (8.9:1) */
-  --card: 240 20% 8%; /* Card surface */
-  --card-foreground: 180 30% 88%; /* Light cyan text */
-  --popover: 240 25% 10%; /* Popover */
-  --popover-foreground: 180 30% 88%; /* Light text */
-  --primary: 180 100% 50%; /* Neon cyan */
-  --primary-foreground: 240 15% 5%; /* Dark text */
-  --secondary: 240 12% 15%; /* Dark cyber grey */
-  --secondary-foreground: 180 30% 88%; /* Light text */
-  --muted: 240 10% 12%; /* Muted */
-  --muted-foreground: 180 20% 70%; /* Muted cyan (5.2:1) */
-  --accent: 300 100% 50%; /* Neon magenta */
-  --accent-foreground: 300 30% 10%; /* Dark text */
-  --destructive: 0 100% 50%; /* Neon red */
-  --destructive-foreground: 0 0% 100%; /* White */
-  --border: 240 15% 20%; /* Border */
-  --input: 240 15% 18%; /* Input */
-  --ring: 180 100% 50%; /* Cyan focus ring */
-  --radius: 0.125rem; /* Sharp edges */
+  --background: 240 20% 6%; /* Deep cyber black */
+  --foreground: 180 25% 85%; /* Cyan white (7.8:1) */
+  --card: 240 25% 10%; /* Card surface */
+  --card-foreground: 180 25% 85%; /* Light cyan text */
+  --popover: 240 30% 12%; /* Popover */
+  --popover-foreground: 180 25% 85%; /* Light text */
+  --primary: 180 100% 45%; /* Bright neon cyan */
+  --primary-foreground: 240 20% 6%; /* Dark background text */
+  --secondary: 240 15% 18%; /* Dark cyber grey */
+  --secondary-foreground: 180 25% 85%; /* Light text */
+  --muted: 240 12% 15%; /* Muted */
+  --muted-foreground: 180 18% 65%; /* Muted cyan (4.8:1) */
+  --accent: 300 100% 45%; /* Neon magenta */
+  --accent-foreground: 240 20% 6%; /* Dark text */
+  --destructive: 0 100% 55%; /* Neon red */
+  --destructive-foreground: 240 20% 6%; /* Dark text - NO MORE WHITE! */
+  --border: 240 18% 25%; /* Border */
+  --input: 240 18% 20%; /* Input */
+  --ring: 180 100% 45%; /* Cyan focus ring */
+  --radius: 0.125rem; /* Sharp cyberpunk edges */
   
   /* Theme-specific orb colors */
-  --orb-primary: 180 100% 60%; /* Bright cyan orb */
-  --orb-secondary: 300 100% 60%; /* Bright magenta orb */
+  --orb-primary: 180 100% 55%; /* Bright cyan orb */
+  --orb-secondary: 300 100% 55%; /* Bright magenta orb */
   
   /* Auth button colors */
-  --auth-button-primary: 180 100% 45%; /* Neon cyan */
-  --auth-button-primary-hover: 180 100% 40%; /* Darker cyan */
+  --auth-button-primary: 180 100% 40%; /* Strong neon cyan */
+  --auth-button-primary-hover: 180 100% 35%; /* Darker cyan */
 }
 
-/* Arctic Aurora - Cool teal aurora theme */
-[data-theme="arctic-aurora"] {
-  --background: 130 12% 96%; /* Arctic white */
-  --foreground: 130 35% 18%; /* Deep aurora green (12.5:1) */
-  --card: 130 15% 98%; /* Card surface */
-  --card-foreground: 130 35% 18%; /* Dark text */
-  --popover: 130 15% 97%; /* Popover */
-  --popover-foreground: 130 35% 18%; /* Dark text */
-  --primary: 130 70% 45%; /* Aurora teal */
-  --primary-foreground: 130 12% 96%; /* Light text */
-  --secondary: 130 8% 88%; /* Light aurora */
-  --secondary-foreground: 130 35% 18%; /* Dark text */
-  --muted: 130 6% 90%; /* Muted */
-  --muted-foreground: 130 25% 45%; /* Medium text (5.0:1) */
-  --accent: 140 60% 50%; /* Bright aurora */
-  --accent-foreground: 140 20% 15%; /* Dark text */
-  --destructive: 0 70% 50%; /* Error red */
-  --destructive-foreground: 0 0% 98%; /* White */
-  --border: 130 10% 85%; /* Border */
-  --input: 130 10% 92%; /* Input */
-  --ring: 130 70% 45%; /* Focus ring */
-  --radius: 0.5rem;
-  
-  /* Theme-specific orb colors */
-  --orb-primary: 130 70% 55%; /* Aurora orb */
-  --orb-secondary: 140 60% 60%; /* Bright aurora orb */
-  
-  /* Auth button colors */
-  --auth-button-primary: 130 70% 40%; /* Aurora teal */
-  --auth-button-primary-hover: 130 70% 35%; /* Darker aurora */
-}
 
-/* Desert Mirage - Warm desert with mirages */
-[data-theme="desert-mirage"] {
-  --background: 55 25% 95%; /* Desert sand */
-  --foreground: 40 40% 18%; /* Desert shadow (12.9:1) */
-  --card: 55 30% 97%; /* Card surface */
-  --card-foreground: 40 40% 18%; /* Dark text */
-  --popover: 55 30% 96%; /* Popover */
-  --popover-foreground: 40 40% 18%; /* Dark text */
-  --primary: 55 80% 50%; /* Desert gold */
-  --primary-foreground: 40 40% 18%; /* Dark text */
-  --secondary: 55 15% 88%; /* Light sand */
-  --secondary-foreground: 40 40% 18%; /* Dark text */
-  --muted: 55 12% 90%; /* Muted */
-  --muted-foreground: 40 30% 45%; /* Medium text (4.9:1) */
-  --accent: 35 70% 55%; /* Mirage orange */
-  --accent-foreground: 35 25% 15%; /* Dark text */
-  --destructive: 0 70% 50%; /* Error red */
-  --destructive-foreground: 0 0% 98%; /* White */
-  --border: 55 20% 85%; /* Border */
-  --input: 55 20% 90%; /* Input */
-  --ring: 55 80% 50%; /* Focus ring */
-  --radius: 0.5rem;
-  
-  /* Theme-specific orb colors */
-  --orb-primary: 55 80% 60%; /* Gold orb */
-  --orb-secondary: 35 70% 65%; /* Orange orb */
-  
-  /* Auth button colors */
-  --auth-button-primary: 55 80% 45%; /* Desert gold */
-  --auth-button-primary-hover: 55 80% 40%; /* Darker gold */
-}
-
-/* True Black & White - Pure contrast theme */
-[data-theme="true-black-white"] {
-  --background: 0 0% 0%; /* Pure black */
-  --foreground: 0 0% 100%; /* Pure white (21:1) */
-  --card: 0 0% 5%; /* Very dark grey */
-  --card-foreground: 0 0% 100%; /* White text */
-  --popover: 0 0% 0%; /* Pure black */
-  --popover-foreground: 0 0% 100%; /* White text */
-  --primary: 0 0% 100%; /* Pure white */
-  --primary-foreground: 0 0% 0%; /* Black text */
-  --secondary: 0 0% 10%; /* Very dark grey */
-  --secondary-foreground: 0 0% 100%; /* White text */
-  --muted: 0 0% 8%; /* Muted dark */
-  --muted-foreground: 0 0% 80%; /* Light grey (10:1) */
-  --accent: 0 0% 90%; /* Light grey */
-  --accent-foreground: 0 0% 0%; /* Black text */
-  --destructive: 0 100% 50%; /* Pure red */
-  --destructive-foreground: 0 0% 100%; /* White */
-  --border: 0 0% 15%; /* Dark border */
-  --input: 0 0% 10%; /* Dark input */
-  --ring: 0 0% 100%; /* White focus ring */
-  --radius: 0.5rem;
-  
-  /* Theme-specific orb colors */
-  --orb-primary: 0 0% 100%; /* White orb */
-  --orb-secondary: 0 0% 70%; /* Light grey orb */
-  
-  /* Auth button colors */
-  --auth-button-primary: 0 0% 100%; /* Pure white */
-  --auth-button-primary-hover: 0 0% 90%; /* Light grey */
-}
 
 /* Moonlit Garden - Fantasy light theme with mystical blues */
 [data-theme="moonlit-garden"] {

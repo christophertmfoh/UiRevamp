@@ -17,13 +17,9 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'volcanic-ash'
   | 'cyberpunk'
-  | 'arctic-aurora'
-  | 'desert-mirage'
   | 'moonlit-garden'
   | 'dragons-hoard'
-  | 'true-black-white'
   | 'system'
 
 interface ThemeProviderProps {
@@ -45,10 +41,8 @@ const isDarkTheme = (theme: Theme): boolean => {
     'coffee-house',
     'halloween',
     'cherry-lacquer',
-    'volcanic-ash',
     'cyberpunk',
-    'dragons-hoard',
-    'true-black-white'
+    'dragons-hoard'
   ]
   return darkThemes.includes(theme)
 }
@@ -90,13 +84,9 @@ export function ThemeProvider({
     'lavender-dusk',
     'halloween',
     'cherry-lacquer',
-    'volcanic-ash',
     'cyberpunk',
-    'arctic-aurora',
-    'desert-mirage',
     'moonlit-garden',
     'dragons-hoard',
-    'true-black-white',
     'system'
   ],
   disableTransitionOnChange = false,

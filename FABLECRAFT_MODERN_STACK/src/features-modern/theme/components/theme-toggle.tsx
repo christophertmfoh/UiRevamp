@@ -26,13 +26,9 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'volcanic-ash'
   | 'cyberpunk'
-  | 'arctic-aurora'
-  | 'desert-mirage'
   | 'moonlit-garden'
   | 'dragons-hoard'
-  | 'true-black-white'
   | 'system'
 
 interface ThemeConfig {
@@ -53,25 +49,20 @@ const themeConfig: Record<Theme, ThemeConfig> = {
   'coffee-house': { icon: Moon, label: 'Coffee House', description: 'Warm browns' },
   'sunset-coral': { icon: Sun, label: 'Sunset Coral', description: 'Warm coral and gold' },
   'lavender-dusk': { icon: Sun, label: 'Lavender Dusk', description: 'Soft lavender and grey' },
+  'moonlit-garden': { icon: Sun, label: 'Moonlit Garden', description: 'Mystical moonlit blues' },
   'halloween': { icon: Zap, label: 'Halloween', description: 'Spooky orange and black' },
   'cherry-lacquer': { icon: Moon, label: 'Cherry Lacquer', description: 'Luxury deep red' },
-  'volcanic-ash': { icon: Moon, label: 'Volcanic Ash', description: 'Molten orange and ash' },
   'cyberpunk': { icon: Zap, label: 'Cyberpunk', description: 'Neon cyan and magenta' },
-  'arctic-aurora': { icon: Sun, label: 'Arctic Aurora', description: 'Cool teal aurora' },
-  'desert-mirage': { icon: Sun, label: 'Desert Mirage', description: 'Warm desert gold' },
-  'moonlit-garden': { icon: Sparkles, label: 'Moonlit Garden', description: 'Fantasy moonlit blues' },
-  'dragons-hoard': { icon: Sparkles, label: "Dragon's Hoard", description: 'Fantasy gold treasures' },
-  'true-black-white': { icon: Palette, label: 'True Black & White', description: 'Pure contrast' },
+  'dragons-hoard': { icon: Moon, label: "Dragon's Hoard", description: 'Fantasy gold treasures' },
 } as const;
 
 // Type-safe theme arrays organized by category
 const coreThemes: readonly Theme[] = ['light', 'dark'] as const;
 const classicLightThemes: readonly Theme[] = ['arctic-focus', 'golden-hour'] as const;
 const classicDarkThemes: readonly Theme[] = ['midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'] as const;
-const modernLightThemes: readonly Theme[] = ['sunset-coral', 'lavender-dusk', 'arctic-aurora', 'desert-mirage'] as const;
-const modernDarkThemes: readonly Theme[] = ['cherry-lacquer', 'volcanic-ash'] as const;
-const fantasyThemes: readonly Theme[] = ['moonlit-garden', 'dragons-hoard'] as const;
-const specialtyThemes: readonly Theme[] = ['halloween', 'cyberpunk', 'true-black-white'] as const;
+const modernLightThemes: readonly Theme[] = ['sunset-coral', 'lavender-dusk', 'moonlit-garden'] as const;
+const modernDarkThemes: readonly Theme[] = ['cherry-lacquer', 'dragons-hoard'] as const;
+const specialtyThemes: readonly Theme[] = ['halloween', 'cyberpunk'] as const;
 
 interface ThemeMenuItemProps {
   theme: Theme;
@@ -188,19 +179,6 @@ export function ThemeToggle() {
             
             {/* Modern dark themes */}
             {modernDarkThemes.map((themeOption) => (
-              <ThemeMenuItem
-                key={themeOption}
-                theme={themeOption}
-                currentTheme={theme as Theme}
-                onThemeChange={setTheme}
-              />
-            ))}
-            
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel className="text-xs text-muted-foreground">Fantasy Themes</DropdownMenuLabel>
-            
-            {/* Fantasy themes */}
-            {fantasyThemes.map((themeOption) => (
               <ThemeMenuItem
                 key={themeOption}
                 theme={themeOption}

@@ -13,13 +13,9 @@ type Theme =
   | 'lavender-dusk'
   | 'halloween'
   | 'cherry-lacquer'
-  | 'volcanic-ash'
   | 'cyberpunk'
-  | 'arctic-aurora'
-  | 'desert-mirage'
   | 'moonlit-garden'
   | 'dragons-hoard'
-  | 'true-black-white'
   | 'system'
 
 export interface ThemeContextType {
