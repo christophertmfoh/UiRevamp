@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { ThemeProvider } from '@/shared/lib/theme-system/theme-provider';
+import { ThemeProvider } from '@/app/providers/theme-provider';
 import userEvent from '@testing-library/user-event';
 
 /**
