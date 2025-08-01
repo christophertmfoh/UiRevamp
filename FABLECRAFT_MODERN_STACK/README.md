@@ -143,6 +143,11 @@ npm run complexity       # Code complexity analysis
 # Accessibility
 npm run lint:a11y        # Run accessibility linting
 npm run check:all        # Run all quality checks (lint + a11y + type-check)
+
+# Component Development
+npm run ladle            # Start Ladle dev server (port 61000)
+npm run ladle:build      # Build static Ladle site
+npm run ladle:preview    # Preview built Ladle site
 ```
 
 ## 🎨 **STYLING**
