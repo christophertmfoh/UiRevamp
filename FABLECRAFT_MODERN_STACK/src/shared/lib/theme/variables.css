@@ -28,11 +28,11 @@
   --input: 35 20% 85%; /* Input border */
   --ring: 350 70% 40%; /* Focus ring */
   --radius: 0.5rem; /* Border radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 350 70% 40%; /* Burgundy orb */
   --orb-secondary: 35 40% 70%; /* Beige orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 350 70% 35%; /* Burgundy */
   --auth-button-primary-hover: 350 70% 30%; /* Darker burgundy */
@@ -60,11 +60,11 @@
   --input: 200 15% 85%; /* Input */
   --ring: 210 70% 45%; /* Focus ring */
   --radius: 0.375rem; /* Slightly sharper */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 210 70% 45%; /* Blue orb */
   --orb-secondary: 200 20% 70%; /* Gray orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 210 70% 40%; /* Professional blue */
   --auth-button-primary-hover: 210 70% 35%; /* Darker blue */
@@ -92,11 +92,11 @@
   --input: 45 30% 85%; /* Input */
   --ring: 45 85% 50%; /* Focus ring */
   --radius: 0.5rem; /* Standard radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 45 85% 50%; /* Golden orb */
   --orb-secondary: 40 50% 70%; /* Amber orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 45 85% 45%; /* Golden */
   --auth-button-primary-hover: 45 85% 40%; /* Darker gold */
@@ -126,11 +126,11 @@
   --input: 220 15% 25%; /* Input */
   --ring: 35 75% 55%; /* Focus ring */
   --radius: 0.5rem; /* Standard radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 35 75% 55%; /* Amber orb */
   --orb-secondary: 220 15% 35%; /* Gray orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 35 75% 50%; /* Warm amber */
   --auth-button-primary-hover: 35 75% 45%; /* Darker amber */
@@ -158,11 +158,11 @@
   --input: 230 20% 22%; /* Input */
   --ring: 210 80% 60%; /* Focus ring */
   --radius: 0.375rem; /* Slightly sharper */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 210 80% 60%; /* Blue orb */
   --orb-secondary: 230 20% 30%; /* Dark blue orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 210 80% 55%; /* Bright blue */
   --auth-button-primary-hover: 210 80% 50%; /* Darker blue */
@@ -190,11 +190,11 @@
   --input: 150 15% 24%; /* Input */
   --ring: 140 50% 50%; /* Focus ring */
   --radius: 0.5rem; /* Standard radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 140 50% 50%; /* Green orb */
   --orb-secondary: 150 15% 35%; /* Dark green orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 140 50% 45%; /* Emerald */
   --auth-button-primary-hover: 140 50% 40%; /* Darker emerald */
@@ -222,11 +222,11 @@
   --input: 260 20% 23%; /* Input */
   --ring: 270 65% 65%; /* Focus ring */
   --radius: 0.5rem; /* Standard radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 270 65% 65%; /* Purple orb */
   --orb-secondary: 260 20% 35%; /* Dark purple orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 270 65% 60%; /* Bright purple */
   --auth-button-primary-hover: 270 65% 55%; /* Darker purple */
@@ -254,17 +254,15 @@
   --input: 25 15% 26%; /* Input */
   --ring: 25 60% 50%; /* Focus ring */
   --radius: 0.5rem; /* Standard radius */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 25 60% 50%; /* Caramel orb */
   --orb-secondary: 25 15% 35%; /* Brown orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 25 60% 45%; /* Warm caramel */
   --auth-button-primary-hover: 25 60% 40%; /* Darker caramel */
 }
-
-
 
 /* Sunset Coral - Warm coral and soft gold */
 [data-theme="sunset-coral"] {
@@ -288,19 +286,15 @@
   --input: 30 20% 90%; /* Input */
   --ring: 15 75% 45%; /* Focus ring */
   --radius: 0.5rem;
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 15 75% 55%; /* Coral orb */
   --orb-secondary: 45 70% 65%; /* Gold orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 15 75% 50%; /* Coral */
   --auth-button-primary-hover: 15 75% 40%; /* Darker coral */
 }
-
-
-
-
 
 /* Lavender Dusk - Soft lavender and warm grey */
 [data-theme="lavender-dusk"] {
@@ -324,19 +318,15 @@
   --input: 280 8% 92%; /* Input */
   --ring: 280 35% 40%; /* Focus ring */
   --radius: 0.5rem;
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 280 35% 50%; /* Lavender orb */
   --orb-secondary: 320 30% 65%; /* Pink orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 280 35% 45%; /* Lavender */
   --auth-button-primary-hover: 280 35% 35%; /* Darker lavender */
 }
-
-
-
-
 
 /* Halloween - Orange and black spooky theme */
 [data-theme="halloween"] {
@@ -360,23 +350,15 @@
   --input: 20 15% 18%; /* Input */
   --ring: 25 100% 55%; /* Focus ring */
   --radius: 0.5rem;
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 25 100% 65%; /* Orange orb */
   --orb-secondary: 45 90% 60%; /* Yellow orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 25 100% 50%; /* Halloween orange */
   --auth-button-primary-hover: 25 100% 40%; /* Darker orange */
 }
-
-
-
-
-
-
-
-
 
 /* Cherry Lacquer - Luxury deep red theme */
 [data-theme="cherry-lacquer"] {
@@ -400,11 +382,11 @@
   --input: 350 30% 18%; /* Input */
   --ring: 350 75% 50%; /* Focus ring */
   --radius: 0.5rem;
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 350 75% 60%; /* Red orb */
   --orb-secondary: 15 60% 65%; /* Copper orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 350 75% 45%; /* Cherry red */
   --auth-button-primary-hover: 350 75% 35%; /* Darker red */
@@ -442,8 +424,6 @@
   --auth-button-primary-hover: 220 40% 25%; /* Darker blue */
 }
 
-
-
 /* Moonlit Garden - Fantasy light theme with mystical blues */
 [data-theme="moonlit-garden"] {
   --background: 95 15% 96%; /* Moonlit white */
@@ -466,11 +446,11 @@
   --input: 95 12% 92%; /* Input */
   --ring: 95 60% 45%; /* Focus ring */
   --radius: 0.75rem; /* Soft magical */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 95 60% 55%; /* Moonlit orb */
   --orb-secondary: 85 50% 60%; /* Magic orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 95 60% 40%; /* Moonlit teal */
   --auth-button-primary-hover: 95 60% 35%; /* Darker moonlit */
@@ -498,11 +478,11 @@
   --input: 65 25% 18%; /* Input */
   --ring: 45 95% 55%; /* Focus ring */
   --radius: 0.75rem; /* Treasure-like */
-  
+
   /* Theme-specific orb colors */
   --orb-primary: 45 95% 65%; /* Gold treasure orb */
   --orb-secondary: 35 85% 60%; /* Ember orb */
-  
+
   /* Auth button colors */
   --auth-button-primary: 45 95% 50%; /* Dragon gold */
   --auth-button-primary-hover: 45 95% 45%; /* Darker gold */

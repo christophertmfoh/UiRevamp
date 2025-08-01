@@ -1,5 +1,15 @@
 import { memo } from 'react';
-import { Feather, Mail, MapPin, Phone, Facebook, Twitter, Instagram, Linkedin, Github } from 'lucide-react';
+import {
+  Feather,
+  Mail,
+  MapPin,
+  Phone,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Github,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -36,7 +46,6 @@ export const FooterSection = memo(
         <div className='max-w-7xl mx-auto px-8 py-16'>
           {/* Main Footer Content Grid */}
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12'>
-            
             {/* Company Section */}
             <div className='space-y-6'>
               {showBranding && (
@@ -50,9 +59,11 @@ export const FooterSection = memo(
                 </div>
               )}
               <p className='text-foreground/70 text-sm leading-relaxed max-w-xs'>
-                {tagline}. Empowering writers and storytellers with AI-powered tools for character creation, world building, and narrative development.
+                {tagline}. Empowering writers and storytellers with AI-powered
+                tools for character creation, world building, and narrative
+                development.
               </p>
-              
+
               {/* Contact Information */}
               <div className='space-y-3'>
                 <div className='flex items-center gap-3 text-sm text-foreground/60'>
@@ -75,16 +86,16 @@ export const FooterSection = memo(
               <h3 className='text-sm font-semibold text-foreground uppercase tracking-wider'>
                 Product
               </h3>
-                             <ul className='space-y-3'>
-                 {[
-                   'Character Creator',
-                   'World Builder',
-                   'Story Planner',
-                   'Writing Assistant',
-                   'AI Companion',
-                   'Templates',
-                   'Manuscripts'
-                 ].map((item) => (
+              <ul className='space-y-3'>
+                {[
+                  'Character Creator',
+                  'World Builder',
+                  'Story Planner',
+                  'Writing Assistant',
+                  'AI Companion',
+                  'Templates',
+                  'Manuscripts',
+                ].map(item => (
                   <li key={item}>
                     <button className='text-sm text-foreground/60 hover:text-foreground transition-colors duration-200'>
                       {item}
@@ -106,8 +117,8 @@ export const FooterSection = memo(
                   'Blog',
                   'Press Kit',
                   'Partners',
-                  'Contact'
-                ].map((item) => (
+                  'Contact',
+                ].map(item => (
                   <li key={item}>
                     <button className='text-sm text-foreground/60 hover:text-foreground transition-colors duration-200'>
                       {item}
@@ -125,7 +136,7 @@ export const FooterSection = memo(
               <p className='text-sm text-foreground/60'>
                 Get the latest updates, writing tips, and feature announcements.
               </p>
-              
+
               {/* Newsletter Signup */}
               <div className='space-y-3'>
                 <div className='flex gap-2'>
@@ -134,10 +145,7 @@ export const FooterSection = memo(
                     placeholder='Enter your email'
                     className='text-sm'
                   />
-                  <Button
-                    size='sm'
-                    className='px-4 whitespace-nowrap'
-                  >
+                  <Button size='sm' className='px-4 whitespace-nowrap'>
                     Subscribe
                   </Button>
                 </div>
@@ -154,8 +162,8 @@ export const FooterSection = memo(
                     'Help Center',
                     'Documentation',
                     'Community Forum',
-                    'Status Page'
-                  ].map((item) => (
+                    'Status Page',
+                  ].map(item => (
                     <li key={item}>
                       <button className='text-sm text-foreground/60 hover:text-foreground transition-colors duration-200'>
                         {item}
@@ -170,7 +178,6 @@ export const FooterSection = memo(
           {/* Bottom Section */}
           <div className='pt-8 border-t border-border/20'>
             <div className='flex flex-col md:flex-row items-center justify-between gap-6'>
-              
               {/* Copyright and Legal */}
               <div className='flex flex-col sm:flex-row items-center gap-4 text-sm text-foreground/50'>
                 <span>
@@ -191,13 +198,15 @@ export const FooterSection = memo(
 
               {/* Social Media Icons */}
               <div className='flex items-center gap-4'>
-                <span className='text-sm text-foreground/60 mr-2'>Follow us</span>
+                <span className='text-sm text-foreground/60 mr-2'>
+                  Follow us
+                </span>
                 {[
                   { icon: Twitter, label: 'Twitter' },
                   { icon: Facebook, label: 'Facebook' },
                   { icon: Instagram, label: 'Instagram' },
                   { icon: Linkedin, label: 'LinkedIn' },
-                  { icon: Github, label: 'GitHub' }
+                  { icon: Github, label: 'GitHub' },
                 ].map(({ icon: Icon, label }) => (
                   <button
                     key={label}

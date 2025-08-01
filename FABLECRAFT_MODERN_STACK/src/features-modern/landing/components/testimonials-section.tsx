@@ -78,12 +78,12 @@ const TestimonialCard = memo(
             <Star key={i} className='w-5 h-5 fill-primary text-primary' />
           ))}
         </div>
-        
+
         {/* Quote Content */}
         <p className='text-foreground italic leading-relaxed mt-best-friends'>
           {testimonial.content}
         </p>
-        
+
         {/* Author Information */}
         <div className='flex items-center gap-3 mt-friends'>
           <div className='w-10 h-10 bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center'>
@@ -123,13 +123,13 @@ export const TestimonialsSection = memo(
           {/* Header Section with Mathematical Spacing */}
           <div className='flex flex-col items-center'>
             {/* Badge with Pulsing Dot */}
-            <div className="flex items-center justify-center gap-2">
-              <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+            <div className='flex items-center justify-center gap-2'>
+              <div className='w-4 h-4 rounded-full animate-pulse bg-primary' />
               <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md text-base px-4 py-2'>
                 Trusted by Professional Writers
               </Badge>
             </div>
-            
+
             <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight mt-best-friends'>
               What Our Users Are Saying
             </h2>

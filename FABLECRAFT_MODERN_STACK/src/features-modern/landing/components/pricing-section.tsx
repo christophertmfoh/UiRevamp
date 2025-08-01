@@ -54,10 +54,22 @@ const defaultPricingTiers: PricingTier[] = [
     ctaText: 'Start Free',
     features: [
       { id: 'projects-3', text: '3 Free Projects', included: true },
-      { id: 'ai-credits-limited', text: 'Limited Free AI Credits/Month', included: true },
+      {
+        id: 'ai-credits-limited',
+        text: 'Limited Free AI Credits/Month',
+        included: true,
+      },
       { id: 'basic-features', text: 'All Basic Features', included: true },
-      { id: 'community-access', text: 'Community Access & Sharing', included: true },
-      { id: 'standard-export', text: 'Standard Export & Sharing', included: true },
+      {
+        id: 'community-access',
+        text: 'Community Access & Sharing',
+        included: true,
+      },
+      {
+        id: 'standard-export',
+        text: 'Standard Export & Sharing',
+        included: true,
+      },
     ],
   },
   {
@@ -70,11 +82,31 @@ const defaultPricingTiers: PricingTier[] = [
     ctaText: 'Choose Starter',
     features: [
       { id: 'projects-unlimited', text: 'Unlimited Projects', included: true },
-      { id: 'ai-credits-standard', text: 'Standard AI Credits/Month', included: true },
-      { id: 'advanced-features', text: 'Advanced Creative Features', included: true },
-      { id: 'basic-collaboration', text: 'Basic Collaboration Tools', included: true },
-      { id: 'enhanced-export', text: 'Enhanced Export Options', included: true },
-      { id: 'project-templates', text: 'Professional Project Templates', included: true },
+      {
+        id: 'ai-credits-standard',
+        text: 'Standard AI Credits/Month',
+        included: true,
+      },
+      {
+        id: 'advanced-features',
+        text: 'Advanced Creative Features',
+        included: true,
+      },
+      {
+        id: 'basic-collaboration',
+        text: 'Basic Collaboration Tools',
+        included: true,
+      },
+      {
+        id: 'enhanced-export',
+        text: 'Enhanced Export Options',
+        included: true,
+      },
+      {
+        id: 'project-templates',
+        text: 'Professional Project Templates',
+        included: true,
+      },
     ],
   },
   {
@@ -86,11 +118,31 @@ const defaultPricingTiers: PricingTier[] = [
     isPopular: true,
     ctaText: 'Unleash Full Power',
     features: [
-      { id: 'projects-unlimited', text: 'Unlimited Multimedia Projects', included: true },
-      { id: 'ai-credits-premium', text: 'Premium AI Credits/Month', included: true },
-      { id: 'video-generation', text: 'Pre-vis & Video Generation', included: true },
-      { id: 'audio-suite', text: 'Full Audio Production Suite & DAW', included: true },
-      { id: 'priority-support', text: 'Priority Support & Beta Access', included: true },
+      {
+        id: 'projects-unlimited',
+        text: 'Unlimited Multimedia Projects',
+        included: true,
+      },
+      {
+        id: 'ai-credits-premium',
+        text: 'Premium AI Credits/Month',
+        included: true,
+      },
+      {
+        id: 'video-generation',
+        text: 'Pre-vis & Video Generation',
+        included: true,
+      },
+      {
+        id: 'audio-suite',
+        text: 'Full Audio Production Suite & DAW',
+        included: true,
+      },
+      {
+        id: 'priority-support',
+        text: 'Priority Support & Beta Access',
+        included: true,
+      },
     ],
   },
   {
@@ -102,12 +154,28 @@ const defaultPricingTiers: PricingTier[] = [
     isPopular: false,
     ctaText: 'Contact Sales',
     features: [
-      { id: 'everything-included', text: 'Everything in Creative Studio', included: true },
+      {
+        id: 'everything-included',
+        text: 'Everything in Creative Studio',
+        included: true,
+      },
       { id: 'unlimited-credits', text: 'Unlimited AI Credits', included: true },
-      { id: 'custom-integrations', text: 'Custom Integrations & API Access', included: true },
-      { id: 'dedicated-support', text: 'Dedicated Account Manager', included: true },
+      {
+        id: 'custom-integrations',
+        text: 'Custom Integrations & API Access',
+        included: true,
+      },
+      {
+        id: 'dedicated-support',
+        text: 'Dedicated Account Manager',
+        included: true,
+      },
       { id: 'sso-security', text: 'SSO & Advanced Security', included: true },
-      { id: 'custom-training', text: 'Custom Training & Onboarding', included: true },
+      {
+        id: 'custom-training',
+        text: 'Custom Training & Onboarding',
+        included: true,
+      },
       { id: 'sla-guarantee', text: 'SLA Guarantee', included: true },
     ],
   },
@@ -158,12 +226,14 @@ const PricingCard = memo(
           </div>
         )}
 
-        <CardContent className={`relative z-10 p-6 ${tier.isPopular ? 'pt-12' : ''} flex flex-col h-full`}>
+        <CardContent
+          className={`relative z-10 p-6 ${tier.isPopular ? 'pt-12' : ''} flex flex-col h-full`}
+        >
           {/* Plan Name */}
           <h3 className='text-2xl font-bold text-heading-primary'>
             {tier.name}
           </h3>
-          
+
           {/* Price and Period */}
           <div className='mt-best-friends'>
             <div className='text-4xl font-bold text-heading-primary'>
@@ -174,13 +244,18 @@ const PricingCard = memo(
                 </span>
               )}
             </div>
-            <p className='text-muted-foreground mt-best-friends'>{tier.description}</p>
+            <p className='text-muted-foreground mt-best-friends'>
+              {tier.description}
+            </p>
           </div>
 
           {/* Features List - flex-grow pushes button to bottom */}
           <div className='text-left mt-friends flex-grow'>
             {tier.features.map((feature, index) => (
-              <div key={feature.id} className={`flex items-center gap-3 ${index > 0 ? 'mt-2' : ''}`}>
+              <div
+                key={feature.id}
+                className={`flex items-center gap-3 ${index > 0 ? 'mt-2' : ''}`}
+              >
                 <CheckCircle className='w-5 h-5 text-primary flex-shrink-0' />
                 <span className='text-foreground'>{feature.text}</span>
               </div>
@@ -222,17 +297,17 @@ export const PricingSection = memo(
           {/* Header Section with Mathematical Spacing */}
           <div className='flex flex-col items-center'>
             {/* Badge with Pulsing Dot */}
-            <div className="flex items-center justify-center gap-2">
-              <div className="w-4 h-4 rounded-full animate-pulse bg-primary" />
+            <div className='flex items-center justify-center gap-2'>
+              <div className='w-4 h-4 rounded-full animate-pulse bg-primary' />
               <Badge className='bg-card/95 text-foreground border-border font-bold backdrop-blur-md shadow-md text-base px-4 py-2'>
                 Simple, Transparent Pricing
               </Badge>
             </div>
-            
+
             <h2 className='text-4xl md:text-5xl font-black text-heading-primary drop-shadow-[0_3px_6px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-[1.2] tracking-tight mt-best-friends'>
               Start Free, Scale with Your Stories
             </h2>
-            
+
             <p className='text-xl text-foreground max-w-3xl mx-auto font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)] leading-[1.75] tracking-normal mt-friends'>
               Whether you're writing your first novel or managing an entire
               creative universe, we have a plan that grows with your ambition.

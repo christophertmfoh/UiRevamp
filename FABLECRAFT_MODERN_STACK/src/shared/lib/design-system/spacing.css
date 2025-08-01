@@ -21,36 +21,46 @@
 :root {
   /* 8-Point Grid Foundation */
   --space-unit: 8px;
-  --space-2: calc(var(--space-unit) * 2);  /* 16px */
-  --space-3: calc(var(--space-unit) * 3);  /* 24px */
-  --space-4: calc(var(--space-unit) * 4);  /* 32px */
-  --space-6: calc(var(--space-unit) * 6);  /* 48px */
-  --space-8: calc(var(--space-unit) * 8);  /* 64px */
+  --space-2: calc(var(--space-unit) * 2); /* 16px */
+  --space-3: calc(var(--space-unit) * 3); /* 24px */
+  --space-4: calc(var(--space-unit) * 4); /* 32px */
+  --space-6: calc(var(--space-unit) * 6); /* 48px */
+  --space-8: calc(var(--space-unit) * 8); /* 64px */
   --space-12: calc(var(--space-unit) * 12); /* 96px */
   --space-16: calc(var(--space-unit) * 16); /* 128px */
 
   /* Golden Ratio Typography Scale (1.618) */
   --golden-ratio: 1.618;
   --text-base: 16px;
-  --text-golden-sm: calc(var(--text-base) / var(--golden-ratio));    /* ~9.88px */
-  --text-golden-md: var(--text-base);                                /* 16px */
-  --text-golden-lg: calc(var(--text-base) * var(--golden-ratio));    /* ~25.88px */
-  --text-golden-xl: calc(var(--text-golden-lg) * var(--golden-ratio)); /* ~41.85px */
-  --text-golden-2xl: calc(var(--text-golden-xl) * var(--golden-ratio)); /* ~67.67px */
-  --text-golden-3xl: calc(var(--text-golden-2xl) * var(--golden-ratio)); /* ~109.46px */
-  --text-golden-4xl: calc(var(--text-golden-3xl) * var(--golden-ratio)); /* ~177.11px */
-  --text-golden-5xl: calc(var(--text-golden-4xl) * var(--golden-ratio)); /* ~286.57px */
+  --text-golden-sm: calc(var(--text-base) / var(--golden-ratio)); /* ~9.88px */
+  --text-golden-md: var(--text-base); /* 16px */
+  --text-golden-lg: calc(var(--text-base) * var(--golden-ratio)); /* ~25.88px */
+  --text-golden-xl: calc(
+    var(--text-golden-lg) * var(--golden-ratio)
+  ); /* ~41.85px */
+  --text-golden-2xl: calc(
+    var(--text-golden-xl) * var(--golden-ratio)
+  ); /* ~67.67px */
+  --text-golden-3xl: calc(
+    var(--text-golden-2xl) * var(--golden-ratio)
+  ); /* ~109.46px */
+  --text-golden-4xl: calc(
+    var(--text-golden-3xl) * var(--golden-ratio)
+  ); /* ~177.11px */
+  --text-golden-5xl: calc(
+    var(--text-golden-4xl) * var(--golden-ratio)
+  ); /* ~286.57px */
 
   /* Section Spacing for Professional Layout */
-  --section-spacing: var(--space-16);      /* 128px */
+  --section-spacing: var(--space-16); /* 128px */
   --section-spacing-hero: var(--space-12); /* 96px */
   --section-spacing-compact: var(--space-8); /* 64px */
 
   /* Component Spacing APIs */
-  --component-inner: var(--space-4);       /* 32px */
+  --component-inner: var(--space-4); /* 32px */
   --component-comfortable: var(--space-3); /* 24px */
-  --component-cozy: var(--space-2);        /* 16px */
-  --component-tight: var(--space-unit);    /* 8px */
+  --component-cozy: var(--space-2); /* 16px */
+  --component-tight: var(--space-unit); /* 8px */
 }
 
 /* ================================================================
@@ -185,7 +195,7 @@
 
 .text-golden-5xl {
   font-size: var(--text-golden-5xl);
-  line-height: calc(var(--text-golden-5xl) * 1.0);
+  line-height: calc(var(--text-golden-5xl) * 1);
 }
 
 /* ================================================================
@@ -259,23 +269,23 @@
 
 @media (max-width: 480px) {
   :root {
-    --section-spacing: var(--space-8);      /* 64px on mobile */
+    --section-spacing: var(--space-8); /* 64px on mobile */
     --section-spacing-hero: var(--space-6); /* 48px on mobile */
-    --component-inner: var(--space-3);      /* 24px on mobile */
+    --component-inner: var(--space-3); /* 24px on mobile */
   }
 }
 
 @media (min-width: 769px) {
   :root {
-    --section-spacing: var(--space-16);     /* 128px on tablet+ */
+    --section-spacing: var(--space-16); /* 128px on tablet+ */
     --section-spacing-hero: var(--space-12); /* 96px on tablet+ */
-    --component-inner: var(--space-4);      /* 32px on tablet+ */
+    --component-inner: var(--space-4); /* 32px on tablet+ */
   }
 }
 
 @media (min-width: 1025px) {
   :root {
-    --section-spacing: calc(var(--space-16) * 1.25);     /* 160px on desktop */
+    --section-spacing: calc(var(--space-16) * 1.25); /* 160px on desktop */
     --section-spacing-hero: calc(var(--space-12) * 1.25); /* 120px on desktop */
   }
 }
@@ -332,21 +342,29 @@
 .z-pattern-section {
   display: grid;
   gap: var(--space-4);
-  grid-template-areas: 
+  grid-template-areas:
     "top-left top-right"
     "bottom-left bottom-right";
 }
 
-.z-top-left { grid-area: top-left; }
-.z-top-right { grid-area: top-right; }
-.z-bottom-left { grid-area: bottom-left; }
-.z-bottom-right { grid-area: bottom-right; }
+.z-top-left {
+  grid-area: top-left;
+}
+.z-top-right {
+  grid-area: top-right;
+}
+.z-bottom-left {
+  grid-area: bottom-left;
+}
+.z-bottom-right {
+  grid-area: bottom-right;
+}
 
 @media (max-width: 768px) {
   .z-pattern-section {
-    grid-template-areas: 
+    grid-template-areas:
       "top-left"
-      "top-right" 
+      "top-right"
       "bottom-left"
       "bottom-right";
     grid-template-columns: 1fr;

@@ -1,13 +1,13 @@
-import { createContext } from 'react'
+import { createContext } from 'react';
 
-type Theme = 
-  | 'light' 
-  | 'dark' 
-  | 'arctic-focus' 
-  | 'golden-hour' 
-  | 'midnight-ink' 
-  | 'forest-manuscript' 
-  | 'starlit-prose' 
+type Theme =
+  | 'light'
+  | 'dark'
+  | 'arctic-focus'
+  | 'golden-hour'
+  | 'midnight-ink'
+  | 'forest-manuscript'
+  | 'starlit-prose'
   | 'coffee-house'
   | 'sunset-coral'
   | 'lavender-dusk'
@@ -16,12 +16,14 @@ type Theme =
   | 'netrunner'
   | 'moonlit-garden'
   | 'dragons-hoard'
-  | 'system'
+  | 'system';
 
 export interface ThemeContextType {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-  themes: Theme[]
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  themes: Theme[];
 }
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
+);

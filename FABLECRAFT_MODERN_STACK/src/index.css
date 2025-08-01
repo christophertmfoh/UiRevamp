@@ -1,5 +1,5 @@
 /* Mathematical Spacing System Import - Must be first for PostCSS compliance */
-@import './shared/lib/design-system/spacing.css';
+@import "./shared/lib/design-system/spacing.css";
 
 @tailwind base;
 @tailwind components;
@@ -13,17 +13,22 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-feature-settings: 'cv03', 'cv04', 'cv11';
-    font-variation-settings: 'slnt' 0;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    font-feature-settings: "cv03", "cv04", "cv11";
+    font-variation-settings: "slnt" 0;
     text-rendering: optimizeLegibility;
-    
+
     /* Subtle Old Paper Texture - Theme Reactive */
     position: relative;
   }
 
   body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
@@ -31,23 +36,57 @@
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    
+
     /* Subtle Old Paper Texture - Theme Reactive */
     background-image: 
       /* Fine paper grain */
-      radial-gradient(circle at 1px 1px, hsl(var(--texture-grain)) 0.8px, transparent 0),
+      radial-gradient(
+        circle at 1px 1px,
+        hsl(var(--texture-grain)) 0.8px,
+        transparent 0
+      ),
       /* Medium grain pattern */
-      radial-gradient(circle at 3px 2px, hsl(var(--texture-grain)) 0.5px, transparent 0),
+        radial-gradient(
+          circle at 3px 2px,
+          hsl(var(--texture-grain)) 0.5px,
+          transparent 0
+        ),
       /* Paper fibers - vertical */
-      linear-gradient(90deg, transparent 49%, hsl(var(--texture-fiber)) 50%, transparent 51%),
+        linear-gradient(
+          90deg,
+          transparent 49%,
+          hsl(var(--texture-fiber)) 50%,
+          transparent 51%
+        ),
       /* Paper fibers - horizontal */
-      linear-gradient(0deg, transparent 49%, hsl(var(--texture-fiber)) 50%, transparent 51%),
+        linear-gradient(
+          0deg,
+          transparent 49%,
+          hsl(var(--texture-fiber)) 50%,
+          transparent 51%
+        ),
       /* Diagonal texture */
-      linear-gradient(45deg, transparent 48%, hsl(var(--texture-fiber)) 49%, hsl(var(--texture-fiber)) 51%, transparent 52%);
-    
-    background-size: 3px 3px, 6px 6px, 8px 8px, 8px 8px, 12px 12px;
-    background-position: 0 0, 1px 1px, 0 0, 4px 4px, 6px 6px;
-    
+        linear-gradient(
+          45deg,
+          transparent 48%,
+          hsl(var(--texture-fiber)) 49%,
+          hsl(var(--texture-fiber)) 51%,
+          transparent 52%
+        );
+
+    background-size:
+      3px 3px,
+      6px 6px,
+      8px 8px,
+      8px 8px,
+      12px 12px;
+    background-position:
+      0 0,
+      1px 1px,
+      0 0,
+      4px 4px,
+      6px 6px;
+
     /* Blend with theme colors */
     mix-blend-mode: var(--texture-blend-mode);
     opacity: var(--texture-opacity);
@@ -60,9 +99,9 @@
     --texture-fiber: 0 0% 40% / 0.015; /* Barely visible fibers */
     --texture-opacity: 0.6;
     --texture-blend-mode: multiply;
-    
+
     /* Transition ONLY theme-related CSS custom properties */
-    transition: 
+    transition:
       --background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --foreground 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --card 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -86,31 +125,30 @@
       --orb-secondary 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --auth-button-primary 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --auth-button-primary-hover 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      /* Texture transition */
-      --texture-grain 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      /* Texture transition */ --texture-grain 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --texture-fiber 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       --texture-opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* BUTTON LAG FIX - Hardware Acceleration + Containment for React + Vite + Tailwind v4 */
-  button, 
-  [role="button"], 
-  a[href], 
-  input[type="submit"], 
+  button,
+  [role="button"],
+  a[href],
+  input[type="submit"],
   input[type="button"] {
     /* Force hardware acceleration */
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
-    
+
     /* Optimize for theme transitions */
     will-change: background-color, color, border-color, box-shadow;
-    
+
     /* Contain layout and paint changes to this element */
     contain: layout style paint;
-    
+
     /* Smooth theme property transitions */
-    transition: 
+    transition:
       background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
       color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
       border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
@@ -120,7 +158,7 @@
   }
 
   /* Remove will-change after theme transitions complete */
-  button:not(:hover):not(:focus):not(:active), 
+  button:not(:hover):not(:focus):not(:active),
   [role="button"]:not(:hover):not(:focus):not(:active) {
     will-change: auto;
   }
@@ -132,17 +170,20 @@
 
   /* Legacy theme-transition class for backward compatibility */
   .theme-transition {
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Enhanced scrollbar utilities - using theme variables */
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    display: none; /* Safari and Chrome */
   }
 
   /* Floating orb background effects using theme variables */
@@ -193,7 +234,8 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px) translateX(0px) scale(1);
     }
     25% {
@@ -209,7 +251,10 @@
 
   /* Interactive element effects using theme variables */
   .interactive-element {
-    transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease,
+      background-color 0.2s ease;
   }
 
   .interactive-element:hover {
@@ -223,15 +268,27 @@
 
   /* Gradient utilities using theme variables */
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.8)
+    );
   }
 
   .gradient-primary-br {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.9));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.9)
+    );
   }
 
   .gradient-primary-text {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.8)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -301,11 +358,16 @@
 
   /* ===== ATMOSPHERIC DEPTH SYSTEM ===== */
   /* Creates natural visual hierarchy without boxy containers */
-  
+
   /* CONTENT CONTRAST SYSTEM - Typography and gradient-based separation */
-  
+
   /* Enhanced typography contrast for better separation */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     text-shadow: 0 1px 3px hsl(var(--foreground) / 0.15);
     letter-spacing: -0.02em;
   }
@@ -317,7 +379,7 @@
 
   /* SMART CONTRAST AMBIENT GLOW - Uses primary color for better visibility */
   section::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -15%;
     left: -5%;
@@ -405,7 +467,7 @@
   }
 
   .content-atmosphere::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -24px;
     background: radial-gradient(
@@ -422,7 +484,7 @@
 
   /* Gentle text lift - makes text appear to float slightly */
   .text-lift {
-    text-shadow: 
+    text-shadow:
       0 1px 3px hsl(var(--foreground) / 0.1),
       0 0 0 transparent;
     position: relative;
@@ -435,7 +497,7 @@
   }
 
   .ambient-glow::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -12px;
     background: linear-gradient(
@@ -458,7 +520,7 @@
   }
 
   .natural-depth::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -2px;
     background: linear-gradient(
@@ -474,7 +536,7 @@
 
   /* Gentle hover lift - subtle interaction */
   .gentle-hover {
-    transition: 
+    transition:
       transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -494,7 +556,7 @@
   }
 
   .nav-atmosphere::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -1px;
     left: 0;
@@ -508,133 +570,134 @@
     pointer-events: none;
   }
 
-     /* ===== FIREFLY ATMOSPHERE EFFECT ===== */
-   /* Natural firefly-like particles with gentle movement - research-based implementation */
+  /* ===== FIREFLY ATMOSPHERE EFFECT ===== */
+  /* Natural firefly-like particles with gentle movement - research-based implementation */
 
-   .idea-sparks {
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     pointer-events: none;
-     z-index: 5;
-     overflow: hidden;
-   }
+  .idea-sparks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
 
-   .spark {
-     position: absolute;
-     width: 3px;
-     height: 3px;
-     background: radial-gradient(
-       circle,
-       oklch(from hsl(var(--primary)) calc(1 - l) c h / 0.9) 0%,
-       oklch(from hsl(var(--accent)) calc(1 - l) c h / 0.6) 50%,
-       transparent 70%
-     );
-     border-radius: 50%;
-     bottom: -10px;
-     animation: 
-       firefly-drift 14s infinite linear,
-       firefly-glow 4s infinite ease-in-out;
-     box-shadow: 0 0 4px oklch(from hsl(var(--primary)) calc(1 - l) c h / 0.5);
-     opacity: 0.8;
-   }
+  .spark {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(
+      circle,
+      oklch(from hsl(var(--primary)) calc(1 - l) c h / 0.9) 0%,
+      oklch(from hsl(var(--accent)) calc(1 - l) c h / 0.6) 50%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    bottom: -10px;
+    animation:
+      firefly-drift 14s infinite linear,
+      firefly-glow 4s infinite ease-in-out;
+    box-shadow: 0 0 4px oklch(from hsl(var(--primary)) calc(1 - l) c h / 0.5);
+    opacity: 0.8;
+  }
 
-   .spark-small {
-     width: 2px;
-     height: 2px;
-     animation: 
-       firefly-drift 18s infinite linear,
-       firefly-glow 5s infinite ease-in-out;
-     opacity: 0.4;
-     box-shadow: 0 0 3px hsl(var(--primary) / 0.3);
-   }
+  .spark-small {
+    width: 2px;
+    height: 2px;
+    animation:
+      firefly-drift 18s infinite linear,
+      firefly-glow 5s infinite ease-in-out;
+    opacity: 0.4;
+    box-shadow: 0 0 3px hsl(var(--primary) / 0.3);
+  }
 
-   .spark-bright {
-     width: 4px;
-     height: 4px;
-     animation: 
-       firefly-drift 10s infinite linear,
-       firefly-glow 3s infinite ease-in-out;
-     opacity: 0.8;
-     box-shadow: 
-       0 0 6px hsl(var(--primary) / 0.6),
-       0 0 12px hsl(var(--accent) / 0.2);
-   }
+  .spark-bright {
+    width: 4px;
+    height: 4px;
+    animation:
+      firefly-drift 10s infinite linear,
+      firefly-glow 3s infinite ease-in-out;
+    opacity: 0.8;
+    box-shadow:
+      0 0 6px hsl(var(--primary) / 0.6),
+      0 0 12px hsl(var(--accent) / 0.2);
+  }
 
-   /* Natural firefly movement - gentle curves and organic swaying */
-   @keyframes firefly-drift {
-     0% {
-       bottom: -10px;
-       transform: translateX(0px) scale(1);
-       opacity: 0;
-     }
-     5% {
-       opacity: 0.6;
-       bottom: 8vh;
-       transform: translateX(15px) scale(1);
-     }
-     15% {
-       bottom: 20vh;
-       transform: translateX(-25px) scale(1);
-     }
-     25% {
-       bottom: 35vh;
-       transform: translateX(40px) scale(1);
-     }
-     35% {
-       bottom: 50vh;
-       transform: translateX(-30px) scale(1);
-     }
-     45% {
-       bottom: 62vh;
-       transform: translateX(20px) scale(1);
-     }
-     55% {
-       bottom: 75vh;
-       transform: translateX(-15px) scale(1);
-       opacity: 0.5;
-     }
-     65% {
-       bottom: 85vh;
-       transform: translateX(25px) scale(1);
-     }
-     75% {
-       bottom: 92vh;
-       transform: translateX(-10px) scale(1);
-       opacity: 0.3;
-     }
-     85% {
-       bottom: 96vh;
-       transform: translateX(5px) scale(1);
-       opacity: 0.2;
-     }
-     100% {
-       bottom: 100vh;
-       transform: translateX(0px) scale(0.5);
-       opacity: 0;
-     }
-   }
+  /* Natural firefly movement - gentle curves and organic swaying */
+  @keyframes firefly-drift {
+    0% {
+      bottom: -10px;
+      transform: translateX(0px) scale(1);
+      opacity: 0;
+    }
+    5% {
+      opacity: 0.6;
+      bottom: 8vh;
+      transform: translateX(15px) scale(1);
+    }
+    15% {
+      bottom: 20vh;
+      transform: translateX(-25px) scale(1);
+    }
+    25% {
+      bottom: 35vh;
+      transform: translateX(40px) scale(1);
+    }
+    35% {
+      bottom: 50vh;
+      transform: translateX(-30px) scale(1);
+    }
+    45% {
+      bottom: 62vh;
+      transform: translateX(20px) scale(1);
+    }
+    55% {
+      bottom: 75vh;
+      transform: translateX(-15px) scale(1);
+      opacity: 0.5;
+    }
+    65% {
+      bottom: 85vh;
+      transform: translateX(25px) scale(1);
+    }
+    75% {
+      bottom: 92vh;
+      transform: translateX(-10px) scale(1);
+      opacity: 0.3;
+    }
+    85% {
+      bottom: 96vh;
+      transform: translateX(5px) scale(1);
+      opacity: 0.2;
+    }
+    100% {
+      bottom: 100vh;
+      transform: translateX(0px) scale(0.5);
+      opacity: 0;
+    }
+  }
 
-   /* Subtle firefly glow - gentle breathing light */
-   @keyframes firefly-glow {
-     0%, 100% {
-       opacity: 0.4;
-       filter: brightness(1);
-     }
-     30% {
-       opacity: 0.8;
-       filter: brightness(1.3);
-     }
-     70% {
-       opacity: 0.6;
-       filter: brightness(1.1);
-     }
-   }
+  /* Subtle firefly glow - gentle breathing light */
+  @keyframes firefly-glow {
+    0%,
+    100% {
+      opacity: 0.4;
+      filter: brightness(1);
+    }
+    30% {
+      opacity: 0.8;
+      filter: brightness(1.3);
+    }
+    70% {
+      opacity: 0.6;
+      filter: brightness(1.1);
+    }
+  }
 
-   /* REMOVED: All theme-specific color overrides replaced with automatic contrast calculation */
-   /* The fireflies now use CSS Relative Color Syntax to automatically compute high-contrast colors */
-   /* Formula: oklch(from hsl(var(--primary)) calc(1 - l) c h) automatically inverts lightness */
-   /* This ensures fireflies are ALWAYS visible regardless of theme colors - no code bloat! */
+  /* REMOVED: All theme-specific color overrides replaced with automatic contrast calculation */
+  /* The fireflies now use CSS Relative Color Syntax to automatically compute high-contrast colors */
+  /* Formula: oklch(from hsl(var(--primary)) calc(1 - l) c h) automatically inverts lightness */
+  /* This ensures fireflies are ALWAYS visible regardless of theme colors - no code bloat! */
 }

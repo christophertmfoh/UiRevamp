@@ -14,23 +14,23 @@ interface BadgeWithDotProps {
  * Reusable Badge with Pulsing Dot Component
  * Used across multiple landing page sections for consistency
  */
-export function BadgeWithDot({ 
-  children, 
+export function BadgeWithDot({
+  children,
   className,
   dotClassName,
   badgeClassName,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
 }: BadgeWithDotProps) {
   return (
     <div className={cn('flex items-center justify-center gap-2', className)}>
-      <div 
+      <div
         className={cn(
           'w-4 h-4 rounded-full animate-pulse bg-primary',
           dotClassName
         )}
-        aria-hidden="true"
+        aria-hidden='true'
       />
-      <Badge 
+      <Badge
         className={cn(
           'bg-card/95 text-foreground border-border font-semibold backdrop-blur-md shadow-md hover:shadow-lg transition-shadow duration-300 text-base px-4 py-2',
           badgeClassName
