@@ -104,6 +104,9 @@
   - ✅ Animation utility classes (10 new utilities added)
   - ✅ Premium button variants (gradient, glow, glass, premium)
   - ✅ Consistent micro-interactions (hover, press, focus effects)
+- **Refinements Added (2025-08-01):**
+  - [ ] Replace hard-coded glow box-shadows with CSS shadow tokens (`--shadow-glow-*`) for theme-agnostic design
+  - [ ] Expose hover animation timings via CSS custom properties (`--duration-hover`, `--duration-press`) for global tuning
 - **Files Created:**
   - `src/components/ui/enhanced-card.tsx`
   - Updated `src/components/ui/button.tsx` and `button-variants.ts`
@@ -553,6 +556,14 @@ const chartHover = {
 - **Pattern**: Consistent error boundaries and loading UI
 - **Design**: Loading states match theme system
 - **UX**: Graceful degradation for network issues
+
+### **STEP 6.5: Tooling & CI Hardening** ⏳ PLANNED
+- **Integrate** `eslint-plugin-tailwindcss` to catch utility class typos and enforce Tailwind conventions
+- **Update** `ci:all` script to run Playwright smoke suite after auth redesign:
+  ```json
+  "ci:all": "npm run lint && npm run type-check && npm run test:coverage && npm run build && npm run test:e2e"
+  ```
+- **Cost / Benefit Analysis**: Adds ~3 min to CI yet prevents visual regressions and missed typos, pays for itself rapidly ✅ Recommended
 
 ---
 
