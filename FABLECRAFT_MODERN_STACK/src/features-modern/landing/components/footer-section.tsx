@@ -65,7 +65,7 @@ export const FooterSection = memo(
                 </div>
                 <div className='flex items-center gap-3 text-sm text-foreground/60'>
                   <MapPin className='w-4 h-4' />
-                  <span>San Francisco, CA</span>
+                  <span>Hartford, CT</span>
                 </div>
               </div>
             </div>
@@ -75,15 +75,16 @@ export const FooterSection = memo(
               <h3 className='text-sm font-semibold text-foreground uppercase tracking-wider'>
                 Product
               </h3>
-              <ul className='space-y-3'>
-                {[
-                  'Character Creator',
-                  'World Builder',
-                  'Story Planner',
-                  'Writing Assistant',
-                  'AI Companion',
-                  'Templates'
-                ].map((item) => (
+                             <ul className='space-y-3'>
+                 {[
+                   'Character Creator',
+                   'World Builder',
+                   'Story Planner',
+                   'Writing Assistant',
+                   'AI Companion',
+                   'Templates',
+                   'Manuscripts'
+                 ].map((item) => (
                   <li key={item}>
                     <button className='text-sm text-foreground/60 hover:text-foreground transition-colors duration-200'>
                       {item}
