@@ -92,10 +92,42 @@
 
 ---
 
-## 🧩 **PHASE 3: WIDGET SYSTEM** 🔴 CURRENT PHASE
-*Modular widget architecture with theme integration*
+## 🎨 **PHASE 2.5: DESIGN SYSTEM ENHANCEMENT** 🔴 NEW PRIORITY
+*Fix visual cohesion before building more features*
 
-### **STEP 3.1: Core Widget Infrastructure** 🔴 IN PROGRESS
+### **STEP 2.5.1: Enhanced Components** 🔴 CURRENT
+- **Timeline:** 1 hour
+- **Goal:** Create premium components matching landing page
+- **Tasks:**
+  - Enhanced Card with glass morphism
+  - Animation utility classes
+  - Premium button variants
+  - Consistent micro-interactions
+
+### **STEP 2.5.2: Auth Page Redesign** ⏳ NEXT
+- **Timeline:** 45 minutes
+- **Goal:** Premium login experience
+- **Tasks:**
+  - Gradient mesh background
+  - Glass card effects
+  - Input focus glows
+  - Brand personality
+
+### **STEP 2.5.3: Dashboard Modernization** ⏳ THEN
+- **Timeline:** 1 hour
+- **Goal:** Creative app feel
+- **Tasks:**
+  - Widget glass effects
+  - Hover animations
+  - Visual feedback
+  - Delightful interactions
+
+---
+
+## 🧩 **PHASE 3: WIDGET SYSTEM** ⏸️ PAUSED
+*Will resume after design consistency is achieved*
+
+### **STEP 3.1: Core Widget Infrastructure** ⏸️ ON HOLD
 - **Widgets**: Recent Projects, Writing Goals, To-Do List, AI Generations
 - **Pattern**: Composable widget components with standardized API
 - **Design**: Use mathematical spacing system + friendship levels

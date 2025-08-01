@@ -53,6 +53,10 @@ export default {
       enabled: true,
       defaultState: true,
     },
+    // Disable source addon to fix error
+    source: {
+      enabled: false,
+    },
   },
   
   // Vite config
