@@ -5,190 +5,266 @@ import { AdaptiveHeader } from '../components/adaptive-header'
 /**
  * DASHBOARD PAGE COMPONENT
  * 
- * Main dashboard page implementing the widget-based architecture from DASHBOARD_MASTER_PLAN.
+ * Main dashboard page implementing the CSS Grid widget-based architecture.
  * Features:
- * - Widget-based layout with mathematical spacing
- * - Zustand store integration for dashboard state
+ * - CSS Grid layout with auto-fill responsive columns
+ * - Mathematical spacing using friendship levels
+ * - Theme-reactive design with CSS custom properties
  * - Adaptive header with context-aware navigation
- * - Theme-reactive design with golden ratio typography
- * - Responsive grid layout using friendship levels spacing
+ * - Widget-based architecture for modular content
+ * 
+ * LAYOUT RESEARCH IMPLEMENTATION:
+ * - Based on Notion, Linear, Figma dashboard patterns
+ * - Uses research-backed CSS Grid with minmax() and auto-fill
+ * - Responsive breakpoints that adapt widget sizes
+ * - Mathematical spacing system for visual hierarchy
  */
 export const DashboardPage: React.FC = () => {
   const user = useUser()
   const visibleWidgets = useVisibleWidgets()
-  const { recentProjects, writingGoals, todoItems, aiGenerations } = useDashboardStore()
+  const { isLoading } = useDashboardStore()
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center space-friends">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-friends"></div>
+          <p className="text-muted-foreground">Loading your dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Adaptive Header - Context-aware navigation */}
+      {/* Adaptive Header */}
       <AdaptiveHeader />
       
       {/* Dashboard Content */}
-      <main className="container mx-auto px-strangers py-strangers">
-        <div className="space-strangers">
-          
-          {/* Welcome Section */}
-          <div className="space-friends">
-            <h1 className="text-golden-xl font-bold text-foreground">
-              Welcome back, {user?.name || 'Writer'}! ✨
-            </h1>
-            <p className="text-golden-md text-muted-foreground">
-              Continue your creative journey with FableCraft
-            </p>
-          </div>
-
-          {/* Widget Grid - Mathematical spacing with friendship levels */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-friends auto-rows-min">
-            
-            {/* Recent Projects Widget */}
-            {visibleWidgets.find(w => w.type === 'recent-projects') && (
-              <div className="bg-card border border-border rounded-lg p-friends shadow-sm space-best-friends">
-                <h2 className="text-golden-lg font-semibold text-card-foreground flex items-center">
-                  <span className="mr-best-friends">📚</span>
-                  Recent Projects
-                </h2>
-                <div className="space-best-friends">
-                  {recentProjects.slice(0, 3).map((project) => (
-                    <div 
-                      key={project.id}
-                      className="p-best-friends bg-muted/50 rounded border hover:bg-muted/80 transition-colors cursor-pointer"
-                    >
-                      <h3 className="text-golden-md font-medium text-foreground truncate">
-                        {project.title}
-                      </h3>
-                      <div className="flex items-center justify-between mt-acquaintances">
-                        <span className="text-golden-sm text-muted-foreground">
-                          {project.type}
-                        </span>
-                        <span className="text-golden-sm text-primary font-medium">
-                          {project.progress}%
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Writing Goals Widget */}
-            {visibleWidgets.find(w => w.type === 'writing-goals') && (
-              <div className="bg-card border border-border rounded-lg p-friends shadow-sm space-best-friends">
-                <h2 className="text-golden-lg font-semibold text-card-foreground flex items-center">
-                  <span className="mr-best-friends">🎯</span>
-                  Writing Goals
-                </h2>
-                <div className="space-best-friends">
-                  {writingGoals.slice(0, 2).map((goal) => (
-                    <div key={goal.id} className="space-acquaintances">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-golden-md font-medium text-foreground">
-                          {goal.title}
-                        </h3>
-                        <span className="text-golden-sm text-muted-foreground">
-                          {goal.currentWords}/{goal.targetWords}
-                        </span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div 
-                          className="bg-primary h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${Math.min((goal.currentWords / goal.targetWords) * 100, 100)}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* To-Do List Widget */}
-            {visibleWidgets.find(w => w.type === 'todo-list') && (
-              <div className="bg-card border border-border rounded-lg p-friends shadow-sm space-best-friends">
-                <h2 className="text-golden-lg font-semibold text-card-foreground flex items-center">
-                  <span className="mr-best-friends">✅</span>
-                  To-Do List
-                </h2>
-                <div className="space-acquaintances">
-                  {todoItems.slice(0, 4).map((todo) => (
-                    <div 
-                      key={todo.id}
-                      className="flex items-center space-x-best-friends p-acquaintances hover:bg-muted/30 rounded transition-colors"
-                    >
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                        todo.isCompleted 
-                          ? 'bg-primary border-primary text-primary-foreground' 
-                          : 'border-border'
-                      }`}>
-                        {todo.isCompleted && <span className="text-xs">✓</span>}
-                      </div>
-                      <span className={`text-golden-sm flex-1 ${
-                        todo.isCompleted 
-                          ? 'text-muted-foreground line-through' 
-                          : 'text-foreground'
-                      }`}>
-                        {todo.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* AI Generations Widget */}
-            {visibleWidgets.find(w => w.type === 'ai-generations') && (
-              <div className="bg-card border border-border rounded-lg p-friends shadow-sm space-best-friends md:col-span-2 lg:col-span-3">
-                <h2 className="text-golden-lg font-semibold text-card-foreground flex items-center">
-                  <span className="mr-best-friends">🤖</span>
-                  Recent AI Generations
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-best-friends">
-                  {aiGenerations.slice(0, 3).map((generation) => (
-                    <div 
-                      key={generation.id}
-                      className="p-best-friends bg-muted/50 rounded border hover:bg-muted/80 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center justify-between mb-acquaintances">
-                        <span className="text-golden-sm text-primary font-medium capitalize">
-                          {generation.type}
-                        </span>
-                        <span className="text-golden-xs text-muted-foreground">
-                          {new Date(generation.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="text-golden-sm text-foreground line-clamp-3">
-                        {generation.content}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-          </div>
-
-          {/* Quick Actions Section */}
-          <div className="space-friends">
-            <h2 className="text-golden-lg font-semibold text-foreground">Quick Actions</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-best-friends">
-              <button className="p-friends bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-center space-acquaintances">
-                <div className="text-2xl">📝</div>
-                <div className="text-golden-sm font-medium">New Project</div>
-              </button>
-              <button className="p-friends bg-muted hover:bg-muted/80 transition-colors rounded-lg text-center space-acquaintances">
-                <div className="text-2xl">🎯</div>
-                <div className="text-golden-sm font-medium text-foreground">Set Goal</div>
-              </button>
-              <button className="p-friends bg-muted hover:bg-muted/80 transition-colors rounded-lg text-center space-acquaintances">
-                <div className="text-2xl">📊</div>
-                <div className="text-golden-sm font-medium text-foreground">Analytics</div>
-              </button>
-              <button className="p-friends bg-muted hover:bg-muted/80 transition-colors rounded-lg text-center space-acquaintances">
-                <div className="text-2xl">⚙️</div>
-                <div className="text-golden-sm font-medium text-foreground">Settings</div>
-              </button>
+      <main className="dashboard-grid">
+        {/* Welcome Widget - spans 2 columns on larger screens */}
+        <div className="widget widget-w2 widget-h1 widget-elevated">
+          <div className="widget-header">
+            <div>
+              <h1 className="widget-title">Welcome back, {user?.name || 'Creator'}!</h1>
+              <p className="widget-subtitle">Ready to bring your ideas to life?</p>
             </div>
           </div>
-
+          <div className="widget-content">
+            <p className="text-muted-foreground">
+              Your creative workspace is ready. Explore your projects, track your progress, 
+              and discover new inspiration below.
+            </p>
+          </div>
+          <div className="widget-footer">
+            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+              Start Creating
+            </button>
+          </div>
         </div>
+
+        {/* Quick Stats Widget */}
+        <div className="widget widget-w1 widget-h1">
+          <div className="widget-header">
+            <h2 className="widget-title">Quick Stats</h2>
+          </div>
+          <div className="widget-content">
+            <div className="grid grid-cols-1 gap-best-friends">
+              <div className="text-center">
+                <div className="text-golden-2xl font-bold text-primary">12</div>
+                <div className="text-golden-sm text-muted-foreground">Active Projects</div>
+              </div>
+              <div className="text-center">
+                <div className="text-golden-2xl font-bold text-secondary">1.2k</div>
+                <div className="text-golden-sm text-muted-foreground">Words Today</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Projects Widget */}
+        <div className="widget widget-w3 widget-h2">
+          <div className="widget-header">
+            <h2 className="widget-title">Recent Projects</h2>
+            <button className="text-golden-sm text-primary hover:text-primary/80">View All</button>
+          </div>
+          <div className="widget-content space-friends">
+            {/* Project Item 1 */}
+            <div className="flex items-center justify-between p-acquaintances bg-card/50 rounded-md border border-border/50">
+              <div>
+                <h3 className="font-medium">Epic Fantasy Novel</h3>
+                <p className="text-golden-sm text-muted-foreground">Last edited 2 hours ago</p>
+              </div>
+              <div className="text-right">
+                <div className="text-golden-sm font-medium">45,231 words</div>
+                <div className="text-golden-sm text-muted-foreground">78% complete</div>
+              </div>
+            </div>
+
+            {/* Project Item 2 */}
+            <div className="flex items-center justify-between p-acquaintances bg-card/50 rounded-md border border-border/50">
+              <div>
+                <h3 className="font-medium">Character Development Guide</h3>
+                <p className="text-golden-sm text-muted-foreground">Last edited yesterday</p>
+              </div>
+              <div className="text-right">
+                <div className="text-golden-sm font-medium">12,847 words</div>
+                <div className="text-golden-sm text-muted-foreground">92% complete</div>
+              </div>
+            </div>
+
+            {/* Project Item 3 */}
+            <div className="flex items-center justify-between p-acquaintances bg-card/50 rounded-md border border-border/50">
+              <div>
+                <h3 className="font-medium">World Building Notes</h3>
+                <p className="text-golden-sm text-muted-foreground">Last edited 3 days ago</p>
+              </div>
+              <div className="text-right">
+                <div className="text-golden-sm font-medium">8,934 words</div>
+                <div className="text-golden-sm text-muted-foreground">34% complete</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Writing Goals Widget */}
+        <div className="widget widget-w1 widget-h2 widget-success">
+          <div className="widget-header">
+            <h2 className="widget-title">Writing Goals</h2>
+          </div>
+          <div className="widget-content space-friends">
+            {/* Daily Goal */}
+            <div>
+              <div className="flex justify-between items-center mb-best-friends">
+                <span className="text-golden-sm">Daily Target</span>
+                <span className="text-golden-sm font-medium">1,200 / 1,000</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full" style={{ width: '100%' }}></div>
+              </div>
+              <p className="text-golden-sm text-muted-foreground mt-best-friends">Goal exceeded! 🎉</p>
+            </div>
+
+            {/* Weekly Goal */}
+            <div>
+              <div className="flex justify-between items-center mb-best-friends">
+                <span className="text-golden-sm">Weekly Target</span>
+                <span className="text-golden-sm font-medium">4,200 / 7,000</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full" style={{ width: '60%' }}></div>
+              </div>
+              <p className="text-golden-sm text-muted-foreground mt-best-friends">3 days remaining</p>
+            </div>
+
+            {/* Monthly Goal */}
+            <div>
+              <div className="flex justify-between items-center mb-best-friends">
+                <span className="text-golden-sm">Monthly Target</span>
+                <span className="text-golden-sm font-medium">18,430 / 30,000</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full" style={{ width: '61%' }}></div>
+              </div>
+              <p className="text-golden-sm text-muted-foreground mt-best-friends">On track for this month</p>
+            </div>
+          </div>
+        </div>
+
+        {/* To-Do List Widget */}
+        <div className="widget widget-w2 widget-h2">
+          <div className="widget-header">
+            <h2 className="widget-title">Today's Tasks</h2>
+            <button className="text-golden-sm text-primary hover:text-primary/80">Add Task</button>
+          </div>
+          <div className="widget-content space-friends">
+            {/* Task Item 1 */}
+            <div className="flex items-center space-friends">
+              <input type="checkbox" className="rounded border-border" />
+              <span className="flex-1">Complete Chapter 7 outline</span>
+              <span className="text-golden-sm text-muted-foreground">High</span>
+            </div>
+
+            {/* Task Item 2 */}
+            <div className="flex items-center space-friends">
+              <input type="checkbox" defaultChecked className="rounded border-border" />
+              <span className="flex-1 line-through text-muted-foreground">Research medieval weaponry</span>
+              <span className="text-golden-sm text-muted-foreground">Medium</span>
+            </div>
+
+            {/* Task Item 3 */}
+            <div className="flex items-center space-friends">
+              <input type="checkbox" className="rounded border-border" />
+              <span className="flex-1">Review beta reader feedback</span>
+              <span className="text-golden-sm text-muted-foreground">Medium</span>
+            </div>
+
+            {/* Task Item 4 */}
+            <div className="flex items-center space-friends">
+              <input type="checkbox" className="rounded border-border" />
+              <span className="flex-1">Update character relationship map</span>
+              <span className="text-golden-sm text-muted-foreground">Low</span>
+            </div>
+
+            {/* Task Item 5 */}
+            <div className="flex items-center space-friends">
+              <input type="checkbox" className="rounded border-border" />
+              <span className="flex-1">Plan next writing session</span>
+              <span className="text-golden-sm text-muted-foreground">Low</span>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Text Generations Widget */}
+        <div className="widget widget-w2 widget-h1 widget-elevated">
+          <div className="widget-header">
+            <h2 className="widget-title">AI Inspiration</h2>
+            <button className="text-golden-sm text-primary hover:text-primary/80">Generate New</button>
+          </div>
+          <div className="widget-content">
+            <div className="bg-card/50 rounded-md p-acquaintances border border-border/50">
+              <p className="text-golden-md italic text-foreground mb-friends">
+                "The ancient library held secrets that whispered through time, each book a doorway 
+                to forgotten worlds where magic and technology danced in perfect harmony."
+              </p>
+              <div className="flex justify-between items-center text-golden-sm text-muted-foreground">
+                <span>Fantasy Opening Line</span>
+                <span>Generated 5 minutes ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Inspiration Widget */}
+        <div className="widget widget-w1 widget-h1">
+          <div className="widget-header">
+            <h2 className="widget-title">Daily Quote</h2>
+          </div>
+          <div className="widget-content">
+            <blockquote className="text-center">
+              <p className="text-golden-md italic mb-friends">
+                "A professional writer is an amateur who didn't quit."
+              </p>
+              <footer className="text-golden-sm text-muted-foreground">
+                — Richard Bach
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+
+        {/* Hidden widgets based on user preferences */}
+        {visibleWidgets.map((widget) => (
+          <div key={widget.id} className="widget widget-w1 widget-h1">
+            <div className="widget-header">
+              <h2 className="widget-title">{widget.title}</h2>
+            </div>
+            <div className="widget-content">
+              <p className="text-muted-foreground">
+                Widget type: {widget.type}
+              </p>
+            </div>
+          </div>
+        ))}
       </main>
     </div>
   )

@@ -5,6 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import design system components */
+@import './shared/lib/design-system/dashboard-grid.css';
+
 @layer base {
   /* Global theme styles and enhancements */
   * {
