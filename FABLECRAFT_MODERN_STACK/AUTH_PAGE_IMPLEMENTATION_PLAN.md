@@ -36,11 +36,19 @@
 ```
 
 ### **Reusable Components**
+**Existing:**
 - `Button` component with variants
-- `Card` component for containers
+- `Card` component for containers  
 - `Input` component with Radix UI
 - `Label` component for form fields
 - Theme toggle in header
+
+**To Be Created (Phase 0):**
+- `GlassCard` - Glass morphism effects (3 variants)
+- `GradientButton` - Primary buttons with overlay
+- `AnimatedBadge` - Badges with glass/pulse effects
+- `SectionContainer` - Consistent section spacing
+- `HeadingGroup` - Badge + title + description pattern
 
 ---
 
@@ -80,6 +88,54 @@ src/features-modern/auth/
 ---
 
 ## 🚀 **IMPLEMENTATION PHASES**
+
+## **PHASE 0: Extract Reusable Components** 🆕
+*MUST be completed before any auth implementation*
+
+### **Step 0.1: Create GlassCard Component**
+```typescript
+// src/components/ui/glass-card.tsx
+- Light variant: bg-card/95 backdrop-blur-md
+- Heavy variant: bg-card/90 backdrop-blur-lg
+- Elevated variant: surface-elevated backdrop-blur-lg
+- Props: variant, className, children
+```
+
+### **Step 0.2: Create GradientButton Component**
+```typescript
+// src/components/ui/gradient-button.tsx
+- Extends existing Button component
+- Adds gradient overlay on hover
+- Maintains all button variants
+- Icon support with animation
+```
+
+### **Step 0.3: Create AnimatedBadge Component**
+```typescript
+// src/components/ui/animated-badge.tsx
+- Glass effect variant
+- Optional pulse animation
+- Theme-reactive styling
+- Consistent padding/sizing
+```
+
+### **Step 0.4: Create Layout Components**
+```typescript
+// src/components/ui/section-container.tsx
+// src/components/ui/heading-group.tsx
+- Section spacing variants
+- Heading hierarchy patterns
+- Badge + title + description
+```
+
+### **Step 0.5: Document Component Usage**
+```typescript
+// Create Storybook stories or usage docs
+- Show all variants
+- Document props
+- Provide usage examples
+- Theme compatibility notes
+```
 
 ## **PHASE 1: Foundation Setup**
 
@@ -355,6 +411,16 @@ src/features-modern/auth/
 ---
 
 ## 📋 **IMPLEMENTATION CHECKLIST**
+
+### **Phase 0 Checklist** 🆕
+- [ ] GlassCard component created and tested
+- [ ] GradientButton component created and tested
+- [ ] AnimatedBadge component created and tested
+- [ ] SectionContainer component created
+- [ ] HeadingGroup component created
+- [ ] All components documented
+- [ ] Theme compatibility verified
+- [ ] Export statements added to barrel file
 
 ### **Phase 1 Checklist**
 - [ ] Auth store with Zustand setup
