@@ -17,212 +17,219 @@
 2. **Social Auth First**: Prioritize OAuth providers
 3. **Progressive Disclosure**: Show password field after email
 4. **Visual Feedback**: Real-time validation with micro-animations
-5. **Mobile-First**: Stack cards vertically on small screens
+5. **Mobile-First**: Responsive design that prioritizes mobile experience
 
 ---
 
 ## 🎯 **VISUAL COHESION REQUIREMENTS**
+*Must maintain exact consistency with landing page*
 
-### **From Landing Page Audit**
-```css
-/* Core Design Tokens to Maintain */
-- Mathematical Spacing: 8px base unit
-- Friendship Levels: best-friends, friends, acquaintances, neighbors, strangers
-- Golden Ratio Typography: 1.618 scale
-- Paper Texture: Theme-reactive with blend modes
-- Glass Effects: backdrop-blur-xl with borders
-- Theme System: Multiple themes with smooth transitions
-- Button Styles: Hardware accelerated, theme-reactive
-```
+### **Typography (Golden Ratio)**
+- `text-golden-sm` → ~9.88px
+- `text-golden-md` → 16px
+- `text-golden-lg` → ~25.88px
+- `text-golden-xl` → ~41.85px
+- `text-golden-2xl` → ~67.67px
 
-### **Reusable Components**
-**✅ Already Exist:**
-- `Button` - Basic component with variants
-- `Card` - Basic card without glass effects
-- `Badge` - Basic badge component
-- `BadgeWithDot` - Badge with glass effect + pulse animation ✨
-- `Input` - Form input with Radix UI
-- `Label` - Form label component
-- `DropdownMenu` - Radix UI dropdown
-- `FooterSection` - Partially reusable (needs content extraction)
+### **Spacing System (Friendship Levels)**
+- `space-xs` → 0.25rem (acquaintance)
+- `space-sm` → 0.5rem (distant friend)
+- `space-md` → 1rem (friend)
+- `space-lg` → 1.5rem (close friend)
+- `space-xl` → 2rem (best friend)
+- `space-2xl` → 3rem (family)
 
-**❌ Need to Create (Phase 0):**
-- `NavigationHeader` - Extract from landing page as configurable component
-- `GlassCard` - Glass morphism effects (3 variants)
-- `GradientButton` - Primary buttons with overlay
-- `SectionContainer` - Consistent section spacing
-- `HeadingGroup` - Badge + title + description pattern
-
-**🔄 Repeated Patterns Found:**
-- Glass morphism classes repeated 20+ times
-- Gradient overlay div repeated 26+ times
-- Section container pattern repeated 10+ times
-- Heading group pattern repeated 8+ times
+### **Color Patterns**
+- Text: `text-foreground`, `text-muted-foreground`
+- Backgrounds: `bg-background`, `bg-card/90`
+- Borders: `border-border`
+- Focus states: `focus:ring-2 focus:ring-primary focus:ring-offset-2`
 
 ---
 
-## 📐 **ARCHITECTURE PATTERN**
+## 🏗️ **ARCHITECTURE DECISIONS**
 
-### **Stack Implementation**
-```typescript
-// Tech Stack
-- React Router v6.26.1
-- Zustand 4.5.5 (auth state)
-- React Hook Form 7.53.0
-- Zod 3.23.8 (validation)
-- Radix UI components
-- Tailwind CSS (mathematical spacing)
-```
+### **Tech Stack**
+- **Framework**: React 18 with TypeScript
+- **Routing**: React Router v6
+- **State**: Zustand with persist middleware
+- **Forms**: React Hook Form + Zod
+- **Styling**: Tailwind CSS with custom theme
+- **Components**: Radix UI primitives
+- **Animations**: Framer Motion
 
 ### **File Structure**
 ```
 src/
-├── components/
-│   ├── ui/
-│   │   ├── glass-card.tsx         (NEW)
-│   │   ├── gradient-button.tsx    (NEW)
-│   │   ├── section-container.tsx  (NEW)
-│   │   └── heading-group.tsx      (NEW)
-│   └── layout/
-│       ├── navigation-header.tsx  (NEW)
-│       └── footer-section.tsx     (MOVE from landing)
 ├── features-modern/
-│   ├── auth/
-│   │   ├── components/
-│   │   │   ├── AuthCard.tsx
-│   │   │   ├── LoginForm.tsx
-│   │   │   ├── SignupForm.tsx
-│   │   │   ├── SocialAuthButtons.tsx
-│   │   │   └── AuthToggle.tsx
-│   │   ├── pages/
-│   │   │   └── AuthPage.tsx
-│   │   ├── stores/
-│   │   │   └── authStore.ts
-│   │   ├── hooks/
-│   │   │   └── useAuthForm.ts
-│   │   ├── schemas/
-│   │   │   └── authSchemas.ts
-│   │   └── index.ts
-│   └── landing/
-│       └── components/
-│           └── footer-section.tsx (MOVE to layout)
+│   └── auth/
+│       ├── components/
+│       │   ├── AuthLayout.tsx
+│       │   ├── LoginForm.tsx
+│       │   ├── SignupForm.tsx
+│       │   └── SocialAuthButtons.tsx
+│       ├── stores/
+│       │   └── authStore.ts
+│       ├── schemas/
+│       │   └── authSchemas.ts
+│       └── pages/
+│           └── AuthPage.tsx
 ```
+
+### **Reusable Components**
+**Existing:**
+- `Button` component with variants
+- `Card` component for containers  
+- `Input` component with Radix UI
+- `Label` component for form fields
+- Theme toggle in header
+
+**To Be Created (Phase 0):**
+- `GlassCard` - Glass morphism effects (3 variants)
+- `GradientButton` - Primary buttons with overlay
+- `AnimatedBadge` - Badges with glass/pulse effects
+- `SectionContainer` - Consistent section spacing
+- `HeadingGroup` - Badge + title + description pattern
 
 ---
 
 ## 🚀 **IMPLEMENTATION PHASES**
 
-## **PHASE 0: Extract Reusable Components** 🆕
+## **PHASE -1: Critical Foundation Setup** 🆕
+*MUST be completed before ANY implementation work*
+
+### **Step -1.1: Design Tokens System**
+```typescript
+// src/tokens/index.ts
+export const tokens = {
+  colors: { /* imported from theme */ },
+  typography: { /* golden ratio scale */ },
+  spacing: { /* friendship levels */ },
+  animation: { /* consistent transitions */ },
+  shadows: { /* elevation system */ }
+};
+```
+- [ ] Create token naming conventions
+- [ ] Set up CSS custom properties generation
+- [ ] Document token hierarchy (primitive → semantic → component)
+- [ ] Create token validation tests
+
+### **Step -1.2: CSS Architecture Decision**
+Choose ONE approach and configure:
+- **Option A**: CSS-in-JS (styled-components/emotion)
+  - Pros: Dynamic theming, component scoping
+  - Cons: Runtime overhead, bundle size
+- **Option B**: CSS Modules 
+  - Pros: Build-time optimization, no runtime
+  - Cons: Less dynamic, more boilerplate
+- **Option C**: Tailwind CSS (current)
+  - Pros: Utility-first, small bundle, consistent
+  - Cons: Verbose markup, learning curve
+
+### **Step -1.3: Testing Infrastructure**
+```bash
+# Install testing dependencies
+npm install -D @testing-library/react @testing-library/user-event
+npm install -D @axe-core/react # Accessibility testing
+npm install -D @chromatic-com/storybook # Visual regression
+```
+- [ ] Set up component testing framework
+- [ ] Configure accessibility testing
+- [ ] Set up visual regression testing
+- [ ] Create test utilities for auth flows
+
+### **Step -1.4: Documentation Strategy**
+- [ ] Set up Storybook or similar
+- [ ] Create component documentation template
+- [ ] Establish "just-in-time" documentation approach
+- [ ] Set up automated prop documentation
+
+### **Step -1.5: Performance Budget**
+```javascript
+// performance.config.js
+export const budgets = {
+  bundleSize: { max: '50kb', warn: '40kb' },
+  firstLoad: { max: '3s', warn: '2s' },
+  componentSize: { max: '10kb', warn: '8kb' }
+};
+```
+
+### **Step -1.6: Accessibility Baseline**
+- [ ] Install axe-core for automated testing
+- [ ] Set up keyboard navigation testing
+- [ ] Configure color contrast checking
+- [ ] Create focus management utilities
+- [ ] Document WCAG compliance requirements
+
+## **PHASE 0: Extract Reusable Components** 
 *MUST be completed before any auth implementation*
 
-### **Step 0.1: Extract NavigationHeader Component**
+### **Step 0.1: Extract NavigationHeader** 🆕
 ```typescript
 // src/components/layout/navigation-header.tsx
 interface NavigationHeaderProps {
-  isAuthenticated: boolean;
-  user?: { username?: string; email?: string } | null;
-  onAuth?: () => void;
-  onLogout?: () => void;
-  onNavigate?: (view: string) => void;
-  showAuthButton?: boolean; // For auth page
-  showBackButton?: boolean; // For auth page
-  navItems?: Array<{ label: string; onClick: () => void }>;
+  showAuthButton?: boolean;
+  authButtonText?: string;
+  onAuthClick?: () => void;
 }
-
-// Extract from landing-page.tsx lines 77-292
-// Make configurable for different pages
+- Extract from landing page
+- Make configurable via props
+- Maintain theme toggle functionality
+- Test across all viewports
 ```
 
 ### **Step 0.2: Create GlassCard Component**
 ```typescript
 // src/components/ui/glass-card.tsx
-interface GlassCardProps extends CardProps {
-  variant?: 'light' | 'heavy' | 'elevated';
-  hover?: boolean;
-}
-
-// Variants to replace:
-// - Light: "bg-card/95 backdrop-blur-md border border-border/30"
-// - Heavy: "bg-card/90 backdrop-blur-lg border border-border"
-// - Elevated: "surface-elevated backdrop-blur-lg border-border"
-// + Hover effects when hover=true
+- Light variant: bg-card/95 backdrop-blur-md
+- Heavy variant: bg-card/90 backdrop-blur-lg
+- Elevated variant: surface-elevated backdrop-blur-lg
+- Props: variant, className, children
 ```
 
 ### **Step 0.3: Create GradientButton Component**
 ```typescript
 // src/components/ui/gradient-button.tsx
-interface GradientButtonProps extends ButtonProps {
-  showGradientOverlay?: boolean;
-  icon?: React.ComponentType<{ className?: string }>;
-  iconPosition?: 'left' | 'right';
-}
-
-// Replace 26 instances of:
-// <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+- Extends existing Button component
+- Adds gradient overlay on hover
+- Maintains all button variants
+- Icon support with animation
 ```
 
-### **Step 0.4: Create SectionContainer Component**
+### **Step 0.4: Extract FooterSection Content**
 ```typescript
-// src/components/ui/section-container.tsx
-interface SectionContainerProps {
-  variant?: 'hero' | 'default' | 'compact';
-  as?: 'section' | 'div' | 'main';
-  className?: string;
-  children: React.ReactNode;
-}
-
-// Replace pattern:
-// className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-spacing-{variant}"
+// src/components/layout/footer-content.tsx
+- Extract content arrays to separate file
+- Keep FooterSection component flexible
+- Enable easy content updates
 ```
 
-### **Step 0.5: Create HeadingGroup Component**
+### **Step 0.5: Create SectionContainer Component**
+```typescript
+// src/components/layout/section-container.tsx
+- Standard padding: section-spacing
+- Max-width constraints
+- Responsive behavior
+```
+
+### **Step 0.6: Create HeadingGroup Component**
 ```typescript
 // src/components/ui/heading-group.tsx
 interface HeadingGroupProps {
   badge?: string;
-  showPulse?: boolean;
-  title: string | React.ReactNode;
-  titleAs?: 'h1' | 'h2' | 'h3';
+  title: string;
   description?: string;
   centered?: boolean;
-  className?: string;
-}
-
-// Replace repeated pattern of BadgeWithDot + heading + description
-```
-
-### **Step 0.6: Move & Enhance FooterSection**
-```typescript
-// Move from: src/features-modern/landing/components/footer-section.tsx
-// To: src/components/layout/footer-section.tsx
-
-// Extract hardcoded content into props:
-interface FooterSectionProps {
-  companyInfo?: {
-    name: string;
-    tagline: string;
-    description?: string;
-  };
-  links?: {
-    product: Array<{ label: string; href: string }>;
-    company: Array<{ label: string; href: string }>;
-    // etc...
-  };
-  newsletter?: {
-    title: string;
-    description: string;
-    onSubscribe: (email: string) => void;
-  };
 }
 ```
 
-### **Step 0.7: Update All Imports**
-```typescript
-// Update all components to use new reusable components
-// Run: grep -r "bg-card/90 backdrop-blur" --include="*.tsx"
-// Replace with: <GlassCard variant="heavy">
-// Document all replacements in migration guide
-```
+### **Step 0.7: Component Replacement & Testing**
+- [ ] Find all instances of repeated patterns
+- [ ] Replace with new components one by one
+- [ ] Visual regression test each replacement
+- [ ] Verify no style changes occurred
+- [ ] Update imports and clean up
+- [ ] Measure bundle size reduction
 
 ## **PHASE 1: Foundation Setup**
 
@@ -491,17 +498,27 @@ interface FooterSectionProps {
 
 ## 📋 **IMPLEMENTATION CHECKLIST**
 
-### **Phase 0 Checklist** 🆕
-- [ ] NavigationHeader component extracted and tested
-- [ ] GlassCard component created with 3 variants
-- [ ] GradientButton component created 
+### **Phase -1 Checklist** 🆕
+- [ ] Design token system implemented
+- [ ] CSS architecture chosen and configured
+- [ ] Testing infrastructure ready
+- [ ] Documentation approach established
+- [ ] Performance budgets set
+- [ ] Accessibility baseline established
+- [ ] All decisions documented in ADRs
+
+### **Phase 0 Checklist** 
+- [ ] NavigationHeader extracted and tested
+- [ ] GlassCard component created and tested
+- [ ] GradientButton component created and tested
+- [ ] FooterSection content extracted
 - [ ] SectionContainer component created
 - [ ] HeadingGroup component created
-- [ ] FooterSection moved and enhanced
-- [ ] All imports updated
-- [ ] Migration guide documented
+- [ ] All components documented
 - [ ] Theme compatibility verified
-- [ ] All repeated patterns replaced
+- [ ] Export statements added to barrel file
+- [ ] Visual regression tests passing
+- [ ] Bundle size measured (target: 50%+ reduction)
 
 ### **Phase 1 Checklist**
 - [ ] Auth store with Zustand setup
