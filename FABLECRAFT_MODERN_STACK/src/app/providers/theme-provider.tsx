@@ -16,14 +16,14 @@ type Theme =
   | 'sunset-coral'
   | 'lavender-dusk'
   | 'halloween'
-  | 'mystic-realm'
-  | 'enchanted-forest'
-  | 'celestial-glow'
   | 'cherry-lacquer'
-  | 'neon-pulse'
-  | 'retro-denim'
-  | 'high-contrast'
-  | 'inverted-mono'
+  | 'volcanic-ash'
+  | 'cyberpunk'
+  | 'arctic-aurora'
+  | 'desert-mirage'
+  | 'moonlit-garden'
+  | 'dragons-hoard'
+  | 'true-black-white'
   | 'system'
 
 interface ThemeProviderProps {
@@ -44,11 +44,11 @@ const isDarkTheme = (theme: Theme): boolean => {
     'starlit-prose',
     'coffee-house',
     'halloween',
-    'mystic-realm',
-    'enchanted-forest',
     'cherry-lacquer',
-    'neon-pulse',
-    'inverted-mono'
+    'volcanic-ash',
+    'cyberpunk',
+    'dragons-hoard',
+    'true-black-white'
   ]
   return darkThemes.includes(theme)
 }
@@ -89,14 +89,14 @@ export function ThemeProvider({
     'sunset-coral',
     'lavender-dusk',
     'halloween',
-    'mystic-realm',
-    'enchanted-forest',
-    'celestial-glow',
     'cherry-lacquer',
-    'neon-pulse',
-    'retro-denim',
-    'high-contrast',
-    'inverted-mono',
+    'volcanic-ash',
+    'cyberpunk',
+    'arctic-aurora',
+    'desert-mirage',
+    'moonlit-garden',
+    'dragons-hoard',
+    'true-black-white',
     'system'
   ],
   disableTransitionOnChange = false,

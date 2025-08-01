@@ -25,14 +25,14 @@ type Theme =
   | 'sunset-coral'
   | 'lavender-dusk'
   | 'halloween'
-  | 'mystic-realm'
-  | 'enchanted-forest'
-  | 'celestial-glow'
   | 'cherry-lacquer'
-  | 'neon-pulse'
-  | 'retro-denim'
-  | 'high-contrast'
-  | 'inverted-mono'
+  | 'volcanic-ash'
+  | 'cyberpunk'
+  | 'arctic-aurora'
+  | 'desert-mirage'
+  | 'moonlit-garden'
+  | 'dragons-hoard'
+  | 'true-black-white'
   | 'system'
 
 interface ThemeConfig {
@@ -54,23 +54,24 @@ const themeConfig: Record<Theme, ThemeConfig> = {
   'sunset-coral': { icon: Sun, label: 'Sunset Coral', description: 'Warm coral and gold' },
   'lavender-dusk': { icon: Sun, label: 'Lavender Dusk', description: 'Soft lavender and grey' },
   'halloween': { icon: Zap, label: 'Halloween', description: 'Spooky orange and black' },
-  'mystic-realm': { icon: Sparkles, label: 'Mystic Realm', description: 'Mystical purples and golds' },
-  'enchanted-forest': { icon: Sparkles, label: 'Enchanted Forest', description: 'Magical greens and silvers' },
-  'celestial-glow': { icon: Sun, label: 'Celestial Glow', description: '2025 trend: optimistic yellows' },
-  'cherry-lacquer': { icon: Moon, label: 'Cherry Lacquer', description: '2025 trend: luxury deep red' },
-  'neon-pulse': { icon: Zap, label: 'Neon Pulse', description: '2025 trend: electric vibrant' },
-  'retro-denim': { icon: Sun, label: 'Retro Denim', description: '2025 trend: nostalgic blues' },
-  'high-contrast': { icon: Palette, label: 'High Contrast', description: 'Ultra accessibility theme' },
-  'inverted-mono': { icon: Palette, label: 'Inverted Mono', description: 'Black background, white text' },
+  'cherry-lacquer': { icon: Moon, label: 'Cherry Lacquer', description: 'Luxury deep red' },
+  'volcanic-ash': { icon: Moon, label: 'Volcanic Ash', description: 'Molten orange and ash' },
+  'cyberpunk': { icon: Zap, label: 'Cyberpunk', description: 'Neon cyan and magenta' },
+  'arctic-aurora': { icon: Sun, label: 'Arctic Aurora', description: 'Cool teal aurora' },
+  'desert-mirage': { icon: Sun, label: 'Desert Mirage', description: 'Warm desert gold' },
+  'moonlit-garden': { icon: Sparkles, label: 'Moonlit Garden', description: 'Fantasy moonlit blues' },
+  'dragons-hoard': { icon: Sparkles, label: "Dragon's Hoard", description: 'Fantasy gold treasures' },
+  'true-black-white': { icon: Palette, label: 'True Black & White', description: 'Pure contrast' },
 } as const;
 
 // Type-safe theme arrays organized by category
 const coreThemes: readonly Theme[] = ['light', 'dark'] as const;
 const classicLightThemes: readonly Theme[] = ['arctic-focus', 'golden-hour'] as const;
 const classicDarkThemes: readonly Theme[] = ['midnight-ink', 'forest-manuscript', 'starlit-prose', 'coffee-house'] as const;
-const modernLightThemes: readonly Theme[] = ['sunset-coral', 'lavender-dusk', 'celestial-glow', 'retro-denim'] as const;
-const modernDarkThemes: readonly Theme[] = ['cherry-lacquer', 'neon-pulse', 'mystic-realm', 'enchanted-forest'] as const;
-const specialtyThemes: readonly Theme[] = ['halloween', 'high-contrast', 'inverted-mono'] as const;
+const modernLightThemes: readonly Theme[] = ['sunset-coral', 'lavender-dusk', 'arctic-aurora', 'desert-mirage'] as const;
+const modernDarkThemes: readonly Theme[] = ['cherry-lacquer', 'volcanic-ash'] as const;
+const fantasyThemes: readonly Theme[] = ['moonlit-garden', 'dragons-hoard'] as const;
+const specialtyThemes: readonly Theme[] = ['halloween', 'cyberpunk', 'true-black-white'] as const;
 
 interface ThemeMenuItemProps {
   theme: Theme;
@@ -121,7 +122,7 @@ export function ThemeToggle() {
         <DropdownMenuSeparator />
         
         {/* Scrollable content area with responsive max height */}
-        <ScrollArea.Root className="h-full">
+                  <ScrollArea.Root className="h-full" type="always">
           <ScrollArea.Viewport className="max-h-96 w-full">
             {/* System preference */}
             <ThemeMenuItem
@@ -195,42 +196,42 @@ export function ThemeToggle() {
               />
             ))}
             
-                         <DropdownMenuSeparator />
-             <DropdownMenuLabel className="text-xs text-muted-foreground">Modern Dark Themes</DropdownMenuLabel>
-             
-             {/* Modern dark themes */}
-             {modernDarkThemes.map((themeOption) => (
-               <ThemeMenuItem
-                 key={themeOption}
-                 theme={themeOption}
-                 currentTheme={theme as Theme}
-                 onThemeChange={setTheme}
-               />
-             ))}
-             
-             <DropdownMenuSeparator />
-             <DropdownMenuLabel className="text-xs text-muted-foreground">Specialty Themes</DropdownMenuLabel>
-             
-             {/* Specialty themes */}
-             {specialtyThemes.map((themeOption) => (
-               <ThemeMenuItem
-                 key={themeOption}
-                 theme={themeOption}
-                 currentTheme={theme as Theme}
-                 onThemeChange={setTheme}
-               />
-             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Fantasy Themes</DropdownMenuLabel>
+            
+            {/* Fantasy themes */}
+            {fantasyThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
+            
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs text-muted-foreground">Specialty Themes</DropdownMenuLabel>
+            
+            {/* Specialty themes */}
+            {specialtyThemes.map((themeOption) => (
+              <ThemeMenuItem
+                key={themeOption}
+                theme={themeOption}
+                currentTheme={theme as Theme}
+                onThemeChange={setTheme}
+              />
+            ))}
            </ScrollArea.Viewport>
           
-          {/* Custom styled scrollbar */}
+          {/* Simplified functional scrollbar */}
           <ScrollArea.Scrollbar 
-            className="flex select-none touch-none p-0.5 bg-transparent transition-colors duration-150 ease-out hover:bg-muted/50 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none w-2.5 bg-border/20 hover:bg-border/50 transition-colors"
             orientation="vertical"
           >
-            <ScrollArea.Thumb className="flex-1 bg-border rounded-full relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-border rounded-[1px] hover:bg-border/80" />
           </ScrollArea.Scrollbar>
           
-          <ScrollArea.Corner className="bg-transparent" />
+          <ScrollArea.Corner />
         </ScrollArea.Root>
       </DropdownMenuContent>
     </DropdownMenu>

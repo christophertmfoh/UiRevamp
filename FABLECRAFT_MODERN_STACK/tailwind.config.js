@@ -23,16 +23,17 @@ export default {
     // Modern theme attribute selectors
     '[data-theme="sunset-coral"]',
     '[data-theme="lavender-dusk"]',
-    '[data-theme="celestial-glow"]',
+    '[data-theme="arctic-aurora"]',
+    '[data-theme="desert-mirage"]',
     '[data-theme="cherry-lacquer"]',
-    '[data-theme="neon-pulse"]',
-    '[data-theme="retro-denim"]',
-    '[data-theme="mystic-realm"]',
-    '[data-theme="enchanted-forest"]',
+    '[data-theme="volcanic-ash"]',
+    // Fantasy theme attribute selectors
+    '[data-theme="moonlit-garden"]',
+    '[data-theme="dragons-hoard"]',
     // Specialty theme attribute selectors
     '[data-theme="halloween"]',
-    '[data-theme="high-contrast"]',
-    '[data-theme="inverted-mono"]',
+    '[data-theme="cyberpunk"]',
+    '[data-theme="true-black-white"]',
     // Gradient classes used in footer
     'gradient-primary',
     'gradient-primary-br',
